@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="lernstickWelcome" default="default" basedir=".">
+    <description>Builds, tests, and runs the project lernstickWelcome.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <propertyfile file="src/ch/fhnw/lernstickwelcome/build">
+        <entry  key="timestamp" type="date" value="now"
+                pattern="yyyy-MM-dd"/>
+    </propertyfile>
+
+    <target name="-post-jar">
+        <jar destfile="dist/lernstickWelcome.jar" update="true">
+            <zipfileset src="${file.reference.java_file_copy_library-0.9.7.jar}" excludes="META-INF/**"/>
+            <manifest>
+                <attribute name="Class-Path" value="/usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar"/>
+                <attribute name="Main-Class" value="ch.fhnw.lernstickwelcome.Welcome"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="1_debian_package">
+        <!-- build debian package -->
+        <exec executable="dpkg-buildpackage">
+            <arg value="-ai386"/>
+        </exec>
+        <exec executable="fakeroot">
+            <arg value="debian/rules"/>
+            <arg value="clean"/>
+        </exec>
+    </target>
+    <target name="2_sort_strings">
+        <exec executable="sh">
+            <arg value="sort_strings.sh"></arg>
+        </exec>
+    </target>
+    <target name="3_check_strings">
+        <exec executable="sh">
+            <arg value="check_strings.sh"></arg>
+        </exec>
+    </target>
+    <target name="4_check_icons">
+        <exec executable="sh">
+            <arg value="check_icons.sh"></arg>
+        </exec>
+    </target>
+</project>

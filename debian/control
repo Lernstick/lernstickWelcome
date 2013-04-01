@@ -1,0 +1,14 @@
+Source: lernstickwelcome-squeeze
+Section: misc
+Priority: extra
+Maintainer: Ronny Standtke <Ronny.Standtke@gmx.net>
+Build-Depends: debhelper (>= 7), ant-optional, junit, openjdk-6-jdk | sun-java6-jdk
+Standards-Version: 3.8.0
+Homepage: http://www.imedias.ch/lernstick
+
+Package: lernstickwelcome-squeeze
+Architecture: all
+Depends: openjdk-6-jre | openjdk-7-jre | sun-java6-jre, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
+Description: a welcome application for the lernstick distribution
+ This is the "Welcome" application for the lernstick distribution
+ and allows the installation of some additional non-free applications.
