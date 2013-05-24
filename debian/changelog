@@ -1,3 +1,11 @@
+lernstickwelcome-squeeze (201305241759-1) unstable; urgency=low
+
+  * added LinuxAdvanced Teaching Tools
+  * simplyfied build dependency
+  * enforce non-interactive installs
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 24 May 2013 17:59:07 +0200
+
 lernstickwelcome-squeeze (201303221658-1) unstable; urgency=low
 
   * added support for Debian 7 system partition

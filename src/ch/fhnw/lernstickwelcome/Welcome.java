@@ -230,6 +230,8 @@ public class Welcome extends javax.swing.JFrame {
         googleEarthLabel = new javax.swing.JLabel();
         skypeCheckBox = new javax.swing.JCheckBox();
         skypeLabel = new javax.swing.JLabel();
+        laCheckBox = new javax.swing.JCheckBox();
+        laLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         proxyPanel = new javax.swing.JPanel();
         proxyCheckBox = new javax.swing.JCheckBox();
@@ -422,6 +424,23 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         miscPanel.add(skypeLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        miscPanel.add(laCheckBox, gridBagConstraints);
+
+        laLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/LinuxAdvanced.png"))); // NOI18N
+        laLabel.setText(bundle.getString("Welcome.laLabel.text")); // NOI18N
+        laLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                laLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        miscPanel.add(laLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         miscPanel.add(jLabel1, gridBagConstraints);
@@ -490,7 +509,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(359, Short.MAX_VALUE))
+                .addContainerGap(349, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -516,7 +535,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab(bundle.getString("Welcome.proxyPanel.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/proxy.png")), proxyPanel); // NOI18N
@@ -688,6 +707,10 @@ public class Welcome extends javax.swing.JFrame {
     private void proxyCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_proxyCheckBoxItemStateChanged
         setProxyEnabled(proxyCheckBox.isSelected());
     }//GEN-LAST:event_proxyCheckBoxItemStateChanged
+
+    private void laLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laLabelMouseClicked
+        toggleCheckBox(laCheckBox);
+    }//GEN-LAST:event_laLabelMouseClicked
 
     private void setProxyEnabled(boolean enabled) {
         proxyHostLabel.setEnabled(enabled);
@@ -927,6 +950,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += multimediaCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += googleEarthCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += skypeCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
         LOGGER.log(Level.INFO, "number of packages = {0}", numberOfPackages);
 
         if (numberOfPackages > 0) {
@@ -967,8 +991,10 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.multimediaLabel.text", MULTIMEDIA_PACKAGES);
         checkInstall(googleEarthCheckBox, googleEarthLabel,
                 "Welcome.googleEarthLabel.text", "google-earth-stable");
-        checkInstall(skypeCheckBox, skypeLabel, "Welcome.skypeLabel.text",
-                "skype");
+        checkInstall(skypeCheckBox, skypeLabel,
+                "Welcome.skypeLabel.text", "skype");
+        checkInstall(laCheckBox, laLabel,
+                "Welcome.laLabel.text", "lateaching");
     }
 
     private void checkInstall(JCheckBox checkBox, JLabel label,
@@ -1110,6 +1136,9 @@ public class Welcome extends javax.swing.JFrame {
             installPackage(skypeCheckBox, "Welcome.skypeLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png",
                     "skype");
+            installPackage(laCheckBox, "Welcome.laLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/LinuxAdvanced.png",
+                    "lateaching", "lateachingtools");
             return null;
         }
 
@@ -1222,6 +1251,7 @@ public class Welcome extends javax.swing.JFrame {
             }
             List<String> commandList = new ArrayList<String>();
             commandList.add("sudo");
+            commandList.add("DEBIAN_FRONTEND=noninteractive");
             commandList.add("apt-get");
             if (proxyCheckBox.isSelected()) {
                 commandList.add("-o");
@@ -1230,12 +1260,15 @@ public class Welcome extends javax.swing.JFrame {
             commandList.add("-y");
             commandList.add("--force-yes");
             commandList.add("install");
-            for (String packageName : packageNames) {
-                commandList.add(packageName);
-            }
+            commandList.addAll(Arrays.asList(packageNames));
             String[] commandArray = new String[commandList.size()];
             commandArray = commandList.toArray(commandArray);
 
+//            // enforce non-interactive installs
+//            Map<String,String> environment = new HashMap<String, String>();
+//            environment.put("DEBIAN_FRONTEND", "noninteractive");
+//            processExecutor.setEnvironment(environment);
+            
             int exitValue = processExecutor.executeProcess(
                     true, true, commandArray);
             if (exitValue != 0) {
@@ -1270,6 +1303,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox laCheckBox;
+    private javax.swing.JLabel laLabel;
     private javax.swing.JPanel miscPanel;
     private javax.swing.JCheckBox multimediaCheckBox;
     private javax.swing.JLabel multimediaLabel;
