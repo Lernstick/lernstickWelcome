@@ -1305,6 +1305,11 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += googleEarthCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += skypeCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += riliCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += frogattoCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += supertuxkartCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += wesnothCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += flareCheckBox.isSelected() ? 1 : 0;
         LOGGER.log(Level.INFO, "number of packages = {0}", numberOfPackages);
 
         if (numberOfPackages > 0) {
@@ -1510,7 +1515,7 @@ public class Welcome extends javax.swing.JFrame {
                     "skype");
 
             // teaching system
-            installPackage(laCheckBox, "Welcome.laLabel.text",
+            installPackage(laCheckBox, "LA_Teaching_System",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/LinuxAdvanced.png",
                     "lateaching", "lateachingtools");
 
