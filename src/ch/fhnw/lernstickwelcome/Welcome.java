@@ -1681,7 +1681,7 @@ public class Welcome extends javax.swing.JFrame {
     private class MyListCellRenderer extends DefaultListCellRenderer {
 
         @Override
-        public Component getListCellRendererComponent(JList<?> list,
+        public Component getListCellRendererComponent(JList list,
                 Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(
                     list, value, index, isSelected, cellHasFocus);
