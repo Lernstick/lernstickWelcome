@@ -1,3 +1,10 @@
+lernstickwelcome-squeeze (201305281314-1) unstable; urgency=low
+
+  * changed layout
+  * added support for installing games
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 28 May 2013 13:14:57 +0200
+
 lernstickwelcome-squeeze (201305241759-1) unstable; urgency=low
 
   * added LinuxAdvanced Teaching Tools
