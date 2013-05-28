@@ -9,6 +9,8 @@ import ch.fhnw.util.DbusTools;
 import ch.fhnw.util.ProcessExecutor;
 import java.applet.Applet;
 import java.applet.AudioClip;
+import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
@@ -22,6 +24,7 @@ import java.util.logging.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.text.AbstractDocument;
 import org.freedesktop.dbus.exceptions.DBusException;
@@ -64,6 +67,8 @@ public class Welcome extends javax.swing.JFrame {
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
     private final String fullName;
+    private final DefaultListModel menuListModel = new DefaultListModel();
+    private int menuListIndex = 0;
     private String exchangePartition;
     private String exchangePartitionLabel;
     private String aptGetOutput;
@@ -123,6 +128,19 @@ public class Welcome extends javax.swing.JFrame {
 
         initComponents();
 
+        menuList.setModel(menuListModel);
+
+        menuListModel.addElement(BUNDLE.getString("Information"));
+        menuListModel.addElement(BUNDLE.getString("Nonfree_Software"));
+        menuListModel.addElement(BUNDLE.getString("Teaching_System"));
+        menuListModel.addElement(BUNDLE.getString("Games"));
+        menuListModel.addElement(BUNDLE.getString("Proxy"));
+        menuListModel.addElement(BUNDLE.getString("Names"));
+
+        menuList.setCellRenderer(new MyListCellRenderer());
+
+        menuList.setSelectedIndex(0);
+
         checkAllPackages();
 
         // determine current full user name
@@ -178,10 +196,12 @@ public class Welcome extends javax.swing.JFrame {
         setIconImage(image);
 
         UIDefaults defaults = UIManager.getDefaults();
-        editorPane.setBackground(defaults.getColor("Panel.background"));
+        infoEditorPane.setBackground(defaults.getColor("Panel.background"));
+        teachingEditorPane.setBackground(defaults.getColor("Panel.background"));
         showCheckBox.setSelected(showAtStartup);
 
         // center on screen
+        pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -209,12 +229,15 @@ public class Welcome extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        topPanel = new javax.swing.JPanel();
+        menuScrollPane = new javax.swing.JScrollPane();
+        menuList = new javax.swing.JList();
+        mainCardPanel = new javax.swing.JPanel();
+        infoPanel = new javax.swing.JPanel();
         welcomeLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        editorPane = new javax.swing.JEditorPane();
-        tabbedPane = new javax.swing.JTabbedPane();
-        additionalProgramsPanel = new javax.swing.JPanel();
+        infoScrollPane = new javax.swing.JScrollPane();
+        infoEditorPane = new javax.swing.JEditorPane();
+        nonfreePanel = new javax.swing.JPanel();
+        nonfreeLabel = new javax.swing.JLabel();
         recommendedPanel = new javax.swing.JPanel();
         flashCheckBox = new javax.swing.JCheckBox();
         flashLabel = new javax.swing.JLabel();
@@ -230,9 +253,15 @@ public class Welcome extends javax.swing.JFrame {
         googleEarthLabel = new javax.swing.JLabel();
         skypeCheckBox = new javax.swing.JCheckBox();
         skypeLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        fillPanel = new javax.swing.JPanel();
+        teachingPanel = new javax.swing.JPanel();
+        teachingScrollPane = new javax.swing.JScrollPane();
+        teachingEditorPane = new javax.swing.JEditorPane();
         laCheckBox = new javax.swing.JCheckBox();
         laLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        gamesPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         proxyPanel = new javax.swing.JPanel();
         proxyCheckBox = new javax.swing.JCheckBox();
         proxyHostLabel = new javax.swing.JLabel();
@@ -243,15 +272,17 @@ public class Welcome extends javax.swing.JFrame {
         proxyUserNameTextField = new javax.swing.JTextField();
         proxyPasswordLabel = new javax.swing.JLabel();
         proxyPasswordField = new javax.swing.JPasswordField();
-        customizeNamesPanel = new javax.swing.JPanel();
+        namesPanel = new javax.swing.JPanel();
         userNameLabel = new javax.swing.JLabel();
         userNameTextField = new javax.swing.JTextField();
         exchangePartitionNameLabel = new javax.swing.JLabel();
         exchangePartitionNameTextField = new javax.swing.JTextField();
-        dummyLabel = new javax.swing.JLabel();
         bottomPanel = new javax.swing.JPanel();
+        previousButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        applyButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         showCheckBox = new javax.swing.JCheckBox();
-        okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -265,40 +296,61 @@ public class Welcome extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        topPanel.setLayout(new java.awt.GridBagLayout());
+        menuList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        menuList.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                menuListMouseWheelMoved(evt);
+            }
+        });
+        menuList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                menuListValueChanged(evt);
+            }
+        });
+        menuScrollPane.setViewportView(menuList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        getContentPane().add(menuScrollPane, gridBagConstraints);
+
+        mainCardPanel.setLayout(new java.awt.CardLayout());
+
+        infoPanel.setLayout(new java.awt.GridBagLayout());
 
         welcomeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/lernstick_usb.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        topPanel.add(welcomeLabel, gridBagConstraints);
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 0);
+        infoPanel.add(welcomeLabel, gridBagConstraints);
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        infoScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        editorPane.setContentType(bundle.getString("Welcome.editorPane.contentType")); // NOI18N
-        editorPane.setEditable(false);
-        editorPane.setText(bundle.getString("Welcome.editorPane.text")); // NOI18N
-        editorPane.addHyperlinkListener(new javax.swing.event.HyperlinkListener() {
+        infoEditorPane.setEditable(false);
+        infoEditorPane.setContentType(bundle.getString("Welcome.editorPane.contentType")); // NOI18N
+        infoEditorPane.setText(bundle.getString("Welcome.infoEditorPane.text")); // NOI18N
+        infoEditorPane.addHyperlinkListener(new javax.swing.event.HyperlinkListener() {
             public void hyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {
-                editorPaneHyperlinkUpdate(evt);
+                infoEditorPaneHyperlinkUpdate(evt);
             }
         });
-        jScrollPane1.setViewportView(editorPane);
+        infoScrollPane.setViewportView(infoEditorPane);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
-        topPanel.add(jScrollPane1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        infoPanel.add(infoScrollPane, gridBagConstraints);
 
+        mainCardPanel.add(infoPanel, "infoPanel");
+
+        nonfreePanel.setLayout(new java.awt.GridBagLayout());
+
+        nonfreeLabel.setText(bundle.getString("Welcome.nonfreeLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        getContentPane().add(topPanel, gridBagConstraints);
-
-        additionalProgramsPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 10);
+        nonfreePanel.add(nonfreeLabel, gridBagConstraints);
 
         recommendedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.recommendedPanel.border.title"))); // NOI18N
         recommendedPanel.setLayout(new java.awt.GridBagLayout());
@@ -385,8 +437,11 @@ public class Welcome extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
-        additionalProgramsPanel.add(recommendedPanel, gridBagConstraints);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 5);
+        nonfreePanel.add(recommendedPanel, gridBagConstraints);
 
         miscPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.miscPanel.border.title"))); // NOI18N
         miscPanel.setLayout(new java.awt.GridBagLayout());
@@ -424,8 +479,61 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         miscPanel.add(skypeLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        miscPanel.add(jLabel1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 10, 10);
+        nonfreePanel.add(miscPanel, gridBagConstraints);
+
+        javax.swing.GroupLayout fillPanelLayout = new javax.swing.GroupLayout(fillPanel);
+        fillPanel.setLayout(fillPanelLayout);
+        fillPanelLayout.setHorizontalGroup(
+            fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 544, Short.MAX_VALUE)
+        );
+        fillPanelLayout.setVerticalGroup(
+            fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 27, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        nonfreePanel.add(fillPanel, gridBagConstraints);
+
+        mainCardPanel.add(nonfreePanel, "nonfreePanel");
+
+        teachingPanel.setLayout(new java.awt.GridBagLayout());
+
+        teachingScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        teachingEditorPane.setEditable(false);
+        teachingEditorPane.setContentType("text/html"); // NOI18N
+        teachingEditorPane.setText(bundle.getString("Welcome.teachingEditorPane.text")); // NOI18N
+        teachingEditorPane.addHyperlinkListener(new javax.swing.event.HyperlinkListener() {
+            public void hyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {
+                teachingEditorPaneHyperlinkUpdate(evt);
+            }
+        });
+        teachingScrollPane.setViewportView(teachingEditorPane);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        teachingPanel.add(teachingScrollPane, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        miscPanel.add(laCheckBox, gridBagConstraints);
+        teachingPanel.add(laCheckBox, gridBagConstraints);
 
         laLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/LinuxAdvanced.png"))); // NOI18N
         laLabel.setText(bundle.getString("Welcome.laLabel.text")); // NOI18N
@@ -438,20 +546,21 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        miscPanel.add(laLabel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        miscPanel.add(jLabel1, gridBagConstraints);
+        teachingPanel.add(laLabel, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        additionalProgramsPanel.add(miscPanel, gridBagConstraints);
+        mainCardPanel.add(teachingPanel, "teachingPanel");
 
-        tabbedPane.addTab(bundle.getString("Welcome.additionalProgramsPanel.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/kpackage.png")), additionalProgramsPanel); // NOI18N
+        gamesPanel.setLayout(new java.awt.GridBagLayout());
+
+        jLabel3.setText(bundle.getString("Welcome.jLabel3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(134, 248, 135, 249);
+        gamesPanel.add(jLabel3, gridBagConstraints);
+
+        mainCardPanel.add(gamesPanel, "gamesPanel");
 
         proxyCheckBox.setText(bundle.getString("Welcome.proxyCheckBox.text")); // NOI18N
         proxyCheckBox.addItemListener(new java.awt.event.ItemListener() {
@@ -509,7 +618,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(349, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -535,18 +644,18 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(186, Short.MAX_VALUE))
         );
 
-        tabbedPane.addTab(bundle.getString("Welcome.proxyPanel.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/proxy.png")), proxyPanel); // NOI18N
+        mainCardPanel.add(proxyPanel, "proxyPanel");
 
-        customizeNamesPanel.setLayout(new java.awt.GridBagLayout());
+        namesPanel.setLayout(new java.awt.GridBagLayout());
 
         userNameLabel.setText(bundle.getString("Welcome.userNameLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
-        customizeNamesPanel.add(userNameLabel, gridBagConstraints);
+        namesPanel.add(userNameLabel, gridBagConstraints);
 
         userNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -557,14 +666,14 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 0, 10);
-        customizeNamesPanel.add(userNameTextField, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        namesPanel.add(userNameTextField, gridBagConstraints);
 
         exchangePartitionNameLabel.setText(bundle.getString("Welcome.exchangePartitionNameLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 0);
-        customizeNamesPanel.add(exchangePartitionNameLabel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        namesPanel.add(exchangePartitionNameLabel, gridBagConstraints);
 
         exchangePartitionNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -575,39 +684,64 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        customizeNamesPanel.add(exchangePartitionNameTextField, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        namesPanel.add(exchangePartitionNameTextField, gridBagConstraints);
+
+        mainCardPanel.add(namesPanel, "namesPanel");
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        customizeNamesPanel.add(dummyLabel, gridBagConstraints);
-
-        tabbedPane.addTab(bundle.getString("Welcome.customizeNamesPanel.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/edit-rename.png")), customizeNamesPanel); // NOI18N
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        getContentPane().add(tabbedPane, gridBagConstraints);
+        getContentPane().add(mainCardPanel, gridBagConstraints);
 
         bottomPanel.setLayout(new java.awt.GridBagLayout());
+
+        previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/go-previous.png"))); // NOI18N
+        previousButton.setText(bundle.getString("Welcome.previousButton.text")); // NOI18N
+        previousButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        bottomPanel.add(previousButton, gridBagConstraints);
+
+        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/go-next.png"))); // NOI18N
+        nextButton.setText(bundle.getString("Welcome.nextButton.text")); // NOI18N
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        bottomPanel.add(nextButton, gridBagConstraints);
+
+        applyButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/dialog-ok-apply.png"))); // NOI18N
+        applyButton.setText(bundle.getString("Welcome.applyButton.text")); // NOI18N
+        applyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applyButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        bottomPanel.add(applyButton, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         showCheckBox.setSelected(true);
         showCheckBox.setText(bundle.getString("Welcome.showCheckBox.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        bottomPanel.add(showCheckBox, gridBagConstraints);
-
-        okButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/download_manager.png"))); // NOI18N
-        okButton.setText(bundle.getString("Welcome.okButton.text")); // NOI18N
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
-        bottomPanel.add(okButton, gridBagConstraints);
+        jPanel1.add(showCheckBox, gridBagConstraints);
 
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/exit.png"))); // NOI18N
         cancelButton.setText(bundle.getString("Welcome.cancelButton.text")); // NOI18N
@@ -616,18 +750,20 @@ public class Welcome extends javax.swing.JFrame {
                 cancelButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(cancelButton, new java.awt.GridBagConstraints());
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        bottomPanel.add(cancelButton, gridBagConstraints);
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        bottomPanel.add(jPanel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
         getContentPane().add(bottomPanel, gridBagConstraints);
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void googleEarthLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_googleEarthLabelMouseClicked
@@ -646,9 +782,9 @@ public class Welcome extends javax.swing.JFrame {
         toggleCheckBox(additionalFontsCheckBox);
     }//GEN-LAST:event_fontsLabelMouseClicked
 
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+    private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         apply();
-    }//GEN-LAST:event_okButtonActionPerformed
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         exitProgram();
@@ -658,30 +794,9 @@ public class Welcome extends javax.swing.JFrame {
         toggleCheckBox(multimediaCheckBox);
 }//GEN-LAST:event_multimediaLabelMouseClicked
 
-    private void editorPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {//GEN-FIRST:event_editorPaneHyperlinkUpdate
-        if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-//            try {
-//                Desktop.getDesktop().browse(evt.getURL().toURI());
-//            } catch (IOException ex) {
-//                logger.log(Level.SEVERE, "could not open URL", ex);
-//            } catch (URISyntaxException ex) {
-//                logger.log(Level.SEVERE, "could not open URL", ex);
-//            }
-
-            // as long as Konqueror sucks so bad, we enforce iceweasel
-            // (this is a quick and dirty solution, if konqueror starts to be
-            // usable, switch back to the code above)
-            final HyperlinkEvent finalEvent = evt;
-            Thread browserThread = new Thread() {
-                @Override
-                public void run() {
-                    processExecutor.executeProcess(new String[]{
-                        "iceweasel", finalEvent.getURL().toString()});
-                }
-            };
-            browserThread.start();
-        }
-    }//GEN-LAST:event_editorPaneHyperlinkUpdate
+    private void infoEditorPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {//GEN-FIRST:event_infoEditorPaneHyperlinkUpdate
+        openLinkInBrowser(evt);
+    }//GEN-LAST:event_infoEditorPaneHyperlinkUpdate
 
     private void readerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readerLabelMouseClicked
         toggleCheckBox(readerCheckBox);
@@ -711,6 +826,111 @@ public class Welcome extends javax.swing.JFrame {
     private void laLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laLabelMouseClicked
         toggleCheckBox(laCheckBox);
     }//GEN-LAST:event_laLabelMouseClicked
+
+    private void menuListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_menuListValueChanged
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        int selectedIndex = menuList.getSelectedIndex();
+        if (selectedIndex == -1) {
+            menuList.setSelectedIndex(menuListIndex);
+            return;
+        } else {
+            menuListIndex = selectedIndex;
+        }
+
+        switch (selectedIndex) {
+            case 0:
+                selectCard("infoPanel");
+                previousButton.setEnabled(false);
+                nextButton.setEnabled(true);
+                break;
+
+            case 1:
+                selectCard("nonfreePanel");
+                previousButton.setEnabled(true);
+                nextButton.setEnabled(true);
+                break;
+
+            case 2:
+                selectCard("teachingPanel");
+                previousButton.setEnabled(true);
+                nextButton.setEnabled(true);
+                break;
+
+            case 3:
+                selectCard("gamesPanel");
+                previousButton.setEnabled(true);
+                nextButton.setEnabled(true);
+                break;
+
+            case 4:
+                selectCard("proxyPanel");
+                previousButton.setEnabled(true);
+                nextButton.setEnabled(true);
+                break;
+
+            case 5:
+                selectCard("namesPanel");
+                previousButton.setEnabled(true);
+                nextButton.setEnabled(false);
+        }
+    }//GEN-LAST:event_menuListValueChanged
+
+    private void menuListMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_menuListMouseWheelMoved
+        if (evt.getWheelRotation() < 0) {
+            if (menuListIndex > 0) {
+                menuList.setSelectedIndex(menuListIndex - 1);
+            }
+        } else {
+            if (menuListIndex < (menuListModel.getSize() - 1)) {
+                menuList.setSelectedIndex(menuListIndex + 1);
+            }
+        }
+    }//GEN-LAST:event_menuListMouseWheelMoved
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        menuList.setSelectedIndex(menuListIndex + 1);
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
+        menuList.setSelectedIndex(menuListIndex - 1);
+    }//GEN-LAST:event_previousButtonActionPerformed
+
+    private void teachingEditorPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {//GEN-FIRST:event_teachingEditorPaneHyperlinkUpdate
+        openLinkInBrowser(evt);
+    }//GEN-LAST:event_teachingEditorPaneHyperlinkUpdate
+    
+    private void openLinkInBrowser(HyperlinkEvent evt) {
+        if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+//            try {
+//                Desktop.getDesktop().browse(evt.getURL().toURI());
+//            } catch (IOException ex) {
+//                logger.log(Level.SEVERE, "could not open URL", ex);
+//            } catch (URISyntaxException ex) {
+//                logger.log(Level.SEVERE, "could not open URL", ex);
+//            }
+
+            // as long as Konqueror sucks so bad, we enforce iceweasel
+            // (this is a quick and dirty solution, if konqueror starts to be
+            // usable, switch back to the code above)
+            final HyperlinkEvent finalEvent = evt;
+            Thread browserThread = new Thread() {
+                @Override
+                public void run() {
+                    processExecutor.executeProcess(new String[]{
+                        "iceweasel", finalEvent.getURL().toString()});
+                }
+            };
+            browserThread.start();
+        }        
+    }
+    
+    private void selectCard(String cardName) {
+        CardLayout cardLayout = (CardLayout) mainCardPanel.getLayout();
+        cardLayout.show(mainCardPanel, cardName);
+    }
 
     private void setProxyEnabled(boolean enabled) {
         proxyHostLabel.setEnabled(enabled);
@@ -1268,7 +1488,7 @@ public class Welcome extends javax.swing.JFrame {
 //            Map<String,String> environment = new HashMap<String, String>();
 //            environment.put("DEBIAN_FRONTEND", "noninteractive");
 //            processExecutor.setEnvironment(environment);
-            
+
             int exitValue = processExecutor.executeProcess(
                     true, true, commandArray);
             if (exitValue != 0) {
@@ -1285,30 +1505,86 @@ public class Welcome extends javax.swing.JFrame {
             setProgress((100 * currentPackage) / numberOfPackages);
         }
     }
+
+    private class MyListCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list,
+                Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            JLabel label = (JLabel) super.getListCellRendererComponent(
+                    list, value, index, isSelected, cellHasFocus);
+            switch (index) {
+                case 0:
+                    label.setIcon(new ImageIcon(getClass().getResource(
+                            "/ch/fhnw/lernstickwelcome/icons/messagebox_info.png")));
+                    break;
+
+                case 1:
+                    label.setIcon(new ImageIcon(getClass().getResource(
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/copyright.png")));
+                    break;
+
+                case 2:
+                    label.setIcon(new ImageIcon(getClass().getResource(
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/LinuxAdvanced.png")));
+                    break;
+
+                case 3:
+                    label.setIcon(new ImageIcon(getClass().getResource(
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/input-gaming.png")));
+                    break;
+
+                case 4:
+                    label.setIcon(new ImageIcon(getClass().getResource(
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/network-server.png")));
+                    break;
+
+                case 5:
+                    label.setIcon(new ImageIcon(getClass().getResource(
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/edit-rename.png")));
+                    break;
+
+                default:
+                    label.setIcon(null);
+            }
+            label.setBorder(new EmptyBorder(5, 5, 5, 5));
+            return label;
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox additionalFontsCheckBox;
-    private javax.swing.JPanel additionalProgramsPanel;
+    private javax.swing.JButton applyButton;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JPanel customizeNamesPanel;
-    private javax.swing.JLabel dummyLabel;
-    private javax.swing.JEditorPane editorPane;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
+    private javax.swing.JPanel fillPanel;
     private javax.swing.JCheckBox flashCheckBox;
     private javax.swing.JLabel flashLabel;
     private javax.swing.JLabel fontsLabel;
+    private javax.swing.JPanel gamesPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
+    private javax.swing.JEditorPane infoEditorPane;
+    private javax.swing.JPanel infoPanel;
+    private javax.swing.JScrollPane infoScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
+    private javax.swing.JPanel mainCardPanel;
+    private javax.swing.JList menuList;
+    private javax.swing.JScrollPane menuScrollPane;
     private javax.swing.JPanel miscPanel;
     private javax.swing.JCheckBox multimediaCheckBox;
     private javax.swing.JLabel multimediaLabel;
-    private javax.swing.JButton okButton;
+    private javax.swing.JPanel namesPanel;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JLabel nonfreeLabel;
+    private javax.swing.JPanel nonfreePanel;
+    private javax.swing.JButton previousButton;
     private javax.swing.JCheckBox proxyCheckBox;
     private javax.swing.JLabel proxyHostLabel;
     private javax.swing.JTextField proxyHostTextField;
@@ -1325,8 +1601,9 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox showCheckBox;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
-    private javax.swing.JTabbedPane tabbedPane;
-    private javax.swing.JPanel topPanel;
+    private javax.swing.JEditorPane teachingEditorPane;
+    private javax.swing.JPanel teachingPanel;
+    private javax.swing.JScrollPane teachingScrollPane;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JLabel welcomeLabel;
