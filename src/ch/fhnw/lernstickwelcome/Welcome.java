@@ -261,7 +261,17 @@ public class Welcome extends javax.swing.JFrame {
         laCheckBox = new javax.swing.JCheckBox();
         laLabel = new javax.swing.JLabel();
         gamesPanel = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        gamesInfoLabel = new javax.swing.JLabel();
+        riliCheckBox = new javax.swing.JCheckBox();
+        riliLabel = new javax.swing.JLabel();
+        frogattoCheckBox = new javax.swing.JCheckBox();
+        frogattoLabel = new javax.swing.JLabel();
+        supertuxkartCheckBox = new javax.swing.JCheckBox();
+        supertuxkartLabel = new javax.swing.JLabel();
+        wesnothCheckBox = new javax.swing.JCheckBox();
+        wesnothLabel = new javax.swing.JLabel();
+        flareCheckBox = new javax.swing.JCheckBox();
+        flareLabel = new javax.swing.JLabel();
         proxyPanel = new javax.swing.JPanel();
         proxyCheckBox = new javax.swing.JCheckBox();
         proxyHostLabel = new javax.swing.JLabel();
@@ -272,11 +282,14 @@ public class Welcome extends javax.swing.JFrame {
         proxyUserNameTextField = new javax.swing.JTextField();
         proxyPasswordLabel = new javax.swing.JLabel();
         proxyPasswordField = new javax.swing.JPasswordField();
+        proxyInfoLabel = new javax.swing.JLabel();
         namesPanel = new javax.swing.JPanel();
+        namesInfoLabel = new javax.swing.JLabel();
         userNameLabel = new javax.swing.JLabel();
         userNameTextField = new javax.swing.JTextField();
         exchangePartitionNameLabel = new javax.swing.JLabel();
         exchangePartitionNameTextField = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
         bottomPanel = new javax.swing.JPanel();
         previousButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
@@ -320,7 +333,7 @@ public class Welcome extends javax.swing.JFrame {
         welcomeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/lernstick_usb.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 0);
         infoPanel.add(welcomeLabel, gridBagConstraints);
 
         infoScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -339,7 +352,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 20, 10);
         infoPanel.add(infoScrollPane, gridBagConstraints);
 
         mainCardPanel.add(infoPanel, "infoPanel");
@@ -497,11 +510,11 @@ public class Welcome extends javax.swing.JFrame {
         fillPanel.setLayout(fillPanelLayout);
         fillPanelLayout.setHorizontalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addGap(0, 545, Short.MAX_VALUE)
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 27, Short.MAX_VALUE)
+            .addGap(0, 7, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -552,13 +565,95 @@ public class Welcome extends javax.swing.JFrame {
 
         gamesPanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText(bundle.getString("Welcome.jLabel3.text")); // NOI18N
+        gamesInfoLabel.setText(bundle.getString("Welcome.gamesInfoLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(134, 248, 135, 249);
-        gamesPanel.add(jLabel3, gridBagConstraints);
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 10);
+        gamesPanel.add(gamesInfoLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 0);
+        gamesPanel.add(riliCheckBox, gridBagConstraints);
+
+        riliLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/ri-li.png"))); // NOI18N
+        riliLabel.setText(bundle.getString("Welcome.riliLabel.text")); // NOI18N
+        riliLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                riliLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gamesPanel.add(riliLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 0, 0);
+        gamesPanel.add(frogattoCheckBox, gridBagConstraints);
+
+        frogattoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/frogatto.png"))); // NOI18N
+        frogattoLabel.setText(bundle.getString("Welcome.frogattoLabel.text")); // NOI18N
+        frogattoLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                frogattoLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gamesPanel.add(frogattoLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 0, 0);
+        gamesPanel.add(supertuxkartCheckBox, gridBagConstraints);
+
+        supertuxkartLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/supertuxkart.png"))); // NOI18N
+        supertuxkartLabel.setText(bundle.getString("Welcome.supertuxkartLabel.text")); // NOI18N
+        supertuxkartLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                supertuxkartLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gamesPanel.add(supertuxkartLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 0, 0);
+        gamesPanel.add(wesnothCheckBox, gridBagConstraints);
+
+        wesnothLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/wesnoth.png"))); // NOI18N
+        wesnothLabel.setText(bundle.getString("Welcome.wesnothLabel.text")); // NOI18N
+        wesnothLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                wesnothLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gamesPanel.add(wesnothLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 20, 0);
+        gamesPanel.add(flareCheckBox, gridBagConstraints);
+
+        flareLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/flare.png"))); // NOI18N
+        flareLabel.setText(bundle.getString("Welcome.flareLabel.text")); // NOI18N
+        flareLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                flareLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 20, 0);
+        gamesPanel.add(flareLabel, gridBagConstraints);
 
         mainCardPanel.add(gamesPanel, "gamesPanel");
 
@@ -591,6 +686,8 @@ public class Welcome extends javax.swing.JFrame {
 
         proxyPasswordField.setEnabled(false);
 
+        proxyInfoLabel.setText(bundle.getString("Welcome.proxyInfoLabel.text")); // NOI18N
+
         javax.swing.GroupLayout proxyPanelLayout = new javax.swing.GroupLayout(proxyPanel);
         proxyPanel.setLayout(proxyPanelLayout);
         proxyPanelLayout.setHorizontalGroup(
@@ -598,6 +695,7 @@ public class Welcome extends javax.swing.JFrame {
             .addGroup(proxyPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(proxyInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(proxyPanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -618,15 +716,17 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
 
         proxyPanelLayout.setVerticalGroup(
             proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, proxyPanelLayout.createSequentialGroup()
+            .addGroup(proxyPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(proxyInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(proxyCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -644,17 +744,25 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(186, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
 
         namesPanel.setLayout(new java.awt.GridBagLayout());
 
+        namesInfoLabel.setText(bundle.getString("Welcome.namesInfoLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        namesPanel.add(namesInfoLabel, gridBagConstraints);
+
         userNameLabel.setText(bundle.getString("Welcome.userNameLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(25, 10, 0, 0);
         namesPanel.add(userNameLabel, gridBagConstraints);
 
         userNameTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -666,7 +774,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(25, 10, 0, 10);
         namesPanel.add(userNameTextField, gridBagConstraints);
 
         exchangePartitionNameLabel.setText(bundle.getString("Welcome.exchangePartitionNameLabel.text")); // NOI18N
@@ -695,6 +803,12 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(mainCardPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        getContentPane().add(jSeparator1, gridBagConstraints);
 
         bottomPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -901,7 +1015,27 @@ public class Welcome extends javax.swing.JFrame {
     private void teachingEditorPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {//GEN-FIRST:event_teachingEditorPaneHyperlinkUpdate
         openLinkInBrowser(evt);
     }//GEN-LAST:event_teachingEditorPaneHyperlinkUpdate
-    
+
+    private void supertuxkartLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supertuxkartLabelMouseClicked
+        toggleCheckBox(supertuxkartCheckBox);
+    }//GEN-LAST:event_supertuxkartLabelMouseClicked
+
+    private void frogattoLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frogattoLabelMouseClicked
+        toggleCheckBox(frogattoCheckBox);
+    }//GEN-LAST:event_frogattoLabelMouseClicked
+
+    private void wesnothLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wesnothLabelMouseClicked
+        toggleCheckBox(wesnothCheckBox);
+    }//GEN-LAST:event_wesnothLabelMouseClicked
+
+    private void flareLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_flareLabelMouseClicked
+        toggleCheckBox(flareCheckBox);
+    }//GEN-LAST:event_flareLabelMouseClicked
+
+    private void riliLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_riliLabelMouseClicked
+        toggleCheckBox(riliCheckBox);
+    }//GEN-LAST:event_riliLabelMouseClicked
+
     private void openLinkInBrowser(HyperlinkEvent evt) {
         if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 //            try {
@@ -924,9 +1058,9 @@ public class Welcome extends javax.swing.JFrame {
                 }
             };
             browserThread.start();
-        }        
+        }
     }
-    
+
     private void selectCard(String cardName) {
         CardLayout cardLayout = (CardLayout) mainCardPanel.getLayout();
         cardLayout.show(mainCardPanel, cardName);
@@ -1201,6 +1335,8 @@ public class Welcome extends javax.swing.JFrame {
 
     private void checkAllPackages() {
         // check which applications are already installed
+
+        // nonfree software
         checkInstall(flashCheckBox, flashLabel,
                 "Welcome.flashLabel.text", FLASH_PACKAGE);
         checkInstall(readerCheckBox, readerLabel,
@@ -1213,8 +1349,22 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.googleEarthLabel.text", "google-earth-stable");
         checkInstall(skypeCheckBox, skypeLabel,
                 "Welcome.skypeLabel.text", "skype");
+
+        // LA Teaching System
         checkInstall(laCheckBox, laLabel,
                 "Welcome.laLabel.text", "lateaching");
+
+        // games
+        checkInstall(riliCheckBox, riliLabel,
+                "Welcome.riliLabel.text", "lernstick-ri-li");
+        checkInstall(frogattoCheckBox, frogattoLabel,
+                "Welcome.frogattoLabel.text", "frogatto");
+        checkInstall(supertuxkartCheckBox, supertuxkartLabel,
+                "Welcome.supertuxkartLabel.text", "supertuxkart");
+        checkInstall(wesnothCheckBox, wesnothLabel,
+                "Welcome.wesnothLabel.text", "wesnoth");
+        checkInstall(flareCheckBox, flareLabel,
+                "Welcome.flareLabel.text", "flare");
     }
 
     private void checkInstall(JCheckBox checkBox, JLabel label,
@@ -1339,6 +1489,8 @@ public class Welcome extends javax.swing.JFrame {
 
         @Override
         protected Boolean doInBackground() throws Exception {
+
+            // nonfree packages
             installPackage(flashCheckBox, "Welcome.flashLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Flash_cs3.png",
                     FLASH_PACKAGE);
@@ -1356,9 +1508,29 @@ public class Welcome extends javax.swing.JFrame {
             installPackage(skypeCheckBox, "Welcome.skypeLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png",
                     "skype");
+
+            // teaching system
             installPackage(laCheckBox, "Welcome.laLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/LinuxAdvanced.png",
                     "lateaching", "lateachingtools");
+
+            // games
+            installPackage(riliCheckBox, "Welcome.riliLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/ri-li.png",
+                    "lernstick-ri-li");
+            installPackage(frogattoCheckBox, "Welcome.frogattoLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/frogatto.png",
+                    "frogatto");
+            installPackage(supertuxkartCheckBox, "Welcome.supertuxkartLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/supertuxkart.png",
+                    "live-supertuxkart");
+            installPackage(wesnothCheckBox, "Welcome.wesnothLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/wesnoth.png",
+                    "wesnoth", "wesnoth-music");
+            installPackage(flareCheckBox, "Welcome.flareLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/flare.png",
+                    "flare");
+
             return null;
         }
 
@@ -1559,9 +1731,14 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
     private javax.swing.JPanel fillPanel;
+    private javax.swing.JCheckBox flareCheckBox;
+    private javax.swing.JLabel flareLabel;
     private javax.swing.JCheckBox flashCheckBox;
     private javax.swing.JLabel flashLabel;
     private javax.swing.JLabel fontsLabel;
+    private javax.swing.JCheckBox frogattoCheckBox;
+    private javax.swing.JLabel frogattoLabel;
+    private javax.swing.JLabel gamesInfoLabel;
     private javax.swing.JPanel gamesPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
@@ -1570,8 +1747,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane infoScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JPanel mainCardPanel;
@@ -1580,6 +1757,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel miscPanel;
     private javax.swing.JCheckBox multimediaCheckBox;
     private javax.swing.JLabel multimediaLabel;
+    private javax.swing.JLabel namesInfoLabel;
     private javax.swing.JPanel namesPanel;
     private javax.swing.JButton nextButton;
     private javax.swing.JLabel nonfreeLabel;
@@ -1588,6 +1766,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox proxyCheckBox;
     private javax.swing.JLabel proxyHostLabel;
     private javax.swing.JTextField proxyHostTextField;
+    private javax.swing.JLabel proxyInfoLabel;
     private javax.swing.JPanel proxyPanel;
     private javax.swing.JPasswordField proxyPasswordField;
     private javax.swing.JLabel proxyPasswordLabel;
@@ -1598,14 +1777,20 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox readerCheckBox;
     private javax.swing.JLabel readerLabel;
     private javax.swing.JPanel recommendedPanel;
+    private javax.swing.JCheckBox riliCheckBox;
+    private javax.swing.JLabel riliLabel;
     private javax.swing.JCheckBox showCheckBox;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
+    private javax.swing.JCheckBox supertuxkartCheckBox;
+    private javax.swing.JLabel supertuxkartLabel;
     private javax.swing.JEditorPane teachingEditorPane;
     private javax.swing.JPanel teachingPanel;
     private javax.swing.JScrollPane teachingScrollPane;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JLabel welcomeLabel;
+    private javax.swing.JCheckBox wesnothCheckBox;
+    private javax.swing.JLabel wesnothLabel;
     // End of variables declaration//GEN-END:variables
 }
