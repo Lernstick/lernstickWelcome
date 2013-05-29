@@ -203,6 +203,10 @@ public class Welcome extends javax.swing.JFrame {
         // center on screen
         pack();
         setLocationRelativeTo(null);
+        
+        // enforce minimal size of list
+        menuScrollPane.setMinimumSize(menuScrollPane.getPreferredSize());
+        
         setVisible(true);
     }
 
@@ -276,6 +280,7 @@ public class Welcome extends javax.swing.JFrame {
         flareLabel = new javax.swing.JLabel();
         astromenaceCheckBox = new javax.swing.JCheckBox();
         astromenaceLabel = new javax.swing.JLabel();
+        dummyPanel = new javax.swing.JPanel();
         proxyPanel = new javax.swing.JPanel();
         proxyCheckBox = new javax.swing.JCheckBox();
         proxyHostLabel = new javax.swing.JLabel();
@@ -293,12 +298,11 @@ public class Welcome extends javax.swing.JFrame {
         userNameTextField = new javax.swing.JTextField();
         exchangePartitionNameLabel = new javax.swing.JLabel();
         exchangePartitionNameTextField = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
         bottomPanel = new javax.swing.JPanel();
+        navigaionPanel = new javax.swing.JPanel();
         previousButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         showCheckBox = new javax.swing.JCheckBox();
         cancelButton = new javax.swing.JButton();
 
@@ -330,6 +334,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         getContentPane().add(menuScrollPane, gridBagConstraints);
 
+        mainCardPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         mainCardPanel.setLayout(new java.awt.CardLayout());
 
         infoPanel.setLayout(new java.awt.GridBagLayout());
@@ -514,11 +519,11 @@ public class Welcome extends javax.swing.JFrame {
         fillPanel.setLayout(fillPanelLayout);
         fillPanelLayout.setHorizontalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
+            .addGap(0, 561, Short.MAX_VALUE)
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 22, Short.MAX_VALUE)
+            .addGap(0, 19, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -683,9 +688,25 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 20, 0);
         gamesPanel.add(astromenaceLabel, gridBagConstraints);
+
+        javax.swing.GroupLayout dummyPanelLayout = new javax.swing.GroupLayout(dummyPanel);
+        dummyPanel.setLayout(dummyPanelLayout);
+        dummyPanelLayout.setHorizontalGroup(
+            dummyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        dummyPanelLayout.setVerticalGroup(
+            dummyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.weighty = 1.0;
+        gamesPanel.add(dummyPanel, gridBagConstraints);
 
         mainCardPanel.add(gamesPanel, "gamesPanel");
 
@@ -748,7 +769,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -756,7 +777,7 @@ public class Welcome extends javax.swing.JFrame {
         proxyPanelLayout.setVerticalGroup(
             proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(proxyPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(proxyInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(proxyCheckBox)
@@ -776,7 +797,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
@@ -788,7 +809,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 10);
         namesPanel.add(namesInfoLabel, gridBagConstraints);
 
         userNameLabel.setText(bundle.getString("Welcome.userNameLabel.text")); // NOI18N
@@ -812,6 +833,8 @@ public class Welcome extends javax.swing.JFrame {
         exchangePartitionNameLabel.setText(bundle.getString("Welcome.exchangePartitionNameLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         namesPanel.add(exchangePartitionNameLabel, gridBagConstraints);
 
@@ -823,7 +846,9 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         namesPanel.add(exchangePartitionNameTextField, gridBagConstraints);
 
@@ -835,14 +860,10 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(mainCardPanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        getContentPane().add(jSeparator1, gridBagConstraints);
 
         bottomPanel.setLayout(new java.awt.GridBagLayout());
+
+        navigaionPanel.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
         previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/go-previous.png"))); // NOI18N
         previousButton.setText(bundle.getString("Welcome.previousButton.text")); // NOI18N
@@ -851,9 +872,7 @@ public class Welcome extends javax.swing.JFrame {
                 previousButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        bottomPanel.add(previousButton, gridBagConstraints);
+        navigaionPanel.add(previousButton);
 
         nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/go-next.png"))); // NOI18N
         nextButton.setText(bundle.getString("Welcome.nextButton.text")); // NOI18N
@@ -862,10 +881,12 @@ public class Welcome extends javax.swing.JFrame {
                 nextButtonActionPerformed(evt);
             }
         });
+        navigaionPanel.add(nextButton);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        bottomPanel.add(nextButton, gridBagConstraints);
+        gridBagConstraints.weightx = 1.0;
+        bottomPanel.add(navigaionPanel, gridBagConstraints);
 
         applyButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/dialog-ok-apply.png"))); // NOI18N
         applyButton.setText(bundle.getString("Welcome.applyButton.text")); // NOI18N
@@ -876,18 +897,18 @@ public class Welcome extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         bottomPanel.add(applyButton, gridBagConstraints);
-
-        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         showCheckBox.setSelected(true);
         showCheckBox.setText(bundle.getString("Welcome.showCheckBox.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel1.add(showCheckBox, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        bottomPanel.add(showCheckBox, gridBagConstraints);
 
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/exit.png"))); // NOI18N
         cancelButton.setText(bundle.getString("Welcome.cancelButton.text")); // NOI18N
@@ -896,14 +917,10 @@ public class Welcome extends javax.swing.JFrame {
                 cancelButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(cancelButton, new java.awt.GridBagConstraints());
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        bottomPanel.add(jPanel1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        bottomPanel.add(cancelButton, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -1787,6 +1804,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel astromenaceLabel;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JPanel dummyPanel;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
     private javax.swing.JPanel fillPanel;
@@ -1808,8 +1826,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane infoScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JPanel mainCardPanel;
@@ -1820,6 +1836,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel multimediaLabel;
     private javax.swing.JLabel namesInfoLabel;
     private javax.swing.JPanel namesPanel;
+    private javax.swing.JPanel navigaionPanel;
     private javax.swing.JButton nextButton;
     private javax.swing.JLabel nonfreeLabel;
     private javax.swing.JPanel nonfreePanel;
