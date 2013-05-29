@@ -1586,7 +1586,7 @@ public class Welcome extends javax.swing.JFrame {
                     "lernstick-astromenace");
             installPackage(filletsCheckBox, "Welcome.filletsLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/fillets.png",
-                    "lernstick-fillets-ng");
+                    "lernstick-fillets-ng", "fillets-ng-data-cs");
 
             return null;
         }
