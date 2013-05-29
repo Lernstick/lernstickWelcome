@@ -266,6 +266,8 @@ public class Welcome extends javax.swing.JFrame {
         riliLabel = new javax.swing.JLabel();
         frogattoCheckBox = new javax.swing.JCheckBox();
         frogattoLabel = new javax.swing.JLabel();
+        filletsCheckBox = new javax.swing.JCheckBox();
+        filletsLabel = new javax.swing.JLabel();
         supertuxkartCheckBox = new javax.swing.JCheckBox();
         supertuxkartLabel = new javax.swing.JLabel();
         wesnothCheckBox = new javax.swing.JCheckBox();
@@ -512,11 +514,11 @@ public class Welcome extends javax.swing.JFrame {
         fillPanel.setLayout(fillPanelLayout);
         fillPanelLayout.setHorizontalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 545, Short.MAX_VALUE)
+            .addGap(0, 565, Short.MAX_VALUE)
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 7, Short.MAX_VALUE)
+            .addGap(0, 22, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -608,6 +610,21 @@ public class Welcome extends javax.swing.JFrame {
         gamesPanel.add(frogattoLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(3, 10, 0, 0);
+        gamesPanel.add(filletsCheckBox, gridBagConstraints);
+
+        filletsLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/fillets.png"))); // NOI18N
+        filletsLabel.setText(bundle.getString("Welcome.filletsLabel.text")); // NOI18N
+        filletsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                filletsLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gamesPanel.add(filletsLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 0, 0);
         gamesPanel.add(supertuxkartCheckBox, gridBagConstraints);
 
         supertuxkartLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/supertuxkart.png"))); // NOI18N
@@ -618,6 +635,7 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
@@ -634,12 +652,11 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
         gamesPanel.add(wesnothLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(3, 10, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 0, 0);
         gamesPanel.add(flareCheckBox, gridBagConstraints);
 
         flareLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/flare.png"))); // NOI18N
@@ -650,8 +667,9 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
         gamesPanel.add(flareLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(3, 10, 20, 0);
@@ -730,7 +748,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -758,7 +776,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
@@ -1054,6 +1072,10 @@ public class Welcome extends javax.swing.JFrame {
         toggleCheckBox(astromenaceCheckBox);
     }//GEN-LAST:event_astromenaceLabelMouseClicked
 
+    private void filletsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filletsLabelMouseClicked
+        toggleCheckBox(filletsCheckBox);
+    }//GEN-LAST:event_filletsLabelMouseClicked
+
     private void openLinkInBrowser(HyperlinkEvent evt) {
         if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 //            try {
@@ -1329,6 +1351,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += wesnothCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += flareCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += astromenaceCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += filletsCheckBox.isSelected() ? 1 : 0;
         LOGGER.log(Level.INFO, "number of packages = {0}", numberOfPackages);
 
         if (numberOfPackages > 0) {
@@ -1391,6 +1414,8 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.flareLabel.text", "flare");
         checkInstall(astromenaceCheckBox, astromenaceLabel,
                 "Welcome.astromenaceLabel.text", "lernstick-astromenace");
+        checkInstall(filletsCheckBox, filletsLabel,
+                "Welcome.filletsLabel.text", "lernstick-fillets-ng");
     }
 
     private void checkInstall(JCheckBox checkBox, JLabel label,
@@ -1559,6 +1584,9 @@ public class Welcome extends javax.swing.JFrame {
             installPackage(astromenaceCheckBox, "Welcome.astromenaceLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/astromenace.png",
                     "lernstick-astromenace");
+            installPackage(filletsCheckBox, "Welcome.filletsLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/fillets.png",
+                    "lernstick-fillets-ng");
 
             return null;
         }
@@ -1762,6 +1790,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
     private javax.swing.JPanel fillPanel;
+    private javax.swing.JCheckBox filletsCheckBox;
+    private javax.swing.JLabel filletsLabel;
     private javax.swing.JCheckBox flareCheckBox;
     private javax.swing.JLabel flareLabel;
     private javax.swing.JCheckBox flashCheckBox;
