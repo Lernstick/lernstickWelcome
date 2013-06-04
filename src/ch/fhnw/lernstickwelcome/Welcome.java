@@ -684,6 +684,11 @@ public class Welcome extends javax.swing.JFrame {
 
         hedgewarsLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/hedgewars.png"))); // NOI18N
         hedgewarsLabel.setText(bundle.getString("Welcome.hedgewarsLabel.text")); // NOI18N
+        hedgewarsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hedgewarsLabelMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 20, 0);
@@ -1104,6 +1109,10 @@ public class Welcome extends javax.swing.JFrame {
     private void filletsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filletsLabelMouseClicked
         toggleCheckBox(filletsCheckBox);
     }//GEN-LAST:event_filletsLabelMouseClicked
+
+    private void hedgewarsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hedgewarsLabelMouseClicked
+        toggleCheckBox(hedgewarsCheckBox);
+    }//GEN-LAST:event_hedgewarsLabelMouseClicked
 
     private void openLinkInBrowser(HyperlinkEvent evt) {
         if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
