@@ -278,6 +278,8 @@ public class Welcome extends javax.swing.JFrame {
         wesnothLabel = new javax.swing.JLabel();
         flareCheckBox = new javax.swing.JCheckBox();
         flareLabel = new javax.swing.JLabel();
+        hedgewarsCheckBox = new javax.swing.JCheckBox();
+        hedgewarsLabel = new javax.swing.JLabel();
         astromenaceCheckBox = new javax.swing.JCheckBox();
         astromenaceLabel = new javax.swing.JLabel();
         dummyPanel = new javax.swing.JPanel();
@@ -676,6 +678,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
         gamesPanel.add(flareLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 20, 0);
+        gamesPanel.add(hedgewarsCheckBox, gridBagConstraints);
+
+        hedgewarsLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/hedgewars.png"))); // NOI18N
+        hedgewarsLabel.setText(bundle.getString("Welcome.hedgewarsLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 20, 0);
+        gamesPanel.add(hedgewarsLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(3, 10, 20, 0);
         gamesPanel.add(astromenaceCheckBox, gridBagConstraints);
@@ -1423,16 +1435,18 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.riliLabel.text", "lernstick-ri-li");
         checkInstall(frogattoCheckBox, frogattoLabel,
                 "Welcome.frogattoLabel.text", "frogatto");
+        checkInstall(filletsCheckBox, filletsLabel,
+                "Welcome.filletsLabel.text", "lernstick-fillets-ng");
         checkInstall(supertuxkartCheckBox, supertuxkartLabel,
                 "Welcome.supertuxkartLabel.text", "supertuxkart");
         checkInstall(wesnothCheckBox, wesnothLabel,
                 "Welcome.wesnothLabel.text", "wesnoth");
         checkInstall(flareCheckBox, flareLabel,
                 "Welcome.flareLabel.text", "flare");
+        checkInstall(hedgewarsCheckBox, hedgewarsLabel,
+                "Welcome.hedgewarsLabel.text", "hedgewars");
         checkInstall(astromenaceCheckBox, astromenaceLabel,
                 "Welcome.astromenaceLabel.text", "lernstick-astromenace");
-        checkInstall(filletsCheckBox, filletsLabel,
-                "Welcome.filletsLabel.text", "lernstick-fillets-ng");
     }
 
     private void checkInstall(JCheckBox checkBox, JLabel label,
@@ -1589,6 +1603,9 @@ public class Welcome extends javax.swing.JFrame {
             installPackage(frogattoCheckBox, "Welcome.frogattoLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/frogatto.png",
                     "frogatto");
+            installPackage(filletsCheckBox, "Welcome.filletsLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/fillets.png",
+                    "lernstick-fillets-ng", "fillets-ng-data-cs");
             installPackage(supertuxkartCheckBox, "Welcome.supertuxkartLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/supertuxkart.png",
                     "live-supertuxkart");
@@ -1598,12 +1615,12 @@ public class Welcome extends javax.swing.JFrame {
             installPackage(flareCheckBox, "Welcome.flareLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/flare.png",
                     "flare");
+            installPackage(hedgewarsCheckBox, "Welcome.hedgewarsLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/hedgewars.png",
+                    "hedgewars");
             installPackage(astromenaceCheckBox, "Welcome.astromenaceLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/astromenace.png",
                     "lernstick-astromenace");
-            installPackage(filletsCheckBox, "Welcome.filletsLabel.text",
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/fillets.png",
-                    "lernstick-fillets-ng", "fillets-ng-data-cs");
 
             return null;
         }
@@ -1821,6 +1838,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel gamesPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
+    private javax.swing.JCheckBox hedgewarsCheckBox;
+    private javax.swing.JLabel hedgewarsLabel;
     private javax.swing.JEditorPane infoEditorPane;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JScrollPane infoScrollPane;
