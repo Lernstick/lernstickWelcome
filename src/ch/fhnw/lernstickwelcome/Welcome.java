@@ -1381,6 +1381,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += flareCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += astromenaceCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += filletsCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += hedgewarsCheckBox.isSelected() ? 1 : 0;
         LOGGER.log(Level.INFO, "number of packages = {0}", numberOfPackages);
 
         if (numberOfPackages > 0) {
