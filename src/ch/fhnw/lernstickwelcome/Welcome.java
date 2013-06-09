@@ -136,6 +136,7 @@ public class Welcome extends javax.swing.JFrame {
         menuListModel.addElement(BUNDLE.getString("Games"));
         menuListModel.addElement(BUNDLE.getString("Proxy"));
         menuListModel.addElement(BUNDLE.getString("Names"));
+        menuListModel.addElement(BUNDLE.getString("Data_Partition"));
 
         menuList.setCellRenderer(new MyListCellRenderer());
 
@@ -198,15 +199,15 @@ public class Welcome extends javax.swing.JFrame {
         UIDefaults defaults = UIManager.getDefaults();
         infoEditorPane.setBackground(defaults.getColor("Panel.background"));
         teachingEditorPane.setBackground(defaults.getColor("Panel.background"));
-        showCheckBox.setSelected(showAtStartup);
+        readWriteCheckBox.setSelected(showAtStartup);
 
         // center on screen
         pack();
         setLocationRelativeTo(null);
-        
+
         // enforce minimal size of list
         menuScrollPane.setMinimumSize(menuScrollPane.getPreferredSize());
-        
+
         setVisible(true);
     }
 
@@ -300,12 +301,17 @@ public class Welcome extends javax.swing.JFrame {
         userNameTextField = new javax.swing.JTextField();
         exchangePartitionNameLabel = new javax.swing.JLabel();
         exchangePartitionNameTextField = new javax.swing.JTextField();
+        dataPartitionPanel = new javax.swing.JPanel();
+        dataPartitionLabel = new javax.swing.JLabel();
+        readWritePanel = new javax.swing.JPanel();
+        readWriteCheckBox = new javax.swing.JCheckBox();
+        readOnlyPanel = new javax.swing.JPanel();
+        readOnlyCheckBox = new javax.swing.JCheckBox();
         bottomPanel = new javax.swing.JPanel();
         navigaionPanel = new javax.swing.JPanel();
         previousButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
-        showCheckBox = new javax.swing.JCheckBox();
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -525,7 +531,7 @@ public class Welcome extends javax.swing.JFrame {
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 19, Short.MAX_VALUE)
+            .addGap(0, 55, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -786,7 +792,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -814,7 +820,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
@@ -871,6 +877,51 @@ public class Welcome extends javax.swing.JFrame {
 
         mainCardPanel.add(namesPanel, "namesPanel");
 
+        dataPartitionPanel.setLayout(new java.awt.GridBagLayout());
+
+        dataPartitionLabel.setText(bundle.getString("Welcome.dataPartitionLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        dataPartitionPanel.add(dataPartitionLabel, gridBagConstraints);
+
+        readWritePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.readWritePanel.border.title"))); // NOI18N
+        readWritePanel.setLayout(new java.awt.GridBagLayout());
+
+        readWriteCheckBox.setSelected(true);
+        readWriteCheckBox.setText(bundle.getString("Welcome.readWriteCheckBox.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        readWritePanel.add(readWriteCheckBox, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        dataPartitionPanel.add(readWritePanel, gridBagConstraints);
+
+        readOnlyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.readOnlyPanel.border.title"))); // NOI18N
+        readOnlyPanel.setLayout(new java.awt.GridBagLayout());
+
+        readOnlyCheckBox.setSelected(true);
+        readOnlyCheckBox.setText(bundle.getString("Welcome.readOnlyCheckBox.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        readOnlyPanel.add(readOnlyCheckBox, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        dataPartitionPanel.add(readOnlyPanel, gridBagConstraints);
+
+        mainCardPanel.add(dataPartitionPanel, "dataPartitionPanel");
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -913,19 +964,9 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         bottomPanel.add(applyButton, gridBagConstraints);
-
-        showCheckBox.setSelected(true);
-        showCheckBox.setText(bundle.getString("Welcome.showCheckBox.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        bottomPanel.add(showCheckBox, gridBagConstraints);
 
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/exit.png"))); // NOI18N
         cancelButton.setText(bundle.getString("Welcome.cancelButton.text")); // NOI18N
@@ -936,7 +977,7 @@ public class Welcome extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         bottomPanel.add(cancelButton, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1054,6 +1095,12 @@ public class Welcome extends javax.swing.JFrame {
             case 5:
                 selectCard("namesPanel");
                 previousButton.setEnabled(true);
+                nextButton.setEnabled(true);
+                break;
+
+            case 6:
+                selectCard("dataPartitionPanel");
+                previousButton.setEnabled(true);
                 nextButton.setEnabled(false);
         }
     }//GEN-LAST:event_menuListValueChanged
@@ -1132,7 +1179,7 @@ public class Welcome extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     processExecutor.executeProcess(new String[]{
-                        "iceweasel", finalEvent.getURL().toString()});
+                                "iceweasel", finalEvent.getURL().toString()});
                 }
             };
             browserThread.start();
@@ -1405,13 +1452,13 @@ public class Welcome extends javax.swing.JFrame {
                     new Installer(progressDialog, numberOfPackages);
             installer.addPropertyChangeListener(
                     new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if ("progress".equals(evt.getPropertyName())) {
-                        Integer progress = (Integer) evt.getNewValue();
-                        progressDialog.setProgress(progress);
-                    }
-                }
-            });
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress".equals(evt.getPropertyName())) {
+                                Integer progress = (Integer) evt.getNewValue();
+                                progressDialog.setProgress(progress);
+                            }
+                        }
+                    });
             installer.execute();
             progressDialog.setVisible(true);
         }
@@ -1504,12 +1551,14 @@ public class Welcome extends javax.swing.JFrame {
         // update "show dialog at startup" property
         try {
             properties.setProperty(SHOW_STARTUP,
-                    showCheckBox.isSelected() ? "true" : "false");
+                    readWriteCheckBox.isSelected() ? "true" : "false");
             properties.store(new FileOutputStream(propertiesFile),
                     "lernstick Welcome dialog properties");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
+        
+        // TODO: update read-only dialog settings
 
         System.exit(0);
     }
@@ -1817,6 +1866,11 @@ public class Welcome extends javax.swing.JFrame {
                             "/ch/fhnw/lernstickwelcome/icons/32x32/edit-rename.png")));
                     break;
 
+                case 6:
+                    label.setIcon(new ImageIcon(getClass().getResource(
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/partitionmanager.png")));
+                    break;
+
                 default:
                     label.setIcon(null);
             }
@@ -1831,6 +1885,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel astromenaceLabel;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel dataPartitionLabel;
+    private javax.swing.JPanel dataPartitionPanel;
     private javax.swing.JPanel dummyPanel;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
@@ -1881,12 +1937,15 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField proxyPortTextField;
     private javax.swing.JLabel proxyUserNameLabel;
     private javax.swing.JTextField proxyUserNameTextField;
+    private javax.swing.JCheckBox readOnlyCheckBox;
+    private javax.swing.JPanel readOnlyPanel;
+    private javax.swing.JCheckBox readWriteCheckBox;
+    private javax.swing.JPanel readWritePanel;
     private javax.swing.JCheckBox readerCheckBox;
     private javax.swing.JLabel readerLabel;
     private javax.swing.JPanel recommendedPanel;
     private javax.swing.JCheckBox riliCheckBox;
     private javax.swing.JLabel riliLabel;
-    private javax.swing.JCheckBox showCheckBox;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
     private javax.swing.JCheckBox supertuxkartCheckBox;
