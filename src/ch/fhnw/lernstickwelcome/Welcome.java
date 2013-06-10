@@ -58,6 +58,9 @@ public class Welcome extends javax.swing.JFrame {
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
+    // !!! processExecutor must be instanciated before the next constants !!!
+    private final static ProcessExecutor processExecutor =
+            new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
     private static final File SYSLINUX_CONFIG_FILE = getSyslinuxConfigFile();
     private static final File XMLBOOT_CONFIG_FILE = getXmlBootConfigFile();
@@ -79,8 +82,6 @@ public class Welcome extends javax.swing.JFrame {
     };
     private static final String FLASH_PACKAGE =
             "flashplugin-nonfree";
-    private final static ProcessExecutor processExecutor =
-            new ProcessExecutor();
     private final static String USER_HOME = System.getProperty("user.home");
     private final String adobeLanguageCode;
     private final File propertiesFile;
