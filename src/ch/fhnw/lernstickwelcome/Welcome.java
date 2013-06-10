@@ -27,7 +27,15 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.text.AbstractDocument;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * The welcome window of the lernstick
@@ -42,6 +50,8 @@ public class Welcome extends javax.swing.JFrame {
             ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     private static final String SHOW_WELCOME = "ShowWelcome";
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
+    // !!! NO trailing slash at the end (would break comparison later) !!!
+    private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     // mapping of checkboxes to package collections
 //    private static final String[] ACROREAD_PACKAGES = new String[]{
 //        "acroread", "acroread-l10n-de", "acroread-l10n-es", "acroread-l10n-fr",
@@ -192,9 +202,28 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        // TODO: determine boot menu properties
+        // determine some xmlboot properties
+        String systemName = null;
+        String systemVersion = null;
+        try {
+            Document xmlBootDocument = parseXmlFile(getXmlBootConfigFile());
+            xmlBootDocument.getDocumentElement().normalize();
+            Node systemNode = xmlBootDocument.getElementsByTagName("system").item(0);
+            Element systemElement = (Element) systemNode;
+            Node node = systemElement.getElementsByTagName("text").item(0);
+            systemName = node.getTextContent();
+            node = systemElement.getElementsByTagName("version").item(0);
+            systemVersion = node.getTextContent();
+        } catch (ParserConfigurationException ex) {
+            LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
+        } catch (SAXException ex) {
+            LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
+        }
+        systemNameTextField.setText(systemName);
+        systemVersionTextField.setText(systemVersion);
 
-        // set app icon
         Image image = toolkit.getImage(getClass().getResource(
                 "/ch/fhnw/lernstickwelcome/icons/messagebox_info.png"));
         setIconImage(image);
@@ -1094,7 +1123,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        exitProgram();
+        System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void multimediaLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_multimediaLabelMouseClicked
@@ -1111,7 +1140,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         LOGGER.info("exiting program");
-        exitProgram();
+        System.exit(0);
     }//GEN-LAST:event_formWindowClosed
 
     private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed
@@ -1251,18 +1280,40 @@ public class Welcome extends javax.swing.JFrame {
         updateSecondsLabel();
     }//GEN-LAST:event_bootTimeoutSpinnerStateChanged
 
+    private File getXmlBootConfigFile() {
+        File imageDirectory = new File(IMAGE_DIRECTORY);
+        File configFile = new File(imageDirectory, "isolinux/xmlboot.config");
+        if (configFile.exists()) {
+            LOGGER.log(Level.INFO, "xmlboot config file: {0}", configFile);
+            return configFile;
+        } else {
+            configFile = new File(imageDirectory, "syslinux/xmlboot.config");
+            if (configFile.exists()) {
+                LOGGER.log(Level.INFO, "xmlboot config file: {0}", configFile);
+                return configFile;
+            } else {
+                LOGGER.warning("xmlboot config file not found!");
+                return null;
+            }
+        }
+    }
+
+    private Document parseXmlFile(File file)
+            throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setIgnoringComments(true);
+        factory.setIgnoringElementContentWhitespace(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(file);
+    }
+
     private int getTimeout() throws IOException {
         // determine which config file to use
-        File configFile;
-        File imageDirectory = new File("/lib/live/mount/medium/");
-        File isoLinuxConfigFile = new File(imageDirectory, "isolinux/isolinux.cfg");
-        if (isoLinuxConfigFile.exists()) {
-            configFile = isoLinuxConfigFile;
-        } else {
-            File sysLinuxConfigFile = new File(imageDirectory, "syslinux/syslinux.cfg");
-            if (sysLinuxConfigFile.exists()) {
-                configFile = sysLinuxConfigFile;
-            } else {
+        File imageDirectory = new File(IMAGE_DIRECTORY);
+        File configFile = new File(imageDirectory, "isolinux/isolinux.cfg");
+        if (!configFile.exists()) {
+            configFile = new File(imageDirectory, "syslinux/syslinux.cfg");
+            if (!configFile.exists()) {
                 LOGGER.warning("syslinux config file not found!");
                 return -1;
             }
@@ -1276,7 +1327,7 @@ public class Welcome extends javax.swing.JFrame {
             if (matcher.matches()) {
                 String timeoutString = matcher.group(1);
                 try {
-                    return Integer.parseInt(timeoutString);
+                    return Integer.parseInt(timeoutString) / 10;
                 } catch (Exception e) {
                     LOGGER.log(Level.WARNING,
                             "could not parse timeout value \"{0}\"",
@@ -1425,6 +1476,18 @@ public class Welcome extends javax.swing.JFrame {
 
         installSelectedPackages();
 
+        // update "show dialog at startup" property
+        try {
+            properties.setProperty(SHOW_WELCOME,
+                    readWriteCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(SHOW_READ_ONLY_INFO,
+                    readOnlyCheckBox.isSelected() ? "true" : "false");
+            properties.store(new FileOutputStream(propertiesFile),
+                    "lernstick Welcome properties");
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+
         // show "done" message
         // toolkit.beep();
         URL url = getClass().getResource(
@@ -1458,7 +1521,7 @@ public class Welcome extends javax.swing.JFrame {
             String[] tokens = mount.split(" ");
             if (tokens[0].startsWith("/dev/")
                     && (tokens[1].equals("/live/image")
-                    || tokens[1].equals("/lib/live/mount/medium"))) {
+                    || tokens[1].equals(IMAGE_DIRECTORY))) {
                 systemPartition = tokens[0];
                 break;
             }
@@ -1682,22 +1745,6 @@ public class Welcome extends javax.swing.JFrame {
             }
         }
         return true;
-    }
-
-    private void exitProgram() {
-        // update "show dialog at startup" property
-        try {
-            properties.setProperty(SHOW_WELCOME,
-                    readWriteCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(SHOW_READ_ONLY_INFO,
-                    readOnlyCheckBox.isSelected() ? "true" : "false");
-            properties.store(new FileOutputStream(propertiesFile),
-                    "lernstick Welcome properties");
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-
-        System.exit(0);
     }
 
     private void toggleCheckBox(JCheckBox checkBox) {
