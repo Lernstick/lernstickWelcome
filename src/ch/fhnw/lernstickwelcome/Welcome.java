@@ -230,9 +230,13 @@ public class Welcome extends javax.swing.JFrame {
             Node systemNode = xmlBootDocument.getElementsByTagName("system").item(0);
             Element systemElement = (Element) systemNode;
             Node node = systemElement.getElementsByTagName("text").item(0);
-            systemName = node.getTextContent();
+            if (node != null) {
+                systemName = node.getTextContent();
+            }
             node = systemElement.getElementsByTagName("version").item(0);
-            systemVersion = node.getTextContent();
+            if (node != null) {
+                systemVersion = node.getTextContent();
+            }
         } catch (ParserConfigurationException ex) {
             LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
         } catch (SAXException ex) {
@@ -1297,16 +1301,19 @@ public class Welcome extends javax.swing.JFrame {
     private static boolean isImageWritable() {
         processExecutor.executeProcess("sudo",
                 "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
-        File testFile = new File(IMAGE_DIRECTORY, "lernstickWelcome.tmp");
+        String testPath = IMAGE_DIRECTORY + "/lernstickWelcome.tmp";
+        processExecutor.executeProcess("sudo", "touch", testPath);
+        File testFile = new File(testPath);
         try {
-            testFile.createNewFile();
-            LOGGER.info("image is writable");
-            return true;
-        } catch (IOException iOException) {
-            LOGGER.info("image is not writable");
-            return false;
+            if (testFile.exists()) {
+                LOGGER.info("image is writable");
+                return true;
+            } else {
+                LOGGER.info("image is not writable");
+                return false;
+            }
         } finally {
-            testFile.delete();
+            processExecutor.executeProcess("sudo", "rm", testPath);
             processExecutor.executeProcess("sudo",
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         }
@@ -1526,6 +1533,10 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         if (IMAGE_IS_WRITABLE) {
+            // make image (temporarily) writable
+            processExecutor.executeProcess("sudo",
+                    "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
+
             // update syslinux timeout
             SpinnerNumberModel spinnerNumberModel =
                     (SpinnerNumberModel) bootTimeoutSpinner.getModel();
@@ -1540,6 +1551,10 @@ public class Welcome extends javax.swing.JFrame {
                         configFileLines.set(i, "timeout " + timeoutValue);
                     }
                 }
+                File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
+                writeFile(tmpFile, configFileLines);
+                processExecutor.executeProcess("sudo", "mv",
+                        tmpFile.getPath(), SYSLINUX_CONFIG_FILE.getPath());
             } catch (IOException iOException) {
                 LOGGER.log(Level.WARNING,
                         "could not update syslinux timeout", iOException);
@@ -1554,18 +1569,26 @@ public class Welcome extends javax.swing.JFrame {
                         xmlBootDocument.getElementsByTagName("system").item(0);
                 Element systemElement = (Element) systemNode;
                 Node node = systemElement.getElementsByTagName("text").item(0);
-                node.setTextContent(systemNameTextField.getText());
+                if (node != null) {
+                    node.setTextContent(systemNameTextField.getText());
+                }
                 node = systemElement.getElementsByTagName("version").item(0);
-                node.setTextContent(systemVersionTextField.getText());
+                if (node != null) {
+                    node.setTextContent(systemVersionTextField.getText());
+                }
 
                 // write changes back to config file
+                File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
                 TransformerFactory transformerFactory =
                         TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 DOMSource source = new DOMSource(xmlBootDocument);
-                StreamResult result = new StreamResult(XMLBOOT_CONFIG_FILE);
+                StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
+                processExecutor.executeProcess("sudo", "mv",
+                        tmpFile.getPath(), XMLBOOT_CONFIG_FILE.getPath());
+
             } catch (ParserConfigurationException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             } catch (SAXException ex) {
@@ -1577,6 +1600,10 @@ public class Welcome extends javax.swing.JFrame {
             } catch (TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
+
+            // remount image read-only
+            processExecutor.executeProcess("sudo",
+                    "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         }
 
         // show "done" message
@@ -1601,6 +1628,28 @@ public class Welcome extends javax.swing.JFrame {
         }
         reader.close();
         return lines;
+    }
+
+    private static void writeFile(File file, List<String> lines)
+            throws IOException {
+        // delete old version of file
+        if (file.exists()) {
+            file.delete();
+        }
+        // write new version of file
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(file);
+            String lineSeparator = System.getProperty("line.separator");
+            for (String line : lines) {
+                outputStream.write((line + lineSeparator).getBytes());
+            }
+            outputStream.flush();
+        } finally {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
     }
 
     private String getExchangePartition() throws IOException {
@@ -1753,9 +1802,8 @@ public class Welcome extends javax.swing.JFrame {
             });
             installer.execute();
             progressDialog.setVisible(true);
+            checkAllPackages();
         }
-
-        checkAllPackages();
     }
 
     private void checkAllPackages() {
