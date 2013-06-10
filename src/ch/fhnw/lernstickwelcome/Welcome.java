@@ -242,7 +242,7 @@ public class Welcome extends javax.swing.JFrame {
         }
         systemNameTextField.setText(systemName);
         systemVersionTextField.setText(systemVersion);
-        if (IMAGE_IS_WRITABLE) {
+        if (!IMAGE_IS_WRITABLE) {
             bootTimeoutSpinner.setEnabled(false);
             systemNameTextField.setEditable(false);
             systemVersionTextField.setEditable(false);
@@ -1299,12 +1299,11 @@ public class Welcome extends javax.swing.JFrame {
                 "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
         File testFile = new File(IMAGE_DIRECTORY, "lernstickWelcome.tmp");
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(testFile);
-            fileOutputStream.write(1);
-            fileOutputStream.flush();
-            fileOutputStream.close();
+            testFile.createNewFile();
+            LOGGER.info("image is writable");
             return true;
         } catch (IOException iOException) {
+            LOGGER.info("image is not writable");
             return false;
         } finally {
             testFile.delete();
