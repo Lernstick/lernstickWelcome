@@ -34,7 +34,6 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -202,7 +201,16 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        // determine some xmlboot properties
+        // determine some boot properties
+        // [sys/iso]linux timeout
+        ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
+        try {
+            bootTimeoutSpinner.setValue(getTimeout());
+        } catch (IOException ex) {
+            LOGGER.warning("could not set boot timeout value");
+        }
+        updateSecondsLabel();
+        // xmlboot system strings
         String systemName = null;
         String systemVersion = null;
         try {
@@ -223,6 +231,12 @@ public class Welcome extends javax.swing.JFrame {
         }
         systemNameTextField.setText(systemName);
         systemVersionTextField.setText(systemVersion);
+        // check writability
+        if (!isImageWritable()) {
+            bootTimeoutSpinner.setEnabled(false);
+            systemNameTextField.setEditable(false);
+            systemVersionTextField.setEditable(false);
+        }
 
         Image image = toolkit.getImage(getClass().getResource(
                 "/ch/fhnw/lernstickwelcome/icons/messagebox_info.png"));
@@ -232,16 +246,6 @@ public class Welcome extends javax.swing.JFrame {
         infoEditorPane.setBackground(defaults.getColor("Panel.background"));
         teachingEditorPane.setBackground(defaults.getColor("Panel.background"));
         readWriteCheckBox.setSelected(showAtStartup);
-
-
-        // timeout spinner
-        ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
-        try {
-            bootTimeoutSpinner.setValue(getTimeout());
-        } catch (IOException ex) {
-            LOGGER.warning("could not set boot timeout value");
-        }
-        updateSecondsLabel();
 
         // center on screen
         pack();
@@ -1279,6 +1283,25 @@ public class Welcome extends javax.swing.JFrame {
     private void bootTimeoutSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_bootTimeoutSpinnerStateChanged
         updateSecondsLabel();
     }//GEN-LAST:event_bootTimeoutSpinnerStateChanged
+
+    private boolean isImageWritable() {
+        processExecutor.executeProcess("sudo",
+                "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
+        File testFile = new File(IMAGE_DIRECTORY, "lernstickWelcome.tmp");
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(testFile);
+            fileOutputStream.write(1);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            return true;
+        } catch (IOException iOException) {
+            return false;
+        } finally {
+            testFile.delete();
+            processExecutor.executeProcess("sudo",
+                    "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
+        }
+    }
 
     private File getXmlBootConfigFile() {
         File imageDirectory = new File(IMAGE_DIRECTORY);
