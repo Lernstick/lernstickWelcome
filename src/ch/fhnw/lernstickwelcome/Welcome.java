@@ -30,7 +30,14 @@ import javax.swing.text.AbstractDocument;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -51,6 +58,9 @@ public class Welcome extends javax.swing.JFrame {
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
+    private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
+    private static final File SYSLINUX_CONFIG_FILE = getSyslinuxConfigFile();
+    private static final File XMLBOOT_CONFIG_FILE = getXmlBootConfigFile();
     // mapping of checkboxes to package collections
 //    private static final String[] ACROREAD_PACKAGES = new String[]{
 //        "acroread", "acroread-l10n-de", "acroread-l10n-es", "acroread-l10n-fr",
@@ -214,7 +224,7 @@ public class Welcome extends javax.swing.JFrame {
         String systemName = null;
         String systemVersion = null;
         try {
-            Document xmlBootDocument = parseXmlFile(getXmlBootConfigFile());
+            Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
             xmlBootDocument.getDocumentElement().normalize();
             Node systemNode = xmlBootDocument.getElementsByTagName("system").item(0);
             Element systemElement = (Element) systemNode;
@@ -231,8 +241,7 @@ public class Welcome extends javax.swing.JFrame {
         }
         systemNameTextField.setText(systemName);
         systemVersionTextField.setText(systemVersion);
-        // check writability
-        if (!isImageWritable()) {
+        if (IMAGE_IS_WRITABLE) {
             bootTimeoutSpinner.setEnabled(false);
             systemNameTextField.setEditable(false);
             systemVersionTextField.setEditable(false);
@@ -1284,7 +1293,7 @@ public class Welcome extends javax.swing.JFrame {
         updateSecondsLabel();
     }//GEN-LAST:event_bootTimeoutSpinnerStateChanged
 
-    private boolean isImageWritable() {
+    private static boolean isImageWritable() {
         processExecutor.executeProcess("sudo",
                 "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
         File testFile = new File(IMAGE_DIRECTORY, "lernstickWelcome.tmp");
@@ -1303,7 +1312,7 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private File getXmlBootConfigFile() {
+    private static File getXmlBootConfigFile() {
         File imageDirectory = new File(IMAGE_DIRECTORY);
         File configFile = new File(imageDirectory, "isolinux/xmlboot.config");
         if (configFile.exists()) {
@@ -1330,21 +1339,26 @@ public class Welcome extends javax.swing.JFrame {
         return builder.parse(file);
     }
 
-    private int getTimeout() throws IOException {
+    private static File getSyslinuxConfigFile() {
         // determine which config file to use
         File imageDirectory = new File(IMAGE_DIRECTORY);
         File configFile = new File(imageDirectory, "isolinux/isolinux.cfg");
-        if (!configFile.exists()) {
+        if (configFile.exists()) {
+            return configFile;
+        } else {
             configFile = new File(imageDirectory, "syslinux/syslinux.cfg");
-            if (!configFile.exists()) {
+            if (configFile.exists()) {
+                return configFile;
+            } else {
                 LOGGER.warning("syslinux config file not found!");
-                return -1;
+                return null;
             }
         }
+    }
 
-        // parse config file
+    private int getTimeout() throws IOException {
         Pattern timeoutPattern = Pattern.compile("timeout (.*)");
-        List<String> configFileLines = readFile(configFile);
+        List<String> configFileLines = readFile(SYSLINUX_CONFIG_FILE);
         for (String configFileLine : configFileLines) {
             Matcher matcher = timeoutPattern.matcher(configFileLine);
             if (matcher.matches()) {
@@ -1511,6 +1525,60 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
+        if (IMAGE_IS_WRITABLE) {
+            // update syslinux timeout
+            SpinnerNumberModel spinnerNumberModel =
+                    (SpinnerNumberModel) bootTimeoutSpinner.getModel();
+            int timeoutValue = spinnerNumberModel.getNumber().intValue() * 10;
+            Pattern timeoutPattern = Pattern.compile("timeout .*");
+            try {
+                List<String> configFileLines = readFile(SYSLINUX_CONFIG_FILE);
+                for (int i = 0, size = configFileLines.size(); i < size; i++) {
+                    String line = configFileLines.get(i);
+                    Matcher matcher = timeoutPattern.matcher(line);
+                    if (matcher.matches()) {
+                        configFileLines.set(i, "timeout " + timeoutValue);
+                    }
+                }
+            } catch (IOException iOException) {
+                LOGGER.log(Level.WARNING,
+                        "could not update syslinux timeout", iOException);
+            }
+
+            // xmlboot config
+            try {
+                // update config
+                Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
+                xmlBootDocument.getDocumentElement().normalize();
+                Node systemNode =
+                        xmlBootDocument.getElementsByTagName("system").item(0);
+                Element systemElement = (Element) systemNode;
+                Node node = systemElement.getElementsByTagName("text").item(0);
+                node.setTextContent(systemNameTextField.getText());
+                node = systemElement.getElementsByTagName("version").item(0);
+                node.setTextContent(systemVersionTextField.getText());
+
+                // write changes back to config file
+                TransformerFactory transformerFactory =
+                        TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                DOMSource source = new DOMSource(xmlBootDocument);
+                StreamResult result = new StreamResult(XMLBOOT_CONFIG_FILE);
+                transformer.transform(source, result);
+            } catch (ParserConfigurationException ex) {
+                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+            } catch (SAXException ex) {
+                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+            } catch (DOMException ex) {
+                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+            } catch (TransformerException ex) {
+                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+            }
+        }
+
         // show "done" message
         // toolkit.beep();
         URL url = getClass().getResource(
@@ -1675,6 +1743,7 @@ public class Welcome extends javax.swing.JFrame {
                     new Installer(progressDialog, numberOfPackages);
             installer.addPropertyChangeListener(
                     new PropertyChangeListener() {
+                @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     if ("progress".equals(evt.getPropertyName())) {
                         Integer progress = (Integer) evt.getNewValue();
