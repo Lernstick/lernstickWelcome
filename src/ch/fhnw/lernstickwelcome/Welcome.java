@@ -40,7 +40,8 @@ public class Welcome extends javax.swing.JFrame {
             Logger.getLogger(Welcome.class.getName());
     private static final ResourceBundle BUNDLE =
             ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
-    private static final String SHOW_STARTUP = "ShowAtStartup";
+    private static final String SHOW_WELCOME = "ShowWelcome";
+    private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     // mapping of checkboxes to package collections
 //    private static final String[] ACROREAD_PACKAGES = new String[]{
 //        "acroread", "acroread-l10n-de", "acroread-l10n-es", "acroread-l10n-fr",
@@ -120,7 +121,7 @@ public class Welcome extends javax.swing.JFrame {
         properties = new Properties();
         try {
             properties.load(new FileInputStream(propertiesFile));
-            showAtStartup = "true".equals(properties.getProperty(SHOW_STARTUP));
+            showAtStartup = "true".equals(properties.getProperty(SHOW_WELCOME));
         } catch (IOException ex) {
             LOGGER.log(Level.INFO,
                     "can not load properties from " + propertiesFile, ex);
@@ -191,6 +192,8 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
+        // TODO: determine boot menu properties
+
         // set app icon
         Image image = toolkit.getImage(getClass().getResource(
                 "/ch/fhnw/lernstickwelcome/icons/messagebox_info.png"));
@@ -202,8 +205,13 @@ public class Welcome extends javax.swing.JFrame {
         readWriteCheckBox.setSelected(showAtStartup);
 
 
-        // fix timeout spinner layout
+        // timeout spinner
         ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
+        try {
+            bootTimeoutSpinner.setValue(getTimeout());
+        } catch (IOException ex) {
+            LOGGER.warning("could not set boot timeout value");
+        }
         updateSecondsLabel();
 
         // center on screen
@@ -1243,6 +1251,43 @@ public class Welcome extends javax.swing.JFrame {
         updateSecondsLabel();
     }//GEN-LAST:event_bootTimeoutSpinnerStateChanged
 
+    private int getTimeout() throws IOException {
+        // determine which config file to use
+        File configFile;
+        File imageDirectory = new File("/lib/live/mount/medium/");
+        File isoLinuxConfigFile = new File(imageDirectory, "isolinux/isolinux.cfg");
+        if (isoLinuxConfigFile.exists()) {
+            configFile = isoLinuxConfigFile;
+        } else {
+            File sysLinuxConfigFile = new File(imageDirectory, "syslinux/syslinux.cfg");
+            if (sysLinuxConfigFile.exists()) {
+                configFile = sysLinuxConfigFile;
+            } else {
+                LOGGER.warning("syslinux config file not found!");
+                return -1;
+            }
+        }
+
+        // parse config file
+        Pattern timeoutPattern = Pattern.compile("timeout (.*)");
+        List<String> configFileLines = readFile(configFile);
+        for (String configFileLine : configFileLines) {
+            Matcher matcher = timeoutPattern.matcher(configFileLine);
+            if (matcher.matches()) {
+                String timeoutString = matcher.group(1);
+                try {
+                    return Integer.parseInt(timeoutString);
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING,
+                            "could not parse timeout value \"{0}\"",
+                            timeoutString);
+                }
+            }
+        }
+
+        return -1;
+    }
+
     private void updateSecondsLabel() {
         SpinnerNumberModel model =
                 (SpinnerNumberModel) bootTimeoutSpinner.getModel();
@@ -1271,7 +1316,7 @@ public class Welcome extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     processExecutor.executeProcess(new String[]{
-                                "iceweasel", finalEvent.getURL().toString()});
+                        "iceweasel", finalEvent.getURL().toString()});
                 }
             };
             browserThread.start();
@@ -1544,13 +1589,13 @@ public class Welcome extends javax.swing.JFrame {
                     new Installer(progressDialog, numberOfPackages);
             installer.addPropertyChangeListener(
                     new PropertyChangeListener() {
-                        public void propertyChange(PropertyChangeEvent evt) {
-                            if ("progress".equals(evt.getPropertyName())) {
-                                Integer progress = (Integer) evt.getNewValue();
-                                progressDialog.setProgress(progress);
-                            }
-                        }
-                    });
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("progress".equals(evt.getPropertyName())) {
+                        Integer progress = (Integer) evt.getNewValue();
+                        progressDialog.setProgress(progress);
+                    }
+                }
+            });
             installer.execute();
             progressDialog.setVisible(true);
         }
@@ -1642,15 +1687,15 @@ public class Welcome extends javax.swing.JFrame {
     private void exitProgram() {
         // update "show dialog at startup" property
         try {
-            properties.setProperty(SHOW_STARTUP,
+            properties.setProperty(SHOW_WELCOME,
                     readWriteCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(SHOW_READ_ONLY_INFO,
+                    readOnlyCheckBox.isSelected() ? "true" : "false");
             properties.store(new FileOutputStream(propertiesFile),
-                    "lernstick Welcome dialog properties");
+                    "lernstick Welcome properties");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-
-        // TODO: update read-only dialog settings
 
         System.exit(0);
     }

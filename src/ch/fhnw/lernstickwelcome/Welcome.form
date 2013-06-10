@@ -153,7 +153,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Empfohlen">
+                    <TitledBorder title="Recommended">
                       <ResourceString PropertyName="titleX" bundle="ch/fhnw/lernstickwelcome/Bundle.properties" key="Welcome.recommendedPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
@@ -292,7 +292,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Sonstiges">
+                    <TitledBorder title="Miscellaneous">
                       <ResourceString PropertyName="titleX" bundle="ch/fhnw/lernstickwelcome/Bundle.properties" key="Welcome.miscPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
@@ -380,7 +380,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="45" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -740,7 +740,7 @@
                           </Group>
                           <Component id="proxyCheckBox" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="78" max="32767" attributes="0"/>
+                      <EmptySpace pref="19" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -771,7 +771,7 @@
                           <Component id="proxyPasswordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="proxyPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="78" max="32767" attributes="0"/>
+                      <EmptySpace pref="108" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -865,7 +865,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Bootmen&#xfc;">
+                    <TitledBorder title="Boot menu">
                       <ResourceString PropertyName="titleX" bundle="ch/fhnw/lernstickwelcome/Bundle.properties" key="Welcome.bootMenuPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
@@ -1002,7 +1002,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Austauschpartition">
+                    <TitledBorder title="Exchange partition">
                       <ResourceString PropertyName="titleX" bundle="ch/fhnw/lernstickwelcome/Bundle.properties" key="Welcome.exchangePartitionPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
@@ -1044,7 +1044,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Datenpartition">
+                    <TitledBorder title="Data partition">
                       <ResourceString PropertyName="titleX" bundle="ch/fhnw/lernstickwelcome/Bundle.properties" key="Welcome.dataPartitionPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                     </TitledBorder>
                   </Border>
@@ -1062,7 +1062,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Modus &quot;Lesen und Schreiben&quot;">
+                        <TitledBorder title="Read-write mode">
                           <ResourceString PropertyName="titleX" bundle="ch/fhnw/lernstickwelcome/Bundle.properties" key="Welcome.readWritePanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -1094,7 +1094,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Modus &quot;Nur Lesen&quot;">
+                        <TitledBorder title="Read-only mode">
                           <ResourceString PropertyName="titleX" bundle="ch/fhnw/lernstickwelcome/Bundle.properties" key="Welcome.readOnlyPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -1146,8 +1146,8 @@
           </Constraints>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-            <Property name="columns" type="int" value="0"/>
             <Property name="horizontalGap" type="int" value="5"/>
+            <Property name="columns" type="int" value="0"/>
             <Property name="rows" type="int" value="1"/>
           </Layout>
           <SubComponents>
