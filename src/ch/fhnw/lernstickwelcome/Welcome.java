@@ -113,7 +113,7 @@ public class Welcome extends javax.swing.JFrame {
             adobeLanguageCode = "enu";
         }
 
-        boolean showAtStartup = true;
+        boolean showAtStartup = false;
         String propertiesFileName = USER_HOME + File.separatorChar
                 + ".config" + File.separatorChar + "lernstickWelcome";
         propertiesFile = new File(propertiesFileName);
@@ -135,8 +135,8 @@ public class Welcome extends javax.swing.JFrame {
         menuListModel.addElement(BUNDLE.getString("Teaching_System"));
         menuListModel.addElement(BUNDLE.getString("Games"));
         menuListModel.addElement(BUNDLE.getString("Proxy"));
-        menuListModel.addElement(BUNDLE.getString("Names"));
-        menuListModel.addElement(BUNDLE.getString("Data_Partition"));
+        menuListModel.addElement(BUNDLE.getString("System"));
+        menuListModel.addElement(BUNDLE.getString("Partitions"));
 
         menuList.setCellRenderer(new MyListCellRenderer());
 
@@ -200,6 +200,11 @@ public class Welcome extends javax.swing.JFrame {
         infoEditorPane.setBackground(defaults.getColor("Panel.background"));
         teachingEditorPane.setBackground(defaults.getColor("Panel.background"));
         readWriteCheckBox.setSelected(showAtStartup);
+
+
+        // fix timeout spinner layout
+        ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
+        updateSecondsLabel();
 
         // center on screen
         pack();
@@ -295,14 +300,23 @@ public class Welcome extends javax.swing.JFrame {
         proxyPasswordLabel = new javax.swing.JLabel();
         proxyPasswordField = new javax.swing.JPasswordField();
         proxyInfoLabel = new javax.swing.JLabel();
-        namesPanel = new javax.swing.JPanel();
-        namesInfoLabel = new javax.swing.JLabel();
+        systemPanel = new javax.swing.JPanel();
+        bootMenuPanel = new javax.swing.JPanel();
+        bootTimeoutLabel = new javax.swing.JLabel();
+        bootTimeoutSpinner = new javax.swing.JSpinner();
+        secondsLabel = new javax.swing.JLabel();
+        systemNameLabel = new javax.swing.JLabel();
+        systemNameTextField = new javax.swing.JTextField();
+        systemVersionLabel = new javax.swing.JLabel();
+        systemVersionTextField = new javax.swing.JTextField();
         userNameLabel = new javax.swing.JLabel();
         userNameTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        partitionsPanel = new javax.swing.JPanel();
+        exchangePartitionPanel = new javax.swing.JPanel();
         exchangePartitionNameLabel = new javax.swing.JLabel();
         exchangePartitionNameTextField = new javax.swing.JTextField();
         dataPartitionPanel = new javax.swing.JPanel();
-        dataPartitionLabel = new javax.swing.JLabel();
         readWritePanel = new javax.swing.JPanel();
         readWriteCheckBox = new javax.swing.JCheckBox();
         readOnlyPanel = new javax.swing.JPanel();
@@ -531,7 +545,7 @@ public class Welcome extends javax.swing.JFrame {
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 55, Short.MAX_VALUE)
+            .addGap(0, 35, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -792,7 +806,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -820,26 +834,73 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
 
-        namesPanel.setLayout(new java.awt.GridBagLayout());
+        systemPanel.setLayout(new java.awt.GridBagLayout());
 
-        namesInfoLabel.setText(bundle.getString("Welcome.namesInfoLabel.text")); // NOI18N
+        bootMenuPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.bootMenuPanel.border.title"))); // NOI18N
+        bootMenuPanel.setLayout(new java.awt.GridBagLayout());
+
+        bootTimeoutLabel.setText(bundle.getString("Welcome.bootTimeoutLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        bootMenuPanel.add(bootTimeoutLabel, gridBagConstraints);
+
+        bootTimeoutSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(10), Integer.valueOf(1), null, Integer.valueOf(1)));
+        bootTimeoutSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                bootTimeoutSpinnerStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        bootMenuPanel.add(bootTimeoutSpinner, gridBagConstraints);
+
+        secondsLabel.setText(bundle.getString("Welcome.secondsLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 5);
+        bootMenuPanel.add(secondsLabel, gridBagConstraints);
+
+        systemNameLabel.setText(bundle.getString("Welcome.systemNameLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        bootMenuPanel.add(systemNameLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        bootMenuPanel.add(systemNameTextField, gridBagConstraints);
+
+        systemVersionLabel.setText(bundle.getString("Welcome.systemVersionLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        bootMenuPanel.add(systemVersionLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        bootMenuPanel.add(systemVersionTextField, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 10);
-        namesPanel.add(namesInfoLabel, gridBagConstraints);
+        systemPanel.add(bootMenuPanel, gridBagConstraints);
 
         userNameLabel.setText(bundle.getString("Welcome.userNameLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 0, 0);
-        namesPanel.add(userNameLabel, gridBagConstraints);
+        systemPanel.add(userNameLabel, gridBagConstraints);
 
         userNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -851,7 +912,19 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 0, 10);
-        namesPanel.add(userNameTextField, gridBagConstraints);
+        systemPanel.add(userNameTextField, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        systemPanel.add(jLabel3, gridBagConstraints);
+
+        mainCardPanel.add(systemPanel, "systemPanel");
+
+        partitionsPanel.setLayout(new java.awt.GridBagLayout());
+
+        exchangePartitionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.exchangePartitionPanel.border.title"))); // NOI18N
+        exchangePartitionPanel.setLayout(new java.awt.GridBagLayout());
 
         exchangePartitionNameLabel.setText(bundle.getString("Welcome.exchangePartitionNameLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -859,7 +932,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
-        namesPanel.add(exchangePartitionNameLabel, gridBagConstraints);
+        exchangePartitionPanel.add(exchangePartitionNameLabel, gridBagConstraints);
 
         exchangePartitionNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -867,28 +940,26 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        namesPanel.add(exchangePartitionNameTextField, gridBagConstraints);
+        exchangePartitionPanel.add(exchangePartitionNameTextField, gridBagConstraints);
 
-        mainCardPanel.add(namesPanel, "namesPanel");
-
-        dataPartitionPanel.setLayout(new java.awt.GridBagLayout());
-
-        dataPartitionLabel.setText(bundle.getString("Welcome.dataPartitionLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        dataPartitionPanel.add(dataPartitionLabel, gridBagConstraints);
+        partitionsPanel.add(exchangePartitionPanel, gridBagConstraints);
+
+        dataPartitionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.dataPartitionPanel.border.title"))); // NOI18N
+        dataPartitionPanel.setLayout(new java.awt.GridBagLayout());
 
         readWritePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.readWritePanel.border.title"))); // NOI18N
         readWritePanel.setLayout(new java.awt.GridBagLayout());
 
-        readWriteCheckBox.setSelected(true);
         readWriteCheckBox.setText(bundle.getString("Welcome.readWriteCheckBox.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -899,7 +970,8 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         dataPartitionPanel.add(readWritePanel, gridBagConstraints);
 
         readOnlyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.readOnlyPanel.border.title"))); // NOI18N
@@ -917,10 +989,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 5, 5);
         dataPartitionPanel.add(readOnlyPanel, gridBagConstraints);
 
-        mainCardPanel.add(dataPartitionPanel, "dataPartitionPanel");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        partitionsPanel.add(dataPartitionPanel, gridBagConstraints);
+
+        mainCardPanel.add(partitionsPanel, "partitionsPanel");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -1093,13 +1171,13 @@ public class Welcome extends javax.swing.JFrame {
                 break;
 
             case 5:
-                selectCard("namesPanel");
+                selectCard("systemPanel");
                 previousButton.setEnabled(true);
                 nextButton.setEnabled(true);
                 break;
 
             case 6:
-                selectCard("dataPartitionPanel");
+                selectCard("partitionsPanel");
                 previousButton.setEnabled(true);
                 nextButton.setEnabled(false);
         }
@@ -1160,6 +1238,20 @@ public class Welcome extends javax.swing.JFrame {
     private void hedgewarsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hedgewarsLabelMouseClicked
         toggleCheckBox(hedgewarsCheckBox);
     }//GEN-LAST:event_hedgewarsLabelMouseClicked
+
+    private void bootTimeoutSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_bootTimeoutSpinnerStateChanged
+        updateSecondsLabel();
+    }//GEN-LAST:event_bootTimeoutSpinnerStateChanged
+
+    private void updateSecondsLabel() {
+        SpinnerNumberModel model =
+                (SpinnerNumberModel) bootTimeoutSpinner.getModel();
+        if (model.getNumber().intValue() == 1) {
+            secondsLabel.setText(BUNDLE.getString("second"));
+        } else {
+            secondsLabel.setText(BUNDLE.getString("seconds"));
+        }
+    }
 
     private void openLinkInBrowser(HyperlinkEvent evt) {
         if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -1557,7 +1649,7 @@ public class Welcome extends javax.swing.JFrame {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        
+
         // TODO: update read-only dialog settings
 
         System.exit(0);
@@ -1863,7 +1955,7 @@ public class Welcome extends javax.swing.JFrame {
 
                 case 5:
                     label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/edit-rename.png")));
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/system-run.png")));
                     break;
 
                 case 6:
@@ -1883,13 +1975,16 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton applyButton;
     private javax.swing.JCheckBox astromenaceCheckBox;
     private javax.swing.JLabel astromenaceLabel;
+    private javax.swing.JPanel bootMenuPanel;
+    private javax.swing.JLabel bootTimeoutLabel;
+    private javax.swing.JSpinner bootTimeoutSpinner;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
-    private javax.swing.JLabel dataPartitionLabel;
     private javax.swing.JPanel dataPartitionPanel;
     private javax.swing.JPanel dummyPanel;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
+    private javax.swing.JPanel exchangePartitionPanel;
     private javax.swing.JPanel fillPanel;
     private javax.swing.JCheckBox filletsCheckBox;
     private javax.swing.JLabel filletsLabel;
@@ -1911,6 +2006,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane infoScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JPanel mainCardPanel;
@@ -1919,12 +2015,11 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel miscPanel;
     private javax.swing.JCheckBox multimediaCheckBox;
     private javax.swing.JLabel multimediaLabel;
-    private javax.swing.JLabel namesInfoLabel;
-    private javax.swing.JPanel namesPanel;
     private javax.swing.JPanel navigaionPanel;
     private javax.swing.JButton nextButton;
     private javax.swing.JLabel nonfreeLabel;
     private javax.swing.JPanel nonfreePanel;
+    private javax.swing.JPanel partitionsPanel;
     private javax.swing.JButton previousButton;
     private javax.swing.JCheckBox proxyCheckBox;
     private javax.swing.JLabel proxyHostLabel;
@@ -1946,10 +2041,16 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel recommendedPanel;
     private javax.swing.JCheckBox riliCheckBox;
     private javax.swing.JLabel riliLabel;
+    private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
     private javax.swing.JCheckBox supertuxkartCheckBox;
     private javax.swing.JLabel supertuxkartLabel;
+    private javax.swing.JLabel systemNameLabel;
+    private javax.swing.JTextField systemNameTextField;
+    private javax.swing.JPanel systemPanel;
+    private javax.swing.JLabel systemVersionLabel;
+    private javax.swing.JTextField systemVersionTextField;
     private javax.swing.JEditorPane teachingEditorPane;
     private javax.swing.JPanel teachingPanel;
     private javax.swing.JScrollPane teachingScrollPane;

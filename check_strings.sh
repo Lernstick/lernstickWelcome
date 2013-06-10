@@ -1,5 +1,5 @@
 #!/bin/sh
-for BUNDLE in src/ch/imedias/lernstickwelcome/Bundle*
+for BUNDLE in src/ch/fhnw/lernstickwelcome/Bundle*
 do
 	echo "processing bundle ${BUNDLE}"
 	while read LINE
