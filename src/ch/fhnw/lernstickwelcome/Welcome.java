@@ -1537,28 +1537,18 @@ public class Welcome extends javax.swing.JFrame {
             processExecutor.executeProcess("sudo",
                     "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
 
-            // update syslinux timeout
+            // update timeout...
             SpinnerNumberModel spinnerNumberModel =
                     (SpinnerNumberModel) bootTimeoutSpinner.getModel();
-            int timeoutValue = spinnerNumberModel.getNumber().intValue() * 10;
-            Pattern timeoutPattern = Pattern.compile("timeout .*");
-            try {
-                List<String> configFileLines = readFile(SYSLINUX_CONFIG_FILE);
-                for (int i = 0, size = configFileLines.size(); i < size; i++) {
-                    String line = configFileLines.get(i);
-                    Matcher matcher = timeoutPattern.matcher(line);
-                    if (matcher.matches()) {
-                        configFileLines.set(i, "timeout " + timeoutValue);
-                    }
-                }
-                File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
-                writeFile(tmpFile, configFileLines);
-                processExecutor.executeProcess("sudo", "mv",
-                        tmpFile.getPath(), SYSLINUX_CONFIG_FILE.getPath());
-            } catch (IOException iOException) {
-                LOGGER.log(Level.WARNING,
-                        "could not update syslinux timeout", iOException);
-            }
+            int timeoutValue = spinnerNumberModel.getNumber().intValue();
+            // ... in syslinux ...
+            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+                    "s|timeout .*|timeout " + (timeoutValue * 10) + "|1",
+                    SYSLINUX_CONFIG_FILE.getPath());
+            // ... and grub
+            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+                    "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
+                    IMAGE_DIRECTORY + "/boot/grub/grub_main.cfg");
 
             // xmlboot config
             try {
