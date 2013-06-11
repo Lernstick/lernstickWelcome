@@ -1549,10 +1549,15 @@ public class Welcome extends javax.swing.JFrame {
             processExecutor.executeProcess("sudo", "sed", "-i", "-e",
                     "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
                     IMAGE_DIRECTORY + "/boot/grub/grub_main.cfg");
+            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+                    "s|num_ticks = .*|num_ticks = " + timeoutValue + "|1",
+                    IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
 
-            // xmlboot config
+            // update system name and version...
+            String systemName = systemNameTextField.getText();
+            String systemVersion = systemVersionTextField.getText();
+            // ... in xmlboot config
             try {
-                // update config
                 Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
                 xmlBootDocument.getDocumentElement().normalize();
                 Node systemNode =
@@ -1560,11 +1565,11 @@ public class Welcome extends javax.swing.JFrame {
                 Element systemElement = (Element) systemNode;
                 Node node = systemElement.getElementsByTagName("text").item(0);
                 if (node != null) {
-                    node.setTextContent(systemNameTextField.getText());
+                    node.setTextContent(systemName);
                 }
                 node = systemElement.getElementsByTagName("version").item(0);
                 if (node != null) {
-                    node.setTextContent(systemVersionTextField.getText());
+                    node.setTextContent(systemVersion);
                 }
 
                 // write changes back to config file
@@ -1590,6 +1595,13 @@ public class Welcome extends javax.swing.JFrame {
             } catch (TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
+
+            // ... and in grub theme
+            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+                    "s|title-text: .*|title-text: \"" + 
+                    systemName + ' ' + systemVersion + "\"|1",
+                    IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
+
 
             // remount image read-only
             processExecutor.executeProcess("sudo",

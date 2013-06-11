@@ -1,8 +1,8 @@
-lernstickwelcome-wheezy (201306111428-1) unstable; urgency=low
+lernstickwelcome-wheezy (201306111447-1) unstable; urgency=low
 
-  * update boot timeout also in grub
+  * add boot config also to grub config and theme
 
- -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 11 Jun 2013 14:28:26 +0200
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 11 Jun 2013 14:47:26 +0200
 
 lernstickwelcome-wheezy (201306101730-1) unstable; urgency=low
 
