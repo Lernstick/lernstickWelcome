@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201308031216-1) unstable; urgency=low
+
+  * init read-only checkbox from properties
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sat, 03 Aug 2013 12:15:36 +0200
+
 lernstickwelcome-wheezy (201306111447-1) unstable; urgency=low
 
   * add boot config also to grub config and theme

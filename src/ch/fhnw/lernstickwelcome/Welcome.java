@@ -135,13 +135,17 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         boolean showAtStartup = false;
+        boolean showReadOnlyInfo = true;
         String propertiesFileName = USER_HOME + File.separatorChar
                 + ".config" + File.separatorChar + "lernstickWelcome";
         propertiesFile = new File(propertiesFileName);
         properties = new Properties();
         try {
             properties.load(new FileInputStream(propertiesFile));
-            showAtStartup = "true".equals(properties.getProperty(SHOW_WELCOME));
+            showAtStartup = "true".equals(
+                    properties.getProperty(SHOW_WELCOME));
+            showReadOnlyInfo = "true".equals(
+                    properties.getProperty(SHOW_READ_ONLY_INFO));
         } catch (IOException ex) {
             LOGGER.log(Level.INFO,
                     "can not load properties from " + propertiesFile, ex);
@@ -260,6 +264,7 @@ public class Welcome extends javax.swing.JFrame {
         infoEditorPane.setBackground(defaults.getColor("Panel.background"));
         teachingEditorPane.setBackground(defaults.getColor("Panel.background"));
         readWriteCheckBox.setSelected(showAtStartup);
+        readOnlyCheckBox.setSelected(showReadOnlyInfo);
 
         // center on screen
         pack();
@@ -600,7 +605,7 @@ public class Welcome extends javax.swing.JFrame {
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+            .addGap(0, 39, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -861,7 +866,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -889,7 +894,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
@@ -1032,7 +1037,6 @@ public class Welcome extends javax.swing.JFrame {
         readOnlyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.readOnlyPanel.border.title"))); // NOI18N
         readOnlyPanel.setLayout(new java.awt.GridBagLayout());
 
-        readOnlyCheckBox.setSelected(true);
         readOnlyCheckBox.setText(bundle.getString("Welcome.readOnlyCheckBox.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -1520,7 +1524,7 @@ public class Welcome extends javax.swing.JFrame {
 
         installSelectedPackages();
 
-        // update "show dialog at startup" property
+        // update properties
         try {
             properties.setProperty(SHOW_WELCOME,
                     readWriteCheckBox.isSelected() ? "true" : "false");
