@@ -1,3 +1,10 @@
+lernstickwelcome-wheezy (201309112101-1) unstable; urgency=low
+
+  * more details for games
+  * added support for neverball, neverputt, freecol, minetest and megaglest
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 11 Sep 2013 21:01:41 +0200
+
 lernstickwelcome-wheezy (201308031216-1) unstable; urgency=low
 
   * init read-only checkbox from properties
