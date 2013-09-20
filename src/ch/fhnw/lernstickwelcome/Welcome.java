@@ -353,6 +353,7 @@ public class Welcome extends javax.swing.JFrame {
         minetestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         frogattoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         supertuxkartGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        xmotoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wesnothGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         flareGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         hedgewarsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -613,11 +614,11 @@ public class Welcome extends javax.swing.JFrame {
         fillPanel.setLayout(fillPanelLayout);
         fillPanelLayout.setHorizontalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 825, Short.MAX_VALUE)
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 151, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -696,6 +697,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(filletsGamePanel, gridBagConstraints);
 
         neverballGamePanel.setDescription(bundle.getString("Welcome.neverballGamePanel.description")); // NOI18N
@@ -706,6 +708,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(neverballGamePanel, gridBagConstraints);
 
         neverputtGamePanel.setDescription(bundle.getString("Welcome.neverputtGamePanel.description")); // NOI18N
@@ -716,6 +719,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(neverputtGamePanel, gridBagConstraints);
 
         freecolGamePanel.setDescription(bundle.getString("Welcome.freecolGamePanel.description")); // NOI18N
@@ -725,6 +729,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(freecolGamePanel, gridBagConstraints);
 
         minetestGamePanel.setDescription(bundle.getString("Welcome.minetestGamePanel.description")); // NOI18N
@@ -734,6 +739,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(minetestGamePanel, gridBagConstraints);
 
         frogattoGamePanel.setDescription(bundle.getString("Welcome.frogattoGamePanel.description")); // NOI18N
@@ -744,6 +750,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(frogattoGamePanel, gridBagConstraints);
 
         supertuxkartGamePanel.setDescription(bundle.getString("Welcome.supertuxkartGamePanel.description")); // NOI18N
@@ -754,7 +761,18 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(supertuxkartGamePanel, gridBagConstraints);
+
+        xmotoGamePanel.setDescription(bundle.getString("Welcome.xmotoGamePanel.description")); // NOI18N
+        xmotoGamePanel.setGameName("XMoto"); // NOI18N
+        xmotoGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/xmoto.png"))); // NOI18N
+        xmotoGamePanel.setWebsite("http://xmoto.tuxfamily.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gamesScrollPanel.add(xmotoGamePanel, gridBagConstraints);
 
         wesnothGamePanel.setDescription(bundle.getString("Welcome.wesnothGamePanel.description")); // NOI18N
         wesnothGamePanel.setGameName("The Battle for Wesnoth"); // NOI18N
@@ -764,6 +782,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(wesnothGamePanel, gridBagConstraints);
 
         flareGamePanel.setDescription(bundle.getString("Welcome.flareGamePanel.description")); // NOI18N
@@ -774,6 +793,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(flareGamePanel, gridBagConstraints);
 
         hedgewarsGamePanel.setDescription(bundle.getString("Welcome.hedgewarsGamePanel.description")); // NOI18N
@@ -783,6 +803,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(hedgewarsGamePanel, gridBagConstraints);
 
         megaglestGamePanel.setDescription(bundle.getString("Welcome.megaglestGamePanel.description")); // NOI18N
@@ -792,6 +813,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(megaglestGamePanel, gridBagConstraints);
 
         astromenaceGamePanel.setDescription(bundle.getString("Welcome.astromenaceGamePanel.description")); // NOI18N
@@ -801,6 +823,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(astromenaceGamePanel, gridBagConstraints);
 
         gamesScrollPane.setViewportView(gamesScrollPanel);
@@ -873,7 +896,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(284, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -901,7 +924,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
@@ -1772,6 +1795,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += minetestGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += frogattoGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += supertuxkartGamePanel.isSelected() ? 1 : 0;
+        numberOfPackages += xmotoGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += wesnothGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += flareGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += hedgewarsGamePanel.isSelected() ? 1 : 0;
@@ -1836,6 +1860,7 @@ public class Welcome extends javax.swing.JFrame {
         checkGameInstall(freecolGamePanel, "freecol");
         checkGameInstall(minetestGamePanel, "minetest");
         checkGameInstall(supertuxkartGamePanel, "supertuxkart");
+        checkGameInstall(xmotoGamePanel, "xmoto");
         checkGameInstall(wesnothGamePanel, "wesnoth");
         checkGameInstall(flareGamePanel, "flare");
         checkGameInstall(hedgewarsGamePanel, "hedgewars");
@@ -2007,6 +2032,9 @@ public class Welcome extends javax.swing.JFrame {
             installGame(supertuxkartGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/supertuxkart.png",
                     "live-supertuxkart");
+            installGame(xmotoGamePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/xmoto.png",
+                    "live-xmoto");
             installGame(wesnothGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/wesnoth.png",
                     "wesnoth", "wesnoth-music");
@@ -2324,5 +2352,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JLabel welcomeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel xmotoGamePanel;
     // End of variables declaration//GEN-END:variables
 }
