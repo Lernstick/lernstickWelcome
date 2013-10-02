@@ -160,7 +160,7 @@ public class Welcome extends javax.swing.JFrame {
         menuListModel.addElement(BUNDLE.getString("Information"));
         menuListModel.addElement(BUNDLE.getString("Nonfree_Software"));
         menuListModel.addElement(BUNDLE.getString("Teaching_System"));
-        menuListModel.addElement(BUNDLE.getString("Games"));
+        menuListModel.addElement(BUNDLE.getString("Additional_Applications"));
         menuListModel.addElement(BUNDLE.getString("Proxy"));
         menuListModel.addElement(BUNDLE.getString("System"));
         menuListModel.addElement(BUNDLE.getString("Partitions"));
@@ -341,8 +341,13 @@ public class Welcome extends javax.swing.JFrame {
         teachingEditorPane = new javax.swing.JEditorPane();
         laCheckBox = new javax.swing.JCheckBox();
         laLabel = new javax.swing.JLabel();
-        gamesPanel = new javax.swing.JPanel();
-        gamesInfoLabel = new javax.swing.JLabel();
+        additionalPanel = new javax.swing.JPanel();
+        additionalInfoLabel = new javax.swing.JLabel();
+        additionalTabbedPane = new javax.swing.JTabbedPane();
+        additionalScrollPane = new javax.swing.JScrollPane();
+        additionalMiscPanel = new javax.swing.JPanel();
+        netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
         riliGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -667,15 +672,42 @@ public class Welcome extends javax.swing.JFrame {
 
         mainCardPanel.add(teachingPanel, "teachingPanel");
 
-        gamesPanel.setLayout(new java.awt.GridBagLayout());
+        additionalPanel.setLayout(new java.awt.GridBagLayout());
 
-        gamesInfoLabel.setText(bundle.getString("Welcome.gamesInfoLabel.text")); // NOI18N
+        additionalInfoLabel.setText(bundle.getString("Welcome.additionalInfoLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 10);
-        gamesPanel.add(gamesInfoLabel, gridBagConstraints);
+        additionalPanel.add(additionalInfoLabel, gridBagConstraints);
+
+        additionalMiscPanel.setLayout(new java.awt.GridBagLayout());
+
+        netbeansPanel.setDescription(bundle.getString("Welcome.netbeansPanel.description")); // NOI18N
+        netbeansPanel.setGameName("NetBeans"); // NOI18N
+        netbeansPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/netbeans.png"))); // NOI18N
+        netbeansPanel.setWebsite("https://netbeans.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        additionalMiscPanel.add(netbeansPanel, gridBagConstraints);
+
+        openClipartPanel.setDescription(bundle.getString("Welcome.openClipartPanel.description")); // NOI18N
+        openClipartPanel.setGameName("Openclipart"); // NOI18N
+        openClipartPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/openclipart.png"))); // NOI18N
+        openClipartPanel.setWebsite("http://openclipart.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(openClipartPanel, gridBagConstraints);
+
+        additionalScrollPane.setViewportView(additionalMiscPanel);
+
+        additionalTabbedPane.addTab(bundle.getString("Welcome.additionalScrollPane.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/applications-other.png")), additionalScrollPane); // NOI18N
 
         gamesScrollPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -828,14 +860,16 @@ public class Welcome extends javax.swing.JFrame {
 
         gamesScrollPane.setViewportView(gamesScrollPanel);
 
+        additionalTabbedPane.addTab(bundle.getString("Welcome.gamesScrollPane.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/input-gaming.png")), gamesScrollPane); // NOI18N
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        gamesPanel.add(gamesScrollPane, gridBagConstraints);
+        additionalPanel.add(additionalTabbedPane, gridBagConstraints);
 
-        mainCardPanel.add(gamesPanel, "gamesPanel");
+        mainCardPanel.add(additionalPanel, "additionalPanel");
 
         proxyCheckBox.setText(bundle.getString("Welcome.proxyCheckBox.text")); // NOI18N
         proxyCheckBox.addItemListener(new java.awt.event.ItemListener() {
@@ -1248,7 +1282,7 @@ public class Welcome extends javax.swing.JFrame {
                 break;
 
             case 3:
-                selectCard("gamesPanel");
+                selectCard("additionalPanel");
                 previousButton.setEnabled(true);
                 nextButton.setEnabled(true);
                 break;
@@ -1786,6 +1820,10 @@ public class Welcome extends javax.swing.JFrame {
         // LA teaching tools
         numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
 
+        // miscellaneous
+        numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
+        numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
+        
         // games
         numberOfPackages += riliGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += filletsGamePanel.isSelected() ? 1 : 0;
@@ -1851,21 +1889,25 @@ public class Welcome extends javax.swing.JFrame {
         checkInstall(laCheckBox, laLabel,
                 "Welcome.laLabel.text", "lateaching");
 
+        // miscellaneous
+        checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
+        checkAppInstall(openClipartPanel, "openclipart-libreoffice");
+        
         // games
-        checkGameInstall(riliGamePanel, "lernstick-ri-li");
-        checkGameInstall(filletsGamePanel, "lernstick-fillets-ng");
-        checkGameInstall(neverballGamePanel, "live-neverball2");
-        checkGameInstall(neverputtGamePanel, "live-neverputt2");
-        checkGameInstall(frogattoGamePanel, "frogatto");
-        checkGameInstall(freecolGamePanel, "freecol");
-        checkGameInstall(minetestGamePanel, "minetest");
-        checkGameInstall(supertuxkartGamePanel, "supertuxkart");
-        checkGameInstall(xmotoGamePanel, "xmoto");
-        checkGameInstall(wesnothGamePanel, "wesnoth");
-        checkGameInstall(flareGamePanel, "flare");
-        checkGameInstall(hedgewarsGamePanel, "hedgewars");
-        checkGameInstall(megaglestGamePanel, "megaglest");
-        checkGameInstall(astromenaceGamePanel, "lernstick-astromenace");
+        checkAppInstall(riliGamePanel, "lernstick-ri-li");
+        checkAppInstall(filletsGamePanel, "lernstick-fillets-ng");
+        checkAppInstall(neverballGamePanel, "live-neverball2");
+        checkAppInstall(neverputtGamePanel, "live-neverputt2");
+        checkAppInstall(frogattoGamePanel, "frogatto");
+        checkAppInstall(freecolGamePanel, "freecol");
+        checkAppInstall(minetestGamePanel, "minetest");
+        checkAppInstall(supertuxkartGamePanel, "supertuxkart");
+        checkAppInstall(xmotoGamePanel, "xmoto");
+        checkAppInstall(wesnothGamePanel, "wesnoth");
+        checkAppInstall(flareGamePanel, "flare");
+        checkAppInstall(hedgewarsGamePanel, "hedgewars");
+        checkAppInstall(megaglestGamePanel, "megaglest");
+        checkAppInstall(astromenaceGamePanel, "lernstick-astromenace");
     }
 
     private void checkInstall(JCheckBox checkBox, JLabel label,
@@ -1879,7 +1921,7 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private void checkGameInstall(GamePanel gamePanel, String... packages) {
+    private void checkAppInstall(GamePanel gamePanel, String... packages) {
         gamePanel.setInstalled(arePackagesInstalled(packages));
     }
 
@@ -1982,72 +2024,81 @@ public class Welcome extends javax.swing.JFrame {
         protected Boolean doInBackground() throws Exception {
 
             // nonfree packages
-            installApplication(flashCheckBox, "Welcome.flashLabel.text",
+            installNonFreeApplication(flashCheckBox, "Welcome.flashLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Flash_cs3.png",
                     FLASH_PACKAGE);
             installAdobeReader();
 //            installPackage(readerCheckBox, "Welcome.readerLabel.text",
 //                    "/ch/fhnw/lernstickwelcome/icons/Adobe_Reader_8_icon.png",
 //                    ACROREAD_PACKAGES);
-            installApplication(additionalFontsCheckBox, "Welcome.fontsLabel.text",
+            installNonFreeApplication(additionalFontsCheckBox, "Welcome.fontsLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/fonts.png",
                     FONTS_PACKAGES);
-            installApplication(multimediaCheckBox, "Welcome.multimediaLabel.text",
+            installNonFreeApplication(multimediaCheckBox, "Welcome.multimediaLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/package_multimedia.png",
                     MULTIMEDIA_PACKAGES);
             installGoogleEarth();
-            installApplication(skypeCheckBox, "Welcome.skypeLabel.text",
+            installNonFreeApplication(skypeCheckBox, "Welcome.skypeLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png",
                     "skype");
 
             // teaching system
-            installApplication(laCheckBox, "LA_Teaching_System",
+            installNonFreeApplication(laCheckBox, "LA_Teaching_System",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/LinuxAdvanced.png",
                     "lateaching", "lateachingtools");
 
+            // miscellaneous
+            installApplication(netbeansPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
+                    "lernstick-netbeans-wheezy",
+                    "openjdk-7-source", "openjdk-7-doc");
+            installApplication(openClipartPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/openclipart.png",
+                    "openclipart-libreoffice");
+            
             // games
-            installGame(riliGamePanel,
+            installApplication(riliGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/ri-li.png",
                     "lernstick-ri-li");
-            installGame(filletsGamePanel,
+            installApplication(filletsGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/fillets.png",
                     "lernstick-fillets-ng", "fillets-ng-data-cs");
-            installGame(neverballGamePanel,
+            installApplication(neverballGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/neverball.png",
                     "live-neverball2");
-            installGame(neverputtGamePanel,
+            installApplication(neverputtGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/neverputt.png",
                     "live-neverputt2");
-            installGame(freecolGamePanel,
+            installApplication(freecolGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/freecol.png",
                     "freecol");
-            installGame(minetestGamePanel,
+            installApplication(minetestGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/minetest.png",
                     "minetest", "minetest-mod-moreblocks",
                     "minetest-mod-moreores", "minetest-mod-pipeworks",
                     "minetest-mod-worldedit");
-            installGame(frogattoGamePanel,
+            installApplication(frogattoGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/frogatto.png",
                     "frogatto");
-            installGame(supertuxkartGamePanel,
+            installApplication(supertuxkartGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/supertuxkart.png",
                     "live-supertuxkart");
-            installGame(xmotoGamePanel,
+            installApplication(xmotoGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/xmoto.png",
                     "live-xmoto");
-            installGame(wesnothGamePanel,
+            installApplication(wesnothGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/wesnoth.png",
                     "wesnoth", "wesnoth-music");
-            installGame(flareGamePanel,
+            installApplication(flareGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/flare.png",
                     "flare");
-            installGame(hedgewarsGamePanel,
+            installApplication(hedgewarsGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/hedgewars.png",
                     "hedgewars");
-            installGame(megaglestGamePanel,
+            installApplication(megaglestGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/megaglest.png",
                     "megaglest");
-            installGame(astromenaceGamePanel,
+            installApplication(astromenaceGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/astromenace.png",
                     "lernstick-astromenace");
 
@@ -2145,7 +2196,7 @@ public class Welcome extends javax.swing.JFrame {
             updateProgress();
         }
 
-        private void installApplication(JCheckBox checkBox, String key,
+        private void installNonFreeApplication(JCheckBox checkBox, String key,
                 String iconPath, String... packageNames) {
             if (!checkBox.isSelected()) {
                 LOGGER.log(Level.INFO, "checkBox not selected: {0}", checkBox);
@@ -2156,7 +2207,7 @@ public class Welcome extends javax.swing.JFrame {
             installPackage(infoString, iconPath, packageNames);
         }
 
-        private void installGame(GamePanel gamePanel, String iconPath,
+        private void installApplication(GamePanel gamePanel, String iconPath,
                 String... packageNames) {
             if (!gamePanel.isSelected()) {
                 LOGGER.log(Level.INFO,
@@ -2240,7 +2291,7 @@ public class Welcome extends javax.swing.JFrame {
 
                 case 3:
                     label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/input-gaming.png")));
+                            "/ch/fhnw/lernstickwelcome/icons/32x32/list-add.png")));
                     break;
 
                 case 4:
@@ -2267,6 +2318,11 @@ public class Welcome extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox additionalFontsCheckBox;
+    private javax.swing.JLabel additionalInfoLabel;
+    private javax.swing.JPanel additionalMiscPanel;
+    private javax.swing.JPanel additionalPanel;
+    private javax.swing.JScrollPane additionalScrollPane;
+    private javax.swing.JTabbedPane additionalTabbedPane;
     private javax.swing.JButton applyButton;
     private ch.fhnw.lernstickwelcome.GamePanel astromenaceGamePanel;
     private javax.swing.JPanel bootMenuPanel;
@@ -2286,8 +2342,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel fontsLabel;
     private ch.fhnw.lernstickwelcome.GamePanel freecolGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel frogattoGamePanel;
-    private javax.swing.JLabel gamesInfoLabel;
-    private javax.swing.JPanel gamesPanel;
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
@@ -2310,11 +2364,13 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox multimediaCheckBox;
     private javax.swing.JLabel multimediaLabel;
     private javax.swing.JPanel navigaionPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel netbeansPanel;
     private ch.fhnw.lernstickwelcome.GamePanel neverballGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel neverputtGamePanel;
     private javax.swing.JButton nextButton;
     private javax.swing.JLabel nonfreeLabel;
     private javax.swing.JPanel nonfreePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel openClipartPanel;
     private javax.swing.JPanel partitionsPanel;
     private javax.swing.JButton previousButton;
     private javax.swing.JCheckBox proxyCheckBox;
