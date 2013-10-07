@@ -347,6 +347,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalMiscPanel = new javax.swing.JPanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
@@ -694,11 +695,22 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         additionalMiscPanel.add(netbeansPanel, gridBagConstraints);
 
+        lazarusPanel.setDescription(bundle.getString("Welcome.lazarusPanel.description")); // NOI18N
+        lazarusPanel.setGameName("Lazarus"); // NOI18N
+        lazarusPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lazarus.png"))); // NOI18N
+        lazarusPanel.setWebsite("http://lazarus.freepascal.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(lazarusPanel, gridBagConstraints);
+
         openClipartPanel.setDescription(bundle.getString("Welcome.openClipartPanel.description")); // NOI18N
         openClipartPanel.setGameName("Openclipart"); // NOI18N
         openClipartPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/openclipart.png"))); // NOI18N
         openClipartPanel.setWebsite("http://openclipart.org"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -1822,6 +1834,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // miscellaneous
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
+        numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         
         // games
@@ -1891,6 +1904,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // miscellaneous
         checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
+        checkAppInstall(lazarusPanel, "lazarus");
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         
         // games
@@ -2052,6 +2066,10 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
                     "lernstick-netbeans-wheezy",
                     "openjdk-7-source", "openjdk-7-doc");
+            installApplication(lazarusPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/lazarus.png",
+                    "lazarus", "fpc-source", "lcl",
+                    "fp-units-gfx", "fp-units-gtk", "fp-units-misc");
             installApplication(openClipartPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/openclipart.png",
                     "openclipart-libreoffice");
@@ -2355,6 +2373,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
+    private ch.fhnw.lernstickwelcome.GamePanel lazarusPanel;
     private javax.swing.JPanel mainCardPanel;
     private ch.fhnw.lernstickwelcome.GamePanel megaglestGamePanel;
     private javax.swing.JList menuList;

@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201310032223-1) unstable; urgency=low
+
+  * added support for Lazarus
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 03 Oct 2013 22:23:05 +0200
+
 lernstickwelcome-wheezy (201310021702-1) unstable; urgency=low
 
   * added support for Netbeans and Openclipart
