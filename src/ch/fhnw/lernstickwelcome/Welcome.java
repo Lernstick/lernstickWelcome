@@ -347,6 +347,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalMiscPanel = new javax.swing.JPanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
@@ -694,6 +695,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         additionalMiscPanel.add(netbeansPanel, gridBagConstraints);
+
+        processingPanel.setDescription(bundle.getString("Welcome.processingPanel.description")); // NOI18N
+        processingPanel.setGameName("Processing"); // NOI18N
+        processingPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/processing.png"))); // NOI18N
+        processingPanel.setWebsite("http://processing.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(processingPanel, gridBagConstraints);
 
         lazarusPanel.setDescription(bundle.getString("Welcome.lazarusPanel.description")); // NOI18N
         lazarusPanel.setGameName("Lazarus"); // NOI18N
@@ -1834,6 +1845,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // miscellaneous
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
+        numberOfPackages += processingPanel.isSelected() ? 1 : 0;
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         
@@ -1904,6 +1916,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // miscellaneous
         checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
+        checkAppInstall(processingPanel, "processing");
         checkAppInstall(lazarusPanel, "lazarus");
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         
@@ -2066,6 +2079,9 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
                     "lernstick-netbeans-wheezy",
                     "openjdk-7-source", "openjdk-7-doc");
+            installApplication(processingPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
+                    "processing");
             installApplication(lazarusPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/lazarus.png",
                     "lazarus", "fpc-source", "lcl",
@@ -2392,6 +2408,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel openClipartPanel;
     private javax.swing.JPanel partitionsPanel;
     private javax.swing.JButton previousButton;
+    private ch.fhnw.lernstickwelcome.GamePanel processingPanel;
     private javax.swing.JCheckBox proxyCheckBox;
     private javax.swing.JLabel proxyHostLabel;
     private javax.swing.JTextField proxyHostTextField;

@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201310101941-1) unstable; urgency=low
+
+  * added support for Processing
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 10 Oct 2013 19:41:50 +0200
+
 lernstickwelcome-wheezy (201310032223-1) unstable; urgency=low
 
   * added support for Lazarus
