@@ -1,10 +1,10 @@
 [Desktop Entry]
 Categories=X-lernstick;
-Exec=java -Djava.library.path=/usr/lib/jni -Dawt.useSystemAAFontSettings=on -jar /usr/bin/lernstickWelcome.jar
+Exec=su-to-root -X -c lernstickWelcome
 Icon=dialog-information
-Name=Welcome to lernstick
-Name[de]=Willkommen zum lernstick
-Name[fr]=Bienvenue. lernstick!
+Name=Welcome to Lernstick
+Name[de]=Willkommen zum Lernstick
+Name[fr]=Bienvenue. Lernstick!
 StartupNotify=true
 StartupWMClass=sun-awt-X11-XFramePeer
 Terminal=false

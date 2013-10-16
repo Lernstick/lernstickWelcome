@@ -1,0 +1,2 @@
+#!/bin/sh
+java -Djava.library.path=/usr/lib/jni -Dawt.useSystemAAFontSettings=on -jar /usr/bin/lernstickWelcome.jar

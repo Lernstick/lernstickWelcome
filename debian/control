@@ -11,6 +11,17 @@ Architecture: all
 Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Replaces: lernstickwelcome-squeeze
 Breaks: lernstickwelcome-squeeze
-Description: a welcome application for the lernstick distribution
- This is the "Welcome" application for the lernstick distribution
- and allows the installation of some additional non-free applications.
+Conflicts: lernstickwelcome-wheezy-pu
+Description: a welcome application for the Lernstick personal learning environment
+ This is the "Welcome" application for the Lernstick personal learning environment
+ and allows the installation of some additional applications and some customizations.
+
+Package: lernstickwelcome-wheezy-pu
+Architecture: all
+Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
+Replaces: lernstickwelcome-squeeze
+Breaks: lernstickwelcome-squeeze
+Conflicts: lernstickwelcome-wheezy
+Description: a welcome application for the Lernstick exam environment
+ This is the "Welcome" application for the Lernstick exam environment and allows
+ the configuration of the firewall settings and some customizations.

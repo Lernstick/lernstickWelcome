@@ -99,7 +99,7 @@ public class Welcome extends javax.swing.JFrame {
     /**
      * Creates new form Welcome
      */
-    public Welcome() {
+    public Welcome(boolean examEnvironment) {
 
         // log everything...
         Logger globalLogger = Logger.getLogger("ch.fhnw");
@@ -138,7 +138,7 @@ public class Welcome extends javax.swing.JFrame {
 
         boolean showAtStartup = false;
         boolean showReadOnlyInfo = true;
-        String propertiesFileName = USER_HOME + File.separatorChar
+        String propertiesFileName = "/home/user" + File.separatorChar
                 + ".config" + File.separatorChar + "lernstickWelcome";
         propertiesFile = new File(propertiesFileName);
         properties = new Properties();
@@ -157,16 +157,35 @@ public class Welcome extends javax.swing.JFrame {
 
         menuList.setModel(menuListModel);
 
-        menuListModel.addElement(BUNDLE.getString("Information"));
-        menuListModel.addElement(BUNDLE.getString("Nonfree_Software"));
-        menuListModel.addElement(BUNDLE.getString("Teaching_System"));
-        menuListModel.addElement(BUNDLE.getString("Additional_Applications"));
-        menuListModel.addElement(BUNDLE.getString("Proxy"));
-        menuListModel.addElement(BUNDLE.getString("System"));
-        menuListModel.addElement(BUNDLE.getString("Partitions"));
+        menuListModel.addElement(new MainMenuListEntry(
+                "/ch/fhnw/lernstickwelcome/icons/messagebox_info.png",
+                BUNDLE.getString("Information"), "infoPanel"));
+        if (examEnvironment) {
+            menuListModel.addElement(new MainMenuListEntry(
+                    "/ch/fhnw/lernstickwelcome/icons/32x32/dialog-password.png",
+                    BUNDLE.getString("Password"), "passwordChangePanel"));
+        } else {
+            menuListModel.addElement(new MainMenuListEntry(
+                    "/ch/fhnw/lernstickwelcome/icons/32x32/copyright.png",
+                    BUNDLE.getString("Nonfree_Software"), "nonfreePanel"));
+            menuListModel.addElement(new MainMenuListEntry(
+                    "/ch/fhnw/lernstickwelcome/icons/32x32/LinuxAdvanced.png",
+                    BUNDLE.getString("Teaching_System"), "teachingPanel"));
+            menuListModel.addElement(new MainMenuListEntry(
+                    "/ch/fhnw/lernstickwelcome/icons/32x32/list-add.png",
+                    BUNDLE.getString("Additional_Applications"), "additionalPanel"));
+            menuListModel.addElement(new MainMenuListEntry(
+                    "/ch/fhnw/lernstickwelcome/icons/32x32/network-server.png",
+                    BUNDLE.getString("Proxy"), "proxyPanel"));
+        }
+        menuListModel.addElement(new MainMenuListEntry(
+                "/ch/fhnw/lernstickwelcome/icons/32x32/system-run.png",
+                BUNDLE.getString("System"), "systemPanel"));
+        menuListModel.addElement(new MainMenuListEntry(
+                "/ch/fhnw/lernstickwelcome/icons/32x32/partitionmanager.png",
+                BUNDLE.getString("Partitions"), "partitionsPanel"));
 
         menuList.setCellRenderer(new MyListCellRenderer());
-
         menuList.setSelectedIndex(0);
 
         checkAllPackages();
@@ -175,8 +194,7 @@ public class Welcome extends javax.swing.JFrame {
         AbstractDocument userNameDocument =
                 (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        String userName = System.getProperty("user.name");
-        processExecutor.executeProcess(true, true, "getent", "passwd", userName);
+        processExecutor.executeProcess(true, true, "getent", "passwd", "user");
         List<String> stdOut = processExecutor.getStdOutList();
         if (stdOut.isEmpty()) {
             LOGGER.warning("getent returned no result!");
@@ -275,6 +293,8 @@ public class Welcome extends javax.swing.JFrame {
         nonfreeLabel.setMinimumSize(nonfreeLabel.getPreferredSize());
         teachingScrollPane.setMinimumSize(teachingScrollPane.getPreferredSize());
         pack();
+
+
         Dimension preferredSize = getPreferredSize();
         preferredSize.height = 450;
         setSize(preferredSize);
@@ -292,10 +312,19 @@ public class Welcome extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         System.setProperty("awt.useSystemAAFontSettings", "on");
+        boolean examEnvironment = false;
+        for (String arg : args) {
+            if (arg.equals("examEnvironment")) {
+                examEnvironment = true;
+                break;
+            }
+        }
+        final boolean examEnv = examEnvironment;
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new Welcome();
+                new Welcome(examEnv);
             }
         });
     }
@@ -317,6 +346,13 @@ public class Welcome extends javax.swing.JFrame {
         welcomeLabel = new javax.swing.JLabel();
         infoScrollPane = new javax.swing.JScrollPane();
         infoEditorPane = new javax.swing.JEditorPane();
+        passwordChangePanel = new javax.swing.JPanel();
+        passwordChangeInfoLabel = new javax.swing.JLabel();
+        label1 = new javax.swing.JLabel();
+        passwordField1 = new javax.swing.JPasswordField();
+        label2 = new javax.swing.JLabel();
+        passwordField2 = new javax.swing.JPasswordField();
+        passwordChangeButton = new javax.swing.JButton();
         nonfreePanel = new javax.swing.JPanel();
         nonfreeLabel = new javax.swing.JLabel();
         recommendedPanel = new javax.swing.JPanel();
@@ -467,6 +503,60 @@ public class Welcome extends javax.swing.JFrame {
         infoPanel.add(infoScrollPane, gridBagConstraints);
 
         mainCardPanel.add(infoPanel, "infoPanel");
+
+        passwordChangePanel.setLayout(new java.awt.GridBagLayout());
+
+        passwordChangeInfoLabel.setText(bundle.getString("Welcome.passwordChangeInfoLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        passwordChangePanel.add(passwordChangeInfoLabel, gridBagConstraints);
+
+        label1.setText(bundle.getString("Welcome.label1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 0);
+        passwordChangePanel.add(label1, gridBagConstraints);
+
+        passwordField1.setColumns(15);
+        passwordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordField1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 5);
+        passwordChangePanel.add(passwordField1, gridBagConstraints);
+
+        label2.setText(bundle.getString("Welcome.label2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        passwordChangePanel.add(label2, gridBagConstraints);
+
+        passwordField2.setColumns(15);
+        passwordField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordField2ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        passwordChangePanel.add(passwordField2, gridBagConstraints);
+
+        passwordChangeButton.setText(bundle.getString("Welcome.passwordChangeButton.text")); // NOI18N
+        passwordChangeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordChangeButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        passwordChangePanel.add(passwordChangeButton, gridBagConstraints);
+
+        mainCardPanel.add(passwordChangePanel, "passwordChangePanel");
 
         nonfreePanel.setLayout(new java.awt.GridBagLayout());
 
@@ -1285,48 +1375,13 @@ public class Welcome extends javax.swing.JFrame {
             menuListIndex = selectedIndex;
         }
 
-        switch (selectedIndex) {
-            case 0:
-                selectCard("infoPanel");
-                previousButton.setEnabled(false);
-                nextButton.setEnabled(true);
-                break;
+        MainMenuListEntry entry =
+                (MainMenuListEntry) menuList.getSelectedValue();
+        selectCard(entry.getPanelID());
 
-            case 1:
-                selectCard("nonfreePanel");
-                previousButton.setEnabled(true);
-                nextButton.setEnabled(true);
-                break;
-
-            case 2:
-                selectCard("teachingPanel");
-                previousButton.setEnabled(true);
-                nextButton.setEnabled(true);
-                break;
-
-            case 3:
-                selectCard("additionalPanel");
-                previousButton.setEnabled(true);
-                nextButton.setEnabled(true);
-                break;
-
-            case 4:
-                selectCard("proxyPanel");
-                previousButton.setEnabled(true);
-                nextButton.setEnabled(true);
-                break;
-
-            case 5:
-                selectCard("systemPanel");
-                previousButton.setEnabled(true);
-                nextButton.setEnabled(true);
-                break;
-
-            case 6:
-                selectCard("partitionsPanel");
-                previousButton.setEnabled(true);
-                nextButton.setEnabled(false);
-        }
+        previousButton.setEnabled(selectedIndex > 0);
+        nextButton.setEnabled(
+                (selectedIndex + 1) < menuList.getModel().getSize());
     }//GEN-LAST:event_menuListValueChanged
 
     private void menuListMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_menuListMouseWheelMoved
@@ -1362,11 +1417,60 @@ public class Welcome extends javax.swing.JFrame {
         gamesScrollPane.getVerticalScrollBar().setValue(0);
     }//GEN-LAST:event_formWindowOpened
 
+    private void passwordChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordChangeButtonActionPerformed
+        changePassword();
+    }//GEN-LAST:event_passwordChangeButtonActionPerformed
+
+    private void passwordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordField1ActionPerformed
+        passwordField2.selectAll();
+        passwordField2.requestFocusInWindow();
+    }//GEN-LAST:event_passwordField1ActionPerformed
+
+    private void passwordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordField2ActionPerformed
+        changePassword();
+    }//GEN-LAST:event_passwordField2ActionPerformed
+
+    private void changePassword() {
+        // check, if both passwords are the same
+        char[] password1 = passwordField1.getPassword();
+        char[] password2 = passwordField2.getPassword();
+        if (!Arrays.equals(password1, password2)) {
+            JOptionPane.showMessageDialog(this,
+                    BUNDLE.getString("Password_Mismatch"),
+                    BUNDLE.getString("Warning"), JOptionPane.WARNING_MESSAGE);
+            passwordField1.selectAll();
+            passwordField1.requestFocusInWindow();
+            return;
+        }
+
+        // ok, passwords match, change password
+        String passwordChangeScript = "#!/bin/sh\n"
+                + "echo \"user:" + new String(password1) + "\""
+                + " | /usr/sbin/chpasswd\n";
+        ProcessExecutor executor = new ProcessExecutor();
+        try {
+            int returnValue = executor.executeScript(
+                    true, true, passwordChangeScript);
+            if (returnValue == 0) {
+                JOptionPane.showMessageDialog(this,
+                        BUNDLE.getString("Password_Changed"),
+                        BUNDLE.getString("Information"),
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        BUNDLE.getString("Password_Change_Error"),
+                        BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);                
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+    }
+
     private static boolean isImageWritable() {
-        processExecutor.executeProcess("sudo",
+        processExecutor.executeProcess(
                 "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
         String testPath = IMAGE_DIRECTORY + "/lernstickWelcome.tmp";
-        processExecutor.executeProcess("sudo", "touch", testPath);
+        processExecutor.executeProcess("touch", testPath);
         File testFile = new File(testPath);
         try {
             if (testFile.exists()) {
@@ -1377,8 +1481,8 @@ public class Welcome extends javax.swing.JFrame {
                 return false;
             }
         } finally {
-            processExecutor.executeProcess("sudo", "rm", testPath);
-            processExecutor.executeProcess("sudo",
+            processExecutor.executeProcess("rm", testPath);
+            processExecutor.executeProcess(
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         }
     }
@@ -1569,8 +1673,7 @@ public class Welcome extends javax.swing.JFrame {
         if (!newFullName.equals(fullName)) {
             LOGGER.log(Level.INFO,
                     "updating full user name to \"{0}\"", newFullName);
-            processExecutor.executeProcess("sudo", "chfn", "-f", newFullName,
-                    System.getProperty("user.name"));
+            processExecutor.executeProcess("chfn", "-f", newFullName, "user");
         }
 
         // update exchange partition label
@@ -1580,7 +1683,7 @@ public class Welcome extends javax.swing.JFrame {
                 newExchangePartitionLabel);
         if (!newExchangePartitionLabel.isEmpty()
                 && !newExchangePartitionLabel.equals(exchangePartitionLabel)) {
-            processExecutor.executeProcess("sudo", "dosfslabel",
+            processExecutor.executeProcess("dosfslabel",
                     exchangePartition, newExchangePartitionLabel);
         }
 
@@ -1600,7 +1703,7 @@ public class Welcome extends javax.swing.JFrame {
 
         if (IMAGE_IS_WRITABLE) {
             // make image (temporarily) writable
-            processExecutor.executeProcess("sudo",
+            processExecutor.executeProcess(
                     "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
 
             // update timeout...
@@ -1608,14 +1711,14 @@ public class Welcome extends javax.swing.JFrame {
                     (SpinnerNumberModel) bootTimeoutSpinner.getModel();
             int timeoutValue = spinnerNumberModel.getNumber().intValue();
             // ... in syslinux ...
-            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+            processExecutor.executeProcess("sed", "-i", "-e",
                     "s|timeout .*|timeout " + (timeoutValue * 10) + "|1",
                     SYSLINUX_CONFIG_FILE.getPath());
             // ... and grub
-            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+            processExecutor.executeProcess("sed", "-i", "-e",
                     "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
                     IMAGE_DIRECTORY + "/boot/grub/grub_main.cfg");
-            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+            processExecutor.executeProcess("sed", "-i", "-e",
                     "s|num_ticks = .*|num_ticks = " + timeoutValue + "|1",
                     IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
 
@@ -1647,8 +1750,8 @@ public class Welcome extends javax.swing.JFrame {
                 DOMSource source = new DOMSource(xmlBootDocument);
                 StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
-                processExecutor.executeProcess("sudo", "mv",
-                        tmpFile.getPath(), XMLBOOT_CONFIG_FILE.getPath());
+                processExecutor.executeProcess("mv", tmpFile.getPath(),
+                        XMLBOOT_CONFIG_FILE.getPath());
 
             } catch (ParserConfigurationException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
@@ -1663,14 +1766,14 @@ public class Welcome extends javax.swing.JFrame {
             }
 
             // ... and in grub theme
-            processExecutor.executeProcess("sudo", "sed", "-i", "-e",
+            processExecutor.executeProcess("sed", "-i", "-e",
                     "s|title-text: .*|title-text: \""
                     + systemName + ' ' + systemVersion + "\"|1",
                     IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
 
 
             // remount image read-only
-            processExecutor.executeProcess("sudo",
+            processExecutor.executeProcess(
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         }
 
@@ -1788,7 +1891,7 @@ public class Welcome extends javax.swing.JFrame {
                 + "   ID=`ps -u 0 | grep \"${1}\" | awk '{ print $1 }'`\n"
                 + "   if [ -n \"${ID}\" ]\n"
                 + "   then\n"
-                + "       sudo kill -9 ${ID}\n"
+                + "       kill -9 ${ID}\n"
                 + "   fi\n"
                 + "}\n"
                 + "mykill /usr/lib/update-notifier/apt-check\n"
@@ -1848,7 +1951,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
-        
+
         // games
         numberOfPackages += riliGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += filletsGamePanel.isSelected() ? 1 : 0;
@@ -1919,7 +2022,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(processingPanel, "processing");
         checkAppInstall(lazarusPanel, "lazarus");
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
-        
+
         // games
         checkAppInstall(riliGamePanel, "lernstick-ri-li");
         checkAppInstall(filletsGamePanel, "lernstick-fillets-ng");
@@ -2011,7 +2114,7 @@ public class Welcome extends javax.swing.JFrame {
 
 
             String updateScript = "cd " + USER_HOME + '\n'
-                    + "sudo apt-get" + getAptGetProxyLine() + "update";
+                    + "apt-get" + getAptGetProxyLine() + "update";
             int exitValue = processExecutor.executeScript(
                     true, true, updateScript);
             if (exitValue != 0) {
@@ -2089,7 +2192,7 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(openClipartPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/openclipart.png",
                     "openclipart-libreoffice");
-            
+
             // games
             installApplication(riliGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/ri-li.png",
@@ -2174,7 +2277,7 @@ public class Welcome extends javax.swing.JFrame {
                     + "http://ardownload.adobe.com/pub/adobe/reader/unix/"
                     + majorVersion + ".x/" + fullVersion + '/'
                     + adobeLanguageCode + '/' + fileName + '\n'
-                    + "sudo dpkg -i " + fileName + '\n'
+                    + "dpkg -i " + fileName + '\n'
                     + "rm " + fileName;
             int exitValue = processExecutor.executeScript(
                     true, true, adobeReaderInstallScript);
@@ -2211,12 +2314,12 @@ public class Welcome extends javax.swing.JFrame {
             // new version with direct download link
             String debName = "google-earth-stable_current_i386.deb";
             String googleEarthInstallScript =
-                    "sudo apt-get" + getAptGetProxyLine()
+                    "apt-get" + getAptGetProxyLine()
                     + "-y --force-yes install lsb-core\n"
                     + "cd " + USER_HOME + '\n'
                     + "wget" + getWgetProxyLine()
                     + "https://dl-ssl.google.com/linux/direct/" + debName + '\n'
-                    + "sudo dpkg -i " + debName + '\n'
+                    + "dpkg -i " + debName + '\n'
                     + "rm " + debName;
             int exitValue = processExecutor.executeScript(
                     true, true, googleEarthInstallScript);
@@ -2264,7 +2367,6 @@ public class Welcome extends javax.swing.JFrame {
                 LOGGER.log(Level.INFO, "installing package \"{0}\"", packageName);
             }
             List<String> commandList = new ArrayList<String>();
-            commandList.add("sudo");
             commandList.add("DEBIAN_FRONTEND=noninteractive");
             commandList.add("apt-get");
             if (proxyCheckBox.isSelected()) {
@@ -2305,47 +2407,10 @@ public class Welcome extends javax.swing.JFrame {
         @Override
         public Component getListCellRendererComponent(JList list,
                 Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            MainMenuListEntry entry = (MainMenuListEntry) value;
             JLabel label = (JLabel) super.getListCellRendererComponent(
-                    list, value, index, isSelected, cellHasFocus);
-            switch (index) {
-                case 0:
-                    label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/messagebox_info.png")));
-                    break;
-
-                case 1:
-                    label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/copyright.png")));
-                    break;
-
-                case 2:
-                    label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/LinuxAdvanced.png")));
-                    break;
-
-                case 3:
-                    label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/list-add.png")));
-                    break;
-
-                case 4:
-                    label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/network-server.png")));
-                    break;
-
-                case 5:
-                    label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/system-run.png")));
-                    break;
-
-                case 6:
-                    label.setIcon(new ImageIcon(getClass().getResource(
-                            "/ch/fhnw/lernstickwelcome/icons/32x32/partitionmanager.png")));
-                    break;
-
-                default:
-                    label.setIcon(null);
-            }
+                    list, entry.getText(), index, isSelected, cellHasFocus);
+            label.setIcon(entry.getIcon());
             label.setBorder(new EmptyBorder(5, 5, 5, 5));
             return label;
         }
@@ -2389,6 +2454,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
+    private javax.swing.JLabel label1;
+    private javax.swing.JLabel label2;
     private ch.fhnw.lernstickwelcome.GamePanel lazarusPanel;
     private javax.swing.JPanel mainCardPanel;
     private ch.fhnw.lernstickwelcome.GamePanel megaglestGamePanel;
@@ -2407,6 +2474,11 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel nonfreePanel;
     private ch.fhnw.lernstickwelcome.GamePanel openClipartPanel;
     private javax.swing.JPanel partitionsPanel;
+    private javax.swing.JButton passwordChangeButton;
+    private javax.swing.JLabel passwordChangeInfoLabel;
+    private javax.swing.JPanel passwordChangePanel;
+    private javax.swing.JPasswordField passwordField1;
+    private javax.swing.JPasswordField passwordField2;
     private javax.swing.JButton previousButton;
     private ch.fhnw.lernstickwelcome.GamePanel processingPanel;
     private javax.swing.JCheckBox proxyCheckBox;

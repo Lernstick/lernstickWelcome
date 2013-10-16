@@ -9,9 +9,13 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DESTDIR      = $(CURDIR)/debian/lernstickwelcome-wheezy
-BINDIR       = $(DESTDIR)/usr/bin
-APPDIR       = $(DESTDIR)/usr/share/applications
+DESTDIR1      = $(CURDIR)/debian/lernstickwelcome-wheezy
+BINDIR1       = $(DESTDIR1)/usr/bin
+APPDIR1       = $(DESTDIR1)/usr/share/applications
+
+DESTDIR2      = $(CURDIR)/debian/lernstickwelcome-wheezy-pu
+BINDIR2       = $(DESTDIR2)/usr/bin
+APPDIR2       = $(DESTDIR2)/usr/share/applications
 
 configure: configure-stamp
 configure-stamp:
@@ -39,10 +43,17 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	mkdir -p $(BINDIR)
-	cp dist/lernstickWelcome.jar $(BINDIR)
-	mkdir -p $(APPDIR)
-	cp lernstickWelcome.desktop $(APPDIR)
+	mkdir -p $(BINDIR1)
+	cp lernstickWelcome $(BINDIR1)
+	cp dist/lernstickWelcome.jar $(BINDIR1)
+	mkdir -p $(APPDIR1)
+	cp lernstickWelcome.desktop $(APPDIR1)
+
+	mkdir -p $(BINDIR2)
+	cp lernstickWelcome_pu $(BINDIR2)/lernstickWelcome
+	cp dist/lernstickWelcome.jar $(BINDIR2)
+	mkdir -p $(APPDIR2)
+	cp lernstickWelcome.desktop $(APPDIR2)
 
 # Build architecture-independent files here.
 binary-indep: build install
