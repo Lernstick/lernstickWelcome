@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201310171630-1) unstable; urgency=low
+
+  * improved firewall support
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 17 Oct 2013 16:30:47 +0200
+
 lernstickwelcome-wheezy (201310161958-1) unstable; urgency=low
 
   * build separate packages for personal learning environment and exam environment

@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome;
 
+import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
 import ch.fhnw.util.DbusTools;
 import ch.fhnw.util.ProcessExecutor;
 import java.applet.Applet;
@@ -28,6 +29,10 @@ import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -60,6 +65,10 @@ public class Welcome extends javax.swing.JFrame {
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
+    private static final String IP_TABLES_FILENAME =
+            "/etc/lernstick-firewall/net_whitelist";
+    private static final String URL_WHITELIST_FILENAME =
+            "/etc/lernstick-firewall/url_whitelist";
     // !!! processExecutor must be instanciated before the next constants !!!
     private final static ProcessExecutor processExecutor =
             new ProcessExecutor();
@@ -91,15 +100,18 @@ public class Welcome extends javax.swing.JFrame {
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
     private final String fullName;
     private final DefaultListModel menuListModel = new DefaultListModel();
+    private final boolean examEnvironment;
     private int menuListIndex = 0;
     private String exchangePartition;
     private String exchangePartitionLabel;
     private String aptGetOutput;
+    private IPTableModel ipTableModel;
 
     /**
      * Creates new form Welcome
      */
     public Welcome(boolean examEnvironment) {
+        this.examEnvironment = examEnvironment;
 
         // log everything...
         Logger globalLogger = Logger.getLogger("ch.fhnw");
@@ -164,6 +176,9 @@ public class Welcome extends javax.swing.JFrame {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/dialog-password.png",
                     BUNDLE.getString("Password"), "passwordChangePanel"));
+            menuListModel.addElement(new MainMenuListEntry(
+                    "/ch/fhnw/lernstickwelcome/icons/32x32/firewall.png",
+                    BUNDLE.getString("Firewall"), "firewallPanel"));
         } else {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/copyright.png",
@@ -288,12 +303,52 @@ public class Welcome extends javax.swing.JFrame {
         readWriteCheckBox.setSelected(showAtStartup);
         readOnlyCheckBox.setSelected(showReadOnlyInfo);
 
+        // firewall tables
+        ipTableModel = new IPTableModel(firewallIPTable,
+                new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        firewallIPTable.setModel(ipTableModel);
+        JComboBox protocolCombobox = new JComboBox();
+        protocolCombobox.addItem(Protocol.TCP);
+        protocolCombobox.addItem(Protocol.UDP);
+        TableColumn protocolColumn =
+                firewallIPTable.getColumnModel().getColumn(0);
+        protocolColumn.setCellEditor(new DefaultCellEditor(protocolCombobox));
+        firewallIPTable.getSelectionModel().addListSelectionListener(
+                new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting()) {
+                    return;
+                }
+                int[] selectedRows = firewallIPTable.getSelectedRows();
+                boolean selected = selectedRows.length > 0;
+                removeIPButton.setEnabled(selected);
+                moveUpIPButton.setEnabled(selected && selectedRows[0] > 0);
+                moveDownIPButton.setEnabled(selected
+                        && (selectedRows[selectedRows.length - 1]
+                        < ipTableModel.getRowCount() - 1));
+            }
+        });
+
+        try {
+            parseNetWhiteList();
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
+
+        try {
+            parseURLWhiteList();
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
+        
+        helpTextPane.setCaretPosition(0);
+
         // fix some size issues
         infoScrollPane.setMinimumSize(infoScrollPane.getPreferredSize());
         nonfreeLabel.setMinimumSize(nonfreeLabel.getPreferredSize());
         teachingScrollPane.setMinimumSize(teachingScrollPane.getPreferredSize());
         pack();
-
 
         Dimension preferredSize = getPreferredSize();
         preferredSize.height = 450;
@@ -434,6 +489,22 @@ public class Welcome extends javax.swing.JFrame {
         readWriteCheckBox = new javax.swing.JCheckBox();
         readOnlyPanel = new javax.swing.JPanel();
         readOnlyCheckBox = new javax.swing.JCheckBox();
+        firewallPanel = new javax.swing.JPanel();
+        firewallInfoLabel = new javax.swing.JLabel();
+        firewallTabbedPane = new javax.swing.JTabbedPane();
+        firewallIPPanel = new javax.swing.JPanel();
+        firewallIPButtonPanel = new javax.swing.JPanel();
+        addIPButton = new javax.swing.JButton();
+        removeIPButton = new javax.swing.JButton();
+        moveUpIPButton = new javax.swing.JButton();
+        moveDownIPButton = new javax.swing.JButton();
+        firewallIPScrollPane = new javax.swing.JScrollPane();
+        firewallIPTable = new javax.swing.JTable();
+        firewallURLPanel = new javax.swing.JPanel();
+        firewallURLScrollPane = new javax.swing.JScrollPane();
+        firewallURLTextArea = new javax.swing.JTextArea();
+        helpScrollPane = new javax.swing.JScrollPane();
+        helpTextPane = new javax.swing.JTextPane();
         bottomPanel = new javax.swing.JPanel();
         navigaionPanel = new javax.swing.JPanel();
         previousButton = new javax.swing.JButton();
@@ -531,7 +602,7 @@ public class Welcome extends javax.swing.JFrame {
         label2.setText(bundle.getString("Welcome.label2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 0);
         passwordChangePanel.add(label2, gridBagConstraints);
 
         passwordField2.setColumns(15);
@@ -542,7 +613,7 @@ public class Welcome extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 5);
         passwordChangePanel.add(passwordField2, gridBagConstraints);
 
         passwordChangeButton.setText(bundle.getString("Welcome.passwordChangeButton.text")); // NOI18N
@@ -711,11 +782,11 @@ public class Welcome extends javax.swing.JFrame {
         fillPanel.setLayout(fillPanelLayout);
         fillPanelLayout.setHorizontalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 553, Short.MAX_VALUE)
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 64, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1071,7 +1142,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
@@ -1235,6 +1306,119 @@ public class Welcome extends javax.swing.JFrame {
         partitionsPanel.add(dataPartitionPanel, gridBagConstraints);
 
         mainCardPanel.add(partitionsPanel, "partitionsPanel");
+
+        firewallPanel.setLayout(new java.awt.GridBagLayout());
+
+        firewallInfoLabel.setText(bundle.getString("Welcome.firewallInfoLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 5);
+        firewallPanel.add(firewallInfoLabel, gridBagConstraints);
+
+        firewallIPPanel.setLayout(new java.awt.GridBagLayout());
+
+        firewallIPButtonPanel.setLayout(new java.awt.GridBagLayout());
+
+        addIPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/list-add.png"))); // NOI18N
+        addIPButton.setToolTipText(bundle.getString("Welcome.addIPButton.toolTipText")); // NOI18N
+        addIPButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        addIPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addIPButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        firewallIPButtonPanel.add(addIPButton, gridBagConstraints);
+
+        removeIPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/list-remove.png"))); // NOI18N
+        removeIPButton.setToolTipText(bundle.getString("Welcome.removeIPButton.toolTipText")); // NOI18N
+        removeIPButton.setEnabled(false);
+        removeIPButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        removeIPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeIPButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        firewallIPButtonPanel.add(removeIPButton, gridBagConstraints);
+
+        moveUpIPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/arrow-up.png"))); // NOI18N
+        moveUpIPButton.setToolTipText(bundle.getString("Welcome.moveUpIPButton.toolTipText")); // NOI18N
+        moveUpIPButton.setEnabled(false);
+        moveUpIPButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        moveUpIPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveUpIPButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        firewallIPButtonPanel.add(moveUpIPButton, gridBagConstraints);
+
+        moveDownIPButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/arrow-down.png"))); // NOI18N
+        moveDownIPButton.setToolTipText(bundle.getString("Welcome.moveDownIPButton.toolTipText")); // NOI18N
+        moveDownIPButton.setEnabled(false);
+        moveDownIPButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        moveDownIPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveDownIPButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        firewallIPButtonPanel.add(moveDownIPButton, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 0, 0);
+        firewallIPPanel.add(firewallIPButtonPanel, gridBagConstraints);
+
+        firewallIPScrollPane.setViewportView(firewallIPTable);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        firewallIPPanel.add(firewallIPScrollPane, gridBagConstraints);
+
+        firewallTabbedPane.addTab(bundle.getString("Welcome.firewallIPPanel.TabConstraints.tabTitle"), firewallIPPanel); // NOI18N
+
+        firewallURLPanel.setLayout(new java.awt.GridBagLayout());
+
+        firewallURLTextArea.setColumns(20);
+        firewallURLTextArea.setRows(5);
+        firewallURLScrollPane.setViewportView(firewallURLTextArea);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        firewallURLPanel.add(firewallURLScrollPane, gridBagConstraints);
+
+        firewallTabbedPane.addTab(bundle.getString("Welcome.firewallURLPanel.TabConstraints.tabTitle"), firewallURLPanel); // NOI18N
+
+        helpTextPane.setEditable(false);
+        helpTextPane.setContentType("text/html"); // NOI18N
+        helpTextPane.setText(bundle.getString("Welcome.helpTextPane.text")); // NOI18N
+        helpScrollPane.setViewportView(helpTextPane);
+
+        firewallTabbedPane.addTab(bundle.getString("Welcome.helpScrollPane.TabConstraints.tabTitle"), helpScrollPane); // NOI18N
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        firewallPanel.add(firewallTabbedPane, gridBagConstraints);
+
+        mainCardPanel.add(firewallPanel, "firewallPanel");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -1430,6 +1614,99 @@ public class Welcome extends javax.swing.JFrame {
         changePassword();
     }//GEN-LAST:event_passwordField2ActionPerformed
 
+    private void addIPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIPButtonActionPerformed
+        ipTableModel.addEntry();
+    }//GEN-LAST:event_addIPButtonActionPerformed
+
+    private void removeIPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeIPButtonActionPerformed
+        TableCellEditor editor = firewallIPTable.getCellEditor();
+        if (editor != null) {
+            editor.stopCellEditing();
+        }
+        int[] selectedRows = firewallIPTable.getSelectedRows();
+        for (int i = selectedRows.length - 1; i >= 0; i--) {
+            ipTableModel.removeRow(selectedRows[i]);
+        }
+    }//GEN-LAST:event_removeIPButtonActionPerformed
+
+    private void moveUpIPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveUpIPButtonActionPerformed
+        ipTableModel.moveEntries(true);
+    }//GEN-LAST:event_moveUpIPButtonActionPerformed
+
+    private void moveDownIPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveDownIPButtonActionPerformed
+        ipTableModel.moveEntries(false);
+    }//GEN-LAST:event_moveDownIPButtonActionPerformed
+
+    private void parseURLWhiteList() throws IOException {
+        FileReader fileReader = new FileReader(URL_WHITELIST_FILENAME);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        StringBuilder builder = new StringBuilder();
+        for (String line = bufferedReader.readLine(); line != null;) {
+            builder.append(line);
+            builder.append('\n');
+            line = bufferedReader.readLine();
+        }
+        firewallURLTextArea.setText(builder.toString());
+        bufferedReader.close();
+        fileReader.close();
+    }
+
+    private void parseNetWhiteList() throws IOException {
+        FileReader fileReader = new FileReader(IP_TABLES_FILENAME);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String lastComment = "";
+        for (String line = bufferedReader.readLine(); line != null;) {
+            if (line.startsWith("#")) {
+                lastComment = line.substring(1).trim();
+            } else {
+                // try parsing "protocol target port"
+                String[] tokens = line.split(" ");
+                if (tokens.length == 3) {
+                    Protocol protocol = null;
+                    if (tokens[0].equalsIgnoreCase("TCP")) {
+                        protocol = Protocol.TCP;
+                    } else if (tokens[0].equalsIgnoreCase("UDP")) {
+                        protocol = Protocol.UDP;
+                    } else {
+                        LOGGER.log(Level.WARNING,
+                                "could not parse protocol \"{0}\"", tokens[0]);
+                        continue;
+                    }
+
+                    String target = tokens[1];
+
+                    int port;
+                    try {
+                        port = Integer.parseInt(tokens[2]);
+                        if (port < 0) {
+                            LOGGER.log(Level.WARNING,
+                                    "negative port number \"{0}\"", tokens[2]);
+                            continue;
+                        }
+                        if (port > 65535) {
+                            LOGGER.log(Level.WARNING,
+                                    "port number out of range \"{0}\"", tokens[2]);
+                            continue;
+                        }
+                    } catch (NumberFormatException ex) {
+                        LOGGER.log(Level.WARNING,
+                                "could not parse port \"{0}\"", tokens[2]);
+                        continue;
+                    }
+
+                    ipTableModel.addEntry(new IPTableEntry(
+                            protocol, target, port, lastComment));
+                } else {
+                    LOGGER.log(Level.WARNING,
+                            "unsupported net whitelist:\n{0}", line);
+                }
+            }
+
+            line = bufferedReader.readLine();
+        }
+        ipTableModel.fireTableDataChanged();
+    }
+
     private void changePassword() {
         // check, if both passwords are the same
         char[] password1 = passwordField1.getPassword();
@@ -1459,7 +1736,7 @@ public class Welcome extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this,
                         BUNDLE.getString("Password_Change_Error"),
-                        BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);                
+                        BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -1687,7 +1964,52 @@ public class Welcome extends javax.swing.JFrame {
                     exchangePartition, newExchangePartitionLabel);
         }
 
-        installSelectedPackages();
+        if (examEnvironment) {
+            // save IP tables
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < ipTableModel.getRowCount(); i++) {
+                // comment
+                stringBuilder.append("# ");
+                stringBuilder.append(ipTableModel.getValueAt(i, 3));
+                stringBuilder.append('\n');
+                // protocol
+                stringBuilder.append(ipTableModel.getValueAt(i, 0));
+                stringBuilder.append(' ');
+                // target
+                stringBuilder.append(ipTableModel.getValueAt(i, 1));
+                stringBuilder.append(' ');
+                // port
+                stringBuilder.append(ipTableModel.getValueAt(i, 2));
+                stringBuilder.append('\n');
+            }
+            String ipTables = stringBuilder.toString();
+            try {
+                FileOutputStream fileOutputStream =
+                        new FileOutputStream(IP_TABLES_FILENAME);
+                fileOutputStream.write(ipTables.getBytes());
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "", ex);
+            }
+            
+            // save URL whitelist
+            try {
+                FileOutputStream fileOutputStream =
+                        new FileOutputStream(URL_WHITELIST_FILENAME);
+                fileOutputStream.write(
+                        firewallURLTextArea.getText().getBytes());
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "", ex);
+            }
+            
+            processExecutor.executeProcess(
+                    "/etc/init.d/lernstick-firewall", "reload");
+        } else {
+            installSelectedPackages();
+        }
 
         // update properties
         try {
@@ -2416,6 +2738,7 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addIPButton;
     private javax.swing.JCheckBox additionalFontsCheckBox;
     private javax.swing.JLabel additionalInfoLabel;
     private javax.swing.JPanel additionalMiscPanel;
@@ -2435,6 +2758,16 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel exchangePartitionPanel;
     private javax.swing.JPanel fillPanel;
     private ch.fhnw.lernstickwelcome.GamePanel filletsGamePanel;
+    private javax.swing.JPanel firewallIPButtonPanel;
+    private javax.swing.JPanel firewallIPPanel;
+    private javax.swing.JScrollPane firewallIPScrollPane;
+    private javax.swing.JTable firewallIPTable;
+    private javax.swing.JLabel firewallInfoLabel;
+    private javax.swing.JPanel firewallPanel;
+    private javax.swing.JTabbedPane firewallTabbedPane;
+    private javax.swing.JPanel firewallURLPanel;
+    private javax.swing.JScrollPane firewallURLScrollPane;
+    private javax.swing.JTextArea firewallURLTextArea;
     private ch.fhnw.lernstickwelcome.GamePanel flareGamePanel;
     private javax.swing.JCheckBox flashCheckBox;
     private javax.swing.JLabel flashLabel;
@@ -2446,6 +2779,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
     private ch.fhnw.lernstickwelcome.GamePanel hedgewarsGamePanel;
+    private javax.swing.JScrollPane helpScrollPane;
+    private javax.swing.JTextPane helpTextPane;
     private javax.swing.JEditorPane infoEditorPane;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JScrollPane infoScrollPane;
@@ -2463,6 +2798,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane menuScrollPane;
     private ch.fhnw.lernstickwelcome.GamePanel minetestGamePanel;
     private javax.swing.JPanel miscPanel;
+    private javax.swing.JButton moveDownIPButton;
+    private javax.swing.JButton moveUpIPButton;
     private javax.swing.JCheckBox multimediaCheckBox;
     private javax.swing.JLabel multimediaLabel;
     private javax.swing.JPanel navigaionPanel;
@@ -2499,6 +2836,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox readerCheckBox;
     private javax.swing.JLabel readerLabel;
     private javax.swing.JPanel recommendedPanel;
+    private javax.swing.JButton removeIPButton;
     private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
