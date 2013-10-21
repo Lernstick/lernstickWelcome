@@ -341,7 +341,7 @@ public class Welcome extends javax.swing.JFrame {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
-        
+
         helpTextPane.setCaretPosition(0);
 
         // fix some size issues
@@ -1992,7 +1992,7 @@ public class Welcome extends javax.swing.JFrame {
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
             }
-            
+
             // save URL whitelist
             try {
                 FileOutputStream fileOutputStream =
@@ -2004,7 +2004,7 @@ public class Welcome extends javax.swing.JFrame {
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
             }
-            
+
             processExecutor.executeProcess(
                     "/etc/init.d/lernstick-firewall", "reload");
         } else {
@@ -2688,32 +2688,39 @@ public class Welcome extends javax.swing.JFrame {
             for (String packageName : packageNames) {
                 LOGGER.log(Level.INFO, "installing package \"{0}\"", packageName);
             }
-            List<String> commandList = new ArrayList<String>();
-            commandList.add("DEBIAN_FRONTEND=noninteractive");
-            commandList.add("apt-get");
+            StringBuilder builder = new StringBuilder();
+            builder.append("#!/bin/sh\n"
+                    + "export DEBIAN_FRONTEND=noninteractive\n");
+            builder.append("apt-get ");
             if (proxyCheckBox.isSelected()) {
-                commandList.add("-o");
-                commandList.add(getAptGetAcquireLine());
+                builder.append("-o ");
+                builder.append(getAptGetAcquireLine());
+                builder.append(' ');
             }
-            commandList.add("-y");
-            commandList.add("--force-yes");
-            commandList.add("install");
-            commandList.addAll(Arrays.asList(packageNames));
-            String[] commandArray = new String[commandList.size()];
-            commandArray = commandList.toArray(commandArray);
+            builder.append("-y --force-yes install ");
+            for (String packageName : packageNames) {
+                builder.append(packageName);
+                builder.append(' ');
+            }
+            String script = builder.toString();
 
 //            // enforce non-interactive installs
 //            Map<String,String> environment = new HashMap<String, String>();
 //            environment.put("DEBIAN_FRONTEND", "noninteractive");
 //            processExecutor.setEnvironment(environment);
 
-            int exitValue = processExecutor.executeProcess(
-                    true, true, commandArray);
-            if (exitValue != 0) {
-                String errorMessage = "apt-get failed with the following "
-                        + "output:\n" + processExecutor.getOutput();
-                LOGGER.severe(errorMessage);
-                showErrorMessage(errorMessage);
+            int exitValue = -1;
+            try {
+                exitValue = processExecutor.executeScript(true, true, script);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            } finally {
+                if (exitValue != 0) {
+                    String errorMessage = "apt-get failed with the following "
+                            + "output:\n" + processExecutor.getOutput();
+                    LOGGER.severe(errorMessage);
+                    showErrorMessage(errorMessage);
+                }
             }
             updateProgress();
         }

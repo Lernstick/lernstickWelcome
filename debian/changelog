@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201310211342-1) unstable; urgency=low
+
+  * fixed apt-get call (moved into a script)
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 21 Oct 2013 13:42:23 +0200
+
 lernstickwelcome-wheezy (201310171630-1) unstable; urgency=low
 
   * improved firewall support
