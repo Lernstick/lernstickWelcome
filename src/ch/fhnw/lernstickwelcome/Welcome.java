@@ -2490,9 +2490,10 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/package_multimedia.png",
                     MULTIMEDIA_PACKAGES);
             installGoogleEarth();
-            installNonFreeApplication(skypeCheckBox, "Welcome.skypeLabel.text",
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png",
-                    "skype");
+//            installNonFreeApplication(skypeCheckBox, "Welcome.skypeLabel.text",
+//                    "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png",
+//                    "skype");
+            installSkype();
 
             // teaching system
             installNonFreeApplication(laCheckBox, "LA_Teaching_System",
@@ -2605,6 +2606,34 @@ public class Welcome extends javax.swing.JFrame {
                     true, true, adobeReaderInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of Adobe Reader failed"
+                        + "with the following error message:\n"
+                        + processExecutor.getOutput();
+                LOGGER.severe(errorMessage);
+                showErrorMessage(errorMessage);
+            }
+            updateProgress();
+        }
+        
+        private void installSkype() throws IOException {
+            if (!skypeCheckBox.isSelected()) {
+                return;
+            }
+            String infoString = BUNDLE.getString("Installing");
+            infoString = MessageFormat.format(infoString,
+                    BUNDLE.getString("Welcome.skypeLabel.text"));
+            Icon icon = new ImageIcon(getClass().getResource(
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png"));
+            ProgressAction progressAction =
+                    new ProgressAction(infoString, icon);
+            publish(progressAction);
+            String skypeInstallScript = "#!/bin/sh\n"
+                    + "wget -O skype-install.deb http://www.skype.com/go/getskype-linux-deb\n"
+                    + "dpkg -i skype-install.deb\n"
+                    + "apt-get -f install";
+            int exitValue = processExecutor.executeScript(
+                    true, true, skypeInstallScript);
+            if (exitValue != 0) {
+                String errorMessage = "Installation of Skype failed"
                         + "with the following error message:\n"
                         + processExecutor.getOutput();
                 LOGGER.severe(errorMessage);

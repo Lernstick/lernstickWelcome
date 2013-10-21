@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201310211452-1) unstable; urgency=low
+
+  * download skype directly as repository version is too old
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 21 Oct 2013 14:52:43 +0200
+
 lernstickwelcome-wheezy (201310211342-1) unstable; urgency=low
 
   * fixed apt-get call (moved into a script)
