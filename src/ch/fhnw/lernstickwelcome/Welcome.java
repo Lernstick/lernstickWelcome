@@ -63,6 +63,10 @@ public class Welcome extends javax.swing.JFrame {
             ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     private static final String SHOW_WELCOME = "ShowWelcome";
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
+    private static final String BACKUP = "Backup";
+    private static final String BACKUP_SOURCE = "BackupSource";
+    private static final String BACKUP_DESTINATION = "BackupDestination";
+    private static final String BACKUP_FREQUENCY = "BackupFrequency";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     private static final String IP_TABLES_FILENAME =
@@ -148,6 +152,9 @@ public class Welcome extends javax.swing.JFrame {
             adobeLanguageCode = "enu";
         }
 
+        initComponents();
+
+        // load and apply all properties
         boolean showAtStartup = false;
         boolean showReadOnlyInfo = true;
         String propertiesFileName = "/home/user" + File.separatorChar
@@ -160,12 +167,26 @@ public class Welcome extends javax.swing.JFrame {
                     properties.getProperty(SHOW_WELCOME));
             showReadOnlyInfo = "true".equals(
                     properties.getProperty(SHOW_READ_ONLY_INFO));
+            
+            backupCheckBox.setSelected("true".equals(
+                    properties.getProperty(BACKUP)));
+            backupSourceTextField.setText(properties.getProperty(
+                    BACKUP_SOURCE, "/home/user/"));
+            backupDestinationTextField.setText(
+                    properties.getProperty(BACKUP_DESTINATION));
+            String frequencyString = properties.getProperty(
+                    BACKUP_FREQUENCY, "5");
+            try {
+                backupFrequencySpinner.setValue(new Integer(frequencyString));
+            } catch (NumberFormatException ex) {
+                LOGGER.log(Level.WARNING,
+                        "could not parse backup frequency \"{0}\"",
+                        frequencyString);
+            }
         } catch (IOException ex) {
             LOGGER.log(Level.INFO,
                     "can not load properties from " + propertiesFile, ex);
         }
-
-        initComponents();
 
         menuList.setModel(menuListModel);
 
@@ -179,6 +200,9 @@ public class Welcome extends javax.swing.JFrame {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/firewall.png",
                     BUNDLE.getString("Firewall"), "firewallPanel"));
+            menuListModel.addElement(new MainMenuListEntry(
+                    "/ch/fhnw/lernstickwelcome/icons/32x32/backup.png",
+                    BUNDLE.getString("Backup"), "backupPanel"));
         } else {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/copyright.png",
@@ -254,6 +278,7 @@ public class Welcome extends javax.swing.JFrame {
         // determine some boot properties
         // [sys/iso]linux timeout
         ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
+        ((JSpinner.DefaultEditor) backupFrequencySpinner.getEditor()).getTextField().setColumns(2);
         try {
             bootTimeoutSpinner.setValue(getTimeout());
         } catch (IOException ex) {
@@ -408,6 +433,19 @@ public class Welcome extends javax.swing.JFrame {
         label2 = new javax.swing.JLabel();
         passwordField2 = new javax.swing.JPasswordField();
         passwordChangeButton = new javax.swing.JButton();
+        backupPanel = new javax.swing.JPanel();
+        backupCheckBox = new javax.swing.JCheckBox();
+        backupSourceLabel = new javax.swing.JLabel();
+        backupSourceTextField = new javax.swing.JTextField();
+        backupSourceButton = new javax.swing.JButton();
+        backupDestinationLabel = new javax.swing.JLabel();
+        backupDestinationTextField = new javax.swing.JTextField();
+        backupDestinationButton = new javax.swing.JButton();
+        backupFrequencyLabel = new javax.swing.JLabel();
+        backupFrequencyPanel = new javax.swing.JPanel();
+        backupFrequencyEveryLabel = new javax.swing.JLabel();
+        backupFrequencySpinner = new javax.swing.JSpinner();
+        backupFrequencyMinuteLabel = new javax.swing.JLabel();
         nonfreePanel = new javax.swing.JPanel();
         nonfreeLabel = new javax.swing.JLabel();
         recommendedPanel = new javax.swing.JPanel();
@@ -629,6 +667,110 @@ public class Welcome extends javax.swing.JFrame {
 
         mainCardPanel.add(passwordChangePanel, "passwordChangePanel");
 
+        backupPanel.setLayout(new java.awt.GridBagLayout());
+
+        backupCheckBox.setText(bundle.getString("Welcome.backupCheckBox.text")); // NOI18N
+        backupCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                backupCheckBoxItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        backupPanel.add(backupCheckBox, gridBagConstraints);
+
+        backupSourceLabel.setText(bundle.getString("Welcome.backupSourceLabel.text")); // NOI18N
+        backupSourceLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        backupPanel.add(backupSourceLabel, gridBagConstraints);
+
+        backupSourceTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 10);
+        backupPanel.add(backupSourceTextField, gridBagConstraints);
+
+        backupSourceButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/document-open-folder.png"))); // NOI18N
+        backupSourceButton.setEnabled(false);
+        backupSourceButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        backupSourceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backupSourceButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        backupPanel.add(backupSourceButton, gridBagConstraints);
+
+        backupDestinationLabel.setText(bundle.getString("Welcome.backupDestinationLabel.text")); // NOI18N
+        backupDestinationLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        backupPanel.add(backupDestinationLabel, gridBagConstraints);
+
+        backupDestinationTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 10);
+        backupPanel.add(backupDestinationTextField, gridBagConstraints);
+
+        backupDestinationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/document-open-folder.png"))); // NOI18N
+        backupDestinationButton.setEnabled(false);
+        backupDestinationButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        backupDestinationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backupDestinationButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        backupPanel.add(backupDestinationButton, gridBagConstraints);
+
+        backupFrequencyLabel.setText(bundle.getString("Welcome.backupFrequencyLabel.text")); // NOI18N
+        backupFrequencyLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        backupPanel.add(backupFrequencyLabel, gridBagConstraints);
+
+        backupFrequencyPanel.setLayout(new java.awt.GridBagLayout());
+
+        backupFrequencyEveryLabel.setText(bundle.getString("Welcome.backupFrequencyEveryLabel.text")); // NOI18N
+        backupFrequencyEveryLabel.setEnabled(false);
+        backupFrequencyPanel.add(backupFrequencyEveryLabel, new java.awt.GridBagConstraints());
+
+        backupFrequencySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        backupFrequencySpinner.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        backupFrequencyPanel.add(backupFrequencySpinner, gridBagConstraints);
+
+        backupFrequencyMinuteLabel.setText(bundle.getString("Welcome.backupFrequencyMinuteLabel.text")); // NOI18N
+        backupFrequencyMinuteLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        backupFrequencyPanel.add(backupFrequencyMinuteLabel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 10);
+        backupPanel.add(backupFrequencyPanel, gridBagConstraints);
+
+        mainCardPanel.add(backupPanel, "backupPanel");
+
         nonfreePanel.setLayout(new java.awt.GridBagLayout());
 
         nonfreeLabel.setText(bundle.getString("Welcome.nonfreeLabel.text")); // NOI18N
@@ -786,7 +928,7 @@ public class Welcome extends javax.swing.JFrame {
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 64, Short.MAX_VALUE)
+            .addGap(0, 66, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1637,6 +1779,41 @@ public class Welcome extends javax.swing.JFrame {
         ipTableModel.moveEntries(false);
     }//GEN-LAST:event_moveDownIPButtonActionPerformed
 
+    private void backupCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_backupCheckBoxItemStateChanged
+        setBackupEnabled(backupCheckBox.isSelected());
+    }//GEN-LAST:event_backupCheckBoxItemStateChanged
+
+    private void backupSourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupSourceButtonActionPerformed
+        showFileSelector(backupSourceTextField);
+    }//GEN-LAST:event_backupSourceButtonActionPerformed
+
+    private void backupDestinationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupDestinationButtonActionPerformed
+        showFileSelector(backupDestinationTextField);
+    }//GEN-LAST:event_backupDestinationButtonActionPerformed
+
+    private void showFileSelector(JTextField textField) {
+        File selectedDirectory = new File(textField.getText());
+        JFileChooser fileChooser = new JFileChooser(selectedDirectory.getParent());
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setSelectedFile(selectedDirectory);
+        fileChooser.showOpenDialog(this);
+        selectedDirectory = fileChooser.getSelectedFile();
+        textField.setText(selectedDirectory.getPath());        
+    }
+    
+    private void setBackupEnabled(boolean enabled) {
+        backupSourceLabel.setEnabled(enabled);
+        backupSourceTextField.setEnabled(enabled);
+        backupSourceButton.setEnabled(enabled);
+        backupDestinationLabel.setEnabled(enabled);
+        backupDestinationTextField.setEnabled(enabled);
+        backupDestinationButton.setEnabled(enabled);
+        backupFrequencyLabel.setEnabled(enabled);
+        backupFrequencyEveryLabel.setEnabled(enabled);
+        backupFrequencySpinner.setEnabled(enabled);
+        backupFrequencyMinuteLabel.setEnabled(enabled);
+    }
+    
     private void parseURLWhiteList() throws IOException {
         FileReader fileReader = new FileReader(URL_WHITELIST_FILENAME);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -2017,6 +2194,15 @@ public class Welcome extends javax.swing.JFrame {
                     readWriteCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(SHOW_READ_ONLY_INFO,
                     readOnlyCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(BACKUP,
+                    backupCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(BACKUP_SOURCE,
+                    backupSourceTextField.getText());
+            properties.setProperty(BACKUP_DESTINATION,
+                    backupDestinationTextField.getText());
+            Number backupFrequency = (Number) backupFrequencySpinner.getValue();
+            properties.setProperty(BACKUP_FREQUENCY,
+                    backupFrequency.toString());
             properties.store(new FileOutputStream(propertiesFile),
                     "lernstick Welcome properties");
         } catch (IOException ex) {
@@ -2783,6 +2969,19 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JTabbedPane additionalTabbedPane;
     private javax.swing.JButton applyButton;
     private ch.fhnw.lernstickwelcome.GamePanel astromenaceGamePanel;
+    private javax.swing.JCheckBox backupCheckBox;
+    private javax.swing.JButton backupDestinationButton;
+    private javax.swing.JLabel backupDestinationLabel;
+    private javax.swing.JTextField backupDestinationTextField;
+    private javax.swing.JLabel backupFrequencyEveryLabel;
+    private javax.swing.JLabel backupFrequencyLabel;
+    private javax.swing.JLabel backupFrequencyMinuteLabel;
+    private javax.swing.JPanel backupFrequencyPanel;
+    private javax.swing.JSpinner backupFrequencySpinner;
+    private javax.swing.JPanel backupPanel;
+    private javax.swing.JButton backupSourceButton;
+    private javax.swing.JLabel backupSourceLabel;
+    private javax.swing.JTextField backupSourceTextField;
     private javax.swing.JPanel bootMenuPanel;
     private javax.swing.JLabel bootTimeoutLabel;
     private javax.swing.JSpinner bootTimeoutSpinner;

@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201311071422-1) unstable; urgency=low
+
+  * added backup module for exam environment
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 07 Nov 2013 14:22:25 +0100
+
 lernstickwelcome-wheezy (201310211452-1) unstable; urgency=low
 
   * download skype directly as repository version is too old
