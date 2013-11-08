@@ -44,6 +44,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.freedesktop.dbus.exceptions.DBusExecutionException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -2381,6 +2382,9 @@ public class Welcome extends javax.swing.JFrame {
             if (idType.equals("vfat")) {
                 return firstPartition;
             }
+        } catch (DBusExecutionException ex) {
+            LOGGER.log(Level.WARNING, "Could not check first partition of "
+                    + systemDevice, ex);
         } catch (DBusException ex) {
             LOGGER.log(Level.WARNING, "Could not check first partition of "
                     + systemDevice, ex);

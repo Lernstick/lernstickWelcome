@@ -1,8 +1,8 @@
-lernstickwelcome-wheezy (201311081804-1) unstable; urgency=low
+lernstickwelcome-wheezy (201311081852-1) unstable; urgency=low
 
   * fixed initial properties handling
 
- -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 08 Nov 2013 18:04:29 +0100
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 08 Nov 2013 18:52:29 +0100
 
 lernstickwelcome-wheezy (201311081610-1) unstable; urgency=low
 
