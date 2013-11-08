@@ -57,10 +57,10 @@ import org.xml.sax.SAXException;
  */
 public class Welcome extends javax.swing.JFrame {
 
-    private static final Logger LOGGER =
-            Logger.getLogger(Welcome.class.getName());
-    private static final ResourceBundle BUNDLE =
-            ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+    private static final Logger LOGGER
+            = Logger.getLogger(Welcome.class.getName());
+    private static final ResourceBundle BUNDLE
+            = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     private static final String SHOW_WELCOME = "ShowWelcome";
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     private static final String BACKUP = "Backup";
@@ -69,13 +69,13 @@ public class Welcome extends javax.swing.JFrame {
     private static final String BACKUP_FREQUENCY = "BackupFrequency";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
-    private static final String IP_TABLES_FILENAME =
-            "/etc/lernstick-firewall/net_whitelist";
-    private static final String URL_WHITELIST_FILENAME =
-            "/etc/lernstick-firewall/url_whitelist";
+    private static final String IP_TABLES_FILENAME
+            = "/etc/lernstick-firewall/net_whitelist";
+    private static final String URL_WHITELIST_FILENAME
+            = "/etc/lernstick-firewall/url_whitelist";
     // !!! processExecutor must be instanciated before the next constants !!!
-    private final static ProcessExecutor processExecutor =
-            new ProcessExecutor();
+    private final static ProcessExecutor processExecutor
+            = new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
     private static final File SYSLINUX_CONFIG_FILE = getSyslinuxConfigFile();
     private static final File XMLBOOT_CONFIG_FILE = getXmlBootConfigFile();
@@ -95,8 +95,8 @@ public class Welcome extends javax.swing.JFrame {
     private static final String[] MULTIMEDIA_PACKAGES = new String[]{
         "libdvdcss2", "libmp3lame0", "lame"
     };
-    private static final String FLASH_PACKAGE =
-            "flashplugin-nonfree";
+    private static final String FLASH_PACKAGE
+            = "flashplugin-nonfree";
     private final static String USER_HOME = System.getProperty("user.home");
     private final String adobeLanguageCode;
     private final File propertiesFile;
@@ -130,8 +130,8 @@ public class Welcome extends javax.swing.JFrame {
 
         // log into a rotating temporaty file of max 5 MB
         try {
-            FileHandler fileHandler =
-                    new FileHandler("%t/lernstickWelcome", 5000000, 2, true);
+            FileHandler fileHandler
+                    = new FileHandler("%t/lernstickWelcome", 5000000, 2, true);
             fileHandler.setFormatter(formatter);
             fileHandler.setLevel(Level.ALL);
             globalLogger.addHandler(fileHandler);
@@ -167,7 +167,7 @@ public class Welcome extends javax.swing.JFrame {
                     properties.getProperty(SHOW_WELCOME));
             showReadOnlyInfo = "true".equals(
                     properties.getProperty(SHOW_READ_ONLY_INFO));
-            
+
             backupCheckBox.setSelected("true".equals(
                     properties.getProperty(BACKUP)));
             backupSourceTextField.setText(properties.getProperty(
@@ -230,8 +230,8 @@ public class Welcome extends javax.swing.JFrame {
         checkAllPackages();
 
         // determine current full user name
-        AbstractDocument userNameDocument =
-                (AbstractDocument) userNameTextField.getDocument();
+        AbstractDocument userNameDocument
+                = (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
         processExecutor.executeProcess(true, true, "getent", "passwd", "user");
         List<String> stdOut = processExecutor.getStdOutList();
@@ -256,8 +256,8 @@ public class Welcome extends javax.swing.JFrame {
             }
         }
 
-        AbstractDocument exchangePartitionNameDocument =
-                (AbstractDocument) exchangePartitionNameTextField.getDocument();
+        AbstractDocument exchangePartitionNameDocument
+                = (AbstractDocument) exchangePartitionNameTextField.getDocument();
         exchangePartitionNameDocument.setDocumentFilter(
                 new DocumentSizeFilter());
         try {
@@ -335,25 +335,25 @@ public class Welcome extends javax.swing.JFrame {
         JComboBox protocolCombobox = new JComboBox();
         protocolCombobox.addItem(Protocol.TCP);
         protocolCombobox.addItem(Protocol.UDP);
-        TableColumn protocolColumn =
-                firewallIPTable.getColumnModel().getColumn(0);
+        TableColumn protocolColumn
+                = firewallIPTable.getColumnModel().getColumn(0);
         protocolColumn.setCellEditor(new DefaultCellEditor(protocolCombobox));
         firewallIPTable.getSelectionModel().addListSelectionListener(
                 new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (e.getValueIsAdjusting()) {
-                    return;
-                }
-                int[] selectedRows = firewallIPTable.getSelectedRows();
-                boolean selected = selectedRows.length > 0;
-                removeIPButton.setEnabled(selected);
-                moveUpIPButton.setEnabled(selected && selectedRows[0] > 0);
-                moveDownIPButton.setEnabled(selected
-                        && (selectedRows[selectedRows.length - 1]
-                        < ipTableModel.getRowCount() - 1));
-            }
-        });
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        if (e.getValueIsAdjusting()) {
+                            return;
+                        }
+                        int[] selectedRows = firewallIPTable.getSelectedRows();
+                        boolean selected = selectedRows.length > 0;
+                        removeIPButton.setEnabled(selected);
+                        moveUpIPButton.setEnabled(selected && selectedRows[0] > 0);
+                        moveDownIPButton.setEnabled(selected
+                                && (selectedRows[selectedRows.length - 1]
+                                < ipTableModel.getRowCount() - 1));
+                    }
+                });
 
         try {
             parseNetWhiteList();
@@ -1701,8 +1701,8 @@ public class Welcome extends javax.swing.JFrame {
             menuListIndex = selectedIndex;
         }
 
-        MainMenuListEntry entry =
-                (MainMenuListEntry) menuList.getSelectedValue();
+        MainMenuListEntry entry
+                = (MainMenuListEntry) menuList.getSelectedValue();
         selectCard(entry.getPanelID());
 
         previousButton.setEnabled(selectedIndex > 0);
@@ -1792,15 +1792,16 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_backupDestinationButtonActionPerformed
 
     private void showFileSelector(JTextField textField) {
+        UIManager.put("FileChooser.readOnly", Boolean.TRUE);
         File selectedDirectory = new File(textField.getText());
         JFileChooser fileChooser = new JFileChooser(selectedDirectory.getParent());
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.setSelectedFile(selectedDirectory);
         fileChooser.showOpenDialog(this);
         selectedDirectory = fileChooser.getSelectedFile();
-        textField.setText(selectedDirectory.getPath());        
+        textField.setText(selectedDirectory.getPath());
     }
-    
+
     private void setBackupEnabled(boolean enabled) {
         backupSourceLabel.setEnabled(enabled);
         backupSourceTextField.setEnabled(enabled);
@@ -1813,7 +1814,7 @@ public class Welcome extends javax.swing.JFrame {
         backupFrequencySpinner.setEnabled(enabled);
         backupFrequencyMinuteLabel.setEnabled(enabled);
     }
-    
+
     private void parseURLWhiteList() throws IOException {
         FileReader fileReader = new FileReader(URL_WHITELIST_FILENAME);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -2008,8 +2009,8 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private void updateSecondsLabel() {
-        SpinnerNumberModel model =
-                (SpinnerNumberModel) bootTimeoutSpinner.getModel();
+        SpinnerNumberModel model
+                = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
         if (model.getNumber().intValue() == 1) {
             secondsLabel.setText(BUNDLE.getString("second"));
         } else {
@@ -2061,11 +2062,11 @@ public class Welcome extends javax.swing.JFrame {
     private String getWgetProxyLine() {
         if (proxyCheckBox.isSelected()) {
             String proxyHost = proxyHostTextField.getText();
-            int proxyPort =
-                    ((Number) proxyPortTextField.getValue()).intValue();
+            int proxyPort
+                    = ((Number) proxyPortTextField.getValue()).intValue();
             String proxyUserName = proxyUserNameTextField.getText();
-            String proxyPassword =
-                    String.valueOf(proxyPasswordField.getPassword());
+            String proxyPassword
+                    = String.valueOf(proxyPasswordField.getPassword());
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(" -e http_proxy=http://");
             stringBuilder.append(proxyHost);
@@ -2098,11 +2099,11 @@ public class Welcome extends javax.swing.JFrame {
 
     private String getAptGetAcquireLine() {
         String proxyHost = proxyHostTextField.getText();
-        int proxyPort =
-                ((Number) proxyPortTextField.getValue()).intValue();
+        int proxyPort
+                = ((Number) proxyPortTextField.getValue()).intValue();
         String proxyUserName = proxyUserNameTextField.getText();
-        String proxyPassword =
-                String.valueOf(proxyPasswordField.getPassword());
+        String proxyPassword
+                = String.valueOf(proxyPasswordField.getPassword());
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Acquire::http::proxy=http://");
         if (!proxyUserName.isEmpty()) {
@@ -2131,8 +2132,8 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         // update exchange partition label
-        String newExchangePartitionLabel =
-                exchangePartitionNameTextField.getText();
+        String newExchangePartitionLabel
+                = exchangePartitionNameTextField.getText();
         LOGGER.log(Level.INFO, "new exchange partition label: \"{0}\"",
                 newExchangePartitionLabel);
         if (!newExchangePartitionLabel.isEmpty()
@@ -2161,8 +2162,8 @@ public class Welcome extends javax.swing.JFrame {
             }
             String ipTables = stringBuilder.toString();
             try {
-                FileOutputStream fileOutputStream =
-                        new FileOutputStream(IP_TABLES_FILENAME);
+                FileOutputStream fileOutputStream
+                        = new FileOutputStream(IP_TABLES_FILENAME);
                 fileOutputStream.write(ipTables.getBytes());
                 fileOutputStream.flush();
                 fileOutputStream.close();
@@ -2172,8 +2173,8 @@ public class Welcome extends javax.swing.JFrame {
 
             // save URL whitelist
             try {
-                FileOutputStream fileOutputStream =
-                        new FileOutputStream(URL_WHITELIST_FILENAME);
+                FileOutputStream fileOutputStream
+                        = new FileOutputStream(URL_WHITELIST_FILENAME);
                 fileOutputStream.write(
                         firewallURLTextArea.getText().getBytes());
                 fileOutputStream.flush();
@@ -2215,8 +2216,8 @@ public class Welcome extends javax.swing.JFrame {
                     "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
 
             // update timeout...
-            SpinnerNumberModel spinnerNumberModel =
-                    (SpinnerNumberModel) bootTimeoutSpinner.getModel();
+            SpinnerNumberModel spinnerNumberModel
+                    = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
             int timeoutValue = spinnerNumberModel.getNumber().intValue();
             // ... in syslinux ...
             processExecutor.executeProcess("sed", "-i", "-e",
@@ -2237,8 +2238,8 @@ public class Welcome extends javax.swing.JFrame {
             try {
                 Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
                 xmlBootDocument.getDocumentElement().normalize();
-                Node systemNode =
-                        xmlBootDocument.getElementsByTagName("system").item(0);
+                Node systemNode
+                        = xmlBootDocument.getElementsByTagName("system").item(0);
                 Element systemElement = (Element) systemNode;
                 Node node = systemElement.getElementsByTagName("text").item(0);
                 if (node != null) {
@@ -2251,8 +2252,8 @@ public class Welcome extends javax.swing.JFrame {
 
                 // write changes back to config file
                 File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
-                TransformerFactory transformerFactory =
-                        TransformerFactory.newInstance();
+                TransformerFactory transformerFactory
+                        = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 DOMSource source = new DOMSource(xmlBootDocument);
@@ -2279,7 +2280,6 @@ public class Welcome extends javax.swing.JFrame {
                     + systemName + ' ' + systemVersion + "\"|1",
                     IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
 
-
             // remount image read-only
             processExecutor.executeProcess(
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
@@ -2299,8 +2299,8 @@ public class Welcome extends javax.swing.JFrame {
 
     private static List<String> readFile(File file) throws IOException {
         List<String> lines = new ArrayList<String>();
-        BufferedReader reader =
-                new BufferedReader(new FileReader(file));
+        BufferedReader reader
+                = new BufferedReader(new FileReader(file));
         for (String line = reader.readLine(); line != null;
                 line = reader.readLine()) {
             lines.add(line);
@@ -2418,17 +2418,17 @@ public class Welcome extends javax.swing.JFrame {
         // update packaging information
         ProgressDialog updateDialog = new ProgressDialog(this,
                 new ImageIcon(getClass().getResource(
-                "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
+                                "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
         updateDialog.setProgressBarVisible(false);
         updateDialog.setTitle(null);
-        PackageListUpdater packageListUpdater =
-                new PackageListUpdater(updateDialog);
+        PackageListUpdater packageListUpdater
+                = new PackageListUpdater(updateDialog);
         packageListUpdater.execute();
         updateDialog.setVisible(true);
         try {
             if (!packageListUpdater.get()) {
-                UpdateErrorDialog dialog =
-                        new UpdateErrorDialog(this, aptGetOutput);
+                UpdateErrorDialog dialog
+                        = new UpdateErrorDialog(this, aptGetOutput);
                 dialog.setVisible(true);
             }
         } catch (InterruptedException ex) {
@@ -2484,20 +2484,20 @@ public class Welcome extends javax.swing.JFrame {
 
             final ProgressDialog progressDialog = new ProgressDialog(this,
                     new ImageIcon(getClass().getResource(
-                    "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
+                                    "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
 
-            Installer installer =
-                    new Installer(progressDialog, numberOfPackages);
+            Installer installer
+                    = new Installer(progressDialog, numberOfPackages);
             installer.addPropertyChangeListener(
                     new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if ("progress".equals(evt.getPropertyName())) {
-                        Integer progress = (Integer) evt.getNewValue();
-                        progressDialog.setProgress(progress);
-                    }
-                }
-            });
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress".equals(evt.getPropertyName())) {
+                                Integer progress = (Integer) evt.getNewValue();
+                                progressDialog.setProgress(progress);
+                            }
+                        }
+                    });
             installer.execute();
             progressDialog.setVisible(true);
             checkAllPackages();
@@ -2619,7 +2619,6 @@ public class Welcome extends javax.swing.JFrame {
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/package.png"));
             publish(new ProgressAction(infoString, icon));
-
 
             String updateScript = "cd " + USER_HOME + '\n'
                     + "apt-get" + getAptGetProxyLine() + "update";
@@ -2770,8 +2769,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Welcome.readerLabel.text"));
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Reader_8_icon.png"));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
             /**
              * example download link:
@@ -2799,7 +2798,7 @@ public class Welcome extends javax.swing.JFrame {
             }
             updateProgress();
         }
-        
+
         private void installSkype() throws IOException {
             if (!skypeCheckBox.isSelected()) {
                 return;
@@ -2809,8 +2808,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Welcome.skypeLabel.text"));
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png"));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
             String skypeInstallScript = "#!/bin/sh\n"
                     + "wget -O skype-install.deb http://www.skype.com/go/getskype-linux-deb\n"
@@ -2837,8 +2836,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Welcome.googleEarthLabel.text"));
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/48x48/googleearth-icon.png"));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
 
             // old version with googleearth-package
@@ -2847,11 +2846,10 @@ public class Welcome extends javax.swing.JFrame {
 //                    + "make-googleearth-package --force\n"
 //                    + "dpkg -i googleearth_*\n"
 //                    + "rm googleearth_*";
-
             // new version with direct download link
             String debName = "google-earth-stable_current_i386.deb";
-            String googleEarthInstallScript =
-                    "apt-get" + getAptGetProxyLine()
+            String googleEarthInstallScript
+                    = "apt-get" + getAptGetProxyLine()
                     + "-y --force-yes install lsb-core\n"
                     + "cd " + USER_HOME + '\n'
                     + "wget" + getWgetProxyLine()
@@ -2896,8 +2894,8 @@ public class Welcome extends javax.swing.JFrame {
         private void installPackage(String infoString,
                 String iconPath, String... packageNames) {
             Icon icon = new ImageIcon(getClass().getResource(iconPath));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
 
             for (String packageName : packageNames) {
@@ -2923,7 +2921,6 @@ public class Welcome extends javax.swing.JFrame {
 //            Map<String,String> environment = new HashMap<String, String>();
 //            environment.put("DEBIAN_FRONTEND", "noninteractive");
 //            processExecutor.setEnvironment(environment);
-
             int exitValue = -1;
             try {
                 exitValue = processExecutor.executeScript(true, true, script);
