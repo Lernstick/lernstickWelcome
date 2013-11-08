@@ -155,37 +155,31 @@ public class Welcome extends javax.swing.JFrame {
         initComponents();
 
         // load and apply all properties
-        boolean showAtStartup = false;
-        boolean showReadOnlyInfo = true;
-        String propertiesFileName = "/home/user" + File.separatorChar
-                + ".config" + File.separatorChar + "lernstickWelcome";
-        propertiesFile = new File(propertiesFileName);
         properties = new Properties();
+        propertiesFile = new File("/home/user" + File.separatorChar
+                + ".config" + File.separatorChar + "lernstickWelcome");
         try {
             properties.load(new FileInputStream(propertiesFile));
-            showAtStartup = "true".equals(
-                    properties.getProperty(SHOW_WELCOME));
-            showReadOnlyInfo = "true".equals(
-                    properties.getProperty(SHOW_READ_ONLY_INFO));
-
-            backupCheckBox.setSelected("true".equals(
-                    properties.getProperty(BACKUP)));
-            backupSourceTextField.setText(properties.getProperty(
-                    BACKUP_SOURCE, "/home/user/"));
-            backupDestinationTextField.setText(
-                    properties.getProperty(BACKUP_DESTINATION));
-            String frequencyString = properties.getProperty(
-                    BACKUP_FREQUENCY, "5");
-            try {
-                backupFrequencySpinner.setValue(new Integer(frequencyString));
-            } catch (NumberFormatException ex) {
-                LOGGER.log(Level.WARNING,
-                        "could not parse backup frequency \"{0}\"",
-                        frequencyString);
-            }
         } catch (IOException ex) {
             LOGGER.log(Level.INFO,
                     "can not load properties from " + propertiesFile, ex);
+        }
+        boolean showAtStartup = "true".equals(
+                properties.getProperty(SHOW_WELCOME));
+        boolean showReadOnlyInfo = "true".equals(
+                properties.getProperty(SHOW_READ_ONLY_INFO));
+        backupCheckBox.setSelected("true".equals(
+                properties.getProperty(BACKUP)));
+        backupSourceTextField.setText(properties.getProperty(
+                BACKUP_SOURCE, "/home/user/"));
+        String frequencyString = properties.getProperty(
+                BACKUP_FREQUENCY, "5");
+        try {
+            backupFrequencySpinner.setValue(new Integer(frequencyString));
+        } catch (NumberFormatException ex) {
+            LOGGER.log(Level.WARNING,
+                    "could not parse backup frequency \"{0}\"",
+                    frequencyString);
         }
 
         menuList.setModel(menuListModel);
@@ -273,6 +267,17 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+        }
+
+        String exchangeMountPoint = null;
+        try {
+            if (exchangePartition != null) {
+                exchangeMountPoint = getPartitionMountPoint(exchangePartition);
+            }
+            backupDestinationTextField.setText(properties.getProperty(
+                    BACKUP_DESTINATION, exchangeMountPoint));
+        } catch (DBusException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
         }
 
         // determine some boot properties
@@ -2376,12 +2381,20 @@ public class Welcome extends javax.swing.JFrame {
             if (idType.equals("vfat")) {
                 return firstPartition;
             }
-        } catch (Exception ex) {
+        } catch (DBusException ex) {
             LOGGER.log(Level.WARNING, "Could not check first partition of "
                     + systemDevice, ex);
         }
 
         return null;
+    }
+
+    private String getPartitionMountPoint(String partition) throws DBusException {
+        String mountPoint = DbusTools.getStringListProperty(
+                partition.substring(5), "DeviceMountPaths").get(0);
+        LOGGER.log(Level.INFO, "mount point of partition {0}: \"{1}\"",
+                new Object[]{partition, mountPoint});
+        return mountPoint;
     }
 
     private String getPartitionLabel(String partition) throws DBusException {
