@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome;
 
-import ch.fhnw.jbackpack.JBackpack;
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
 import ch.fhnw.util.DbusTools;
 import ch.fhnw.util.ProcessExecutor;
@@ -25,8 +24,6 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.*;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
@@ -52,6 +49,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -2158,60 +2156,8 @@ public class Welcome extends javax.swing.JFrame {
         String backupDestination = backupDestinationTextField.getText();
 
         if (examEnvironment) {
-            // save IP tables
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < ipTableModel.getRowCount(); i++) {
-                // comment
-                stringBuilder.append("# ");
-                stringBuilder.append(ipTableModel.getValueAt(i, 3));
-                stringBuilder.append('\n');
-                // protocol
-                stringBuilder.append(ipTableModel.getValueAt(i, 0));
-                stringBuilder.append(' ');
-                // target
-                stringBuilder.append(ipTableModel.getValueAt(i, 1));
-                stringBuilder.append(' ');
-                // port
-                stringBuilder.append(ipTableModel.getValueAt(i, 2));
-                stringBuilder.append('\n');
-            }
-            String ipTables = stringBuilder.toString();
-            try {
-                FileOutputStream fileOutputStream
-                        = new FileOutputStream(IP_TABLES_FILENAME);
-                fileOutputStream.write(ipTables.getBytes());
-                fileOutputStream.flush();
-                fileOutputStream.close();
-            } catch (IOException ex) {
-                LOGGER.log(Level.WARNING, "", ex);
-            }
-
-            // save URL whitelist
-            try {
-                FileOutputStream fileOutputStream
-                        = new FileOutputStream(URL_WHITELIST_FILENAME);
-                fileOutputStream.write(
-                        firewallURLTextArea.getText().getBytes());
-                fileOutputStream.flush();
-                fileOutputStream.close();
-            } catch (IOException ex) {
-                LOGGER.log(Level.WARNING, "", ex);
-            }
-            processExecutor.executeProcess(
-                    "/etc/init.d/lernstick-firewall", "reload");
-
-            // update JBackpack preferences
-            Preferences preferences
-                    = Preferences.userNodeForPackage(JBackpack.class);
-            preferences.put(JBackpack.SOURCE, backupSource);
-            preferences.put(JBackpack.DESTINATION, "local");
-            preferences.put(JBackpack.LOCAL_DESTINATION_DIRECTORY,
-                    backupDestination);
-            try {
-                preferences.flush();
-            } catch (BackingStoreException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
-            }
+            updateFirewall();
+            updateJBackpackProperties(backupSource, backupDestination);
         } else {
             installSelectedPackages();
         }
@@ -2236,43 +2182,164 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         if (IMAGE_IS_WRITABLE) {
-            // make image (temporarily) writable
-            processExecutor.executeProcess(
-                    "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
+            updateBootloaders();
+        }
 
-            // update timeout...
-            SpinnerNumberModel spinnerNumberModel
-                    = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
-            int timeoutValue = spinnerNumberModel.getNumber().intValue();
-            // ... in syslinux ...
-            processExecutor.executeProcess("sed", "-i", "-e",
-                    "s|timeout .*|timeout " + (timeoutValue * 10) + "|1",
-                    SYSLINUX_CONFIG_FILE.getPath());
-            // ... and grub
-            processExecutor.executeProcess("sed", "-i", "-e",
-                    "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
-                    IMAGE_DIRECTORY + "/boot/grub/grub_main.cfg");
-            processExecutor.executeProcess("sed", "-i", "-e",
-                    "s|num_ticks = .*|num_ticks = " + timeoutValue + "|1",
-                    IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
+        // show "done" message
+        // toolkit.beep();
+        URL url = getClass().getResource(
+                "/ch/fhnw/lernstickwelcome/KDE_Notify.wav");
+        AudioClip clip = Applet.newAudioClip(url);
+        clip.play();
+        String infoMessage = BUNDLE.getString("Info_Success");
+        JOptionPane.showMessageDialog(this, infoMessage,
+                BUNDLE.getString("Information"),
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 
-            // update system name and version...
-            String systemName = systemNameTextField.getText();
-            String systemVersion = systemVersionTextField.getText();
-            // ... in xmlboot config
+    private void updateBootloaders() {
+        // make image (temporarily) writable
+        processExecutor.executeProcess(
+                "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
+
+        // update timeout...
+        SpinnerNumberModel spinnerNumberModel
+                = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
+        int timeoutValue = spinnerNumberModel.getNumber().intValue();
+        // ... in syslinux ...
+        processExecutor.executeProcess("sed", "-i", "-e",
+                "s|timeout .*|timeout " + (timeoutValue * 10) + "|1",
+                SYSLINUX_CONFIG_FILE.getPath());
+        // ... and grub
+        processExecutor.executeProcess("sed", "-i", "-e",
+                "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
+                IMAGE_DIRECTORY + "/boot/grub/grub_main.cfg");
+        processExecutor.executeProcess("sed", "-i", "-e",
+                "s|num_ticks = .*|num_ticks = " + timeoutValue + "|1",
+                IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
+
+        // update system name and version...
+        String systemName = systemNameTextField.getText();
+        String systemVersion = systemVersionTextField.getText();
+        // ... in xmlboot config
+        try {
+            Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
+            xmlBootDocument.getDocumentElement().normalize();
+            Node systemNode
+                    = xmlBootDocument.getElementsByTagName("system").item(0);
+            Element systemElement = (Element) systemNode;
+            Node node = systemElement.getElementsByTagName("text").item(0);
+            if (node != null) {
+                node.setTextContent(systemName);
+            }
+            node = systemElement.getElementsByTagName("version").item(0);
+            if (node != null) {
+                node.setTextContent(systemVersion);
+            }
+
+            // write changes back to config file
+            File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
+            TransformerFactory transformerFactory
+                    = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            DOMSource source = new DOMSource(xmlBootDocument);
+            StreamResult result = new StreamResult(tmpFile);
+            transformer.transform(source, result);
+            processExecutor.executeProcess("mv", tmpFile.getPath(),
+                    XMLBOOT_CONFIG_FILE.getPath());
+
+        } catch (ParserConfigurationException ex) {
+            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+        } catch (SAXException ex) {
+            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+        } catch (DOMException ex) {
+            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+        } catch (TransformerException ex) {
+            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+        }
+
+        // ... and in grub theme
+        processExecutor.executeProcess("sed", "-i", "-e",
+                "s|title-text: .*|title-text: \""
+                + systemName + ' ' + systemVersion + "\"|1",
+                IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
+
+        // remount image read-only
+        processExecutor.executeProcess(
+                "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
+    }
+
+    private void updateFirewall() {
+        // save IP tables
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < ipTableModel.getRowCount(); i++) {
+            // comment
+            stringBuilder.append("# ");
+            stringBuilder.append(ipTableModel.getValueAt(i, 3));
+            stringBuilder.append('\n');
+            // protocol
+            stringBuilder.append(ipTableModel.getValueAt(i, 0));
+            stringBuilder.append(' ');
+            // target
+            stringBuilder.append(ipTableModel.getValueAt(i, 1));
+            stringBuilder.append(' ');
+            // port
+            stringBuilder.append(ipTableModel.getValueAt(i, 2));
+            stringBuilder.append('\n');
+        }
+        String ipTables = stringBuilder.toString();
+        try {
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream(IP_TABLES_FILENAME);
+            fileOutputStream.write(ipTables.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+
+        // save URL whitelist
+        try {
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream(URL_WHITELIST_FILENAME);
+            fileOutputStream.write(firewallURLTextArea.getText().getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+        processExecutor.executeProcess(
+                "/etc/init.d/lernstick-firewall", "reload");
+    }
+
+    private void updateJBackpackProperties(
+            String backupSource, String backupDestination) {
+        // update JBackpack preferences of the default user
+        File prefsDirectory = new File(
+                "/home/user/.java/.userPrefs/ch/fhnw/jbackpack/");
+        File prefsFile = new File(prefsDirectory, "prefs.xml");
+        String prefsFilePath = prefsFile.getPath();
+        if (prefsFile.exists()) {
             try {
-                Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
+                Document xmlBootDocument = parseXmlFile(prefsFile);
                 xmlBootDocument.getDocumentElement().normalize();
-                Node systemNode
-                        = xmlBootDocument.getElementsByTagName("system").item(0);
-                Element systemElement = (Element) systemNode;
-                Node node = systemElement.getElementsByTagName("text").item(0);
-                if (node != null) {
-                    node.setTextContent(systemName);
-                }
-                node = systemElement.getElementsByTagName("version").item(0);
-                if (node != null) {
-                    node.setTextContent(systemVersion);
+                Node mapNode
+                        = xmlBootDocument.getElementsByTagName("map").item(0);
+                Element mapElement = (Element) mapNode;
+                NodeList entries = mapElement.getElementsByTagName("entry");
+                for (int i = 0, length = entries.getLength(); i < length; i++) {
+                    Element entry = (Element) entries.item(i);
+                    String key = entry.getAttribute("key");
+                    if ("destination".equals(key)) {
+                        entry.setAttribute("value", "local");
+                    } else if ("local_destination_directory".equals(key)) {
+                        entry.setAttribute("value", backupDestination);
+                    } else if ("source".equals(key)) {
+                        entry.setAttribute("value", backupSource);
+                    }
                 }
 
                 // write changes back to config file
@@ -2281,11 +2348,15 @@ public class Welcome extends javax.swing.JFrame {
                         = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
+                        "http://java.sun.com/dtd/preferences.dtd");
                 DOMSource source = new DOMSource(xmlBootDocument);
                 StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
-                processExecutor.executeProcess("mv", tmpFile.getPath(),
-                        XMLBOOT_CONFIG_FILE.getPath());
+                processExecutor.executeProcess(
+                        "mv", tmpFile.getPath(), prefsFilePath);
+                processExecutor.executeProcess(
+                        "chown", "user.user", prefsFilePath);
 
             } catch (ParserConfigurationException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
@@ -2299,27 +2370,32 @@ public class Welcome extends javax.swing.JFrame {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
 
-            // ... and in grub theme
-            processExecutor.executeProcess("sed", "-i", "-e",
-                    "s|title-text: .*|title-text: \""
-                    + systemName + ' ' + systemVersion + "\"|1",
-                    IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
-
-            // remount image read-only
+        } else {
+            if (!prefsDirectory.exists() && !prefsDirectory.mkdirs()) {
+                LOGGER.log(Level.WARNING,
+                        "could not create directory {0}", prefsDirectory);
+                return;
+            }
+            // create mininal JBackpack preferences
+            String preferences
+                    = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
+                    + "<!DOCTYPE map SYSTEM \"http://java.sun.com/dtd/preferences.dtd\">\n"
+                    + "<map MAP_XML_VERSION=\"1.0\">\n"
+                    + "  <entry key=\"destination\" value=\"local\"/>\n"
+                    + "  <entry key=\"local_destination_directory\" value=\"" + backupDestination + "\"/>\n"
+                    + "  <entry key=\"source\" value=\"" + backupSource + "\"/>\n"
+                    + "</map>\n";
+            try {
+                FileWriter fileWriter = new FileWriter(prefsFile);
+                fileWriter.write(preferences);
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "", ex);
+            }
             processExecutor.executeProcess(
-                    "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
+                    "chown", "-R", "user.user", "/home/user/.java/");
         }
-
-        // show "done" message
-        // toolkit.beep();
-        URL url = getClass().getResource(
-                "/ch/fhnw/lernstickwelcome/KDE_Notify.wav");
-        AudioClip clip = Applet.newAudioClip(url);
-        clip.play();
-        String infoMessage = BUNDLE.getString("Info_Success");
-        JOptionPane.showMessageDialog(this, infoMessage,
-                BUNDLE.getString("Information"),
-                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private static List<String> readFile(File file) throws IOException {
