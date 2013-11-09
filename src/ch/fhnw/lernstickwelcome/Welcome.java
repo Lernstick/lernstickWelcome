@@ -2394,10 +2394,16 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private String getPartitionMountPoint(String partition) throws DBusException {
-        String mountPoint = DbusTools.getStringListProperty(
-                partition.substring(5), "DeviceMountPaths").get(0);
-        LOGGER.log(Level.INFO, "mount point of partition {0}: \"{1}\"",
-                new Object[]{partition, mountPoint});
+        List<String> mountPoints = DbusTools.getStringListProperty(
+                partition.substring(5), "DeviceMountPaths");
+        String mountPoint = null;
+        if (mountPoints.isEmpty()) {
+            LOGGER.log(Level.INFO, "partition {0} is not mounted", partition);
+        } else {
+            mountPoint = mountPoints.get(0);
+            LOGGER.log(Level.INFO, "mount point of partition {0}: \"{1}\"",
+                    new Object[]{partition, mountPoint});
+        }
         return mountPoint;
     }
 

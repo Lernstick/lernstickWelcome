@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201311091014-1) unstable; urgency=low
+
+  * fixed exchange partition mountpoint detection
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sat, 09 Nov 2013 10:14:54 +0100
+
 lernstickwelcome-wheezy (201311081852-1) unstable; urgency=low
 
   * fixed initial properties handling
