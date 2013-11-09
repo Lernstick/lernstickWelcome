@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome;
 
+import ch.fhnw.jbackpack.JBackpack;
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
 import ch.fhnw.util.DbusTools;
 import ch.fhnw.util.ProcessExecutor;
@@ -24,6 +25,8 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.*;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
@@ -114,6 +117,9 @@ public class Welcome extends javax.swing.JFrame {
 
     /**
      * Creates new form Welcome
+     *
+     * @param examEnvironment if <tt>true</tt>, show the version for the exam
+     * environment, otherwise for the learning environment
      */
     public Welcome(boolean examEnvironment) {
         this.examEnvironment = examEnvironment;
@@ -2148,6 +2154,9 @@ public class Welcome extends javax.swing.JFrame {
                     exchangePartition, newExchangePartitionLabel);
         }
 
+        String backupSource = backupSourceTextField.getText();
+        String backupDestination = backupDestinationTextField.getText();
+
         if (examEnvironment) {
             // save IP tables
             StringBuilder stringBuilder = new StringBuilder();
@@ -2188,14 +2197,26 @@ public class Welcome extends javax.swing.JFrame {
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
             }
-
             processExecutor.executeProcess(
                     "/etc/init.d/lernstick-firewall", "reload");
+
+            // update JBackpack preferences
+            Preferences preferences
+                    = Preferences.userNodeForPackage(JBackpack.class);
+            preferences.put(JBackpack.SOURCE, backupSource);
+            preferences.put(JBackpack.DESTINATION, "local");
+            preferences.put(JBackpack.LOCAL_DESTINATION_DIRECTORY,
+                    backupDestination);
+            try {
+                preferences.flush();
+            } catch (BackingStoreException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            }
         } else {
             installSelectedPackages();
         }
 
-        // update properties
+        // update lernstickWelcome properties
         try {
             properties.setProperty(SHOW_WELCOME,
                     readWriteCheckBox.isSelected() ? "true" : "false");
@@ -2203,10 +2224,8 @@ public class Welcome extends javax.swing.JFrame {
                     readOnlyCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(BACKUP,
                     backupCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(BACKUP_SOURCE,
-                    backupSourceTextField.getText());
-            properties.setProperty(BACKUP_DESTINATION,
-                    backupDestinationTextField.getText());
+            properties.setProperty(BACKUP_SOURCE, backupSource);
+            properties.setProperty(BACKUP_DESTINATION, backupDestination);
             Number backupFrequency = (Number) backupFrequencySpinner.getValue();
             properties.setProperty(BACKUP_FREQUENCY,
                     backupFrequency.toString());
