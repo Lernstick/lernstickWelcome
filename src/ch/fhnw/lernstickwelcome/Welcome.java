@@ -2971,7 +2971,7 @@ public class Welcome extends javax.swing.JFrame {
                     + "-y --force-yes install lsb-core\n"
                     + "cd " + USER_HOME + '\n'
                     + "wget" + getWgetProxyLine()
-                    + "https://dl-ssl.google.com/linux/direct/" + debName + '\n'
+                    + "http://dl.google.com/dl/earth/client/current/" + debName + '\n'
                     + "dpkg -i " + debName + '\n'
                     + "rm " + debName;
             int exitValue = processExecutor.executeScript(

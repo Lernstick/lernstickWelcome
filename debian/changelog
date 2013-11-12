@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201311121630-1) unstable; urgency=low
+
+  * fixed download link for Google Earth
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 12 Nov 2013 16:30:17 +0100
+
 lernstickwelcome-wheezy (201311091317-1) unstable; urgency=low
 
   * update JBackpack preferences
