@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201311151111-1) unstable; urgency=low
+
+  * fixed wording on firewall tabs
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 15 Nov 2013 11:11:23 +0100
+
 lernstickwelcome-wheezy (201311121630-1) unstable; urgency=low
 
   * fixed download link for Google Earth
