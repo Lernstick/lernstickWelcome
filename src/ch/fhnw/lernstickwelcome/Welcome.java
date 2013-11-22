@@ -180,7 +180,7 @@ public class Welcome extends javax.swing.JFrame {
                 properties.getProperty(BACKUP)));
         backupSourceTextField.setText(properties.getProperty(
                 BACKUP_SOURCE, "/home/user/"));
-        screenShotCheckBox.setEnabled(screenshot);
+        screenShotCheckBox.setSelected(screenshot);
         String frequencyString = properties.getProperty(
                 BACKUP_FREQUENCY, "5");
         try {
