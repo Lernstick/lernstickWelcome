@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201311222050-1) unstable; urgency=low
+
+  * added backup screenshot setting
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 22 Nov 2013 20:50:55 +0100
+
 lernstickwelcome-wheezy (201311151111-1) unstable; urgency=low
 
   * fixed wording on firewall tabs

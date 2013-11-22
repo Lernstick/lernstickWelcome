@@ -68,6 +68,7 @@ public class Welcome extends javax.swing.JFrame {
     private static final String BACKUP = "Backup";
     private static final String BACKUP_SOURCE = "BackupSource";
     private static final String BACKUP_DESTINATION = "BackupDestination";
+    private static final String BACKUP_SCREENSHOT = "BackupScreenshot";
     private static final String BACKUP_FREQUENCY = "BackupFrequency";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
@@ -173,10 +174,13 @@ public class Welcome extends javax.swing.JFrame {
                 properties.getProperty(SHOW_WELCOME));
         boolean showReadOnlyInfo = "true".equals(
                 properties.getProperty(SHOW_READ_ONLY_INFO));
+        boolean screenshot = "true".equals(
+                properties.getProperty(BACKUP_SCREENSHOT));
         backupCheckBox.setSelected("true".equals(
                 properties.getProperty(BACKUP)));
         backupSourceTextField.setText(properties.getProperty(
                 BACKUP_SOURCE, "/home/user/"));
+        screenShotCheckBox.setEnabled(screenshot);
         String frequencyString = properties.getProperty(
                 BACKUP_FREQUENCY, "5");
         try {
@@ -451,6 +455,7 @@ public class Welcome extends javax.swing.JFrame {
         backupDestinationLabel = new javax.swing.JLabel();
         backupDestinationTextField = new javax.swing.JTextField();
         backupDestinationButton = new javax.swing.JButton();
+        screenShotCheckBox = new javax.swing.JCheckBox();
         backupFrequencyLabel = new javax.swing.JLabel();
         backupFrequencyPanel = new javax.swing.JPanel();
         backupFrequencyEveryLabel = new javax.swing.JLabel();
@@ -688,14 +693,14 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         backupPanel.add(backupCheckBox, gridBagConstraints);
 
         backupSourceLabel.setText(bundle.getString("Welcome.backupSourceLabel.text")); // NOI18N
         backupSourceLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
         backupPanel.add(backupSourceLabel, gridBagConstraints);
 
         backupSourceTextField.setEnabled(false);
@@ -722,7 +727,7 @@ public class Welcome extends javax.swing.JFrame {
         backupDestinationLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
         backupPanel.add(backupDestinationLabel, gridBagConstraints);
 
         backupDestinationTextField.setEnabled(false);
@@ -745,11 +750,19 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
         backupPanel.add(backupDestinationButton, gridBagConstraints);
 
+        screenShotCheckBox.setText(bundle.getString("Welcome.screenShotCheckBox.text")); // NOI18N
+        screenShotCheckBox.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        backupPanel.add(screenShotCheckBox, gridBagConstraints);
+
         backupFrequencyLabel.setText(bundle.getString("Welcome.backupFrequencyLabel.text")); // NOI18N
         backupFrequencyLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         backupPanel.add(backupFrequencyLabel, gridBagConstraints);
 
         backupFrequencyPanel.setLayout(new java.awt.GridBagLayout());
@@ -776,7 +789,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 10);
         backupPanel.add(backupFrequencyPanel, gridBagConstraints);
 
         mainCardPanel.add(backupPanel, "backupPanel");
@@ -1819,6 +1832,7 @@ public class Welcome extends javax.swing.JFrame {
         backupDestinationLabel.setEnabled(enabled);
         backupDestinationTextField.setEnabled(enabled);
         backupDestinationButton.setEnabled(enabled);
+        screenShotCheckBox.setEnabled(enabled);
         backupFrequencyLabel.setEnabled(enabled);
         backupFrequencyEveryLabel.setEnabled(enabled);
         backupFrequencySpinner.setEnabled(enabled);
@@ -2170,6 +2184,8 @@ public class Welcome extends javax.swing.JFrame {
                     readOnlyCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(BACKUP,
                     backupCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(BACKUP_SCREENSHOT,
+                    screenShotCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(BACKUP_SOURCE, backupSource);
             properties.setProperty(BACKUP_DESTINATION, backupDestination);
             Number backupFrequency = (Number) backupFrequencySpinner.getValue();
@@ -3188,6 +3204,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel recommendedPanel;
     private javax.swing.JButton removeIPButton;
     private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
+    private javax.swing.JCheckBox screenShotCheckBox;
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
