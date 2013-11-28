@@ -163,8 +163,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // load and apply all properties
         properties = new Properties();
-        propertiesFile = new File("/home/user" + File.separatorChar
-                + ".config" + File.separatorChar + "lernstickWelcome");
+        propertiesFile = new File("/etc/lernstickWelcome");
         try {
             properties.load(new FileInputStream(propertiesFile));
         } catch (IOException ex) {
@@ -174,7 +173,7 @@ public class Welcome extends javax.swing.JFrame {
         readWriteCheckBox.setSelected("true".equals(
                 properties.getProperty(SHOW_WELCOME)));
         readOnlyCheckBox.setSelected("true".equals(
-                properties.getProperty(SHOW_READ_ONLY_INFO)));
+                properties.getProperty(SHOW_READ_ONLY_INFO, "true")));
         backupCheckBox.setSelected("true".equals(
                 properties.getProperty(BACKUP)));
         backupSourceTextField.setText(properties.getProperty(
@@ -2960,7 +2959,8 @@ public class Welcome extends javax.swing.JFrame {
             String skypeInstallScript = "#!/bin/sh\n"
                     + "wget -O skype-install.deb http://www.skype.com/go/getskype-linux-deb\n"
                     + "dpkg -i skype-install.deb\n"
-                    + "apt-get -f install";
+                    + "apt-get -f install\n"
+                    + "rm skype-install.deb";
             int exitValue = processExecutor.executeScript(
                     true, true, skypeInstallScript);
             if (exitValue != 0) {
