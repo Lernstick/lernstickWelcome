@@ -1,11 +1,12 @@
-lernstickwelcome-wheezy (201311261559-1) unstable; urgency=low
+lernstickwelcome-wheezy (201311261735-1) unstable; urgency=low
 
   * added checkbox for exchange partition access configuration
   * remove skype deb file after installation
   * fixed default value of read-only info checkbox
   * changed properties file location to /etc/lernstickWelcome
+  * configure JBackpack also for root
 
- -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 28 Nov 2013 15:59:10 +0100
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 28 Nov 2013 17:35:10 +0100
 
 lernstickwelcome-wheezy (201311222103-1) unstable; urgency=low
 

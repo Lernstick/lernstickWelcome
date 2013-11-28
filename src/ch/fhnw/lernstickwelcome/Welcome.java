@@ -1873,7 +1873,7 @@ public class Welcome extends javax.swing.JFrame {
                 // try parsing "protocol target port"
                 String[] tokens = line.split(" ");
                 if (tokens.length == 3) {
-                    Protocol protocol = null;
+                    Protocol protocol;
                     if (tokens[0].equalsIgnoreCase("TCP")) {
                         protocol = Protocol.TCP;
                     } else if (tokens[0].equalsIgnoreCase("UDP")) {
@@ -2029,7 +2029,7 @@ public class Welcome extends javax.swing.JFrame {
                     String timeoutString = matcher.group(1);
                     try {
                         return Integer.parseInt(timeoutString) / 10;
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
                         LOGGER.log(Level.WARNING,
                                 "could not parse timeout value \"{0}\"",
                                 timeoutString);
@@ -2051,6 +2051,10 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * opens a clicked link in a browser
+     * @param evt the corresponding HyperlinkEvent
+     */
     public static void openLinkInBrowser(HyperlinkEvent evt) {
         if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 //            try {
@@ -2347,6 +2351,18 @@ public class Welcome extends javax.swing.JFrame {
         // update JBackpack preferences of the default user
         File prefsDirectory = new File(
                 "/home/user/.java/.userPrefs/ch/fhnw/jbackpack/");
+        updateJBackpackProperties(
+                prefsDirectory, backupSource, backupDestination, true);
+
+        // update JBackpack preferences of the root user
+        prefsDirectory = new File(
+                "/root/.java/.userPrefs/ch/fhnw/jbackpack/");
+        updateJBackpackProperties(
+                prefsDirectory, backupSource, backupDestination, false);
+    }
+
+    private void updateJBackpackProperties(File prefsDirectory,
+            String backupSource, String backupDestination, boolean chown) {
         File prefsFile = new File(prefsDirectory, "prefs.xml");
         String prefsFilePath = prefsFile.getPath();
         if (prefsFile.exists()) {
@@ -2420,8 +2436,10 @@ public class Welcome extends javax.swing.JFrame {
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
             }
-            processExecutor.executeProcess(
-                    "chown", "-R", "user.user", "/home/user/.java/");
+            if (chown) {
+                processExecutor.executeProcess(
+                        "chown", "-R", "user.user", "/home/user/.java/");
+            }
         }
     }
 
