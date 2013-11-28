@@ -70,6 +70,7 @@ public class Welcome extends javax.swing.JFrame {
     private static final String BACKUP_DESTINATION = "BackupDestination";
     private static final String BACKUP_SCREENSHOT = "BackupScreenshot";
     private static final String BACKUP_FREQUENCY = "BackupFrequency";
+    private static final String EXCHANGE_ACCESS = "ExchangeAccess";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     private static final String IP_TABLES_FILENAME
@@ -170,17 +171,18 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.INFO,
                     "can not load properties from " + propertiesFile, ex);
         }
-        boolean showAtStartup = "true".equals(
-                properties.getProperty(SHOW_WELCOME));
-        boolean showReadOnlyInfo = "true".equals(
-                properties.getProperty(SHOW_READ_ONLY_INFO));
-        boolean screenshot = "true".equals(
-                properties.getProperty(BACKUP_SCREENSHOT));
+        readWriteCheckBox.setSelected("true".equals(
+                properties.getProperty(SHOW_WELCOME)));
+        readOnlyCheckBox.setSelected("true".equals(
+                properties.getProperty(SHOW_READ_ONLY_INFO)));
         backupCheckBox.setSelected("true".equals(
                 properties.getProperty(BACKUP)));
         backupSourceTextField.setText(properties.getProperty(
                 BACKUP_SOURCE, "/home/user/"));
-        screenShotCheckBox.setSelected(screenshot);
+        screenShotCheckBox.setSelected("true".equals(
+                properties.getProperty(BACKUP_SCREENSHOT)));
+        exchangeAccessCheckBox.setSelected("true".equals(
+                properties.getProperty(EXCHANGE_ACCESS)));
         String frequencyString = properties.getProperty(
                 BACKUP_FREQUENCY, "5");
         try {
@@ -219,6 +221,7 @@ public class Welcome extends javax.swing.JFrame {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/network-server.png",
                     BUNDLE.getString("Proxy"), "proxyPanel"));
+            exchangeAccessCheckBox.setVisible(false);
         }
         menuListModel.addElement(new MainMenuListEntry(
                 "/ch/fhnw/lernstickwelcome/icons/32x32/system-run.png",
@@ -339,8 +342,6 @@ public class Welcome extends javax.swing.JFrame {
         Color background = UIManager.getDefaults().getColor("Panel.background");
         infoEditorPane.setBackground(background);
         teachingEditorPane.setBackground(background);
-        readWriteCheckBox.setSelected(showAtStartup);
-        readOnlyCheckBox.setSelected(showReadOnlyInfo);
 
         // firewall tables
         ipTableModel = new IPTableModel(firewallIPTable,
@@ -537,6 +538,7 @@ public class Welcome extends javax.swing.JFrame {
         exchangePartitionPanel = new javax.swing.JPanel();
         exchangePartitionNameLabel = new javax.swing.JLabel();
         exchangePartitionNameTextField = new javax.swing.JTextField();
+        exchangeAccessCheckBox = new javax.swing.JCheckBox();
         dataPartitionPanel = new javax.swing.JPanel();
         readWritePanel = new javax.swing.JPanel();
         readWriteCheckBox = new javax.swing.JCheckBox();
@@ -1404,7 +1406,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 3, 0);
         exchangePartitionPanel.add(exchangePartitionNameLabel, gridBagConstraints);
 
         exchangePartitionNameTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -1413,12 +1415,20 @@ public class Welcome extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 3, 10);
         exchangePartitionPanel.add(exchangePartitionNameTextField, gridBagConstraints);
+
+        exchangeAccessCheckBox.setText(bundle.getString("Welcome.exchangeAccessCheckBox.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 3, 0);
+        exchangePartitionPanel.add(exchangeAccessCheckBox, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -2186,6 +2196,8 @@ public class Welcome extends javax.swing.JFrame {
                     backupCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(BACKUP_SCREENSHOT,
                     screenShotCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(EXCHANGE_ACCESS,
+                    exchangeAccessCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(BACKUP_SOURCE, backupSource);
             properties.setProperty(BACKUP_DESTINATION, backupDestination);
             Number backupFrequency = (Number) backupFrequencySpinner.getValue();
@@ -3119,6 +3131,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel dataPartitionPanel;
+    private javax.swing.JCheckBox exchangeAccessCheckBox;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
     private javax.swing.JPanel exchangePartitionPanel;

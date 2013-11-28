@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201311261531-1) unstable; urgency=low
+
+  * added checkbox for exchange partition access configuration
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 28 Nov 2013 15:30:10 +0100
+
 lernstickwelcome-wheezy (201311222103-1) unstable; urgency=low
 
   * added backup screenshot setting
