@@ -2093,6 +2093,12 @@ public class Welcome extends javax.swing.JFrame {
     private Document parseXmlFile(File file)
             throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // External DTD loading will most probably fail because of the local
+        // firewall rules. Therefore we must disable this feature, otherwise
+        // the call to parse() below will just throw an IOException.
+        factory.setFeature(
+                "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+                false);
         factory.setIgnoringComments(true);
         factory.setIgnoringElementContentWhitespace(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -2282,14 +2288,20 @@ public class Welcome extends javax.swing.JFrame {
         String backupPartition = backupPartitionTextField.getText();
 
         if (examEnvironment) {
+
             updateFirewall();
-            if (backupDirectory.isEmpty()) {
-                if (!backupPartition.isEmpty()) {
-                    updateJBackpackProperties(backupSource, backupPartition);
+
+            if (!backupDirectoryCheckBox.isSelected()
+                    || backupDirectory.isEmpty()) {
+                if (backupPartitionCheckBox.isSelected()
+                        && !backupPartition.isEmpty()) {
+                    updateJBackpackProperties(backupSource,
+                            "/media/" + backupPartition + "/lernstick_backup");
                 }
             } else {
                 updateJBackpackProperties(backupSource, backupDirectory);
             }
+
         } else {
             installSelectedPackages();
         }
