@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -67,7 +68,10 @@ public class Welcome extends javax.swing.JFrame {
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     private static final String BACKUP = "Backup";
     private static final String BACKUP_SOURCE = "BackupSource";
-    private static final String BACKUP_DESTINATION = "BackupDestination";
+    private static final String BACKUP_DIRECTORY_ENABLED = "BackupDirectoryEnabled";
+    private static final String BACKUP_DIRECTORY = "BackupDirectory";
+    private static final String BACKUP_PARTITION_ENABLED = "BackupPartitionEnabled";
+    private static final String BACKUP_PARTITION = "BackupPartition";
     private static final String BACKUP_SCREENSHOT = "BackupScreenshot";
     private static final String BACKUP_FREQUENCY = "BackupFrequency";
     private static final String EXCHANGE_ACCESS = "ExchangeAccess";
@@ -160,6 +164,7 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         initComponents();
+        setBordersEnabled(false);
 
         // load and apply all properties
         properties = new Properties();
@@ -170,14 +175,16 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.INFO,
                     "can not load properties from " + propertiesFile, ex);
         }
-        readWriteCheckBox.setSelected("true".equals(
-                properties.getProperty(SHOW_WELCOME)));
-        readOnlyCheckBox.setSelected("true".equals(
-                properties.getProperty(SHOW_READ_ONLY_INFO, "true")));
         backupCheckBox.setSelected("true".equals(
                 properties.getProperty(BACKUP)));
         backupSourceTextField.setText(properties.getProperty(
                 BACKUP_SOURCE, "/home/user/"));
+        backupDirectoryCheckBox.setSelected("true".equals(
+                properties.getProperty(BACKUP_DIRECTORY_ENABLED)));
+        backupPartitionCheckBox.setSelected("true".equals(
+                properties.getProperty(BACKUP_PARTITION_ENABLED)));
+        backupPartitionTextField.setText(properties.getProperty(
+                BACKUP_PARTITION));
         screenShotCheckBox.setSelected("true".equals(
                 properties.getProperty(BACKUP_SCREENSHOT)));
         exchangeAccessCheckBox.setSelected("true".equals(
@@ -191,6 +198,10 @@ public class Welcome extends javax.swing.JFrame {
                     "could not parse backup frequency \"{0}\"",
                     frequencyString);
         }
+        readWriteCheckBox.setSelected("true".equals(
+                properties.getProperty(SHOW_WELCOME)));
+        readOnlyCheckBox.setSelected("true".equals(
+                properties.getProperty(SHOW_READ_ONLY_INFO, "true")));
 
         menuList.setModel(menuListModel);
 
@@ -285,8 +296,8 @@ public class Welcome extends javax.swing.JFrame {
             if (exchangePartition != null) {
                 exchangeMountPoint = getPartitionMountPoint(exchangePartition);
             }
-            backupDestinationTextField.setText(properties.getProperty(
-                    BACKUP_DESTINATION, exchangeMountPoint));
+            backupDirectoryTextField.setText(properties.getProperty(
+                    BACKUP_DIRECTORY, exchangeMountPoint));
         } catch (DBusException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
@@ -449,15 +460,19 @@ public class Welcome extends javax.swing.JFrame {
         passwordChangeButton = new javax.swing.JButton();
         backupPanel = new javax.swing.JPanel();
         backupCheckBox = new javax.swing.JCheckBox();
+        backupSourcePanel = new javax.swing.JPanel();
         backupSourceLabel = new javax.swing.JLabel();
         backupSourceTextField = new javax.swing.JTextField();
         backupSourceButton = new javax.swing.JButton();
-        backupDestinationLabel = new javax.swing.JLabel();
-        backupDestinationTextField = new javax.swing.JTextField();
-        backupDestinationButton = new javax.swing.JButton();
+        backupDestinationsPanel = new javax.swing.JPanel();
+        backupDirectoryCheckBox = new javax.swing.JCheckBox();
+        backupDirectoryLabel = new javax.swing.JLabel();
+        backupDirectoryTextField = new javax.swing.JTextField();
+        backupDirectoryButton = new javax.swing.JButton();
+        backupPartitionCheckBox = new javax.swing.JCheckBox();
+        backupPartitionLabel = new javax.swing.JLabel();
+        backupPartitionTextField = new javax.swing.JTextField();
         screenShotCheckBox = new javax.swing.JCheckBox();
-        backupFrequencyLabel = new javax.swing.JLabel();
-        backupFrequencyPanel = new javax.swing.JPanel();
         backupFrequencyEveryLabel = new javax.swing.JLabel();
         backupFrequencySpinner = new javax.swing.JSpinner();
         backupFrequencyMinuteLabel = new javax.swing.JLabel();
@@ -697,19 +712,21 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         backupPanel.add(backupCheckBox, gridBagConstraints);
 
+        backupSourcePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.backupSourcePanel.border.title"))); // NOI18N
+        backupSourcePanel.setLayout(new java.awt.GridBagLayout());
+
         backupSourceLabel.setText(bundle.getString("Welcome.backupSourceLabel.text")); // NOI18N
         backupSourceLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
-        backupPanel.add(backupSourceLabel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 0);
+        backupSourcePanel.add(backupSourceLabel, gridBagConstraints);
 
         backupSourceTextField.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 10);
-        backupPanel.add(backupSourceTextField, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 5, 10);
+        backupSourcePanel.add(backupSourceTextField, gridBagConstraints);
 
         backupSourceButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/document-open-folder.png"))); // NOI18N
         backupSourceButton.setEnabled(false);
@@ -721,62 +738,109 @@ public class Welcome extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        backupPanel.add(backupSourceButton, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 10);
+        backupSourcePanel.add(backupSourceButton, gridBagConstraints);
 
-        backupDestinationLabel.setText(bundle.getString("Welcome.backupDestinationLabel.text")); // NOI18N
-        backupDestinationLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
-        backupPanel.add(backupDestinationLabel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        backupPanel.add(backupSourcePanel, gridBagConstraints);
 
-        backupDestinationTextField.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 10);
-        backupPanel.add(backupDestinationTextField, gridBagConstraints);
+        backupDestinationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.backupDestinationsPanel.border.title"))); // NOI18N
+        backupDestinationsPanel.setLayout(new java.awt.GridBagLayout());
 
-        backupDestinationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/document-open-folder.png"))); // NOI18N
-        backupDestinationButton.setEnabled(false);
-        backupDestinationButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        backupDestinationButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backupDestinationButtonActionPerformed(evt);
+        backupDirectoryCheckBox.setText(bundle.getString("Welcome.backupDirectoryCheckBox.text")); // NOI18N
+        backupDirectoryCheckBox.setEnabled(false);
+        backupDirectoryCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                backupDirectoryCheckBoxItemStateChanged(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        backupPanel.add(backupDestinationButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        backupDestinationsPanel.add(backupDirectoryCheckBox, gridBagConstraints);
+
+        backupDirectoryLabel.setText(bundle.getString("Welcome.backupDirectoryLabel.text")); // NOI18N
+        backupDirectoryLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 0);
+        backupDestinationsPanel.add(backupDirectoryLabel, gridBagConstraints);
+
+        backupDirectoryTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        backupDestinationsPanel.add(backupDirectoryTextField, gridBagConstraints);
+
+        backupDirectoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/document-open-folder.png"))); // NOI18N
+        backupDirectoryButton.setEnabled(false);
+        backupDirectoryButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        backupDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backupDirectoryButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        backupDestinationsPanel.add(backupDirectoryButton, gridBagConstraints);
+
+        backupPartitionCheckBox.setText(bundle.getString("Welcome.backupPartitionCheckBox.text")); // NOI18N
+        backupPartitionCheckBox.setEnabled(false);
+        backupPartitionCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                backupPartitionCheckBoxItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        backupDestinationsPanel.add(backupPartitionCheckBox, gridBagConstraints);
+
+        backupPartitionLabel.setText(bundle.getString("Welcome.backupPartitionLabel.text")); // NOI18N
+        backupPartitionLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(3, 15, 5, 0);
+        backupDestinationsPanel.add(backupPartitionLabel, gridBagConstraints);
+
+        backupPartitionTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 5, 0);
+        backupDestinationsPanel.add(backupPartitionTextField, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
+        backupPanel.add(backupDestinationsPanel, gridBagConstraints);
 
         screenShotCheckBox.setText(bundle.getString("Welcome.screenShotCheckBox.text")); // NOI18N
         screenShotCheckBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 13, 0, 0);
         backupPanel.add(screenShotCheckBox, gridBagConstraints);
-
-        backupFrequencyLabel.setText(bundle.getString("Welcome.backupFrequencyLabel.text")); // NOI18N
-        backupFrequencyLabel.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
-        backupPanel.add(backupFrequencyLabel, gridBagConstraints);
-
-        backupFrequencyPanel.setLayout(new java.awt.GridBagLayout());
 
         backupFrequencyEveryLabel.setText(bundle.getString("Welcome.backupFrequencyEveryLabel.text")); // NOI18N
         backupFrequencyEveryLabel.setEnabled(false);
-        backupFrequencyPanel.add(backupFrequencyEveryLabel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        backupPanel.add(backupFrequencyEveryLabel, gridBagConstraints);
 
         backupFrequencySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
         backupFrequencySpinner.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
-        backupFrequencyPanel.add(backupFrequencySpinner, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
+        backupPanel.add(backupFrequencySpinner, gridBagConstraints);
 
         backupFrequencyMinuteLabel.setText(bundle.getString("Welcome.backupFrequencyMinuteLabel.text")); // NOI18N
         backupFrequencyMinuteLabel.setEnabled(false);
@@ -784,14 +848,8 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
-        backupFrequencyPanel.add(backupFrequencyMinuteLabel, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 10);
-        backupPanel.add(backupFrequencyPanel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
+        backupPanel.add(backupFrequencyMinuteLabel, gridBagConstraints);
 
         mainCardPanel.add(backupPanel, "backupPanel");
 
@@ -1819,9 +1877,17 @@ public class Welcome extends javax.swing.JFrame {
         showFileSelector(backupSourceTextField);
     }//GEN-LAST:event_backupSourceButtonActionPerformed
 
-    private void backupDestinationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupDestinationButtonActionPerformed
-        showFileSelector(backupDestinationTextField);
-    }//GEN-LAST:event_backupDestinationButtonActionPerformed
+    private void backupDirectoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupDirectoryButtonActionPerformed
+        showFileSelector(backupDirectoryTextField);
+    }//GEN-LAST:event_backupDirectoryButtonActionPerformed
+
+    private void backupDirectoryCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_backupDirectoryCheckBoxItemStateChanged
+        updateBackupDirectoryEnabled();
+    }//GEN-LAST:event_backupDirectoryCheckBoxItemStateChanged
+
+    private void backupPartitionCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_backupPartitionCheckBoxItemStateChanged
+        updateBackupPartitionEnabled();
+    }//GEN-LAST:event_backupPartitionCheckBoxItemStateChanged
 
     private void showFileSelector(JTextField textField) {
         UIManager.put("FileChooser.readOnly", Boolean.TRUE);
@@ -1838,14 +1904,45 @@ public class Welcome extends javax.swing.JFrame {
         backupSourceLabel.setEnabled(enabled);
         backupSourceTextField.setEnabled(enabled);
         backupSourceButton.setEnabled(enabled);
-        backupDestinationLabel.setEnabled(enabled);
-        backupDestinationTextField.setEnabled(enabled);
-        backupDestinationButton.setEnabled(enabled);
+
+        backupDirectoryCheckBox.setEnabled(enabled);
+        updateBackupDirectoryEnabled();
+
+        backupPartitionCheckBox.setEnabled(enabled);
+        updateBackupPartitionEnabled();
+
         screenShotCheckBox.setEnabled(enabled);
-        backupFrequencyLabel.setEnabled(enabled);
+
         backupFrequencyEveryLabel.setEnabled(enabled);
         backupFrequencySpinner.setEnabled(enabled);
         backupFrequencyMinuteLabel.setEnabled(enabled);
+
+        setBordersEnabled(enabled);
+    }
+
+    private void updateBackupDirectoryEnabled() {
+        boolean enabled = backupCheckBox.isSelected()
+                && backupDirectoryCheckBox.isSelected();
+        backupDirectoryLabel.setEnabled(enabled);
+        backupDirectoryTextField.setEnabled(enabled);
+        backupDirectoryButton.setEnabled(enabled);
+    }
+
+    private void updateBackupPartitionEnabled() {
+        boolean enabled = backupCheckBox.isSelected()
+                && backupPartitionCheckBox.isSelected();
+        backupPartitionLabel.setEnabled(enabled);
+        backupPartitionTextField.setEnabled(enabled);
+    }
+
+    private void setBordersEnabled(boolean enabled) {
+        Color color = enabled ? Color.BLACK : Color.GRAY;
+        TitledBorder border = (TitledBorder) backupSourcePanel.getBorder();
+        border.setTitleColor(color);
+        border = (TitledBorder) backupDestinationsPanel.getBorder();
+        border.setTitleColor(color);
+        backupSourcePanel.repaint();
+        backupDestinationsPanel.repaint();
     }
 
     private void parseURLWhiteList() throws IOException {
@@ -2053,6 +2150,7 @@ public class Welcome extends javax.swing.JFrame {
 
     /**
      * opens a clicked link in a browser
+     *
      * @param evt the corresponding HyperlinkEvent
      */
     public static void openLinkInBrowser(HyperlinkEvent evt) {
@@ -2180,11 +2278,18 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         String backupSource = backupSourceTextField.getText();
-        String backupDestination = backupDestinationTextField.getText();
+        String backupDirectory = backupDirectoryTextField.getText();
+        String backupPartition = backupPartitionTextField.getText();
 
         if (examEnvironment) {
             updateFirewall();
-            updateJBackpackProperties(backupSource, backupDestination);
+            if (backupDirectory.isEmpty()) {
+                if (!backupPartition.isEmpty()) {
+                    updateJBackpackProperties(backupSource, backupPartition);
+                }
+            } else {
+                updateJBackpackProperties(backupSource, backupDirectory);
+            }
         } else {
             installSelectedPackages();
         }
@@ -2201,8 +2306,13 @@ public class Welcome extends javax.swing.JFrame {
                     screenShotCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(EXCHANGE_ACCESS,
                     exchangeAccessCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(BACKUP_DIRECTORY_ENABLED,
+                    backupDirectoryCheckBox.isSelected() ? "true" : "false");
+            properties.setProperty(BACKUP_PARTITION_ENABLED,
+                    backupPartitionCheckBox.isSelected() ? "true" : "false");
             properties.setProperty(BACKUP_SOURCE, backupSource);
-            properties.setProperty(BACKUP_DESTINATION, backupDestination);
+            properties.setProperty(BACKUP_DIRECTORY, backupDirectory);
+            properties.setProperty(BACKUP_PARTITION, backupPartition);
             Number backupFrequency = (Number) backupFrequencySpinner.getValue();
             properties.setProperty(BACKUP_FREQUENCY,
                     backupFrequency.toString());
@@ -3131,17 +3241,21 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton applyButton;
     private ch.fhnw.lernstickwelcome.GamePanel astromenaceGamePanel;
     private javax.swing.JCheckBox backupCheckBox;
-    private javax.swing.JButton backupDestinationButton;
-    private javax.swing.JLabel backupDestinationLabel;
-    private javax.swing.JTextField backupDestinationTextField;
+    private javax.swing.JPanel backupDestinationsPanel;
+    private javax.swing.JButton backupDirectoryButton;
+    private javax.swing.JCheckBox backupDirectoryCheckBox;
+    private javax.swing.JLabel backupDirectoryLabel;
+    private javax.swing.JTextField backupDirectoryTextField;
     private javax.swing.JLabel backupFrequencyEveryLabel;
-    private javax.swing.JLabel backupFrequencyLabel;
     private javax.swing.JLabel backupFrequencyMinuteLabel;
-    private javax.swing.JPanel backupFrequencyPanel;
     private javax.swing.JSpinner backupFrequencySpinner;
     private javax.swing.JPanel backupPanel;
+    private javax.swing.JCheckBox backupPartitionCheckBox;
+    private javax.swing.JLabel backupPartitionLabel;
+    private javax.swing.JTextField backupPartitionTextField;
     private javax.swing.JButton backupSourceButton;
     private javax.swing.JLabel backupSourceLabel;
+    private javax.swing.JPanel backupSourcePanel;
     private javax.swing.JTextField backupSourceTextField;
     private javax.swing.JPanel bootMenuPanel;
     private javax.swing.JLabel bootTimeoutLabel;

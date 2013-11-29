@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201311291101-1) unstable; urgency=low
+
+  * added support for secondary backup on external partitions
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 29 Nov 2013 11:01:08 +0100
+
 lernstickwelcome-wheezy (201311261735-1) unstable; urgency=low
 
   * added checkbox for exchange partition access configuration
