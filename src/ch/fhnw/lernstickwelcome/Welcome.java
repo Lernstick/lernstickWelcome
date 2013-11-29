@@ -180,11 +180,11 @@ public class Welcome extends javax.swing.JFrame {
         backupSourceTextField.setText(properties.getProperty(
                 BACKUP_SOURCE, "/home/user/"));
         backupDirectoryCheckBox.setSelected("true".equals(
-                properties.getProperty(BACKUP_DIRECTORY_ENABLED)));
+                properties.getProperty(BACKUP_DIRECTORY_ENABLED, "true")));
         backupPartitionCheckBox.setSelected("true".equals(
                 properties.getProperty(BACKUP_PARTITION_ENABLED)));
-        backupPartitionTextField.setText(properties.getProperty(
-                BACKUP_PARTITION));
+        backupPartitionTextField.setText(
+                properties.getProperty(BACKUP_PARTITION));
         screenShotCheckBox.setSelected("true".equals(
                 properties.getProperty(BACKUP_SCREENSHOT)));
         exchangeAccessCheckBox.setSelected("true".equals(
