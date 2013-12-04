@@ -95,7 +95,7 @@ public class Welcome extends javax.swing.JFrame {
 //        "acroread-doc-es", "acroread-doc-fr", "acroread-doc-it",
 //        "acroread-escript", "acroread-plugin-speech"
 //    };
-    // "ttf-pelikan-schulschriften" are currently unavailable    
+    // "ttf-pelikan-schulschriften" are currently unavailable
     private static final String[] FONTS_PACKAGES = new String[]{
         "ttf-mscorefonts-installer"
     };
@@ -118,6 +118,7 @@ public class Welcome extends javax.swing.JFrame {
     private String exchangePartitionLabel;
     private String aptGetOutput;
     private IPTableModel ipTableModel;
+    private MainMenuListEntry firewallEntry;
 
     /**
      * Creates new form Welcome
@@ -212,9 +213,10 @@ public class Welcome extends javax.swing.JFrame {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/dialog-password.png",
                     BUNDLE.getString("Password"), "passwordChangePanel"));
-            menuListModel.addElement(new MainMenuListEntry(
+            firewallEntry = new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/firewall.png",
-                    BUNDLE.getString("Firewall"), "firewallPanel"));
+                    BUNDLE.getString("Firewall"), "firewallPanel");
+            menuListModel.addElement(firewallEntry);
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/backup.png",
                     BUNDLE.getString("Backup"), "backupPanel"));
@@ -2266,7 +2268,10 @@ public class Welcome extends javax.swing.JFrame {
     private void apply() {
         // make sure that all edits are applied to the IP table
         // and so some firewall sanity checks
-        firewallIPTable.getCellEditor().stopCellEditing();
+        TableCellEditor editor = firewallIPTable.getCellEditor();
+        if (editor != null) {
+            editor.stopCellEditing();
+        }
         if (!checkFirewall()) {
             return;
         }
@@ -2477,58 +2482,129 @@ public class Welcome extends javax.swing.JFrame {
 
     private boolean checkFirewall() {
         for (int i = 0; i < ipTableModel.getRowCount(); i++) {
-            if (!checkTarget((String) ipTableModel.getValueAt(i, 1))) {
+            if (!checkTarget((String) ipTableModel.getValueAt(i, 1), i)) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean checkTarget(String target) {
+    private boolean checkTarget(String target, int index) {
         // a CIDR block has the syntax: <IP address>\<prefix length>
-        Pattern cidrPattern = Pattern.compile(
-                "(\\p{Digit}{1,3})\\.(\\p{Digit}{1,3})\\.(\\p{Digit}{1,3})\\."
-                + "(\\p{Digit}{1,3})/(\\p{Digit}*)");
+        String octetP = "\\p{Digit}{1,3}";
+        String ipv4P = "(?:" + octetP + "\\.){3}" + octetP;
+        Pattern cidrPattern = Pattern.compile("(" + ipv4P + ")/(\\p{Digit}*)");
         Matcher matcher = cidrPattern.matcher(target);
         if (matcher.matches()) {
-            // a CIDR block was detected
-            // check all 4 octets 
-            for (int i = 0; i < 4; i++) {
-                String octetString = matcher.group(i + 1);
-                int octet = Integer.parseInt(octetString);
-                if (octet > 255) {
-                    // TODO: error dialog about wrong octet
-                    return false;
-                }
+            if (!checkIPv4Address(matcher.group(1), index)) {
+                return false;
             }
 
-            String prefixLengthString = matcher.group(5);
+            String prefixLengthString = matcher.group(2);
             try {
                 int prefixLength = Integer.parseInt(prefixLengthString);
                 if (prefixLength < 0 || prefixLength > 32) {
-                    // TODO: error dialog about wrong prefix
+                    String errorMessage
+                            = BUNDLE.getString("Error_PrefixLength");
+                    errorMessage = MessageFormat.format(
+                            errorMessage, prefixLengthString);
+                    firewallHostError(errorMessage, index);
                     return false;
                 }
             } catch (NumberFormatException ex) {
-                // TODO: error dialog about wrong prefix
+                LOGGER.log(Level.WARNING,
+                        "could not parse " + prefixLengthString, ex);
             }
             return true;
-            
+
         } else {
-            // no CIDR block was detected, check for valid host name syntax
-            /*
-             Hostnames are composed of series of labels concatenated with dots, 
-             as are all domain names. For example, "en.wikipedia.org" is a 
-             hostname. Each label must be between 1 and 63 characters long,[2] 
-             and the entire hostname (including the delimiting dots) has a 
-             maximum of 255 characters.
-             The Internet standards (Request for Comments) for protocols mandate
-             that component hostname labels may contain only the ASCII letters 
-             'a' through 'z' (in a case-insensitive manner), the digits '0' 
-             through '9', and the hyphen ('-'). 
-             */
+            Pattern ipv4Pattern = Pattern.compile(ipv4P);
+            matcher = ipv4Pattern.matcher(target);
+            if (matcher.matches()) {
+                if (!checkIPv4Address(target, index)) {
+                    return false;
+                }
+            } else {
+                if (!checkHostName(target, index)) {
+                    return false;
+                }
+            }
             return true;
         }
+    }
+
+    private boolean checkHostName(String string, int index) {
+        // Hostnames are composed of series of labels concatenated with dots, as
+        // are all domain names. For example, "en.wikipedia.org" is a hostname.
+        // Each label must be between 1 and 63 characters long, and the entire
+        // hostname (including the delimiting dots) has a maximum of 255
+        // characters.
+        // The Internet standards (Request for Comments) for protocols mandate
+        // that component hostname labels may contain only the ASCII letters
+        // 'a' through 'z' (in a case-insensitive manner), the digits '0'
+        // through '9', and the hyphen ('-').
+
+        if (string.isEmpty()) {
+            String errorMessage = BUNDLE.getString("Error_No_Hostname");
+            firewallHostError(errorMessage, index);
+            return false;
+        }
+
+        if (string.length() > 255) {
+            String errorMessage = BUNDLE.getString("Error_HostnameLength");
+            errorMessage = MessageFormat.format(errorMessage, string);
+            firewallHostError(errorMessage, index);
+            return false;
+        }
+
+        String[] labels = string.split("\\.");
+        for (String label : labels) {
+            if (label.length() > 63) {
+                String errorMessage = BUNDLE.getString("Error_LabelLength");
+                errorMessage = MessageFormat.format(errorMessage, label);
+                firewallHostError(errorMessage, index);
+                return false;
+            }
+            for (int i = 0, length = label.length(); i < length; i++) {
+                char c = label.charAt(i);
+                if ((c != '-')
+                        && ((c < '0') || (c > '9'))
+                        && ((c < 'A') || (c > 'Z'))
+                        && ((c < 'a') || (c > 'z'))) {
+                    String errorMessage = BUNDLE.getString(
+                            "Error_Invalid_Hostname_Character");
+                    errorMessage = MessageFormat.format(errorMessage, c);
+                    firewallHostError(errorMessage, index);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean checkIPv4Address(String string, int index) {
+        String[] octetStrings = string.split("\\.");
+        for (String octetString : octetStrings) {
+            int octet = Integer.parseInt(octetString);
+            if (octet < 0 || octet > 255) {
+                String errorMessage = BUNDLE.getString("Error_Octet");
+                errorMessage = MessageFormat.format(
+                        errorMessage, string, octetString);
+                firewallHostError(errorMessage, index);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void firewallHostError(String errorMessage, int index) {
+        menuList.setSelectedValue(firewallEntry, true);
+        firewallIPTable.clearSelection();
+        firewallIPTable.addRowSelectionInterval(index, index);
+        showErrorMessage(errorMessage);
+        firewallIPTable.editCellAt(index, 1);
+        firewallIPTable.getEditorComponent().requestFocus();
     }
 
     private void updateJBackpackProperties(
