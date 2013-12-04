@@ -460,6 +460,9 @@ public class Welcome extends javax.swing.JFrame {
         passwordChangeButton = new javax.swing.JButton();
         backupPanel = new javax.swing.JPanel();
         backupCheckBox = new javax.swing.JCheckBox();
+        backupFrequencyEveryLabel = new javax.swing.JLabel();
+        backupFrequencySpinner = new javax.swing.JSpinner();
+        backupFrequencyMinuteLabel = new javax.swing.JLabel();
         backupSourcePanel = new javax.swing.JPanel();
         backupSourceLabel = new javax.swing.JLabel();
         backupSourceTextField = new javax.swing.JTextField();
@@ -473,9 +476,6 @@ public class Welcome extends javax.swing.JFrame {
         backupPartitionLabel = new javax.swing.JLabel();
         backupPartitionTextField = new javax.swing.JTextField();
         screenShotCheckBox = new javax.swing.JCheckBox();
-        backupFrequencyEveryLabel = new javax.swing.JLabel();
-        backupFrequencySpinner = new javax.swing.JSpinner();
-        backupFrequencyMinuteLabel = new javax.swing.JLabel();
         nonfreePanel = new javax.swing.JPanel();
         nonfreeLabel = new javax.swing.JLabel();
         recommendedPanel = new javax.swing.JPanel();
@@ -712,6 +712,27 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         backupPanel.add(backupCheckBox, gridBagConstraints);
 
+        backupFrequencyEveryLabel.setText(bundle.getString("Welcome.backupFrequencyEveryLabel.text")); // NOI18N
+        backupFrequencyEveryLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
+        backupPanel.add(backupFrequencyEveryLabel, gridBagConstraints);
+
+        backupFrequencySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        backupFrequencySpinner.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
+        backupPanel.add(backupFrequencySpinner, gridBagConstraints);
+
+        backupFrequencyMinuteLabel.setText(bundle.getString("Welcome.backupFrequencyMinuteLabel.text")); // NOI18N
+        backupFrequencyMinuteLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
+        backupPanel.add(backupFrequencyMinuteLabel, gridBagConstraints);
+
         backupSourcePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.backupSourcePanel.border.title"))); // NOI18N
         backupSourcePanel.setLayout(new java.awt.GridBagLayout());
 
@@ -744,7 +765,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
         backupPanel.add(backupSourcePanel, gridBagConstraints);
 
         backupDestinationsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.backupDestinationsPanel.border.title"))); // NOI18N
@@ -829,27 +850,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 13, 0, 0);
         backupPanel.add(screenShotCheckBox, gridBagConstraints);
-
-        backupFrequencyEveryLabel.setText(bundle.getString("Welcome.backupFrequencyEveryLabel.text")); // NOI18N
-        backupFrequencyEveryLabel.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
-        backupPanel.add(backupFrequencyEveryLabel, gridBagConstraints);
-
-        backupFrequencySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-        backupFrequencySpinner.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
-        backupPanel.add(backupFrequencySpinner, gridBagConstraints);
-
-        backupFrequencyMinuteLabel.setText(bundle.getString("Welcome.backupFrequencyMinuteLabel.text")); // NOI18N
-        backupFrequencyMinuteLabel.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
-        backupPanel.add(backupFrequencyMinuteLabel, gridBagConstraints);
 
         mainCardPanel.add(backupPanel, "backupPanel");
 
@@ -2264,6 +2264,13 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private void apply() {
+        // make sure that all edits are applied to the IP table
+        // and so some firewall sanity checks
+        firewallIPTable.getCellEditor().stopCellEditing();
+        if (!checkFirewall()) {
+            return;
+        }
+
         // update full user name (if necessary)
         String newFullName = userNameTextField.getText();
         if (!newFullName.equals(fullName)) {
@@ -2466,6 +2473,62 @@ public class Welcome extends javax.swing.JFrame {
         }
         processExecutor.executeProcess(
                 "/etc/init.d/lernstick-firewall", "reload");
+    }
+
+    private boolean checkFirewall() {
+        for (int i = 0; i < ipTableModel.getRowCount(); i++) {
+            if (!checkTarget((String) ipTableModel.getValueAt(i, 1))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkTarget(String target) {
+        // a CIDR block has the syntax: <IP address>\<prefix length>
+        Pattern cidrPattern = Pattern.compile(
+                "(\\p{Digit}{1,3})\\.(\\p{Digit}{1,3})\\.(\\p{Digit}{1,3})\\."
+                + "(\\p{Digit}{1,3})/(\\p{Digit}*)");
+        Matcher matcher = cidrPattern.matcher(target);
+        if (matcher.matches()) {
+            // a CIDR block was detected
+            // check all 4 octets 
+            for (int i = 0; i < 4; i++) {
+                String octetString = matcher.group(i + 1);
+                int octet = Integer.parseInt(octetString);
+                if (octet > 255) {
+                    // TODO: error dialog about wrong octet
+                    return false;
+                }
+            }
+
+            String prefixLengthString = matcher.group(5);
+            try {
+                int prefixLength = Integer.parseInt(prefixLengthString);
+                if (prefixLength < 0 || prefixLength > 32) {
+                    // TODO: error dialog about wrong prefix
+                    return false;
+                }
+            } catch (NumberFormatException ex) {
+                // TODO: error dialog about wrong prefix
+            }
+            return true;
+            
+        } else {
+            // no CIDR block was detected, check for valid host name syntax
+            /*
+             Hostnames are composed of series of labels concatenated with dots, 
+             as are all domain names. For example, "en.wikipedia.org" is a 
+             hostname. Each label must be between 1 and 63 characters long,[2] 
+             and the entire hostname (including the delimiting dots) has a 
+             maximum of 255 characters.
+             The Internet standards (Request for Comments) for protocols mandate
+             that component hostname labels may contain only the ASCII letters 
+             'a' through 'z' (in a case-insensitive manner), the digits '0' 
+             through '9', and the hyphen ('-'). 
+             */
+            return true;
+        }
     }
 
     private void updateJBackpackProperties(

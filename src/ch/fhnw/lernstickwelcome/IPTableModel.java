@@ -13,10 +13,10 @@ import tools.PreferredSizesTableModel;
 
 public class IPTableModel extends PreferredSizesTableModel {
 
-    private static final Logger LOGGER =
-            Logger.getLogger(IPTableModel.class.getName());
-    private static final ResourceBundle BUNDLE =
-            ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+    private static final Logger LOGGER
+            = Logger.getLogger(IPTableModel.class.getName());
+    private static final ResourceBundle BUNDLE
+            = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     private List<IPTableEntry> entries;
 
     public IPTableModel(JTable table, Dimension maxDimension) {
@@ -125,7 +125,7 @@ public class IPTableModel extends PreferredSizesTableModel {
     public void addEntry() {
         addEntry(new IPTableEntry(Protocol.TCP, "", 0, ""));
     }
-    
+
     public void addEntry(IPTableEntry entry) {
         entries.add(entry);
         int newRow = entries.size() - 1;
