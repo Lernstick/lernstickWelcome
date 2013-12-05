@@ -1,3 +1,10 @@
+lernstickwelcome-wheezy (201312050942-1) unstable; urgency=low
+
+  * added sanity check for IPv4 targets
+  * improved firewall help text
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 05 Dec 2013 09:42:55 +0100
+
 lernstickwelcome-wheezy (201312041719-1) unstable; urgency=low
 
   * improved layout in backup module

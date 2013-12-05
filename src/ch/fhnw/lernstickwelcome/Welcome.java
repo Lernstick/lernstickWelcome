@@ -563,7 +563,7 @@ public class Welcome extends javax.swing.JFrame {
         firewallPanel = new javax.swing.JPanel();
         firewallInfoLabel = new javax.swing.JLabel();
         firewallTabbedPane = new javax.swing.JTabbedPane();
-        firewallIPPanel = new javax.swing.JPanel();
+        firewallipv4Panel = new javax.swing.JPanel();
         firewallIPButtonPanel = new javax.swing.JPanel();
         addIPButton = new javax.swing.JButton();
         removeIPButton = new javax.swing.JButton();
@@ -1549,7 +1549,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 5);
         firewallPanel.add(firewallInfoLabel, gridBagConstraints);
 
-        firewallIPPanel.setLayout(new java.awt.GridBagLayout());
+        firewallipv4Panel.setLayout(new java.awt.GridBagLayout());
 
         firewallIPButtonPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -1611,7 +1611,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 5, 0, 0);
-        firewallIPPanel.add(firewallIPButtonPanel, gridBagConstraints);
+        firewallipv4Panel.add(firewallIPButtonPanel, gridBagConstraints);
 
         firewallIPScrollPane.setViewportView(firewallIPTable);
 
@@ -1620,9 +1620,9 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        firewallIPPanel.add(firewallIPScrollPane, gridBagConstraints);
+        firewallipv4Panel.add(firewallIPScrollPane, gridBagConstraints);
 
-        firewallTabbedPane.addTab(bundle.getString("Welcome.firewallIPPanel.TabConstraints.tabTitle"), firewallIPPanel); // NOI18N
+        firewallTabbedPane.addTab(bundle.getString("Welcome.firewallipv4Panel.TabConstraints.tabTitle"), firewallipv4Panel); // NOI18N
 
         firewallURLPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -3421,7 +3421,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel fillPanel;
     private ch.fhnw.lernstickwelcome.GamePanel filletsGamePanel;
     private javax.swing.JPanel firewallIPButtonPanel;
-    private javax.swing.JPanel firewallIPPanel;
     private javax.swing.JScrollPane firewallIPScrollPane;
     private javax.swing.JTable firewallIPTable;
     private javax.swing.JLabel firewallInfoLabel;
@@ -3430,6 +3429,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel firewallURLPanel;
     private javax.swing.JScrollPane firewallURLScrollPane;
     private javax.swing.JTextArea firewallURLTextArea;
+    private javax.swing.JPanel firewallipv4Panel;
     private ch.fhnw.lernstickwelcome.GamePanel flareGamePanel;
     private javax.swing.JCheckBox flashCheckBox;
     private javax.swing.JLabel flashLabel;
