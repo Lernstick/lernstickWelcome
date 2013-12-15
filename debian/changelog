@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201312151615-1) unstable; urgency=low
+
+  * redirect stderr to /dev/null (because of https://savannah.nongnu.org/bugs/?37667)
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sun, 15 Dec 2013 16:15:09 +0100
+
 lernstickwelcome-wheezy (201312050942-1) unstable; urgency=low
 
   * added sanity check for IPv4 targets
