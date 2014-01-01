@@ -511,6 +511,7 @@ public class Welcome extends javax.swing.JFrame {
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
         riliGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1081,6 +1082,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
         additionalMiscPanel.add(netbeansPanel, gridBagConstraints);
 
         processingPanel.setDescription(bundle.getString("Welcome.processingPanel.description")); // NOI18N
@@ -1111,9 +1113,19 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(openClipartPanel, gridBagConstraints);
+
+        sweetHome3DPanel.setDescription(bundle.getString("Welcome.sweetHome3DPanel.description")); // NOI18N
+        sweetHome3DPanel.setGameName("Sweet Home 3D"); // NOI18N
+        sweetHome3DPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/sweethome3d.png"))); // NOI18N
+        sweetHome3DPanel.setWebsite("http://www.sweethome3d.com"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(sweetHome3DPanel, gridBagConstraints);
 
         additionalScrollPane.setViewportView(additionalMiscPanel);
 
@@ -2883,6 +2895,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
+        numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
 
         // games
         numberOfPackages += riliGamePanel.isSelected() ? 1 : 0;
@@ -2954,6 +2967,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(processingPanel, "processing");
         checkAppInstall(lazarusPanel, "lazarus");
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
+        checkAppInstall(sweetHome3DPanel, "sweethome3d");
 
         // games
         checkAppInstall(riliGamePanel, "lernstick-ri-li");
@@ -3124,6 +3138,10 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(openClipartPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/openclipart.png",
                     "openclipart-libreoffice");
+            installApplication(sweetHome3DPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/sweethome3d.png",
+                    "lernstick-sweethome3d", "sweethome3d",
+                    "sweethome3d-furniture", "sweethome3d-furniture-nonfree");
 
             // games
             installApplication(riliGamePanel,
@@ -3505,6 +3523,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel supertuxkartGamePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel sweetHome3DPanel;
     private javax.swing.JLabel systemNameLabel;
     private javax.swing.JTextField systemNameTextField;
     private javax.swing.JPanel systemPanel;
