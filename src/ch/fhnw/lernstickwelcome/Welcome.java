@@ -523,6 +523,7 @@ public class Welcome extends javax.swing.JFrame {
         frogattoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         supertuxkartGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         xmotoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        openClonkPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wesnothGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         flareGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         hedgewarsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1141,6 +1142,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
         gamesScrollPanel.add(riliGamePanel, gridBagConstraints);
 
         filletsGamePanel.setDescription(bundle.getString("Welcome.filletsGamePanel.description")); // NOI18N
@@ -1227,6 +1229,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(xmotoGamePanel, gridBagConstraints);
+
+        openClonkPanel.setDescription(bundle.getString("Welcome.openClonkPanel.description")); // NOI18N
+        openClonkPanel.setGameName("OpenClonk"); // NOI18N
+        openClonkPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/openclonk.png"))); // NOI18N
+        openClonkPanel.setWebsite("http://www.openclonk.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gamesScrollPanel.add(openClonkPanel, gridBagConstraints);
 
         wesnothGamePanel.setDescription(bundle.getString("Welcome.wesnothGamePanel.description")); // NOI18N
         wesnothGamePanel.setGameName("The Battle for Wesnoth"); // NOI18N
@@ -2907,6 +2919,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += frogattoGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += supertuxkartGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += xmotoGamePanel.isSelected() ? 1 : 0;
+        numberOfPackages += openClonkPanel.isSelected() ? 1 : 0;
         numberOfPackages += wesnothGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += flareGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += hedgewarsGamePanel.isSelected() ? 1 : 0;
@@ -2979,6 +2992,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(minetestGamePanel, "minetest");
         checkAppInstall(supertuxkartGamePanel, "supertuxkart");
         checkAppInstall(xmotoGamePanel, "xmoto");
+        checkAppInstall(openClonkPanel, "openclonk");
         checkAppInstall(wesnothGamePanel, "wesnoth");
         checkAppInstall(flareGamePanel, "flare");
         checkAppInstall(hedgewarsGamePanel, "hedgewars");
@@ -3173,6 +3187,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(xmotoGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/xmoto.png",
                     "live-xmoto");
+            installApplication(openClonkPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/openclonk.png",
+                    "lernstick-openclonk", "openclonk");
             installApplication(wesnothGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/wesnoth.png",
                     "wesnoth", "wesnoth-music");
@@ -3490,6 +3507,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel nonfreeLabel;
     private javax.swing.JPanel nonfreePanel;
     private ch.fhnw.lernstickwelcome.GamePanel openClipartPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel openClonkPanel;
     private javax.swing.JPanel partitionsPanel;
     private javax.swing.JButton passwordChangeButton;
     private javax.swing.JLabel passwordChangeInfoLabel;
