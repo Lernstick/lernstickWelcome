@@ -512,6 +512,7 @@ public class Welcome extends javax.swing.JFrame {
         lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
         riliGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1124,9 +1125,19 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(sweetHome3DPanel, gridBagConstraints);
+
+        gnucashPanel.setDescription(bundle.getString("Welcome.gnucashPanel.description")); // NOI18N
+        gnucashPanel.setGameName("GnuCash"); // NOI18N
+        gnucashPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gnucash.png"))); // NOI18N
+        gnucashPanel.setWebsite("http://www.gnucash.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(gnucashPanel, gridBagConstraints);
 
         additionalScrollPane.setViewportView(additionalMiscPanel);
 
@@ -2908,6 +2919,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
+        numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
 
         // games
         numberOfPackages += riliGamePanel.isSelected() ? 1 : 0;
@@ -2981,6 +2993,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(lazarusPanel, "lazarus");
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
+        checkAppInstall(gnucashPanel, "gnucash");
 
         // games
         checkAppInstall(riliGamePanel, "lernstick-ri-li");
@@ -3156,6 +3169,9 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/sweethome3d.png",
                     "lernstick-sweethome3d", "sweethome3d",
                     "sweethome3d-furniture", "sweethome3d-furniture-nonfree");
+            installApplication(gnucashPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/gnucash.png",
+                    "gnucash", "gnucash-docs");
 
             // games
             installApplication(riliGamePanel,
@@ -3473,6 +3489,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel frogattoGamePanel;
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel gnucashPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
     private ch.fhnw.lernstickwelcome.GamePanel hedgewarsGamePanel;
