@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201402211333-1) unstable; urgency=low
+
+  * added support for port ranges in firewall module
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 21 Feb 2014 13:33:25 +0100
+
 lernstickwelcome-wheezy (201401310958-1) unstable; urgency=low
 
   * added support for gnucash

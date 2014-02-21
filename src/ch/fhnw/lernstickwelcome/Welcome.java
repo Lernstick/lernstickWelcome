@@ -1011,11 +1011,11 @@ public class Welcome extends javax.swing.JFrame {
         fillPanel.setLayout(fillPanelLayout);
         fillPanelLayout.setHorizontalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 553, Short.MAX_VALUE)
+            .addGap(0, 589, Short.MAX_VALUE)
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 58, Short.MAX_VALUE)
+            .addGap(0, 34, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2017,30 +2017,10 @@ public class Welcome extends javax.swing.JFrame {
                                 "could not parse protocol \"{0}\"", tokens[0]);
                         continue;
                     }
-
                     String target = tokens[1];
-
-                    int port;
-                    try {
-                        port = Integer.parseInt(tokens[2]);
-                        if (port < 0) {
-                            LOGGER.log(Level.WARNING,
-                                    "negative port number \"{0}\"", tokens[2]);
-                            continue;
-                        }
-                        if (port > 65535) {
-                            LOGGER.log(Level.WARNING,
-                                    "port number out of range \"{0}\"", tokens[2]);
-                            continue;
-                        }
-                    } catch (NumberFormatException ex) {
-                        LOGGER.log(Level.WARNING,
-                                "could not parse port \"{0}\"", tokens[2]);
-                        continue;
-                    }
-
+                    String portRange = tokens[2];
                     ipTableModel.addEntry(new IPTableEntry(
-                            protocol, target, port, lastComment));
+                            protocol, target, portRange, lastComment));
                 } else {
                     LOGGER.log(Level.WARNING,
                             "unsupported net whitelist:\n{0}", line);
@@ -2520,8 +2500,57 @@ public class Welcome extends javax.swing.JFrame {
             if (!checkTarget((String) ipTableModel.getValueAt(i, 1), i)) {
                 return false;
             }
+            if (!checkPortRange((String) ipTableModel.getValueAt(i, 2), i)) {
+                return false;
+            }
         }
         return true;
+    }
+
+    private boolean checkPortRange(String portRange, int index) {
+        String[] tokens = portRange.split(":");
+        switch (tokens.length) {
+            case 1:
+                // simple port
+                if (!(checkPortString(tokens[0], index))) {
+                    return false;
+                }
+                return true;
+
+            case 2:
+                // port range
+                if (!(checkPortString(tokens[0], index))) {
+                    return false;
+                }
+                if (!(checkPortString(tokens[1], index))) {
+                    return false;
+                }
+                return true;
+
+            default:
+                // invalid syntax
+                portRangeError(index);
+                return false;
+        }
+    }
+
+    private boolean checkPortString(String portString, int index) {
+        try {
+            int portNumber = Integer.parseInt(portString);
+            if ((portNumber < 0) || (portNumber > 65535)) {
+                portRangeError(index);
+                return false;
+            }
+        } catch (NumberFormatException ex) {
+            portRangeError(index);
+            return false;
+        }
+        return true;
+    }
+
+    private void portRangeError(int index) {
+        String errorMessage = BUNDLE.getString("Error_PortRange");
+        firewallError(errorMessage, index, 2);
     }
 
     private boolean checkTarget(String target, int index) {
@@ -2531,6 +2560,7 @@ public class Welcome extends javax.swing.JFrame {
         Pattern cidrPattern = Pattern.compile("(" + ipv4P + ")/(\\p{Digit}*)");
         Matcher matcher = cidrPattern.matcher(target);
         if (matcher.matches()) {
+            // check CIDR block syntax
             if (!checkIPv4Address(matcher.group(1), index)) {
                 return false;
             }
@@ -2543,7 +2573,7 @@ public class Welcome extends javax.swing.JFrame {
                             = BUNDLE.getString("Error_PrefixLength");
                     errorMessage = MessageFormat.format(
                             errorMessage, prefixLengthString);
-                    firewallHostError(errorMessage, index);
+                    firewallError(errorMessage, index, 1);
                     return false;
                 }
             } catch (NumberFormatException ex) {
@@ -2553,6 +2583,7 @@ public class Welcome extends javax.swing.JFrame {
             return true;
 
         } else {
+            // check validity of plain IPv4 address or hostname
             Pattern ipv4Pattern = Pattern.compile(ipv4P);
             matcher = ipv4Pattern.matcher(target);
             if (matcher.matches()) {
@@ -2581,14 +2612,14 @@ public class Welcome extends javax.swing.JFrame {
 
         if (string.isEmpty()) {
             String errorMessage = BUNDLE.getString("Error_No_Hostname");
-            firewallHostError(errorMessage, index);
+            firewallError(errorMessage, index, 1);
             return false;
         }
 
         if (string.length() > 255) {
             String errorMessage = BUNDLE.getString("Error_HostnameLength");
             errorMessage = MessageFormat.format(errorMessage, string);
-            firewallHostError(errorMessage, index);
+            firewallError(errorMessage, index, 1);
             return false;
         }
 
@@ -2597,7 +2628,7 @@ public class Welcome extends javax.swing.JFrame {
             if (label.length() > 63) {
                 String errorMessage = BUNDLE.getString("Error_LabelLength");
                 errorMessage = MessageFormat.format(errorMessage, label);
-                firewallHostError(errorMessage, index);
+                firewallError(errorMessage, index, 1);
                 return false;
             }
             for (int i = 0, length = label.length(); i < length; i++) {
@@ -2609,7 +2640,7 @@ public class Welcome extends javax.swing.JFrame {
                     String errorMessage = BUNDLE.getString(
                             "Error_Invalid_Hostname_Character");
                     errorMessage = MessageFormat.format(errorMessage, c);
-                    firewallHostError(errorMessage, index);
+                    firewallError(errorMessage, index, 1);
                     return false;
                 }
             }
@@ -2626,19 +2657,19 @@ public class Welcome extends javax.swing.JFrame {
                 String errorMessage = BUNDLE.getString("Error_Octet");
                 errorMessage = MessageFormat.format(
                         errorMessage, string, octetString);
-                firewallHostError(errorMessage, index);
+                firewallError(errorMessage, index, 1);
                 return false;
             }
         }
         return true;
     }
 
-    private void firewallHostError(String errorMessage, int index) {
+    private void firewallError(String errorMessage, int row, int column) {
         menuList.setSelectedValue(firewallEntry, true);
         firewallIPTable.clearSelection();
-        firewallIPTable.addRowSelectionInterval(index, index);
+        firewallIPTable.addRowSelectionInterval(row, row);
         showErrorMessage(errorMessage);
-        firewallIPTable.editCellAt(index, 1);
+        firewallIPTable.editCellAt(row, column);
         firewallIPTable.getEditorComponent().requestFocus();
     }
 
