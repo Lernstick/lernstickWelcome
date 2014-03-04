@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201403041614-1) unstable; urgency=low
+
+  * added info about DNS in firewall module help
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 04 Mar 2014 16:14:05 +0100
+
 lernstickwelcome-wheezy (201403041459-1) unstable; urgency=low
 
   * changed path to external backup partition
