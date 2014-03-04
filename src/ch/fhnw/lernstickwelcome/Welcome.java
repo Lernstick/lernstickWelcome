@@ -60,10 +60,10 @@ import org.xml.sax.SAXException;
  */
 public class Welcome extends javax.swing.JFrame {
 
-    private static final Logger LOGGER =
-            Logger.getLogger(Welcome.class.getName());
-    private static final ResourceBundle BUNDLE =
-            ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+    private static final Logger LOGGER
+            = Logger.getLogger(Welcome.class.getName());
+    private static final ResourceBundle BUNDLE
+            = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     private static final String SHOW_WELCOME = "ShowWelcome";
     private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     private static final String BACKUP = "Backup";
@@ -77,13 +77,13 @@ public class Welcome extends javax.swing.JFrame {
     private static final String EXCHANGE_ACCESS = "ExchangeAccess";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
-    private static final String IP_TABLES_FILENAME =
-            "/etc/lernstick-firewall/net_whitelist";
-    private static final String URL_WHITELIST_FILENAME =
-            "/etc/lernstick-firewall/url_whitelist";
+    private static final String IP_TABLES_FILENAME
+            = "/etc/lernstick-firewall/net_whitelist";
+    private static final String URL_WHITELIST_FILENAME
+            = "/etc/lernstick-firewall/url_whitelist";
     // !!! processExecutor must be instanciated before the next constants !!!
-    private final static ProcessExecutor processExecutor =
-            new ProcessExecutor();
+    private final static ProcessExecutor processExecutor
+            = new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
     private static final File SYSLINUX_CONFIG_FILE = getSyslinuxConfigFile();
     private static final File XMLBOOT_CONFIG_FILE = getXmlBootConfigFile();
@@ -141,8 +141,8 @@ public class Welcome extends javax.swing.JFrame {
 
         // log into a rotating temporaty file of max 5 MB
         try {
-            FileHandler fileHandler =
-                    new FileHandler("%t/lernstickWelcome", 5000000, 2, true);
+            FileHandler fileHandler
+                    = new FileHandler("%t/lernstickWelcome", 5000000, 2, true);
             fileHandler.setFormatter(formatter);
             fileHandler.setLevel(Level.ALL);
             globalLogger.addHandler(fileHandler);
@@ -233,6 +233,7 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/32x32/network-server.png",
                     BUNDLE.getString("Proxy"), "proxyPanel"));
             exchangeAccessCheckBox.setVisible(false);
+            exchangeRebootLabel.setVisible(false);
         }
         menuListModel.addElement(new MainMenuListEntry(
                 "/ch/fhnw/lernstickwelcome/icons/32x32/system-run.png",
@@ -247,8 +248,8 @@ public class Welcome extends javax.swing.JFrame {
         checkAllPackages();
 
         // determine current full user name
-        AbstractDocument userNameDocument =
-                (AbstractDocument) userNameTextField.getDocument();
+        AbstractDocument userNameDocument
+                = (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
         processExecutor.executeProcess(true, true, "getent", "passwd", "user");
         List<String> stdOut = processExecutor.getStdOutList();
@@ -273,8 +274,8 @@ public class Welcome extends javax.swing.JFrame {
             }
         }
 
-        AbstractDocument exchangePartitionNameDocument =
-                (AbstractDocument) exchangePartitionNameTextField.getDocument();
+        AbstractDocument exchangePartitionNameDocument
+                = (AbstractDocument) exchangePartitionNameTextField.getDocument();
         exchangePartitionNameDocument.setDocumentFilter(
                 new DocumentSizeFilter());
         try {
@@ -320,8 +321,8 @@ public class Welcome extends javax.swing.JFrame {
             if (XMLBOOT_CONFIG_FILE != null) {
                 Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
                 xmlBootDocument.getDocumentElement().normalize();
-                Node systemNode =
-                        xmlBootDocument.getElementsByTagName("system").item(0);
+                Node systemNode = xmlBootDocument.getElementsByTagName(
+                        "system").item(0);
                 Element systemElement = (Element) systemNode;
                 Node node = systemElement.getElementsByTagName("text").item(0);
                 if (node != null) {
@@ -362,25 +363,25 @@ public class Welcome extends javax.swing.JFrame {
         JComboBox protocolCombobox = new JComboBox();
         protocolCombobox.addItem(Protocol.TCP);
         protocolCombobox.addItem(Protocol.UDP);
-        TableColumn protocolColumn =
-                firewallIPTable.getColumnModel().getColumn(0);
+        TableColumn protocolColumn
+                = firewallIPTable.getColumnModel().getColumn(0);
         protocolColumn.setCellEditor(new DefaultCellEditor(protocolCombobox));
         firewallIPTable.getSelectionModel().addListSelectionListener(
                 new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (e.getValueIsAdjusting()) {
-                    return;
-                }
-                int[] selectedRows = firewallIPTable.getSelectedRows();
-                boolean selected = selectedRows.length > 0;
-                removeIPButton.setEnabled(selected);
-                moveUpIPButton.setEnabled(selected && selectedRows[0] > 0);
-                moveDownIPButton.setEnabled(selected
-                        && (selectedRows[selectedRows.length - 1]
-                        < ipTableModel.getRowCount() - 1));
-            }
-        });
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        if (e.getValueIsAdjusting()) {
+                            return;
+                        }
+                        int[] selectedRows = firewallIPTable.getSelectedRows();
+                        boolean selected = selectedRows.length > 0;
+                        removeIPButton.setEnabled(selected);
+                        moveUpIPButton.setEnabled(selected && selectedRows[0] > 0);
+                        moveDownIPButton.setEnabled(selected
+                                && (selectedRows[selectedRows.length - 1]
+                                < ipTableModel.getRowCount() - 1));
+                    }
+                });
 
         try {
             parseNetWhiteList();
@@ -561,6 +562,7 @@ public class Welcome extends javax.swing.JFrame {
         exchangePartitionNameLabel = new javax.swing.JLabel();
         exchangePartitionNameTextField = new javax.swing.JTextField();
         exchangeAccessCheckBox = new javax.swing.JCheckBox();
+        exchangeRebootLabel = new javax.swing.JLabel();
         dataPartitionPanel = new javax.swing.JPanel();
         readWritePanel = new javax.swing.JPanel();
         readWriteCheckBox = new javax.swing.JCheckBox();
@@ -1518,7 +1520,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 3, 0);
         exchangePartitionPanel.add(exchangePartitionNameLabel, gridBagConstraints);
 
@@ -1532,7 +1533,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 3, 10);
         exchangePartitionPanel.add(exchangePartitionNameTextField, gridBagConstraints);
 
@@ -1540,8 +1540,15 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 7, 3, 0);
+        gridBagConstraints.insets = new java.awt.Insets(7, 7, 0, 0);
         exchangePartitionPanel.add(exchangeAccessCheckBox, gridBagConstraints);
+
+        exchangeRebootLabel.setText(bundle.getString("Welcome.exchangeRebootLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 5, 10);
+        exchangePartitionPanel.add(exchangeRebootLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -1588,6 +1595,7 @@ public class Welcome extends javax.swing.JFrame {
         dataPartitionPanel.add(readOnlyPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
@@ -1847,8 +1855,8 @@ public class Welcome extends javax.swing.JFrame {
             menuListIndex = selectedIndex;
         }
 
-        MainMenuListEntry entry =
-                (MainMenuListEntry) menuList.getSelectedValue();
+        MainMenuListEntry entry
+                = (MainMenuListEntry) menuList.getSelectedValue();
         selectCard(entry.getPanelID());
 
         previousButton.setEnabled(selectedIndex > 0);
@@ -1952,8 +1960,8 @@ public class Welcome extends javax.swing.JFrame {
     private void showFileSelector(JTextField textField) {
         UIManager.put("FileChooser.readOnly", Boolean.TRUE);
         File selectedDirectory = new File(textField.getText());
-        JFileChooser fileChooser =
-                new JFileChooser(selectedDirectory.getParent());
+        JFileChooser fileChooser
+                = new JFileChooser(selectedDirectory.getParent());
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.setSelectedFile(selectedDirectory);
         fileChooser.showOpenDialog(this);
@@ -2186,8 +2194,8 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private void updateSecondsLabel() {
-        SpinnerNumberModel model =
-                (SpinnerNumberModel) bootTimeoutSpinner.getModel();
+        SpinnerNumberModel model
+                = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
         if (model.getNumber().intValue() == 1) {
             secondsLabel.setText(BUNDLE.getString("second"));
         } else {
@@ -2246,8 +2254,8 @@ public class Welcome extends javax.swing.JFrame {
             String proxyHost = proxyHostTextField.getText();
             int proxyPort = ((Number) proxyPortTextField.getValue()).intValue();
             String proxyUserName = proxyUserNameTextField.getText();
-            String proxyPassword =
-                    String.valueOf(proxyPasswordField.getPassword());
+            String proxyPassword
+                    = String.valueOf(proxyPasswordField.getPassword());
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(" -e http_proxy=http://");
             stringBuilder.append(proxyHost);
@@ -2321,8 +2329,8 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         // update exchange partition label
-        String newExchangePartitionLabel =
-                exchangePartitionNameTextField.getText();
+        String newExchangePartitionLabel
+                = exchangePartitionNameTextField.getText();
         LOGGER.log(Level.INFO, "new exchange partition label: \"{0}\"",
                 newExchangePartitionLabel);
         if (!newExchangePartitionLabel.isEmpty()
@@ -2343,8 +2351,8 @@ public class Welcome extends javax.swing.JFrame {
                     || backupDirectory.isEmpty()) {
                 if (backupPartitionCheckBox.isSelected()
                         && !backupPartition.isEmpty()) {
-                    updateJBackpackProperties(backupSource,
-                            "/media/" + backupPartition + "/lernstick_backup");
+                    updateJBackpackProperties(backupSource, "/mnt/backup/"
+                            + backupPartition + "/lernstick_backup");
                 }
             } else {
                 updateJBackpackProperties(backupSource, backupDirectory);
@@ -2404,8 +2412,8 @@ public class Welcome extends javax.swing.JFrame {
                 "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
 
         // update timeout...
-        SpinnerNumberModel spinnerNumberModel =
-                (SpinnerNumberModel) bootTimeoutSpinner.getModel();
+        SpinnerNumberModel spinnerNumberModel
+                = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
         int timeoutValue = spinnerNumberModel.getNumber().intValue();
         // ... in syslinux ...
         processExecutor.executeProcess("sed", "-i", "-e",
@@ -2426,8 +2434,8 @@ public class Welcome extends javax.swing.JFrame {
         try {
             Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
             xmlBootDocument.getDocumentElement().normalize();
-            Node systemNode =
-                    xmlBootDocument.getElementsByTagName("system").item(0);
+            Node systemNode
+                    = xmlBootDocument.getElementsByTagName("system").item(0);
             Element systemElement = (Element) systemNode;
             Node node = systemElement.getElementsByTagName("text").item(0);
             if (node != null) {
@@ -2440,8 +2448,8 @@ public class Welcome extends javax.swing.JFrame {
 
             // write changes back to config file
             File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
-            TransformerFactory transformerFactory =
-                    TransformerFactory.newInstance();
+            TransformerFactory transformerFactory
+                    = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(xmlBootDocument);
@@ -2493,8 +2501,8 @@ public class Welcome extends javax.swing.JFrame {
         }
         String ipTables = stringBuilder.toString();
         try {
-            FileOutputStream fileOutputStream =
-                    new FileOutputStream(IP_TABLES_FILENAME);
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream(IP_TABLES_FILENAME);
             fileOutputStream.write(ipTables.getBytes());
             fileOutputStream.flush();
             fileOutputStream.close();
@@ -2504,8 +2512,8 @@ public class Welcome extends javax.swing.JFrame {
 
         // save URL whitelist
         try {
-            FileOutputStream fileOutputStream =
-                    new FileOutputStream(URL_WHITELIST_FILENAME);
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream(URL_WHITELIST_FILENAME);
             fileOutputStream.write(firewallURLTextArea.getText().getBytes());
             fileOutputStream.flush();
             fileOutputStream.close();
@@ -2590,8 +2598,8 @@ public class Welcome extends javax.swing.JFrame {
             try {
                 int prefixLength = Integer.parseInt(prefixLengthString);
                 if (prefixLength < 0 || prefixLength > 32) {
-                    String errorMessage =
-                            BUNDLE.getString("Error_PrefixLength");
+                    String errorMessage
+                            = BUNDLE.getString("Error_PrefixLength");
                     errorMessage = MessageFormat.format(
                             errorMessage, prefixLengthString);
                     firewallError(errorMessage, index, 1);
@@ -2717,8 +2725,8 @@ public class Welcome extends javax.swing.JFrame {
             try {
                 Document xmlBootDocument = parseXmlFile(prefsFile);
                 xmlBootDocument.getDocumentElement().normalize();
-                Node mapNode =
-                        xmlBootDocument.getElementsByTagName("map").item(0);
+                Node mapNode
+                        = xmlBootDocument.getElementsByTagName("map").item(0);
                 Element mapElement = (Element) mapNode;
                 NodeList entries = mapElement.getElementsByTagName("entry");
                 for (int i = 0, length = entries.getLength(); i < length; i++) {
@@ -2735,8 +2743,8 @@ public class Welcome extends javax.swing.JFrame {
 
                 // write changes back to config file
                 File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
-                TransformerFactory transformerFactory =
-                        TransformerFactory.newInstance();
+                TransformerFactory transformerFactory
+                        = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
@@ -2768,8 +2776,8 @@ public class Welcome extends javax.swing.JFrame {
                 return;
             }
             // create mininal JBackpack preferences
-            String preferences =
-                    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
+            String preferences
+                    = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
                     + "<!DOCTYPE map SYSTEM \"http://java.sun.com/dtd/preferences.dtd\">\n"
                     + "<map MAP_XML_VERSION=\"1.0\">\n"
                     + "  <entry key=\"destination\" value=\"local\"/>\n"
@@ -2929,17 +2937,17 @@ public class Welcome extends javax.swing.JFrame {
         // update packaging information
         ProgressDialog updateDialog = new ProgressDialog(this,
                 new ImageIcon(getClass().getResource(
-                "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
+                                "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
         updateDialog.setProgressBarVisible(false);
         updateDialog.setTitle(null);
-        PackageListUpdater packageListUpdater =
-                new PackageListUpdater(updateDialog);
+        PackageListUpdater packageListUpdater
+                = new PackageListUpdater(updateDialog);
         packageListUpdater.execute();
         updateDialog.setVisible(true);
         try {
             if (!packageListUpdater.get()) {
-                UpdateErrorDialog dialog =
-                        new UpdateErrorDialog(this, aptGetOutput);
+                UpdateErrorDialog dialog
+                        = new UpdateErrorDialog(this, aptGetOutput);
                 dialog.setVisible(true);
             }
         } catch (InterruptedException ex) {
@@ -2999,20 +3007,20 @@ public class Welcome extends javax.swing.JFrame {
 
             final ProgressDialog progressDialog = new ProgressDialog(this,
                     new ImageIcon(getClass().getResource(
-                    "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
+                                    "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
 
-            Installer installer =
-                    new Installer(progressDialog, numberOfPackages);
+            Installer installer
+                    = new Installer(progressDialog, numberOfPackages);
             installer.addPropertyChangeListener(
                     new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if ("progress".equals(evt.getPropertyName())) {
-                        Integer progress = (Integer) evt.getNewValue();
-                        progressDialog.setProgress(progress);
-                    }
-                }
-            });
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress".equals(evt.getPropertyName())) {
+                                Integer progress = (Integer) evt.getNewValue();
+                                progressDialog.setProgress(progress);
+                            }
+                        }
+                    });
             installer.execute();
             progressDialog.setVisible(true);
             checkAllPackages();
@@ -3296,8 +3304,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Welcome.readerLabel.text"));
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Reader_8_icon.png"));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
             /**
              * example download link:
@@ -3335,8 +3343,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Welcome.skypeLabel.text"));
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/48x48/skype.png"));
-            ProgressAction progressAction = 
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
             String skypeInstallScript = "#!/bin/sh\n"
                     + "wget -O skype-install.deb http://www.skype.com/go/getskype-linux-deb\n"
@@ -3364,8 +3372,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Welcome.googleEarthLabel.text"));
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/48x48/googleearth-icon.png"));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
 
             // old version with googleearth-package
@@ -3404,8 +3412,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Welcome.googleChromeLabel.text"));
             Icon icon = new ImageIcon(getClass().getResource(
                     "/ch/fhnw/lernstickwelcome/icons/48x48/chrome.png"));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
 
             String debName = "google-chrome-stable_current_i386.deb";
@@ -3451,8 +3459,8 @@ public class Welcome extends javax.swing.JFrame {
         private void installPackage(String infoString,
                 String iconPath, String... packageNames) {
             Icon icon = new ImageIcon(getClass().getResource(iconPath));
-            ProgressAction progressAction =
-                    new ProgressAction(infoString, icon);
+            ProgressAction progressAction
+                    = new ProgressAction(infoString, icon);
             publish(progressAction);
 
             for (String packageName : packageNames) {
@@ -3551,6 +3559,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
     private javax.swing.JPanel exchangePartitionPanel;
+    private javax.swing.JLabel exchangeRebootLabel;
     private javax.swing.JPanel fillPanel;
     private ch.fhnw.lernstickwelcome.GamePanel filletsGamePanel;
     private javax.swing.JPanel firewallIPButtonPanel;
