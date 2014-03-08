@@ -6,8 +6,11 @@
 package ch.fhnw.lernstickwelcome;
 
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
-import ch.fhnw.util.DbusTools;
+import ch.fhnw.util.MountInfo;
+import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
+import ch.fhnw.util.StorageDevice;
+import ch.fhnw.util.StorageTools;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.CardLayout;
@@ -45,7 +48,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.freedesktop.dbus.exceptions.DBusException;
-import org.freedesktop.dbus.exceptions.DBusExecutionException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -85,8 +87,8 @@ public class Welcome extends javax.swing.JFrame {
     private final static ProcessExecutor processExecutor
             = new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
-    private static final File SYSLINUX_CONFIG_FILE = getSyslinuxConfigFile();
-    private static final File XMLBOOT_CONFIG_FILE = getXmlBootConfigFile();
+    private File SYSLINUX_CONFIG_FILE;
+    private File XMLBOOT_CONFIG_FILE;
     // mapping of checkboxes to package collections
 //    private static final String[] ACROREAD_PACKAGES = new String[]{
 //        "acroread", "acroread-l10n-de", "acroread-l10n-es", "acroread-l10n-fr",
@@ -109,12 +111,15 @@ public class Welcome extends javax.swing.JFrame {
     private final File propertiesFile;
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private final String fullName;
+    private String fullName;
     private final DefaultListModel menuListModel = new DefaultListModel();
     private final boolean examEnvironment;
     private int menuListIndex = 0;
-    private String exchangePartition;
+    private StorageDevice systemStorageDevice;
+    private Partition exchangePartition;
     private String exchangePartitionLabel;
+    private Partition bootPartition;
+    private MountInfo bootMountInfo;
     private String aptGetOutput;
     private IPTableModel ipTableModel;
     private MainMenuListEntry firewallEntry;
@@ -234,6 +239,8 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Proxy"), "proxyPanel"));
             exchangeAccessCheckBox.setVisible(false);
             exchangeRebootLabel.setVisible(false);
+
+            checkAllPackages();
         }
         menuListModel.addElement(new MainMenuListEntry(
                 "/ch/fhnw/lernstickwelcome/icons/32x32/system-run.png",
@@ -245,63 +252,48 @@ public class Welcome extends javax.swing.JFrame {
         menuList.setCellRenderer(new MyListCellRenderer());
         menuList.setSelectedIndex(0);
 
-        checkAllPackages();
-
-        // determine current full user name
-        AbstractDocument userNameDocument
-                = (AbstractDocument) userNameTextField.getDocument();
-        userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        processExecutor.executeProcess(true, true, "getent", "passwd", "user");
-        List<String> stdOut = processExecutor.getStdOutList();
-        if (stdOut.isEmpty()) {
-            LOGGER.warning("getent returned no result!");
-            fullName = null;
-        } else {
-            // getent passwd returns a line with the following pattern:
-            // login:encrypted_password:id:gid:gecos_field:home:shell
-            String line = stdOut.get(0);
-            String[] tokens = line.split(":");
-            if (tokens.length < 5) {
-                LOGGER.log(Level.WARNING,
-                        "can not parse getent line:\n{0}", line);
-                fullName = null;
-            } else {
-                String gecosField = line.split(":")[4];
-                // the "gecos_field" has the following syntax:
-                // full_name,room_nr,phone_work,phone_private,misc
-                fullName = gecosField.split(",")[0];
-                userNameTextField.setText(fullName);
-            }
-        }
+        getFullUserName();
 
         AbstractDocument exchangePartitionNameDocument
                 = (AbstractDocument) exchangePartitionNameTextField.getDocument();
         exchangePartitionNameDocument.setDocumentFilter(
                 new DocumentSizeFilter());
+
         try {
-            exchangePartition = getExchangePartition();
-            if (exchangePartition == null) {
-                exchangePartitionNameLabel.setEnabled(false);
-                exchangePartitionNameTextField.setEnabled(false);
-            } else {
-                exchangePartitionLabel = getPartitionLabel(exchangePartition);
-                exchangePartitionNameTextField.setText(exchangePartitionLabel);
-            }
+            systemStorageDevice = StorageTools.getSystemStorageDevice();
+            exchangePartition = systemStorageDevice.getExchangePartition();
+            bootPartition = systemStorageDevice.getBootPartition();
+            bootMountInfo = bootPartition.mount();
         } catch (DBusException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        String exchangeMountPoint = null;
         try {
-            if (exchangePartition != null) {
-                exchangeMountPoint = getPartitionMountPoint(exchangePartition);
-            }
-            backupDirectoryTextField.setText(properties.getProperty(
-                    BACKUP_DIRECTORY, exchangeMountPoint));
+            SYSLINUX_CONFIG_FILE = getSyslinuxConfigFile();
         } catch (DBusException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
+        }
+        try {
+            XMLBOOT_CONFIG_FILE = getXmlBootConfigFile();
+        } catch (DBusException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
+
+        if (exchangePartition == null) {
+            exchangePartitionNameLabel.setEnabled(false);
+            exchangePartitionNameTextField.setEnabled(false);
+        } else {
+            exchangePartitionLabel = exchangePartition.getIdLabel();
+            exchangePartitionNameTextField.setText(exchangePartitionLabel);
+
+            try {
+                backupDirectoryTextField.setText(properties.getProperty(
+                        BACKUP_DIRECTORY, exchangePartition.getMountPath()));
+            } catch (DBusException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
         }
 
         // determine some boot properties
@@ -311,7 +303,7 @@ public class Welcome extends javax.swing.JFrame {
         try {
             bootTimeoutSpinner.setValue(getTimeout());
         } catch (IOException ex) {
-            LOGGER.warning("could not set boot timeout value");
+            LOGGER.log(Level.WARNING, "could not set boot timeout value", ex);
         }
         updateSecondsLabel();
         // xmlboot system strings
@@ -1491,12 +1483,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 0, 0);
         systemPanel.add(userNameLabel, gridBagConstraints);
-
-        userNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userNameTextFieldActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -1522,12 +1508,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 3, 0);
         exchangePartitionPanel.add(exchangePartitionNameLabel, gridBagConstraints);
-
-        exchangePartitionNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exchangePartitionNameTextFieldActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -1798,10 +1778,21 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_fontsLabelMouseClicked
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
-        apply();
+        try {
+            apply();
+        } catch (DBusException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        if (!bootMountInfo.alreadyMounted()) {
+            try {
+                bootPartition.umount();
+            } catch (DBusException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
         System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -1821,18 +1812,6 @@ public class Welcome extends javax.swing.JFrame {
         LOGGER.info("exiting program");
         System.exit(0);
     }//GEN-LAST:event_formWindowClosed
-
-    private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed
-        if (exchangePartitionNameTextField.isEnabled()) {
-            exchangePartitionNameTextField.requestFocusInWindow();
-        } else {
-            apply();
-        }
-    }//GEN-LAST:event_userNameTextFieldActionPerformed
-
-    private void exchangePartitionNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exchangePartitionNameTextFieldActionPerformed
-        apply();
-    }//GEN-LAST:event_exchangePartitionNameTextFieldActionPerformed
 
     private void proxyCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_proxyCheckBoxItemStateChanged
         setProxyEnabled(proxyCheckBox.isSelected());
@@ -1956,6 +1935,34 @@ public class Welcome extends javax.swing.JFrame {
     private void googleChromeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_googleChromeLabelMouseClicked
         toggleCheckBox(googleChromeCheckBox);
     }//GEN-LAST:event_googleChromeLabelMouseClicked
+
+    private void getFullUserName() {
+        AbstractDocument userNameDocument
+                = (AbstractDocument) userNameTextField.getDocument();
+        userNameDocument.setDocumentFilter(new FullUserNameFilter());
+        processExecutor.executeProcess(true, true, "getent", "passwd", "user");
+        List<String> stdOut = processExecutor.getStdOutList();
+        if (stdOut.isEmpty()) {
+            LOGGER.warning("getent returned no result!");
+            fullName = null;
+        } else {
+            // getent passwd returns a line with the following pattern:
+            // login:encrypted_password:id:gid:gecos_field:home:shell
+            String line = stdOut.get(0);
+            String[] tokens = line.split(":");
+            if (tokens.length < 5) {
+                LOGGER.log(Level.WARNING,
+                        "can not parse getent line:\n{0}", line);
+                fullName = null;
+            } else {
+                String gecosField = line.split(":")[4];
+                // the "gecos_field" has the following syntax:
+                // full_name,room_nr,phone_work,phone_private,misc
+                fullName = gecosField.split(",")[0];
+                userNameTextField.setText(fullName);
+            }
+        }
+    }
 
     private void showFileSelector(JTextField textField) {
         UIManager.put("FileChooser.readOnly", Boolean.TRUE);
@@ -2121,8 +2128,16 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private static File getXmlBootConfigFile() {
-        File imageDirectory = new File(IMAGE_DIRECTORY);
+    private File getXmlBootConfigFile() throws DBusException {
+        File imageDirectory;
+        if (bootPartition == null) {
+            // legacy system
+            imageDirectory = new File(IMAGE_DIRECTORY);
+        } else {
+            // system with a separate boot partition
+            imageDirectory = new File(bootPartition.getMountPath());
+        }
+
         File configFile = new File(imageDirectory, "isolinux/xmlboot.config");
         if (configFile.exists()) {
             LOGGER.log(Level.INFO, "xmlboot config file: {0}", configFile);
@@ -2154,21 +2169,26 @@ public class Welcome extends javax.swing.JFrame {
         return builder.parse(file);
     }
 
-    private static File getSyslinuxConfigFile() {
-        // determine which config file to use
-        File imageDirectory = new File(IMAGE_DIRECTORY);
-        File configFile = new File(imageDirectory, "isolinux/isolinux.cfg");
-        if (configFile.exists()) {
-            return configFile;
+    private File getSyslinuxConfigFile() throws DBusException {
+        File imageDirectory;
+        if (bootPartition == null) {
+            // legacy system
+            imageDirectory = new File(IMAGE_DIRECTORY);
         } else {
+            // system with a separate boot partition
+            imageDirectory = new File(bootPartition.getMountPath());
+        }
+
+        // determine which config file to use
+        File configFile = new File(imageDirectory, "isolinux/isolinux.cfg");
+        if (!configFile.exists()) {
             configFile = new File(imageDirectory, "syslinux/syslinux.cfg");
-            if (configFile.exists()) {
-                return configFile;
-            } else {
+            if (!configFile.exists()) {
+                configFile = null;
                 LOGGER.warning("syslinux config file not found!");
-                return null;
             }
         }
+        return configFile;
     }
 
     private int getTimeout() throws IOException {
@@ -2309,7 +2329,7 @@ public class Welcome extends javax.swing.JFrame {
         return stringBuilder.toString();
     }
 
-    private void apply() {
+    private void apply() throws DBusException {
         // make sure that all edits are applied to the IP table
         // and so some firewall sanity checks
         TableCellEditor editor = firewallIPTable.getCellEditor();
@@ -2335,8 +2355,23 @@ public class Welcome extends javax.swing.JFrame {
                 newExchangePartitionLabel);
         if (!newExchangePartitionLabel.isEmpty()
                 && !newExchangePartitionLabel.equals(exchangePartitionLabel)) {
-            processExecutor.executeProcess("dosfslabel",
-                    exchangePartition, newExchangePartitionLabel);
+            String binary = null;
+            String idType = exchangePartition.getIdType();
+            if (idType.equals("vfat")) {
+                binary = "dosfslabel";
+            } else if (idType.equals("exfat")) {
+                binary = "exfatlabel";
+            } else if (idType.equals("ntfs")) {
+                binary = "ntfslabel";
+            } else {
+                LOGGER.log(Level.WARNING,
+                        "no labeling binary for type \"{0}\"!", idType);
+            }
+            if (binary != null) {
+                processExecutor.executeProcess(binary,
+                        "/dev/" + exchangePartition.getDeviceAndNumber(),
+                        newExchangePartitionLabel);
+            }
         }
 
         String backupSource = backupSourceTextField.getText();
@@ -2406,10 +2441,19 @@ public class Welcome extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void updateBootloaders() {
-        // make image (temporarily) writable
-        processExecutor.executeProcess(
-                "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
+    private void updateBootloaders() throws DBusException {
+
+        String imagePath;
+        if (bootPartition == null) {
+            // legacy system without separate boot partition
+            imagePath = IMAGE_DIRECTORY;
+            // make image (temporarily) writable
+            processExecutor.executeProcess(
+                    "mount", "-o", "remount,rw", imagePath);
+        } else {
+            // system with a separate boot partition
+            imagePath = bootPartition.getMountPath();
+        }
 
         // update timeout...
         SpinnerNumberModel spinnerNumberModel
@@ -2422,10 +2466,10 @@ public class Welcome extends javax.swing.JFrame {
         // ... and grub
         processExecutor.executeProcess("sed", "-i", "-e",
                 "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
-                IMAGE_DIRECTORY + "/boot/grub/grub_main.cfg");
+                imagePath + "/boot/grub/grub_main.cfg");
         processExecutor.executeProcess("sed", "-i", "-e",
                 "s|num_ticks = .*|num_ticks = " + timeoutValue + "|1",
-                IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
+                imagePath + "/boot/grub/themes/lernstick/theme.txt");
 
         // update system name and version...
         String systemName = systemNameTextField.getText();
@@ -2474,11 +2518,14 @@ public class Welcome extends javax.swing.JFrame {
         processExecutor.executeProcess("sed", "-i", "-e",
                 "s|title-text: .*|title-text: \""
                 + systemName + ' ' + systemVersion + "\"|1",
-                IMAGE_DIRECTORY + "/boot/grub/themes/lernstick/theme.txt");
+                imagePath + "/boot/grub/themes/lernstick/theme.txt");
 
-        // remount image read-only
-        processExecutor.executeProcess(
-                "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
+        if (bootPartition == null) {
+            // legacy system without separate boot partition
+            // remount image read-only
+            processExecutor.executeProcess(
+                    "mount", "-o", "remount,ro", imagePath);
+        }
     }
 
     private void updateFirewall() {
@@ -2808,107 +2855,6 @@ public class Welcome extends javax.swing.JFrame {
         }
         reader.close();
         return lines;
-    }
-
-    private static void writeFile(File file, List<String> lines)
-            throws IOException {
-        // delete old version of file
-        if (file.exists()) {
-            file.delete();
-        }
-        // write new version of file
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(file);
-            String lineSeparator = System.getProperty("line.separator");
-            for (String line : lines) {
-                outputStream.write((line + lineSeparator).getBytes());
-            }
-            outputStream.flush();
-        } finally {
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        }
-    }
-
-    private String getExchangePartition() throws IOException {
-
-        // determine system partition
-        String systemPartition = null;
-        List<String> mounts = readFile(new File("/proc/mounts"));
-        for (String mount : mounts) {
-            String[] tokens = mount.split(" ");
-            if (tokens[0].startsWith("/dev/")
-                    && (tokens[1].equals("/live/image")
-                    || tokens[1].equals(IMAGE_DIRECTORY))) {
-                systemPartition = tokens[0];
-                break;
-            }
-        }
-        if (systemPartition == null) {
-            LOGGER.warning("could not determine system partition");
-            return null;
-        } else {
-            LOGGER.log(Level.INFO, "system partition: {0}", systemPartition);
-        }
-
-        // determine system storage device
-        Pattern partitionPattern = Pattern.compile("(.*)\\d+");
-        Matcher matcher = partitionPattern.matcher(systemPartition);
-        String systemDevice = null;
-        if (matcher.matches()) {
-            systemDevice = matcher.group(1);
-        }
-        if (systemDevice == null) {
-            LOGGER.warning("could not determine system device");
-            return null;
-        } else {
-            LOGGER.log(Level.INFO, "system device: {0}", systemDevice);
-        }
-
-        // check if there is an exchange partition
-        // (must be the first partition and must be FAT32)
-        String firstPartition = systemDevice + "1";
-        try {
-            String idType = DbusTools.getStringProperty(
-                    firstPartition.substring(5), "IdType");
-            LOGGER.log(Level.INFO, "first partition id type: {0}", idType);
-            if (idType.equals("vfat")) {
-                return firstPartition;
-            }
-        } catch (DBusExecutionException ex) {
-            LOGGER.log(Level.WARNING, "Could not check first partition of "
-                    + systemDevice, ex);
-        } catch (DBusException ex) {
-            LOGGER.log(Level.WARNING, "Could not check first partition of "
-                    + systemDevice, ex);
-        }
-
-        return null;
-    }
-
-    private String getPartitionMountPoint(String partition)
-            throws DBusException {
-        List<String> mountPoints = DbusTools.getStringListProperty(
-                partition.substring(5), "DeviceMountPaths");
-        String mountPoint = null;
-        if (mountPoints.isEmpty()) {
-            LOGGER.log(Level.INFO, "partition {0} is not mounted", partition);
-        } else {
-            mountPoint = mountPoints.get(0);
-            LOGGER.log(Level.INFO, "mount point of partition {0}: \"{1}\"",
-                    new Object[]{partition, mountPoint});
-        }
-        return mountPoint;
-    }
-
-    private String getPartitionLabel(String partition) throws DBusException {
-        String label = DbusTools.getStringProperty(
-                partition.substring(5), "IdLabel");
-        LOGGER.log(Level.INFO, "label of partition {0}: \"{1}\"",
-                new Object[]{partition, label});
-        return label;
     }
 
     private void updatePackagesLists() {

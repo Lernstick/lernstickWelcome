@@ -1,3 +1,15 @@
+lernstickwelcome-wheezy (201403081744-1) unstable; urgency=low
+
+  * code cleanup (separate lernstickTools library for sharing with lernstickWelcome)
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sat, 08 Mar 2014 17:44:42 +0100
+
+lernstickwelcome-wheezy (201403041911-1) unstable; urgency=low
+
+  * fixed detection of exchange partition
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Tue, 04 Mar 2014 19:10:46 +0100
+
 lernstickwelcome-wheezy (201403041614-1) unstable; urgency=low
 
   * added info about DNS in firewall module help

@@ -19,6 +19,7 @@
     <target name="-post-jar">
         <jar destfile="dist/lernstickWelcome.jar" update="true">
             <zipfileset src="${file.reference.java_file_copy_library-0.9.7.jar}" excludes="META-INF/**"/>
+            <zipfileset src="${reference.lernstickTools.jar}" excludes="META-INF/**"/>
             <manifest>
                 <attribute name="Class-Path" value="/usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar"/>
                 <attribute name="Main-Class" value="ch.fhnw.lernstickwelcome.Welcome"/>
