@@ -123,6 +123,7 @@ public class Welcome extends javax.swing.JFrame {
     private String aptGetOutput;
     private IPTableModel ipTableModel;
     private MainMenuListEntry firewallEntry;
+    private MainMenuListEntry backupEntry;
 
     /**
      * Creates new form Welcome
@@ -221,9 +222,10 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/32x32/firewall.png",
                     BUNDLE.getString("Firewall"), "firewallPanel");
             menuListModel.addElement(firewallEntry);
-            menuListModel.addElement(new MainMenuListEntry(
+            backupEntry = new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/backup.png",
-                    BUNDLE.getString("Backup"), "backupPanel"));
+                    BUNDLE.getString("Backup"), "backupPanel");
+            menuListModel.addElement(backupEntry);
         } else {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/copyright.png",
@@ -264,10 +266,14 @@ public class Welcome extends javax.swing.JFrame {
             exchangePartition = systemStorageDevice.getExchangePartition();
             bootPartition = systemStorageDevice.getBootPartition();
             bootMountInfo = bootPartition.mount();
+            LOGGER.log(Level.INFO,
+                    "\nsystemStorageDevice: {0}\nexchangePartition: {1}\nbootPartition: {2}",
+                    new Object[]{
+                        systemStorageDevice, exchangePartition, bootPartition});
         } catch (DBusException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "", ex);
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "", ex);
         }
 
         try {
@@ -289,10 +295,13 @@ public class Welcome extends javax.swing.JFrame {
             exchangePartitionNameTextField.setText(exchangePartitionLabel);
 
             try {
+                String exchangeMountPath = exchangePartition.getMountPath();
+                LOGGER.log(Level.INFO,
+                        "exchangeMountPath: {0}", exchangeMountPath);
                 backupDirectoryTextField.setText(properties.getProperty(
-                        BACKUP_DIRECTORY, exchangePartition.getMountPath()));
+                        BACKUP_DIRECTORY, exchangeMountPath));
             } catch (DBusException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, "", ex);
             }
         }
 
@@ -2336,8 +2345,13 @@ public class Welcome extends javax.swing.JFrame {
         if (editor != null) {
             editor.stopCellEditing();
         }
-        if (!checkFirewall()) {
-            return;
+        if (examEnvironment) {
+            if (!checkFirewall()) {
+                return;
+            }
+            if (!checkBackupDirectory()) {
+                return;
+            }
         }
 
         // update full user name (if necessary)
@@ -2569,6 +2583,83 @@ public class Welcome extends javax.swing.JFrame {
         }
         processExecutor.executeProcess(
                 "/etc/init.d/lernstick-firewall", "reload");
+    }
+
+    private boolean checkBackupDirectory() {
+
+        if (!backupDirectoryCheckBox.isSelected()) {
+            // As long as the directory option is not selected we just don't
+            // care what is configured there...
+            return true;
+        }
+
+        String backupDirectory = backupDirectoryTextField.getText();
+
+        if (backupDirectory.isEmpty()) {
+            String errorMessage = BUNDLE.getString("Error_No_Backup_Directory");
+            showBackupDirectoryError(errorMessage);
+            return false;
+        }
+
+        File dirFile = new File(backupDirectory);
+        if (!dirFile.exists()) {
+            String errorMessage = BUNDLE.getString(
+                    "Error_Nonexisting_Backup_Directory");
+            errorMessage = MessageFormat.format(errorMessage, backupDirectory);
+            showBackupDirectoryError(errorMessage);
+            return false;
+        }
+
+        if (!dirFile.isDirectory()) {
+            String errorMessage = BUNDLE.getString(
+                    "Error_Backup_Directory_No_Directory");
+            errorMessage = MessageFormat.format(errorMessage, backupDirectory);
+            showBackupDirectoryError(errorMessage);
+            return false;
+        }
+
+        // determine device where the directory is located
+        // (df takes care for symlinks etc.)
+        processExecutor.executeProcess(true, true, "df", backupDirectory);
+        List<String> stdOut = processExecutor.getStdOutList();
+        String device = null;
+        for (String line : stdOut) {
+            if (line.startsWith("/dev/")) {
+                String[] tokens = line.split(" ");
+                device = tokens[0];
+            }
+        }
+        if (device == null) {
+            LOGGER.log(Level.WARNING,
+                    "could not determine device of directory {0}",
+                    backupDirectory);
+            return true;
+        }
+
+        // check, if device is exFAT
+        try {
+            Partition partition = Partition.getPartitionFromDeviceAndNumber(
+                    device.substring(5), StorageTools.getSystemSize());
+            String idType = partition.getIdType();
+            if (idType.equals("exfat")) {
+                // rdiff-backup does not work (yet) on exfat partitions!
+                String errorMessage = BUNDLE.getString("Error_Backup_on_exFAT");
+                errorMessage = MessageFormat.format(
+                        errorMessage, backupDirectory);
+                showBackupDirectoryError(errorMessage);
+                return false;
+            }
+        } catch (DBusException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+
+        return true;
+    }
+
+    private void showBackupDirectoryError(String errorMessage) {
+        menuList.setSelectedValue(backupEntry, true);
+        backupDirectoryTextField.requestFocusInWindow();
+        showErrorMessage(errorMessage);
     }
 
     private boolean checkFirewall() {

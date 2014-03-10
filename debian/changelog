@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201403101126-1) unstable; urgency=low
+
+  * show error if backup directory is on exFAT
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 10 Mar 2014 11:26:07 +0100
+
 lernstickwelcome-wheezy (201403081744-1) unstable; urgency=low
 
   * code cleanup (separate lernstickTools library for sharing with lernstickWelcome)
