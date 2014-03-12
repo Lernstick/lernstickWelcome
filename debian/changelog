@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201403120904-1) unstable; urgency=low
+
+  * fixed NPE when starting from DVD
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 12 Mar 2014 09:04:51 +0100
+
 lernstickwelcome-wheezy (201403101126-1) unstable; urgency=low
 
   * show error if backup directory is on exFAT

@@ -265,7 +265,9 @@ public class Welcome extends javax.swing.JFrame {
             systemStorageDevice = StorageTools.getSystemStorageDevice();
             exchangePartition = systemStorageDevice.getExchangePartition();
             bootPartition = systemStorageDevice.getBootPartition();
-            bootMountInfo = bootPartition.mount();
+            if (bootPartition != null) {
+                bootMountInfo = bootPartition.mount();
+            }
             LOGGER.log(Level.INFO,
                     "\nsystemStorageDevice: {0}\nexchangePartition: {1}\nbootPartition: {2}",
                     new Object[]{
@@ -1795,7 +1797,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if (!bootMountInfo.alreadyMounted()) {
+        if ((bootMountInfo != null) && (!bootMountInfo.alreadyMounted())) {
             try {
                 bootPartition.umount();
             } catch (DBusException ex) {
