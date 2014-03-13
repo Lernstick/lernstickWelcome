@@ -2589,7 +2589,8 @@ public class Welcome extends javax.swing.JFrame {
 
     private boolean checkBackupDirectory() {
 
-        if (!backupDirectoryCheckBox.isSelected()) {
+        if ((!backupCheckBox.isSelected())
+                || (!backupDirectoryCheckBox.isSelected())) {
             // As long as the directory option is not selected we just don't
             // care what is configured there...
             return true;

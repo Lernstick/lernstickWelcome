@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201403130958-1) unstable; urgency=low
+
+  * fixed backup directory check
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 13 Mar 2014 09:58:55 +0100
+
 lernstickwelcome-wheezy (201403120904-1) unstable; urgency=low
 
   * fixed NPE when starting from DVD
