@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201403171753-1) unstable; urgency=low
+
+  * fixed openclonk, added colobot
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 17 Mar 2014 17:53:38 +0100
+
 lernstickwelcome-wheezy (201403130958-1) unstable; urgency=low
 
   * fixed backup directory check

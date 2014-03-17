@@ -522,6 +522,7 @@ public class Welcome extends javax.swing.JFrame {
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
+        colobotGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         riliGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         filletsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         neverballGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1168,6 +1169,17 @@ public class Welcome extends javax.swing.JFrame {
         additionalTabbedPane.addTab(bundle.getString("Welcome.additionalScrollPane.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/applications-other.png")), additionalScrollPane); // NOI18N
 
         gamesScrollPanel.setLayout(new java.awt.GridBagLayout());
+
+        colobotGamePanel.setDescription(bundle.getString("Welcome.colobotGamePanel.description")); // NOI18N
+        colobotGamePanel.setGameName("Colobot"); // NOI18N
+        colobotGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/colobot.png"))); // NOI18N
+        colobotGamePanel.setWebsite("http://www.colobot.info"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gamesScrollPanel.add(colobotGamePanel, gridBagConstraints);
 
         riliGamePanel.setDescription(bundle.getString("Welcome.riliGamePanel.description")); // NOI18N
         riliGamePanel.setGameName("Ri-li"); // NOI18N
@@ -3023,6 +3035,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
 
         // games
+        numberOfPackages += colobotGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += riliGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += filletsGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += neverballGamePanel.isSelected() ? 1 : 0;
@@ -3099,6 +3112,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(gnucashPanel, "gnucash");
 
         // games
+        checkAppInstall(colobotGamePanel, "colobot");
         checkAppInstall(riliGamePanel, "lernstick-ri-li");
         checkAppInstall(filletsGamePanel, "lernstick-fillets-ng");
         checkAppInstall(neverballGamePanel, "live-neverball2");
@@ -3274,6 +3288,9 @@ public class Welcome extends javax.swing.JFrame {
                     "gnucash", "gnucash-docs");
 
             // games
+            installApplication(colobotGamePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/colobot.png",
+                    "colobot");
             installApplication(riliGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/ri-li.png",
                     "lernstick-ri-li");
@@ -3305,7 +3322,7 @@ public class Welcome extends javax.swing.JFrame {
                     "live-xmoto");
             installApplication(openClonkPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/openclonk.png",
-                    "lernstick-openclonk", "openclonk");
+                    "openclonk");
             installApplication(wesnothGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/wesnoth.png",
                     "wesnoth", "wesnoth-music");
@@ -3594,6 +3611,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JSpinner bootTimeoutSpinner;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
+    private ch.fhnw.lernstickwelcome.GamePanel colobotGamePanel;
     private javax.swing.JPanel dataPartitionPanel;
     private javax.swing.JCheckBox exchangeAccessCheckBox;
     private javax.swing.JLabel exchangePartitionNameLabel;
