@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201403202112-1) unstable; urgency=low
+
+  * added lock button for KDE plasma desktop applets
+
+ -- Ronny Standtke <ronny@ronny>  Thu, 20 Mar 2014 21:12:28 +0100
+
 lernstickwelcome-wheezy (201403171753-1) unstable; urgency=low
 
   * fixed openclonk, added colobot

@@ -84,11 +84,9 @@ public class Welcome extends javax.swing.JFrame {
     private static final String URL_WHITELIST_FILENAME
             = "/etc/lernstick-firewall/url_whitelist";
     // !!! processExecutor must be instanciated before the next constants !!!
-    private final static ProcessExecutor processExecutor
+    private static final ProcessExecutor processExecutor
             = new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
-    private File SYSLINUX_CONFIG_FILE;
-    private File XMLBOOT_CONFIG_FILE;
     // mapping of checkboxes to package collections
 //    private static final String[] ACROREAD_PACKAGES = new String[]{
 //        "acroread", "acroread-l10n-de", "acroread-l10n-es", "acroread-l10n-fr",
@@ -106,14 +104,18 @@ public class Welcome extends javax.swing.JFrame {
         "libdvdcss2", "libmp3lame0", "lame"
     };
     private static final String FLASH_PACKAGE = "flashplugin-nonfree";
-    private final static String USER_HOME = System.getProperty("user.home");
+    private static final String USER_HOME = System.getProperty("user.home");
+    private static final File APPLETS_CONFIG_FILE = new File(
+            "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     private final String adobeLanguageCode;
     private final File propertiesFile;
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private String fullName;
     private final DefaultListModel menuListModel = new DefaultListModel();
     private final boolean examEnvironment;
+    private String fullName;
+    private File SYSLINUX_CONFIG_FILE;
+    private File XMLBOOT_CONFIG_FILE;
     private int menuListIndex = 0;
     private StorageDevice systemStorageDevice;
     private Partition exchangePartition;
@@ -256,6 +258,11 @@ public class Welcome extends javax.swing.JFrame {
 
         getFullUserName();
 
+        boolean appletsLocked = !APPLETS_CONFIG_FILE.canWrite();
+        LOGGER.log(Level.INFO,
+                "KDE plasma desktop applets locked: {0}", appletsLocked);
+        kdePlasmaLockToggleButton.setSelected(appletsLocked);
+
         AbstractDocument exchangePartitionNameDocument
                 = (AbstractDocument) exchangePartitionNameTextField.getDocument();
         exchangePartitionNameDocument.setDocumentFilter(
@@ -263,13 +270,15 @@ public class Welcome extends javax.swing.JFrame {
 
         try {
             systemStorageDevice = StorageTools.getSystemStorageDevice();
-            exchangePartition = systemStorageDevice.getExchangePartition();
-            bootPartition = systemStorageDevice.getBootPartition();
-            if (bootPartition != null) {
-                bootMountInfo = bootPartition.mount();
+            if (systemStorageDevice != null) {
+                exchangePartition = systemStorageDevice.getExchangePartition();
+                bootPartition = systemStorageDevice.getBootPartition();
+                if (bootPartition != null) {
+                    bootMountInfo = bootPartition.mount();
+                }
             }
-            LOGGER.log(Level.INFO,
-                    "\nsystemStorageDevice: {0}\nexchangePartition: {1}\nbootPartition: {2}",
+            LOGGER.log(Level.INFO, "\nsystemStorageDevice: {0}\n"
+                    + "exchangePartition: {1}\nbootPartition: {2}",
                     new Object[]{
                         systemStorageDevice, exchangePartition, bootPartition});
         } catch (DBusException ex) {
@@ -560,6 +569,7 @@ public class Welcome extends javax.swing.JFrame {
         systemVersionTextField = new javax.swing.JTextField();
         userNameLabel = new javax.swing.JLabel();
         userNameTextField = new javax.swing.JTextField();
+        kdePlasmaLockToggleButton = new javax.swing.JToggleButton();
         jLabel3 = new javax.swing.JLabel();
         partitionsPanel = new javax.swing.JPanel();
         exchangePartitionPanel = new javax.swing.JPanel();
@@ -1512,6 +1522,19 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 0, 10);
         systemPanel.add(userNameTextField, gridBagConstraints);
+
+        kdePlasmaLockToggleButton.setText(bundle.getString("Welcome.kdePlasmaLockToggleButton.text")); // NOI18N
+        kdePlasmaLockToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kdePlasmaLockToggleButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
+        systemPanel.add(kdePlasmaLockToggleButton, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1958,6 +1981,14 @@ public class Welcome extends javax.swing.JFrame {
     private void googleChromeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_googleChromeLabelMouseClicked
         toggleCheckBox(googleChromeCheckBox);
     }//GEN-LAST:event_googleChromeLabelMouseClicked
+
+    private void kdePlasmaLockToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kdePlasmaLockToggleButtonActionPerformed
+        if (kdePlasmaLockToggleButton.isSelected()) {
+            APPLETS_CONFIG_FILE.setReadOnly();
+        } else {
+            APPLETS_CONFIG_FILE.setWritable(true, false);
+        }
+    }//GEN-LAST:event_kdePlasmaLockToggleButtonActionPerformed
 
     private void getFullUserName() {
         AbstractDocument userNameDocument
@@ -3652,6 +3683,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JToggleButton kdePlasmaLockToggleButton;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JLabel label1;
