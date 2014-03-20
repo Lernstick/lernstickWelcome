@@ -23,6 +23,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -105,7 +110,7 @@ public class Welcome extends javax.swing.JFrame {
     };
     private static final String FLASH_PACKAGE = "flashplugin-nonfree";
     private static final String USER_HOME = System.getProperty("user.home");
-    private static final File APPLETS_CONFIG_FILE = new File(
+    private static final Path APPLETS_CONFIG_FILE = Paths.get(
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     private final String adobeLanguageCode;
     private final File propertiesFile;
@@ -258,10 +263,18 @@ public class Welcome extends javax.swing.JFrame {
 
         getFullUserName();
 
-        boolean appletsLocked = !APPLETS_CONFIG_FILE.canWrite();
-        LOGGER.log(Level.INFO,
-                "KDE plasma desktop applets locked: {0}", appletsLocked);
-        kdePlasmaLockToggleButton.setSelected(appletsLocked);
+        try {
+            PosixFileAttributes attributes = Files.readAttributes(
+                    APPLETS_CONFIG_FILE, PosixFileAttributes.class);
+            Set<PosixFilePermission> permissions = attributes.permissions();
+            boolean appletsLocked
+                    = !permissions.contains(PosixFilePermission.OWNER_WRITE);
+            LOGGER.log(Level.INFO,
+                    "KDE plasma desktop applets locked: {0}", appletsLocked);
+            kdePlasmaLockToggleButton.setSelected(appletsLocked);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
 
         AbstractDocument exchangePartitionNameDocument
                 = (AbstractDocument) exchangePartitionNameTextField.getDocument();
@@ -1983,10 +1996,18 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_googleChromeLabelMouseClicked
 
     private void kdePlasmaLockToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kdePlasmaLockToggleButtonActionPerformed
-        if (kdePlasmaLockToggleButton.isSelected()) {
-            APPLETS_CONFIG_FILE.setReadOnly();
-        } else {
-            APPLETS_CONFIG_FILE.setWritable(true, false);
+        try {
+            PosixFileAttributes attributes = Files.readAttributes(
+                    APPLETS_CONFIG_FILE, PosixFileAttributes.class);
+            Set<PosixFilePermission> permissions = attributes.permissions();
+            if (kdePlasmaLockToggleButton.isSelected()) {
+                permissions.remove(PosixFilePermission.OWNER_WRITE);
+            } else {
+                permissions.add(PosixFilePermission.OWNER_WRITE);
+            }
+            Files.setPosixFilePermissions(APPLETS_CONFIG_FILE, permissions);
+        } catch (IOException iOException) {
+            LOGGER.log(Level.WARNING, "", iOException);
         }
     }//GEN-LAST:event_kdePlasmaLockToggleButtonActionPerformed
 
