@@ -119,7 +119,7 @@ public class Welcome extends javax.swing.JFrame {
     private final DefaultListModel menuListModel = new DefaultListModel();
     private final boolean examEnvironment;
     private String fullName;
-    private File SYSLINUX_CONFIG_FILE;
+    private List<File> SYSLINUX_CONFIG_FILES;
     private File XMLBOOT_CONFIG_FILE;
     private int menuListIndex = 0;
     private StorageDevice systemStorageDevice;
@@ -159,9 +159,7 @@ public class Welcome extends javax.swing.JFrame {
             fileHandler.setFormatter(formatter);
             fileHandler.setLevel(Level.ALL);
             globalLogger.addHandler(fileHandler);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
+        } catch (IOException | SecurityException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         LOGGER.info("*********** Starting lernstick Welcome ***********");
@@ -294,14 +292,12 @@ public class Welcome extends javax.swing.JFrame {
                     + "exchangePartition: {1}\nbootPartition: {2}",
                     new Object[]{
                         systemStorageDevice, exchangePartition, bootPartition});
-        } catch (DBusException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        } catch (IOException ex) {
+        } catch (DBusException | IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
 
         try {
-            SYSLINUX_CONFIG_FILE = getSyslinuxConfigFile();
+            SYSLINUX_CONFIG_FILES = getSyslinuxConfigFiles();
         } catch (DBusException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
@@ -358,11 +354,7 @@ public class Welcome extends javax.swing.JFrame {
                     systemVersion = node.getTextContent();
                 }
             }
-        } catch (ParserConfigurationException ex) {
-            LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
-        } catch (SAXException ex) {
-            LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
-        } catch (IOException ex) {
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
             LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
         }
         systemNameTextField.setText(systemName);
@@ -2097,17 +2089,16 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private void parseURLWhiteList() throws IOException {
-        FileReader fileReader = new FileReader(URL_WHITELIST_FILENAME);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        StringBuilder builder = new StringBuilder();
-        for (String line = bufferedReader.readLine(); line != null;) {
-            builder.append(line);
-            builder.append('\n');
-            line = bufferedReader.readLine();
+        try (FileReader fileReader = new FileReader(URL_WHITELIST_FILENAME);
+                BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            StringBuilder builder = new StringBuilder();
+            for (String line = bufferedReader.readLine(); line != null;) {
+                builder.append(line);
+                builder.append('\n');
+                line = bufferedReader.readLine();
+            }
+            firewallURLTextArea.setText(builder.toString());
         }
-        firewallURLTextArea.setText(builder.toString());
-        bufferedReader.close();
-        fileReader.close();
     }
 
     private void parseNetWhiteList() throws IOException {
@@ -2244,7 +2235,7 @@ public class Welcome extends javax.swing.JFrame {
         return builder.parse(file);
     }
 
-    private File getSyslinuxConfigFile() throws DBusException {
+    private List<File> getSyslinuxConfigFiles() throws DBusException {
         File imageDirectory;
         if (bootPartition == null) {
             // legacy system
@@ -2254,22 +2245,50 @@ public class Welcome extends javax.swing.JFrame {
             imageDirectory = new File(bootPartition.getMountPath());
         }
 
-        // determine which config file to use
-        File configFile = new File(imageDirectory, "isolinux/isolinux.cfg");
-        if (!configFile.exists()) {
-            configFile = new File(imageDirectory, "syslinux/syslinux.cfg");
-            if (!configFile.exists()) {
-                configFile = null;
-                LOGGER.warning("syslinux config file not found!");
+        // check which directory to use
+        File configDir = new File(imageDirectory, "isolinux");
+        if (!configDir.exists()) {
+            configDir = new File(imageDirectory, "syslinux");
+            if (!configDir.exists()) {
+                LOGGER.warning("no isolinux or syslinux directory found!");
+                return null;
             }
         }
-        return configFile;
+        LOGGER.log(Level.INFO, "config dir: {0}", configDir);
+
+        // determine which config files to use
+        List<File> configFiles = new ArrayList<>();
+        File configFile = new File(configDir, "boot_486.cfg");
+        if (configFile.exists()) {
+            // new version with kernel switch and several config files
+            configFiles.add(configFile);
+            configFile = new File(configDir, "boot_686.cfg");
+            if (configFile.exists()) {
+                configFiles.add(configFile);
+            }
+        } else {
+            // old version without kernel switch and single config file
+            configFile = new File(configDir, "isolinux.cfg");
+            if (configFile.exists()) {
+                configFiles.add(configFile);
+            } else {
+                configFile = new File(configDir, "syslinux.cfg");
+                if (configFile.exists()) {
+                    configFiles.add(configFile);
+                } else {
+                    LOGGER.warning(
+                            "no isolinux or syslinux config file found!");
+                }
+            }
+        }
+
+        return configFiles;
     }
 
     private int getTimeout() throws IOException {
-        if (SYSLINUX_CONFIG_FILE != null) {
+        if (SYSLINUX_CONFIG_FILES != null) {
             Pattern timeoutPattern = Pattern.compile("timeout (.*)");
-            List<String> configFileLines = readFile(SYSLINUX_CONFIG_FILE);
+            List<String> configFileLines = readFile(SYSLINUX_CONFIG_FILES.get(0));
             for (String configFileLine : configFileLines) {
                 Matcher matcher = timeoutPattern.matcher(configFileLine);
                 if (matcher.matches()) {
@@ -2437,15 +2456,20 @@ public class Welcome extends javax.swing.JFrame {
                 && !newExchangePartitionLabel.equals(exchangePartitionLabel)) {
             String binary = null;
             String idType = exchangePartition.getIdType();
-            if (idType.equals("vfat")) {
-                binary = "dosfslabel";
-            } else if (idType.equals("exfat")) {
-                binary = "exfatlabel";
-            } else if (idType.equals("ntfs")) {
-                binary = "ntfslabel";
-            } else {
-                LOGGER.log(Level.WARNING,
-                        "no labeling binary for type \"{0}\"!", idType);
+            switch (idType) {
+                case "vfat":
+                    binary = "dosfslabel";
+                    break;
+                case "exfat":
+                    binary = "exfatlabel";
+                    break;
+                case "ntfs":
+                    binary = "ntfslabel";
+                    break;
+                default:
+                    LOGGER.log(Level.WARNING,
+                            "no labeling binary for type \"{0}\"!", idType);
+                    break;
             }
             if (binary != null) {
                 processExecutor.executeProcess(binary,
@@ -2540,9 +2564,11 @@ public class Welcome extends javax.swing.JFrame {
                 = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
         int timeoutValue = spinnerNumberModel.getNumber().intValue();
         // ... in syslinux ...
-        processExecutor.executeProcess("sed", "-i", "-e",
-                "s|timeout .*|timeout " + (timeoutValue * 10) + "|1",
-                SYSLINUX_CONFIG_FILE.getPath());
+        for (File syslinuxConfigFile : SYSLINUX_CONFIG_FILES) {
+            processExecutor.executeProcess("sed", "-i", "-e",
+                    "s|timeout .*|timeout " + (timeoutValue * 10) + "|1",
+                    syslinuxConfigFile.getPath());
+        }
         // ... and grub
         processExecutor.executeProcess("sed", "-i", "-e",
                 "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
@@ -2582,15 +2608,8 @@ public class Welcome extends javax.swing.JFrame {
             processExecutor.executeProcess("mv", tmpFile.getPath(),
                     XMLBOOT_CONFIG_FILE.getPath());
 
-        } catch (ParserConfigurationException ex) {
-            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-        } catch (SAXException ex) {
-            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-        } catch (DOMException ex) {
-            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-        } catch (TransformerException ex) {
+        } catch (ParserConfigurationException | SAXException | IOException |
+                DOMException | TransformerException ex) {
             LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
         }
 
@@ -2627,23 +2646,19 @@ public class Welcome extends javax.swing.JFrame {
             stringBuilder.append('\n');
         }
         String ipTables = stringBuilder.toString();
-        try {
-            FileOutputStream fileOutputStream
-                    = new FileOutputStream(IP_TABLES_FILENAME);
+        try (FileOutputStream fileOutputStream
+                = new FileOutputStream(IP_TABLES_FILENAME)) {
             fileOutputStream.write(ipTables.getBytes());
             fileOutputStream.flush();
-            fileOutputStream.close();
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
 
         // save URL whitelist
-        try {
-            FileOutputStream fileOutputStream
-                    = new FileOutputStream(URL_WHITELIST_FILENAME);
+        try (FileOutputStream fileOutputStream
+                = new FileOutputStream(URL_WHITELIST_FILENAME)) {
             fileOutputStream.write(firewallURLTextArea.getText().getBytes());
             fileOutputStream.flush();
-            fileOutputStream.close();
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
@@ -2937,12 +2952,16 @@ public class Welcome extends javax.swing.JFrame {
                 for (int i = 0, length = entries.getLength(); i < length; i++) {
                     Element entry = (Element) entries.item(i);
                     String key = entry.getAttribute("key");
-                    if ("destination".equals(key)) {
-                        entry.setAttribute("value", "local");
-                    } else if ("local_destination_directory".equals(key)) {
-                        entry.setAttribute("value", backupDestination);
-                    } else if ("source".equals(key)) {
-                        entry.setAttribute("value", backupSource);
+                    switch (key) {
+                        case "destination":
+                            entry.setAttribute("value", "local");
+                            break;
+                        case "local_destination_directory":
+                            entry.setAttribute("value", backupDestination);
+                            break;
+                        case "source":
+                            entry.setAttribute("value", backupSource);
+                            break;
                     }
                 }
 
@@ -2962,15 +2981,8 @@ public class Welcome extends javax.swing.JFrame {
                 processExecutor.executeProcess(
                         "chown", "user.user", prefsFilePath);
 
-            } catch (ParserConfigurationException ex) {
-                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-            } catch (SAXException ex) {
-                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-            } catch (IOException ex) {
-                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-            } catch (DOMException ex) {
-                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-            } catch (TransformerException ex) {
+            } catch (ParserConfigurationException | SAXException |
+                    IOException | DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
 
@@ -2989,11 +3001,10 @@ public class Welcome extends javax.swing.JFrame {
                     + "  <entry key=\"local_destination_directory\" value=\"" + backupDestination + "\"/>\n"
                     + "  <entry key=\"source\" value=\"" + backupSource + "\"/>\n"
                     + "</map>\n";
-            try {
-                FileWriter fileWriter = new FileWriter(prefsFile);
+
+            try (FileWriter fileWriter = new FileWriter(prefsFile)) {
                 fileWriter.write(preferences);
                 fileWriter.flush();
-                fileWriter.close();
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
             }
@@ -3005,13 +3016,13 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private static List<String> readFile(File file) throws IOException {
-        List<String> lines = new ArrayList<String>();
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        for (String line = reader.readLine(); line != null;
-                line = reader.readLine()) {
-            lines.add(line);
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            for (String line = reader.readLine(); line != null;
+                    line = reader.readLine()) {
+                lines.add(line);
+            }
         }
-        reader.close();
         return lines;
     }
 
@@ -3054,9 +3065,7 @@ public class Welcome extends javax.swing.JFrame {
                         = new UpdateErrorDialog(this, aptGetOutput);
                 dialog.setVisible(true);
             }
-        } catch (InterruptedException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        } catch (ExecutionException ex) {
+        } catch (InterruptedException | ExecutionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
