@@ -1,6 +1,7 @@
 package ch.fhnw.lernstickwelcome;
 
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
+import ch.fhnw.util.PreferredSizesTableModel;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import tools.PreferredSizesTableModel;
 
 /**
  * the table model for the iptables table
@@ -33,7 +33,7 @@ public class IPTableModel extends PreferredSizesTableModel {
     public IPTableModel(JTable table, Dimension maxDimension) {
         super(table, maxDimension);
 
-        entries = new ArrayList<IPTableEntry>();
+        entries = new ArrayList<>();
 
         addColumn(BUNDLE.getString("Protocol"));
         addColumn(BUNDLE.getString("Target"));
