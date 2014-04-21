@@ -3174,7 +3174,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // games
         checkAppInstall(colobotGamePanel, "colobot");
-        checkAppInstall(riliGamePanel, "lernstick-ri-li");
+        checkAppInstall(riliGamePanel, "ri-li");
         checkAppInstall(filletsGamePanel, "lernstick-fillets-ng");
         checkAppInstall(neverballGamePanel, "live-neverball2");
         checkAppInstall(neverputtGamePanel, "live-neverputt2");
@@ -3354,7 +3354,7 @@ public class Welcome extends javax.swing.JFrame {
                     "colobot");
             installApplication(riliGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/ri-li.png",
-                    "lernstick-ri-li");
+                    "ri-li");
             installApplication(filletsGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/fillets.png",
                     "lernstick-fillets-ng", "fillets-ng-data-cs");

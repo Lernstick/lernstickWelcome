@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201404211402-1) unstable; urgency=low
+
+  * replaced "lernstick-ri-li" with "ri-li" as our issues where fixed upstream
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 21 Apr 2014 14:02:31 +0200
+
 lernstickwelcome-wheezy (201404031654-1) unstable; urgency=low
 
   * rebuild with updated lernstickTools
