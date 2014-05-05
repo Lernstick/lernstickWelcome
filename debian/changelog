@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201405051527-1) unstable; urgency=low
+
+  * improved support for KDE plasma applets lock
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 05 May 2014 15:27:21 +0200
+
 lernstickwelcome-wheezy (201404211402-1) unstable; urgency=low
 
   * replaced "lernstick-ri-li" with "ri-li" as our issues where fixed upstream
