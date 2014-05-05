@@ -82,6 +82,7 @@ public class Welcome extends javax.swing.JFrame {
     private static final String BACKUP_SCREENSHOT = "BackupScreenshot";
     private static final String BACKUP_FREQUENCY = "BackupFrequency";
     private static final String EXCHANGE_ACCESS = "ExchangeAccess";
+    private static final String KDE_LOCK = "LockKDE";
     // !!! NO trailing slash at the end (would break comparison later) !!!
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     private static final String IP_TABLES_FILENAME
@@ -200,6 +201,8 @@ public class Welcome extends javax.swing.JFrame {
                 properties.getProperty(BACKUP_SCREENSHOT)));
         exchangeAccessCheckBox.setSelected("true".equals(
                 properties.getProperty(EXCHANGE_ACCESS)));
+        kdePlasmaLockCheckBox.setSelected("true".equals(
+                properties.getProperty(KDE_LOCK)));
         String frequencyString = properties.getProperty(
                 BACKUP_FREQUENCY, "5");
         try {
@@ -260,19 +263,6 @@ public class Welcome extends javax.swing.JFrame {
         menuList.setSelectedIndex(0);
 
         getFullUserName();
-
-        try {
-            PosixFileAttributes attributes = Files.readAttributes(
-                    APPLETS_CONFIG_FILE, PosixFileAttributes.class);
-            Set<PosixFilePermission> permissions = attributes.permissions();
-            boolean appletsLocked
-                    = !permissions.contains(PosixFilePermission.OWNER_WRITE);
-            LOGGER.log(Level.INFO,
-                    "KDE plasma desktop applets locked: {0}", appletsLocked);
-            kdePlasmaLockToggleButton.setSelected(appletsLocked);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        }
 
         AbstractDocument exchangePartitionNameDocument
                 = (AbstractDocument) exchangePartitionNameTextField.getDocument();
@@ -574,7 +564,7 @@ public class Welcome extends javax.swing.JFrame {
         systemVersionTextField = new javax.swing.JTextField();
         userNameLabel = new javax.swing.JLabel();
         userNameTextField = new javax.swing.JTextField();
-        kdePlasmaLockToggleButton = new javax.swing.JToggleButton();
+        kdePlasmaLockCheckBox = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         partitionsPanel = new javax.swing.JPanel();
         exchangePartitionPanel = new javax.swing.JPanel();
@@ -1055,7 +1045,7 @@ public class Welcome extends javax.swing.JFrame {
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 66, Short.MAX_VALUE)
+            .addGap(0, 61, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1528,18 +1518,17 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(25, 10, 0, 10);
         systemPanel.add(userNameTextField, gridBagConstraints);
 
-        kdePlasmaLockToggleButton.setText(bundle.getString("Welcome.kdePlasmaLockToggleButton.text")); // NOI18N
-        kdePlasmaLockToggleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kdePlasmaLockToggleButtonActionPerformed(evt);
+        kdePlasmaLockCheckBox.setText(bundle.getString("Welcome.kdePlasmaLockCheckBox.text")); // NOI18N
+        kdePlasmaLockCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                kdePlasmaLockCheckBoxItemStateChanged(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
-        systemPanel.add(kdePlasmaLockToggleButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 6, 0, 0);
+        systemPanel.add(kdePlasmaLockCheckBox, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1987,21 +1976,19 @@ public class Welcome extends javax.swing.JFrame {
         toggleCheckBox(googleChromeCheckBox);
     }//GEN-LAST:event_googleChromeLabelMouseClicked
 
-    private void kdePlasmaLockToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kdePlasmaLockToggleButtonActionPerformed
-        try {
-            PosixFileAttributes attributes = Files.readAttributes(
-                    APPLETS_CONFIG_FILE, PosixFileAttributes.class);
-            Set<PosixFilePermission> permissions = attributes.permissions();
-            if (kdePlasmaLockToggleButton.isSelected()) {
-                permissions.remove(PosixFilePermission.OWNER_WRITE);
-            } else {
+    private void kdePlasmaLockCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kdePlasmaLockCheckBoxItemStateChanged
+        if (!kdePlasmaLockCheckBox.isSelected()) {
+            try {
+                PosixFileAttributes attributes = Files.readAttributes(
+                        APPLETS_CONFIG_FILE, PosixFileAttributes.class);
+                Set<PosixFilePermission> permissions = attributes.permissions();
                 permissions.add(PosixFilePermission.OWNER_WRITE);
+                Files.setPosixFilePermissions(APPLETS_CONFIG_FILE, permissions);
+            } catch (IOException iOException) {
+                LOGGER.log(Level.WARNING, "", iOException);
             }
-            Files.setPosixFilePermissions(APPLETS_CONFIG_FILE, permissions);
-        } catch (IOException iOException) {
-            LOGGER.log(Level.WARNING, "", iOException);
         }
-    }//GEN-LAST:event_kdePlasmaLockToggleButtonActionPerformed
+    }//GEN-LAST:event_kdePlasmaLockCheckBoxItemStateChanged
 
     private void getFullUserName() {
         AbstractDocument userNameDocument
@@ -2523,6 +2510,8 @@ public class Welcome extends javax.swing.JFrame {
             Number backupFrequency = (Number) backupFrequencySpinner.getValue();
             properties.setProperty(BACKUP_FREQUENCY,
                     backupFrequency.toString());
+            properties.setProperty(KDE_LOCK,
+                    kdePlasmaLockCheckBox.isSelected() ? "true" : "false");
             properties.store(new FileOutputStream(propertiesFile),
                     "lernstick Welcome properties");
         } catch (IOException ex) {
@@ -3713,7 +3702,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JToggleButton kdePlasmaLockToggleButton;
+    private javax.swing.JCheckBox kdePlasmaLockCheckBox;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JLabel label1;
