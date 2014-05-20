@@ -534,6 +534,7 @@ public class Welcome extends javax.swing.JFrame {
         freecolGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         minetestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         frogattoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        supertuxGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         supertuxkartGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         xmotoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClonkPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1260,6 +1261,17 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(frogattoGamePanel, gridBagConstraints);
+
+        supertuxGamePanel.setDescription(bundle.getString("Welcome.supertuxGamePanel.description")); // NOI18N
+        supertuxGamePanel.setGameName("SuperTux"); // NOI18N
+        supertuxGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/supertux.png"))); // NOI18N
+        supertuxGamePanel.setWebsite("http://supertux.lethargik.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gamesScrollPanel.add(supertuxGamePanel, gridBagConstraints);
 
         supertuxkartGamePanel.setDescription(bundle.getString("Welcome.supertuxkartGamePanel.description")); // NOI18N
         supertuxkartGamePanel.setGameName("SuperTuxKart"); // NOI18N
@@ -3093,6 +3105,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += freecolGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += minetestGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += frogattoGamePanel.isSelected() ? 1 : 0;
+        numberOfPackages += supertuxGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += supertuxkartGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += xmotoGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += openClonkPanel.isSelected() ? 1 : 0;
@@ -3170,6 +3183,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(frogattoGamePanel, "frogatto");
         checkAppInstall(freecolGamePanel, "freecol");
         checkAppInstall(minetestGamePanel, "minetest");
+        checkAppInstall(supertuxGamePanel, "supertux");
         checkAppInstall(supertuxkartGamePanel, "supertuxkart");
         checkAppInstall(xmotoGamePanel, "xmoto");
         checkAppInstall(openClonkPanel, "openclonk");
@@ -3364,6 +3378,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(frogattoGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/frogatto.png",
                     "frogatto");
+            installApplication(supertuxGamePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/supertux.png",
+                    "supertux");
             installApplication(supertuxkartGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/supertuxkart.png",
                     "live-supertuxkart");
@@ -3759,6 +3776,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
+    private ch.fhnw.lernstickwelcome.GamePanel supertuxGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel supertuxkartGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel sweetHome3DPanel;
     private javax.swing.JLabel systemNameLabel;
