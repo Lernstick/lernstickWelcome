@@ -3183,7 +3183,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(frogattoGamePanel, "frogatto");
         checkAppInstall(freecolGamePanel, "freecol");
         checkAppInstall(minetestGamePanel, "minetest");
-        checkAppInstall(supertuxGamePanel, "supertux");
+        checkAppInstall(supertuxGamePanel, "live-supertux");
         checkAppInstall(supertuxkartGamePanel, "supertuxkart");
         checkAppInstall(xmotoGamePanel, "xmoto");
         checkAppInstall(openClonkPanel, "openclonk");
@@ -3380,7 +3380,7 @@ public class Welcome extends javax.swing.JFrame {
                     "frogatto");
             installApplication(supertuxGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/supertux.png",
-                    "supertux");
+                    "live-supertux");
             installApplication(supertuxkartGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/supertuxkart.png",
                     "live-supertuxkart");
