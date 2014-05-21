@@ -309,7 +309,8 @@ public class Welcome extends javax.swing.JFrame {
                 LOGGER.log(Level.INFO,
                         "exchangeMountPath: {0}", exchangeMountPath);
                 backupDirectoryTextField.setText(properties.getProperty(
-                        BACKUP_DIRECTORY, exchangeMountPath));
+                        BACKUP_DIRECTORY, exchangeMountPath + '/'
+                        + BUNDLE.getString("Backup_Directory")));
             } catch (DBusException ex) {
                 LOGGER.log(Level.SEVERE, "", ex);
             }
@@ -2685,20 +2686,29 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         File dirFile = new File(backupDirectory);
-        if (!dirFile.exists()) {
-            String errorMessage = BUNDLE.getString(
-                    "Error_Nonexisting_Backup_Directory");
-            errorMessage = MessageFormat.format(errorMessage, backupDirectory);
-            showBackupDirectoryError(errorMessage);
-            return false;
-        }
+        if (dirFile.exists()) {
+            if (!dirFile.isDirectory()) {
+                String errorMessage = BUNDLE.getString(
+                        "Error_Backup_Directory_No_Directory");
+                errorMessage = MessageFormat.format(
+                        errorMessage, backupDirectory);
+                showBackupDirectoryError(errorMessage);
+                return false;
+            }
 
-        if (!dirFile.isDirectory()) {
-            String errorMessage = BUNDLE.getString(
-                    "Error_Backup_Directory_No_Directory");
-            errorMessage = MessageFormat.format(errorMessage, backupDirectory);
-            showBackupDirectoryError(errorMessage);
-            return false;
+            String[] files = dirFile.list();
+            if ((files != null) && (files.length != 0)) {
+                int returnValue = processExecutor.executeProcess(
+                        "rdiff-backup", "-l", dirFile.getAbsolutePath());
+                if (returnValue != 0) {
+                    String errorMessage = BUNDLE.getString(
+                            "Error_Backup_Directory_Invalid");
+                    errorMessage = MessageFormat.format(
+                            errorMessage, backupDirectory);
+                    showBackupDirectoryError(errorMessage);
+                    return false;
+                }
+            }
         }
 
         // determine device where the directory is located

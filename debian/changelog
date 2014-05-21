@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201405211837-1) unstable; urgency=low
+
+  * use subfolder for backup destination directory per default
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 21 May 2014 18:37:30 +0200
+
 lernstickwelcome-wheezy (201405201436-1) unstable; urgency=low
 
   * use live-supertux
