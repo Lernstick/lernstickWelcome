@@ -518,7 +518,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalInfoLabel = new javax.swing.JLabel();
         additionalTabbedPane = new javax.swing.JTabbedPane();
         additionalScrollPane = new javax.swing.JScrollPane();
-        additionalMiscPanel = new javax.swing.JPanel();
+        additionalMiscPanel = new ScrollableJPanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rStudioPanel = new ch.fhnw.lernstickwelcome.GamePanel();

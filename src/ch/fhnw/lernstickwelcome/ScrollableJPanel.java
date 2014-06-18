@@ -4,9 +4,11 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 
 /**
  * A Panel with some scrolling specific features
+ *
  * @author ronny
  */
 public class ScrollableJPanel extends JPanel implements Scrollable {
@@ -21,13 +23,17 @@ public class ScrollableJPanel extends JPanel implements Scrollable {
     @Override
     public int getScrollableUnitIncrement(
             Rectangle visibleRect, int orientation, int direction) {
-        return 10;
+        return 43;
     }
 
     @Override
     public int getScrollableBlockIncrement(
             Rectangle visibleRect, int orientation, int direction) {
-        return 40;
+        if (orientation == SwingConstants.HORIZONTAL) {
+            return visibleRect.width;
+        } else {
+            return visibleRect.height;
+        }
     }
 
     @Override
@@ -39,5 +45,4 @@ public class ScrollableJPanel extends JPanel implements Scrollable {
     public boolean getScrollableTracksViewportHeight() {
         return false;
     }
-    
 }
