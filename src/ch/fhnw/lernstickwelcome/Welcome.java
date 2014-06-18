@@ -521,6 +521,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalMiscPanel = new javax.swing.JPanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        rStudioPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1128,6 +1129,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(processingPanel, gridBagConstraints);
+
+        rStudioPanel.setDescription(bundle.getString("Welcome.rStudioPanel.description")); // NOI18N
+        rStudioPanel.setGameName("RStudio"); // NOI18N
+        rStudioPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rstudio.png"))); // NOI18N
+        rStudioPanel.setWebsite("http://www.rstudio.com"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(rStudioPanel, gridBagConstraints);
 
         lazarusPanel.setDescription(bundle.getString("Welcome.lazarusPanel.description")); // NOI18N
         lazarusPanel.setGameName("Lazarus"); // NOI18N
@@ -1925,7 +1936,8 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_bootTimeoutSpinnerStateChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // enforce visibility of top game
+        // enforce visibility of top applications
+        additionalScrollPane.getVerticalScrollBar().setValue(0);
         gamesScrollPane.getVerticalScrollBar().setValue(0);
     }//GEN-LAST:event_formWindowOpened
 
@@ -3101,6 +3113,7 @@ public class Welcome extends javax.swing.JFrame {
         // miscellaneous
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
+        numberOfPackages += rStudioPanel.isSelected() ? 1 : 0;
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
@@ -3179,6 +3192,7 @@ public class Welcome extends javax.swing.JFrame {
         // miscellaneous
         checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
         checkAppInstall(processingPanel, "processing");
+        checkAppInstall(rStudioPanel, "rstudio");
         checkAppInstall(lazarusPanel, "lazarus");
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
@@ -3346,6 +3360,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(processingPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
                     "processing");
+            installApplication(rStudioPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/rstudio.png",
+                    "rstudio");
             installApplication(lazarusPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/lazarus.png",
                     "lazarus", "fpc-source", "lcl",
@@ -3773,6 +3790,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField proxyPortTextField;
     private javax.swing.JLabel proxyUserNameLabel;
     private javax.swing.JTextField proxyUserNameTextField;
+    private ch.fhnw.lernstickwelcome.GamePanel rStudioPanel;
     private javax.swing.JCheckBox readOnlyCheckBox;
     private javax.swing.JPanel readOnlyPanel;
     private javax.swing.JCheckBox readWriteCheckBox;
