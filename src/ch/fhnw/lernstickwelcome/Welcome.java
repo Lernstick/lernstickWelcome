@@ -2938,11 +2938,12 @@ public class Welcome extends javax.swing.JFrame {
 
     private void firewallError(String errorMessage, int row, int column) {
         menuList.setSelectedValue(firewallEntry, true);
+        firewallTabbedPane.setSelectedIndex(0);
         firewallIPTable.clearSelection();
         firewallIPTable.addRowSelectionInterval(row, row);
-        showErrorMessage(errorMessage);
         firewallIPTable.editCellAt(row, column);
         firewallIPTable.getEditorComponent().requestFocus();
+        showErrorMessage(errorMessage);
     }
 
     private void updateJBackpackProperties(
