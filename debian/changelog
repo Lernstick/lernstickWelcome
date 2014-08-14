@@ -1,3 +1,10 @@
+lernstickwelcome-wheezy (201408141600-1) unstable; urgency=low
+
+  * fixed relabeling of NTFS exchange partitions
+  * added pepperflashplugin-nonfree to list of flash packages
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 14 Aug 2014 16:00:12 +0200
+
 lernstickwelcome-wheezy (201407081605-1) unstable; urgency=low
 
   * rebuild with newer lernstickTools (with LUKS fixes)

@@ -109,7 +109,9 @@ public class Welcome extends javax.swing.JFrame {
     private static final String[] MULTIMEDIA_PACKAGES = new String[]{
         "libdvdcss2", "libmp3lame0", "lame"
     };
-    private static final String FLASH_PACKAGE = "flashplugin-nonfree";
+    private static final String[] FLASH_PACKAGES = new String[]{
+        "flashplugin-nonfree", "pepperflashplugin-nonfree"
+    };
     private static final String USER_HOME = System.getProperty("user.home");
     private static final Path APPLETS_CONFIG_FILE = Paths.get(
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
@@ -503,8 +505,6 @@ public class Welcome extends javax.swing.JFrame {
         miscPanel = new javax.swing.JPanel();
         googleEarthCheckBox = new javax.swing.JCheckBox();
         googleEarthLabel = new javax.swing.JLabel();
-        googleChromeCheckBox = new javax.swing.JCheckBox();
-        googleChromeLabel = new javax.swing.JLabel();
         skypeCheckBox = new javax.swing.JCheckBox();
         skypeLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -992,22 +992,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         miscPanel.add(googleEarthLabel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        miscPanel.add(googleChromeCheckBox, gridBagConstraints);
-
-        googleChromeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/chrome.png"))); // NOI18N
-        googleChromeLabel.setText(bundle.getString("Welcome.googleChromeLabel.text")); // NOI18N
-        googleChromeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                googleChromeLabelMouseClicked(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        miscPanel.add(googleChromeLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         miscPanel.add(skypeCheckBox, gridBagConstraints);
@@ -1997,17 +1981,16 @@ public class Welcome extends javax.swing.JFrame {
         updateBackupPartitionEnabled();
     }//GEN-LAST:event_backupPartitionCheckBoxItemStateChanged
 
-    private void googleChromeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_googleChromeLabelMouseClicked
-        toggleCheckBox(googleChromeCheckBox);
-    }//GEN-LAST:event_googleChromeLabelMouseClicked
-
     private void kdePlasmaLockCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kdePlasmaLockCheckBoxItemStateChanged
         if (!kdePlasmaLockCheckBox.isSelected()) {
             try {
                 PosixFileAttributes attributes = Files.readAttributes(
-                        APPLETS_CONFIG_FILE, PosixFileAttributes.class);
+                        APPLETS_CONFIG_FILE, PosixFileAttributes.class
+                );
                 Set<PosixFilePermission> permissions = attributes.permissions();
+
                 permissions.add(PosixFilePermission.OWNER_WRITE);
+
                 Files.setPosixFilePermissions(APPLETS_CONFIG_FILE, permissions);
             } catch (IOException iOException) {
                 LOGGER.log(Level.WARNING, "", iOException);
@@ -2467,6 +2450,7 @@ public class Welcome extends javax.swing.JFrame {
         if (!newExchangePartitionLabel.isEmpty()
                 && !newExchangePartitionLabel.equals(exchangePartitionLabel)) {
             String binary = null;
+            boolean umount = false;
             String idType = exchangePartition.getIdType();
             switch (idType) {
                 case "vfat":
@@ -2477,6 +2461,10 @@ public class Welcome extends javax.swing.JFrame {
                     break;
                 case "ntfs":
                     binary = "ntfslabel";
+                    // ntfslabel refuses to work on a mounted partition with the
+                    // error message: "Cannot make changes to a mounted device".
+                    // Therefore we have to try to umount the partition.
+                    umount = true;
                     break;
                 default:
                     LOGGER.log(Level.WARNING,
@@ -2484,9 +2472,16 @@ public class Welcome extends javax.swing.JFrame {
                     break;
             }
             if (binary != null) {
+                boolean tmpUmount = umount && exchangePartition.isMounted();
+                if (tmpUmount) {
+                    exchangePartition.umount();
+                }
                 processExecutor.executeProcess(binary,
                         "/dev/" + exchangePartition.getDeviceAndNumber(),
                         newExchangePartitionLabel);
+                if (tmpUmount) {
+                    exchangePartition.mount();
+                }
             }
         }
 
@@ -3105,7 +3100,6 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += additionalFontsCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += multimediaCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += googleEarthCheckBox.isSelected() ? 1 : 0;
-        numberOfPackages += googleChromeCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += skypeCheckBox.isSelected() ? 1 : 0;
 
         // LA teaching tools
@@ -3172,7 +3166,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // nonfree software
         checkInstall(flashCheckBox, flashLabel,
-                "Welcome.flashLabel.text", FLASH_PACKAGE);
+                "Welcome.flashLabel.text", FLASH_PACKAGES);
         checkInstall(readerCheckBox, readerLabel,
                 "Welcome.readerLabel.text", "adobereader-" + adobeLanguageCode);
         checkInstall(additionalFontsCheckBox, fontsLabel,
@@ -3181,8 +3175,6 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.multimediaLabel.text", MULTIMEDIA_PACKAGES);
         checkInstall(googleEarthCheckBox, googleEarthLabel,
                 "Welcome.googleEarthLabel.text", "google-earth-stable");
-        checkInstall(googleChromeCheckBox, googleChromeLabel,
-                "Welcome.googleChromeLabel.text", "google-chrome-stable");
         checkInstall(skypeCheckBox, skypeLabel,
                 "Welcome.skypeLabel.text", "skype");
 
@@ -3273,6 +3265,7 @@ public class Welcome extends javax.swing.JFrame {
     private void showErrorMessage(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage,
                 BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
+
     }
 
     private class PackageListUpdater
@@ -3334,7 +3327,7 @@ public class Welcome extends javax.swing.JFrame {
             // nonfree packages
             installNonFreeApplication(flashCheckBox, "Welcome.flashLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Flash_cs3.png",
-                    FLASH_PACKAGE);
+                    FLASH_PACKAGES);
             installAdobeReader();
             installNonFreeApplication(additionalFontsCheckBox,
                     "Welcome.fontsLabel.text",
@@ -3345,7 +3338,6 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/package_multimedia.png",
                     MULTIMEDIA_PACKAGES);
             installGoogleEarth();
-            installGoogleChrome();
             installSkype();
 
             // teaching system
@@ -3556,9 +3548,6 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         private void installGoogleChrome() throws IOException {
-            if (!googleChromeCheckBox.isSelected()) {
-                return;
-            }
             String infoString = BUNDLE.getString("Installing");
             infoString = MessageFormat.format(infoString,
                     BUNDLE.getString("Welcome.googleChromeLabel.text"));
@@ -3734,8 +3723,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gnucashPanel;
-    private javax.swing.JCheckBox googleChromeCheckBox;
-    private javax.swing.JLabel googleChromeLabel;
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
     private ch.fhnw.lernstickwelcome.GamePanel hedgewarsGamePanel;
