@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201408251901-1) unstable; urgency=low
+
+  * updated package list for minetest
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 25 Aug 2014 19:01:37 +0200
+
 lernstickwelcome-wheezy (201408141600-1) unstable; urgency=low
 
   * fixed relabeling of NTFS exchange partitions

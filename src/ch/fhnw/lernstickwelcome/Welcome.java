@@ -3394,7 +3394,7 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/minetest.png",
                     "minetest", "minetest-mod-moreblocks",
                     "minetest-mod-moreores", "minetest-mod-pipeworks",
-                    "minetest-mod-worldedit");
+                    "minetest-mod-worldedit", "minetest-mod-mobf");
             installApplication(frogattoGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/frogatto.png",
                     "frogatto");
