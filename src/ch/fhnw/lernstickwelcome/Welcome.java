@@ -526,6 +526,8 @@ public class Welcome extends javax.swing.JFrame {
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        calcularisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
         colobotGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1162,9 +1164,29 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(gnucashPanel, gridBagConstraints);
+
+        wizbeePanel.setDescription(bundle.getString("Welcome.wizbeePanel.description")); // NOI18N
+        wizbeePanel.setGameName("Wizbee"); // NOI18N
+        wizbeePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/wizbee.png"))); // NOI18N
+        wizbeePanel.setWebsite("https://www.wizbee.ch"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(wizbeePanel, gridBagConstraints);
+
+        calcularisPanel.setDescription(bundle.getString("Welcome.calcularisPanel.description")); // NOI18N
+        calcularisPanel.setGameName("Dybuster Calcularis"); // NOI18N
+        calcularisPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/calcularis.png"))); // NOI18N
+        calcularisPanel.setWebsite("http://www.calcularis.ch"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(calcularisPanel, gridBagConstraints);
 
         additionalScrollPane.setViewportView(additionalMiscPanel);
 
@@ -3113,6 +3135,8 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
+        numberOfPackages += wizbeePanel.isSelected() ? 1 : 0;
+        numberOfPackages += calcularisPanel.isSelected() ? 1 : 0;
 
         // games
         numberOfPackages += colobotGamePanel.isSelected() ? 1 : 0;
@@ -3190,6 +3214,8 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
         checkAppInstall(gnucashPanel, "gnucash");
+        checkAppInstall(wizbeePanel, "wizbee");
+        checkAppInstall(calcularisPanel, "calcularis-de");
 
         // games
         checkAppInstall(colobotGamePanel, "colobot");
@@ -3370,6 +3396,12 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(gnucashPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/gnucash.png",
                     "gnucash", "gnucash-docs");
+            installApplication(wizbeePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/wizbee.png",
+                    "wizbee");
+            installApplication(calcularisPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/calcularis.png",
+                    "calcularis-de");
 
             // games
             installApplication(colobotGamePanel,
@@ -3694,6 +3726,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel bootTimeoutLabel;
     private javax.swing.JSpinner bootTimeoutSpinner;
     private javax.swing.JPanel bottomPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel calcularisPanel;
     private javax.swing.JButton cancelButton;
     private ch.fhnw.lernstickwelcome.GamePanel colobotGamePanel;
     private javax.swing.JPanel dataPartitionPanel;
@@ -3807,6 +3840,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JLabel welcomeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel wizbeePanel;
     private ch.fhnw.lernstickwelcome.GamePanel xmotoGamePanel;
     // End of variables declaration//GEN-END:variables
 }
