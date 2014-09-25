@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201409251521-1) unstable; urgency=low
+
+  * added checkbox for direct sound output
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 25 Sep 2014 15:21:51 +0200
+
 lernstickwelcome-wheezy (201408261140-1) unstable; urgency=low
 
   * support installation of wizbee and calcularis

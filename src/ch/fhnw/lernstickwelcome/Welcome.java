@@ -115,6 +115,8 @@ public class Welcome extends javax.swing.JFrame {
     private static final String USER_HOME = System.getProperty("user.home");
     private static final Path APPLETS_CONFIG_FILE = Paths.get(
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
+    private static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
+            "/usr/share/alsa/alsa.conf.d/pulse.conf");
     private final String adobeLanguageCode;
     private final File propertiesFile;
     private final Properties properties;
@@ -178,6 +180,7 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         initComponents();
+        ToolTipManager.sharedInstance().setDismissDelay(60000);
         setBordersEnabled(false);
 
         // load and apply all properties
@@ -405,6 +408,8 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, "", ex);
         }
 
+        noPulseAudioCheckbox.setSelected(!Files.exists(ALSA_PULSE_CONFIG_FILE));
+
         helpTextPane.setCaretPosition(0);
 
         // fix some size issues
@@ -570,6 +575,7 @@ public class Welcome extends javax.swing.JFrame {
         userNameLabel = new javax.swing.JLabel();
         userNameTextField = new javax.swing.JTextField();
         kdePlasmaLockCheckBox = new javax.swing.JCheckBox();
+        noPulseAudioCheckbox = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         partitionsPanel = new javax.swing.JPanel();
         exchangePartitionPanel = new javax.swing.JPanel();
@@ -1559,6 +1565,14 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(10, 6, 0, 0);
         systemPanel.add(kdePlasmaLockCheckBox, gridBagConstraints);
+
+        noPulseAudioCheckbox.setText(bundle.getString("Welcome.noPulseAudioCheckbox.text")); // NOI18N
+        noPulseAudioCheckbox.setToolTipText(bundle.getString("Welcome.noPulseAudioCheckbox.toolTipText")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
+        systemPanel.add(noPulseAudioCheckbox, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -2562,6 +2576,20 @@ public class Welcome extends javax.swing.JFrame {
 
         if (IMAGE_IS_WRITABLE) {
             updateBootloaders();
+        }
+
+        if (Files.exists(ALSA_PULSE_CONFIG_FILE)) {
+            if (noPulseAudioCheckbox.isSelected()) {
+                // divert alsa pulse config file
+                processExecutor.executeProcess("dpkg-divert",
+                        "--rename", ALSA_PULSE_CONFIG_FILE.toString());
+            }
+        } else {
+            if (!noPulseAudioCheckbox.isSelected()) {
+                // restore original alsa pulse config file
+                processExecutor.executeProcess("dpkg-divert", "--remove",
+                        "--rename", ALSA_PULSE_CONFIG_FILE.toString());
+            }
         }
 
         // show "done" message
@@ -3788,6 +3816,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel neverballGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel neverputtGamePanel;
     private javax.swing.JButton nextButton;
+    private javax.swing.JCheckBox noPulseAudioCheckbox;
     private javax.swing.JLabel nonfreeLabel;
     private javax.swing.JPanel nonfreePanel;
     private ch.fhnw.lernstickwelcome.GamePanel openClipartPanel;
