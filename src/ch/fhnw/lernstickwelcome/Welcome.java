@@ -3259,7 +3259,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(xmotoGamePanel, "xmoto");
         checkAppInstall(openClonkPanel, "openclonk");
         checkAppInstall(wesnothGamePanel, "wesnoth");
-        checkAppInstall(flareGamePanel, "flare");
+        checkAppInstall(flareGamePanel, "flare-game");
         checkAppInstall(hedgewarsGamePanel, "hedgewars");
         checkAppInstall(megaglestGamePanel, "megaglest");
         checkAppInstall(astromenaceGamePanel, "lernstick-astromenace");
@@ -3475,7 +3475,7 @@ public class Welcome extends javax.swing.JFrame {
                     "wesnoth", "wesnoth-music");
             installApplication(flareGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/flare.png",
-                    "flare");
+                    "flare-game");
             installApplication(hedgewarsGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/hedgewars.png",
                     "hedgewars");
