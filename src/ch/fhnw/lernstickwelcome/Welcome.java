@@ -533,6 +533,7 @@ public class Welcome extends javax.swing.JFrame {
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         calcularisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
         colobotGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1190,9 +1191,19 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(calcularisPanel, gridBagConstraints);
+
+        lehrerOfficePanel.setDescription(bundle.getString("Welcome.lehrerOfficePanel.description")); // NOI18N
+        lehrerOfficePanel.setGameName("LehrerOffice"); // NOI18N
+        lehrerOfficePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lehreroffice.png"))); // NOI18N
+        lehrerOfficePanel.setWebsite("http://www.lehreroffice.ch"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(lehrerOfficePanel, gridBagConstraints);
 
         additionalScrollPane.setViewportView(additionalMiscPanel);
 
@@ -3165,6 +3176,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
         numberOfPackages += wizbeePanel.isSelected() ? 1 : 0;
         numberOfPackages += calcularisPanel.isSelected() ? 1 : 0;
+        numberOfPackages += lehrerOfficePanel.isSelected() ? 1 : 0;
 
         // games
         numberOfPackages += colobotGamePanel.isSelected() ? 1 : 0;
@@ -3244,6 +3256,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(gnucashPanel, "gnucash");
         checkAppInstall(wizbeePanel, "wizbee");
         checkAppInstall(calcularisPanel, "calcularis-de");
+        checkAppInstall(lehrerOfficePanel, "lehreroffice");
 
         // games
         checkAppInstall(colobotGamePanel, "colobot");
@@ -3430,6 +3443,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(calcularisPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/calcularis.png",
                     "calcularis-de");
+            installApplication(lehrerOfficePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/lehreroffice.png",
+                    "lehreroffice");
 
             // games
             installApplication(colobotGamePanel,
@@ -3801,6 +3817,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel label1;
     private javax.swing.JLabel label2;
     private ch.fhnw.lernstickwelcome.GamePanel lazarusPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel lehrerOfficePanel;
     private javax.swing.JPanel mainCardPanel;
     private ch.fhnw.lernstickwelcome.GamePanel megaglestGamePanel;
     private javax.swing.JList menuList;
