@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201412121306-1) unstable; urgency=low
+
+  * added support for rosegarden
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Fri, 12 Dec 2014 13:06:33 +0100
+
 lernstickwelcome-wheezy (201410021737-1) unstable; urgency=low
 
   * added support for LehrerOffice
