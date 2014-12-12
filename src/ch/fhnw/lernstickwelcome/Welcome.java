@@ -531,6 +531,7 @@ public class Welcome extends javax.swing.JFrame {
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         calcularisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1173,6 +1174,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(gnucashPanel, gridBagConstraints);
+
+        rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
+        rosegardenPanel.setGameName("Rosegarden"); // NOI18N
+        rosegardenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rosegarden.png"))); // NOI18N
+        rosegardenPanel.setWebsite("http://www.rosegardenmusic.com"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(rosegardenPanel, gridBagConstraints);
 
         wizbeePanel.setDescription(bundle.getString("Welcome.wizbeePanel.description")); // NOI18N
         wizbeePanel.setGameName("Wizbee"); // NOI18N
@@ -3174,6 +3185,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
+        numberOfPackages += rosegardenPanel.isSelected() ? 1 : 0;
         numberOfPackages += wizbeePanel.isSelected() ? 1 : 0;
         numberOfPackages += calcularisPanel.isSelected() ? 1 : 0;
         numberOfPackages += lehrerOfficePanel.isSelected() ? 1 : 0;
@@ -3254,6 +3266,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
         checkAppInstall(gnucashPanel, "gnucash");
+        checkAppInstall(rosegardenPanel, "rosegarden");
         checkAppInstall(wizbeePanel, "wizbee");
         checkAppInstall(calcularisPanel, "calcularis-de");
         checkAppInstall(lehrerOfficePanel, "lehreroffice");
@@ -3437,6 +3450,10 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(gnucashPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/gnucash.png",
                     "gnucash", "gnucash-docs");
+            installApplication(rosegardenPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/rosegarden.png",
+                    "rosegarden", "fluid-soundfont-gm",
+                    "fluid-soundfont-gs", "fluidsynth-dssi");
             installApplication(wizbeePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/wizbee.png",
                     "wizbee");
@@ -3867,6 +3884,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel recommendedPanel;
     private javax.swing.JButton removeIPButton;
     private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel rosegardenPanel;
     private javax.swing.JCheckBox screenShotCheckBox;
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
