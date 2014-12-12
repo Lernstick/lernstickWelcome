@@ -548,6 +548,7 @@ public class Welcome extends javax.swing.JFrame {
         supertuxGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         supertuxkartGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         xmotoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        triggerGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClonkPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wesnothGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         flareGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1339,6 +1340,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(xmotoGamePanel, gridBagConstraints);
+
+        triggerGamePanel.setDescription(bundle.getString("Welcome.triggerGamePanel.description")); // NOI18N
+        triggerGamePanel.setGameName("Trigger Rally"); // NOI18N
+        triggerGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/trigger.png"))); // NOI18N
+        triggerGamePanel.setWebsite("http://trigger-rally.sourceforge.net"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gamesScrollPanel.add(triggerGamePanel, gridBagConstraints);
 
         openClonkPanel.setDescription(bundle.getString("Welcome.openClonkPanel.description")); // NOI18N
         openClonkPanel.setGameName("OpenClonk"); // NOI18N
@@ -3202,6 +3213,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += supertuxGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += supertuxkartGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += xmotoGamePanel.isSelected() ? 1 : 0;
+        numberOfPackages += triggerGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += openClonkPanel.isSelected() ? 1 : 0;
         numberOfPackages += wesnothGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += flareGamePanel.isSelected() ? 1 : 0;
@@ -3283,6 +3295,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(supertuxGamePanel, "live-supertux");
         checkAppInstall(supertuxkartGamePanel, "supertuxkart");
         checkAppInstall(xmotoGamePanel, "xmoto");
+        checkAppInstall(triggerGamePanel, "lernstick-trigger-rally");
         checkAppInstall(openClonkPanel, "openclonk");
         checkAppInstall(wesnothGamePanel, "wesnoth");
         checkAppInstall(flareGamePanel, "flare-game");
@@ -3500,6 +3513,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(xmotoGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/xmoto.png",
                     "live-xmoto");
+            installApplication(triggerGamePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/trigger.png",
+                    "lernstick-trigger-rally");
             installApplication(openClonkPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/openclonk.png",
                     "openclonk");
@@ -3900,6 +3916,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JEditorPane teachingEditorPane;
     private javax.swing.JPanel teachingPanel;
     private javax.swing.JScrollPane teachingScrollPane;
+    private ch.fhnw.lernstickwelcome.GamePanel triggerGamePanel;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JLabel welcomeLabel;
