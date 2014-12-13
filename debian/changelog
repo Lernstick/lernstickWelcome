@@ -1,3 +1,12 @@
+lernstickwelcome-wheezy (201412131528-1) unstable; urgency=low
+
+  [ ronnystandtke ]
+  * [534a] updated to wesnoth 1.12
+
+  [ Ronny Standtke ]
+
+ -- ronnystandtke <ronny.standtke@gmx.net>  Sat, 13 Dec 2014 15:28:11 +0100
+
 lernstickwelcome-wheezy (201412121325-1) unstable; urgency=low
 
   [ ronnystandtke ]
