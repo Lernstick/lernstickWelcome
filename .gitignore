@@ -1,2 +1,5 @@
 /dist/
 /build/
+
+# Netbeans private files
+/nbproject/private/
