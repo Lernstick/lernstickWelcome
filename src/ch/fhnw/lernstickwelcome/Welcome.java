@@ -19,6 +19,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
@@ -136,6 +138,7 @@ public class Welcome extends javax.swing.JFrame {
     private IPTableModel ipTableModel;
     private MainMenuListEntry firewallEntry;
     private MainMenuListEntry backupEntry;
+    private boolean firewallRunning;
 
     /**
      * Creates new form Welcome
@@ -408,6 +411,17 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, "", ex);
         }
 
+        // start periodic firewall status check
+        javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
+                3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                updateFirewallState();
+            }
+        });
+        firewallStatusTimer.setInitialDelay(0);
+        firewallStatusTimer.start();
+        
         noPulseAudioCheckbox.setSelected(!Files.exists(ALSA_PULSE_CONFIG_FILE));
 
         helpTextPane.setCaretPosition(0);
@@ -593,6 +607,8 @@ public class Welcome extends javax.swing.JFrame {
         readOnlyCheckBox = new javax.swing.JCheckBox();
         firewallPanel = new javax.swing.JPanel();
         firewallInfoLabel = new javax.swing.JLabel();
+        firewallStartStopButton = new javax.swing.JButton();
+        firewallStatusLabel = new javax.swing.JLabel();
         firewallTabbedPane = new javax.swing.JTabbedPane();
         firewallipv4Panel = new javax.swing.JPanel();
         firewallIPButtonPanel = new javax.swing.JPanel();
@@ -1039,11 +1055,11 @@ public class Welcome extends javax.swing.JFrame {
         fillPanel.setLayout(fillPanelLayout);
         fillPanelLayout.setHorizontalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 553, Short.MAX_VALUE)
+            .addGap(0, 677, Short.MAX_VALUE)
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 61, Short.MAX_VALUE)
+            .addGap(0, 68, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1705,8 +1721,32 @@ public class Welcome extends javax.swing.JFrame {
         firewallInfoLabel.setText(bundle.getString("Welcome.firewallInfoLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 0, 5);
         firewallPanel.add(firewallInfoLabel, gridBagConstraints);
+
+        firewallStartStopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/start.png"))); // NOI18N
+        firewallStartStopButton.setText(bundle.getString("Welcome.firewallStartStopButton.text")); // NOI18N
+        firewallStartStopButton.setToolTipText(bundle.getString("Firewall_toolTip_start")); // NOI18N
+        firewallStartStopButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        firewallStartStopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firewallStartStopButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        firewallPanel.add(firewallStartStopButton, gridBagConstraints);
+
+        firewallStatusLabel.setForeground(java.awt.Color.red);
+        firewallStatusLabel.setLabelFor(firewallStartStopButton);
+        firewallStatusLabel.setText(bundle.getString("Welcome.firewallStatusLabel.text_stopped")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        firewallPanel.add(firewallStatusLabel, gridBagConstraints);
 
         firewallipv4Panel.setLayout(new java.awt.GridBagLayout());
 
@@ -1805,6 +1845,7 @@ public class Welcome extends javax.swing.JFrame {
         firewallTabbedPane.addTab(bundle.getString("Welcome.helpScrollPane.TabConstraints.tabTitle"), helpScrollPane); // NOI18N
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -2066,6 +2107,65 @@ public class Welcome extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_kdePlasmaLockCheckBoxItemStateChanged
+
+    private void firewallStartStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firewallStartStopButtonActionPerformed
+        toggleFirewallState();
+    }//GEN-LAST:event_firewallStartStopButtonActionPerformed
+
+    private void toggleFirewallState() {
+        String action = firewallRunning ? "stop" : "start";
+        int ret = processExecutor.executeProcess(
+                true, true, "lernstick-firewall", action);
+
+        if (ret == 0) {
+            firewallRunning = !firewallRunning;
+            // update widget
+            updateFirewallState();
+        } else {
+            LOGGER.log(Level.WARNING,
+                    action + "ing lernstick-firewall failed, return code {0} "
+                    + "stdout: '{1}', stderr: '{2}'",
+                    new Object[]{
+                        ret,
+                        processExecutor.getStdOut(),
+                        processExecutor.getStdErr()
+                    });
+            String messageId = firewallRunning
+                    ? "Stop_firewall_error"
+                    : "Start_firewall_error";
+            JOptionPane.showMessageDialog(this,
+                    BUNDLE.getString(messageId),
+                    BUNDLE.getString("Error"),
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void updateFirewallState() {
+        // check firewall state
+        int ret = processExecutor.executeProcess("lernstick-firewall", "status");
+        firewallRunning = ret == 0;
+        
+        // update button icon
+        String iconBasePath = "/ch/fhnw/lernstickwelcome/icons/16x16/";
+        String iconPath = firewallRunning
+                ? iconBasePath + "stop.png"
+                : iconBasePath + "start.png";
+        firewallStartStopButton.setIcon(
+                new ImageIcon(getClass().getResource(iconPath)));
+        String tooltipString = firewallRunning
+                ? BUNDLE.getString("Firewall_toolTip_stop")
+                : BUNDLE.getString("Firewall_toolTip_start");
+        firewallStartStopButton.setToolTipText(tooltipString);
+
+        // update label text and color
+        String labelString = firewallRunning
+                ? BUNDLE.getString("Welcome.firewallStatusLabel.text_running")
+                : BUNDLE.getString("Welcome.firewallStatusLabel.text_stopped");
+        firewallStatusLabel.setText(labelString);
+        firewallStatusLabel.setForeground(firewallRunning
+                ? Color.green
+                : Color.red);
+    }
 
     private void getFullUserName() {
         AbstractDocument userNameDocument
@@ -3819,6 +3919,8 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JTable firewallIPTable;
     private javax.swing.JLabel firewallInfoLabel;
     private javax.swing.JPanel firewallPanel;
+    private javax.swing.JButton firewallStartStopButton;
+    private javax.swing.JLabel firewallStatusLabel;
     private javax.swing.JTabbedPane firewallTabbedPane;
     private javax.swing.JPanel firewallURLPanel;
     private javax.swing.JScrollPane firewallURLScrollPane;
