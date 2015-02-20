@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201502201424-1) unstable; urgency=medium
+
+  * [6aea] Start/Stop button for firewall
+
+ -- Gaudenz Steinlin <gaudenz@debian.org>  Fri, 20 Feb 2015 14:24:36 +0100
+
 lernstickwelcome-wheezy (201412131528-1) unstable; urgency=low
 
   [ ronnystandtke ]
