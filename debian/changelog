@@ -1,3 +1,9 @@
+lernstickwelcome-wheezy (201506141617-1) lernstick-8; urgency=medium
+
+  * [b1f3] removed adobe reader
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 14 Jun 2015 16:17:13 +0200
+
 lernstickwelcome-wheezy (201502201424-1) unstable; urgency=medium
 
   * [6aea] Start/Stop button for firewall
