@@ -96,13 +96,6 @@ public class Welcome extends javax.swing.JFrame {
             = new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
     // mapping of checkboxes to package collections
-//    private static final String[] ACROREAD_PACKAGES = new String[]{
-//        "acroread", "acroread-l10n-de", "acroread-l10n-es", "acroread-l10n-fr",
-//        "acroread-l10n-it", "acroread-dictionary-de", "acroread-dictionary-es",
-//        "acroread-dictionary-fr", "acroread-dictionary-it", "acroread-doc-de",
-//        "acroread-doc-es", "acroread-doc-fr", "acroread-doc-it",
-//        "acroread-escript", "acroread-plugin-speech"
-//    };
     // "ttf-pelikan-schulschriften" are currently unavailable
     private static final String[] FONTS_PACKAGES = new String[]{
         "ttf-mscorefonts-installer"
@@ -119,7 +112,6 @@ public class Welcome extends javax.swing.JFrame {
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     private static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
-    private final String adobeLanguageCode;
     private final File propertiesFile;
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -171,16 +163,6 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         LOGGER.info("*********** Starting lernstick Welcome ***********");
-
-        // determine adobe package name
-        String language = Locale.getDefault().getLanguage();
-        if (language.equals(new Locale("de").getLanguage())) {
-            adobeLanguageCode = "deu";
-        } else if (language.equals(new Locale("fr").getLanguage())) {
-            adobeLanguageCode = "fra";
-        } else {
-            adobeLanguageCode = "enu";
-        }
 
         initComponents();
         ToolTipManager.sharedInstance().setDismissDelay(60000);
@@ -514,8 +496,6 @@ public class Welcome extends javax.swing.JFrame {
         recommendedPanel = new javax.swing.JPanel();
         flashCheckBox = new javax.swing.JCheckBox();
         flashLabel = new javax.swing.JLabel();
-        readerCheckBox = new javax.swing.JCheckBox();
-        readerLabel = new javax.swing.JLabel();
         additionalFontsCheckBox = new javax.swing.JCheckBox();
         fontsLabel = new javax.swing.JLabel();
         multimediaCheckBox = new javax.swing.JCheckBox();
@@ -932,25 +912,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         recommendedPanel.add(flashLabel, gridBagConstraints);
 
-        readerCheckBox.setSelected(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        recommendedPanel.add(readerCheckBox, gridBagConstraints);
-
-        readerLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/Adobe_Reader_8_icon.png"))); // NOI18N
-        readerLabel.setText(bundle.getString("Welcome.readerLabel.text")); // NOI18N
-        readerLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                readerLabelMouseClicked(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        recommendedPanel.add(readerLabel, gridBagConstraints);
-
         additionalFontsCheckBox.setSelected(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
@@ -1059,7 +1020,7 @@ public class Welcome extends javax.swing.JFrame {
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
+            .addGap(0, 87, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1961,10 +1922,6 @@ public class Welcome extends javax.swing.JFrame {
     private void infoEditorPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {//GEN-FIRST:event_infoEditorPaneHyperlinkUpdate
         openLinkInBrowser(evt);
     }//GEN-LAST:event_infoEditorPaneHyperlinkUpdate
-
-    private void readerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readerLabelMouseClicked
-        toggleCheckBox(readerCheckBox);
-    }//GEN-LAST:event_readerLabelMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         LOGGER.info("exiting program");
@@ -3279,7 +3236,6 @@ public class Welcome extends javax.swing.JFrame {
 
         // non-free software
         numberOfPackages += flashCheckBox.isSelected() ? 1 : 0;
-        numberOfPackages += readerCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += additionalFontsCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += multimediaCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += googleEarthCheckBox.isSelected() ? 1 : 0;
@@ -3355,8 +3311,6 @@ public class Welcome extends javax.swing.JFrame {
         // nonfree software
         checkInstall(flashCheckBox, flashLabel,
                 "Welcome.flashLabel.text", FLASH_PACKAGES);
-        checkInstall(readerCheckBox, readerLabel,
-                "Welcome.readerLabel.text", "adobereader-" + adobeLanguageCode);
         checkInstall(additionalFontsCheckBox, fontsLabel,
                 "Welcome.fontsLabel.text", FONTS_PACKAGES);
         checkInstall(multimediaCheckBox, multimediaLabel,
@@ -3521,7 +3475,6 @@ public class Welcome extends javax.swing.JFrame {
             installNonFreeApplication(flashCheckBox, "Welcome.flashLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Flash_cs3.png",
                     FLASH_PACKAGES);
-            installAdobeReader();
             installNonFreeApplication(additionalFontsCheckBox,
                     "Welcome.fontsLabel.text",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/fonts.png",
@@ -3646,45 +3599,6 @@ public class Welcome extends javax.swing.JFrame {
         @Override
         protected void done() {
             progressDialog.setVisible(false);
-        }
-
-        private void installAdobeReader() throws IOException {
-            if (!readerCheckBox.isSelected()) {
-                return;
-            }
-            String infoString = BUNDLE.getString("Installing");
-            infoString = MessageFormat.format(infoString,
-                    BUNDLE.getString("Welcome.readerLabel.text"));
-            Icon icon = new ImageIcon(getClass().getResource(
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Reader_8_icon.png"));
-            ProgressAction progressAction
-                    = new ProgressAction(infoString, icon);
-            publish(progressAction);
-            /**
-             * example download link:
-             * http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.2/fra/AdbeRdr9.2-1_i386linux_fra.deb
-             */
-            int majorVersion = 9;
-            String fullVersion = majorVersion + ".4.2";
-            String fileName = "AdbeRdr" + fullVersion + "-1_i386linux_"
-                    + adobeLanguageCode + ".deb";
-            String adobeReaderInstallScript = "cd " + USER_HOME + '\n'
-                    + "wget" + getWgetProxyLine()
-                    + "http://ardownload.adobe.com/pub/adobe/reader/unix/"
-                    + majorVersion + ".x/" + fullVersion + '/'
-                    + adobeLanguageCode + '/' + fileName + '\n'
-                    + "dpkg -i " + fileName + '\n'
-                    + "rm " + fileName;
-            int exitValue = processExecutor.executeScript(
-                    true, true, adobeReaderInstallScript);
-            if (exitValue != 0) {
-                String errorMessage = "Installation of Adobe Reader failed"
-                        + "with the following error message:\n"
-                        + processExecutor.getOutput();
-                LOGGER.severe(errorMessage);
-                showErrorMessage(errorMessage);
-            }
-            updateProgress();
         }
 
         private void installSkype() throws IOException {
@@ -3997,8 +3911,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel readOnlyPanel;
     private javax.swing.JCheckBox readWriteCheckBox;
     private javax.swing.JPanel readWritePanel;
-    private javax.swing.JCheckBox readerCheckBox;
-    private javax.swing.JLabel readerLabel;
     private javax.swing.JPanel recommendedPanel;
     private javax.swing.JButton removeIPButton;
     private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
