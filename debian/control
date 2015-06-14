@@ -1,4 +1,4 @@
-Source: lernstickwelcome-wheezy
+Source: lernstickwelcome
 Section: misc
 Priority: extra
 Maintainer: Ronny Standtke <Ronny.Standtke@gmx.net>
@@ -6,22 +6,22 @@ Build-Depends: debhelper (>= 7), ant-optional, junit, java-sdk
 Standards-Version: 3.8.0
 Homepage: http://www.imedias.ch/lernstick
 
-Package: lernstickwelcome-wheezy
+Package: lernstickwelcome
 Architecture: all
 Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Replaces: lernstickwelcome-squeeze
 Breaks: lernstickwelcome-squeeze
-Conflicts: lernstickwelcome-wheezy-pu
+Conflicts: lernstickwelcome-pu
 Description: a welcome application for the Lernstick personal learning environment
  This is the "Welcome" application for the Lernstick personal learning environment
  and allows the installation of some additional applications and some customizations.
 
-Package: lernstickwelcome-wheezy-pu
+Package: lernstickwelcome-pu
 Architecture: all
 Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Replaces: lernstickwelcome-squeeze
 Breaks: lernstickwelcome-squeeze
-Conflicts: lernstickwelcome-wheezy
+Conflicts: lernstickwelcome
 Description: a welcome application for the Lernstick exam environment
  This is the "Welcome" application for the Lernstick exam environment and allows
  the configuration of the firewall settings and some customizations.

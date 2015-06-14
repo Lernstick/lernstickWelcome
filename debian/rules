@@ -9,11 +9,11 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DESTDIR1      = $(CURDIR)/debian/lernstickwelcome-wheezy
+DESTDIR1      = $(CURDIR)/debian/lernstickwelcome
 BINDIR1       = $(DESTDIR1)/usr/bin
 APPDIR1       = $(DESTDIR1)/usr/share/applications
 
-DESTDIR2      = $(CURDIR)/debian/lernstickwelcome-wheezy-pu
+DESTDIR2      = $(CURDIR)/debian/lernstickwelcome-pu
 BINDIR2       = $(DESTDIR2)/usr/bin
 APPDIR2       = $(DESTDIR2)/usr/share/applications
 

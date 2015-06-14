@@ -29,9 +29,7 @@
 
     <target name="1_debian_packages">
         <!-- build debian package -->
-        <exec executable="dpkg-buildpackage">
-            <arg value="-ai386"/>
-        </exec>
+        <exec executable="dpkg-buildpackage"/>
         <exec executable="fakeroot">
             <arg value="debian/rules"/>
             <arg value="clean"/>
