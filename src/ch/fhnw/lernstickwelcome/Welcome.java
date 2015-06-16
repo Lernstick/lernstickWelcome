@@ -396,14 +396,14 @@ public class Welcome extends javax.swing.JFrame {
         // start periodic firewall status check
         javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
                 3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                updateFirewallState();
-            }
-        });
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        updateFirewallState();
+                    }
+                });
         firewallStatusTimer.setInitialDelay(0);
         firewallStatusTimer.start();
-        
+
         noPulseAudioCheckbox.setSelected(!Files.exists(ALSA_PULSE_CONFIG_FILE));
 
         helpTextPane.setCaretPosition(0);
@@ -2101,7 +2101,7 @@ public class Welcome extends javax.swing.JFrame {
         // check firewall state
         int ret = processExecutor.executeProcess("lernstick-firewall", "status");
         firewallRunning = ret == 0;
-        
+
         // update button icon
         String iconBasePath = "/ch/fhnw/lernstickwelcome/icons/16x16/";
         String iconPath = firewallRunning
@@ -3511,8 +3511,8 @@ public class Welcome extends javax.swing.JFrame {
                     "openclipart-libreoffice");
             installApplication(sweetHome3DPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/sweethome3d.png",
-                    "lernstick-sweethome3d", "sweethome3d",
-                    "sweethome3d-furniture", "sweethome3d-furniture-nonfree");
+                    "sweethome3d", "sweethome3d-furniture",
+                    "sweethome3d-furniture-nonfree");
             installApplication(gnucashPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/gnucash.png",
                     "gnucash", "gnucash-docs");
