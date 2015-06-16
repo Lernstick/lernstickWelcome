@@ -1,3 +1,9 @@
+lernstickwelcome (201506161603-1) lernstick-8; urgency=medium
+
+  * [f247] do not install lernstick-sweethome3d (no longer needed)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 16 Jun 2015 16:03:23 +0200
+
 lernstickwelcome (201506141617-1) lernstick-8; urgency=medium
 
   * [b1f3] removed adobe reader
