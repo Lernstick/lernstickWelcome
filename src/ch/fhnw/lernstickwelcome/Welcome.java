@@ -382,16 +382,18 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, "", ex);
         }
 
-        // start periodic firewall status check
-        javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
-                3000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent evt) {
-                        updateFirewallState();
-                    }
-                });
-        firewallStatusTimer.setInitialDelay(0);
-        firewallStatusTimer.start();
+        if (examEnvironment) {
+            // start periodic firewall status check
+            javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
+                    3000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent evt) {
+                            updateFirewallState();
+                        }
+                    });
+            firewallStatusTimer.setInitialDelay(0);
+            firewallStatusTimer.start();
+        }
 
         noPulseAudioCheckbox.setSelected(!Files.exists(ALSA_PULSE_CONFIG_FILE));
 
