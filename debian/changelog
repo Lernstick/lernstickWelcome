@@ -1,3 +1,9 @@
+lernstickwelcome (201506231424-1) lernstick-8; urgency=medium
+
+  * [4e2f] start firewallStatusTimer only in exam environment
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 23 Jun 2015 14:24:41 +0200
+
 lernstickwelcome (201506231417-1) lernstick-8; urgency=medium
 
   * [2b8f] cleaned up config file handling
