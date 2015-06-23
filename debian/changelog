@@ -1,3 +1,9 @@
+lernstickwelcome (201506231417-1) lernstick-8; urgency=medium
+
+  * [2b8f] cleaned up config file handling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 23 Jun 2015 14:17:00 +0200
+
 lernstickwelcome (201506161603-1) lernstick-8; urgency=medium
 
   * [f247] do not install lernstick-sweethome3d (no longer needed)
