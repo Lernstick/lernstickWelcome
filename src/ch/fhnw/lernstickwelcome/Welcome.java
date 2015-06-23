@@ -370,19 +370,19 @@ public class Welcome extends javax.swing.JFrame {
                     }
                 });
 
-        try {
-            parseNetWhiteList();
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        }
-
-        try {
-            parseURLWhiteList();
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        }
-
         if (examEnvironment) {
+            try {
+                parseNetWhiteList();
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            }
+
+            try {
+                parseURLWhiteList();
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            }
+
             // start periodic firewall status check
             javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
                     3000, new ActionListener() {
