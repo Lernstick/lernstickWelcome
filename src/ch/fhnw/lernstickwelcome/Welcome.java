@@ -118,8 +118,6 @@ public class Welcome extends javax.swing.JFrame {
     private final DefaultListModel menuListModel = new DefaultListModel();
     private final boolean examEnvironment;
     private String fullName;
-    private List<File> SYSLINUX_CONFIG_FILES;
-    private File XMLBOOT_CONFIG_FILE;
     private int menuListIndex = 0;
     private StorageDevice systemStorageDevice;
     private Partition exchangePartition;
@@ -276,17 +274,6 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, "", ex);
         }
 
-        try {
-            SYSLINUX_CONFIG_FILES = getSyslinuxConfigFiles();
-        } catch (DBusException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        }
-        try {
-            XMLBOOT_CONFIG_FILE = getXmlBootConfigFile();
-        } catch (DBusException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        }
-
         if (exchangePartition == null) {
             exchangePartitionNameLabel.setEnabled(false);
             exchangePartitionNameTextField.setEnabled(false);
@@ -306,22 +293,23 @@ public class Welcome extends javax.swing.JFrame {
             }
         }
 
-        // determine some boot properties
-        // [sys/iso]linux timeout
+        // *** determine some boot config properties ***
+        // timeout
         ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
         ((JSpinner.DefaultEditor) backupFrequencySpinner.getEditor()).getTextField().setColumns(2);
         try {
             bootTimeoutSpinner.setValue(getTimeout());
-        } catch (IOException ex) {
+        } catch (IOException | DBusException ex) {
             LOGGER.log(Level.WARNING, "could not set boot timeout value", ex);
         }
         updateSecondsLabel();
-        // xmlboot system strings
+        // system strings
         String systemName = null;
         String systemVersion = null;
         try {
-            if (XMLBOOT_CONFIG_FILE != null) {
-                Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
+            File xmlBootConfigFile = getXmlBootConfigFile();
+            if (xmlBootConfigFile != null) {
+                Document xmlBootDocument = parseXmlFile(xmlBootConfigFile);
                 xmlBootDocument.getDocumentElement().normalize();
                 Node systemNode = xmlBootDocument.getElementsByTagName(
                         "system").item(0);
@@ -335,7 +323,8 @@ public class Welcome extends javax.swing.JFrame {
                     systemVersion = node.getTextContent();
                 }
             }
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
+        } catch (ParserConfigurationException | SAXException |
+                IOException | DBusException ex) {
             LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
         }
         systemNameTextField.setText(systemName);
@@ -2316,29 +2305,47 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private File getXmlBootConfigFile() throws DBusException {
-        File imageDirectory;
+
         if (bootPartition == null) {
             // legacy system
-            imageDirectory = new File(IMAGE_DIRECTORY);
+            File configFile = getXmlBootConfigFile(new File(IMAGE_DIRECTORY));
+            if (configFile != null) {
+                return configFile;
+            }
         } else {
             // system with a separate boot partition
-            imageDirectory = new File(bootPartition.getMountPath());
-        }
+            File configFile = bootPartition.executeMounted(
+                    new Partition.Action<File>() {
 
-        File configFile = new File(imageDirectory, "isolinux/xmlboot.config");
-        if (configFile.exists()) {
-            LOGGER.log(Level.INFO, "xmlboot config file: {0}", configFile);
-            return configFile;
-        } else {
-            configFile = new File(imageDirectory, "syslinux/xmlboot.config");
-            if (configFile.exists()) {
-                LOGGER.log(Level.INFO, "xmlboot config file: {0}", configFile);
+                        @Override
+                        public File execute(File mountPath) {
+                            return getXmlBootConfigFile(mountPath);
+                        }
+                    });
+            if (configFile != null) {
                 return configFile;
-            } else {
-                LOGGER.warning("xmlboot config file not found!");
-                return null;
             }
         }
+
+        return null;
+    }
+
+    private File getXmlBootConfigFile(File directory) {
+        // search through all known variants
+        String[] dirs = new String[]{"isolinux", "syslinux"};
+        String[] subdirs = new String[]{"/", "/bootlogo.dir/"};
+        for (String dir : dirs) {
+            for (String subdir : subdirs) {
+                File configFile = new File(
+                        directory, dir + subdir + "xmlboot.config");
+                if (configFile.exists()) {
+                    LOGGER.log(Level.INFO,
+                            "xmlboot config file: {0}", configFile);
+                    return configFile;
+                }
+            }
+        }
+        return null;
     }
 
     private Document parseXmlFile(File file)
@@ -2356,49 +2363,27 @@ public class Welcome extends javax.swing.JFrame {
         return builder.parse(file);
     }
 
-    private List<File> getSyslinuxConfigFiles() throws DBusException {
-        File imageDirectory;
-        if (bootPartition == null) {
-            // legacy system
-            imageDirectory = new File(IMAGE_DIRECTORY);
-        } else {
-            // system with a separate boot partition
-            imageDirectory = new File(bootPartition.getMountPath());
-        }
+    private List<File> getSyslinuxConfigFiles(File directory) {
 
-        // check which directory to use
-        File configDir = new File(imageDirectory, "isolinux");
-        if (!configDir.exists()) {
-            configDir = new File(imageDirectory, "syslinux");
-            if (!configDir.exists()) {
-                LOGGER.warning("no isolinux or syslinux directory found!");
-                return null;
-            }
-        }
-        LOGGER.log(Level.INFO, "config dir: {0}", configDir);
-
-        // determine which config files to use
         List<File> configFiles = new ArrayList<>();
-        File configFile = new File(configDir, "boot_486.cfg");
-        if (configFile.exists()) {
-            // new version with kernel switch and several config files
-            configFiles.add(configFile);
-            configFile = new File(configDir, "boot_686.cfg");
-            if (configFile.exists()) {
-                configFiles.add(configFile);
-            }
-        } else {
-            // old version without kernel switch and single config file
-            configFile = new File(configDir, "isolinux.cfg");
-            if (configFile.exists()) {
-                configFiles.add(configFile);
-            } else {
-                configFile = new File(configDir, "syslinux.cfg");
+
+        // check all known locations of syslinux config files
+        String[] syslinuxDirs = new String[]{
+            "isolinux",
+            "syslinux"
+        };
+        String[] syslinuxFiles = new String[]{
+            "isolinux.cfg",
+            "syslinux.cfg",
+            "boot_486.cfg",
+            "boot_686.cfg"
+        };
+        for (String syslinuxDir : syslinuxDirs) {
+            for (String syslinuxFile : syslinuxFiles) {
+                File configDir = new File(directory, syslinuxDir);
+                File configFile = new File(configDir, syslinuxFile);
                 if (configFile.exists()) {
                     configFiles.add(configFile);
-                } else {
-                    LOGGER.warning(
-                            "no isolinux or syslinux config file found!");
                 }
             }
         }
@@ -2406,10 +2391,28 @@ public class Welcome extends javax.swing.JFrame {
         return configFiles;
     }
 
-    private int getTimeout() throws IOException {
-        if (SYSLINUX_CONFIG_FILES != null) {
-            Pattern timeoutPattern = Pattern.compile("timeout (.*)");
-            List<String> configFileLines = readFile(SYSLINUX_CONFIG_FILES.get(0));
+    private int getTimeout() throws IOException, DBusException {
+
+        // use syslinux configuration as reference for the timeout setting
+        List<File> syslinuxConfigFiles;
+        if (bootPartition == null) {
+            // legacy system
+            syslinuxConfigFiles = getSyslinuxConfigFiles(
+                    new File(IMAGE_DIRECTORY));
+        } else {
+            // system with a separate boot partition
+            syslinuxConfigFiles = bootPartition.executeMounted(
+                    new Partition.Action<List<File>>() {
+                        @Override
+                        public List<File> execute(File mountPath) {
+                            return getSyslinuxConfigFiles(mountPath);
+                        }
+                    });
+        }
+
+        Pattern timeoutPattern = Pattern.compile("timeout (.*)");
+        for (File syslinuxConfigFile : syslinuxConfigFiles) {
+            List<String> configFileLines = readFile(syslinuxConfigFile);
             for (String configFileLine : configFileLines) {
                 Matcher matcher = timeoutPattern.matcher(configFileLine);
                 if (matcher.matches()) {
@@ -2696,45 +2699,75 @@ public class Welcome extends javax.swing.JFrame {
 
     private void updateBootloaders() throws DBusException {
 
-        String imagePath;
-        if (bootPartition == null) {
-            // legacy system without separate boot partition
-            imagePath = IMAGE_DIRECTORY;
-            // make image (temporarily) writable
-            processExecutor.executeProcess(
-                    "mount", "-o", "remount,rw", imagePath);
-        } else {
-            // system with a separate boot partition
-            imagePath = bootPartition.getMountPath();
-        }
-
-        // update timeout...
         SpinnerNumberModel spinnerNumberModel
                 = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
-        int timeoutValue = spinnerNumberModel.getNumber().intValue();
-        // ... in syslinux ...
-        for (File syslinuxConfigFile : SYSLINUX_CONFIG_FILES) {
+        final int timeout = spinnerNumberModel.getNumber().intValue();
+        final String systemName = systemNameTextField.getText();
+        final String systemVersion = systemVersionTextField.getText();
+
+        Partition.Action<Void> updateBootloaderAction
+                = new Partition.Action<Void>() {
+
+                    @Override
+                    public Void execute(File mountPath) {
+                        try {
+                            updateBootloaders(mountPath, timeout,
+                                    systemName, systemVersion);
+                        } catch (DBusException ex) {
+                            LOGGER.log(Level.SEVERE, "", ex);
+                        }
+                        return null;
+                    }
+                };
+
+        if (bootPartition == null) {
+            // legacy system without separate boot partition
+
+            // make image temporarily writable
+            processExecutor.executeProcess(
+                    "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
+
+            updateBootloaders(new File(IMAGE_DIRECTORY),
+                    timeout, systemName, systemVersion);
+
+            // remount image read-only
+            processExecutor.executeProcess(
+                    "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
+        } else {
+            // system with a separate boot partition
+            bootPartition.executeMounted(updateBootloaderAction);
+        }
+        if (exchangePartition != null) {
+            exchangePartition.executeMounted(updateBootloaderAction);
+        }
+    }
+
+    private void updateBootloaders(File directory, int timeout,
+            String systemName, String systemVersion) throws DBusException {
+
+        // *** update timeout ***
+        // in syslinux
+        for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
             processExecutor.executeProcess("sed", "-i", "-e",
-                    "s|timeout .*|timeout " + (timeoutValue * 10) + "|1",
+                    "s|timeout .*|timeout " + (timeout * 10) + "|1",
                     syslinuxConfigFile.getPath());
         }
-        // ... and grub
+        // in grub
         processExecutor.executeProcess("sed", "-i", "-e",
-                "s|set timeout=.*|set timeout=" + timeoutValue + "|1",
-                imagePath + "/boot/grub/grub_main.cfg");
+                "s|set timeout=.*|set timeout=" + timeout + "|1",
+                directory + "/boot/grub/grub_main.cfg");
         processExecutor.executeProcess("sed", "-i", "-e",
-                "s|num_ticks = .*|num_ticks = " + timeoutValue + "|1",
-                imagePath + "/boot/grub/themes/lernstick/theme.txt");
+                "s|num_ticks = .*|num_ticks = " + timeout + "|1",
+                directory + "/boot/grub/themes/lernstick/theme.txt");
 
-        // update system name and version...
-        String systemName = systemNameTextField.getText();
-        String systemVersion = systemVersionTextField.getText();
-        // ... in xmlboot config
+        // *** update system name and version ***
+        // in xmlboot config
+        File xmlBootConfigFile = getXmlBootConfigFile(directory);
         try {
-            Document xmlBootDocument = parseXmlFile(XMLBOOT_CONFIG_FILE);
+            Document xmlBootDocument = parseXmlFile(xmlBootConfigFile);
             xmlBootDocument.getDocumentElement().normalize();
-            Node systemNode
-                    = xmlBootDocument.getElementsByTagName("system").item(0);
+            Node systemNode = xmlBootDocument.
+                    getElementsByTagName("system").item(0);
             Element systemElement = (Element) systemNode;
             Node node = systemElement.getElementsByTagName("text").item(0);
             if (node != null) {
@@ -2755,25 +2788,17 @@ public class Welcome extends javax.swing.JFrame {
             StreamResult result = new StreamResult(tmpFile);
             transformer.transform(source, result);
             processExecutor.executeProcess("mv", tmpFile.getPath(),
-                    XMLBOOT_CONFIG_FILE.getPath());
+                    xmlBootConfigFile.getPath());
 
         } catch (ParserConfigurationException | SAXException | IOException |
                 DOMException | TransformerException ex) {
             LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
         }
-
-        // ... and in grub theme
+        // in grub theme
         processExecutor.executeProcess("sed", "-i", "-e",
                 "s|title-text: .*|title-text: \""
                 + systemName + ' ' + systemVersion + "\"|1",
-                imagePath + "/boot/grub/themes/lernstick/theme.txt");
-
-        if (bootPartition == null) {
-            // legacy system without separate boot partition
-            // remount image read-only
-            processExecutor.executeProcess(
-                    "mount", "-o", "remount,ro", imagePath);
-        }
+                directory + "/boot/grub/themes/lernstick/theme.txt");
     }
 
     private void updateFirewall() {
