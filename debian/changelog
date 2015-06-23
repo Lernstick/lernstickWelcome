@@ -1,3 +1,9 @@
+lernstickwelcome (201506231430-1) lernstick-8; urgency=medium
+
+  * [8516] try parsing firewall rules only in exam environment
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 23 Jun 2015 14:30:12 +0200
+
 lernstickwelcome (201506231424-1) lernstick-8; urgency=medium
 
   * [4e2f] start firewallStatusTimer only in exam environment
