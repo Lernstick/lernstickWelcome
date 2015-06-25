@@ -2784,6 +2784,13 @@ public class Welcome extends javax.swing.JFrame {
                 processExecutor.executeProcess("mv", tmpFile.getPath(),
                         xmlBootConfigFile.getPath());
 
+                // rebuild bootlogo so that the changes are visible right after
+                // reboot
+                File bootlogoDir = xmlBootConfigFile.getParentFile();
+                File syslinuxDir = bootlogoDir.getParentFile();
+                processExecutor.executeProcess("gfxboot",
+                        "--archive", bootlogoDir.getPath(),
+                        "--pack-archive", syslinuxDir.getPath() + "/bootlogo");
             } catch (ParserConfigurationException | SAXException | IOException |
                     DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
