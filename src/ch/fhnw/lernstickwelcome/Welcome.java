@@ -2756,7 +2756,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // xmlboot
         File xmlBootConfigFile = getXmlBootConfigFile(directory);
-        if (xmlBootConfigFile.exists()) {
+        if (xmlBootConfigFile != null) {
             try {
                 Document xmlBootDocument = parseXmlFile(xmlBootConfigFile);
                 xmlBootDocument.getDocumentElement().normalize();
