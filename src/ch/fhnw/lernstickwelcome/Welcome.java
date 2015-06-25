@@ -2801,8 +2801,8 @@ public class Welcome extends javax.swing.JFrame {
                 = directory + "/boot/grub/themes/lernstick/theme.txt";
         if (new File(grubThemeFilePath).exists()) {
             processExecutor.executeProcess("sed", "-i", "-e",
-                    "s|num_ticks = .*|num_ticks = " + timeout + "|1;",
-                    "s|title-text: .*|title-text: \""
+                    "s|num_ticks = .*|num_ticks = " + timeout + "|1;"
+                    + "s|title-text: .*|title-text: \""
                     + systemName + ' ' + systemVersion + "\"|1",
                     grubThemeFilePath);
         }
