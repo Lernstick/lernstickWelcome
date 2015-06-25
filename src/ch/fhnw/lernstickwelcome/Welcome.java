@@ -2747,60 +2747,65 @@ public class Welcome extends javax.swing.JFrame {
     private void updateBootloaders(File directory, int timeout,
             String systemName, String systemVersion) throws DBusException {
 
-        // *** update timeout ***
-        // in syslinux
+        // syslinux
         for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
             processExecutor.executeProcess("sed", "-i", "-e",
                     "s|timeout .*|timeout " + (timeout * 10) + "|1",
                     syslinuxConfigFile.getPath());
         }
-        // in grub
-        processExecutor.executeProcess("sed", "-i", "-e",
-                "s|set timeout=.*|set timeout=" + timeout + "|1",
-                directory + "/boot/grub/grub_main.cfg");
-        processExecutor.executeProcess("sed", "-i", "-e",
-                "s|num_ticks = .*|num_ticks = " + timeout + "|1",
-                directory + "/boot/grub/themes/lernstick/theme.txt");
 
-        // *** update system name and version ***
-        // in xmlboot config
+        // xmlboot
         File xmlBootConfigFile = getXmlBootConfigFile(directory);
-        try {
-            Document xmlBootDocument = parseXmlFile(xmlBootConfigFile);
-            xmlBootDocument.getDocumentElement().normalize();
-            Node systemNode = xmlBootDocument.
-                    getElementsByTagName("system").item(0);
-            Element systemElement = (Element) systemNode;
-            Node node = systemElement.getElementsByTagName("text").item(0);
-            if (node != null) {
-                node.setTextContent(systemName);
-            }
-            node = systemElement.getElementsByTagName("version").item(0);
-            if (node != null) {
-                node.setTextContent(systemVersion);
-            }
+        if (xmlBootConfigFile.exists()) {
+            try {
+                Document xmlBootDocument = parseXmlFile(xmlBootConfigFile);
+                xmlBootDocument.getDocumentElement().normalize();
+                Node systemNode = xmlBootDocument.
+                        getElementsByTagName("system").item(0);
+                Element systemElement = (Element) systemNode;
+                Node node = systemElement.getElementsByTagName("text").item(0);
+                if (node != null) {
+                    node.setTextContent(systemName);
+                }
+                node = systemElement.getElementsByTagName("version").item(0);
+                if (node != null) {
+                    node.setTextContent(systemVersion);
+                }
 
-            // write changes back to config file
-            File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
-            TransformerFactory transformerFactory
-                    = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(xmlBootDocument);
-            StreamResult result = new StreamResult(tmpFile);
-            transformer.transform(source, result);
-            processExecutor.executeProcess("mv", tmpFile.getPath(),
-                    xmlBootConfigFile.getPath());
+                // write changes back to config file
+                File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
+                TransformerFactory transformerFactory
+                        = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                DOMSource source = new DOMSource(xmlBootDocument);
+                StreamResult result = new StreamResult(tmpFile);
+                transformer.transform(source, result);
+                processExecutor.executeProcess("mv", tmpFile.getPath(),
+                        xmlBootConfigFile.getPath());
 
-        } catch (ParserConfigurationException | SAXException | IOException |
-                DOMException | TransformerException ex) {
-            LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+            } catch (ParserConfigurationException | SAXException | IOException |
+                    DOMException | TransformerException ex) {
+                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
+            }
         }
-        // in grub theme
-        processExecutor.executeProcess("sed", "-i", "-e",
-                "s|title-text: .*|title-text: \""
-                + systemName + ' ' + systemVersion + "\"|1",
-                directory + "/boot/grub/themes/lernstick/theme.txt");
+
+        // grub
+        String grubMainConfigFilePath = directory + "/boot/grub/grub_main.cfg";
+        if (new File(grubMainConfigFilePath).exists()) {
+            processExecutor.executeProcess("sed", "-i", "-e",
+                    "s|set timeout=.*|set timeout=" + timeout + "|1",
+                    grubMainConfigFilePath);
+        }
+        String grubThemeFilePath
+                = directory + "/boot/grub/themes/lernstick/theme.txt";
+        if (new File(grubThemeFilePath).exists()) {
+            processExecutor.executeProcess("sed", "-i", "-e",
+                    "s|num_ticks = .*|num_ticks = " + timeout + "|1;",
+                    "s|title-text: .*|title-text: \""
+                    + systemName + ' ' + systemVersion + "\"|1",
+                    grubThemeFilePath);
+        }
     }
 
     private void updateFirewall() {
