@@ -509,6 +509,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalTabbedPane = new javax.swing.JTabbedPane();
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalMiscPanel = new ScrollableJPanel();
+        tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rStudioPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1071,6 +1072,17 @@ public class Welcome extends javax.swing.JFrame {
         additionalPanel.add(additionalInfoLabel, gridBagConstraints);
 
         additionalMiscPanel.setLayout(new java.awt.GridBagLayout());
+
+        tuxPaintPanel.setDescription(bundle.getString("Welcome.tuxPaintPanel.description")); // NOI18N
+        tuxPaintPanel.setGameName("Tux Paint"); // NOI18N
+        tuxPaintPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/tuxpaint.png"))); // NOI18N
+        tuxPaintPanel.setWebsite("http://www.tuxpaint.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        additionalMiscPanel.add(tuxPaintPanel, gridBagConstraints);
 
         netbeansPanel.setDescription(bundle.getString("Welcome.netbeansPanel.description")); // NOI18N
         netbeansPanel.setGameName("NetBeans"); // NOI18N
@@ -3284,6 +3296,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
 
         // miscellaneous
+        numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
         numberOfPackages += rStudioPanel.isSelected() ? 1 : 0;
@@ -3364,6 +3377,7 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.laLabel.text", "lateaching");
 
         // miscellaneous
+        checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
         checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
         checkAppInstall(processingPanel, "processing");
         checkAppInstall(rStudioPanel, "rstudio");
@@ -3531,6 +3545,9 @@ public class Welcome extends javax.swing.JFrame {
                     "lateaching", "lateachingtools");
 
             // miscellaneous
+            installApplication(tuxPaintPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
+                    "lernstick-tuxpaint");
             installApplication(netbeansPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
                     "lernstick-netbeans-wheezy",
@@ -3970,6 +3987,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPanel teachingPanel;
     private javax.swing.JScrollPane teachingScrollPane;
     private ch.fhnw.lernstickwelcome.GamePanel triggerGamePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel tuxPaintPanel;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JLabel welcomeLabel;
