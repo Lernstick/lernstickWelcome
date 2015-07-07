@@ -509,6 +509,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalTabbedPane = new javax.swing.JTabbedPane();
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalMiscPanel = new ScrollableJPanel();
+        omnituxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1073,6 +1074,17 @@ public class Welcome extends javax.swing.JFrame {
 
         additionalMiscPanel.setLayout(new java.awt.GridBagLayout());
 
+        omnituxPanel.setDescription(bundle.getString("Welcome.omnituxPanel.description")); // NOI18N
+        omnituxPanel.setGameName("Omnitux"); // NOI18N
+        omnituxPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/omnitux.png"))); // NOI18N
+        omnituxPanel.setWebsite(bundle.getString("Welcome.omnituxPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        additionalMiscPanel.add(omnituxPanel, gridBagConstraints);
+
         tuxPaintPanel.setDescription(bundle.getString("Welcome.tuxPaintPanel.description")); // NOI18N
         tuxPaintPanel.setGameName("Tux Paint"); // NOI18N
         tuxPaintPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/tuxpaint.png"))); // NOI18N
@@ -1081,7 +1093,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(tuxPaintPanel, gridBagConstraints);
 
         netbeansPanel.setDescription(bundle.getString("Welcome.netbeansPanel.description")); // NOI18N
@@ -1092,7 +1104,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(netbeansPanel, gridBagConstraints);
 
         processingPanel.setDescription(bundle.getString("Welcome.processingPanel.description")); // NOI18N
@@ -3296,6 +3308,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
 
         // miscellaneous
+        numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
         numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
@@ -3377,6 +3390,7 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.laLabel.text", "lateaching");
 
         // miscellaneous
+        checkAppInstall(omnituxPanel, "omnitux");
         checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
         checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
         checkAppInstall(processingPanel, "processing");
@@ -3545,6 +3559,9 @@ public class Welcome extends javax.swing.JFrame {
                     "lateaching", "lateachingtools");
 
             // miscellaneous
+            installApplication(omnituxPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/omnitux.png",
+                    "omnitux");
             installApplication(tuxPaintPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
                     "lernstick-tuxpaint");
@@ -3941,6 +3958,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JCheckBox noPulseAudioCheckbox;
     private javax.swing.JLabel nonfreeLabel;
     private javax.swing.JPanel nonfreePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel omnituxPanel;
     private ch.fhnw.lernstickwelcome.GamePanel openClipartPanel;
     private ch.fhnw.lernstickwelcome.GamePanel openClonkPanel;
     private javax.swing.JPanel partitionsPanel;
