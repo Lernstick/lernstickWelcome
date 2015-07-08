@@ -3567,7 +3567,7 @@ public class Welcome extends javax.swing.JFrame {
                     "lernstick-tuxpaint");
             installApplication(netbeansPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
-                    "lernstick-netbeans-wheezy",
+                    "lernstick-netbeans-wheezy", "lernstick-visualvm",
                     "openjdk-7-source", "openjdk-7-doc");
             installApplication(processingPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
