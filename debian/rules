@@ -47,7 +47,7 @@ install: build
 	cp lernstickWelcome $(BINDIR1)
 	cp dist/lernstickWelcome.jar $(BINDIR1)
 	mkdir -p $(APPDIR1)
-	cp lernstickWelcome.desktop $(APPDIR1)
+	cp ch-fhnw-lernstickwelcome-welcome.desktop $(APPDIR1)
 
 	mkdir -p $(BINDIR2)
 	cp lernstickWelcome_pu $(BINDIR2)/lernstickWelcome
