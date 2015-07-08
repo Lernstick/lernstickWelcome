@@ -1,3 +1,9 @@
+lernstickwelcome (201507081614-1) lernstick-8; urgency=medium
+
+  * [45c76e] added support for samba (and additional packages for file sharing)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 08 Jul 2015 16:14:39 +0200
+
 lernstickwelcome (201507081509-1) lernstick-8; urgency=medium
 
   * [181ca7] added support for webweaverdesktop
