@@ -1,3 +1,10 @@
+lernstickwelcome (201507082058-1) lernstick-8; urgency=medium
+
+  * [a9333e] fixed rules file
+  * [3b3490] add user to sambashare group after installing samba
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 08 Jul 2015 20:58:30 +0200
+
 lernstickwelcome (201507081845-1) lernstick-8; urgency=medium
 
   * [cd503f] updated lyx packages
