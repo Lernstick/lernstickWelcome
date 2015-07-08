@@ -6,6 +6,6 @@ Name=Welcome to Lernstick
 Name[de]=Willkommen zum Lernstick
 Name[fr]=Bienvenue. Lernstick!
 StartupNotify=true
-StartupWMClass=sun-awt-X11-XFramePeer
+StartupWMClass=ch-fhnw-lernstickwelcome-Welcome
 Terminal=false
 Type=Application

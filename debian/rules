@@ -53,7 +53,7 @@ install: build
 	cp lernstickWelcome_pu $(BINDIR2)/lernstickWelcome
 	cp dist/lernstickWelcome.jar $(BINDIR2)
 	mkdir -p $(APPDIR2)
-	cp lernstickWelcome.desktop $(APPDIR2)
+	cp ch-fhnw-lernstickwelcome-welcome.desktop $(APPDIR2)
 
 # Build architecture-independent files here.
 binary-indep: build install
