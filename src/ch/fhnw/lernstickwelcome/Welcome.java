@@ -518,6 +518,7 @@ public class Welcome extends javax.swing.JFrame {
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        sambaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         webweaverdesktopPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1014,7 +1015,7 @@ public class Welcome extends javax.swing.JFrame {
         );
         fillPanelLayout.setVerticalGroup(
             fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 87, Short.MAX_VALUE)
+            .addGap(0, 53, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1168,6 +1169,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(gnucashPanel, gridBagConstraints);
+
+        sambaPanel.setDescription(bundle.getString("Welcome.sambaPanel.description")); // NOI18N
+        sambaPanel.setGameName("Samba"); // NOI18N
+        sambaPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/samba.png"))); // NOI18N
+        sambaPanel.setWebsite("https://www.samba.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(sambaPanel, gridBagConstraints);
 
         rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
         rosegardenPanel.setGameName("Rosegarden"); // NOI18N
@@ -3328,6 +3339,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
+        numberOfPackages += sambaPanel.isSelected() ? 1 : 0;
         numberOfPackages += rosegardenPanel.isSelected() ? 1 : 0;
         numberOfPackages += webweaverdesktopPanel.isSelected() ? 1 : 0;
         numberOfPackages += wizbeePanel.isSelected() ? 1 : 0;
@@ -3411,6 +3423,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
         checkAppInstall(gnucashPanel, "gnucash");
+        checkAppInstall(sambaPanel, "samba");
         checkAppInstall(rosegardenPanel, "rosegarden");
         checkAppInstall(webweaverdesktopPanel, "webweaverdesktop");
         checkAppInstall(wizbeePanel, "wizbee");
@@ -3602,6 +3615,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(gnucashPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/gnucash.png",
                     "gnucash", "gnucash-docs");
+            installApplication(sambaPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/samba.png",
+                    "samba", "libpam-smbpass", "nautilus-share");
             installApplication(rosegardenPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/rosegarden.png",
                     "rosegarden", "fluid-soundfont-gm",
@@ -4005,6 +4021,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton removeIPButton;
     private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel rosegardenPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel sambaPanel;
     private javax.swing.JCheckBox screenShotCheckBox;
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
