@@ -511,19 +511,20 @@ public class Welcome extends javax.swing.JFrame {
         additionalMiscPanel = new ScrollableJPanel();
         omnituxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        lyxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rStudioPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sambaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         webweaverdesktopPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         calcularisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
         colobotGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1098,6 +1099,57 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(tuxPaintPanel, gridBagConstraints);
 
+        rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
+        rosegardenPanel.setGameName("Rosegarden"); // NOI18N
+        rosegardenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rosegarden.png"))); // NOI18N
+        rosegardenPanel.setWebsite("http://www.rosegardenmusic.com"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(rosegardenPanel, gridBagConstraints);
+
+        sweetHome3DPanel.setDescription(bundle.getString("Welcome.sweetHome3DPanel.description")); // NOI18N
+        sweetHome3DPanel.setGameName("Sweet Home 3D"); // NOI18N
+        sweetHome3DPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/sweethome3d.png"))); // NOI18N
+        sweetHome3DPanel.setWebsite("http://www.sweethome3d.com"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(sweetHome3DPanel, gridBagConstraints);
+
+        openClipartPanel.setDescription(bundle.getString("Welcome.openClipartPanel.description")); // NOI18N
+        openClipartPanel.setGameName("Openclipart"); // NOI18N
+        openClipartPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/openclipart.png"))); // NOI18N
+        openClipartPanel.setWebsite("http://openclipart.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(openClipartPanel, gridBagConstraints);
+
+        lyxPanel.setDescription(bundle.getString("Welcome.lyxPanel.description")); // NOI18N
+        lyxPanel.setGameName("LyX"); // NOI18N
+        lyxPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lyx.png"))); // NOI18N
+        lyxPanel.setWebsite(bundle.getString("Welcome.lyxPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(lyxPanel, gridBagConstraints);
+
+        gnucashPanel.setDescription(bundle.getString("Welcome.gnucashPanel.description")); // NOI18N
+        gnucashPanel.setGameName("GnuCash"); // NOI18N
+        gnucashPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gnucash.png"))); // NOI18N
+        gnucashPanel.setWebsite("http://www.gnucash.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(gnucashPanel, gridBagConstraints);
+
         netbeansPanel.setDescription(bundle.getString("Welcome.netbeansPanel.description")); // NOI18N
         netbeansPanel.setGameName("NetBeans"); // NOI18N
         netbeansPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/netbeans.png"))); // NOI18N
@@ -1139,37 +1191,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(lazarusPanel, gridBagConstraints);
 
-        openClipartPanel.setDescription(bundle.getString("Welcome.openClipartPanel.description")); // NOI18N
-        openClipartPanel.setGameName("Openclipart"); // NOI18N
-        openClipartPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/openclipart.png"))); // NOI18N
-        openClipartPanel.setWebsite("http://openclipart.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(openClipartPanel, gridBagConstraints);
-
-        sweetHome3DPanel.setDescription(bundle.getString("Welcome.sweetHome3DPanel.description")); // NOI18N
-        sweetHome3DPanel.setGameName("Sweet Home 3D"); // NOI18N
-        sweetHome3DPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/sweethome3d.png"))); // NOI18N
-        sweetHome3DPanel.setWebsite("http://www.sweethome3d.com"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(sweetHome3DPanel, gridBagConstraints);
-
-        gnucashPanel.setDescription(bundle.getString("Welcome.gnucashPanel.description")); // NOI18N
-        gnucashPanel.setGameName("GnuCash"); // NOI18N
-        gnucashPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gnucash.png"))); // NOI18N
-        gnucashPanel.setWebsite("http://www.gnucash.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(gnucashPanel, gridBagConstraints);
-
         sambaPanel.setDescription(bundle.getString("Welcome.sambaPanel.description")); // NOI18N
         sambaPanel.setGameName("Samba"); // NOI18N
         sambaPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/samba.png"))); // NOI18N
@@ -1180,16 +1201,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(sambaPanel, gridBagConstraints);
 
-        rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
-        rosegardenPanel.setGameName("Rosegarden"); // NOI18N
-        rosegardenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rosegarden.png"))); // NOI18N
-        rosegardenPanel.setWebsite("http://www.rosegardenmusic.com"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(rosegardenPanel, gridBagConstraints);
-
         webweaverdesktopPanel.setDescription(bundle.getString("Welcome.webweaverdesktopPanel.description")); // NOI18N
         webweaverdesktopPanel.setGameName("WebWeaver Desktop"); // NOI18N
         webweaverdesktopPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/webweaverdesktop.png"))); // NOI18N
@@ -1199,6 +1210,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(webweaverdesktopPanel, gridBagConstraints);
+
+        lehrerOfficePanel.setDescription(bundle.getString("Welcome.lehrerOfficePanel.description")); // NOI18N
+        lehrerOfficePanel.setGameName("LehrerOffice"); // NOI18N
+        lehrerOfficePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lehreroffice.png"))); // NOI18N
+        lehrerOfficePanel.setWebsite("http://www.lehreroffice.ch"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(lehrerOfficePanel, gridBagConstraints);
 
         wizbeePanel.setDescription(bundle.getString("Welcome.wizbeePanel.description")); // NOI18N
         wizbeePanel.setGameName("Wizbee"); // NOI18N
@@ -1217,19 +1238,9 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(calcularisPanel, gridBagConstraints);
-
-        lehrerOfficePanel.setDescription(bundle.getString("Welcome.lehrerOfficePanel.description")); // NOI18N
-        lehrerOfficePanel.setGameName("LehrerOffice"); // NOI18N
-        lehrerOfficePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lehreroffice.png"))); // NOI18N
-        lehrerOfficePanel.setWebsite("http://www.lehreroffice.ch"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(lehrerOfficePanel, gridBagConstraints);
+        additionalMiscPanel.add(calcularisPanel, gridBagConstraints);
 
         additionalScrollPane.setViewportView(additionalMiscPanel);
 
@@ -3338,6 +3349,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
+        numberOfPackages += lyxPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
         numberOfPackages += sambaPanel.isSelected() ? 1 : 0;
         numberOfPackages += rosegardenPanel.isSelected() ? 1 : 0;
@@ -3422,6 +3434,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(lazarusPanel, "lazarus");
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
+        checkAppInstall(lyxPanel, "lyx");
         checkAppInstall(gnucashPanel, "gnucash");
         checkAppInstall(sambaPanel, "samba");
         checkAppInstall(rosegardenPanel, "rosegarden");
@@ -3615,6 +3628,12 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(gnucashPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/gnucash.png",
                     "gnucash", "gnucash-docs");
+            installApplication(lyxPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/lyx.png",
+                    "lyx", "fonts-lyx", "lernstick-lyx", "texlive-lang-english",
+                    "texlive-lang-french", "texlive-lang-german",
+                    "texlive-lang-italian", "texlive-lang-portuguese",
+                    "texlive-lang-spanish");
             installApplication(sambaPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/samba.png",
                     "samba", "libpam-smbpass", "nautilus-share");
@@ -3972,6 +3991,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel label2;
     private ch.fhnw.lernstickwelcome.GamePanel lazarusPanel;
     private ch.fhnw.lernstickwelcome.GamePanel lehrerOfficePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel lyxPanel;
     private javax.swing.JPanel mainCardPanel;
     private ch.fhnw.lernstickwelcome.GamePanel megaglestGamePanel;
     private javax.swing.JList menuList;
