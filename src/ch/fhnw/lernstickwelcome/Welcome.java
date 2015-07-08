@@ -3630,10 +3630,11 @@ public class Welcome extends javax.swing.JFrame {
                     "gnucash", "gnucash-docs");
             installApplication(lyxPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/lyx.png",
-                    "lyx", "fonts-lyx", "lernstick-lyx", "texlive-lang-english",
-                    "texlive-lang-french", "texlive-lang-german",
-                    "texlive-lang-italian", "texlive-lang-portuguese",
-                    "texlive-lang-spanish");
+                    "lyx", "fonts-lyx", "lernstick-lyx", "texlive-lang-all",
+                    "texlive-latex-extra", "texlive-fonts-recommended",
+                    "texlive-fonts-extra", "texlive-font-utils",
+                    "texlive-generic-extra", "texlive-generic-recommended",
+                    "texlive-science", "texlive-humanities", "tipa");
             installApplication(sambaPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/samba.png",
                     "samba", "libpam-smbpass", "nautilus-share");
