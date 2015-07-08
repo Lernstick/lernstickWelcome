@@ -519,6 +519,7 @@ public class Welcome extends javax.swing.JFrame {
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        webweaverdesktopPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         calcularisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1177,6 +1178,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(rosegardenPanel, gridBagConstraints);
+
+        webweaverdesktopPanel.setDescription(bundle.getString("Welcome.webweaverdesktopPanel.description")); // NOI18N
+        webweaverdesktopPanel.setGameName("WebWeaver Desktop"); // NOI18N
+        webweaverdesktopPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/webweaverdesktop.png"))); // NOI18N
+        webweaverdesktopPanel.setWebsite("http://www.digionline.de/wws/webweaver_desktop.php"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(webweaverdesktopPanel, gridBagConstraints);
 
         wizbeePanel.setDescription(bundle.getString("Welcome.wizbeePanel.description")); // NOI18N
         wizbeePanel.setGameName("Wizbee"); // NOI18N
@@ -3318,6 +3329,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
         numberOfPackages += rosegardenPanel.isSelected() ? 1 : 0;
+        numberOfPackages += webweaverdesktopPanel.isSelected() ? 1 : 0;
         numberOfPackages += wizbeePanel.isSelected() ? 1 : 0;
         numberOfPackages += calcularisPanel.isSelected() ? 1 : 0;
         numberOfPackages += lehrerOfficePanel.isSelected() ? 1 : 0;
@@ -3400,6 +3412,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
         checkAppInstall(gnucashPanel, "gnucash");
         checkAppInstall(rosegardenPanel, "rosegarden");
+        checkAppInstall(webweaverdesktopPanel, "webweaverdesktop");
         checkAppInstall(wizbeePanel, "wizbee");
         checkAppInstall(calcularisPanel, "calcularis-de");
         checkAppInstall(lehrerOfficePanel, "lehreroffice");
@@ -3593,6 +3606,9 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/rosegarden.png",
                     "rosegarden", "fluid-soundfont-gm",
                     "fluid-soundfont-gs", "fluidsynth-dssi");
+            installApplication(webweaverdesktopPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/webweaverdesktop.png",
+                    "webweaverdesktop");
             installApplication(wizbeePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/wizbee.png",
                     "wizbee");
@@ -4008,6 +4024,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel tuxPaintPanel;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
+    private ch.fhnw.lernstickwelcome.GamePanel webweaverdesktopPanel;
     private javax.swing.JLabel welcomeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel wizbeePanel;
