@@ -3402,6 +3402,14 @@ public class Welcome extends javax.swing.JFrame {
                     });
             installer.execute();
             progressDialog.setVisible(true);
+
+            if (sambaPanel.isSelected()) {
+                // After installing samba we have to add the user to the
+                // group "sambashare". Otherwise the user can't use the
+                // filesharing feature in nautilus or KDE.
+                processExecutor.executeProcess(
+                        "usermod", "-aG", "sambashare", "user");
+            }
             checkAllPackages();
         }
     }
