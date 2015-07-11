@@ -3675,10 +3675,10 @@ public class Welcome extends javax.swing.JFrame {
                     "lernstick-fillets-ng", "fillets-ng-data-cs");
             installApplication(neverballGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/neverball.png",
-                    "live-neverball2");
+                    "live-neverball");
             installApplication(neverputtGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/neverputt.png",
-                    "live-neverputt2");
+                    "live-neverputt");
             installApplication(freecolGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/freecol.png",
                     "freecol");
