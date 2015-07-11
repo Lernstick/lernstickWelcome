@@ -1,3 +1,9 @@
+lernstickwelcome (201507111231-1) lernstick-8; urgency=medium
+
+  * [b935a0] fixed package names
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sat, 11 Jul 2015 12:31:08 +0200
+
 lernstickwelcome (201507082058-1) lernstick-8; urgency=medium
 
   * [a9333e] fixed rules file
