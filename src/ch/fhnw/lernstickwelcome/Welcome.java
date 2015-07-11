@@ -3455,8 +3455,8 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(colobotGamePanel, "colobot");
         checkAppInstall(riliGamePanel, "ri-li");
         checkAppInstall(filletsGamePanel, "lernstick-fillets-ng");
-        checkAppInstall(neverballGamePanel, "live-neverball2");
-        checkAppInstall(neverputtGamePanel, "live-neverputt2");
+        checkAppInstall(neverballGamePanel, "live-neverball");
+        checkAppInstall(neverputtGamePanel, "live-neverputt");
         checkAppInstall(frogattoGamePanel, "frogatto");
         checkAppInstall(freecolGamePanel, "freecol");
         checkAppInstall(minetestGamePanel, "minetest");
