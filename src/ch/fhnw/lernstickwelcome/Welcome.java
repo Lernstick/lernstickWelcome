@@ -3457,7 +3457,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(filletsGamePanel, "lernstick-fillets-ng");
         checkAppInstall(neverballGamePanel, "live-neverball");
         checkAppInstall(neverputtGamePanel, "live-neverputt");
-        checkAppInstall(frogattoGamePanel, "frogatto");
+        checkAppInstall(frogattoGamePanel, "lernstick-frogatto");
         checkAppInstall(freecolGamePanel, "freecol");
         checkAppInstall(minetestGamePanel, "minetest");
         checkAppInstall(supertuxGamePanel, "live-supertux");
@@ -3689,7 +3689,7 @@ public class Welcome extends javax.swing.JFrame {
                     "minetest-mod-worldedit", "minetest-mod-mobf");
             installApplication(frogattoGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/frogatto.png",
-                    "frogatto");
+                    "lernstick-frogatto");
             installApplication(supertuxGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/supertux.png",
                     "live-supertux");
