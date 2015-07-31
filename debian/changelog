@@ -1,3 +1,9 @@
+lernstickwelcome (201507311840-1) lernstick-8; urgency=medium
+
+  * [f13500] use lernstick package for frogatto
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 31 Jul 2015 18:40:45 +0200
+
 lernstickwelcome (201507111236-1) lernstick-8; urgency=medium
 
   * [e99b81] fixed package names (again)
