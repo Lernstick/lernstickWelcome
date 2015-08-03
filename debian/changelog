@@ -1,3 +1,9 @@
+lernstickwelcome (201508031033-1) lernstick-8; urgency=medium
+
+  * [873cc9] replaced lernstick-trigger-rally by live-trigger-rally
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 03 Aug 2015 10:33:48 +0200
+
 lernstickwelcome (201507311840-1) lernstick-8; urgency=medium
 
   * [f13500] use lernstick package for frogatto
