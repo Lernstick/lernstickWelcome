@@ -3463,7 +3463,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(supertuxGamePanel, "live-supertux");
         checkAppInstall(supertuxkartGamePanel, "supertuxkart");
         checkAppInstall(xmotoGamePanel, "xmoto");
-        checkAppInstall(triggerGamePanel, "lernstick-trigger-rally");
+        checkAppInstall(triggerGamePanel, "live-trigger-rally");
         checkAppInstall(openClonkPanel, "openclonk");
         checkAppInstall(wesnothGamePanel, "wesnoth-1.12");
         checkAppInstall(flareGamePanel, "flare-game");
@@ -3701,7 +3701,7 @@ public class Welcome extends javax.swing.JFrame {
                     "live-xmoto");
             installApplication(triggerGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/trigger.png",
-                    "lernstick-trigger-rally");
+                    "live-trigger-rally");
             installApplication(openClonkPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/openclonk.png",
                     "openclonk");
