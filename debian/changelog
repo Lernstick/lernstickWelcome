@@ -1,3 +1,9 @@
+lernstickwelcome (201508051913-1) lernstick-8; urgency=medium
+
+  * [79c01d] added support for gespeaker
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 05 Aug 2015 19:13:43 +0200
+
 lernstickwelcome (201508031033-1) lernstick-8; urgency=medium
 
   * [873cc9] replaced lernstick-trigger-rally by live-trigger-rally
