@@ -515,6 +515,7 @@ public class Welcome extends javax.swing.JFrame {
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lyxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        gespeakerPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1139,6 +1140,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalMiscPanel.add(lyxPanel, gridBagConstraints);
+
+        gespeakerPanel.setDescription(bundle.getString("Welcome.gespeakerPanel.description")); // NOI18N
+        gespeakerPanel.setGameName("Gespeaker"); // NOI18N
+        gespeakerPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gespeaker.png"))); // NOI18N
+        gespeakerPanel.setWebsite(bundle.getString("Welcome.gespeakerPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalMiscPanel.add(gespeakerPanel, gridBagConstraints);
 
         gnucashPanel.setDescription(bundle.getString("Welcome.gnucashPanel.description")); // NOI18N
         gnucashPanel.setGameName("GnuCash"); // NOI18N
@@ -3350,6 +3361,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
         numberOfPackages += lyxPanel.isSelected() ? 1 : 0;
+        numberOfPackages += gespeakerPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
         numberOfPackages += sambaPanel.isSelected() ? 1 : 0;
         numberOfPackages += rosegardenPanel.isSelected() ? 1 : 0;
@@ -3443,6 +3455,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
         checkAppInstall(lyxPanel, "lyx");
+        checkAppInstall(gespeakerPanel, "gespeaker");
         checkAppInstall(gnucashPanel, "gnucash");
         checkAppInstall(sambaPanel, "samba");
         checkAppInstall(rosegardenPanel, "rosegarden");
@@ -3643,6 +3656,13 @@ public class Welcome extends javax.swing.JFrame {
                     "texlive-fonts-extra", "texlive-font-utils",
                     "texlive-generic-extra", "texlive-generic-recommended",
                     "texlive-science", "texlive-humanities", "tipa");
+            installApplication(gespeakerPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/gespeaker.png",
+                    "gespeaker",
+                    "mbrola-br1", "mbrola-br3", "mbrola-de4", "mbrola-de5",
+                    "mbrola-de6", "mbrola-de7", "mbrola-en1", "mbrola-es1",
+                    "mbrola-es2", "mbrola-fr1", "mbrola-fr4", "mbrola-it3",
+                    "mbrola-it4", "mbrola-us1", "mbrola-us2", "mbrola-us3");
             installApplication(sambaPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/samba.png",
                     "samba", "libpam-smbpass", "nautilus-share");
@@ -3981,6 +4001,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel frogattoGamePanel;
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel gespeakerPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gnucashPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
