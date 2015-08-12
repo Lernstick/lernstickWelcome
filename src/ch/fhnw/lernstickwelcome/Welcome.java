@@ -119,7 +119,6 @@ public class Welcome extends javax.swing.JFrame {
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     private static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
-    private final String adobeLanguageCode;
     private final File propertiesFile;
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -169,16 +168,6 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         LOGGER.info("*********** Starting lernstick Welcome ***********");
-
-        // determine adobe package name
-        String language = Locale.getDefault().getLanguage();
-        if (language.equals(new Locale("de").getLanguage())) {
-            adobeLanguageCode = "deu";
-        } else if (language.equals(new Locale("fr").getLanguage())) {
-            adobeLanguageCode = "fra";
-        } else {
-            adobeLanguageCode = "enu";
-        }
 
         initComponents();
         ToolTipManager.sharedInstance().setDismissDelay(60000);
@@ -3477,7 +3466,7 @@ public class Welcome extends javax.swing.JFrame {
         checkInstall(flashCheckBox, flashLabel,
                 "Welcome.flashLabel.text", FLASH_PACKAGES);
         checkInstall(readerCheckBox, readerLabel,
-                "Welcome.readerLabel.text", "adobereader-" + adobeLanguageCode);
+                "Welcome.readerLabel.text", "adobereader-enu");
         checkInstall(additionalFontsCheckBox, fontsLabel,
                 "Welcome.fontsLabel.text", FONTS_PACKAGES);
         checkInstall(multimediaCheckBox, multimediaLabel,
@@ -3813,19 +3802,11 @@ public class Welcome extends javax.swing.JFrame {
             ProgressAction progressAction
                     = new ProgressAction(infoString, icon);
             publish(progressAction);
-            /**
-             * example download link:
-             * http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.2/fra/AdbeRdr9.2-1_i386linux_fra.deb
-             */
-            int majorVersion = 9;
-            String fullVersion = majorVersion + ".4.2";
-            String fileName = "AdbeRdr" + fullVersion + "-1_i386linux_"
-                    + adobeLanguageCode + ".deb";
+            String fileName = "AdbeRdr9.5.5-1_i386linux_enu.deb";
             String adobeReaderInstallScript = "cd " + USER_HOME + '\n'
                     + "wget" + getWgetProxyLine()
-                    + "http://ardownload.adobe.com/pub/adobe/reader/unix/"
-                    + majorVersion + ".x/" + fullVersion + '/'
-                    + adobeLanguageCode + '/' + fileName + '\n'
+                    + "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/"
+                    + fileName + '\n'
                     + "dpkg -i " + fileName + '\n'
                     + "rm " + fileName;
             int exitValue = processExecutor.executeScript(
