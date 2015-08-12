@@ -1774,7 +1774,6 @@ public class Welcome extends javax.swing.JFrame {
         firewallPanel.add(firewallInfoLabel, gridBagConstraints);
 
         firewallStartStopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/16x16/start.png"))); // NOI18N
-        firewallStartStopButton.setText(bundle.getString("Welcome.firewallStartStopButton.text")); // NOI18N
         firewallStartStopButton.setToolTipText(bundle.getString("Firewall_toolTip_start")); // NOI18N
         firewallStartStopButton.setMargin(new java.awt.Insets(2, 2, 2, 2));
         firewallStartStopButton.addActionListener(new java.awt.event.ActionListener() {
