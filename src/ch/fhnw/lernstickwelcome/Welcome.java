@@ -506,6 +506,8 @@ public class Welcome extends javax.swing.JFrame {
         googleEarthLabel = new javax.swing.JLabel();
         skypeCheckBox = new javax.swing.JCheckBox();
         skypeLabel = new javax.swing.JLabel();
+        virtualBoxCheckBox = new javax.swing.JCheckBox();
+        virtualBoxLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         fillPanel = new javax.swing.JPanel();
         teachingPanel = new javax.swing.JPanel();
@@ -1022,6 +1024,23 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         miscPanel.add(skypeLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        miscPanel.add(virtualBoxCheckBox, gridBagConstraints);
+
+        virtualBoxLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/virtualbox.png"))); // NOI18N
+        virtualBoxLabel.setText(bundle.getString("Welcome.virtualBoxLabel.text")); // NOI18N
+        virtualBoxLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                virtualBoxLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        miscPanel.add(virtualBoxLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
@@ -2158,6 +2177,10 @@ public class Welcome extends javax.swing.JFrame {
     private void firewallStartStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firewallStartStopButtonActionPerformed
         toggleFirewallState();
     }//GEN-LAST:event_firewallStartStopButtonActionPerformed
+
+    private void virtualBoxLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_virtualBoxLabelMouseClicked
+        toggleCheckBox(virtualBoxCheckBox);
+    }//GEN-LAST:event_virtualBoxLabelMouseClicked
 
     private void toggleFirewallState() {
         String action = firewallRunning ? "stop" : "start";
@@ -3379,6 +3402,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += multimediaCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += googleEarthCheckBox.isSelected() ? 1 : 0;
         numberOfPackages += skypeCheckBox.isSelected() ? 1 : 0;
+        numberOfPackages += virtualBoxCheckBox.isSelected() ? 1 : 0;
 
         // LA teaching tools
         numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
@@ -3474,6 +3498,8 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.googleEarthLabel.text", "google-earth-stable");
         checkInstall(skypeCheckBox, skypeLabel,
                 "Welcome.skypeLabel.text", "skype");
+        checkInstall(virtualBoxCheckBox, virtualBoxLabel,
+                "Welcome.virtualBoxLabel.text", "virtualbox-ext-pack");
 
         // LA Teaching System
         checkInstall(laCheckBox, laLabel,
@@ -3647,6 +3673,10 @@ public class Welcome extends javax.swing.JFrame {
                     MULTIMEDIA_PACKAGES);
             installGoogleEarth();
             installSkype();
+            installNonFreeApplication(virtualBoxCheckBox,
+                    "Welcome.virtualBoxLabel.text",
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/virtualbox.png",
+                    "virtualbox-ext-pack");
 
             // teaching system
             installNonFreeApplication(laCheckBox, "LA_Teaching_System",
@@ -4159,6 +4189,8 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel tuxPaintPanel;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
+    private javax.swing.JCheckBox virtualBoxCheckBox;
+    private javax.swing.JLabel virtualBoxLabel;
     private ch.fhnw.lernstickwelcome.GamePanel webweaverdesktopPanel;
     private javax.swing.JLabel welcomeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
