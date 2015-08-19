@@ -407,20 +407,19 @@ public class Welcome extends javax.swing.JFrame {
         helpTextPane.setCaretPosition(0);
 
         // fix some size issues
+        menuScrollPane.setMinimumSize(menuScrollPane.getPreferredSize());
         infoScrollPane.setMinimumSize(infoScrollPane.getPreferredSize());
         nonfreeLabel.setMinimumSize(nonfreeLabel.getPreferredSize());
         teachingScrollPane.setMinimumSize(
                 teachingScrollPane.getPreferredSize());
+        Dimension preferredSize = helpScrollPane.getPreferredSize();
+        preferredSize.height = 100;
+        helpTextPane.setPreferredSize(preferredSize);
+        
         pack();
 
-        Dimension preferredSize = getPreferredSize();
-        preferredSize.height = 450;
-        setSize(preferredSize);
         // center on screen
         setLocationRelativeTo(null);
-
-        // enforce minimal size of list
-        menuScrollPane.setMinimumSize(menuScrollPane.getPreferredSize());
 
         setVisible(true);
     }
@@ -519,7 +518,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalInfoLabel = new javax.swing.JLabel();
         additionalTabbedPane = new javax.swing.JTabbedPane();
         additionalScrollPane = new javax.swing.JScrollPane();
-        additionalMiscPanel = new ScrollableJPanel();
+        additionalScrollPanel = new ScrollableJPanel();
         omnituxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -977,6 +976,9 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         recommendedPanel.add(multimediaLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         recommendedPanel.add(jLabel2, gridBagConstraints);
@@ -985,7 +987,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 10, 10, 5);
         nonfreePanel.add(recommendedPanel, gridBagConstraints);
 
@@ -1042,7 +1043,9 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         miscPanel.add(virtualBoxLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         miscPanel.add(jLabel1, gridBagConstraints);
@@ -1052,21 +1055,10 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 5, 10, 10);
         nonfreePanel.add(miscPanel, gridBagConstraints);
 
-        javax.swing.GroupLayout fillPanelLayout = new javax.swing.GroupLayout(fillPanel);
-        fillPanel.setLayout(fillPanelLayout);
-        fillPanelLayout.setHorizontalGroup(
-            fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 677, Short.MAX_VALUE)
-        );
-        fillPanelLayout.setVerticalGroup(
-            fillPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
-        );
-
+        fillPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1123,7 +1115,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 10, 0, 10);
         additionalPanel.add(additionalInfoLabel, gridBagConstraints);
 
-        additionalMiscPanel.setLayout(new java.awt.GridBagLayout());
+        additionalScrollPanel.setLayout(new java.awt.GridBagLayout());
 
         omnituxPanel.setDescription(bundle.getString("Welcome.omnituxPanel.description")); // NOI18N
         omnituxPanel.setGameName("Omnitux"); // NOI18N
@@ -1133,8 +1125,8 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
-        additionalMiscPanel.add(omnituxPanel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(omnituxPanel, gridBagConstraints);
 
         tuxPaintPanel.setDescription(bundle.getString("Welcome.tuxPaintPanel.description")); // NOI18N
         tuxPaintPanel.setGameName("Tux Paint"); // NOI18N
@@ -1145,7 +1137,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(tuxPaintPanel, gridBagConstraints);
+        additionalScrollPanel.add(tuxPaintPanel, gridBagConstraints);
 
         rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
         rosegardenPanel.setGameName("Rosegarden"); // NOI18N
@@ -1155,7 +1147,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(rosegardenPanel, gridBagConstraints);
+        additionalScrollPanel.add(rosegardenPanel, gridBagConstraints);
 
         sweetHome3DPanel.setDescription(bundle.getString("Welcome.sweetHome3DPanel.description")); // NOI18N
         sweetHome3DPanel.setGameName("Sweet Home 3D"); // NOI18N
@@ -1165,7 +1157,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(sweetHome3DPanel, gridBagConstraints);
+        additionalScrollPanel.add(sweetHome3DPanel, gridBagConstraints);
 
         openClipartPanel.setDescription(bundle.getString("Welcome.openClipartPanel.description")); // NOI18N
         openClipartPanel.setGameName("Openclipart"); // NOI18N
@@ -1176,7 +1168,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(openClipartPanel, gridBagConstraints);
+        additionalScrollPanel.add(openClipartPanel, gridBagConstraints);
 
         lyxPanel.setDescription(bundle.getString("Welcome.lyxPanel.description")); // NOI18N
         lyxPanel.setGameName("LyX"); // NOI18N
@@ -1186,7 +1178,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(lyxPanel, gridBagConstraints);
+        additionalScrollPanel.add(lyxPanel, gridBagConstraints);
 
         gespeakerPanel.setDescription(bundle.getString("Welcome.gespeakerPanel.description")); // NOI18N
         gespeakerPanel.setGameName("Gespeaker"); // NOI18N
@@ -1196,7 +1188,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(gespeakerPanel, gridBagConstraints);
+        additionalScrollPanel.add(gespeakerPanel, gridBagConstraints);
 
         gnucashPanel.setDescription(bundle.getString("Welcome.gnucashPanel.description")); // NOI18N
         gnucashPanel.setGameName("GnuCash"); // NOI18N
@@ -1206,7 +1198,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(gnucashPanel, gridBagConstraints);
+        additionalScrollPanel.add(gnucashPanel, gridBagConstraints);
 
         netbeansPanel.setDescription(bundle.getString("Welcome.netbeansPanel.description")); // NOI18N
         netbeansPanel.setGameName("NetBeans"); // NOI18N
@@ -1217,7 +1209,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(netbeansPanel, gridBagConstraints);
+        additionalScrollPanel.add(netbeansPanel, gridBagConstraints);
 
         processingPanel.setDescription(bundle.getString("Welcome.processingPanel.description")); // NOI18N
         processingPanel.setGameName("Processing"); // NOI18N
@@ -1227,7 +1219,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(processingPanel, gridBagConstraints);
+        additionalScrollPanel.add(processingPanel, gridBagConstraints);
 
         rStudioPanel.setDescription(bundle.getString("Welcome.rStudioPanel.description")); // NOI18N
         rStudioPanel.setGameName("RStudio"); // NOI18N
@@ -1237,7 +1229,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(rStudioPanel, gridBagConstraints);
+        additionalScrollPanel.add(rStudioPanel, gridBagConstraints);
 
         lazarusPanel.setDescription(bundle.getString("Welcome.lazarusPanel.description")); // NOI18N
         lazarusPanel.setGameName("Lazarus"); // NOI18N
@@ -1247,7 +1239,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(lazarusPanel, gridBagConstraints);
+        additionalScrollPanel.add(lazarusPanel, gridBagConstraints);
 
         sambaPanel.setDescription(bundle.getString("Welcome.sambaPanel.description")); // NOI18N
         sambaPanel.setGameName("Samba"); // NOI18N
@@ -1257,7 +1249,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(sambaPanel, gridBagConstraints);
+        additionalScrollPanel.add(sambaPanel, gridBagConstraints);
 
         webweaverdesktopPanel.setDescription(bundle.getString("Welcome.webweaverdesktopPanel.description")); // NOI18N
         webweaverdesktopPanel.setGameName("WebWeaver Desktop"); // NOI18N
@@ -1267,7 +1259,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(webweaverdesktopPanel, gridBagConstraints);
+        additionalScrollPanel.add(webweaverdesktopPanel, gridBagConstraints);
 
         lehrerOfficePanel.setDescription(bundle.getString("Welcome.lehrerOfficePanel.description")); // NOI18N
         lehrerOfficePanel.setGameName("LehrerOffice"); // NOI18N
@@ -1277,7 +1269,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(lehrerOfficePanel, gridBagConstraints);
+        additionalScrollPanel.add(lehrerOfficePanel, gridBagConstraints);
 
         wizbeePanel.setDescription(bundle.getString("Welcome.wizbeePanel.description")); // NOI18N
         wizbeePanel.setGameName("Wizbee"); // NOI18N
@@ -1287,7 +1279,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(wizbeePanel, gridBagConstraints);
+        additionalScrollPanel.add(wizbeePanel, gridBagConstraints);
 
         calcularisPanel.setDescription(bundle.getString("Welcome.calcularisPanel.description")); // NOI18N
         calcularisPanel.setGameName("Dybuster Calcularis"); // NOI18N
@@ -1298,9 +1290,9 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalMiscPanel.add(calcularisPanel, gridBagConstraints);
+        additionalScrollPanel.add(calcularisPanel, gridBagConstraints);
 
-        additionalScrollPane.setViewportView(additionalMiscPanel);
+        additionalScrollPane.setViewportView(additionalScrollPanel);
 
         additionalTabbedPane.addTab(bundle.getString("Welcome.additionalScrollPane.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/applications-other.png")), additionalScrollPane); // NOI18N
 
@@ -1314,7 +1306,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(colobotGamePanel, gridBagConstraints);
 
         riliGamePanel.setDescription(bundle.getString("Welcome.riliGamePanel.description")); // NOI18N
@@ -1325,7 +1317,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(riliGamePanel, gridBagConstraints);
 
         filletsGamePanel.setDescription(bundle.getString("Welcome.filletsGamePanel.description")); // NOI18N
@@ -1568,7 +1560,7 @@ public class Welcome extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(proxyCheckBox))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
@@ -1596,7 +1588,7 @@ public class Welcome extends javax.swing.JFrame {
                 .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(proxyPasswordLabel)
                     .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
@@ -4039,9 +4031,9 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton addIPButton;
     private javax.swing.JCheckBox additionalFontsCheckBox;
     private javax.swing.JLabel additionalInfoLabel;
-    private javax.swing.JPanel additionalMiscPanel;
     private javax.swing.JPanel additionalPanel;
     private javax.swing.JScrollPane additionalScrollPane;
+    private javax.swing.JPanel additionalScrollPanel;
     private javax.swing.JTabbedPane additionalTabbedPane;
     private javax.swing.JButton applyButton;
     private ch.fhnw.lernstickwelcome.GamePanel astromenaceGamePanel;
