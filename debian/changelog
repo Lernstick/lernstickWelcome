@@ -1,3 +1,9 @@
+lernstickwelcome (201508191524-1) lernstick-8; urgency=medium
+
+  * [6ef0e0] layout fixes
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 19 Aug 2015 15:24:45 +0200
+
 lernstickwelcome (201508160803-1) lernstick-8; urgency=medium
 
   * [175de0] added support for VirtualBox Extension Pack
