@@ -16,7 +16,7 @@ Description: a welcome application for the Lernstick personal learning environme
  This is the "Welcome" application for the Lernstick personal learning environment
  and allows the installation of some additional applications and some customizations.
 
-Package: lernstickwelcome-pu
+Package: lernstickwelcome-exam
 Architecture: all
 Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Replaces: lernstickwelcome-squeeze
