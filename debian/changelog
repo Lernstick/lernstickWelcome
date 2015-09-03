@@ -1,3 +1,9 @@
+lernstickwelcome (201509031352-1) lernstick-8; urgency=medium
+
+  * rebuild with newer/fixed lernstickTools
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 03 Sep 2015 13:52:40 +0200
+
 lernstickwelcome (201508191524-1) lernstick-8; urgency=medium
 
   * [6ef0e0] layout fixes
