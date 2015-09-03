@@ -3686,7 +3686,7 @@ public class Welcome extends javax.swing.JFrame {
             // teaching system
             installNonFreeApplication(laCheckBox, "LA_Teaching_System",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/LinuxAdvanced.png",
-                    "lateaching", "lateachingtools");
+                    "lateaching");
 
             // miscellaneous
             installApplication(omnituxPanel,
