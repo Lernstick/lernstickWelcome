@@ -25,6 +25,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -119,6 +121,8 @@ public class Welcome extends javax.swing.JFrame {
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     private static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
+    private static final Path PKLA_PATH = Paths.get(
+            "/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
     private final File propertiesFile;
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -198,6 +202,8 @@ public class Welcome extends javax.swing.JFrame {
                 properties.getProperty(EXCHANGE_ACCESS)));
         kdePlasmaLockCheckBox.setSelected("true".equals(
                 properties.getProperty(KDE_LOCK)));
+        allowFilesystemMountCheckbox.setSelected(!PKLA_PATH.toFile().exists());
+
         String frequencyString = properties.getProperty(
                 BACKUP_FREQUENCY, "5");
         try {
@@ -415,7 +421,7 @@ public class Welcome extends javax.swing.JFrame {
         Dimension preferredSize = helpScrollPane.getPreferredSize();
         preferredSize.height = 100;
         helpTextPane.setPreferredSize(preferredSize);
-        
+
         pack();
 
         // center on screen
@@ -580,6 +586,7 @@ public class Welcome extends javax.swing.JFrame {
         userNameTextField = new javax.swing.JTextField();
         kdePlasmaLockCheckBox = new javax.swing.JCheckBox();
         noPulseAudioCheckbox = new javax.swing.JCheckBox();
+        allowFilesystemMountCheckbox = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         partitionsPanel = new javax.swing.JPanel();
         exchangePartitionPanel = new javax.swing.JPanel();
@@ -1681,6 +1688,17 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
         systemPanel.add(noPulseAudioCheckbox, gridBagConstraints);
+
+        allowFilesystemMountCheckbox.setText(bundle.getString("Welcome.allowFilesystemMountCheckbox.text")); // NOI18N
+        allowFilesystemMountCheckbox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                allowFilesystemMountCheckboxItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
+        systemPanel.add(allowFilesystemMountCheckbox, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -2173,6 +2191,22 @@ public class Welcome extends javax.swing.JFrame {
     private void virtualBoxLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_virtualBoxLabelMouseClicked
         toggleCheckBox(virtualBoxCheckBox);
     }//GEN-LAST:event_virtualBoxLabelMouseClicked
+
+    private void allowFilesystemMountCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allowFilesystemMountCheckboxItemStateChanged
+        FileSystem fileSystem = FileSystems.getDefault();
+        Path activePklaPath = PKLA_PATH;
+        Path inactivePklaPath = fileSystem.getPath(
+                PKLA_PATH.toString() + ".inactive");
+        try {
+            if (allowFilesystemMountCheckbox.isSelected()) {
+                Files.move(activePklaPath, inactivePklaPath);
+            } else {
+                Files.move(inactivePklaPath, activePklaPath);
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+    }//GEN-LAST:event_allowFilesystemMountCheckboxItemStateChanged
 
     private void toggleFirewallState() {
         String action = firewallRunning ? "stop" : "start";
@@ -4035,6 +4069,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane additionalScrollPane;
     private javax.swing.JPanel additionalScrollPanel;
     private javax.swing.JTabbedPane additionalTabbedPane;
+    private javax.swing.JCheckBox allowFilesystemMountCheckbox;
     private javax.swing.JButton applyButton;
     private ch.fhnw.lernstickwelcome.GamePanel astromenaceGamePanel;
     private javax.swing.JCheckBox backupCheckBox;
