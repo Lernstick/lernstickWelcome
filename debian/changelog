@@ -10,6 +10,25 @@ lernstickwelcome (201509031352-1) lernstick-8; urgency=medium
 
  -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 03 Sep 2015 13:52:40 +0200
 
+lernstickwelcome (201509032155-1) lernstick-8; urgency=medium
+
+  * [f5975b] updated list of LA Teaching packages
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 03 Sep 2015 21:55:43 +0200
+
+lernstickwelcome (201509032112-1) lernstick-8; urgency=medium
+
+  * [07449e] added support for scribus
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 03 Sep 2015 21:12:26 +0200
+
+lernstickwelcome (201508290916-1) lernstick-8; urgency=medium
+
+  * [ad05f6] renamed exam package
+  * [7d248a] fixed debian control file
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 29 Aug 2015 09:16:26 +0200
+
 lernstickwelcome (201508191524-1) lernstick-8; urgency=medium
 
   * [6ef0e0] layout fixes

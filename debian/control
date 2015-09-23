@@ -1,7 +1,8 @@
 Source: lernstickwelcome
 Section: misc
 Priority: extra
-Maintainer: Ronny Standtke <Ronny.Standtke@gmx.net>
+Maintainer: Lernstick Team <lernstick.ph@fhnw.ch>
+Uploaders: Ronny Standtke <ronny.standtke@fhnw.ch>, Gaudenz Steinlin <gaudenz.steinlin@cirrax.com>
 Build-Depends: debhelper (>= 7), ant-optional, junit, java-sdk
 Standards-Version: 3.8.0
 Homepage: http://www.imedias.ch/lernstick
@@ -11,12 +12,12 @@ Architecture: all
 Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Replaces: lernstickwelcome-squeeze
 Breaks: lernstickwelcome-squeeze
-Conflicts: lernstickwelcome-pu
+Conflicts: lernstickwelcome-exam
 Description: a welcome application for the Lernstick personal learning environment
  This is the "Welcome" application for the Lernstick personal learning environment
  and allows the installation of some additional applications and some customizations.
 
-Package: lernstickwelcome-pu
+Package: lernstickwelcome-exam
 Architecture: all
 Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Replaces: lernstickwelcome-squeeze

@@ -531,6 +531,7 @@ public class Welcome extends javax.swing.JFrame {
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lyxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        scribusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gespeakerPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1186,6 +1187,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(lyxPanel, gridBagConstraints);
+
+        scribusPanel.setDescription(bundle.getString("Welcome.scribusPanel.description")); // NOI18N
+        scribusPanel.setGameName("Scribus"); // NOI18N
+        scribusPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/scribus.png"))); // NOI18N
+        scribusPanel.setWebsite("http://www.scribus.net"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(scribusPanel, gridBagConstraints);
 
         gespeakerPanel.setDescription(bundle.getString("Welcome.gespeakerPanel.description")); // NOI18N
         gespeakerPanel.setGameName("Gespeaker"); // NOI18N
@@ -3443,6 +3454,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += openClipartPanel.isSelected() ? 1 : 0;
         numberOfPackages += sweetHome3DPanel.isSelected() ? 1 : 0;
         numberOfPackages += lyxPanel.isSelected() ? 1 : 0;
+        numberOfPackages += scribusPanel.isSelected() ? 1 : 0;
         numberOfPackages += gespeakerPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
         numberOfPackages += sambaPanel.isSelected() ? 1 : 0;
@@ -3541,6 +3553,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(openClipartPanel, "openclipart-libreoffice");
         checkAppInstall(sweetHome3DPanel, "sweethome3d");
         checkAppInstall(lyxPanel, "lyx");
+        checkAppInstall(scribusPanel, "scribus");
         checkAppInstall(gespeakerPanel, "gespeaker");
         checkAppInstall(gnucashPanel, "gnucash");
         checkAppInstall(sambaPanel, "samba");
@@ -3707,7 +3720,7 @@ public class Welcome extends javax.swing.JFrame {
             // teaching system
             installNonFreeApplication(laCheckBox, "LA_Teaching_System",
                     "/ch/fhnw/lernstickwelcome/icons/48x48/LinuxAdvanced.png",
-                    "lateaching", "lateachingtools");
+                    "lateaching");
 
             // miscellaneous
             installApplication(omnituxPanel,
@@ -3747,6 +3760,10 @@ public class Welcome extends javax.swing.JFrame {
                     "texlive-fonts-extra", "texlive-font-utils",
                     "texlive-generic-extra", "texlive-generic-recommended",
                     "texlive-science", "texlive-humanities", "tipa");
+            installApplication(scribusPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/scribus.png",
+                    "scribus", "scribus-template", "scribus-doc",
+                    "lernstick-scribus");
             installApplication(gespeakerPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/gespeaker.png",
                     "gespeaker",
@@ -4198,6 +4215,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel rosegardenPanel;
     private ch.fhnw.lernstickwelcome.GamePanel sambaPanel;
     private javax.swing.JCheckBox screenShotCheckBox;
+    private ch.fhnw.lernstickwelcome.GamePanel scribusPanel;
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
