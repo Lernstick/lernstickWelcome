@@ -250,6 +250,7 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Proxy"), "proxyPanel"));
             exchangeAccessCheckBox.setVisible(false);
             exchangeRebootLabel.setVisible(false);
+            allowFilesystemMountCheckbox.setVisible(false);
 
             checkAllPackages();
         }
