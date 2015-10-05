@@ -1,3 +1,9 @@
+lernstickwelcome (201510051509-1) lernstick-8; urgency=medium
+
+  * [149d30] show allowFilesystemMountCheckbox only in exam environment
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 05 Oct 2015 15:09:44 +0200
+
 lernstickwelcome (201509232125-1) lernstick-8; urgency=medium
 
   * [04f196] added option to allow mounting of file systems
