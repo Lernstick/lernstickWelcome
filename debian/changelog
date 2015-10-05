@@ -1,3 +1,9 @@
+lernstickwelcome (201510051848-1) lernstick-8; urgency=medium
+
+  * [10505c] hide the VirtualBox Extension pack until the following bug is fixed: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=800034
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 05 Oct 2015 18:47:56 +0200
+
 lernstickwelcome (201510051509-1) lernstick-8; urgency=medium
 
   * [149d30] show allowFilesystemMountCheckbox only in exam environment
