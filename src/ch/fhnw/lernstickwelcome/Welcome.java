@@ -174,6 +174,12 @@ public class Welcome extends javax.swing.JFrame {
         LOGGER.info("*********** Starting lernstick Welcome ***********");
 
         initComponents();
+        
+        // hide the VirtualBox Extension pack until the following bug is fixed:
+        // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=800034
+        virtualBoxCheckBox.setVisible(false);
+        virtualBoxLabel.setVisible(false);
+        
         ToolTipManager.sharedInstance().setDismissDelay(60000);
         setBordersEnabled(false);
 
