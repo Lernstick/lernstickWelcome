@@ -1,3 +1,10 @@
+lernstickwelcome (201510201816-1) lernstick-8; urgency=medium
+
+  * [570257] disable password hint dialog after changing password
+  * [0e4881] fixed path to kdialog config file
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 20 Oct 2015 18:16:05 +0200
+
 lernstickwelcome (201510051848-1) lernstick-8; urgency=medium
 
   * [10505c] hide the VirtualBox Extension pack until the following bug is fixed: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=800034
