@@ -30,8 +30,10 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -174,12 +176,12 @@ public class Welcome extends javax.swing.JFrame {
         LOGGER.info("*********** Starting lernstick Welcome ***********");
 
         initComponents();
-        
+
         // hide the VirtualBox Extension pack until the following bug is fixed:
         // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=800034
         virtualBoxCheckBox.setVisible(false);
         virtualBoxLabel.setVisible(false);
-        
+
         ToolTipManager.sharedInstance().setDismissDelay(60000);
         setBordersEnabled(false);
 
@@ -2437,6 +2439,7 @@ public class Welcome extends javax.swing.JFrame {
             int returnValue = executor.executeScript(
                     true, true, passwordChangeScript);
             if (returnValue == 0) {
+                disablePasswordHint();
                 JOptionPane.showMessageDialog(this,
                         BUNDLE.getString("Password_Changed"),
                         BUNDLE.getString("Information"),
@@ -2448,6 +2451,35 @@ public class Welcome extends javax.swing.JFrame {
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
+        }
+    }
+
+    private void disablePasswordHint() {
+        File configFile = new File(
+                "home/user/.kde/share/config/empty_passwd_info");
+        if (configFile.exists()) {
+            return;
+        }
+
+        try (FileWriter fileWriter = new FileWriter(configFile)) {
+            // write kdialog config file
+            fileWriter.write("[Notification Messages]\n"
+                    + "show=false");
+
+            // fix ownership of kdialog config file:
+            Path path = configFile.toPath();
+            UserPrincipalLookupService lookupService
+                    = FileSystems.getDefault().getUserPrincipalLookupService();
+            // set user
+            Files.setOwner(path, lookupService.lookupPrincipalByName("user"));
+            // set group            
+            PosixFileAttributeView fileAttributeView
+                    = Files.getFileAttributeView(path,
+                            PosixFileAttributeView.class);
+            fileAttributeView.setGroup(
+                    lookupService.lookupPrincipalByGroupName("user"));
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
         }
     }
 
