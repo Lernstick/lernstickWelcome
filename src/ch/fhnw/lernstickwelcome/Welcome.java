@@ -2456,7 +2456,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void disablePasswordHint() {
         File configFile = new File(
-                "home/user/.kde/share/config/empty_passwd_info");
+                "/home/user/.kde/share/config/empty_passwd_info");
         if (configFile.exists()) {
             return;
         }
