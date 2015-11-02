@@ -1,3 +1,9 @@
+lernstickwelcome (201511021533-1) lernstick-8; urgency=medium
+
+  * [75beb2] updated colobot icons
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 02 Nov 2015 15:33:42 +0100
+
 lernstickwelcome (201510201816-1) lernstick-8; urgency=medium
 
   * [570257] disable password hint dialog after changing password
