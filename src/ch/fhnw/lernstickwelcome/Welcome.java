@@ -535,6 +535,7 @@ public class Welcome extends javax.swing.JFrame {
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalScrollPanel = new ScrollableJPanel();
         omnituxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -771,7 +772,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 15, 0, 0);
         backupPanel.add(backupFrequencyEveryLabel, gridBagConstraints);
 
-        backupFrequencySpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        backupFrequencySpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         backupFrequencySpinner.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
@@ -1144,6 +1145,17 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(omnituxPanel, gridBagConstraints);
+
+        stellariumPanel.setDescription(bundle.getString("Welcome.stellariumPanel.description")); // NOI18N
+        stellariumPanel.setGameName("Stellarium"); // NOI18N
+        stellariumPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/stellarium.png"))); // NOI18N
+        stellariumPanel.setWebsite(bundle.getString("Welcome.stellariumPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(stellariumPanel, gridBagConstraints);
 
         tuxPaintPanel.setDescription(bundle.getString("Welcome.tuxPaintPanel.description")); // NOI18N
         tuxPaintPanel.setGameName("Tux Paint"); // NOI18N
@@ -1631,7 +1643,7 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         bootMenuPanel.add(bootTimeoutLabel, gridBagConstraints);
 
-        bootTimeoutSpinner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(10), Integer.valueOf(1), null, Integer.valueOf(1)));
+        bootTimeoutSpinner.setModel(new javax.swing.SpinnerNumberModel(10, 1, null, 1));
         bootTimeoutSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 bootTimeoutSpinnerStateChanged(evt);
@@ -3485,6 +3497,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // miscellaneous
         numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
+        numberOfPackages += stellariumPanel.isSelected() ? 1 : 0;
         numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
@@ -3584,6 +3597,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // miscellaneous
         checkAppInstall(omnituxPanel, "omnitux");
+        checkAppInstall(stellariumPanel, "lernstick-stellarium");
         checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
         checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
         checkAppInstall(processingPanel, "processing");
@@ -3765,6 +3779,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(omnituxPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/omnitux.png",
                     "omnitux");
+            installApplication(stellariumPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/stellarium.png",
+                    "lernstick-stellarium");
             installApplication(tuxPaintPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
                     "lernstick-tuxpaint");
@@ -4258,6 +4275,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
+    private ch.fhnw.lernstickwelcome.GamePanel stellariumPanel;
     private ch.fhnw.lernstickwelcome.GamePanel supertuxGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel supertuxkartGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel sweetHome3DPanel;
