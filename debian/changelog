@@ -1,3 +1,9 @@
+lernstickwelcome (201511201153-1) lernstick-8; urgency=medium
+
+  * [3b5e38] added support for Stellarium, updated to NetBeans 8.1
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 20 Nov 2015 11:53:13 +0100
+
 lernstickwelcome (201511021533-1) lernstick-8; urgency=medium
 
   * [75beb2] updated colobot icons
