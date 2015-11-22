@@ -3794,7 +3794,7 @@ public class Welcome extends javax.swing.JFrame {
                     "processing");
             installApplication(rStudioPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/rstudio.png",
-                    "rstudio");
+                    "rstudio", "r-base", "lernstick-r-base-core");
             installApplication(lazarusPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/lazarus.png",
                     "lazarus", "fpc-source", "lcl",
