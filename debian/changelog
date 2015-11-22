@@ -1,3 +1,9 @@
+lernstickwelcome (201511221826-1) UNRELEASED; urgency=medium
+
+  * [c563a2] fixed package list for rstudio
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 22 Nov 2015 18:26:51 +0100
+
 lernstickwelcome (201511201153-1) lernstick-8; urgency=medium
 
   * [3b5e38] added support for Stellarium, updated to NetBeans 8.1
