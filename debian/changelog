@@ -1,4 +1,4 @@
-lernstickwelcome (201602131526-1) UNRELEASED; urgency=medium
+lernstickwelcome (201602131526-1) lernstick-8; urgency=medium
 
   * [800fcf] install lernstick-scenebuilder to fix scenebuilder desktop file
 
