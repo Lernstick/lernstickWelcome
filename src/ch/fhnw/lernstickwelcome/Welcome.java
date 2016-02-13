@@ -377,20 +377,20 @@ public class Welcome extends javax.swing.JFrame {
         protocolColumn.setCellEditor(new DefaultCellEditor(protocolCombobox));
         firewallIPTable.getSelectionModel().addListSelectionListener(
                 new ListSelectionListener() {
-                    @Override
-                    public void valueChanged(ListSelectionEvent e) {
-                        if (e.getValueIsAdjusting()) {
-                            return;
-                        }
-                        int[] selectedRows = firewallIPTable.getSelectedRows();
-                        boolean selected = selectedRows.length > 0;
-                        removeIPButton.setEnabled(selected);
-                        moveUpIPButton.setEnabled(selected && selectedRows[0] > 0);
-                        moveDownIPButton.setEnabled(selected
-                                && (selectedRows[selectedRows.length - 1]
-                                < ipTableModel.getRowCount() - 1));
-                    }
-                });
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting()) {
+                    return;
+                }
+                int[] selectedRows = firewallIPTable.getSelectedRows();
+                boolean selected = selectedRows.length > 0;
+                removeIPButton.setEnabled(selected);
+                moveUpIPButton.setEnabled(selected && selectedRows[0] > 0);
+                moveDownIPButton.setEnabled(selected
+                        && (selectedRows[selectedRows.length - 1]
+                        < ipTableModel.getRowCount() - 1));
+            }
+        });
 
         if (examEnvironment) {
             try {
@@ -408,11 +408,11 @@ public class Welcome extends javax.swing.JFrame {
             // start periodic firewall status check
             javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
                     3000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent evt) {
-                            updateFirewallState();
-                        }
-                    });
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    updateFirewallState();
+                }
+            });
             firewallStatusTimer.setInitialDelay(0);
             firewallStatusTimer.start();
         }
@@ -2114,10 +2114,8 @@ public class Welcome extends javax.swing.JFrame {
             if (menuListIndex > 0) {
                 menuList.setSelectedIndex(menuListIndex - 1);
             }
-        } else {
-            if (menuListIndex < (menuListModel.getSize() - 1)) {
-                menuList.setSelectedIndex(menuListIndex + 1);
-            }
+        } else if (menuListIndex < (menuListModel.getSize() - 1)) {
+            menuList.setSelectedIndex(menuListIndex + 1);
         }
     }//GEN-LAST:event_menuListMouseWheelMoved
 
@@ -2529,11 +2527,11 @@ public class Welcome extends javax.swing.JFrame {
             File configFile = efiPartition.executeMounted(
                     new Partition.Action<File>() {
 
-                        @Override
-                        public File execute(File mountPath) {
-                            return getXmlBootConfigFile(mountPath);
-                        }
-                    });
+                @Override
+                public File execute(File mountPath) {
+                    return getXmlBootConfigFile(mountPath);
+                }
+            });
             if (configFile != null) {
                 return configFile;
             }
@@ -2615,11 +2613,11 @@ public class Welcome extends javax.swing.JFrame {
             // system with a separate boot partition
             syslinuxConfigFiles = efiPartition.executeMounted(
                     new Partition.Action<List<File>>() {
-                        @Override
-                        public List<File> execute(File mountPath) {
-                            return getSyslinuxConfigFiles(mountPath);
-                        }
-                    });
+                @Override
+                public List<File> execute(File mountPath) {
+                    return getSyslinuxConfigFiles(mountPath);
+                }
+            });
         }
 
         Pattern timeoutPattern = Pattern.compile("timeout (.*)");
@@ -2889,12 +2887,10 @@ public class Welcome extends javax.swing.JFrame {
                 processExecutor.executeProcess("dpkg-divert",
                         "--rename", ALSA_PULSE_CONFIG_FILE.toString());
             }
-        } else {
-            if (!noPulseAudioCheckbox.isSelected()) {
-                // restore original alsa pulse config file
-                processExecutor.executeProcess("dpkg-divert", "--remove",
-                        "--rename", ALSA_PULSE_CONFIG_FILE.toString());
-            }
+        } else if (!noPulseAudioCheckbox.isSelected()) {
+            // restore original alsa pulse config file
+            processExecutor.executeProcess("dpkg-divert", "--remove",
+                    "--rename", ALSA_PULSE_CONFIG_FILE.toString());
         }
 
         // show "done" message
@@ -2920,17 +2916,17 @@ public class Welcome extends javax.swing.JFrame {
         Partition.Action<Void> updateBootloaderAction
                 = new Partition.Action<Void>() {
 
-                    @Override
-                    public Void execute(File mountPath) {
-                        try {
-                            updateBootloaders(mountPath, timeout,
-                                    systemName, systemVersion);
-                        } catch (DBusException ex) {
-                            LOGGER.log(Level.SEVERE, "", ex);
-                        }
-                        return null;
-                    }
-                };
+            @Override
+            public Void execute(File mountPath) {
+                try {
+                    updateBootloaders(mountPath, timeout,
+                            systemName, systemVersion);
+                } catch (DBusException ex) {
+                    LOGGER.log(Level.SEVERE, "", ex);
+                }
+                return null;
+            }
+        };
 
         if (efiPartition == null) {
             // legacy system without separate boot partition
@@ -3246,10 +3242,8 @@ public class Welcome extends javax.swing.JFrame {
                 if (!checkIPv4Address(target, index)) {
                     return false;
                 }
-            } else {
-                if (!checkHostName(target, index)) {
-                    return false;
-                }
+            } else if (!checkHostName(target, index)) {
+                return false;
             }
             return true;
         }
@@ -3460,7 +3454,7 @@ public class Welcome extends javax.swing.JFrame {
         // update packaging information
         ProgressDialog updateDialog = new ProgressDialog(this,
                 new ImageIcon(getClass().getResource(
-                                "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
+                        "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
         updateDialog.setProgressBarVisible(false);
         updateDialog.setTitle(null);
         PackageListUpdater packageListUpdater
@@ -3544,20 +3538,20 @@ public class Welcome extends javax.swing.JFrame {
 
             final ProgressDialog progressDialog = new ProgressDialog(this,
                     new ImageIcon(getClass().getResource(
-                                    "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
+                            "/ch/fhnw/lernstickwelcome/icons/download_anim.gif")));
 
             Installer installer
                     = new Installer(progressDialog, numberOfPackages);
             installer.addPropertyChangeListener(
                     new PropertyChangeListener() {
-                        @Override
-                        public void propertyChange(PropertyChangeEvent evt) {
-                            if ("progress".equals(evt.getPropertyName())) {
-                                Integer progress = (Integer) evt.getNewValue();
-                                progressDialog.setProgress(progress);
-                            }
-                        }
-                    });
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("progress".equals(evt.getPropertyName())) {
+                        Integer progress = (Integer) evt.getNewValue();
+                        progressDialog.setProgress(progress);
+                    }
+                }
+            });
             installer.execute();
             progressDialog.setVisible(true);
 
@@ -3788,7 +3782,7 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(netbeansPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
                     "lernstick-netbeans", "lernstick-visualvm",
-                    "openjdk-8-source", "openjdk-8-doc",
+                    "openjdk-8-source", "openjdk-8-doc", "scenebuilder",
                     "openjfx", "openjfx-source", "libopenjfx-java-doc");
             installApplication(processingPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
