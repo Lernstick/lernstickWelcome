@@ -1,3 +1,9 @@
+lernstickwelcome (201602131459-1) lernstick-8; urgency=medium
+
+  * [887a93] install openjfx along netbeans
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 13 Feb 2016 14:59:54 +0100
+
 lernstickwelcome (201602131407-1) lernstick-8; urgency=medium
 
   * [7d3b70] use newer lernstick-netbeans package, code cleanups
