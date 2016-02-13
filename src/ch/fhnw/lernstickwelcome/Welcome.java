@@ -135,8 +135,8 @@ public class Welcome extends javax.swing.JFrame {
     private StorageDevice systemStorageDevice;
     private Partition exchangePartition;
     private String exchangePartitionLabel;
-    private Partition bootPartition;
-    private MountInfo bootMountInfo;
+    private Partition efiPartition;
+    private MountInfo efiMountInfo;
     private String aptGetOutput;
     private IPTableModel ipTableModel;
     private MainMenuListEntry firewallEntry;
@@ -283,15 +283,15 @@ public class Welcome extends javax.swing.JFrame {
             systemStorageDevice = StorageTools.getSystemStorageDevice();
             if (systemStorageDevice != null) {
                 exchangePartition = systemStorageDevice.getExchangePartition();
-                bootPartition = systemStorageDevice.getBootPartition();
-                if (bootPartition != null) {
-                    bootMountInfo = bootPartition.mount();
+                efiPartition = systemStorageDevice.getEfiPartition();
+                if (efiPartition != null) {
+                    efiMountInfo = efiPartition.mount();
                 }
             }
             LOGGER.log(Level.INFO, "\nsystemStorageDevice: {0}\n"
                     + "exchangePartition: {1}\nbootPartition: {2}",
                     new Object[]{
-                        systemStorageDevice, exchangePartition, bootPartition});
+                        systemStorageDevice, exchangePartition, efiPartition});
         } catch (DBusException | IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
@@ -2052,9 +2052,9 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if ((bootMountInfo != null) && (!bootMountInfo.alreadyMounted())) {
+        if ((efiMountInfo != null) && (!efiMountInfo.alreadyMounted())) {
             try {
-                bootPartition.umount();
+                efiPartition.umount();
             } catch (DBusException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -2518,7 +2518,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private File getXmlBootConfigFile() throws DBusException {
 
-        if (bootPartition == null) {
+        if (efiPartition == null) {
             // legacy system
             File configFile = getXmlBootConfigFile(new File(IMAGE_DIRECTORY));
             if (configFile != null) {
@@ -2526,7 +2526,7 @@ public class Welcome extends javax.swing.JFrame {
             }
         } else {
             // system with a separate boot partition
-            File configFile = bootPartition.executeMounted(
+            File configFile = efiPartition.executeMounted(
                     new Partition.Action<File>() {
 
                         @Override
@@ -2607,13 +2607,13 @@ public class Welcome extends javax.swing.JFrame {
 
         // use syslinux configuration as reference for the timeout setting
         List<File> syslinuxConfigFiles;
-        if (bootPartition == null) {
+        if (efiPartition == null) {
             // legacy system
             syslinuxConfigFiles = getSyslinuxConfigFiles(
                     new File(IMAGE_DIRECTORY));
         } else {
             // system with a separate boot partition
-            syslinuxConfigFiles = bootPartition.executeMounted(
+            syslinuxConfigFiles = efiPartition.executeMounted(
                     new Partition.Action<List<File>>() {
                         @Override
                         public List<File> execute(File mountPath) {
@@ -2932,7 +2932,7 @@ public class Welcome extends javax.swing.JFrame {
                     }
                 };
 
-        if (bootPartition == null) {
+        if (efiPartition == null) {
             // legacy system without separate boot partition
 
             // make image temporarily writable
@@ -2947,7 +2947,7 @@ public class Welcome extends javax.swing.JFrame {
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         } else {
             // system with a separate boot partition
-            bootPartition.executeMounted(updateBootloaderAction);
+            efiPartition.executeMounted(updateBootloaderAction);
         }
         if (exchangePartition != null) {
             exchangePartition.executeMounted(updateBootloaderAction);
@@ -3599,7 +3599,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(omnituxPanel, "omnitux");
         checkAppInstall(stellariumPanel, "lernstick-stellarium");
         checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
-        checkAppInstall(netbeansPanel, "lernstick-netbeans-wheezy");
+        checkAppInstall(netbeansPanel, "lernstick-netbeans");
         checkAppInstall(processingPanel, "processing");
         checkAppInstall(rStudioPanel, "rstudio");
         checkAppInstall(lazarusPanel, "lazarus");
@@ -3787,8 +3787,8 @@ public class Welcome extends javax.swing.JFrame {
                     "lernstick-tuxpaint");
             installApplication(netbeansPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
-                    "lernstick-netbeans-wheezy", "lernstick-visualvm",
-                    "openjdk-7-source", "openjdk-7-doc");
+                    "lernstick-netbeans", "lernstick-visualvm",
+                    "openjdk-8-source", "openjdk-8-doc");
             installApplication(processingPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
                     "processing");
