@@ -1,3 +1,9 @@
+lernstickwelcome (201602131526-1) UNRELEASED; urgency=medium
+
+  * [800fcf] install lernstick-scenebuilder to fix scenebuilder desktop file
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 13 Feb 2016 15:26:03 +0100
+
 lernstickwelcome (201602131510-1) lernstick-8; urgency=medium
 
   * [8e5ec4] code cleanup, install scenebuilder with netbeans
