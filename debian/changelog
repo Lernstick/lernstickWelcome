@@ -1,3 +1,9 @@
+lernstickwelcome (201602131407-1) lernstick-8; urgency=medium
+
+  * [7d3b70] use newer lernstick-netbeans package, code cleanups
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 13 Feb 2016 14:07:48 +0100
+
 lernstickwelcome (201511221826-1) lernstick-8; urgency=medium
 
   * [c563a2] fixed package list for rstudio
