@@ -3788,7 +3788,8 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(netbeansPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
                     "lernstick-netbeans", "lernstick-visualvm",
-                    "openjdk-8-source", "openjdk-8-doc");
+                    "openjdk-8-source", "openjdk-8-doc",
+                    "openjfx", "openjfx-source", "libopenjfx-java-doc");
             installApplication(processingPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
                     "processing");
