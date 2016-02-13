@@ -3493,7 +3493,8 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
         numberOfPackages += stellariumPanel.isSelected() ? 1 : 0;
         numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
-        numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
+        // netbeans has two installation rounds...
+        numberOfPackages += netbeansPanel.isSelected() ? 2 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
         numberOfPackages += rStudioPanel.isSelected() ? 1 : 0;
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
@@ -3779,12 +3780,22 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(tuxPaintPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
                     "lernstick-tuxpaint");
-            installApplication(netbeansPanel,
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
+            String netBeansIconPath
+                    = "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png";
+            installApplication(netbeansPanel, netBeansIconPath,
                     "lernstick-netbeans", "lernstick-visualvm",
-                    "lernstick-scenebuilder",
-                    "openjdk-8-source", "openjdk-8-doc",
+                    "openjdk-8-source", "openjdk-8-doc", "scenebuilder",
                     "openjfx", "openjfx-source", "libopenjfx-java-doc");
+            // special handling for lernstick-scenebuilder
+            // (enforce installation after scenebuilder because desktop file
+            // is installed via postinst script)
+            if (netbeansPanel.isSelected()) {
+                String infoString = MessageFormat.format(
+                        BUNDLE.getString("Installing"),
+                        netbeansPanel.getGameName());
+                installPackage(infoString, netBeansIconPath,
+                        "lernstick-scenebuilder");
+            }
             installApplication(processingPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
                     "processing");
