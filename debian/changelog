@@ -1,3 +1,9 @@
+lernstickwelcome (201602131554-1) lernstick-8; urgency=medium
+
+  * [11208f] added special handling for lernstick-scenebuilder
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 13 Feb 2016 15:54:53 +0100
+
 lernstickwelcome (201602131526-1) lernstick-8; urgency=medium
 
   * [800fcf] install lernstick-scenebuilder to fix scenebuilder desktop file
