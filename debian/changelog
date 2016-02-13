@@ -1,3 +1,9 @@
+lernstickwelcome (201602131510-1) lernstick-8; urgency=medium
+
+  * [8e5ec4] code cleanup, install scenebuilder with netbeans
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 13 Feb 2016 15:10:05 +0100
+
 lernstickwelcome (201602131459-1) lernstick-8; urgency=medium
 
   * [887a93] install openjfx along netbeans
