@@ -1,3 +1,9 @@
+lernstickwelcome (201602141528-1) lernstick-8; urgency=medium
+
+  * [54c045] updated netbeans support, added ufoai
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 14 Feb 2016 15:28:30 +0100
+
 lernstickwelcome (201602131554-1) lernstick-8; urgency=medium
 
   * [11208f] added special handling for lernstick-scenebuilder
