@@ -572,6 +572,7 @@ public class Welcome extends javax.swing.JFrame {
         flareGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         hedgewarsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         megaglestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        ufoaiGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         astromenaceGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         proxyPanel = new javax.swing.JPanel();
         proxyCheckBox = new javax.swing.JCheckBox();
@@ -1516,6 +1517,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(megaglestGamePanel, gridBagConstraints);
+
+        ufoaiGamePanel.setDescription(bundle.getString("Welcome.ufoaiGamePanel.description")); // NOI18N
+        ufoaiGamePanel.setGameName("UFO: Alien Invasion"); // NOI18N
+        ufoaiGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/ufoai.png"))); // NOI18N
+        ufoaiGamePanel.setWebsite("http://ufoai.org/wiki/About"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gamesScrollPanel.add(ufoaiGamePanel, gridBagConstraints);
 
         astromenaceGamePanel.setDescription(bundle.getString("Welcome.astromenaceGamePanel.description")); // NOI18N
         astromenaceGamePanel.setGameName("Astromenace"); // NOI18N
@@ -3493,8 +3504,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
         numberOfPackages += stellariumPanel.isSelected() ? 1 : 0;
         numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
-        // netbeans has two installation rounds...
-        numberOfPackages += netbeansPanel.isSelected() ? 2 : 0;
+        numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
         numberOfPackages += rStudioPanel.isSelected() ? 1 : 0;
         numberOfPackages += lazarusPanel.isSelected() ? 1 : 0;
@@ -3529,6 +3539,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += flareGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += hedgewarsGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += megaglestGamePanel.isSelected() ? 1 : 0;
+        numberOfPackages += ufoaiGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += astromenaceGamePanel.isSelected() ? 1 : 0;
 
         LOGGER.log(Level.INFO, "number of packages = {0}", numberOfPackages);
@@ -3629,6 +3640,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(flareGamePanel, "flare-game");
         checkAppInstall(hedgewarsGamePanel, "hedgewars");
         checkAppInstall(megaglestGamePanel, "megaglest");
+        checkAppInstall(ufoaiGamePanel, "ufoai");
         checkAppInstall(astromenaceGamePanel, "lernstick-astromenace");
     }
 
@@ -3780,22 +3792,12 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(tuxPaintPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
                     "lernstick-tuxpaint");
-            String netBeansIconPath
-                    = "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png";
-            installApplication(netbeansPanel, netBeansIconPath,
+            installApplication(netbeansPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/netbeans.png",
                     "lernstick-netbeans", "lernstick-visualvm",
-                    "openjdk-8-source", "openjdk-8-doc", "scenebuilder",
+                    "lernstick-scenebuilder", "scenebuilder",
+                    "openjdk-8-source", "openjdk-8-doc",
                     "openjfx", "openjfx-source", "libopenjfx-java-doc");
-            // special handling for lernstick-scenebuilder
-            // (enforce installation after scenebuilder because desktop file
-            // is installed via postinst script)
-            if (netbeansPanel.isSelected()) {
-                String infoString = MessageFormat.format(
-                        BUNDLE.getString("Installing"),
-                        netbeansPanel.getGameName());
-                installPackage(infoString, netBeansIconPath,
-                        "lernstick-scenebuilder");
-            }
             installApplication(processingPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/processing.png",
                     "processing");
@@ -3908,6 +3910,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(megaglestGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/megaglest.png",
                     "megaglest");
+            installApplication(ufoaiGamePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/ufoai.png",
+                    "ufoai", "ufoai-music");
             installApplication(astromenaceGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/astromenace.png",
                     "lernstick-astromenace");
@@ -4296,6 +4301,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane teachingScrollPane;
     private ch.fhnw.lernstickwelcome.GamePanel triggerGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel tuxPaintPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel ufoaiGamePanel;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JCheckBox virtualBoxCheckBox;
