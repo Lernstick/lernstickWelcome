@@ -96,7 +96,7 @@ public class Welcome extends javax.swing.JFrame {
     private static final String URL_WHITELIST_FILENAME
             = "/etc/lernstick-firewall/url_whitelist";
     // !!! processExecutor must be instanciated before the next constants !!!
-    private static final ProcessExecutor processExecutor
+    private static final ProcessExecutor PROCESS_EXECUTOR
             = new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
     // mapping of checkboxes to package collections
@@ -135,8 +135,8 @@ public class Welcome extends javax.swing.JFrame {
     private StorageDevice systemStorageDevice;
     private Partition exchangePartition;
     private String exchangePartitionLabel;
-    private Partition efiPartition;
-    private MountInfo efiMountInfo;
+    private Partition bootConfigPartition;
+    private MountInfo bootConfigMountInfo;
     private String aptGetOutput;
     private IPTableModel ipTableModel;
     private MainMenuListEntry firewallEntry;
@@ -283,15 +283,26 @@ public class Welcome extends javax.swing.JFrame {
             systemStorageDevice = StorageTools.getSystemStorageDevice();
             if (systemStorageDevice != null) {
                 exchangePartition = systemStorageDevice.getExchangePartition();
-                efiPartition = systemStorageDevice.getEfiPartition();
-                if (efiPartition != null) {
-                    efiMountInfo = efiPartition.mount();
+
+                Partition efiPartition = systemStorageDevice.getEfiPartition();
+                if (efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
+                    // current partitioning scheme, the boot config is on the
+                    // *system* partition!
+                    bootConfigPartition
+                            = systemStorageDevice.getSystemPartition();
+                } else {
+                    // pre 2016-02 partitioning scheme with boot config files on
+                    // boot partition
+                    bootConfigPartition = efiPartition;
+                }
+                if (bootConfigPartition != null) {
+                    bootConfigMountInfo = bootConfigPartition.mount();
                 }
             }
             LOGGER.log(Level.INFO, "\nsystemStorageDevice: {0}\n"
-                    + "exchangePartition: {1}\nbootPartition: {2}",
-                    new Object[]{
-                        systemStorageDevice, exchangePartition, efiPartition});
+                    + "exchangePartition: {1}\nbootConfigPartition: {2}",
+                    new Object[]{systemStorageDevice,
+                        exchangePartition, bootConfigPartition});
         } catch (DBusException | IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
@@ -2063,9 +2074,10 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if ((efiMountInfo != null) && (!efiMountInfo.alreadyMounted())) {
+        if ((bootConfigMountInfo != null)
+                && (!bootConfigMountInfo.alreadyMounted())) {
             try {
-                efiPartition.umount();
+                bootConfigPartition.umount();
             } catch (DBusException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -2251,7 +2263,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void toggleFirewallState() {
         String action = firewallRunning ? "stop" : "start";
-        int ret = processExecutor.executeProcess(
+        int ret = PROCESS_EXECUTOR.executeProcess(
                 true, true, "lernstick-firewall", action);
 
         if (ret == 0) {
@@ -2264,8 +2276,8 @@ public class Welcome extends javax.swing.JFrame {
                     + "stdout: '{1}', stderr: '{2}'",
                     new Object[]{
                         ret,
-                        processExecutor.getStdOut(),
-                        processExecutor.getStdErr()
+                        PROCESS_EXECUTOR.getStdOut(),
+                        PROCESS_EXECUTOR.getStdErr()
                     });
             String messageId = firewallRunning
                     ? "Stop_firewall_error"
@@ -2279,7 +2291,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void updateFirewallState() {
         // check firewall state
-        int ret = processExecutor.executeProcess("lernstick-firewall", "status");
+        int ret = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status");
         firewallRunning = ret == 0;
 
         // update button icon
@@ -2308,8 +2320,8 @@ public class Welcome extends javax.swing.JFrame {
         AbstractDocument userNameDocument
                 = (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        processExecutor.executeProcess(true, true, "getent", "passwd", "user");
-        List<String> stdOut = processExecutor.getStdOutList();
+        PROCESS_EXECUTOR.executeProcess(true, true, "getent", "passwd", "user");
+        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         if (stdOut.isEmpty()) {
             LOGGER.warning("getent returned no result!");
             fullName = null;
@@ -2505,10 +2517,10 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private static boolean isImageWritable() {
-        processExecutor.executeProcess(
+        PROCESS_EXECUTOR.executeProcess(
                 "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
         String testPath = IMAGE_DIRECTORY + "/lernstickWelcome.tmp";
-        processExecutor.executeProcess("touch", testPath);
+        PROCESS_EXECUTOR.executeProcess("touch", testPath);
         File testFile = new File(testPath);
         try {
             if (testFile.exists()) {
@@ -2519,15 +2531,15 @@ public class Welcome extends javax.swing.JFrame {
                 return false;
             }
         } finally {
-            processExecutor.executeProcess("rm", testPath);
-            processExecutor.executeProcess(
+            PROCESS_EXECUTOR.executeProcess("rm", testPath);
+            PROCESS_EXECUTOR.executeProcess(
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         }
     }
 
     private File getXmlBootConfigFile() throws DBusException {
 
-        if (efiPartition == null) {
+        if (bootConfigPartition == null) {
             // legacy system
             File configFile = getXmlBootConfigFile(new File(IMAGE_DIRECTORY));
             if (configFile != null) {
@@ -2535,7 +2547,7 @@ public class Welcome extends javax.swing.JFrame {
             }
         } else {
             // system with a separate boot partition
-            File configFile = efiPartition.executeMounted(
+            File configFile = bootConfigPartition.executeMounted(
                     new Partition.Action<File>() {
 
                 @Override
@@ -2609,6 +2621,17 @@ public class Welcome extends javax.swing.JFrame {
             }
         }
 
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0, size = configFiles.size(); i < size; i++) {
+            stringBuilder.append(configFiles.get(i));
+            if (i < size - 1) {
+                stringBuilder.append('\n');
+            }
+        }
+
+        LOGGER.log(Level.INFO, "syslinux config files: \n{0}",
+                stringBuilder.toString());
+
         return configFiles;
     }
 
@@ -2616,13 +2639,13 @@ public class Welcome extends javax.swing.JFrame {
 
         // use syslinux configuration as reference for the timeout setting
         List<File> syslinuxConfigFiles;
-        if (efiPartition == null) {
+        if (bootConfigPartition == null) {
             // legacy system
             syslinuxConfigFiles = getSyslinuxConfigFiles(
                     new File(IMAGE_DIRECTORY));
         } else {
             // system with a separate boot partition
-            syslinuxConfigFiles = efiPartition.executeMounted(
+            syslinuxConfigFiles = bootConfigPartition.executeMounted(
                     new Partition.Action<List<File>>() {
                 @Override
                 public List<File> execute(File mountPath) {
@@ -2684,7 +2707,7 @@ public class Welcome extends javax.swing.JFrame {
             Thread browserThread = new Thread() {
                 @Override
                 public void run() {
-                    processExecutor.executeProcess(new String[]{
+                    PROCESS_EXECUTOR.executeProcess(new String[]{
                         "iceweasel", finalEvent.getURL().toString()});
                 }
             };
@@ -2789,7 +2812,7 @@ public class Welcome extends javax.swing.JFrame {
         if (!newFullName.equals(fullName)) {
             LOGGER.log(Level.INFO,
                     "updating full user name to \"{0}\"", newFullName);
-            processExecutor.executeProcess("chfn", "-f", newFullName, "user");
+            PROCESS_EXECUTOR.executeProcess("chfn", "-f", newFullName, "user");
         }
 
         // update exchange partition label
@@ -2826,7 +2849,7 @@ public class Welcome extends javax.swing.JFrame {
                 if (tmpUmount) {
                     exchangePartition.umount();
                 }
-                processExecutor.executeProcess(binary,
+                PROCESS_EXECUTOR.executeProcess(binary,
                         "/dev/" + exchangePartition.getDeviceAndNumber(),
                         newExchangePartitionLabel);
                 if (tmpUmount) {
@@ -2895,12 +2918,12 @@ public class Welcome extends javax.swing.JFrame {
         if (Files.exists(ALSA_PULSE_CONFIG_FILE)) {
             if (noPulseAudioCheckbox.isSelected()) {
                 // divert alsa pulse config file
-                processExecutor.executeProcess("dpkg-divert",
+                PROCESS_EXECUTOR.executeProcess("dpkg-divert",
                         "--rename", ALSA_PULSE_CONFIG_FILE.toString());
             }
         } else if (!noPulseAudioCheckbox.isSelected()) {
             // restore original alsa pulse config file
-            processExecutor.executeProcess("dpkg-divert", "--remove",
+            PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--remove",
                     "--rename", ALSA_PULSE_CONFIG_FILE.toString());
         }
 
@@ -2939,22 +2962,26 @@ public class Welcome extends javax.swing.JFrame {
             }
         };
 
-        if (efiPartition == null) {
-            // legacy system without separate boot partition
+        if (bootConfigPartition == null
+                || systemStorageDevice.getEfiPartition().getIdLabel().equals(
+                        Partition.EFI_LABEL)) {
+            // legacy system without separate boot partition or
+            // post 2016-02 partition schema where the boot config files are
+            // located again on the system partition
 
             // make image temporarily writable
-            processExecutor.executeProcess(
+            PROCESS_EXECUTOR.executeProcess(
                     "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
 
             updateBootloaders(new File(IMAGE_DIRECTORY),
                     timeout, systemName, systemVersion);
 
             // remount image read-only
-            processExecutor.executeProcess(
+            PROCESS_EXECUTOR.executeProcess(
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         } else {
             // system with a separate boot partition
-            efiPartition.executeMounted(updateBootloaderAction);
+            bootConfigPartition.executeMounted(updateBootloaderAction);
         }
         if (exchangePartition != null) {
             exchangePartition.executeMounted(updateBootloaderAction);
@@ -2966,7 +2993,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // syslinux
         for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
-            processExecutor.executeProcess("sed", "-i", "-e",
+            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|timeout .*|timeout " + (timeout * 10) + "|1",
                     syslinuxConfigFile.getPath());
         }
@@ -2998,14 +3025,14 @@ public class Welcome extends javax.swing.JFrame {
                 DOMSource source = new DOMSource(xmlBootDocument);
                 StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
-                processExecutor.executeProcess("mv", tmpFile.getPath(),
+                PROCESS_EXECUTOR.executeProcess("mv", tmpFile.getPath(),
                         xmlBootConfigFile.getPath());
 
                 // rebuild bootlogo so that the changes are visible right after
                 // reboot
                 File bootlogoDir = xmlBootConfigFile.getParentFile();
                 File syslinuxDir = bootlogoDir.getParentFile();
-                processExecutor.executeProcess("gfxboot",
+                PROCESS_EXECUTOR.executeProcess("gfxboot",
                         "--archive", bootlogoDir.getPath(),
                         "--pack-archive", syslinuxDir.getPath() + "/bootlogo");
             } catch (ParserConfigurationException | SAXException | IOException |
@@ -3017,14 +3044,14 @@ public class Welcome extends javax.swing.JFrame {
         // grub
         String grubMainConfigFilePath = directory + "/boot/grub/grub_main.cfg";
         if (new File(grubMainConfigFilePath).exists()) {
-            processExecutor.executeProcess("sed", "-i", "-e",
+            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|set timeout=.*|set timeout=" + timeout + "|1",
                     grubMainConfigFilePath);
         }
         String grubThemeFilePath
                 = directory + "/boot/grub/themes/lernstick/theme.txt";
         if (new File(grubThemeFilePath).exists()) {
-            processExecutor.executeProcess("sed", "-i", "-e",
+            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|num_ticks = .*|num_ticks = " + timeout + "|1;"
                     + "s|title-text: .*|title-text: \""
                     + systemName + ' ' + systemVersion + "\"|1",
@@ -3067,7 +3094,7 @@ public class Welcome extends javax.swing.JFrame {
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
-        processExecutor.executeProcess(
+        PROCESS_EXECUTOR.executeProcess(
                 "/etc/init.d/lernstick-firewall", "reload");
     }
 
@@ -3101,7 +3128,7 @@ public class Welcome extends javax.swing.JFrame {
 
             String[] files = dirFile.list();
             if ((files != null) && (files.length != 0)) {
-                int returnValue = processExecutor.executeProcess(
+                int returnValue = PROCESS_EXECUTOR.executeProcess(
                         "rdiff-backup", "-l", dirFile.getAbsolutePath());
                 if (returnValue != 0) {
                     String errorMessage = BUNDLE.getString(
@@ -3116,8 +3143,8 @@ public class Welcome extends javax.swing.JFrame {
 
         // determine device where the directory is located
         // (df takes care for symlinks etc.)
-        processExecutor.executeProcess(true, true, "df", backupDirectory);
-        List<String> stdOut = processExecutor.getStdOutList();
+        PROCESS_EXECUTOR.executeProcess(true, true, "df", backupDirectory);
+        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         String device = null;
         for (String line : stdOut) {
             if (line.startsWith("/dev/")) {
@@ -3389,9 +3416,9 @@ public class Welcome extends javax.swing.JFrame {
                 DOMSource source = new DOMSource(xmlBootDocument);
                 StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
-                processExecutor.executeProcess(
+                PROCESS_EXECUTOR.executeProcess(
                         "mv", tmpFile.getPath(), prefsFilePath);
-                processExecutor.executeProcess(
+                PROCESS_EXECUTOR.executeProcess(
                         "chown", "user.user", prefsFilePath);
 
             } catch (ParserConfigurationException | SAXException |
@@ -3422,7 +3449,7 @@ public class Welcome extends javax.swing.JFrame {
                 LOGGER.log(Level.WARNING, "", ex);
             }
             if (chown) {
-                processExecutor.executeProcess(
+                PROCESS_EXECUTOR.executeProcess(
                         "chown", "-R", "user.user", "/home/user/.java/");
             }
         }
@@ -3453,10 +3480,10 @@ public class Welcome extends javax.swing.JFrame {
                 + "mykill update-notifier";
 
         try {
-            int exitValue = processExecutor.executeScript(script);
+            int exitValue = PROCESS_EXECUTOR.executeScript(script);
             if (exitValue != 0) {
                 LOGGER.log(Level.WARNING, "Could not kill update-notifier: {0}",
-                        processExecutor.getOutput());
+                        PROCESS_EXECUTOR.getOutput());
             }
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -3571,7 +3598,7 @@ public class Welcome extends javax.swing.JFrame {
                 // After installing samba we have to add the user to the
                 // group "sambashare". Otherwise the user can't use the
                 // filesharing feature in nautilus or KDE.
-                processExecutor.executeProcess(
+                PROCESS_EXECUTOR.executeProcess(
                         "usermod", "-aG", "sambashare", "user");
             }
             checkAllPackages();
@@ -3665,8 +3692,8 @@ public class Welcome extends javax.swing.JFrame {
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
         System.arraycopy(packages, 0, commandArray, 2, length);
-        processExecutor.executeProcess(true, true, commandArray);
-        List<String> stdOut = processExecutor.getStdOutList();
+        PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
+        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         for (String packageName : packages) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
             Pattern pattern = Pattern.compile("^ii  " + packageName + ".*");
@@ -3719,10 +3746,10 @@ public class Welcome extends javax.swing.JFrame {
 
             String updateScript = "cd " + USER_HOME + '\n'
                     + "apt-get" + getAptGetProxyLine() + "update";
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, updateScript);
             if (exitValue != 0) {
-                aptGetOutput = processExecutor.getOutput();
+                aptGetOutput = PROCESS_EXECUTOR.getOutput();
                 String logMessage = "apt-get failed with the following "
                         + "output:\n" + aptGetOutput;
                 LOGGER.severe(logMessage);
@@ -3949,12 +3976,12 @@ public class Welcome extends javax.swing.JFrame {
                     + fileName + '\n'
                     + "dpkg -i " + fileName + '\n'
                     + "rm " + fileName;
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, adobeReaderInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of Adobe Reader failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -3978,12 +4005,12 @@ public class Welcome extends javax.swing.JFrame {
                     + "dpkg -i skype-install.deb\n"
                     + "apt-get -f install\n"
                     + "rm skype-install.deb";
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, skypeInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of Skype failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -4018,12 +4045,12 @@ public class Welcome extends javax.swing.JFrame {
                     + "http://dl.google.com/dl/earth/client/current/" + debName + '\n'
                     + "dpkg -i " + debName + '\n'
                     + "rm " + debName;
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, googleEarthInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of GoogleEarth failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -4045,12 +4072,12 @@ public class Welcome extends javax.swing.JFrame {
                     + "https://dl.google.com/linux/direct/" + debName + '\n'
                     + "dpkg -i " + debName + '\n'
                     + "rm " + debName;
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, googleEarthInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of Google Chrome failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -4113,13 +4140,13 @@ public class Welcome extends javax.swing.JFrame {
 //            processExecutor.setEnvironment(environment);
             int exitValue = -1;
             try {
-                exitValue = processExecutor.executeScript(true, true, script);
+                exitValue = PROCESS_EXECUTOR.executeScript(true, true, script);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "", ex);
             } finally {
                 if (exitValue != 0) {
                     String errorMessage = "apt-get failed with the following "
-                            + "output:\n" + processExecutor.getOutput();
+                            + "output:\n" + PROCESS_EXECUTOR.getOutput();
                     LOGGER.severe(errorMessage);
                     showErrorMessage(errorMessage);
                 }
