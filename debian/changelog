@@ -1,3 +1,9 @@
+lernstickwelcome (201602211750-1) lernstick-8; urgency=medium
+
+  * [840b55] added support for current partitioning layout
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 21 Feb 2016 17:50:00 +0100
+
 lernstickwelcome (201602141528-1) lernstick-8; urgency=medium
 
   * [54c045] updated netbeans support, added ufoai
