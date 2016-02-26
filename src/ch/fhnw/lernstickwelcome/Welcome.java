@@ -285,7 +285,8 @@ public class Welcome extends javax.swing.JFrame {
                 exchangePartition = systemStorageDevice.getExchangePartition();
 
                 Partition efiPartition = systemStorageDevice.getEfiPartition();
-                if (efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
+                if (efiPartition != null
+                        && efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
                     // current partitioning scheme, the boot config is on the
                     // *system* partition!
                     bootConfigPartition
