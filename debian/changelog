@@ -1,3 +1,9 @@
+lernstickwelcome (201602261915-1) lernstick-8; urgency=medium
+
+  * [046be7] fixed NPE
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 26 Feb 2016 19:15:54 +0100
+
 lernstickwelcome (201602211750-1) lernstick-8; urgency=medium
 
   * [840b55] added support for current partitioning layout
