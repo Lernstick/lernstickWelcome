@@ -3693,7 +3693,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(gespeakerPanel, "gespeaker");
         checkAppInstall(gnucashPanel, "gnucash");
         checkAppInstall(rosegardenPanel, "rosegarden");
-        checkAppInstall(rosegardenPanel, "hydrogen");
+        checkAppInstall(hydrogenPanel, "hydrogen");
         checkAppInstall(webweaverdesktopPanel, "webweaverdesktop");
         checkAppInstall(wizbeePanel, "wizbee");
         checkAppInstall(calcularisPanel, "calcularis-de");
