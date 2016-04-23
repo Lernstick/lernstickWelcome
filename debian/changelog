@@ -1,6 +1,12 @@
+lernstickwelcome (201604231432-1) UNRELEASED; urgency=medium
+
+  * [390656] fixed install check for hydrogen
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 23 Apr 2016 14:32:37 +0200
+
 lernstickwelcome (201604231408-1) lernstick-8; urgency=medium
 
-  * [01d50d] added gcompris, kstars, etoys, wxMaxima, rosegarden and hydrogen
+  * [01d50d] added gcompris, kstars, etoys, wxMaxima and hydrogen
     removed support for samba (already installed)
     switched from iceweasel to firefox
 
