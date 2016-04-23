@@ -546,10 +546,15 @@ public class Welcome extends javax.swing.JFrame {
         additionalTabbedPane = new javax.swing.JTabbedPane();
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalScrollPanel = new ScrollableJPanel();
+        gcomprisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         omnituxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        kstarsPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        etoysPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        wxMaximaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        hydrogenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lyxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -560,7 +565,6 @@ public class Welcome extends javax.swing.JFrame {
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rStudioPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        sambaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         webweaverdesktopPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1148,6 +1152,17 @@ public class Welcome extends javax.swing.JFrame {
 
         additionalScrollPanel.setLayout(new java.awt.GridBagLayout());
 
+        gcomprisPanel.setDescription(bundle.getString("Welcome.gcomprisPanel.description")); // NOI18N
+        gcomprisPanel.setGameName("GCompris"); // NOI18N
+        gcomprisPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gcompris.png"))); // NOI18N
+        gcomprisPanel.setWebsite(bundle.getString("Welcome.gcomprisPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(gcomprisPanel, gridBagConstraints);
+
         omnituxPanel.setDescription(bundle.getString("Welcome.omnituxPanel.description")); // NOI18N
         omnituxPanel.setGameName("Omnitux"); // NOI18N
         omnituxPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/omnitux.png"))); // NOI18N
@@ -1158,17 +1173,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(omnituxPanel, gridBagConstraints);
-
-        stellariumPanel.setDescription(bundle.getString("Welcome.stellariumPanel.description")); // NOI18N
-        stellariumPanel.setGameName("Stellarium"); // NOI18N
-        stellariumPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/stellarium.png"))); // NOI18N
-        stellariumPanel.setWebsite(bundle.getString("Welcome.stellariumPanel.website")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(stellariumPanel, gridBagConstraints);
 
         tuxPaintPanel.setDescription(bundle.getString("Welcome.tuxPaintPanel.description")); // NOI18N
         tuxPaintPanel.setGameName("Tux Paint"); // NOI18N
@@ -1181,6 +1185,50 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(tuxPaintPanel, gridBagConstraints);
 
+        stellariumPanel.setDescription(bundle.getString("Welcome.stellariumPanel.description")); // NOI18N
+        stellariumPanel.setGameName("Stellarium"); // NOI18N
+        stellariumPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/stellarium.png"))); // NOI18N
+        stellariumPanel.setWebsite(bundle.getString("Welcome.stellariumPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(stellariumPanel, gridBagConstraints);
+
+        kstarsPanel.setDescription(bundle.getString("Welcome.kstarsPanel.description")); // NOI18N
+        kstarsPanel.setGameName("KStars"); // NOI18N
+        kstarsPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/kstars.png"))); // NOI18N
+        kstarsPanel.setWebsite("https://edu.kde.org/kstars/"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(kstarsPanel, gridBagConstraints);
+
+        etoysPanel.setDescription(bundle.getString("Welcome.etoysPanel.description")); // NOI18N
+        etoysPanel.setGameName("Etoys"); // NOI18N
+        etoysPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/etoys.png"))); // NOI18N
+        etoysPanel.setWebsite("http://squeakland.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(etoysPanel, gridBagConstraints);
+
+        wxMaximaPanel.setDescription(bundle.getString("Welcome.wxMaximaPanel.description")); // NOI18N
+        wxMaximaPanel.setGameName("wxMaxima"); // NOI18N
+        wxMaximaPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/wxmaxima.png"))); // NOI18N
+        wxMaximaPanel.setWebsite("http://andrejv.github.io/wxmaxima/"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(wxMaximaPanel, gridBagConstraints);
+
         rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
         rosegardenPanel.setGameName("Rosegarden"); // NOI18N
         rosegardenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rosegarden.png"))); // NOI18N
@@ -1190,6 +1238,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(rosegardenPanel, gridBagConstraints);
+
+        hydrogenPanel.setDescription(bundle.getString("Welcome.hydrogenPanel.description")); // NOI18N
+        hydrogenPanel.setGameName("Hydrogen"); // NOI18N
+        hydrogenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/hydrogen.png"))); // NOI18N
+        hydrogenPanel.setWebsite("http://www.hydrogen-music.org/hcms/"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(hydrogenPanel, gridBagConstraints);
 
         sweetHome3DPanel.setDescription(bundle.getString("Welcome.sweetHome3DPanel.description")); // NOI18N
         sweetHome3DPanel.setGameName("Sweet Home 3D"); // NOI18N
@@ -1292,16 +1350,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(lazarusPanel, gridBagConstraints);
-
-        sambaPanel.setDescription(bundle.getString("Welcome.sambaPanel.description")); // NOI18N
-        sambaPanel.setGameName("Samba"); // NOI18N
-        sambaPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/samba.png"))); // NOI18N
-        sambaPanel.setWebsite("https://www.samba.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(sambaPanel, gridBagConstraints);
 
         webweaverdesktopPanel.setDescription(bundle.getString("Welcome.webweaverdesktopPanel.description")); // NOI18N
         webweaverdesktopPanel.setGameName("WebWeaver Desktop"); // NOI18N
@@ -2701,7 +2749,7 @@ public class Welcome extends javax.swing.JFrame {
 //                logger.log(Level.SEVERE, "could not open URL", ex);
 //            }
 
-            // as long as Konqueror sucks so bad, we enforce iceweasel
+            // as long as Konqueror sucks so bad, we enforce firefox
             // (this is a quick and dirty solution, if konqueror starts to be
             // usable, switch back to the code above)
             final HyperlinkEvent finalEvent = evt;
@@ -2709,7 +2757,7 @@ public class Welcome extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     PROCESS_EXECUTOR.executeProcess(new String[]{
-                        "iceweasel", finalEvent.getURL().toString()});
+                        "firefox", finalEvent.getURL().toString()});
                 }
             };
             browserThread.start();
@@ -3529,8 +3577,12 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
 
         // miscellaneous
+        numberOfPackages += gcomprisPanel.isSelected() ? 1 : 0;
         numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
         numberOfPackages += stellariumPanel.isSelected() ? 1 : 0;
+        numberOfPackages += kstarsPanel.isSelected() ? 1 : 0;
+        numberOfPackages += etoysPanel.isSelected() ? 1 : 0;
+        numberOfPackages += wxMaximaPanel.isSelected() ? 1 : 0;
         numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
@@ -3542,8 +3594,8 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += scribusPanel.isSelected() ? 1 : 0;
         numberOfPackages += gespeakerPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
-        numberOfPackages += sambaPanel.isSelected() ? 1 : 0;
         numberOfPackages += rosegardenPanel.isSelected() ? 1 : 0;
+        numberOfPackages += hydrogenPanel.isSelected() ? 1 : 0;
         numberOfPackages += webweaverdesktopPanel.isSelected() ? 1 : 0;
         numberOfPackages += wizbeePanel.isSelected() ? 1 : 0;
         numberOfPackages += calcularisPanel.isSelected() ? 1 : 0;
@@ -3595,13 +3647,6 @@ public class Welcome extends javax.swing.JFrame {
             installer.execute();
             progressDialog.setVisible(true);
 
-            if (sambaPanel.isSelected()) {
-                // After installing samba we have to add the user to the
-                // group "sambashare". Otherwise the user can't use the
-                // filesharing feature in nautilus or KDE.
-                PROCESS_EXECUTOR.executeProcess(
-                        "usermod", "-aG", "sambashare", "user");
-            }
             checkAllPackages();
         }
     }
@@ -3630,8 +3675,12 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.laLabel.text", "lateaching");
 
         // miscellaneous
+        checkAppInstall(gcomprisPanel, "gcompris");
         checkAppInstall(omnituxPanel, "omnitux");
         checkAppInstall(stellariumPanel, "lernstick-stellarium");
+        checkAppInstall(kstarsPanel, "lernstick-kstars");
+        checkAppInstall(etoysPanel, "lernstick-etoys");
+        checkAppInstall(wxMaximaPanel, "lernstick-wxmaxima");
         checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
         checkAppInstall(netbeansPanel, "lernstick-netbeans");
         checkAppInstall(processingPanel, "processing");
@@ -3643,8 +3692,8 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(scribusPanel, "scribus");
         checkAppInstall(gespeakerPanel, "gespeaker");
         checkAppInstall(gnucashPanel, "gnucash");
-        checkAppInstall(sambaPanel, "samba");
         checkAppInstall(rosegardenPanel, "rosegarden");
+        checkAppInstall(rosegardenPanel, "hydrogen");
         checkAppInstall(webweaverdesktopPanel, "webweaverdesktop");
         checkAppInstall(wizbeePanel, "wizbee");
         checkAppInstall(calcularisPanel, "calcularis-de");
@@ -3811,12 +3860,29 @@ public class Welcome extends javax.swing.JFrame {
                     "lateaching");
 
             // miscellaneous
+            installApplication(gcomprisPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/gcompris.png",
+                    "lernstick-gcompris", "gcompris", "gcompris-sound-de",
+                    "gcompris-sound-en", "gcompris-sound-es",
+                    "gcompris-sound-fr", "gcompris-sound-it",
+                    "gcompris-sound-ptbr", "gcompris-sound-ru");
+
             installApplication(omnituxPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/omnitux.png",
                     "omnitux");
             installApplication(stellariumPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/stellarium.png",
                     "lernstick-stellarium");
+            installApplication(kstarsPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/kstars.png",
+                    "lernstick-kstars", "kstars",
+                    "kstars-data", "kstars-data-extra-tycho2");
+            installApplication(etoysPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/etoys.png",
+                    "lernstick-etoys", "lernstick-squeak-vm");
+            installApplication(wxMaximaPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/wxmaxima.png",
+                    "lernstick-wxmaxima");
             installApplication(tuxPaintPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
                     "lernstick-tuxpaint");
@@ -3864,13 +3930,14 @@ public class Welcome extends javax.swing.JFrame {
                     "mbrola-de6", "mbrola-de7", "mbrola-en1", "mbrola-es1",
                     "mbrola-es2", "mbrola-fr1", "mbrola-fr4", "mbrola-it3",
                     "mbrola-it4", "mbrola-us1", "mbrola-us2", "mbrola-us3");
-            installApplication(sambaPanel,
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/samba.png",
-                    "samba", "libpam-smbpass", "nautilus-share");
             installApplication(rosegardenPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/rosegarden.png",
                     "rosegarden", "fluid-soundfont-gm",
                     "fluid-soundfont-gs", "fluidsynth-dssi");
+            installApplication(hydrogenPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/hydrogen.png",
+                    "hydrogen",
+                    "hydrogen-drumkits", "hydrogen-drumkits-effects");
             installApplication(webweaverdesktopPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/webweaverdesktop.png",
                     "webweaverdesktop");
@@ -4210,6 +4277,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private ch.fhnw.lernstickwelcome.GamePanel colobotGamePanel;
     private javax.swing.JPanel dataPartitionPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel etoysPanel;
     private javax.swing.JCheckBox exchangeAccessCheckBox;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
@@ -4237,6 +4305,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel frogattoGamePanel;
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel gcomprisPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gespeakerPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gnucashPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
@@ -4244,6 +4313,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel hedgewarsGamePanel;
     private javax.swing.JScrollPane helpScrollPane;
     private javax.swing.JTextPane helpTextPane;
+    private ch.fhnw.lernstickwelcome.GamePanel hydrogenPanel;
     private javax.swing.JEditorPane infoEditorPane;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JScrollPane infoScrollPane;
@@ -4251,6 +4321,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JCheckBox kdePlasmaLockCheckBox;
+    private ch.fhnw.lernstickwelcome.GamePanel kstarsPanel;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JLabel label1;
@@ -4309,7 +4380,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton removeIPButton;
     private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel rosegardenPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel sambaPanel;
     private javax.swing.JCheckBox screenShotCheckBox;
     private ch.fhnw.lernstickwelcome.GamePanel scribusPanel;
     private javax.swing.JLabel secondsLabel;
@@ -4338,6 +4408,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel welcomeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel wizbeePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel wxMaximaPanel;
     private ch.fhnw.lernstickwelcome.GamePanel xmotoGamePanel;
     // End of variables declaration//GEN-END:variables
 }
