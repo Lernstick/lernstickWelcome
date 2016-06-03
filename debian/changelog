@@ -1,3 +1,29 @@
+lernstickwelcome (201604231432-1) lernstick-8; urgency=medium
+
+  * [390656] fixed install check for hydrogen
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 23 Apr 2016 14:32:37 +0200
+
+lernstickwelcome (201604231408-1) lernstick-8; urgency=medium
+
+  * [01d50d] added gcompris, kstars, etoys, wxMaxima and hydrogen
+    removed support for samba (already installed)
+    switched from iceweasel to firefox
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 23 Apr 2016 14:08:56 +0200
+
+lernstickwelcome (201602261915-1) lernstick-8; urgency=medium
+
+  * [046be7] fixed NPE
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 26 Feb 2016 19:15:54 +0100
+
+lernstickwelcome (201602211750-1) lernstick-8; urgency=medium
+
+  * [840b55] added support for current partitioning layout
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 21 Feb 2016 17:50:00 +0100
+
 lernstickwelcome (201602141528-1) lernstick-8; urgency=medium
 
   * [54c045] updated netbeans support, added ufoai

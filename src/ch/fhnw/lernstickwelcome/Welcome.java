@@ -97,7 +97,7 @@ public class Welcome extends javax.swing.JFrame {
     private static final String URL_WHITELIST_FILENAME
             = "/etc/lernstick-firewall/url_whitelist";
     // !!! processExecutor must be instanciated before the next constants !!!
-    private static final ProcessExecutor processExecutor
+    private static final ProcessExecutor PROCESS_EXECUTOR
             = new ProcessExecutor();
     private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
     // mapping of checkboxes to package collections
@@ -136,8 +136,8 @@ public class Welcome extends javax.swing.JFrame {
     private StorageDevice systemStorageDevice;
     private Partition exchangePartition;
     private String exchangePartitionLabel;
-    private Partition efiPartition;
-    private MountInfo efiMountInfo;
+    private Partition bootConfigPartition;
+    private MountInfo bootConfigMountInfo;
     private String aptGetOutput;
     private IPTableModel ipTableModel;
     private MainMenuListEntry firewallEntry;
@@ -284,15 +284,27 @@ public class Welcome extends javax.swing.JFrame {
             systemStorageDevice = StorageTools.getSystemStorageDevice();
             if (systemStorageDevice != null) {
                 exchangePartition = systemStorageDevice.getExchangePartition();
-                efiPartition = systemStorageDevice.getEfiPartition();
-                if (efiPartition != null) {
-                    efiMountInfo = efiPartition.mount();
+
+                Partition efiPartition = systemStorageDevice.getEfiPartition();
+                if (efiPartition != null
+                        && efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
+                    // current partitioning scheme, the boot config is on the
+                    // *system* partition!
+                    bootConfigPartition
+                            = systemStorageDevice.getSystemPartition();
+                } else {
+                    // pre 2016-02 partitioning scheme with boot config files on
+                    // boot partition
+                    bootConfigPartition = efiPartition;
+                }
+                if (bootConfigPartition != null) {
+                    bootConfigMountInfo = bootConfigPartition.mount();
                 }
             }
             LOGGER.log(Level.INFO, "\nsystemStorageDevice: {0}\n"
-                    + "exchangePartition: {1}\nbootPartition: {2}",
-                    new Object[]{
-                        systemStorageDevice, exchangePartition, efiPartition});
+                    + "exchangePartition: {1}\nbootConfigPartition: {2}",
+                    new Object[]{systemStorageDevice,
+                        exchangePartition, bootConfigPartition});
         } catch (DBusException | IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
@@ -535,10 +547,15 @@ public class Welcome extends javax.swing.JFrame {
         additionalTabbedPane = new javax.swing.JTabbedPane();
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalScrollPanel = new ScrollableJPanel();
+        gcomprisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         omnituxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        kstarsPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        etoysPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        wxMaximaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        hydrogenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lyxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -549,7 +566,6 @@ public class Welcome extends javax.swing.JFrame {
         processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rStudioPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        sambaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         webweaverdesktopPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1137,6 +1153,17 @@ public class Welcome extends javax.swing.JFrame {
 
         additionalScrollPanel.setLayout(new java.awt.GridBagLayout());
 
+        gcomprisPanel.setDescription(bundle.getString("Welcome.gcomprisPanel.description")); // NOI18N
+        gcomprisPanel.setGameName("GCompris"); // NOI18N
+        gcomprisPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gcompris.png"))); // NOI18N
+        gcomprisPanel.setWebsite(bundle.getString("Welcome.gcomprisPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(gcomprisPanel, gridBagConstraints);
+
         omnituxPanel.setDescription(bundle.getString("Welcome.omnituxPanel.description")); // NOI18N
         omnituxPanel.setGameName("Omnitux"); // NOI18N
         omnituxPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/omnitux.png"))); // NOI18N
@@ -1147,17 +1174,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(omnituxPanel, gridBagConstraints);
-
-        stellariumPanel.setDescription(bundle.getString("Welcome.stellariumPanel.description")); // NOI18N
-        stellariumPanel.setGameName("Stellarium"); // NOI18N
-        stellariumPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/stellarium.png"))); // NOI18N
-        stellariumPanel.setWebsite(bundle.getString("Welcome.stellariumPanel.website")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(stellariumPanel, gridBagConstraints);
 
         tuxPaintPanel.setDescription(bundle.getString("Welcome.tuxPaintPanel.description")); // NOI18N
         tuxPaintPanel.setGameName("Tux Paint"); // NOI18N
@@ -1170,6 +1186,50 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(tuxPaintPanel, gridBagConstraints);
 
+        stellariumPanel.setDescription(bundle.getString("Welcome.stellariumPanel.description")); // NOI18N
+        stellariumPanel.setGameName("Stellarium"); // NOI18N
+        stellariumPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/stellarium.png"))); // NOI18N
+        stellariumPanel.setWebsite(bundle.getString("Welcome.stellariumPanel.website")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(stellariumPanel, gridBagConstraints);
+
+        kstarsPanel.setDescription(bundle.getString("Welcome.kstarsPanel.description")); // NOI18N
+        kstarsPanel.setGameName("KStars"); // NOI18N
+        kstarsPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/kstars.png"))); // NOI18N
+        kstarsPanel.setWebsite("https://edu.kde.org/kstars/"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(kstarsPanel, gridBagConstraints);
+
+        etoysPanel.setDescription(bundle.getString("Welcome.etoysPanel.description")); // NOI18N
+        etoysPanel.setGameName("Etoys"); // NOI18N
+        etoysPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/etoys.png"))); // NOI18N
+        etoysPanel.setWebsite("http://squeakland.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(etoysPanel, gridBagConstraints);
+
+        wxMaximaPanel.setDescription(bundle.getString("Welcome.wxMaximaPanel.description")); // NOI18N
+        wxMaximaPanel.setGameName("wxMaxima"); // NOI18N
+        wxMaximaPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/wxmaxima.png"))); // NOI18N
+        wxMaximaPanel.setWebsite("http://andrejv.github.io/wxmaxima/"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(wxMaximaPanel, gridBagConstraints);
+
         rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
         rosegardenPanel.setGameName("Rosegarden"); // NOI18N
         rosegardenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rosegarden.png"))); // NOI18N
@@ -1179,6 +1239,16 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(rosegardenPanel, gridBagConstraints);
+
+        hydrogenPanel.setDescription(bundle.getString("Welcome.hydrogenPanel.description")); // NOI18N
+        hydrogenPanel.setGameName("Hydrogen"); // NOI18N
+        hydrogenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/hydrogen.png"))); // NOI18N
+        hydrogenPanel.setWebsite("http://www.hydrogen-music.org/hcms/"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(hydrogenPanel, gridBagConstraints);
 
         sweetHome3DPanel.setDescription(bundle.getString("Welcome.sweetHome3DPanel.description")); // NOI18N
         sweetHome3DPanel.setGameName("Sweet Home 3D"); // NOI18N
@@ -1281,16 +1351,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(lazarusPanel, gridBagConstraints);
-
-        sambaPanel.setDescription(bundle.getString("Welcome.sambaPanel.description")); // NOI18N
-        sambaPanel.setGameName("Samba"); // NOI18N
-        sambaPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/samba.png"))); // NOI18N
-        sambaPanel.setWebsite("https://www.samba.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(sambaPanel, gridBagConstraints);
 
         webweaverdesktopPanel.setDescription(bundle.getString("Welcome.webweaverdesktopPanel.description")); // NOI18N
         webweaverdesktopPanel.setGameName("WebWeaver Desktop"); // NOI18N
@@ -2064,9 +2124,10 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if ((efiMountInfo != null) && (!efiMountInfo.alreadyMounted())) {
+        if ((bootConfigMountInfo != null)
+                && (!bootConfigMountInfo.alreadyMounted())) {
             try {
-                efiPartition.umount();
+                bootConfigPartition.umount();
             } catch (DBusException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -2265,7 +2326,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void toggleFirewallState() {
         String action = firewallRunning ? "stop" : "start";
-        int ret = processExecutor.executeProcess(
+        int ret = PROCESS_EXECUTOR.executeProcess(
                 true, true, "lernstick-firewall", action);
 
         if (ret == 0) {
@@ -2278,8 +2339,8 @@ public class Welcome extends javax.swing.JFrame {
                     + "stdout: '{1}', stderr: '{2}'",
                     new Object[]{
                         ret,
-                        processExecutor.getStdOut(),
-                        processExecutor.getStdErr()
+                        PROCESS_EXECUTOR.getStdOut(),
+                        PROCESS_EXECUTOR.getStdErr()
                     });
             String messageId = firewallRunning
                     ? "Stop_firewall_error"
@@ -2293,7 +2354,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void updateFirewallState() {
         // check firewall state
-        int ret = processExecutor.executeProcess("lernstick-firewall", "status");
+        int ret = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status");
         firewallRunning = ret == 0;
 
         // update button icon
@@ -2322,8 +2383,8 @@ public class Welcome extends javax.swing.JFrame {
         AbstractDocument userNameDocument
                 = (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        processExecutor.executeProcess(true, true, "getent", "passwd", "user");
-        List<String> stdOut = processExecutor.getStdOutList();
+        PROCESS_EXECUTOR.executeProcess(true, true, "getent", "passwd", "user");
+        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         if (stdOut.isEmpty()) {
             LOGGER.warning("getent returned no result!");
             fullName = null;
@@ -2519,10 +2580,10 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private static boolean isImageWritable() {
-        processExecutor.executeProcess(
+        PROCESS_EXECUTOR.executeProcess(
                 "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
         String testPath = IMAGE_DIRECTORY + "/lernstickWelcome.tmp";
-        processExecutor.executeProcess("touch", testPath);
+        PROCESS_EXECUTOR.executeProcess("touch", testPath);
         File testFile = new File(testPath);
         try {
             if (testFile.exists()) {
@@ -2533,15 +2594,15 @@ public class Welcome extends javax.swing.JFrame {
                 return false;
             }
         } finally {
-            processExecutor.executeProcess("rm", testPath);
-            processExecutor.executeProcess(
+            PROCESS_EXECUTOR.executeProcess("rm", testPath);
+            PROCESS_EXECUTOR.executeProcess(
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         }
     }
 
     private File getXmlBootConfigFile() throws DBusException {
 
-        if (efiPartition == null) {
+        if (bootConfigPartition == null) {
             // legacy system
             File configFile = getXmlBootConfigFile(new File(IMAGE_DIRECTORY));
             if (configFile != null) {
@@ -2549,7 +2610,7 @@ public class Welcome extends javax.swing.JFrame {
             }
         } else {
             // system with a separate boot partition
-            File configFile = efiPartition.executeMounted(
+            File configFile = bootConfigPartition.executeMounted(
                     new Partition.Action<File>() {
 
                 @Override
@@ -2623,6 +2684,17 @@ public class Welcome extends javax.swing.JFrame {
             }
         }
 
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0, size = configFiles.size(); i < size; i++) {
+            stringBuilder.append(configFiles.get(i));
+            if (i < size - 1) {
+                stringBuilder.append('\n');
+            }
+        }
+
+        LOGGER.log(Level.INFO, "syslinux config files: \n{0}",
+                stringBuilder.toString());
+
         return configFiles;
     }
 
@@ -2630,13 +2702,13 @@ public class Welcome extends javax.swing.JFrame {
 
         // use syslinux configuration as reference for the timeout setting
         List<File> syslinuxConfigFiles;
-        if (efiPartition == null) {
+        if (bootConfigPartition == null) {
             // legacy system
             syslinuxConfigFiles = getSyslinuxConfigFiles(
                     new File(IMAGE_DIRECTORY));
         } else {
             // system with a separate boot partition
-            syslinuxConfigFiles = efiPartition.executeMounted(
+            syslinuxConfigFiles = bootConfigPartition.executeMounted(
                     new Partition.Action<List<File>>() {
                 @Override
                 public List<File> execute(File mountPath) {
@@ -2691,15 +2763,15 @@ public class Welcome extends javax.swing.JFrame {
 //                logger.log(Level.SEVERE, "could not open URL", ex);
 //            }
 
-            // as long as Konqueror sucks so bad, we enforce iceweasel
+            // as long as Konqueror sucks so bad, we enforce firefox
             // (this is a quick and dirty solution, if konqueror starts to be
             // usable, switch back to the code above)
             final HyperlinkEvent finalEvent = evt;
             Thread browserThread = new Thread() {
                 @Override
                 public void run() {
-                    processExecutor.executeProcess(new String[]{
-                        "iceweasel", finalEvent.getURL().toString()});
+                    PROCESS_EXECUTOR.executeProcess(new String[]{
+                        "firefox", finalEvent.getURL().toString()});
                 }
             };
             browserThread.start();
@@ -2803,7 +2875,7 @@ public class Welcome extends javax.swing.JFrame {
         if (!newFullName.equals(fullName)) {
             LOGGER.log(Level.INFO,
                     "updating full user name to \"{0}\"", newFullName);
-            processExecutor.executeProcess("chfn", "-f", newFullName, "user");
+            PROCESS_EXECUTOR.executeProcess("chfn", "-f", newFullName, "user");
         }
 
         // update exchange partition label
@@ -2840,7 +2912,7 @@ public class Welcome extends javax.swing.JFrame {
                 if (tmpUmount) {
                     exchangePartition.umount();
                 }
-                processExecutor.executeProcess(binary,
+                PROCESS_EXECUTOR.executeProcess(binary,
                         "/dev/" + exchangePartition.getDeviceAndNumber(),
                         newExchangePartitionLabel);
                 if (tmpUmount) {
@@ -2909,12 +2981,12 @@ public class Welcome extends javax.swing.JFrame {
         if (Files.exists(ALSA_PULSE_CONFIG_FILE)) {
             if (noPulseAudioCheckbox.isSelected()) {
                 // divert alsa pulse config file
-                processExecutor.executeProcess("dpkg-divert",
+                PROCESS_EXECUTOR.executeProcess("dpkg-divert",
                         "--rename", ALSA_PULSE_CONFIG_FILE.toString());
             }
         } else if (!noPulseAudioCheckbox.isSelected()) {
             // restore original alsa pulse config file
-            processExecutor.executeProcess("dpkg-divert", "--remove",
+            PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--remove",
                     "--rename", ALSA_PULSE_CONFIG_FILE.toString());
         }
 
@@ -2953,22 +3025,26 @@ public class Welcome extends javax.swing.JFrame {
             }
         };
 
-        if (efiPartition == null) {
-            // legacy system without separate boot partition
+        if (bootConfigPartition == null
+                || systemStorageDevice.getEfiPartition().getIdLabel().equals(
+                        Partition.EFI_LABEL)) {
+            // legacy system without separate boot partition or
+            // post 2016-02 partition schema where the boot config files are
+            // located again on the system partition
 
             // make image temporarily writable
-            processExecutor.executeProcess(
+            PROCESS_EXECUTOR.executeProcess(
                     "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
 
             updateBootloaders(new File(IMAGE_DIRECTORY),
                     timeout, systemName, systemVersion);
 
             // remount image read-only
-            processExecutor.executeProcess(
+            PROCESS_EXECUTOR.executeProcess(
                     "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
         } else {
             // system with a separate boot partition
-            efiPartition.executeMounted(updateBootloaderAction);
+            bootConfigPartition.executeMounted(updateBootloaderAction);
         }
         if (exchangePartition != null) {
             exchangePartition.executeMounted(updateBootloaderAction);
@@ -2980,7 +3056,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // syslinux
         for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
-            processExecutor.executeProcess("sed", "-i", "-e",
+            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|timeout .*|timeout " + (timeout * 10) + "|1",
                     syslinuxConfigFile.getPath());
         }
@@ -3012,14 +3088,14 @@ public class Welcome extends javax.swing.JFrame {
                 DOMSource source = new DOMSource(xmlBootDocument);
                 StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
-                processExecutor.executeProcess("mv", tmpFile.getPath(),
+                PROCESS_EXECUTOR.executeProcess("mv", tmpFile.getPath(),
                         xmlBootConfigFile.getPath());
 
                 // rebuild bootlogo so that the changes are visible right after
                 // reboot
                 File bootlogoDir = xmlBootConfigFile.getParentFile();
                 File syslinuxDir = bootlogoDir.getParentFile();
-                processExecutor.executeProcess("gfxboot",
+                PROCESS_EXECUTOR.executeProcess("gfxboot",
                         "--archive", bootlogoDir.getPath(),
                         "--pack-archive", syslinuxDir.getPath() + "/bootlogo");
             } catch (ParserConfigurationException | SAXException | IOException |
@@ -3031,14 +3107,14 @@ public class Welcome extends javax.swing.JFrame {
         // grub
         String grubMainConfigFilePath = directory + "/boot/grub/grub_main.cfg";
         if (new File(grubMainConfigFilePath).exists()) {
-            processExecutor.executeProcess("sed", "-i", "-e",
+            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|set timeout=.*|set timeout=" + timeout + "|1",
                     grubMainConfigFilePath);
         }
         String grubThemeFilePath
                 = directory + "/boot/grub/themes/lernstick/theme.txt";
         if (new File(grubThemeFilePath).exists()) {
-            processExecutor.executeProcess("sed", "-i", "-e",
+            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|num_ticks = .*|num_ticks = " + timeout + "|1;"
                     + "s|title-text: .*|title-text: \""
                     + systemName + ' ' + systemVersion + "\"|1",
@@ -3081,7 +3157,7 @@ public class Welcome extends javax.swing.JFrame {
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
-        processExecutor.executeProcess(
+        PROCESS_EXECUTOR.executeProcess(
                 "/etc/init.d/lernstick-firewall", "reload");
     }
 
@@ -3115,7 +3191,7 @@ public class Welcome extends javax.swing.JFrame {
 
             String[] files = dirFile.list();
             if ((files != null) && (files.length != 0)) {
-                int returnValue = processExecutor.executeProcess(
+                int returnValue = PROCESS_EXECUTOR.executeProcess(
                         "rdiff-backup", "-l", dirFile.getAbsolutePath());
                 if (returnValue != 0) {
                     String errorMessage = BUNDLE.getString(
@@ -3130,8 +3206,8 @@ public class Welcome extends javax.swing.JFrame {
 
         // determine device where the directory is located
         // (df takes care for symlinks etc.)
-        processExecutor.executeProcess(true, true, "df", backupDirectory);
-        List<String> stdOut = processExecutor.getStdOutList();
+        PROCESS_EXECUTOR.executeProcess(true, true, "df", backupDirectory);
+        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         String device = null;
         for (String line : stdOut) {
             if (line.startsWith("/dev/")) {
@@ -3403,9 +3479,9 @@ public class Welcome extends javax.swing.JFrame {
                 DOMSource source = new DOMSource(xmlBootDocument);
                 StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
-                processExecutor.executeProcess(
+                PROCESS_EXECUTOR.executeProcess(
                         "mv", tmpFile.getPath(), prefsFilePath);
-                processExecutor.executeProcess(
+                PROCESS_EXECUTOR.executeProcess(
                         "chown", "user.user", prefsFilePath);
 
             } catch (ParserConfigurationException | SAXException |
@@ -3436,7 +3512,7 @@ public class Welcome extends javax.swing.JFrame {
                 LOGGER.log(Level.WARNING, "", ex);
             }
             if (chown) {
-                processExecutor.executeProcess(
+                PROCESS_EXECUTOR.executeProcess(
                         "chown", "-R", "user.user", "/home/user/.java/");
             }
         }
@@ -3467,10 +3543,10 @@ public class Welcome extends javax.swing.JFrame {
                 + "mykill update-notifier";
 
         try {
-            int exitValue = processExecutor.executeScript(script);
+            int exitValue = PROCESS_EXECUTOR.executeScript(script);
             if (exitValue != 0) {
                 LOGGER.log(Level.WARNING, "Could not kill update-notifier: {0}",
-                        processExecutor.getOutput());
+                        PROCESS_EXECUTOR.getOutput());
             }
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -3515,8 +3591,12 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += laCheckBox.isSelected() ? 1 : 0;
 
         // miscellaneous
+        numberOfPackages += gcomprisPanel.isSelected() ? 1 : 0;
         numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
         numberOfPackages += stellariumPanel.isSelected() ? 1 : 0;
+        numberOfPackages += kstarsPanel.isSelected() ? 1 : 0;
+        numberOfPackages += etoysPanel.isSelected() ? 1 : 0;
+        numberOfPackages += wxMaximaPanel.isSelected() ? 1 : 0;
         numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
         numberOfPackages += netbeansPanel.isSelected() ? 1 : 0;
         numberOfPackages += processingPanel.isSelected() ? 1 : 0;
@@ -3528,8 +3608,8 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += scribusPanel.isSelected() ? 1 : 0;
         numberOfPackages += gespeakerPanel.isSelected() ? 1 : 0;
         numberOfPackages += gnucashPanel.isSelected() ? 1 : 0;
-        numberOfPackages += sambaPanel.isSelected() ? 1 : 0;
         numberOfPackages += rosegardenPanel.isSelected() ? 1 : 0;
+        numberOfPackages += hydrogenPanel.isSelected() ? 1 : 0;
         numberOfPackages += webweaverdesktopPanel.isSelected() ? 1 : 0;
         numberOfPackages += wizbeePanel.isSelected() ? 1 : 0;
         numberOfPackages += calcularisPanel.isSelected() ? 1 : 0;
@@ -3581,13 +3661,6 @@ public class Welcome extends javax.swing.JFrame {
             installer.execute();
             progressDialog.setVisible(true);
 
-            if (sambaPanel.isSelected()) {
-                // After installing samba we have to add the user to the
-                // group "sambashare". Otherwise the user can't use the
-                // filesharing feature in nautilus or KDE.
-                processExecutor.executeProcess(
-                        "usermod", "-aG", "sambashare", "user");
-            }
             checkAllPackages();
         }
     }
@@ -3616,8 +3689,12 @@ public class Welcome extends javax.swing.JFrame {
                 "Welcome.laLabel.text", "lateaching");
 
         // miscellaneous
+        checkAppInstall(gcomprisPanel, "gcompris");
         checkAppInstall(omnituxPanel, "omnitux");
         checkAppInstall(stellariumPanel, "lernstick-stellarium");
+        checkAppInstall(kstarsPanel, "lernstick-kstars");
+        checkAppInstall(etoysPanel, "lernstick-etoys");
+        checkAppInstall(wxMaximaPanel, "lernstick-wxmaxima");
         checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
         checkAppInstall(netbeansPanel, "lernstick-netbeans");
         checkAppInstall(processingPanel, "processing");
@@ -3629,8 +3706,8 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(scribusPanel, "scribus");
         checkAppInstall(gespeakerPanel, "gespeaker");
         checkAppInstall(gnucashPanel, "gnucash");
-        checkAppInstall(sambaPanel, "samba");
         checkAppInstall(rosegardenPanel, "rosegarden");
+        checkAppInstall(hydrogenPanel, "hydrogen");
         checkAppInstall(webweaverdesktopPanel, "webweaverdesktop");
         checkAppInstall(wizbeePanel, "wizbee");
         checkAppInstall(calcularisPanel, "calcularis-de");
@@ -3679,8 +3756,8 @@ public class Welcome extends javax.swing.JFrame {
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
         System.arraycopy(packages, 0, commandArray, 2, length);
-        processExecutor.executeProcess(true, true, commandArray);
-        List<String> stdOut = processExecutor.getStdOutList();
+        PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
+        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         for (String packageName : packages) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
             Pattern pattern = Pattern.compile("^ii  " + packageName + ".*");
@@ -3733,10 +3810,10 @@ public class Welcome extends javax.swing.JFrame {
 
             String updateScript = "cd " + USER_HOME + '\n'
                     + "apt-get" + getAptGetProxyLine() + "update";
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, updateScript);
             if (exitValue != 0) {
-                aptGetOutput = processExecutor.getOutput();
+                aptGetOutput = PROCESS_EXECUTOR.getOutput();
                 String logMessage = "apt-get failed with the following "
                         + "output:\n" + aptGetOutput;
                 LOGGER.severe(logMessage);
@@ -3797,12 +3874,29 @@ public class Welcome extends javax.swing.JFrame {
                     "lateaching");
 
             // miscellaneous
+            installApplication(gcomprisPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/gcompris.png",
+                    "lernstick-gcompris", "gcompris", "gcompris-sound-de",
+                    "gcompris-sound-en", "gcompris-sound-es",
+                    "gcompris-sound-fr", "gcompris-sound-it",
+                    "gcompris-sound-ptbr", "gcompris-sound-ru");
+
             installApplication(omnituxPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/omnitux.png",
                     "omnitux");
             installApplication(stellariumPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/stellarium.png",
                     "lernstick-stellarium");
+            installApplication(kstarsPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/kstars.png",
+                    "lernstick-kstars", "kstars",
+                    "kstars-data", "kstars-data-extra-tycho2");
+            installApplication(etoysPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/etoys.png",
+                    "lernstick-etoys", "lernstick-squeak-vm");
+            installApplication(wxMaximaPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/wxmaxima.png",
+                    "lernstick-wxmaxima");
             installApplication(tuxPaintPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
                     "lernstick-tuxpaint");
@@ -3850,13 +3944,14 @@ public class Welcome extends javax.swing.JFrame {
                     "mbrola-de6", "mbrola-de7", "mbrola-en1", "mbrola-es1",
                     "mbrola-es2", "mbrola-fr1", "mbrola-fr4", "mbrola-it3",
                     "mbrola-it4", "mbrola-us1", "mbrola-us2", "mbrola-us3");
-            installApplication(sambaPanel,
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/samba.png",
-                    "samba", "libpam-smbpass", "nautilus-share");
             installApplication(rosegardenPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/rosegarden.png",
                     "rosegarden", "fluid-soundfont-gm",
                     "fluid-soundfont-gs", "fluidsynth-dssi");
+            installApplication(hydrogenPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/hydrogen.png",
+                    "hydrogen",
+                    "hydrogen-drumkits", "hydrogen-drumkits-effects");
             installApplication(webweaverdesktopPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/webweaverdesktop.png",
                     "webweaverdesktop");
@@ -3963,12 +4058,12 @@ public class Welcome extends javax.swing.JFrame {
                     + fileName + '\n'
                     + "dpkg -i " + fileName + '\n'
                     + "rm " + fileName;
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, adobeReaderInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of Adobe Reader failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -3992,12 +4087,12 @@ public class Welcome extends javax.swing.JFrame {
                     + "dpkg -i skype-install.deb\n"
                     + "apt-get -f install\n"
                     + "rm skype-install.deb";
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, skypeInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of Skype failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -4032,12 +4127,12 @@ public class Welcome extends javax.swing.JFrame {
                     + "http://dl.google.com/dl/earth/client/current/" + debName + '\n'
                     + "dpkg -i " + debName + '\n'
                     + "rm " + debName;
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, googleEarthInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of GoogleEarth failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -4059,12 +4154,12 @@ public class Welcome extends javax.swing.JFrame {
                     + "https://dl.google.com/linux/direct/" + debName + '\n'
                     + "dpkg -i " + debName + '\n'
                     + "rm " + debName;
-            int exitValue = processExecutor.executeScript(
+            int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, googleEarthInstallScript);
             if (exitValue != 0) {
                 String errorMessage = "Installation of Google Chrome failed"
                         + "with the following error message:\n"
-                        + processExecutor.getOutput();
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 showErrorMessage(errorMessage);
             }
@@ -4127,13 +4222,13 @@ public class Welcome extends javax.swing.JFrame {
 //            processExecutor.setEnvironment(environment);
             int exitValue = -1;
             try {
-                exitValue = processExecutor.executeScript(true, true, script);
+                exitValue = PROCESS_EXECUTOR.executeScript(true, true, script);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "", ex);
             } finally {
                 if (exitValue != 0) {
                     String errorMessage = "apt-get failed with the following "
-                            + "output:\n" + processExecutor.getOutput();
+                            + "output:\n" + PROCESS_EXECUTOR.getOutput();
                     LOGGER.severe(errorMessage);
                     showErrorMessage(errorMessage);
                 }
@@ -4196,6 +4291,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private ch.fhnw.lernstickwelcome.GamePanel colobotGamePanel;
     private javax.swing.JPanel dataPartitionPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel etoysPanel;
     private javax.swing.JCheckBox exchangeAccessCheckBox;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
@@ -4223,6 +4319,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel frogattoGamePanel;
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel gcomprisPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gespeakerPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gnucashPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
@@ -4230,6 +4327,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel hedgewarsGamePanel;
     private javax.swing.JScrollPane helpScrollPane;
     private javax.swing.JTextPane helpTextPane;
+    private ch.fhnw.lernstickwelcome.GamePanel hydrogenPanel;
     private javax.swing.JEditorPane infoEditorPane;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JScrollPane infoScrollPane;
@@ -4237,6 +4335,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JCheckBox kdePlasmaLockCheckBox;
+    private ch.fhnw.lernstickwelcome.GamePanel kstarsPanel;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JLabel label1;
@@ -4295,7 +4394,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JButton removeIPButton;
     private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel rosegardenPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel sambaPanel;
     private javax.swing.JCheckBox screenShotCheckBox;
     private ch.fhnw.lernstickwelcome.GamePanel scribusPanel;
     private javax.swing.JLabel secondsLabel;
@@ -4324,6 +4422,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel welcomeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel wizbeePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel wxMaximaPanel;
     private ch.fhnw.lernstickwelcome.GamePanel xmotoGamePanel;
     // End of variables declaration//GEN-END:variables
 }
