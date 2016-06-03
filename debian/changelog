@@ -1,3 +1,9 @@
+lernstickwelcome (201606031120-1) lernstick-8; urgency=medium
+
+  * [64a24a] change file system mount permissions more explicit as we no longer have the policykit changes from live-config
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 03 Jun 2016 11:20:21 +0200
+
 lernstickwelcome (201604231432-1) lernstick-8; urgency=medium
 
   * [390656] fixed install check for hydrogen
