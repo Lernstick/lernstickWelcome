@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome;
 
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
+import ch.fhnw.util.LernstickFileTools;
 import ch.fhnw.util.MountInfo;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
@@ -210,7 +211,7 @@ public class Welcome extends javax.swing.JFrame {
                 properties.getProperty(EXCHANGE_ACCESS)));
         kdePlasmaLockCheckBox.setSelected("true".equals(
                 properties.getProperty(KDE_LOCK)));
-        allowFilesystemMountCheckbox.setSelected(!PKLA_PATH.toFile().exists());
+        allowFilesystemMountCheckbox.setSelected(isFileSystemMountAllowed());
 
         String frequencyString = properties.getProperty(
                 BACKUP_FREQUENCY, "5");
@@ -2234,20 +2235,33 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_virtualBoxLabelMouseClicked
 
     private void allowFilesystemMountCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allowFilesystemMountCheckboxItemStateChanged
-        FileSystem fileSystem = FileSystems.getDefault();
-        Path activePklaPath = PKLA_PATH;
-        Path inactivePklaPath = fileSystem.getPath(
-                PKLA_PATH.toString() + ".inactive");
         try {
             if (allowFilesystemMountCheckbox.isSelected()) {
-                Files.move(activePklaPath, inactivePklaPath);
+                LernstickFileTools.replaceText(
+                        PKLA_PATH.toString(), Pattern.compile("=no"), "=yes");
             } else {
-                Files.move(inactivePklaPath, activePklaPath);
+                LernstickFileTools.replaceText(
+                        PKLA_PATH.toString(), Pattern.compile("=yes"), "=no");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
     }//GEN-LAST:event_allowFilesystemMountCheckboxItemStateChanged
+
+    private boolean isFileSystemMountAllowed() {
+        try {
+            List<String> pklaRules
+                    = LernstickFileTools.readFile(PKLA_PATH.toFile());
+            for (String pklaRule : pklaRules) {
+                if (pklaRule.equals("ResultAny=yes")) {
+                    return true;
+                }
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
+        return false;
+    }
 
     private void toggleFirewallState() {
         String action = firewallRunning ? "stop" : "start";
