@@ -2298,11 +2298,11 @@ public class Welcome extends javax.swing.JFrame {
     private void allowFilesystemMountCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allowFilesystemMountCheckboxItemStateChanged
         try {
             if (allowFilesystemMountCheckbox.isSelected()) {
-                LernstickFileTools.replaceText(
-                        PKLA_PATH.toString(), Pattern.compile("=no"), "=yes");
+                LernstickFileTools.replaceText(PKLA_PATH.toString(),
+                        Pattern.compile("=auth_self"), "=yes");
             } else {
-                LernstickFileTools.replaceText(
-                        PKLA_PATH.toString(), Pattern.compile("=yes"), "=no");
+                LernstickFileTools.replaceText(PKLA_PATH.toString(),
+                        Pattern.compile("=yes"), "=auth_self");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
