@@ -1,3 +1,9 @@
+lernstickwelcome (201606031202-1) lernstick-8; urgency=medium
+
+  * [33de6d] changed pattern for file system mount permissions
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 03 Jun 2016 12:02:53 +0200
+
 lernstickwelcome (201606031120-1) lernstick-8; urgency=medium
 
   * [64a24a] change file system mount permissions more explicit as we no longer have the policykit changes from live-config
