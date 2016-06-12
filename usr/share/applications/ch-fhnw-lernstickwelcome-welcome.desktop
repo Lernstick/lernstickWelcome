@@ -1,6 +1,6 @@
 [Desktop Entry]
 Categories=X-lernstick;
-Exec=su-to-root -X -c lernstickWelcome
+Exec=pkexec lernstickWelcome
 Icon=dialog-information
 Name=Welcome to Lernstick
 Name[de]=Willkommen zum Lernstick

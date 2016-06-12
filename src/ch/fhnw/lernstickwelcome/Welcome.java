@@ -2535,7 +2535,7 @@ public class Welcome extends javax.swing.JFrame {
             int returnValue = executor.executeScript(
                     true, true, passwordChangeScript);
             if (returnValue == 0) {
-                disablePasswordHint();
+                passwordDisabled();
                 JOptionPane.showMessageDialog(this,
                         BUNDLE.getString("Password_Changed"),
                         BUNDLE.getString("Information"),
@@ -2550,7 +2550,9 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private void disablePasswordHint() {
+    private void passwordDisabled() {
+
+        // disable password hint
         File configFile = new File(
                 "/home/user/.kde/share/config/empty_passwd_info");
         if (configFile.exists()) {
@@ -2574,6 +2576,24 @@ public class Welcome extends javax.swing.JFrame {
                             PosixFileAttributeView.class);
             fileAttributeView.setGroup(
                     lookupService.lookupPrincipalByGroupName("user"));
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
+
+        // add polkit rules to enforce authentication
+        File localPolkitPath
+                = new File("/etc/polkit-1/localauthority/50-local.d");
+
+        File welcomePKLA = new File(localPolkitPath, "10-welcome.pkla");
+        String welcomeRule
+                = "[enforce authentication before running the Lernstick Welcome application]\n"
+                + "Identity=unix-user:*\n"
+                + "Action=ch.lernstick.welcome\n"
+                + "ResultAny=auth_self\n"
+                + "ResultInactive=auth_self\n"
+                + "ResultActive=auth_self\n";
+        try (FileWriter fileWriter = new FileWriter(welcomePKLA)) {
+            fileWriter.write(welcomeRule);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }

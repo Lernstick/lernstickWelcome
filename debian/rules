@@ -11,11 +11,9 @@
 
 DESTDIR       = $(CURDIR)/debian/lernstickwelcome
 BINDIR        = $(DESTDIR)/usr/bin
-APPDIR        = $(DESTDIR)/usr/share/applications
 
 DESTDIR_EXAM  = $(CURDIR)/debian/lernstickwelcome-exam
 BINDIR_EXAM   = $(DESTDIR_EXAM)/usr/bin
-APPDIR_EXAM   = $(DESTDIR_EXAM)/usr/share/applications
 
 configure: configure-stamp
 configure-stamp:
@@ -46,14 +44,12 @@ install: build
 	mkdir -p $(BINDIR)
 	cp lernstickWelcome $(BINDIR)
 	cp dist/lernstickWelcome.jar $(BINDIR)
-	mkdir -p $(APPDIR)
-	cp ch-fhnw-lernstickwelcome-welcome.desktop $(APPDIR)
+	cp -r usr $(DESTDIR)
 
 	mkdir -p $(BINDIR_EXAM)
 	cp lernstickWelcome_exam $(BINDIR_EXAM)/lernstickWelcome
 	cp dist/lernstickWelcome.jar $(BINDIR_EXAM)
-	mkdir -p $(APPDIR_EXAM)
-	cp ch-fhnw-lernstickwelcome-welcome.desktop $(APPDIR_EXAM)
+        cp -r usr $(DESTDIR_EXAM)
 
 # Build architecture-independent files here.
 binary-indep: build install
