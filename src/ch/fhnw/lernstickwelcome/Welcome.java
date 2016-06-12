@@ -26,7 +26,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.FileSystem;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -96,6 +96,8 @@ public class Welcome extends javax.swing.JFrame {
             = "/etc/lernstick-firewall/net_whitelist";
     private static final String URL_WHITELIST_FILENAME
             = "/etc/lernstick-firewall/url_whitelist";
+    private static final String LOCAL_POLKIT_PATH
+            = "/etc/polkit-1/localauthority/50-local.d";
     // !!! processExecutor must be instanciated before the next constants !!!
     private static final ProcessExecutor PROCESS_EXECUTOR
             = new ProcessExecutor();
@@ -2535,7 +2537,7 @@ public class Welcome extends javax.swing.JFrame {
             int returnValue = executor.executeScript(
                     true, true, passwordChangeScript);
             if (returnValue == 0) {
-                passwordDisabled();
+                passwordEnabled();
                 JOptionPane.showMessageDialog(this,
                         BUNDLE.getString("Password_Changed"),
                         BUNDLE.getString("Information"),
@@ -2550,42 +2552,40 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private void passwordDisabled() {
+    private void passwordEnabled() {
+        // TODO: the password hint is deprecated
+        // remove this code block somewhen in the future...
 
         // disable password hint
         File configFile = new File(
                 "/home/user/.kde/share/config/empty_passwd_info");
-        if (configFile.exists()) {
-            return;
-        }
+        if (!configFile.exists()) {
+            try (FileWriter fileWriter = new FileWriter(configFile)) {
+                // write kdialog config file
+                fileWriter.write("[Notification Messages]\n"
+                        + "show=false");
 
-        try (FileWriter fileWriter = new FileWriter(configFile)) {
-            // write kdialog config file
-            fileWriter.write("[Notification Messages]\n"
-                    + "show=false");
-
-            // fix ownership of kdialog config file:
-            Path path = configFile.toPath();
-            UserPrincipalLookupService lookupService
-                    = FileSystems.getDefault().getUserPrincipalLookupService();
-            // set user
-            Files.setOwner(path, lookupService.lookupPrincipalByName("user"));
-            // set group            
-            PosixFileAttributeView fileAttributeView
-                    = Files.getFileAttributeView(path,
-                            PosixFileAttributeView.class);
-            fileAttributeView.setGroup(
-                    lookupService.lookupPrincipalByGroupName("user"));
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
+                // fix ownership of kdialog config file:
+                Path path = configFile.toPath();
+                UserPrincipalLookupService lookupService
+                        = FileSystems.getDefault().getUserPrincipalLookupService();
+                // set user
+                Files.setOwner(path, lookupService.lookupPrincipalByName("user"));
+                // set group            
+                PosixFileAttributeView fileAttributeView
+                        = Files.getFileAttributeView(path,
+                                PosixFileAttributeView.class);
+                fileAttributeView.setGroup(
+                        lookupService.lookupPrincipalByGroupName("user"));
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            }
         }
 
         // add polkit rules to enforce authentication
-        File localPolkitPath
-                = new File("/etc/polkit-1/localauthority/50-local.d");
-
-        File welcomePKLA = new File(localPolkitPath, "10-welcome.pkla");
-        String welcomeRule
+        // rules for our own applications
+        File welcomePKLA = new File(LOCAL_POLKIT_PATH, "10-welcome.pkla");
+        String strictWelcomeRule
                 = "[enforce authentication before running the Lernstick Welcome application]\n"
                 + "Identity=unix-user:*\n"
                 + "Action=ch.lernstick.welcome\n"
@@ -2593,9 +2593,37 @@ public class Welcome extends javax.swing.JFrame {
                 + "ResultInactive=auth_self\n"
                 + "ResultActive=auth_self\n";
         try (FileWriter fileWriter = new FileWriter(welcomePKLA)) {
-            fileWriter.write(welcomeRule);
+            fileWriter.write(strictWelcomeRule);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
+        }
+
+        // rules for third party applications
+        addStrictPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
+    }
+
+    private void addStrictPKLAs(String... pklas) {
+        Pattern yesPattern = Pattern.compile("(.*)=yes");
+        for (String pkla : pklas) {
+            try {
+                Path lenientPath = Paths.get(
+                        LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
+                List<String> lenientLines = Files.readAllLines(
+                        lenientPath, StandardCharsets.UTF_8);
+                List<String> strictLines = new ArrayList<>();
+                for (String lenientLine : lenientLines) {
+                    Matcher matcher = yesPattern.matcher(lenientLine);
+                    if (matcher.matches()) {
+                        lenientLine = matcher.group(1) + "=auth_self";
+                    }
+                    strictLines.add(lenientLine);
+                }
+                Path strictPath = Paths.get(
+                        LOCAL_POLKIT_PATH, "20-" + pkla + ".pkla");
+                Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
+            } catch (IOException ex) {
+                showErrorMessage(ex.getMessage());
+            }
         }
     }
 
