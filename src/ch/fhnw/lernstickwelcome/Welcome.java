@@ -2584,22 +2584,32 @@ public class Welcome extends javax.swing.JFrame {
 
         // add polkit rules to enforce authentication
         // rules for our own applications
-        File welcomePKLA = new File(LOCAL_POLKIT_PATH, "10-welcome.pkla");
+        addStrictPKLA("10-welcome.pkla", "enforce authentication before "
+                + "running the Lernstick Welcome application",
+                "ch.lernstick.welcome");
+        addStrictPKLA("10-dlcopy.pkla", "enforce authentication before "
+                + "running the Lernstick storage media management application",
+                "ch.lernstick.dlcopy");
+
+        // rules for third party applications
+        addStrictPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
+    }
+
+    private void addStrictPKLA(
+            String fileName, String description, String action) {
+        File strictPKLA = new File(LOCAL_POLKIT_PATH, fileName);
         String strictWelcomeRule
-                = "[enforce authentication before running the Lernstick Welcome application]\n"
+                = "[" + description + "]\n"
                 + "Identity=unix-user:*\n"
-                + "Action=ch.lernstick.welcome\n"
+                + "Action=" + action + "\n"
                 + "ResultAny=auth_self\n"
                 + "ResultInactive=auth_self\n"
                 + "ResultActive=auth_self\n";
-        try (FileWriter fileWriter = new FileWriter(welcomePKLA)) {
+        try (FileWriter fileWriter = new FileWriter(strictPKLA)) {
             fileWriter.write(strictWelcomeRule);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
-
-        // rules for third party applications
-        addStrictPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
     }
 
     private void addStrictPKLAs(String... pklas) {
