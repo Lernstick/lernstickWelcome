@@ -1,3 +1,9 @@
+lernstickwelcome (201606121655-1) lernstick-8; urgency=medium
+
+  * [c9374d] updated custom pkla handling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 12 Jun 2016 16:55:57 +0200
+
 lernstickwelcome (201606121533-1) lernstick-8; urgency=medium
 
   * [e31bb0] added strict pkla for dlcopy
