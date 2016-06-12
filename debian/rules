@@ -49,7 +49,7 @@ install: build
 	mkdir -p $(BINDIR_EXAM)
 	cp lernstickWelcome_exam $(BINDIR_EXAM)/lernstickWelcome
 	cp dist/lernstickWelcome.jar $(BINDIR_EXAM)
-        cp -r usr $(DESTDIR_EXAM)
+	cp -r usr $(DESTDIR_EXAM)
 
 # Build architecture-independent files here.
 binary-indep: build install

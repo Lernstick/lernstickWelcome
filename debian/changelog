@@ -1,3 +1,9 @@
+lernstickwelcome (201606121207-1) lernstick-8; urgency=medium
+
+  * [a09432] switched from sudo to polkit
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 12 Jun 2016 12:07:29 +0200
+
 lernstickwelcome (201606031202-1) lernstick-8; urgency=medium
 
   * [33de6d] changed pattern for file system mount permissions
