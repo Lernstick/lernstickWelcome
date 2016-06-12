@@ -2591,8 +2591,8 @@ public class Welcome extends javax.swing.JFrame {
                 + "running the Lernstick storage media management application",
                 "ch.lernstick.dlcopy");
 
-        // rules for third party applications
-        addStrictPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
+        // harden our custom rules for third party applications
+        hardenPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
     }
 
     private void addStrictPKLA(
@@ -2612,14 +2612,14 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private void addStrictPKLAs(String... pklas) {
+    private void hardenPKLAs(String... pklas) {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
         for (String pkla : pklas) {
             try {
-                Path lenientPath = Paths.get(
+                Path path = Paths.get(
                         LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
                 List<String> lenientLines = Files.readAllLines(
-                        lenientPath, StandardCharsets.UTF_8);
+                        path, StandardCharsets.UTF_8);
                 List<String> strictLines = new ArrayList<>();
                 for (String lenientLine : lenientLines) {
                     Matcher matcher = yesPattern.matcher(lenientLine);
@@ -2628,9 +2628,7 @@ public class Welcome extends javax.swing.JFrame {
                     }
                     strictLines.add(lenientLine);
                 }
-                Path strictPath = Paths.get(
-                        LOCAL_POLKIT_PATH, "20-" + pkla + ".pkla");
-                Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
+                Files.write(path, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 showErrorMessage(ex.getMessage());
             }
