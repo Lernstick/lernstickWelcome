@@ -118,8 +118,9 @@ public class Welcome extends javax.swing.JFrame {
     private static final String[] MULTIMEDIA_PACKAGES = new String[]{
         "libdvdcss2", "libmp3lame0", "lame"
     };
+    // pepperflashplugin-nonfree doesn't install on i386
     private static final String[] FLASH_PACKAGES = new String[]{
-        "flashplugin-nonfree", "pepperflashplugin-nonfree"
+        "flashplugin-nonfree"
     };
     private static final String USER_HOME = System.getProperty("user.home");
     private static final Path APPLETS_CONFIG_FILE = Paths.get(
