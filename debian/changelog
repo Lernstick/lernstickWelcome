@@ -1,3 +1,9 @@
+lernstickwelcome (201606151444-1) lernstick-8; urgency=medium
+
+  * [6edd0d] updated minetest mods list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 15 Jun 2016 14:44:27 +0200
+
 lernstickwelcome (201606132332-1) lernstick-8; urgency=medium
 
   * [8169da] disabled pepperflashplugin-nonfree (doesn't install on i386)
