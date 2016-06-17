@@ -1,3 +1,9 @@
+lernstickwelcome (201606171900-1) lernstick-8; urgency=medium
+
+  * [7f503e] layout and text formatting fixes
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 17 Jun 2016 19:00:56 +0200
+
 lernstickwelcome (201606171800-1) lernstick-8; urgency=medium
 
   * [0462d1] updated French translation (thanks to Bastien Jacot-Guillarmod)
