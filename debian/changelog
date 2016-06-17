@@ -1,3 +1,10 @@
+lernstickwelcome (201606171800-1) lernstick-8; urgency=medium
+
+  * [0462d1] updated French translation (thanks to Bastien Jacot-Guillarmod)
+  * [162d9c] sorted French properties file
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 17 Jun 2016 18:00:36 +0200
+
 lernstickwelcome (201606151444-1) lernstick-8; urgency=medium
 
   * [6edd0d] updated minetest mods list
