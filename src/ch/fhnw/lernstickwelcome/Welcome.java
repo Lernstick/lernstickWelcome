@@ -595,6 +595,7 @@ public class Welcome extends javax.swing.JFrame {
         ufoaiGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         astromenaceGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         proxyPanel = new javax.swing.JPanel();
+        proxyInfoLabel = new javax.swing.JLabel();
         proxyCheckBox = new javax.swing.JCheckBox();
         proxyHostLabel = new javax.swing.JLabel();
         proxyHostTextField = new javax.swing.JTextField();
@@ -604,7 +605,6 @@ public class Welcome extends javax.swing.JFrame {
         proxyUserNameTextField = new javax.swing.JTextField();
         proxyPasswordLabel = new javax.swing.JLabel();
         proxyPasswordField = new javax.swing.JPasswordField();
-        proxyInfoLabel = new javax.swing.JLabel();
         systemPanel = new javax.swing.JPanel();
         bootMenuPanel = new javax.swing.JPanel();
         bootTimeoutLabel = new javax.swing.JLabel();
@@ -1615,95 +1615,87 @@ public class Welcome extends javax.swing.JFrame {
 
         mainCardPanel.add(additionalPanel, "additionalPanel");
 
+        proxyPanel.setLayout(new java.awt.GridBagLayout());
+
+        proxyInfoLabel.setText(bundle.getString("Welcome.proxyInfoLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        proxyPanel.add(proxyInfoLabel, gridBagConstraints);
+
         proxyCheckBox.setText(bundle.getString("Welcome.proxyCheckBox.text")); // NOI18N
         proxyCheckBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 proxyCheckBoxItemStateChanged(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 11, 0, 11);
+        proxyPanel.add(proxyCheckBox, gridBagConstraints);
 
         proxyHostLabel.setText(bundle.getString("Welcome.proxyHostLabel.text")); // NOI18N
         proxyHostLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 25, 0, 0);
+        proxyPanel.add(proxyHostLabel, gridBagConstraints);
 
+        proxyHostTextField.setColumns(20);
         proxyHostTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 10);
+        proxyPanel.add(proxyHostTextField, gridBagConstraints);
 
         proxyPortLabel.setText(bundle.getString("Welcome.proxyPortLabel.text")); // NOI18N
         proxyPortLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 25, 0, 0);
+        proxyPanel.add(proxyPortLabel, gridBagConstraints);
 
         proxyPortTextField.setColumns(5);
         proxyPortTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#####"))));
         proxyPortTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 10);
+        proxyPanel.add(proxyPortTextField, gridBagConstraints);
 
         proxyUserNameLabel.setText(bundle.getString("Welcome.proxyUserNameLabel.text")); // NOI18N
         proxyUserNameLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 25, 0, 0);
+        proxyPanel.add(proxyUserNameLabel, gridBagConstraints);
 
+        proxyUserNameTextField.setColumns(20);
         proxyUserNameTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 10);
+        proxyPanel.add(proxyUserNameTextField, gridBagConstraints);
 
         proxyPasswordLabel.setText(bundle.getString("Welcome.proxyPasswordLabel.text")); // NOI18N
         proxyPasswordLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 25, 10, 0);
+        proxyPanel.add(proxyPasswordLabel, gridBagConstraints);
 
+        proxyPasswordField.setColumns(20);
         proxyPasswordField.setEnabled(false);
-
-        proxyInfoLabel.setText(bundle.getString("Welcome.proxyInfoLabel.text")); // NOI18N
-
-        javax.swing.GroupLayout proxyPanelLayout = new javax.swing.GroupLayout(proxyPanel);
-        proxyPanel.setLayout(proxyPanelLayout);
-        proxyPanelLayout.setHorizontalGroup(
-            proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(proxyPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(proxyInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(proxyPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(proxyPanelLayout.createSequentialGroup()
-                                .addComponent(proxyPortLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(proxyPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(proxyPanelLayout.createSequentialGroup()
-                                .addComponent(proxyUserNameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(proxyUserNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(proxyPanelLayout.createSequentialGroup()
-                                .addComponent(proxyPasswordLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(proxyPasswordField))
-                            .addGroup(proxyPanelLayout.createSequentialGroup()
-                                .addComponent(proxyHostLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(proxyCheckBox))
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
-
-        proxyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {proxyHostLabel, proxyPasswordLabel, proxyPortLabel, proxyUserNameLabel});
-
-        proxyPanelLayout.setVerticalGroup(
-            proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(proxyPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(proxyInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(proxyCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(proxyHostLabel)
-                    .addComponent(proxyHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(proxyPortLabel)
-                    .addComponent(proxyPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(proxyUserNameLabel)
-                    .addComponent(proxyUserNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(proxyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(proxyPasswordLabel)
-                    .addComponent(proxyPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 10, 10);
+        proxyPanel.add(proxyPasswordField, gridBagConstraints);
 
         mainCardPanel.add(proxyPanel, "proxyPanel");
 
