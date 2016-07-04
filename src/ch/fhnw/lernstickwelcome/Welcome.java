@@ -3274,7 +3274,7 @@ public class Welcome extends javax.swing.JFrame {
         // check, if device is exFAT
         try {
             Partition partition = Partition.getPartitionFromDeviceAndNumber(
-                    device.substring(5), StorageTools.getSystemSize());
+                    device.substring(5));
             String idType = partition.getIdType();
             if (idType.equals("exfat")) {
                 // rdiff-backup does not work (yet) on exfat partitions!
