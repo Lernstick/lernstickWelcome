@@ -120,7 +120,7 @@ public class Welcome extends javax.swing.JFrame {
     };
     // pepperflashplugin-nonfree doesn't install on i386
     private static final String[] FLASH_PACKAGES = new String[]{
-        "flashplugin-nonfree"
+        "flashplugin-nonfree", "libhal1-flash"
     };
     private static final String USER_HOME = System.getProperty("user.home");
     private static final Path APPLETS_CONFIG_FILE = Paths.get(
