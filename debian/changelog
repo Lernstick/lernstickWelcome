@@ -1,3 +1,9 @@
+lernstickwelcome (201608161215-1) lernstick-8; urgency=medium
+
+  * [85c2b0] added libhal1-flash to collection of flash packages
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 16 Aug 2016 12:15:38 +0200
+
 lernstickwelcome (201608161124-1) lernstick-8; urgency=medium
 
   * [3e6d3f] rebuild against new lernstickTools
