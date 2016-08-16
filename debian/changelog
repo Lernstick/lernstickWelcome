@@ -1,3 +1,10 @@
+lernstickwelcome (201608161124-1) lernstick-8; urgency=medium
+
+  * [3e6d3f] rebuild against new lernstickTools
+  * [ffe155] install minetest-mod-torches
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 16 Aug 2016 11:24:46 +0200
+
 lernstickwelcome (201606171900-1) lernstick-8; urgency=medium
 
   * [7f503e] layout and text formatting fixes
