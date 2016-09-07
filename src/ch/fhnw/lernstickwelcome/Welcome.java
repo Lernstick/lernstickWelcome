@@ -4110,7 +4110,9 @@ public class Welcome extends javax.swing.JFrame {
                     + "rm " + fileName;
             int exitValue = PROCESS_EXECUTOR.executeScript(
                     true, true, adobeReaderInstallScript);
-            if (exitValue != 0) {
+            if (exitValue == 0) {
+                aptGetInstall("lernstick-adobereader-enu");
+            } else {
                 String errorMessage = "Installation of Adobe Reader failed"
                         + "with the following error message:\n"
                         + PROCESS_EXECUTOR.getOutput();
@@ -4245,7 +4247,11 @@ public class Welcome extends javax.swing.JFrame {
             ProgressAction progressAction
                     = new ProgressAction(infoString, icon);
             publish(progressAction);
+            aptGetInstall(packageNames);
+            updateProgress();
+        }
 
+        private void aptGetInstall(String... packageNames) {
             for (String packageName : packageNames) {
                 LOGGER.log(Level.INFO,
                         "installing package \"{0}\"", packageName);
@@ -4283,7 +4289,6 @@ public class Welcome extends javax.swing.JFrame {
                     showErrorMessage(errorMessage);
                 }
             }
-            updateProgress();
         }
 
         private void updateProgress() {
