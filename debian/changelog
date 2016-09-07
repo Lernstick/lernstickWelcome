@@ -1,3 +1,9 @@
+lernstickwelcome (201609071324-1) lernstick-8; urgency=medium
+
+  * [790e0e] install lernstick-adobereader-enu alongside Adobe Reader
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 07 Sep 2016 13:24:47 +0200
+
 lernstickwelcome (201608161215-1) lernstick-8; urgency=medium
 
   * [85c2b0] added libhal1-flash to collection of flash packages
