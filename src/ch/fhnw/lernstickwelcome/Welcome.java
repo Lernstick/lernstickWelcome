@@ -575,13 +575,13 @@ public class Welcome extends javax.swing.JFrame {
         calcularisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
+        minetestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         colobotGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         riliGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         filletsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         neverballGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         neverputtGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         freecolGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        minetestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         frogattoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         supertuxGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         supertuxkartGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1402,6 +1402,16 @@ public class Welcome extends javax.swing.JFrame {
 
         gamesScrollPanel.setLayout(new java.awt.GridBagLayout());
 
+        minetestGamePanel.setDescription(bundle.getString("Welcome.minetestGamePanel.description")); // NOI18N
+        minetestGamePanel.setGameName("Minetest"); // NOI18N
+        minetestGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/minetest.png"))); // NOI18N
+        minetestGamePanel.setWebsite("http://minetest.net"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gamesScrollPanel.add(minetestGamePanel, gridBagConstraints);
+
         colobotGamePanel.setDescription(bundle.getString("Welcome.colobotGamePanel.description")); // NOI18N
         colobotGamePanel.setGameName("Colobot"); // NOI18N
         colobotGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/colobot.png"))); // NOI18N
@@ -1466,16 +1476,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(freecolGamePanel, gridBagConstraints);
-
-        minetestGamePanel.setDescription(bundle.getString("Welcome.minetestGamePanel.description")); // NOI18N
-        minetestGamePanel.setGameName("Minetest"); // NOI18N
-        minetestGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/minetest.png"))); // NOI18N
-        minetestGamePanel.setWebsite("http://minetest.net"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(minetestGamePanel, gridBagConstraints);
 
         frogattoGamePanel.setDescription(bundle.getString("Welcome.frogattoGamePanel.description")); // NOI18N
         frogattoGamePanel.setGameName("Frogatto & Friends"); // NOI18N
