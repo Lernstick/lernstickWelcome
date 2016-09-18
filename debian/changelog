@@ -1,3 +1,9 @@
+lernstickwelcome (201609181728-1) lernstick-8; urgency=medium
+
+  * [c95021] moved Minetest to top position in games
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 18 Sep 2016 17:28:23 +0200
+
 lernstickwelcome (201609181715-1) lernstick-8; urgency=medium
 
   * [0eb12c] updated minetest packages
