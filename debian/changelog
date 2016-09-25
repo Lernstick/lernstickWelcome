@@ -1,3 +1,9 @@
+lernstickwelcome (201609251620-1) lernstick-8; urgency=medium
+
+  * [1956be] add more mbrola voices
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 25 Sep 2016 16:20:50 +0200
+
 lernstickwelcome (201609181728-1) lernstick-8; urgency=medium
 
   * [c95021] moved Minetest to top position in games
