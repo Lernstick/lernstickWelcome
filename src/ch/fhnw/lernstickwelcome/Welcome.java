@@ -3989,10 +3989,11 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(gespeakerPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/gespeaker.png",
                     "gespeaker",
-                    "mbrola-br1", "mbrola-br3", "mbrola-de4", "mbrola-de5",
-                    "mbrola-de6", "mbrola-de7", "mbrola-en1", "mbrola-es1",
-                    "mbrola-es2", "mbrola-fr1", "mbrola-fr4", "mbrola-it3",
-                    "mbrola-it4", "mbrola-us1", "mbrola-us2", "mbrola-us3");
+                    "mbrola-br1", "mbrola-br3", "mbrola-br4", "mbrola-de2",
+                    "mbrola-de3", "mbrola-de4", "mbrola-de5", "mbrola-de6",
+                    "mbrola-de7", "mbrola-en1", "mbrola-es1", "mbrola-es2",
+                    "mbrola-fr1", "mbrola-fr4", "mbrola-it3", "mbrola-it4",
+                    "mbrola-us1", "mbrola-us2", "mbrola-us3");
             installApplication(rosegardenPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/rosegarden.png",
                     "rosegarden", "fluid-soundfont-gm",
