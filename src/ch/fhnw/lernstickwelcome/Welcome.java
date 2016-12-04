@@ -938,8 +938,6 @@ public class Welcome extends javax.swing.JFrame {
 
         recommendedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Welcome.recommendedPanel.border.title"))); // NOI18N
         recommendedPanel.setLayout(new java.awt.GridBagLayout());
-
-        flashCheckBox.setSelected(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         recommendedPanel.add(flashCheckBox, gridBagConstraints);
@@ -957,8 +955,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         recommendedPanel.add(flashLabel, gridBagConstraints);
-
-        readerCheckBox.setSelected(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         recommendedPanel.add(readerCheckBox, gridBagConstraints);
@@ -976,8 +972,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         recommendedPanel.add(readerLabel, gridBagConstraints);
-
-        additionalFontsCheckBox.setSelected(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         recommendedPanel.add(additionalFontsCheckBox, gridBagConstraints);
@@ -995,8 +989,6 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         recommendedPanel.add(fontsLabel, gridBagConstraints);
-
-        multimediaCheckBox.setSelected(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         recommendedPanel.add(multimediaCheckBox, gridBagConstraints);
