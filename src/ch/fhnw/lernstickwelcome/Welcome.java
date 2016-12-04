@@ -2286,10 +2286,10 @@ public class Welcome extends javax.swing.JFrame {
         try {
             if (allowFilesystemMountCheckbox.isSelected()) {
                 LernstickFileTools.replaceText(UDISKS_PKLA_PATH.toString(),
-                        Pattern.compile("=auth_self"), "=yes");
+                        Pattern.compile("=auth_.*"), "=yes");
             } else {
                 LernstickFileTools.replaceText(UDISKS_PKLA_PATH.toString(),
-                        Pattern.compile("=yes"), "=auth_self");
+                        Pattern.compile("=yes"), "=auth_self_keep");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -2587,9 +2587,9 @@ public class Welcome extends javax.swing.JFrame {
                 = "[" + description + "]\n"
                 + "Identity=unix-user:*\n"
                 + "Action=" + action + "\n"
-                + "ResultAny=auth_self\n"
-                + "ResultInactive=auth_self\n"
-                + "ResultActive=auth_self\n";
+                + "ResultAny=auth_self_keep\n"
+                + "ResultInactive=auth_self_keep\n"
+                + "ResultActive=auth_self_keep\n";
         try (FileWriter fileWriter = new FileWriter(strictPKLA)) {
             fileWriter.write(strictWelcomeRule);
         } catch (IOException ex) {
@@ -2609,7 +2609,7 @@ public class Welcome extends javax.swing.JFrame {
                 for (String lenientLine : lenientLines) {
                     Matcher matcher = yesPattern.matcher(lenientLine);
                     if (matcher.matches()) {
-                        lenientLine = matcher.group(1) + "=auth_self";
+                        lenientLine = matcher.group(1) + "=auth_self_keep";
                     }
                     strictLines.add(lenientLine);
                 }
