@@ -127,7 +127,7 @@ public class Welcome extends javax.swing.JFrame {
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     private static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
-    private static final Path PKLA_PATH = Paths.get(
+    private static final Path UDISKS_PKLA_PATH = Paths.get(
             "/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
     private final File propertiesFile;
     private final Properties properties;
@@ -2285,10 +2285,10 @@ public class Welcome extends javax.swing.JFrame {
     private void allowFilesystemMountCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allowFilesystemMountCheckboxItemStateChanged
         try {
             if (allowFilesystemMountCheckbox.isSelected()) {
-                LernstickFileTools.replaceText(PKLA_PATH.toString(),
+                LernstickFileTools.replaceText(UDISKS_PKLA_PATH.toString(),
                         Pattern.compile("=auth_self"), "=yes");
             } else {
-                LernstickFileTools.replaceText(PKLA_PATH.toString(),
+                LernstickFileTools.replaceText(UDISKS_PKLA_PATH.toString(),
                         Pattern.compile("=yes"), "=auth_self");
             }
         } catch (IOException ex) {
@@ -2299,7 +2299,7 @@ public class Welcome extends javax.swing.JFrame {
     private boolean isFileSystemMountAllowed() {
         try {
             List<String> pklaRules
-                    = LernstickFileTools.readFile(PKLA_PATH.toFile());
+                    = LernstickFileTools.readFile(UDISKS_PKLA_PATH.toFile());
             for (String pklaRule : pklaRules) {
                 if (pklaRule.equals("ResultAny=yes")) {
                     return true;
