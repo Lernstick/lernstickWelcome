@@ -1,3 +1,11 @@
+lernstickwelcome (201612041204-1) lernstick-8; urgency=medium
+
+  * [439a5f] no longer auto-select proprietary software
+  * [b4f94c] updated variable name for udisks pkla file
+  * [3cbeb0] use auth_self_keep instead of only auth_self to reduce some of the annoyance
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 04 Dec 2016 12:04:00 +0100
+
 lernstickwelcome (201609251620-1) lernstick-8; urgency=medium
 
   * [1956be] add more mbrola voices
