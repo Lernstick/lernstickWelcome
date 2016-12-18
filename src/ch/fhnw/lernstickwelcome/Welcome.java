@@ -577,6 +577,7 @@ public class Welcome extends javax.swing.JFrame {
         gamesScrollPanel = new ScrollableJPanel();
         minetestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         colobotGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        widelandsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         riliGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         filletsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         neverballGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1414,6 +1415,17 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         gamesScrollPanel.add(colobotGamePanel, gridBagConstraints);
+
+        widelandsGamePanel.setDescription(bundle.getString("Welcome.widelandsGamePanel.description")); // NOI18N
+        widelandsGamePanel.setGameName("Widelands"); // NOI18N
+        widelandsGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/widelands.png"))); // NOI18N
+        widelandsGamePanel.setWebsite("https://wl.widelands.org"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gamesScrollPanel.add(widelandsGamePanel, gridBagConstraints);
 
         riliGamePanel.setDescription(bundle.getString("Welcome.riliGamePanel.description")); // NOI18N
         riliGamePanel.setGameName("Ri-li"); // NOI18N
@@ -3658,6 +3670,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // games
         numberOfPackages += colobotGamePanel.isSelected() ? 1 : 0;
+        numberOfPackages += widelandsGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += riliGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += filletsGamePanel.isSelected() ? 1 : 0;
         numberOfPackages += neverballGamePanel.isSelected() ? 1 : 0;
@@ -3756,6 +3769,7 @@ public class Welcome extends javax.swing.JFrame {
 
         // games
         checkAppInstall(colobotGamePanel, "colobot");
+        checkAppInstall(widelandsGamePanel, "widelands");
         checkAppInstall(riliGamePanel, "ri-li");
         checkAppInstall(filletsGamePanel, "lernstick-fillets-ng");
         checkAppInstall(neverballGamePanel, "live-neverball");
@@ -4011,6 +4025,9 @@ public class Welcome extends javax.swing.JFrame {
             installApplication(colobotGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/colobot.png",
                     "colobot");
+            installApplication(widelandsGamePanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/widelands.png",
+                    "widelands");
             installApplication(riliGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/ri-li.png",
                     "ri-li");
@@ -4469,6 +4486,7 @@ public class Welcome extends javax.swing.JFrame {
     private ch.fhnw.lernstickwelcome.GamePanel webweaverdesktopPanel;
     private javax.swing.JLabel welcomeLabel;
     private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
+    private ch.fhnw.lernstickwelcome.GamePanel widelandsGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel wizbeePanel;
     private ch.fhnw.lernstickwelcome.GamePanel wxMaximaPanel;
     private ch.fhnw.lernstickwelcome.GamePanel xmotoGamePanel;
