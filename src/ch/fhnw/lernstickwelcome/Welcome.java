@@ -95,7 +95,7 @@ public class Welcome extends javax.swing.JFrame {
     private static final String IP_TABLES_FILENAME
             = "/etc/lernstick-firewall/net_whitelist";
     private static final String URL_WHITELIST_FILENAME
-            = "/etc/lernstick-firewall/url_whitelist";
+            = "/etc/squid/whitelist.acl";
     private static final String LOCAL_POLKIT_PATH
             = "/etc/polkit-1/localauthority/50-local.d";
     // !!! processExecutor must be instanciated before the next constants !!!
@@ -2322,7 +2322,7 @@ public class Welcome extends javax.swing.JFrame {
     private void toggleFirewallState() {
         String action = firewallRunning ? "stop" : "start";
         int ret = PROCESS_EXECUTOR.executeProcess(
-                true, true, "lernstick-firewall", action);
+                true, true, "/etc/init.d/squid", action);
 
         if (ret == 0) {
             firewallRunning = !firewallRunning;
@@ -2349,7 +2349,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void updateFirewallState() {
         // check firewall state
-        int ret = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status");
+        int ret = PROCESS_EXECUTOR.executeProcess("/etc/init.d/squid", "status");
         firewallRunning = ret == 0;
 
         // update button icon
@@ -3207,7 +3207,7 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.WARNING, "", ex);
         }
         PROCESS_EXECUTOR.executeProcess(
-                "/etc/init.d/lernstick-firewall", "reload");
+                "squid", "-k", "reconfigure");
     }
 
     private boolean checkBackupDirectory() {
