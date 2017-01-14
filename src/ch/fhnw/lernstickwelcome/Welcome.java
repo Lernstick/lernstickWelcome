@@ -361,8 +361,8 @@ public class Welcome extends javax.swing.JFrame {
                     systemVersion = node.getTextContent();
                 }
             }
-        } catch (ParserConfigurationException | SAXException |
-                IOException | DBusException ex) {
+        } catch (ParserConfigurationException | SAXException
+                | IOException | DBusException ex) {
             LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
         }
         systemNameTextField.setText(systemName);
@@ -2589,7 +2589,8 @@ public class Welcome extends javax.swing.JFrame {
                 "ch.lernstick.dlcopy");
 
         // harden our custom rules for third party applications
-        hardenPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
+        hardenPKLAs("jbackpack", "gnome-system-log",
+                "packagekit", "synaptic", "udisks2");
     }
 
     private void addStrictPKLA(
@@ -3151,8 +3152,8 @@ public class Welcome extends javax.swing.JFrame {
                 PROCESS_EXECUTOR.executeProcess("gfxboot",
                         "--archive", bootlogoDir.getPath(),
                         "--pack-archive", syslinuxDir.getPath() + "/bootlogo");
-            } catch (ParserConfigurationException | SAXException | IOException |
-                    DOMException | TransformerException ex) {
+            } catch (ParserConfigurationException | SAXException | IOException
+                    | DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
         }
@@ -3537,8 +3538,8 @@ public class Welcome extends javax.swing.JFrame {
                 PROCESS_EXECUTOR.executeProcess(
                         "chown", "user.user", prefsFilePath);
 
-            } catch (ParserConfigurationException | SAXException |
-                    IOException | DOMException | TransformerException ex) {
+            } catch (ParserConfigurationException | SAXException
+                    | IOException | DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
 
