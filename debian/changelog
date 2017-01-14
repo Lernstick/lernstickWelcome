@@ -1,3 +1,9 @@
+lernstickwelcome (201701141840-1) lernstick-8; urgency=medium
+
+  * [4c60be] save hardened PKLAs in its own files
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 14 Jan 2017 18:40:20 +0100
+
 lernstickwelcome (201701141823-1) lernstick-8; urgency=medium
 
   * [62a01b] added jbackpack to list of pklas to harden, small code cleanup
