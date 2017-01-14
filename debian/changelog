@@ -1,3 +1,9 @@
+lernstickwelcome (201612181202-2) lernstick-8; urgency=medium
+
+  * [62a01b] added jbackpack to list of pklas to harden, small code cleanup
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 14 Jan 2017 18:23:54 +0100
+
 lernstickwelcome (201612181202-1) lernstick-8; urgency=medium
 
   * [a3d2b2] added widelands to games section
