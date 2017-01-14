@@ -2614,10 +2614,10 @@ public class Welcome extends javax.swing.JFrame {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
         for (String pkla : pklas) {
             try {
-                Path path = Paths.get(
+                Path lenientPath = Paths.get(
                         LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
                 List<String> lenientLines = Files.readAllLines(
-                        path, StandardCharsets.UTF_8);
+                        lenientPath, StandardCharsets.UTF_8);
                 List<String> strictLines = new ArrayList<>();
                 for (String lenientLine : lenientLines) {
                     Matcher matcher = yesPattern.matcher(lenientLine);
@@ -2626,7 +2626,9 @@ public class Welcome extends javax.swing.JFrame {
                     }
                     strictLines.add(lenientLine);
                 }
-                Files.write(path, strictLines, StandardCharsets.UTF_8);
+                Path strictPath = Paths.get(
+                        LOCAL_POLKIT_PATH, "20-" + pkla + "_strict.pkla");
+                Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 showErrorMessage(ex.getMessage());
             }
