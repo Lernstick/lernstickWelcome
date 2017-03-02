@@ -34,6 +34,8 @@ public class SystemconfigTask extends Task<Boolean> {
     private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     
+    // Some functions are only required in exam env.
+    private boolean isExamEnv;
     private Partition bootConfigPartition;
     
     private IntegerProperty timeoutSeconds = new SimpleIntegerProperty();
@@ -44,7 +46,8 @@ public class SystemconfigTask extends Task<Boolean> {
     private BooleanProperty blockKdeDesktopApplets = new SimpleBooleanProperty();
     private BooleanProperty directSoundOutput = new SimpleBooleanProperty();
     
-    public SystemconfigTask() {
+    public SystemconfigTask(boolean isExamEnv) {
+        this.isExamEnv = isExamEnv;
         setDefaultValues();
     }
 
