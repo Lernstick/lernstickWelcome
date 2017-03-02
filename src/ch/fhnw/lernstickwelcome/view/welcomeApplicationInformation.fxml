@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane id="AnchorPane" prefHeight="320.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="-1.0" prefHeight="313.0" prefWidth="416.0" spacing="20.0">
+         <children>
+            <TextFlow prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label id="Description" prefHeight="64.0" prefWidth="378.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationInformation.welcome" textAlignment="CENTER" wrapText="true">
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label id="Description" prefHeight="46.0" prefWidth="378.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationInformation.welcomeText" wrapText="true">
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </TextFlow>
+            <ImageView fitHeight="117.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" rotate="270.0">
+               <image>
+                  <Image url="@../icons/lernstick_usb.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="120.0" top="20.0" />
+               </VBox.margin>
+            </ImageView>
+            <TextFlow prefHeight="30.0" prefWidth="376.0">
+               <children>
+                  <Label prefHeight="16.0" prefWidth="185.0" text="%welcomeApplicationInformation.systemName">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="189.0" text="Debian 9" textAlignment="RIGHT">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Label text="%welcomeApplicationInformation.systemVersion">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="104.0" text="3.4.5">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+               </children>
+            </TextFlow>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

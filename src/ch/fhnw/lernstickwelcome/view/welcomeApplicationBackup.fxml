@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="320.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="-1.0" prefHeight="449.0" prefWidth="416.0" spacing="20.0">
+         <children>
+            <Pane prefHeight="26.0" prefWidth="376.0">
+               <children>
+                  <Label id="Description" layoutX="-1.0" layoutY="-1.0" prefHeight="25.0" prefWidth="346.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationBackup.title" textAlignment="CENTER" wrapText="true">
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="351.0" layoutY="-1.0" mnemonicParsing="false" text="?" />
+               </children>
+            </Pane>
+            <HBox prefHeight="95.0" prefWidth="376.0">
+               <children>
+                  <VBox prefHeight="91.0" prefWidth="278.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.doBackup">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.minutes" />
+                        <Label prefHeight="30.0" prefWidth="279.0" text="%welcomeApplicationBackup.saveScreenshot" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <CheckBox mnemonicParsing="false" prefHeight="29.0" prefWidth="89.0" text="CheckBox" />
+                        <ChoiceBox prefWidth="150.0" />
+                        <CheckBox mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" text="CheckBox" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Pane prefHeight="60.0" prefWidth="376.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.source">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutY="33.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
+                  <TextField layoutX="87.0" layoutY="32.0" prefHeight="26.0" prefWidth="257.0" />
+                  <Button layoutX="350.0" layoutY="32.0" mnemonicParsing="false" text="ff" />
+               </children>
+            </Pane>
+            <Pane prefHeight="177.0" prefWidth="376.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.destination">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutY="63.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
+                  <TextField layoutX="87.0" layoutY="63.0" prefHeight="26.0" prefWidth="257.0" />
+                  <Button layoutX="350.0" layoutY="63.0" mnemonicParsing="false" text="ff" />
+                  <CheckBox layoutX="7.0" layoutY="30.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useLocalFolder" />
+                  <Label layoutY="136.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
+                  <TextField layoutX="195.0" layoutY="135.0" prefHeight="26.0" prefWidth="149.0" />
+                  <Button layoutX="350.0" layoutY="135.0" mnemonicParsing="false" text="ff" />
+                  <CheckBox layoutX="6.0" layoutY="102.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useRemotePartition" />
+                  <ChoiceBox layoutX="87.0" layoutY="135.0" prefHeight="26.0" prefWidth="108.0" />
+               </children>
+            </Pane>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
