@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.model.systemconfig;
 
-import ch.fhnw.lernstickwelcome.model.Category;
 import ch.fhnw.util.Partition;
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +30,10 @@ import org.xml.sax.SAXException;
  *
  * @author sschw
  */
-public class SystemconfigCategoryTask extends Task<Boolean> implements Category {
-    private final static Logger LOGGER = Logger.getLogger(SystemconfigCategoryTask.class.getName());
+public class SystemconfigTask extends Task<Boolean> {
+    private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     
-    private String name;
     private Partition bootConfigPartition;
     
     private IntegerProperty timeoutSeconds = new SimpleIntegerProperty();
@@ -46,14 +44,8 @@ public class SystemconfigCategoryTask extends Task<Boolean> implements Category 
     private BooleanProperty blockKdeDesktopApplets = new SimpleBooleanProperty();
     private BooleanProperty directSoundOutput = new SimpleBooleanProperty();
     
-    public SystemconfigCategoryTask(String name) {
-        this.name = name;
+    public SystemconfigTask() {
         setDefaultValues();
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     @Override

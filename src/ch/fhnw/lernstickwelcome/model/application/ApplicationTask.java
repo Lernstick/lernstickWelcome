@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyCategoryTask;
+import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,24 +28,22 @@ public class ApplicationTask extends Task<Boolean> {
     private String name;
     private String description;
     private Image icon;
-    private ApplicationCommand applicationCommand;
-    private String[] packages;
+    private ApplicationPackages packages;
     private String helpPath;
     private BooleanProperty installing = new SimpleBooleanProperty();
     private boolean installed;
-    private ProxyCategoryTask proxy;
+    private ProxyTask proxy;
     
-    public ApplicationTask(String name, String description, String icon, ApplicationCommand aC, String... packages) {
+    public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
         this.description = description;
         this.icon = new Image(icon);
-        this.applicationCommand = aC;
         this.packages = packages;
         this.installed = initIsInstalled();
     }
     
-    public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationCommand aC, String... installCommands) {
-        this(name, description, icon, aC, installCommands);
+    public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
+        this(name, description, icon, packages);
         this.helpPath = helpPath;
     }
     
@@ -72,29 +70,33 @@ public class ApplicationTask extends Task<Boolean> {
     public boolean isInstalled() {
         return installed;
     }
+    
+    public int getNoPackages() {
+        return packages.getNumberOfPackages();
+    }
 
-    public void setProxy(ProxyCategoryTask proxy) {
+    public void setProxy(ProxyTask proxy) {
         this.proxy = proxy;
     }
 
-    // abstract or strategy pattern
     @Override
     protected Boolean call() throws Exception {
-        String[] commands = applicationCommand.getInstallCommands(proxy, packages);
-        //XXX CHECK IF CORRECT
-        PROCESS_EXECUTOR.executeProcess(commands);
+        updateProgress(0, packages.getNumberOfPackages());
+        //XXX May nice if there would update the percentage while execute
+        PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
+        
         return true;
     }
 
     private boolean initIsInstalled() {
-        int length = packages.length;
+        int length = packages.getNumberOfPackages();
         String[] commandArray = new String[length + 2];
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
         System.arraycopy(packages, 0, commandArray, 2, length);
         PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
-        for (String packageName : packages) {
+        for (String packageName : packages.getPackageNames()) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
             Pattern pattern = Pattern.compile("^ii  " + packageName + ".*");
             boolean found = false;

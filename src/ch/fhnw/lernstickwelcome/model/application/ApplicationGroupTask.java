@@ -5,8 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
-import ch.fhnw.lernstickwelcome.model.Category;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyCategoryTask;
+import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import java.util.List;
 import javafx.concurrent.Task;
 
@@ -15,33 +14,30 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class ApplicationCategoryTask extends Task<Boolean> implements Category {
+public class ApplicationGroupTask extends Task<Boolean> {
     private List<ApplicationTask> apps;
-    private String name;
-    private ProxyCategoryTask proxy;
+    private ProxyTask proxy;
     
-    public ApplicationCategoryTask(String name, ProxyCategoryTask proxy, List<ApplicationTask> apps) {
-        this.name = name;
+    public ApplicationGroupTask(String title, ProxyTask proxy, List<ApplicationTask> apps) {
+        updateTitle(title);
         this.proxy = proxy;
         this.apps = apps;
-    }
-    
-    @Override
-    public String getName() {
-        return name;
     }
 
     @Override
     protected Boolean call() throws Exception {
-        updateTitle(getTitle());
         if(apps != null) {
-            int progressCount = 0;
-            int maxCount = apps.size();
+            // Calculate total work
+            final int totalWork = apps.stream().mapToInt(a -> a.getNoPackages()).sum();
+            
             for(ApplicationTask app : apps) {
                 updateMessage(app.getName());
+                // update this progress on changes of sub-process
+                final double previouslyDone = getWorkDone();
+                app.progressProperty().addListener(cl -> updateProgress(previouslyDone + app.getWorkDone(), totalWork));
+                
                 app.setProxy(proxy);
                 app.call();
-                updateProgress(++progressCount, maxCount);
             }
         }
         return true;

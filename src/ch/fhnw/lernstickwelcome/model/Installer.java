@@ -6,11 +6,12 @@
 package ch.fhnw.lernstickwelcome.model;
 
 import java.util.List;
-import java.util.stream.Stream;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
 /**
@@ -21,32 +22,45 @@ public class Installer {
     private final List<Task> tasks;
     /**
      * Value represents progress by binding it to the values of the tasks.<br>
-     * Tasks need to use progress.<br>
-     * It's also possible to use progress besides workDone and totalWork.<br>
-     * <i>This allows to set a task with multiple subtasks which update the progress</i>
+     * Tasks need to use progress.
      */
     private final DoubleProperty progress = new SimpleDoubleProperty();
+    
+    private final StringProperty title = new SimpleStringProperty();
+    
+    private final StringProperty message = new SimpleStringProperty();
     
     public Installer(List<Task> tasks) {
         this.tasks = tasks;
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(
                 () -> tasks.stream().mapToDouble(
-                        t -> t.getProgress()/t.getTotalWork() + // Add progress to bind
-                                (t.getWorkDone()-1)/t.getTotalWork() // Add work to bind
+                        t -> t.getProgress() // Add progress to bind
                 ).sum()/tasks.size(), 
-                tasks.stream().map(t -> Stream.of(t.progressProperty(), t.workDoneProperty(), t.totalWorkProperty())).toArray(s -> new ReadOnlyDoubleProperty[s])));
+                tasks.stream().map(t -> t.progressProperty()).toArray(s -> new ReadOnlyDoubleProperty[s])));
     }
     
     public void install() {
         new Thread(() -> {
             for(Task t : tasks) {
+                title.bind(t.titleProperty());
+                message.bind(t.messageProperty());
                 t.run();
+                title.unbind();
+                message.unbind();
             }
         }).start();
     }
     
     public DoubleProperty progressProperty() {
         return progress;
+    }
+    
+    public StringProperty titleProperty() {
+        return title;
+    }
+    
+    public StringProperty messageProperty() {
+        return message;
     }
 }

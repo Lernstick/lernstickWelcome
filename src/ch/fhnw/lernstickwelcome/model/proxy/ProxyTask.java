@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.model.proxy;
 
-import ch.fhnw.lernstickwelcome.model.Category;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,8 +17,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class ProxyCategoryTask extends Task<Boolean> implements Category {
-    private String name;
+public class ProxyTask extends Task<Boolean> {
     private BooleanProperty proxyActive = new SimpleBooleanProperty();
     private StringProperty hostname = new SimpleStringProperty();
     private IntegerProperty port = new SimpleIntegerProperty();
@@ -28,15 +26,9 @@ public class ProxyCategoryTask extends Task<Boolean> implements Category {
     
     // Init to prevent typos in commands
     private String wgetProxy = " ";
-    private String aptGetProxy = "";
+    private String aptGetProxy = " ";
     
-    public ProxyCategoryTask(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
+    public ProxyTask() {
     }
     
     public String getWgetProxy() {
@@ -78,7 +70,7 @@ public class ProxyCategoryTask extends Task<Boolean> implements Category {
 
     private void setupAptGetProxy() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Acquire::http::proxy=http://");
+        stringBuilder.append(" -o Acquire::http::proxy=http://");
         if (!username.get().isEmpty()) {
             stringBuilder.append(username.get());
             if (!password.get().isEmpty()) {
@@ -92,6 +84,7 @@ public class ProxyCategoryTask extends Task<Boolean> implements Category {
             stringBuilder.append(':');
             stringBuilder.append(port.get());
         }
+        stringBuilder.append(' ');
         aptGetProxy = stringBuilder.toString();
     }
     

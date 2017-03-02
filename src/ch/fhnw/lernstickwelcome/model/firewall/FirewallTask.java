@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.model.firewall;
 
-import ch.fhnw.lernstickwelcome.model.Category;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.FileOutputStream;
@@ -17,29 +16,21 @@ import javafx.concurrent.Task;
 
 /**
  *
- * @author user
+ * @author sschw
  */
-public class FirewallCategoryTask extends Task<Boolean> implements Category {
+public class FirewallTask extends Task<Boolean> {
     private final static String IP_TABLES_FILENAME = ""; // TODO Filepath for config
     private final static String URL_WHITELIST_FILENAME = ""; // TODO Filepath for config
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    private final static Logger LOGGER = Logger.getLogger(FirewallCategoryTask.class.getName());
-    private String name;
+    private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
     private List<IpFilter> ipList;
     private List<WebsiteFilter> websiteList;
     
-    public FirewallCategoryTask(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
+    public FirewallTask() {
     }
 
     @Override
     protected Boolean call() throws Exception {
-        // FIXME Currently old process
         // TODO Add updateProgress
         // save IP tables
         StringBuilder stringBuilder = new StringBuilder();

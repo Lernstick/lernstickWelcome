@@ -5,9 +5,9 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
+import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
-import ch.fhnw.lernstickwelcome.model.application.ApplicationCategoryTask;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyCategoryTask;
+import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import java.util.ArrayList;
 
@@ -23,10 +23,10 @@ public class WelcomeModelFactory {
         return PROCESS_EXECUTOR;
     }
     
-    public static ApplicationCategoryTask getRecommendedApplicationTask(ProxyCategoryTask proxy) {
+    public static ApplicationGroupTask getRecommendedApplicationTask(ProxyTask proxy) {
         ArrayList<ApplicationTask> list = new ArrayList<ApplicationTask>();
         // TODO create and add recommended applications
-        ApplicationCategoryTask task = new ApplicationCategoryTask(
+        ApplicationGroupTask task = new ApplicationGroupTask(
                 "RecommendedSoftware", 
                 proxy,
                 list
@@ -34,10 +34,10 @@ public class WelcomeModelFactory {
         return task;
     }
     
-    public static ApplicationCategoryTask getTeachingApplicationTask(ProxyCategoryTask proxy) {
+    public static ApplicationGroupTask getTeachingApplicationTask(ProxyTask proxy) {
         ArrayList<ApplicationTask> list = new ArrayList<ApplicationTask>();
         // TODO create and add teaching applications
-        ApplicationCategoryTask task = new ApplicationCategoryTask(
+        ApplicationGroupTask task = new ApplicationGroupTask(
                 "TeachingSoftware", 
                 proxy,
                 list
@@ -45,8 +45,8 @@ public class WelcomeModelFactory {
         return task;
     }
     
-    public static ProxyCategoryTask getProxyCategoryTask() {
-        return new ProxyCategoryTask("ProxySettings");
+    public static ProxyTask getProxyTask() {
+        return new ProxyTask();
     }
     // TODO add more categories which should be initialized
 }

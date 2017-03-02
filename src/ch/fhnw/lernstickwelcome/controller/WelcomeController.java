@@ -7,11 +7,11 @@ package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.model.Installer;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
-import ch.fhnw.lernstickwelcome.model.application.ApplicationCategoryTask;
-import ch.fhnw.lernstickwelcome.model.backup.BackupCategoryTask;
-import ch.fhnw.lernstickwelcome.model.firewall.FirewallCategoryTask;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyCategoryTask;
-import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigCategoryTask;
+import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
+import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
+import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
+import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.concurrent.Task;
@@ -23,16 +23,16 @@ import javafx.concurrent.Task;
 public class WelcomeController {
     private Installer installer;
     // Standard Environment
-    private ProxyCategoryTask proxy;
-    private ApplicationCategoryTask recApps;
-    private ApplicationCategoryTask teachApps;
-    private ApplicationCategoryTask softwApps;
-    private ApplicationCategoryTask gamesApps;
+    private ProxyTask proxy;
+    private ApplicationGroupTask recApps;
+    private ApplicationGroupTask teachApps;
+    private ApplicationGroupTask softwApps;
+    private ApplicationGroupTask gamesApps;
     // Exam Environment
-    private FirewallCategoryTask firewall;
-    private BackupCategoryTask backup;
+    private FirewallTask firewall;
+    private BackupTask backup;
     // General
-    private SystemconfigCategoryTask sysconf;
+    private SystemconfigTask sysconf;
     
     public void loadExamEnvironment() {
         
@@ -44,7 +44,7 @@ public class WelcomeController {
     
     public void loadStandardEnvironment() {
         // Init Model
-        proxy = WelcomeModelFactory.getProxyCategoryTask();
+        proxy = WelcomeModelFactory.getProxyTask();
         recApps = WelcomeModelFactory.getRecommendedApplicationTask(proxy);
         
         // Init Installer
