@@ -5,7 +5,10 @@
  */
 package ch.fhnw.lernstickwelcome.model.partition;
 
+import java.util.Properties;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 
 /**
@@ -14,6 +17,19 @@ import javafx.concurrent.Task;
  */
 public class PartitionTask extends Task<Boolean> {
     private static final Logger LOGGER = Logger.getLogger(PartitionTask.class.getName());
+    
+    private BooleanProperty accessExchangePartition = new SimpleBooleanProperty();
+    private BooleanProperty showReadOnlyInfo = new SimpleBooleanProperty();
+    private BooleanProperty showReadWriteWelcome = new SimpleBooleanProperty();
+
+    public PartitionTask(Properties properties) {
+        accessExchangePartition.set("true".equals(
+                properties.getProperty(EXCHANGE_ACCESS)));
+        showReadWriteWelcome.set("true".equals(
+                properties.getProperty(SHOW_WELCOME)));
+        showReadOnlyInfo.set("true".equals(
+                properties.getProperty(SHOW_READ_ONLY_INFO, "true")));
+    }
 
     @Override
     protected Boolean call() throws Exception {

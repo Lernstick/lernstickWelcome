@@ -63,7 +63,7 @@ public class WelcomeUtil {
         return lines;
     }
     
-    private boolean isFileSystemMountAllowed() {
+    public boolean isFileSystemMountAllowed() {
         try {
             List<String> pklaRules
                     = LernstickFileTools.readFile(PKLA_PATH.toFile());

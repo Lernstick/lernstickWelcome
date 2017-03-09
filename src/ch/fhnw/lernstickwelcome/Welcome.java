@@ -231,6 +231,7 @@ public class Welcome extends javax.swing.JFrame {
         readOnlyCheckBox.setSelected("true".equals(
                 properties.getProperty(SHOW_READ_ONLY_INFO, "true")));
 
+        // XXX GUI
         menuList.setModel(menuListModel);
 
         menuListModel.addElement(new MainMenuListEntry(
@@ -261,6 +262,9 @@ public class Welcome extends javax.swing.JFrame {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/network-server.png",
                     BUNDLE.getString("Proxy"), "proxyPanel"));
+            
+            
+            // XXX Stopped here
             exchangeAccessCheckBox.setVisible(false);
             exchangeRebootLabel.setVisible(false);
             allowFilesystemMountCheckbox.setVisible(false);

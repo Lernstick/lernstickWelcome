@@ -14,10 +14,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
@@ -51,8 +54,22 @@ public class BackupTask extends Task<Boolean> {
     private BooleanProperty partition = new SimpleBooleanProperty();
     private StringProperty partitionPath = new SimpleStringProperty();
     private BooleanProperty screenshot = new SimpleBooleanProperty();
+    private IntegerProperty frequency = new SimpleIntegerProperty();
     
-    public BackupTask() {
+    public BackupTask(Properties properties) {
+        active.set("true".equals(properties.getProperty(BACKUP)));
+        sourcePath.set(properties.getProperty(
+                BACKUP_SOURCE, "/home/user/"));
+        local.set("true".equals(
+                properties.getProperty(BACKUP_DIRECTORY_ENABLED, "true")));
+        partition.set("true".equals(
+                properties.getProperty(BACKUP_PARTITION_ENABLED)));
+        partitionPath.set(
+                properties.getProperty(BACKUP_PARTITION));
+        screenshot.set("true".equals(
+                properties.getProperty(BACKUP_SCREENSHOT)));
+        frequency.set(new Integer(properties.getProperty(
+                BACKUP_FREQUENCY, "5")));
     }
 
     @Override

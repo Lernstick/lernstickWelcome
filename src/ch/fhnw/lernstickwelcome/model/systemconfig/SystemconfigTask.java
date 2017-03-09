@@ -23,6 +23,7 @@ import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -74,9 +75,13 @@ public class SystemconfigTask extends Task<Boolean> {
     private StringProperty username = new SimpleStringProperty();
     private BooleanProperty blockKdeDesktopApplets = new SimpleBooleanProperty();
     private BooleanProperty directSoundOutput = new SimpleBooleanProperty();
+    private BooleanProperty allowAccessToOtherFilesystems = new SimpleBooleanProperty();
     
-    public SystemconfigTask(boolean isExamEnv) {
+    public SystemconfigTask(boolean isExamEnv, Properties properties) {
         this.isExamEnv = isExamEnv;
+        blockKdeDesktopApplets.set("true".equals(
+                properties.getProperty(KDE_LOCK)));
+        allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
         setDefaultValues();
     }
 
@@ -460,6 +465,7 @@ public class SystemconfigTask extends Task<Boolean> {
             }
         }
     }
+    // TODO enable function - find out how it's used
 /*
     private void getFullUserName() {
         AbstractDocument userNameDocument
