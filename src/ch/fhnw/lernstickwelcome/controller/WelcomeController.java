@@ -10,6 +10,7 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
+import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ public class WelcomeController {
     private ApplicationGroupTask teachApps;
     private ApplicationGroupTask softwApps;
     private ApplicationGroupTask gamesApps;
+    private SystemconfigTask system;
+    private PartitionTask partition;
     // Exam Environment
     private FirewallTask firewall;
     private BackupTask backup;
@@ -35,8 +38,6 @@ public class WelcomeController {
     private SystemconfigTask sysconf;
     
     public void loadExamEnvironment() {
-        
-        
         List<Task> installTasks = new ArrayList<Task>();
         
         installer = new Installer(installTasks);

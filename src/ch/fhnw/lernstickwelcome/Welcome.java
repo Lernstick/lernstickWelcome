@@ -153,6 +153,7 @@ public class Welcome extends javax.swing.JFrame {
      * @param examEnvironment if <tt>true</tt>, show the version for the exam
      * environment, otherwise for the learning environment
      */
+    // XXX Still missing in Backend
     public Welcome(boolean examEnvironment) {
         this.examEnvironment = examEnvironment;
 
@@ -361,8 +362,8 @@ public class Welcome extends javax.swing.JFrame {
                     systemVersion = node.getTextContent();
                 }
             }
-        } catch (ParserConfigurationException | SAXException |
-                IOException | DBusException ex) {
+        } catch (ParserConfigurationException | SAXException
+                | IOException | DBusException ex) {
             LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
         }
         systemNameTextField.setText(systemName);
@@ -2318,6 +2319,7 @@ public class Welcome extends javax.swing.JFrame {
         }
         return false;
     }
+///////////////////////////////////////////////
 
     private void toggleFirewallState() {
         String action = firewallRunning ? "stop" : "start";
@@ -2347,6 +2349,7 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
+    // XXX GUI (Backend was added)
     private void updateFirewallState() {
         // check firewall state
         int ret = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status");
@@ -2903,6 +2906,7 @@ public class Welcome extends javax.swing.JFrame {
         return stringBuilder.toString();
     }
 
+    // XXX Still missing in Backend
     private void apply() throws DBusException {
         // make sure that all edits are applied to the IP table
         // and so some firewall sanity checks
@@ -3147,8 +3151,8 @@ public class Welcome extends javax.swing.JFrame {
                 PROCESS_EXECUTOR.executeProcess("gfxboot",
                         "--archive", bootlogoDir.getPath(),
                         "--pack-archive", syslinuxDir.getPath() + "/bootlogo");
-            } catch (ParserConfigurationException | SAXException | IOException |
-                    DOMException | TransformerException ex) {
+            } catch (ParserConfigurationException | SAXException | IOException
+                    | DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
         }
@@ -3297,6 +3301,7 @@ public class Welcome extends javax.swing.JFrame {
         showErrorMessage(errorMessage);
     }
 
+    // XXX GUI
     private boolean checkFirewall() {
         for (int i = 0; i < ipTableModel.getRowCount(); i++) {
             if (!checkTarget((String) ipTableModel.getValueAt(i, 1), i)) {
@@ -3309,6 +3314,7 @@ public class Welcome extends javax.swing.JFrame {
         return true;
     }
 
+    // XXX GUI
     private boolean checkPortRange(String portRange, int index) {
         String[] tokens = portRange.split(":");
         switch (tokens.length) {
@@ -3336,6 +3342,7 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
+    // XXX GUI
     private boolean checkPortString(String portString, int index) {
         try {
             int portNumber = Integer.parseInt(portString);
@@ -3355,6 +3362,7 @@ public class Welcome extends javax.swing.JFrame {
         firewallError(errorMessage, index, 2);
     }
 
+    // XXX GUI
     private boolean checkTarget(String target, int index) {
         // a CIDR block has the syntax: <IP address>\<prefix length>
         String octetP = "\\p{Digit}{1,3}";
@@ -3399,6 +3407,7 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
+    // XXX GUI
     private boolean checkHostName(String string, int index) {
         // Hostnames are composed of series of labels concatenated with dots, as
         // are all domain names. For example, "en.wikipedia.org" is a hostname.
@@ -3449,6 +3458,7 @@ public class Welcome extends javax.swing.JFrame {
         return true;
     }
 
+    // XXX GUI
     private boolean checkIPv4Address(String string, int index) {
         String[] octetStrings = string.split("\\.");
         for (String octetString : octetStrings) {
@@ -3464,6 +3474,7 @@ public class Welcome extends javax.swing.JFrame {
         return true;
     }
 
+    // XXX GUI
     private void firewallError(String errorMessage, int row, int column) {
         menuList.setSelectedValue(firewallEntry, true);
         firewallTabbedPane.setSelectedIndex(0);
@@ -3533,8 +3544,8 @@ public class Welcome extends javax.swing.JFrame {
                 PROCESS_EXECUTOR.executeProcess(
                         "chown", "user.user", prefsFilePath);
 
-            } catch (ParserConfigurationException | SAXException |
-                    IOException | DOMException | TransformerException ex) {
+            } catch (ParserConfigurationException | SAXException
+                    | IOException | DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
 

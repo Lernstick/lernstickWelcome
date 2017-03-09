@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.firewall;
 
+import ch.fhnw.lernstickwelcome.controller.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.FileOutputStream;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 
 /**
@@ -25,6 +28,7 @@ public class FirewallTask extends Task<Boolean> {
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
     private List<IpFilter> ipList;
     private List<WebsiteFilter> websiteList;
+    private BooleanProperty firewallRunning = new SimpleBooleanProperty();
     
     public FirewallTask() {
     }
@@ -32,6 +36,11 @@ public class FirewallTask extends Task<Boolean> {
     @Override
     protected Boolean call() throws Exception {
         // TODO Add updateProgress
+        // TODO Process
+        return true;
+    }
+    
+    private void updateFirewall() {
         // save IP tables
         StringBuilder stringBuilder = new StringBuilder();
         for (IpFilter ip : ipList) {
@@ -73,7 +82,29 @@ public class FirewallTask extends Task<Boolean> {
         }
         PROCESS_EXECUTOR.executeProcess(
                 "/etc/init.d/lernstick-firewall", "reload");
-        return true;
     }
     
+    private void toggleFirewallState() throws ProcessingException {
+        String action = firewallRunning.get() ? "stop" : "start";
+        int ret = PROCESS_EXECUTOR.executeProcess(true, true, "lernstick-firewall", action);
+
+        if (ret == 0) {
+            firewallRunning.set(!firewallRunning.get());
+            // check firewall state
+            firewallRunning.set(PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0);
+        } else {
+            LOGGER.log(Level.WARNING,
+                    action + "ing lernstick-firewall failed, return code {0} "
+                    + "stdout: '{1}', stderr: '{2}'",
+                    new Object[]{
+                        ret,
+                        PROCESS_EXECUTOR.getStdOut(),
+                        PROCESS_EXECUTOR.getStdErr()
+                    });
+            String messageId = firewallRunning.get()
+                    ? "Stop_firewall_error"
+                    : "Start_firewall_error";
+            throw new ProcessingException(messageId);
+        }
+    }
 }

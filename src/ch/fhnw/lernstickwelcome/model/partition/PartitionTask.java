@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.partition;
 
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 
 /**
@@ -12,10 +13,10 @@ import javafx.concurrent.Task;
  * @author sschw
  */
 public class PartitionTask extends Task<Boolean> {
+    private static final Logger LOGGER = Logger.getLogger(PartitionTask.class.getName());
 
     @Override
     protected Boolean call() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }
