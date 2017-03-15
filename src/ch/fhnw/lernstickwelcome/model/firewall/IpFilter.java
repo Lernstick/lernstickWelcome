@@ -5,9 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.firewall;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -23,16 +21,27 @@ public class IpFilter {
     }
 
     private StringProperty ipAddress = new SimpleStringProperty();
-    private IntegerProperty port = new SimpleIntegerProperty();
-    private ObjectProperty<Protocol> protocol = new SimpleObjectProperty<Protocol>();
+    private StringProperty portRange = new SimpleStringProperty();
+    private ObjectProperty<Protocol> protocol = new SimpleObjectProperty<>();
     private StringProperty description = new SimpleStringProperty();
+    
+    public IpFilter() {
+        protocol.set(Protocol.TCP);
+    }
+    
+    public IpFilter(Protocol protocol, String ipAddress, String portRange, String description) {
+        this.protocol.set(protocol);
+        this.ipAddress.set(ipAddress);
+        this.portRange.set(portRange);
+        this.description.set(description);
+    }
     
     public StringProperty ipAddressProperty() {
         return ipAddress;
     }
     
-    public IntegerProperty portProperty() {
-        return port;
+    public StringProperty portProperty() {
+        return portRange;
     }
     
     public ObjectProperty<Protocol> protocolProperty() {
@@ -47,8 +56,8 @@ public class IpFilter {
         return ipAddress.get();
     }
     
-    public Integer getPort() {
-        return port.get();
+    public String getPortRange() {
+        return portRange.get();
     }
     
     public Protocol getProtocol() {

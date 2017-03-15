@@ -18,7 +18,7 @@ import javafx.concurrent.Task;
  *
  * @author user
  */
-public class Installer {
+public class TaskProcessor {
     private final List<Task> tasks;
     /**
      * Value represents progress by binding it to the values of the tasks.<br>
@@ -30,7 +30,7 @@ public class Installer {
     
     private final StringProperty message = new SimpleStringProperty();
     
-    public Installer(List<Task> tasks) {
+    public TaskProcessor(List<Task> tasks) {
         this.tasks = tasks;
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(

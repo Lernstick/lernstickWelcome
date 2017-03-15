@@ -6,12 +6,13 @@
 package ch.fhnw.lernstickwelcome;
 
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
+import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.controller.TableCellValidationException;
+import ch.fhnw.lernstickwelcome.model.WelcomeUtil;
 import ch.fhnw.util.LernstickFileTools;
 import ch.fhnw.util.MountInfo;
 import ch.fhnw.util.Partition;
-import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
-import ch.fhnw.util.StorageTools;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.CardLayout;
@@ -20,21 +21,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.UserPrincipalLookupService;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -50,22 +43,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.freedesktop.dbus.exceptions.DBusException;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * The welcome window of the lernstick
@@ -78,57 +56,6 @@ public class Welcome extends javax.swing.JFrame {
             = Logger.getLogger(Welcome.class.getName());
     private static final ResourceBundle BUNDLE
             = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
-    private static final String SHOW_WELCOME = "ShowWelcome";
-    private static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
-    private static final String BACKUP = "Backup";
-    private static final String BACKUP_SOURCE = "BackupSource";
-    private static final String BACKUP_DIRECTORY_ENABLED = "BackupDirectoryEnabled";
-    private static final String BACKUP_DIRECTORY = "BackupDirectory";
-    private static final String BACKUP_PARTITION_ENABLED = "BackupPartitionEnabled";
-    private static final String BACKUP_PARTITION = "BackupPartition";
-    private static final String BACKUP_SCREENSHOT = "BackupScreenshot";
-    private static final String BACKUP_FREQUENCY = "BackupFrequency";
-    private static final String EXCHANGE_ACCESS = "ExchangeAccess";
-    private static final String KDE_LOCK = "LockKDE";
-    // !!! NO trailing slash at the end (would break comparison later) !!!
-    private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
-    private static final String IP_TABLES_FILENAME
-            = "/etc/lernstick-firewall/net_whitelist";
-    private static final String URL_WHITELIST_FILENAME
-            = "/etc/lernstick-firewall/url_whitelist";
-    private static final String LOCAL_POLKIT_PATH
-            = "/etc/polkit-1/localauthority/50-local.d";
-    // !!! processExecutor must be instanciated before the next constants !!!
-    private static final ProcessExecutor PROCESS_EXECUTOR
-            = new ProcessExecutor();
-    private static final boolean IMAGE_IS_WRITABLE = isImageWritable();
-    // mapping of checkboxes to package collections
-//    private static final String[] ACROREAD_PACKAGES = new String[]{
-//        "acroread", "acroread-l10n-de", "acroread-l10n-es", "acroread-l10n-fr",
-//        "acroread-l10n-it", "acroread-dictionary-de", "acroread-dictionary-es",
-//        "acroread-dictionary-fr", "acroread-dictionary-it", "acroread-doc-de",
-//        "acroread-doc-es", "acroread-doc-fr", "acroread-doc-it",
-//        "acroread-escript", "acroread-plugin-speech"
-//    };
-    // "ttf-pelikan-schulschriften" are currently unavailable
-    private static final String[] FONTS_PACKAGES = new String[]{
-        "ttf-mscorefonts-installer"
-    };
-    // "mplayer-codecs" are currently unavailable
-    private static final String[] MULTIMEDIA_PACKAGES = new String[]{
-        "libdvdcss2", "libmp3lame0", "lame"
-    };
-    // pepperflashplugin-nonfree doesn't install on i386
-    private static final String[] FLASH_PACKAGES = new String[]{
-        "flashplugin-nonfree", "libhal1-flash"
-    };
-    private static final String USER_HOME = System.getProperty("user.home");
-    private static final Path APPLETS_CONFIG_FILE = Paths.get(
-            "/home/user/.kde/share/config/plasma-desktop-appletsrc");
-    private static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
-            "/usr/share/alsa/alsa.conf.d/pulse.conf");
-    private static final Path PKLA_PATH = Paths.get(
-            "/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
     private final File propertiesFile;
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -264,7 +191,6 @@ public class Welcome extends javax.swing.JFrame {
                     BUNDLE.getString("Proxy"), "proxyPanel"));
             
             
-            // XXX Stopped here
             exchangeAccessCheckBox.setVisible(false);
             exchangeRebootLabel.setVisible(false);
             allowFilesystemMountCheckbox.setVisible(false);
@@ -281,41 +207,17 @@ public class Welcome extends javax.swing.JFrame {
         menuList.setCellRenderer(new MyListCellRenderer());
         menuList.setSelectedIndex(0);
 
-        getFullUserName();
+        AbstractDocument userNameDocument
+                = (AbstractDocument) userNameTextField.getDocument();
+        userNameDocument.setDocumentFilter(new FullUserNameFilter());
+        userNameTextField.setText(systemTask.getUsername().get());
 
         AbstractDocument exchangePartitionNameDocument
                 = (AbstractDocument) exchangePartitionNameTextField.getDocument();
         exchangePartitionNameDocument.setDocumentFilter(
                 new DocumentSizeFilter());
 
-        try {
-            systemStorageDevice = StorageTools.getSystemStorageDevice();
-            if (systemStorageDevice != null) {
-                exchangePartition = systemStorageDevice.getExchangePartition();
-
-                Partition efiPartition = systemStorageDevice.getEfiPartition();
-                if (efiPartition != null
-                        && efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
-                    // current partitioning scheme, the boot config is on the
-                    // *system* partition!
-                    bootConfigPartition
-                            = systemStorageDevice.getSystemPartition();
-                } else {
-                    // pre 2016-02 partitioning scheme with boot config files on
-                    // boot partition
-                    bootConfigPartition = efiPartition;
-                }
-                if (bootConfigPartition != null) {
-                    bootConfigMountInfo = bootConfigPartition.mount();
-                }
-            }
-            LOGGER.log(Level.INFO, "\nsystemStorageDevice: {0}\n"
-                    + "exchangePartition: {1}\nbootConfigPartition: {2}",
-                    new Object[]{systemStorageDevice,
-                        exchangePartition, bootConfigPartition});
-        } catch (DBusException | IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        }
+        
 
         if (exchangePartition == null) {
             exchangePartitionNameLabel.setEnabled(false);
@@ -323,17 +225,6 @@ public class Welcome extends javax.swing.JFrame {
         } else {
             exchangePartitionLabel = exchangePartition.getIdLabel();
             exchangePartitionNameTextField.setText(exchangePartitionLabel);
-
-            try {
-                String exchangeMountPath = exchangePartition.getMountPath();
-                LOGGER.log(Level.INFO,
-                        "exchangeMountPath: {0}", exchangeMountPath);
-                backupDirectoryTextField.setText(properties.getProperty(
-                        BACKUP_DIRECTORY, exchangeMountPath + '/'
-                        + BUNDLE.getString("Backup_Directory")));
-            } catch (DBusException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
-            }
         }
 
         // *** determine some boot config properties ***
@@ -346,33 +237,8 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.WARNING, "could not set boot timeout value", ex);
         }
         updateSecondsLabel();
-        // system strings
-        String systemName = null;
-        String systemVersion = null;
-        try {
-            File xmlBootConfigFile = getXmlBootConfigFile();
-            if (xmlBootConfigFile != null) {
-                Document xmlBootDocument = parseXmlFile(xmlBootConfigFile);
-                xmlBootDocument.getDocumentElement().normalize();
-                Node systemNode = xmlBootDocument.getElementsByTagName(
-                        "system").item(0);
-                Element systemElement = (Element) systemNode;
-                Node node = systemElement.getElementsByTagName("text").item(0);
-                if (node != null) {
-                    systemName = node.getTextContent();
-                }
-                node = systemElement.getElementsByTagName("version").item(0);
-                if (node != null) {
-                    systemVersion = node.getTextContent();
-                }
-            }
-        } catch (ParserConfigurationException | SAXException
-                | IOException | DBusException ex) {
-            LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
-        }
-        systemNameTextField.setText(systemName);
-        systemVersionTextField.setText(systemVersion);
-        if (!IMAGE_IS_WRITABLE) {
+        
+        if (!WelcomeUtil.isImageWritable()) {
             bootTimeoutSpinner.setEnabled(false);
             systemNameTextField.setEditable(false);
             systemVersionTextField.setEditable(false);
@@ -414,31 +280,9 @@ public class Welcome extends javax.swing.JFrame {
         });
 
         if (examEnvironment) {
-            try {
-                parseNetWhiteList();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
-            }
-
-            try {
-                parseURLWhiteList();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
-            }
-
-            // start periodic firewall status check
-            javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
-                    3000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    updateFirewallState();
-                }
-            });
-            firewallStatusTimer.setInitialDelay(0);
-            firewallStatusTimer.start();
+            // firewallTask = new FirewallTask();
         }
 
-        noPulseAudioCheckbox.setSelected(!Files.exists(ALSA_PULSE_CONFIG_FILE));
 
         helpTextPane.setCaretPosition(0);
 
@@ -2356,8 +2200,8 @@ public class Welcome extends javax.swing.JFrame {
     // XXX GUI (Backend was added)
     private void updateFirewallState() {
         // check firewall state
-        int ret = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status");
-        firewallRunning = ret == 0;
+        
+        boolean firewallRunning = firewallTask.updateFirewallState() == 0;
 
         // update button icon
         String iconBasePath = "/ch/fhnw/lernstickwelcome/icons/16x16/";
@@ -2385,28 +2229,8 @@ public class Welcome extends javax.swing.JFrame {
         AbstractDocument userNameDocument
                 = (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        PROCESS_EXECUTOR.executeProcess(true, true, "getent", "passwd", "user");
-        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
-        if (stdOut.isEmpty()) {
-            LOGGER.warning("getent returned no result!");
-            fullName = null;
-        } else {
-            // getent passwd returns a line with the following pattern:
-            // login:encrypted_password:id:gid:gecos_field:home:shell
-            String line = stdOut.get(0);
-            String[] tokens = line.split(":");
-            if (tokens.length < 5) {
-                LOGGER.log(Level.WARNING,
-                        "can not parse getent line:\n{0}", line);
-                fullName = null;
-            } else {
-                String gecosField = line.split(":")[4];
-                // the "gecos_field" has the following syntax:
-                // full_name,room_nr,phone_work,phone_private,misc
-                fullName = gecosField.split(",")[0];
-                userNameTextField.setText(fullName);
-            }
-        }
+        
+        userNameTextField.setText(systemTask.getFullUserName());
     }
 
     private void showFileSelector(JTextField textField) {
@@ -2480,278 +2304,18 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private void parseNetWhiteList() throws IOException {
-        FileReader fileReader = new FileReader(IP_TABLES_FILENAME);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String lastComment = "";
-        for (String line = bufferedReader.readLine(); line != null;) {
-            if (line.startsWith("#")) {
-                lastComment = line.substring(1).trim();
-            } else {
-                // try parsing "protocol target port"
-                String[] tokens = line.split(" ");
-                if (tokens.length == 3) {
-                    Protocol protocol;
-                    if (tokens[0].equalsIgnoreCase("TCP")) {
-                        protocol = Protocol.TCP;
-                    } else if (tokens[0].equalsIgnoreCase("UDP")) {
-                        protocol = Protocol.UDP;
-                    } else {
-                        LOGGER.log(Level.WARNING,
-                                "could not parse protocol \"{0}\"", tokens[0]);
-                        continue;
-                    }
-                    String target = tokens[1];
-                    String portRange = tokens[2];
-                    ipTableModel.addEntry(new IPTableEntry(
-                            protocol, target, portRange, lastComment));
-                } else {
-                    LOGGER.log(Level.WARNING,
-                            "unsupported net whitelist:\n{0}", line);
-                }
-            }
-
-            line = bufferedReader.readLine();
-        }
+        // TODO
         ipTableModel.fireTableDataChanged();
     }
 
     private void changePassword() {
-        // check, if both passwords are the same
-        char[] password1 = passwordField1.getPassword();
-        char[] password2 = passwordField2.getPassword();
-        if (!Arrays.equals(password1, password2)) {
+        try {
+            systemTask.changePassword();
+        } catch(ProcessingException ex) {
             JOptionPane.showMessageDialog(this,
-                    BUNDLE.getString("Password_Mismatch"),
-                    BUNDLE.getString("Warning"), JOptionPane.WARNING_MESSAGE);
-            passwordField1.selectAll();
-            passwordField1.requestFocusInWindow();
-            return;
+                    BUNDLE.getString(ex.getMessage()),
+                    BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
         }
-
-        // ok, passwords match, change password
-        String passwordChangeScript = "#!/bin/sh\n"
-                + "echo \"user:" + new String(password1) + "\""
-                + " | /usr/sbin/chpasswd\n";
-        ProcessExecutor executor = new ProcessExecutor();
-        try {
-            int returnValue = executor.executeScript(
-                    true, true, passwordChangeScript);
-            if (returnValue == 0) {
-                passwordEnabled();
-                JOptionPane.showMessageDialog(this,
-                        BUNDLE.getString("Password_Changed"),
-                        BUNDLE.getString("Information"),
-                        JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        BUNDLE.getString("Password_Change_Error"),
-                        BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
-        }
-    }
-
-    private void passwordEnabled() {
-        // TODO: the password hint is deprecated
-        // remove this code block somewhen in the future...
-
-        // disable password hint
-        File configFile = new File(
-                "/home/user/.kde/share/config/empty_passwd_info");
-        if (!configFile.exists()) {
-            try (FileWriter fileWriter = new FileWriter(configFile)) {
-                // write kdialog config file
-                fileWriter.write("[Notification Messages]\n"
-                        + "show=false");
-
-                // fix ownership of kdialog config file:
-                Path path = configFile.toPath();
-                UserPrincipalLookupService lookupService
-                        = FileSystems.getDefault().getUserPrincipalLookupService();
-                // set user
-                Files.setOwner(path, lookupService.lookupPrincipalByName("user"));
-                // set group            
-                PosixFileAttributeView fileAttributeView
-                        = Files.getFileAttributeView(path,
-                                PosixFileAttributeView.class);
-                fileAttributeView.setGroup(
-                        lookupService.lookupPrincipalByGroupName("user"));
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
-            }
-        }
-
-        // add polkit rules to enforce authentication
-        // rules for our own applications
-        addStrictPKLA("10-welcome.pkla", "enforce authentication before "
-                + "running the Lernstick Welcome application",
-                "ch.lernstick.welcome");
-        addStrictPKLA("10-dlcopy.pkla", "enforce authentication before "
-                + "running the Lernstick storage media management application",
-                "ch.lernstick.dlcopy");
-
-        // harden our custom rules for third party applications
-        hardenPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
-    }
-
-    private void addStrictPKLA(
-            String fileName, String description, String action) {
-        File strictPKLA = new File(LOCAL_POLKIT_PATH, fileName);
-        String strictWelcomeRule
-                = "[" + description + "]\n"
-                + "Identity=unix-user:*\n"
-                + "Action=" + action + "\n"
-                + "ResultAny=auth_self\n"
-                + "ResultInactive=auth_self\n"
-                + "ResultActive=auth_self\n";
-        try (FileWriter fileWriter = new FileWriter(strictPKLA)) {
-            fileWriter.write(strictWelcomeRule);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
-        }
-    }
-
-    private void hardenPKLAs(String... pklas) {
-        Pattern yesPattern = Pattern.compile("(.*)=yes");
-        for (String pkla : pklas) {
-            try {
-                Path path = Paths.get(
-                        LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
-                List<String> lenientLines = Files.readAllLines(
-                        path, StandardCharsets.UTF_8);
-                List<String> strictLines = new ArrayList<>();
-                for (String lenientLine : lenientLines) {
-                    Matcher matcher = yesPattern.matcher(lenientLine);
-                    if (matcher.matches()) {
-                        lenientLine = matcher.group(1) + "=auth_self";
-                    }
-                    strictLines.add(lenientLine);
-                }
-                Files.write(path, strictLines, StandardCharsets.UTF_8);
-            } catch (IOException ex) {
-                showErrorMessage(ex.getMessage());
-            }
-        }
-    }
-
-    private static boolean isImageWritable() {
-        PROCESS_EXECUTOR.executeProcess(
-                "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
-        String testPath = IMAGE_DIRECTORY + "/lernstickWelcome.tmp";
-        PROCESS_EXECUTOR.executeProcess("touch", testPath);
-        File testFile = new File(testPath);
-        try {
-            if (testFile.exists()) {
-                LOGGER.info("image is writable");
-                return true;
-            } else {
-                LOGGER.info("image is not writable");
-                return false;
-            }
-        } finally {
-            PROCESS_EXECUTOR.executeProcess("rm", testPath);
-            PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
-        }
-    }
-
-    private File getXmlBootConfigFile() throws DBusException {
-
-        if (bootConfigPartition == null) {
-            // legacy system
-            File configFile = getXmlBootConfigFile(new File(IMAGE_DIRECTORY));
-            if (configFile != null) {
-                return configFile;
-            }
-        } else {
-            // system with a separate boot partition
-            File configFile = bootConfigPartition.executeMounted(
-                    new Partition.Action<File>() {
-
-                @Override
-                public File execute(File mountPath) {
-                    return getXmlBootConfigFile(mountPath);
-                }
-            });
-            if (configFile != null) {
-                return configFile;
-            }
-        }
-
-        return null;
-    }
-
-    private File getXmlBootConfigFile(File directory) {
-        // search through all known variants
-        String[] dirs = new String[]{"isolinux", "syslinux"};
-        String[] subdirs = new String[]{"/", "/bootlogo.dir/"};
-        for (String dir : dirs) {
-            for (String subdir : subdirs) {
-                File configFile = new File(
-                        directory, dir + subdir + "xmlboot.config");
-                if (configFile.exists()) {
-                    LOGGER.log(Level.INFO,
-                            "xmlboot config file: {0}", configFile);
-                    return configFile;
-                }
-            }
-        }
-        return null;
-    }
-
-    private Document parseXmlFile(File file)
-            throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        // External DTD loading will most probably fail because of the local
-        // firewall rules. Therefore we must disable this feature, otherwise
-        // the call to parse() below will just throw an IOException.
-        factory.setFeature(
-                "http://apache.org/xml/features/nonvalidating/load-external-dtd",
-                false);
-        factory.setIgnoringComments(true);
-        factory.setIgnoringElementContentWhitespace(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse(file);
-    }
-
-    private List<File> getSyslinuxConfigFiles(File directory) {
-
-        List<File> configFiles = new ArrayList<>();
-
-        // check all known locations of syslinux config files
-        String[] syslinuxDirs = new String[]{
-            "isolinux",
-            "syslinux"
-        };
-        String[] syslinuxFiles = new String[]{
-            "isolinux.cfg",
-            "syslinux.cfg",
-            "boot_486.cfg",
-            "boot_686.cfg"
-        };
-        for (String syslinuxDir : syslinuxDirs) {
-            for (String syslinuxFile : syslinuxFiles) {
-                File configDir = new File(directory, syslinuxDir);
-                File configFile = new File(configDir, syslinuxFile);
-                if (configFile.exists()) {
-                    configFiles.add(configFile);
-                }
-            }
-        }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0, size = configFiles.size(); i < size; i++) {
-            stringBuilder.append(configFiles.get(i));
-            if (i < size - 1) {
-                stringBuilder.append('\n');
-            }
-        }
-
-        LOGGER.log(Level.INFO, "syslinux config files: \n{0}",
-                stringBuilder.toString());
-
-        return configFiles;
     }
 
     private int getTimeout() throws IOException, DBusException {
@@ -3060,243 +2624,30 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private void updateBootloaders() throws DBusException {
-
+        // TODO Update Model
         SpinnerNumberModel spinnerNumberModel
                 = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
         final int timeout = spinnerNumberModel.getNumber().intValue();
         final String systemName = systemNameTextField.getText();
         final String systemVersion = systemVersionTextField.getText();
 
-        Partition.Action<Void> updateBootloaderAction
-                = new Partition.Action<Void>() {
-
-            @Override
-            public Void execute(File mountPath) {
-                try {
-                    updateBootloaders(mountPath, timeout,
-                            systemName, systemVersion);
-                } catch (DBusException ex) {
-                    LOGGER.log(Level.SEVERE, "", ex);
-                }
-                return null;
-            }
-        };
-
-        if (bootConfigPartition == null
-                || systemStorageDevice.getEfiPartition().getIdLabel().equals(
-                        Partition.EFI_LABEL)) {
-            // legacy system without separate boot partition or
-            // post 2016-02 partition schema where the boot config files are
-            // located again on the system partition
-
-            // make image temporarily writable
-            PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
-
-            updateBootloaders(new File(IMAGE_DIRECTORY),
-                    timeout, systemName, systemVersion);
-
-            // remount image read-only
-            PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
-        } else {
-            // system with a separate boot partition
-            bootConfigPartition.executeMounted(updateBootloaderAction);
-        }
-        if (exchangePartition != null) {
-            exchangePartition.executeMounted(updateBootloaderAction);
-        }
     }
 
     private void updateBootloaders(File directory, int timeout,
             String systemName, String systemVersion) throws DBusException {
-
-        // syslinux
-        for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
-            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
-                    "s|timeout .*|timeout " + (timeout * 10) + "|1",
-                    syslinuxConfigFile.getPath());
-        }
-
-        // xmlboot
-        File xmlBootConfigFile = getXmlBootConfigFile(directory);
-        if (xmlBootConfigFile != null) {
-            try {
-                Document xmlBootDocument = parseXmlFile(xmlBootConfigFile);
-                xmlBootDocument.getDocumentElement().normalize();
-                Node systemNode = xmlBootDocument.
-                        getElementsByTagName("system").item(0);
-                Element systemElement = (Element) systemNode;
-                Node node = systemElement.getElementsByTagName("text").item(0);
-                if (node != null) {
-                    node.setTextContent(systemName);
-                }
-                node = systemElement.getElementsByTagName("version").item(0);
-                if (node != null) {
-                    node.setTextContent(systemVersion);
-                }
-
-                // write changes back to config file
-                File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
-                TransformerFactory transformerFactory
-                        = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                DOMSource source = new DOMSource(xmlBootDocument);
-                StreamResult result = new StreamResult(tmpFile);
-                transformer.transform(source, result);
-                PROCESS_EXECUTOR.executeProcess("mv", tmpFile.getPath(),
-                        xmlBootConfigFile.getPath());
-
-                // rebuild bootlogo so that the changes are visible right after
-                // reboot
-                File bootlogoDir = xmlBootConfigFile.getParentFile();
-                File syslinuxDir = bootlogoDir.getParentFile();
-                PROCESS_EXECUTOR.executeProcess("gfxboot",
-                        "--archive", bootlogoDir.getPath(),
-                        "--pack-archive", syslinuxDir.getPath() + "/bootlogo");
-            } catch (ParserConfigurationException | SAXException | IOException
-                    | DOMException | TransformerException ex) {
-                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-            }
-        }
-
-        // grub
-        String grubMainConfigFilePath = directory + "/boot/grub/grub_main.cfg";
-        if (new File(grubMainConfigFilePath).exists()) {
-            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
-                    "s|set timeout=.*|set timeout=" + timeout + "|1",
-                    grubMainConfigFilePath);
-        }
-        String grubThemeFilePath
-                = directory + "/boot/grub/themes/lernstick/theme.txt";
-        if (new File(grubThemeFilePath).exists()) {
-            PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
-                    "s|num_ticks = .*|num_ticks = " + timeout + "|1;"
-                    + "s|title-text: .*|title-text: \""
-                    + systemName + ' ' + systemVersion + "\"|1",
-                    grubThemeFilePath);
-        }
+            systemconfigTask.updateBootloader(directory, timeout, systemName, systemVersion);
     }
 
     private void updateFirewall() {
-        // save IP tables
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < ipTableModel.getRowCount(); i++) {
-            // comment
-            stringBuilder.append("# ");
-            stringBuilder.append(ipTableModel.getValueAt(i, 3));
-            stringBuilder.append('\n');
-            // protocol
-            stringBuilder.append(ipTableModel.getValueAt(i, 0));
-            stringBuilder.append(' ');
-            // target
-            stringBuilder.append(ipTableModel.getValueAt(i, 1));
-            stringBuilder.append(' ');
-            // port
-            stringBuilder.append(ipTableModel.getValueAt(i, 2));
-            stringBuilder.append('\n');
-        }
-        String ipTables = stringBuilder.toString();
-        try (FileOutputStream fileOutputStream
-                = new FileOutputStream(IP_TABLES_FILENAME)) {
-            fileOutputStream.write(ipTables.getBytes());
-            fileOutputStream.flush();
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
-        }
-
-        // save URL whitelist
-        try (FileOutputStream fileOutputStream
-                = new FileOutputStream(URL_WHITELIST_FILENAME)) {
-            fileOutputStream.write(firewallURLTextArea.getText().getBytes());
-            fileOutputStream.flush();
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
-        }
-        PROCESS_EXECUTOR.executeProcess(
-                "/etc/init.d/lernstick-firewall", "reload");
+        firewallTask.updateFirewall();
     }
 
     private boolean checkBackupDirectory() {
-
-        if ((!backupCheckBox.isSelected())
-                || (!backupDirectoryCheckBox.isSelected())) {
-            // As long as the directory option is not selected we just don't
-            // care what is configured there...
-            return true;
-        }
-
-        String backupDirectory = backupDirectoryTextField.getText();
-
-        if (backupDirectory.isEmpty()) {
-            String errorMessage = BUNDLE.getString("Error_No_Backup_Directory");
-            showBackupDirectoryError(errorMessage);
-            return false;
-        }
-
-        File dirFile = new File(backupDirectory);
-        if (dirFile.exists()) {
-            if (!dirFile.isDirectory()) {
-                String errorMessage = BUNDLE.getString(
-                        "Error_Backup_Directory_No_Directory");
-                errorMessage = MessageFormat.format(
-                        errorMessage, backupDirectory);
-                showBackupDirectoryError(errorMessage);
-                return false;
-            }
-
-            String[] files = dirFile.list();
-            if ((files != null) && (files.length != 0)) {
-                int returnValue = PROCESS_EXECUTOR.executeProcess(
-                        "rdiff-backup", "-l", dirFile.getAbsolutePath());
-                if (returnValue != 0) {
-                    String errorMessage = BUNDLE.getString(
-                            "Error_Backup_Directory_Invalid");
-                    errorMessage = MessageFormat.format(
-                            errorMessage, backupDirectory);
-                    showBackupDirectoryError(errorMessage);
-                    return false;
-                }
-            }
-        }
-
-        // determine device where the directory is located
-        // (df takes care for symlinks etc.)
-        PROCESS_EXECUTOR.executeProcess(true, true, "df", backupDirectory);
-        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
-        String device = null;
-        for (String line : stdOut) {
-            if (line.startsWith("/dev/")) {
-                String[] tokens = line.split(" ");
-                device = tokens[0];
-            }
-        }
-        if (device == null) {
-            LOGGER.log(Level.WARNING,
-                    "could not determine device of directory {0}",
-                    backupDirectory);
-            return true;
-        }
-
-        // check, if device is exFAT
         try {
-            Partition partition = Partition.getPartitionFromDeviceAndNumber(
-                    device.substring(5));
-            String idType = partition.getIdType();
-            if (idType.equals("exfat")) {
-                // rdiff-backup does not work (yet) on exfat partitions!
-                String errorMessage = BUNDLE.getString("Error_Backup_on_exFAT");
-                errorMessage = MessageFormat.format(
-                        errorMessage, backupDirectory);
-                showBackupDirectoryError(errorMessage);
-                return false;
-            }
-        } catch (DBusException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
+            backupTask.checkBackupDirectory();
+        } catch(ProcessingException ex) {
+            showBackupDirectoryError(MessageFormat.format(BUNDLE.getString(ex.getMessage()), (Object[])ex.getMessageDetails()));
         }
-
-        return true;
     }
 
     private void showBackupDirectoryError(String errorMessage) {
@@ -3307,175 +2658,21 @@ public class Welcome extends javax.swing.JFrame {
 
     // XXX GUI
     private boolean checkFirewall() {
-        for (int i = 0; i < ipTableModel.getRowCount(); i++) {
-            if (!checkTarget((String) ipTableModel.getValueAt(i, 1), i)) {
-                return false;
-            }
-            if (!checkPortRange((String) ipTableModel.getValueAt(i, 2), i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // XXX GUI
-    private boolean checkPortRange(String portRange, int index) {
-        String[] tokens = portRange.split(":");
-        switch (tokens.length) {
-            case 1:
-                // simple port
-                if (!(checkPortString(tokens[0], index))) {
-                    return false;
-                }
-                return true;
-
-            case 2:
-                // port range
-                if (!(checkPortString(tokens[0], index))) {
-                    return false;
-                }
-                if (!(checkPortString(tokens[1], index))) {
-                    return false;
-                }
-                return true;
-
-            default:
-                // invalid syntax
-                portRangeError(index);
-                return false;
-        }
-    }
-
-    // XXX GUI
-    private boolean checkPortString(String portString, int index) {
         try {
-            int portNumber = Integer.parseInt(portString);
-            if ((portNumber < 0) || (portNumber > 65535)) {
-                portRangeError(index);
-                return false;
+            for (int i = 0; i < ipTableModel.getRowCount(); i++) {
+                WelcomeUtil.checkTarget((String) ipTableModel.getValueAt(i, 1), i);
+                WelcomeUtil.checkPortRange((String) ipTableModel.getValueAt(i, 2), i);
             }
-        } catch (NumberFormatException ex) {
-            portRangeError(index);
+            return true;
+        } catch(TableCellValidationException ex) {
+            firewallError(MessageFormat.format(BUNDLE.getString(ex.getMessage()), ex.getMessageDetails()), ex.getRow(), ex.getCol());
             return false;
         }
-        return true;
     }
 
-    private void portRangeError(int index) {
+    public void portRangeError(int index) {
         String errorMessage = BUNDLE.getString("Error_PortRange");
         firewallError(errorMessage, index, 2);
-    }
-
-    // XXX GUI
-    private boolean checkTarget(String target, int index) {
-        // a CIDR block has the syntax: <IP address>\<prefix length>
-        String octetP = "\\p{Digit}{1,3}";
-        String ipv4P = "(?:" + octetP + "\\.){3}" + octetP;
-        Pattern cidrPattern = Pattern.compile("(" + ipv4P + ")/(\\p{Digit}*)");
-        Matcher matcher = cidrPattern.matcher(target);
-        if (matcher.matches()) {
-            // check CIDR block syntax
-            if (!checkIPv4Address(matcher.group(1), index)) {
-                return false;
-            }
-
-            String prefixLengthString = matcher.group(2);
-            try {
-                int prefixLength = Integer.parseInt(prefixLengthString);
-                if (prefixLength < 0 || prefixLength > 32) {
-                    String errorMessage
-                            = BUNDLE.getString("Error_PrefixLength");
-                    errorMessage = MessageFormat.format(
-                            errorMessage, prefixLengthString);
-                    firewallError(errorMessage, index, 1);
-                    return false;
-                }
-            } catch (NumberFormatException ex) {
-                LOGGER.log(Level.WARNING,
-                        "could not parse " + prefixLengthString, ex);
-            }
-            return true;
-
-        } else {
-            // check validity of plain IPv4 address or hostname
-            Pattern ipv4Pattern = Pattern.compile(ipv4P);
-            matcher = ipv4Pattern.matcher(target);
-            if (matcher.matches()) {
-                if (!checkIPv4Address(target, index)) {
-                    return false;
-                }
-            } else if (!checkHostName(target, index)) {
-                return false;
-            }
-            return true;
-        }
-    }
-
-    // XXX GUI
-    private boolean checkHostName(String string, int index) {
-        // Hostnames are composed of series of labels concatenated with dots, as
-        // are all domain names. For example, "en.wikipedia.org" is a hostname.
-        // Each label must be between 1 and 63 characters long, and the entire
-        // hostname (including the delimiting dots) has a maximum of 255
-        // characters.
-        // The Internet standards (Request for Comments) for protocols mandate
-        // that component hostname labels may contain only the ASCII letters
-        // 'a' through 'z' (in a case-insensitive manner), the digits '0'
-        // through '9', and the hyphen ('-').
-
-        if (string.isEmpty()) {
-            String errorMessage = BUNDLE.getString("Error_No_Hostname");
-            firewallError(errorMessage, index, 1);
-            return false;
-        }
-
-        if (string.length() > 255) {
-            String errorMessage = BUNDLE.getString("Error_HostnameLength");
-            errorMessage = MessageFormat.format(errorMessage, string);
-            firewallError(errorMessage, index, 1);
-            return false;
-        }
-
-        String[] labels = string.split("\\.");
-        for (String label : labels) {
-            if (label.length() > 63) {
-                String errorMessage = BUNDLE.getString("Error_LabelLength");
-                errorMessage = MessageFormat.format(errorMessage, label);
-                firewallError(errorMessage, index, 1);
-                return false;
-            }
-            for (int i = 0, length = label.length(); i < length; i++) {
-                char c = label.charAt(i);
-                if ((c != '-')
-                        && ((c < '0') || (c > '9'))
-                        && ((c < 'A') || (c > 'Z'))
-                        && ((c < 'a') || (c > 'z'))) {
-                    String errorMessage = BUNDLE.getString(
-                            "Error_Invalid_Hostname_Character");
-                    errorMessage = MessageFormat.format(errorMessage, c);
-                    firewallError(errorMessage, index, 1);
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    // XXX GUI
-    private boolean checkIPv4Address(String string, int index) {
-        String[] octetStrings = string.split("\\.");
-        for (String octetString : octetStrings) {
-            int octet = Integer.parseInt(octetString);
-            if (octet < 0 || octet > 255) {
-                String errorMessage = BUNDLE.getString("Error_Octet");
-                errorMessage = MessageFormat.format(
-                        errorMessage, string, octetString);
-                firewallError(errorMessage, index, 1);
-                return false;
-            }
-        }
-        return true;
     }
 
     // XXX GUI
@@ -3506,91 +2703,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void updateJBackpackProperties(File prefsDirectory,
             String backupSource, String backupDestination, boolean chown) {
-        File prefsFile = new File(prefsDirectory, "prefs.xml");
-        String prefsFilePath = prefsFile.getPath();
-        if (prefsFile.exists()) {
-            try {
-                Document xmlBootDocument = parseXmlFile(prefsFile);
-                xmlBootDocument.getDocumentElement().normalize();
-                Node mapNode
-                        = xmlBootDocument.getElementsByTagName("map").item(0);
-                Element mapElement = (Element) mapNode;
-                NodeList entries = mapElement.getElementsByTagName("entry");
-                for (int i = 0, length = entries.getLength(); i < length; i++) {
-                    Element entry = (Element) entries.item(i);
-                    String key = entry.getAttribute("key");
-                    switch (key) {
-                        case "destination":
-                            entry.setAttribute("value", "local");
-                            break;
-                        case "local_destination_directory":
-                            entry.setAttribute("value", backupDestination);
-                            break;
-                        case "source":
-                            entry.setAttribute("value", backupSource);
-                            break;
-                    }
-                }
-
-                // write changes back to config file
-                File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
-                TransformerFactory transformerFactory
-                        = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
-                        "http://java.sun.com/dtd/preferences.dtd");
-                DOMSource source = new DOMSource(xmlBootDocument);
-                StreamResult result = new StreamResult(tmpFile);
-                transformer.transform(source, result);
-                PROCESS_EXECUTOR.executeProcess(
-                        "mv", tmpFile.getPath(), prefsFilePath);
-                PROCESS_EXECUTOR.executeProcess(
-                        "chown", "user.user", prefsFilePath);
-
-            } catch (ParserConfigurationException | SAXException
-                    | IOException | DOMException | TransformerException ex) {
-                LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
-            }
-
-        } else {
-            if (!prefsDirectory.exists() && !prefsDirectory.mkdirs()) {
-                LOGGER.log(Level.WARNING,
-                        "could not create directory {0}", prefsDirectory);
-                return;
-            }
-            // create mininal JBackpack preferences
-            String preferences
-                    = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
-                    + "<!DOCTYPE map SYSTEM \"http://java.sun.com/dtd/preferences.dtd\">\n"
-                    + "<map MAP_XML_VERSION=\"1.0\">\n"
-                    + "  <entry key=\"destination\" value=\"local\"/>\n"
-                    + "  <entry key=\"local_destination_directory\" value=\"" + backupDestination + "\"/>\n"
-                    + "  <entry key=\"source\" value=\"" + backupSource + "\"/>\n"
-                    + "</map>\n";
-
-            try (FileWriter fileWriter = new FileWriter(prefsFile)) {
-                fileWriter.write(preferences);
-                fileWriter.flush();
-            } catch (IOException ex) {
-                LOGGER.log(Level.WARNING, "", ex);
-            }
-            if (chown) {
-                PROCESS_EXECUTOR.executeProcess(
-                        "chown", "-R", "user.user", "/home/user/.java/");
-            }
-        }
-    }
-
-    private static List<String> readFile(File file) throws IOException {
-        List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            for (String line = reader.readLine(); line != null;
-                    line = reader.readLine()) {
-                lines.add(line);
-            }
-        }
-        return lines;
+        backupTask.updateJBackpackProperties(prefsDirectory, backupSource, backupDestination, chown);
     }
 
     private void updatePackagesLists() {

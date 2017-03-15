@@ -11,18 +11,18 @@ package ch.fhnw.lernstickwelcome.controller;
  * @author sschw
  */
 public class ValidationException extends Exception {
-    private String[] details;
+    private Object[] details;
     
     public ValidationException(String message) {
         super(message);
     }
 
-    public ValidationException(String message, String... details) {
+    public ValidationException(String message, Object... details) {
         super(message);
         this.details = details;
     }
     
-    public String[] getMessageDetails() {
+    public Object[] getMessageDetails() {
         return details;
     }
 }

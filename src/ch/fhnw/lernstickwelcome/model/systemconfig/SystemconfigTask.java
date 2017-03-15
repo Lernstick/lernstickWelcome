@@ -6,8 +6,10 @@
 package ch.fhnw.lernstickwelcome.model.systemconfig;
 
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.WelcomeUtil;
+import ch.fhnw.util.MountInfo;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
@@ -72,26 +74,41 @@ public class SystemconfigTask extends Task<Boolean> {
     private StringProperty password = new SimpleStringProperty();
     private StringProperty passwordRepeat = new SimpleStringProperty();
     
+    private String oldUsername;
     private StringProperty username = new SimpleStringProperty();
     private BooleanProperty blockKdeDesktopApplets = new SimpleBooleanProperty();
     private BooleanProperty directSoundOutput = new SimpleBooleanProperty();
     private BooleanProperty allowAccessToOtherFilesystems = new SimpleBooleanProperty();
+    private MountInfo bootConfigMountInfo;
     
     public SystemconfigTask(boolean isExamEnv, Properties properties) {
         this.isExamEnv = isExamEnv;
+        
         blockKdeDesktopApplets.set("true".equals(
-                properties.getProperty(KDE_LOCK)));
+                properties.getProperty(WelcomeConstants.KDE_LOCK)));
         allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
-        setDefaultValues();
+        getPartitions();
+        getBootConfigInfos();
+        getFullUserName();
     }
 
     @Override
     protected Boolean call() throws Exception {
+        if(username.get().equals(oldUsername))
+            LOGGER.log(Level.INFO,
+                    "updating full user name to \"{0}\"", username.get());
+            PROCESS_EXECUTOR.executeProcess("chfn", "-f", username.get(), "user");
         return true;
     }
 
-    private void setDefaultValues() {
-        timeoutSeconds.setValue(10);
+    private void getBootConfigInfos() {
+        // timeoutSeconds.setValue(10); // One Customer wanted 10sec. by default.
+        
+        try {
+            timeoutSeconds.set(getTimeout());
+        } catch (IOException | DBusException ex) {
+            LOGGER.log(Level.WARNING, "could not set boot timeout value", ex);
+        }
         
         // Read XmlBootConfig
         try {
@@ -117,8 +134,59 @@ public class SystemconfigTask extends Task<Boolean> {
         }
     }
 
-    private void updateBootloaders() throws DBusException {
+    private void getFullUserName() {
+        PROCESS_EXECUTOR.executeProcess(true, true, "getent", "passwd", "user");
+        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
+        if (stdOut.isEmpty()) {
+            LOGGER.warning("getent returned no result!");
+        } else {
+            // getent passwd returns a line with the following pattern:
+            // login:encrypted_password:id:gid:gecos_field:home:shell
+            String line = stdOut.get(0);
+            String[] tokens = line.split(":");
+            if (tokens.length < 5) {
+                LOGGER.log(Level.WARNING,
+                        "can not parse getent line:\n{0}", line);
+            } else {
+                String gecosField = line.split(":")[4];
+                // the "gecos_field" has the following syntax:
+                // full_name,room_nr,phone_work,phone_private,misc
+                username.set(gecosField.split(",")[0]);
+                oldUsername = username.get();
+            }
+        }
+    }
+    
+    private void getPartitions() {
+        systemStorageDevice = WelcomeModelFactory.getSystemStorageDevice();
+        if (systemStorageDevice != null) {
+            exchangePartition = systemStorageDevice.getExchangePartition();
 
+            Partition efiPartition = systemStorageDevice.getEfiPartition();
+            if (efiPartition != null && efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
+                // current partitioning scheme, the boot config is on the
+                // *system* partition!
+                bootConfigPartition = systemStorageDevice.getSystemPartition();
+            } else {
+                // pre 2016-02 partitioning scheme with boot config files on
+                // boot partition
+                bootConfigPartition = efiPartition;
+            }
+            if (bootConfigPartition != null) {
+                try {
+                    bootConfigMountInfo = bootConfigPartition.mount();
+                } catch (DBusException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        LOGGER.log(Level.INFO, "\nsystemStorageDevice: {0}\n"
+                + "exchangePartition: {1}\nbootConfigPartition: {2}",
+                new Object[]{systemStorageDevice,
+                    exchangePartition, bootConfigPartition});
+    }
+
+    private void updateBootloaders() throws DBusException {
         final int timeout = timeoutSeconds.get();
         final String systemName = systemname.get();
         final String systemVersion = systemversion.get();
@@ -138,9 +206,7 @@ public class SystemconfigTask extends Task<Boolean> {
             }
         };
 
-        if (bootConfigPartition == null
-                || systemStorageDevice.getEfiPartition().getIdLabel().equals(
-                        Partition.EFI_LABEL)) {
+        if (bootConfigPartition == null || systemStorageDevice.getEfiPartition().getIdLabel().equals(Partition.EFI_LABEL)) {
             // legacy system without separate boot partition or
             // post 2016-02 partition schema where the boot config files are
             // located again on the system partition
@@ -168,7 +234,7 @@ public class SystemconfigTask extends Task<Boolean> {
             String systemName, String systemVersion) throws DBusException {
 
         // syslinux
-        for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
+        for(File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
             PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|timeout .*|timeout " + (timeout * 10) + "|1",
                     syslinuxConfigFile.getPath());
@@ -465,34 +531,15 @@ public class SystemconfigTask extends Task<Boolean> {
             }
         }
     }
-    // TODO enable function - find out how it's used
-/*
-    private void getFullUserName() {
-        AbstractDocument userNameDocument
-                = (AbstractDocument) userNameTextField.getDocument();
-        userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        PROCESS_EXECUTOR.executeProcess(true, true, "getent", "passwd", "user");
-        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
-        if (stdOut.isEmpty()) {
-            LOGGER.warning("getent returned no result!");
-            fullName = null;
-        } else {
-            // getent passwd returns a line with the following pattern:
-            // login:encrypted_password:id:gid:gecos_field:home:shell
-            String line = stdOut.get(0);
-            String[] tokens = line.split(":");
-            if (tokens.length < 5) {
-                LOGGER.log(Level.WARNING,
-                        "can not parse getent line:\n{0}", line);
-                fullName = null;
-            } else {
-                String gecosField = line.split(":")[4];
-                // the "gecos_field" has the following syntax:
-                // full_name,room_nr,phone_work,phone_private,misc
-                fullName = gecosField.split(",")[0];
-                userNameTextField.setText(fullName);
+    
+    public void umountBootConfig() {
+        if ((bootConfigMountInfo != null) && (!bootConfigMountInfo.alreadyMounted())) {
+            try {
+                bootConfigPartition.umount();
+            } catch (DBusException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
     }
-*/
+
 }

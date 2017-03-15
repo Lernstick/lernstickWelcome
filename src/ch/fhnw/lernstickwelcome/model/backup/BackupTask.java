@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.backup;
 
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.WelcomeUtil;
 import ch.fhnw.util.Partition;
@@ -44,9 +45,12 @@ import org.xml.sax.SAXException;
  * @author user
  */
 public class BackupTask extends Task<Boolean> {
+
     private final static Logger LOGGER = Logger.getLogger(BackupTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    
+
+    private Partition exchangePartition;
+
     private BooleanProperty active = new SimpleBooleanProperty();
     private StringProperty sourcePath = new SimpleStringProperty();
     private BooleanProperty local = new SimpleBooleanProperty();
@@ -55,36 +59,47 @@ public class BackupTask extends Task<Boolean> {
     private StringProperty partitionPath = new SimpleStringProperty();
     private BooleanProperty screenshot = new SimpleBooleanProperty();
     private IntegerProperty frequency = new SimpleIntegerProperty();
-    
-    public BackupTask(Properties properties) {
-        active.set("true".equals(properties.getProperty(BACKUP)));
-        sourcePath.set(properties.getProperty(
-                BACKUP_SOURCE, "/home/user/"));
+
+    public BackupTask(Properties properties, String backupDirectoryName) {
+        active.set("true".equals(properties.getProperty(WelcomeConstants.BACKUP)));
+        sourcePath.set(properties.getProperty(WelcomeConstants.BACKUP_SOURCE, "/home/user/"));
         local.set("true".equals(
-                properties.getProperty(BACKUP_DIRECTORY_ENABLED, "true")));
+                properties.getProperty(WelcomeConstants.BACKUP_DIRECTORY_ENABLED, "true")));
         partition.set("true".equals(
-                properties.getProperty(BACKUP_PARTITION_ENABLED)));
+                properties.getProperty(WelcomeConstants.BACKUP_PARTITION_ENABLED)));
         partitionPath.set(
-                properties.getProperty(BACKUP_PARTITION));
+                properties.getProperty(WelcomeConstants.BACKUP_PARTITION));
         screenshot.set("true".equals(
-                properties.getProperty(BACKUP_SCREENSHOT)));
-        frequency.set(new Integer(properties.getProperty(
-                BACKUP_FREQUENCY, "5")));
+                properties.getProperty(WelcomeConstants.BACKUP_SCREENSHOT)));
+        frequency.set(new Integer(properties.getProperty(WelcomeConstants.BACKUP_FREQUENCY, "5")));
+
+        exchangePartition = WelcomeModelFactory.getSystemStorageDevice().getExchangePartition();
+
+        if (exchangePartition != null) {
+            try {
+                String exchangeMountPath = exchangePartition.getMountPath();
+                LOGGER.log(Level.INFO,
+                        "exchangeMountPath: {0}", exchangeMountPath);
+                destinationPath.set(properties.getProperty(
+                        WelcomeConstants.BACKUP_DIRECTORY, exchangeMountPath + '/'
+                        + backupDirectoryName)); // BUNDLE.getString("Backup_Directory");
+            } catch (DBusException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            }
+        }
     }
 
     @Override
     protected Boolean call() throws Exception {
         updateProgress(0, 1);
-        if(active.get()) {
+        if (checkBackupDirectory()) {
             
         }
         updateProgress(1, 1);
         return true;
     }
-    
 
     private boolean checkBackupDirectory() throws ProcessingException {
-
         if ((!active.get()) || (!local.get())) {
             // As long as the directory option is not selected we just don't
             // care what is configured there...
@@ -157,7 +172,7 @@ public class BackupTask extends Task<Boolean> {
                 "/root/.java/.userPrefs/ch/fhnw/jbackpack/");
         updateJBackpackProperties(prefsDirectory, false);
     }
-    
+
     private void updateJBackpackProperties(File prefsDirectory, boolean chown) {
         File prefsFile = new File(prefsDirectory, "prefs.xml");
         String prefsFilePath = prefsFile.getPath();
@@ -201,8 +216,8 @@ public class BackupTask extends Task<Boolean> {
                 PROCESS_EXECUTOR.executeProcess(
                         "chown", "user.user", prefsFilePath);
 
-            } catch (ParserConfigurationException | SAXException |
-                    IOException | DOMException | TransformerException ex) {
+            } catch (ParserConfigurationException | SAXException
+                    | IOException | DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
 
@@ -234,5 +249,5 @@ public class BackupTask extends Task<Boolean> {
             }
         }
     }
-    
+
 }

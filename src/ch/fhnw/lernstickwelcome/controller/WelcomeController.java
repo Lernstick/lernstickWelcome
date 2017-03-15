@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
-import ch.fhnw.lernstickwelcome.model.Installer;
+import ch.fhnw.lernstickwelcome.model.TaskProcessor;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
@@ -22,7 +22,7 @@ import javafx.concurrent.Task;
  * @author sschw
  */
 public class WelcomeController {
-    private Installer installer;
+    private TaskProcessor installer;
     // Standard Environment
     private ProxyTask proxy;
     private ApplicationGroupTask recApps;
@@ -40,7 +40,7 @@ public class WelcomeController {
     public void loadExamEnvironment() {
         List<Task> installTasks = new ArrayList<Task>();
         
-        installer = new Installer(installTasks);
+        installer = new TaskProcessor(installTasks);
     }
     
     public void loadStandardEnvironment() {
@@ -53,7 +53,7 @@ public class WelcomeController {
         installTasks.add(proxy);
         installTasks.add(recApps);
         
-        installer = new Installer(installTasks);
+        installer = new TaskProcessor(installTasks);
     }
     
     public void startInstallation() {
