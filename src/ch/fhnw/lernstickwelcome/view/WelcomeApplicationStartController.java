@@ -88,11 +88,7 @@ public class WelcomeApplicationStartController implements Initializable {
             mainPane.getChildren().add(button);
             
             it.remove(); 
-        }
-
-        
-        
-        
+        }           
     } 
     
     private void showPane(Pane pane){

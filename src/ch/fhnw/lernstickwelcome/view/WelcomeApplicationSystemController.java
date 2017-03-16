@@ -71,6 +71,8 @@ public class WelcomeApplicationSystemController implements Initializable, Welcom
 
     @FXML
     private void onClickShowHelp(MouseEvent event) {
+        // TODO: popupwindow with Help Text
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public TextField getTxt_sys_username() {

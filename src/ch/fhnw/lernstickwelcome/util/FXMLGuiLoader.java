@@ -12,8 +12,6 @@ import ch.fhnw.lernstickwelcome.view.WelcomeApplicationInformationController;
 import ch.fhnw.lernstickwelcome.view.WelcomeApplicationStartController;
 import ch.fhnw.lernstickwelcome.view.WelcomeApplicationSystemController;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
@@ -80,7 +78,7 @@ public class FXMLGuiLoader {
             
             
             FXMLLoader loadWelcome = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationStart.fxml"), BUNDLE);
-            system = new Pane((Parent)loadWelcome.load());
+            welcomeApplicationStart = new Scene((Parent)loadWelcome.load());
             welcomeApplicationStartController = new WelcomeApplicationStartController(welcomeController, isExamEnvironment, panes);
             
             
@@ -95,7 +93,11 @@ public class FXMLGuiLoader {
     public WelcomeApplicationStartController getWelcomeApplicationStart() {
         return welcomeApplicationStartController;
     }
-
+    
+    public Scene getMainStage()
+    {
+        return welcomeApplicationStart;
+    }
     public WelcomeApplicationSystemController getSystem() {
         return welcomeApplicationSystemController;
     }

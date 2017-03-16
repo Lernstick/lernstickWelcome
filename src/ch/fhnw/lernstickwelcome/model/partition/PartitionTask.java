@@ -95,4 +95,21 @@ public class PartitionTask extends Task<Boolean> {
         }
         return true;
     }
+
+    public StringProperty getExchangePartitionLabel() {
+        return exchangePartitionLabel;
+    }
+
+    public BooleanProperty getAccessExchangePartition() {
+        return accessExchangePartition;
+    }
+
+    public BooleanProperty getShowReadOnlyInfo() {
+        return showReadOnlyInfo;
+    }
+
+    public BooleanProperty getShowReadWriteWelcome() {
+        return showReadWriteWelcome;
+    }
+    
 }

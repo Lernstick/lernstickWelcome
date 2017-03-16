@@ -26,15 +26,16 @@ public class WelcomeApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         controller = new WelcomeController();
-        guiLoader = new FXMLGuiLoader(controller, isExamEnvironment());
         
-        Scene scene = guiLoader.getWelcomeApplicationStart();
-        primaryStage.setScene(scene);
-        primaryStage.show();
         if(isExamEnvironment())
             controller.loadExamEnvironment();
         else
             controller.loadStandardEnvironment();    
+        
+        guiLoader = new FXMLGuiLoader(controller, isExamEnvironment());
+        Scene scene = guiLoader.getMainStage();
+        primaryStage.setScene(scene);
+        primaryStage.show();
         
         
         examInformationController = new ExamInformationController(controller,  guiLoader.getInformation());
