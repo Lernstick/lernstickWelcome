@@ -23,6 +23,8 @@ public class WelcomeApplication extends Application {
             controller.loadExamEnvironment();
         else
             controller.loadStandardEnvironment();
+        
+        
     }
 
     private boolean isExamEnvironment() {

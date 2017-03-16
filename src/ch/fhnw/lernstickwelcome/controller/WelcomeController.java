@@ -34,8 +34,9 @@ public class WelcomeController {
     // General
     private SystemconfigTask sysconf;
     
+    private boolean  isExamEnvironment;
     public void loadExamEnvironment() {
-        
+        isExamEnvironment = true;
         
         List<Task> installTasks = new ArrayList<Task>();
         
@@ -43,6 +44,7 @@ public class WelcomeController {
     }
     
     public void loadStandardEnvironment() {
+        isExamEnvironment = false;
         // Init Model
         proxy = WelcomeModelFactory.getProxyTask();
         recApps = WelcomeModelFactory.getRecommendedApplicationTask(proxy);

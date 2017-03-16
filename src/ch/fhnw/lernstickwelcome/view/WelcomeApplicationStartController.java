@@ -36,9 +36,10 @@ public class WelcomeApplicationStartController implements Initializable {
     private WelcomeApplicationSystemController system;
     
     //placeholder list
+    
     private String[] menu = {"Information", "Firewall", "Backup", "System"};
     
-    
+    //Konstruktor (Controller, boolean ExamVersion)
     
     private ResourceBundle bundle;
     @FXML
@@ -51,7 +52,7 @@ public class WelcomeApplicationStartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        bundle = rb;
+        //im Controller bundle = rb;
         for(int i = 0; i < menu.length; ++i)
         {
             MenuPane.getChildren().add(new Button(menu[i]));
@@ -63,9 +64,8 @@ public class WelcomeApplicationStartController implements Initializable {
         test.put("Firewall", firewall);
         test.put("Backup", backup);
         
-        fo
         
-        MainPane.getChildren().add(test.get(menu[0]));
+        MainPane.getChildren().add(test.get(menu[0]).getPane());
         
     } 
     
