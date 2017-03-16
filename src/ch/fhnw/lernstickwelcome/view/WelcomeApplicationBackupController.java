@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.view;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -50,6 +51,12 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
     @FXML
     private ChoiceBox<?> choice_bu_backup;
 
+    private WelcomeController welcomeController;
+    
+    public WelcomeApplicationBackupController(WelcomeController welcomeController){
+        this.welcomeController = welcomeController;
+    }
+    
     /**
      * Initializes the controller class.
      */

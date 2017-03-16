@@ -17,12 +17,14 @@ import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
  */
 public class WelcomeApplication extends Application {
     WelcomeController controller;
-    
+    public FXMLGuiLoader guiLoader;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         controller = new WelcomeController();
-        Scene scene = FXMLGuiLoader.getInstance().getWelcomeApplicationStart();
+        guiLoader = new FXMLGuiLoader(controller);
+        
+        Scene scene = guiLoader.getWelcomeApplicationStart();
         primaryStage.setScene(scene);
         primaryStage.show();
         if(isExamEnvironment())

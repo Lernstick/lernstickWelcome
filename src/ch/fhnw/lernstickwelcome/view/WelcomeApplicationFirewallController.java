@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.view;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -62,6 +63,12 @@ public class WelcomeApplicationFirewallController implements Initializable, Welc
     @FXML
     private ComboBox<?> choice_fw_protocol;
 
+    private WelcomeController welcomeController;
+    
+    public WelcomeApplicationFirewallController(WelcomeController welcomeController){
+        this.welcomeController = welcomeController;
+    }
+    
     /**
      * Initializes the controller class.
      */
