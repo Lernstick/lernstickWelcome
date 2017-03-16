@@ -8,6 +8,7 @@ package ch.fhnw.lernstickwelcome.view;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -24,20 +25,27 @@ import javafx.scene.layout.Pane;
  */
 public class WelcomeApplicationStartController implements Initializable {
 
+    @FXML
     private Button FinishButton;
+    @FXML
     private Button SaveButton;
-    private VBox MenuBox;
-    private AnchorPane MainPane;
+    
     
     private WelcomeApplicationBackupController backup;
     private WelcomeApplicationFirewallController firewall;
     private WelcomeApplicationInformationController information;
     private WelcomeApplicationSystemController system;
     
-    //placholder list
+    //placeholder list
     private String[] menu = {"Information", "Firewall", "Backup", "System"};
     
+    
+    
     private ResourceBundle bundle;
+    @FXML
+    private VBox MenuPane;
+    @FXML
+    private AnchorPane MainPane;
 
     /**
      * Initializes the controller class.
@@ -47,21 +55,24 @@ public class WelcomeApplicationStartController implements Initializable {
         bundle = rb;
         for(int i = 0; i < menu.length; ++i)
         {
-            MenuBox.add(new Button(menu[i]));
+            MenuPane.getChildren().add(new Button(menu[i]));
         }
         information = new WelcomeApplicationInformationController();
-        MainPane.add(new Pane ( information.getPane()));
+        MainPane.getChildren().add();
     } 
     
+    @FXML
      private void onFinishClickedAction(MouseEvent event) {
         ((Node)(event.getSource())).getScene().getWindow().hide();
-        //create loading bar
+        //create progress bar
     }
      
+    @FXML
      private void onSaveClickedAction(MouseEvent event) {
         ((Node)(event.getSource())).getScene().getWindow().hide();
         //save all
     }
+
     
     
 }
