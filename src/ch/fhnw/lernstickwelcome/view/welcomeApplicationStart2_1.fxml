@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.view.WelcomeApplicationStartController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane opacity="0.31" prefHeight="400.0" prefWidth="600.0">
          <top>
@@ -24,7 +24,14 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <VBox fx:id="menu" prefHeight="322.0" prefWidth="175.0" />
+                        <VBox prefHeight="322.0" prefWidth="175.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="175.0" text="Information" />
+                              <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="175.0" text="Firewall" />
+                              <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="175.0" text="Backup" />
+                              <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="175.0" text="System" />
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
