@@ -20,6 +20,7 @@ public class WelcomeApplication extends Application {
     ExamInformationController examInformationController;
     ExamBackupController examBackupController;
     ExamSystemController examSystemController;
+    InstallController installController;
     public FXMLGuiLoader guiLoader;
     
 
@@ -41,6 +42,7 @@ public class WelcomeApplication extends Application {
         examInformationController = new ExamInformationController(controller,  guiLoader.getInformation());
         examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
         examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
+        installController = new InstallController(controller, guiLoader.getInstaller());
     
     }
     

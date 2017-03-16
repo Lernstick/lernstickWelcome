@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.view;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 
 /**
  * FXML Controller class
@@ -76,14 +78,17 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
 
     @FXML
     private void onClickSetBackupPath(MouseEvent event) {
+        //Directory Chooser
     }
     
     @FXML
     private void onClickSetRemotePartition(MouseEvent event) {
+                //Directory Chooser
     }
 
     @FXML
     private void onClickSetLocalFolder(MouseEvent event) {
+                //Directory Chooser
     }
 
     public Button getBtn_bu_help() {

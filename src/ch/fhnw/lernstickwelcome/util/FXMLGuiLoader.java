@@ -9,6 +9,7 @@ import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.view.WelcomeApplicationBackupController;
 import ch.fhnw.lernstickwelcome.view.WelcomeApplicationFirewallController;
 import ch.fhnw.lernstickwelcome.view.WelcomeApplicationInformationController;
+import ch.fhnw.lernstickwelcome.view.WelcomeApplicationInstallController;
 import ch.fhnw.lernstickwelcome.view.WelcomeApplicationStartController;
 import ch.fhnw.lernstickwelcome.view.WelcomeApplicationSystemController;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class FXMLGuiLoader {
     private Pane firewall;
     private Pane information;
     private Pane backup;
+    private Pane install;
 
     
     // Controller
@@ -43,6 +45,7 @@ public class FXMLGuiLoader {
     private WelcomeApplicationInformationController welcomeApplicationInformationController;
     private WelcomeApplicationStartController welcomeApplicationStartController;
     private WelcomeApplicationSystemController welcomeApplicationSystemController;
+    private WelcomeApplicationInstallController welcomeApplicationInstallController;
     
     public FXMLGuiLoader(WelcomeController welcomeController, boolean isExamEnvironment) {
         this.welcomeController = welcomeController;
@@ -68,6 +71,10 @@ public class FXMLGuiLoader {
             backup = new Pane((Parent) loadBackup.load());
             welcomeApplicationBackupController = new WelcomeApplicationBackupController(welcomeController);
             
+            FXMLLoader loadInstall = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationInstall.fxml"), BUNDLE);
+            install = new Pane((Parent) loadInstall.load());
+            welcomeApplicationInstallController = new WelcomeApplicationInstallController(welcomeController);
+            
             /* (...) */
             
             HashMap<String, Pane> panes = new HashMap<String, Pane>();
@@ -75,6 +82,7 @@ public class FXMLGuiLoader {
             panes.put("Firewall", firewall);
             panes.put("Information", information);
             panes.put("Backup", backup);
+            panes.put("Install", install);
             
             
             FXMLLoader loadWelcome = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationStart.fxml"), BUNDLE);
@@ -113,6 +121,11 @@ public class FXMLGuiLoader {
     public WelcomeApplicationBackupController getBackup() {
         return welcomeApplicationBackupController;
     }
+
+    public WelcomeApplicationInstallController getInstaller() {
+        return welcomeApplicationInstallController;
+    }
+    
     
     /**
      * 
