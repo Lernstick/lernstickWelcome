@@ -84,7 +84,7 @@ public class ApplicationTask extends Task<Boolean> {
         updateProgress(0, packages.getNumberOfPackages());
         //XXX May nice if there would update the percentage while execute
         PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
-        
+        // TODO ev. call apt-get -f install to fix dependencies which are missing
         return true;
     }
 

@@ -5,11 +5,12 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
-import ch.fhnw.lernstickwelcome.model.Installer;
+import ch.fhnw.lernstickwelcome.model.TaskProcessor;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
+import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.util.ArrayList;
@@ -22,13 +23,15 @@ import javafx.concurrent.Task;
  * @author sschw
  */
 public class WelcomeController {
-    private Installer installer;
+    private TaskProcessor installer;
     // Standard Environment
     private ProxyTask proxy;
     private ApplicationGroupTask recApps;
     private ApplicationGroupTask teachApps;
     private ApplicationGroupTask softwApps;
     private ApplicationGroupTask gamesApps;
+    private SystemconfigTask system;
+    private PartitionTask partition;
     // Exam Environment
     private FirewallTask firewall;
     private BackupTask backup;
@@ -41,11 +44,10 @@ public class WelcomeController {
     
     
     public void loadExamEnvironment() {
-        isExamEnvironment = true;
-        
+
         List<Task> installTasks = new ArrayList<Task>();
         
-        installer = new Installer(installTasks);
+        installer = new TaskProcessor(installTasks);
     }
     
     public void loadStandardEnvironment() {
@@ -59,7 +61,7 @@ public class WelcomeController {
         installTasks.add(proxy);
         installTasks.add(recApps);
         
-        installer = new Installer(installTasks);
+        installer = new TaskProcessor(installTasks);
     }
     
     public void startInstallation() {

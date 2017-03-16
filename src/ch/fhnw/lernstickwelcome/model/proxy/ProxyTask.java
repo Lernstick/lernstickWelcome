@@ -24,7 +24,7 @@ public class ProxyTask extends Task<Boolean> {
     private StringProperty username = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
     
-    // Init to prevent typos in commands
+    // Init to prevent typos in commands if inactive
     private String wgetProxy = " ";
     private String aptGetProxy = " ";
     
