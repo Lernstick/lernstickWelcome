@@ -33,7 +33,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" text="?" />
+                        <Button fx:id="btn_sys_help" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
                      </children>
                   </HBox>
                   <HBox prefHeight="645.0" prefWidth="359.0">
@@ -80,41 +80,41 @@
                         </VBox>
                         <VBox prefHeight="306.0" prefWidth="134.0" spacing="7.5">
                            <children>
-                              <TextField />
+                              <TextField fx:id="txt_sys_username" />
                               <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <TextField />
-                              <TextField />
+                              <TextField fx:id="txt_sys_password" />
+                              <TextField fx:id="txt_sys_password_repeat" />
                               <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <ChoiceBox prefWidth="150.0" />
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
+                              <ChoiceBox fx:id="choice_sys_visible_for" prefWidth="150.0" />
+                              <CheckBox fx:id="cb_sys_start_wa" mnemonicParsing="false" text="CheckBox">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_show_warning" mnemonicParsing="false" text="CheckBox">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
                               <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <TextField />
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_direct_sound" mnemonicParsing="false" text="CheckBox">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="cb_sys_block_kde" mnemonicParsing="false" text="CheckBox">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="cb_sys_allow_file_systems" mnemonicParsing="false" text="CheckBox">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Pane prefHeight="47.0" prefWidth="127.0" />
+                              <TextField fx:id="txt_sys_exchange_partition" />
+                              <CheckBox fx:id="cb_sys_access_user" mnemonicParsing="false" text="CheckBox">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>

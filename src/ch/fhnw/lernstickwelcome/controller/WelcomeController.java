@@ -14,6 +14,7 @@ import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.concurrent.Task;
 
 /**
@@ -34,7 +35,11 @@ public class WelcomeController {
     // General
     private SystemconfigTask sysconf;
     
+    private ResourceBundle rb;
     private boolean  isExamEnvironment;
+    
+    
+    
     public void loadExamEnvironment() {
         isExamEnvironment = true;
         

@@ -26,7 +26,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="351.0" layoutY="-1.0" mnemonicParsing="false" text="?" />
+                  <Button fx:id="btn_bu_help" layoutX="351.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
                </children>
             </Pane>
             <HBox prefHeight="95.0" prefWidth="376.0">
@@ -44,9 +44,9 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <CheckBox mnemonicParsing="false" prefHeight="29.0" prefWidth="89.0" text="CheckBox" />
-                        <ChoiceBox prefWidth="150.0" />
-                        <CheckBox mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" text="CheckBox" />
+                        <CheckBox fx:id="cb_bu_backup" mnemonicParsing="false" prefHeight="29.0" prefWidth="89.0" text="CheckBox" />
+                        <ChoiceBox id="choice_bu_time" fx:id="choice_bu_backup" prefWidth="150.0" />
+                        <CheckBox fx:id="cb_bu_screenshot" mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" text="CheckBox" />
                      </children>
                   </VBox>
                </children>
@@ -59,8 +59,8 @@
                      </font>
                   </Label>
                   <Label layoutY="33.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
-                  <TextField layoutX="87.0" layoutY="32.0" prefHeight="26.0" prefWidth="257.0" />
-                  <Button layoutX="350.0" layoutY="32.0" mnemonicParsing="false" text="ff" />
+                  <TextField fx:id="txt_bu_src_path" layoutX="87.0" layoutY="32.0" prefHeight="26.0" prefWidth="257.0" />
+                  <Button id="btn_bu_src_path" fx:id="btn_bu_src_path" layoutX="350.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#onClickSetBackupPath" text="ff" />
                </children>
             </Pane>
             <Pane prefHeight="177.0" prefWidth="376.0">
@@ -71,14 +71,14 @@
                      </font>
                   </Label>
                   <Label layoutY="63.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
-                  <TextField layoutX="87.0" layoutY="63.0" prefHeight="26.0" prefWidth="257.0" />
-                  <Button layoutX="350.0" layoutY="63.0" mnemonicParsing="false" text="ff" />
-                  <CheckBox layoutX="7.0" layoutY="30.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useLocalFolder" />
+                  <TextField fx:id="txt_bu_dest_path" layoutX="87.0" layoutY="63.0" prefHeight="26.0" prefWidth="257.0" />
+                  <Button fx:id="btn_bu_dest_path" layoutX="350.0" layoutY="63.0" mnemonicParsing="false" onMouseClicked="#onClickSetLocalFolder" text="ff" />
+                  <CheckBox fx:id="cb_bu_use_local" layoutX="7.0" layoutY="30.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useLocalFolder" />
                   <Label layoutY="136.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
-                  <TextField layoutX="195.0" layoutY="135.0" prefHeight="26.0" prefWidth="149.0" />
-                  <Button layoutX="350.0" layoutY="135.0" mnemonicParsing="false" text="ff" />
-                  <CheckBox layoutX="6.0" layoutY="102.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useRemotePartition" />
-                  <ChoiceBox layoutX="87.0" layoutY="135.0" prefHeight="26.0" prefWidth="108.0" />
+                  <TextField fx:id="txt_bu_remote_path" layoutX="195.0" layoutY="135.0" prefHeight="26.0" prefWidth="149.0" />
+                  <Button fx:id="btn_bu_remote_path" layoutX="350.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#onClickSetRemotePartition" text="ff" />
+                  <CheckBox fx:id="cb_bu_use_remote" layoutX="6.0" layoutY="102.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useRemotePartition" />
+                  <ChoiceBox fx:id="choice_bu_medium" layoutX="87.0" layoutY="135.0" prefHeight="26.0" prefWidth="108.0" />
                </children>
             </Pane>
          </children>

@@ -45,7 +45,7 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="189.0" text="Debian 9" textAlignment="RIGHT">
+                  <Label fx:id="label_info_os" alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="189.0" text="Debian 9" textAlignment="RIGHT">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -58,7 +58,7 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="104.0" text="3.4.5">
+                  <Label fx:id="label_info_version" alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="104.0" text="3.4.5">
                      <font>
                         <Font size="11.0" />
                      </font>
