@@ -250,4 +250,38 @@ public class BackupTask extends Task<Boolean> {
         }
     }
 
+    public BooleanProperty getActive() {
+        return active;
+    }
+
+    public StringProperty getSourcePath() {
+        return sourcePath;
+    }
+
+    public BooleanProperty getLocal() {
+        return local;
+    }
+
+    public StringProperty getDestinationPath() {
+        return destinationPath;
+    }
+
+    public BooleanProperty getPartition() {
+        return partition;
+    }
+
+    public StringProperty getPartitionPath() {
+        return partitionPath;
+    }
+
+    public BooleanProperty getScreenshot() {
+        return screenshot;
+    }
+
+    public IntegerProperty getFrequency() {
+        return frequency;
+    }
+    
+    
+
 }

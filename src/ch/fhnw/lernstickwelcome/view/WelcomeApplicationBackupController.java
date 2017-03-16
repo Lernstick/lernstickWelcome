@@ -85,5 +85,59 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
     @FXML
     private void onClickSetLocalFolder(MouseEvent event) {
     }
+
+    public Button getBtn_bu_help() {
+        return btn_bu_help;
+    }
+
+    public CheckBox getCb_bu_backup() {
+        return cb_bu_backup;
+    }
+
+    public CheckBox getCb_bu_screenshot() {
+        return cb_bu_screenshot;
+    }
+
+    public TextField getTxt_bu_src_path() {
+        return txt_bu_src_path;
+    }
+
+    public Button getBtn_bu_src_path() {
+        return btn_bu_src_path;
+    }
+
+    public TextField getTxt_bu_dest_path() {
+        return txt_bu_dest_path;
+    }
+
+    public Button getBtn_bu_dest_path() {
+        return btn_bu_dest_path;
+    }
+
+    public CheckBox getCb_bu_use_local() {
+        return cb_bu_use_local;
+    }
+
+    public TextField getTxt_bu_remote_path() {
+        return txt_bu_remote_path;
+    }
+
+    public Button getBtn_bu_remote_path() {
+        return btn_bu_remote_path;
+    }
+
+    public CheckBox getCb_bu_use_remote() {
+        return cb_bu_use_remote;
+    }
+
+    public ChoiceBox<?> getChoice_bu_medium() {
+        return choice_bu_medium;
+    }
+
+    public ChoiceBox<?> getChoice_bu_backup() {
+        return choice_bu_backup;
+    }
+    
+    
     
 }

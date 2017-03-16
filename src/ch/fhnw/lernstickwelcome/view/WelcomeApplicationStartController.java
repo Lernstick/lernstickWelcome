@@ -67,7 +67,7 @@ public class WelcomeApplicationStartController implements Initializable {
         //im Controller bundle = rb;
         for(int i = 0; i < menu.length; ++i)
         {
-            MenuPane.getChildren().add(new Button(menu[i]));
+            MenuPane.getChildren().add(new Button(menuStringExam[i]));
         }
         information = new WelcomeApplicationInformationController();
         

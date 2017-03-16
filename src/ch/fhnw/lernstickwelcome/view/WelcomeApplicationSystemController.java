@@ -72,5 +72,50 @@ public class WelcomeApplicationSystemController implements Initializable, Welcom
     @FXML
     private void onClickShowHelp(MouseEvent event) {
     }
+
+    public TextField getTxt_sys_username() {
+        return txt_sys_username;
+    }
+
+    public TextField getTxt_sys_password() {
+        return txt_sys_password;
+    }
+
+    public TextField getTxt_sys_password_repeat() {
+        return txt_sys_password_repeat;
+    }
+
+    public ChoiceBox<?> getChoice_sys_visible_for() {
+        return choice_sys_visible_for;
+    }
+
+    public CheckBox getCb_sys_start_wa() {
+        return cb_sys_start_wa;
+    }
+
+    public CheckBox getCb_sys_direct_sound() {
+        return cb_sys_direct_sound;
+    }
+
+    public CheckBox getCb_sys_block_kde() {
+        return cb_sys_block_kde;
+    }
+
+    public CheckBox getCb_sys_allow_file_systems() {
+        return cb_sys_allow_file_systems;
+    }
+
+    public TextField getTxt_sys_exchange_partition() {
+        return txt_sys_exchange_partition;
+    }
+
+    public CheckBox getCb_sys_access_user() {
+        return cb_sys_access_user;
+    }
+
+    public CheckBox getCb_sys_show_warning() {
+        return cb_sys_show_warning;
+    }
+    
     
 }

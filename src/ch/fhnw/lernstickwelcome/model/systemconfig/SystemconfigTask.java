@@ -542,4 +542,46 @@ public class SystemconfigTask extends Task<Boolean> {
         }
     }
 
+    public StringProperty getSystemname() {
+        return systemname;
+    }
+
+    public StringProperty getSystemversion() {
+        return systemversion;
+    }
+
+    public boolean isIsExamEnv() {
+        return isExamEnv;
+    }
+
+    public IntegerProperty getTimeoutSeconds() {
+        return timeoutSeconds;
+    }
+
+    public StringProperty getPassword() {
+        return password;
+    }
+
+    public StringProperty getPasswordRepeat() {
+        return passwordRepeat;
+    }
+
+    public StringProperty getUsername() {
+        return username;
+    }
+
+    public BooleanProperty getBlockKdeDesktopApplets() {
+        return blockKdeDesktopApplets;
+    }
+
+    public BooleanProperty getDirectSoundOutput() {
+        return directSoundOutput;
+    }
+
+    public BooleanProperty getAllowAccessToOtherFilesystems() {
+        return allowAccessToOtherFilesystems;
+    }
+    
+    
+
 }

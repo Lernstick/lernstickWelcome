@@ -67,4 +67,50 @@ public class WelcomeController {
     public void startInstallation() {
         installer.install();
     }
+
+    public TaskProcessor getInstaller() {
+        return installer;
+    }
+
+    public ProxyTask getProxy() {
+        return proxy;
+    }
+
+    public ApplicationGroupTask getRecApps() {
+        return recApps;
+    }
+
+    public ApplicationGroupTask getTeachApps() {
+        return teachApps;
+    }
+
+    public ApplicationGroupTask getSoftwApps() {
+        return softwApps;
+    }
+
+    public ApplicationGroupTask getGamesApps() {
+        return gamesApps;
+    }
+
+    public SystemconfigTask getSystem() {
+        return system;
+    }
+
+    public PartitionTask getPartition() {
+        return partition;
+    }
+
+    public FirewallTask getFirewall() {
+        return firewall;
+    }
+
+    public BackupTask getBackup() {
+        return backup;
+    }
+
+    public SystemconfigTask getSysconf() {
+        return sysconf;
+    }
+    
+    
 }

@@ -17,7 +17,11 @@ import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
  */
 public class WelcomeApplication extends Application {
     WelcomeController controller;
+    ExamInformationController examInformationController;
+    ExamBackupController examBackupController;
+    ExamSystemController examSystemController;
     public FXMLGuiLoader guiLoader;
+    
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -31,6 +35,12 @@ public class WelcomeApplication extends Application {
             controller.loadExamEnvironment();
         else
             controller.loadStandardEnvironment();    
+        
+        
+        examInformationController = new ExamInformationController(controller,  guiLoader.getInformation());
+        examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
+        examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
+    
     }
 
     private boolean isExamEnvironment() {
