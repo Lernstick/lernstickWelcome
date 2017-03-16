@@ -60,8 +60,8 @@ public class FirewallTask extends Task<Boolean> {
 
     @Override
     protected Boolean call() throws Exception {
-        // TODO Add updateProgress
-        // TODO Process
+        // checkFirewall - in GUI or Controller
+        updateFirewall();
         return true;
     }
     
@@ -109,7 +109,7 @@ public class FirewallTask extends Task<Boolean> {
                 "/etc/init.d/lernstick-firewall", "reload");
     }
     
-    private void toggleFirewallState() throws ProcessingException {
+    public void toggleFirewallState() throws ProcessingException {
         String action = firewallRunning.get() ? "stop" : "start";
         int ret = PROCESS_EXECUTOR.executeProcess(true, true, "lernstick-firewall", action);
 

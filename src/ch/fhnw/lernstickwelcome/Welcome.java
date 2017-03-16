@@ -189,8 +189,7 @@ public class Welcome extends javax.swing.JFrame {
             menuListModel.addElement(new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/network-server.png",
                     BUNDLE.getString("Proxy"), "proxyPanel"));
-            
-            
+
             exchangeAccessCheckBox.setVisible(false);
             exchangeRebootLabel.setVisible(false);
             allowFilesystemMountCheckbox.setVisible(false);
@@ -217,8 +216,6 @@ public class Welcome extends javax.swing.JFrame {
         exchangePartitionNameDocument.setDocumentFilter(
                 new DocumentSizeFilter());
 
-        
-
         if (exchangePartition == null) {
             exchangePartitionNameLabel.setEnabled(false);
             exchangePartitionNameTextField.setEnabled(false);
@@ -237,7 +234,7 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.WARNING, "could not set boot timeout value", ex);
         }
         updateSecondsLabel();
-        
+
         if (!WelcomeUtil.isImageWritable()) {
             bootTimeoutSpinner.setEnabled(false);
             systemNameTextField.setEditable(false);
@@ -282,7 +279,6 @@ public class Welcome extends javax.swing.JFrame {
         if (examEnvironment) {
             // firewallTask = new FirewallTask();
         }
-
 
         helpTextPane.setCaretPosition(0);
 
@@ -2200,7 +2196,7 @@ public class Welcome extends javax.swing.JFrame {
     // XXX GUI (Backend was added)
     private void updateFirewallState() {
         // check firewall state
-        
+
         boolean firewallRunning = firewallTask.updateFirewallState() == 0;
 
         // update button icon
@@ -2229,7 +2225,7 @@ public class Welcome extends javax.swing.JFrame {
         AbstractDocument userNameDocument
                 = (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        
+
         userNameTextField.setText(systemTask.getFullUserName());
     }
 
@@ -2311,7 +2307,7 @@ public class Welcome extends javax.swing.JFrame {
     private void changePassword() {
         try {
             systemTask.changePassword();
-        } catch(ProcessingException ex) {
+        } catch (ProcessingException ex) {
             JOptionPane.showMessageDialog(this,
                     BUNDLE.getString(ex.getMessage()),
                     BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
@@ -2374,28 +2370,7 @@ public class Welcome extends javax.swing.JFrame {
      * @param evt the corresponding HyperlinkEvent
      */
     public static void openLinkInBrowser(HyperlinkEvent evt) {
-        if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-//            try {
-//                Desktop.getDesktop().browse(evt.getURL().toURI());
-//            } catch (IOException ex) {
-//                logger.log(Level.SEVERE, "could not open URL", ex);
-//            } catch (URISyntaxException ex) {
-//                logger.log(Level.SEVERE, "could not open URL", ex);
-//            }
-
-            // as long as Konqueror sucks so bad, we enforce firefox
-            // (this is a quick and dirty solution, if konqueror starts to be
-            // usable, switch back to the code above)
-            final HyperlinkEvent finalEvent = evt;
-            Thread browserThread = new Thread() {
-                @Override
-                public void run() {
-                    PROCESS_EXECUTOR.executeProcess(new String[]{
-                        "firefox", finalEvent.getURL().toString()});
-                }
-            };
-            browserThread.start();
-        }
+        WelcomeUtil.openLinkInBrowser(evt);
     }
 
     private void selectCard(String cardName) {
@@ -2492,124 +2467,23 @@ public class Welcome extends javax.swing.JFrame {
         }
 
         // update full user name (if necessary)
-        String newFullName = userNameTextField.getText();
-        if (!newFullName.equals(fullName)) {
-            LOGGER.log(Level.INFO,
-                    "updating full user name to \"{0}\"", newFullName);
-            PROCESS_EXECUTOR.executeProcess("chfn", "-f", newFullName, "user");
-        }
+        systemconfig.call();
 
         // update exchange partition label
         String newExchangePartitionLabel
                 = exchangePartitionNameTextField.getText();
-        LOGGER.log(Level.INFO, "new exchange partition label: \"{0}\"",
-                newExchangePartitionLabel);
-        if (!newExchangePartitionLabel.isEmpty()
-                && !newExchangePartitionLabel.equals(exchangePartitionLabel)) {
-            String binary = null;
-            boolean umount = false;
-            String idType = exchangePartition.getIdType();
-            switch (idType) {
-                case "vfat":
-                    binary = "dosfslabel";
-                    break;
-                case "exfat":
-                    binary = "exfatlabel";
-                    break;
-                case "ntfs":
-                    binary = "ntfslabel";
-                    // ntfslabel refuses to work on a mounted partition with the
-                    // error message: "Cannot make changes to a mounted device".
-                    // Therefore we have to try to umount the partition.
-                    umount = true;
-                    break;
-                default:
-                    LOGGER.log(Level.WARNING,
-                            "no labeling binary for type \"{0}\"!", idType);
-                    break;
-            }
-            if (binary != null) {
-                boolean tmpUmount = umount && exchangePartition.isMounted();
-                if (tmpUmount) {
-                    exchangePartition.umount();
-                }
-                PROCESS_EXECUTOR.executeProcess(binary,
-                        "/dev/" + exchangePartition.getDeviceAndNumber(),
-                        newExchangePartitionLabel);
-                if (tmpUmount) {
-                    exchangePartition.mount();
-                }
-            }
-        }
 
         String backupSource = backupSourceTextField.getText();
         String backupDirectory = backupDirectoryTextField.getText();
         String backupPartition = backupPartitionTextField.getText();
 
         if (examEnvironment) {
-
-            updateFirewall();
-
-            if (!backupDirectoryCheckBox.isSelected()
-                    || backupDirectory.isEmpty()) {
-                if (backupPartitionCheckBox.isSelected()
-                        && !backupPartition.isEmpty()) {
-                    updateJBackpackProperties(backupSource, "/mnt/backup/"
-                            + backupPartition + "/lernstick_backup");
-                }
-            } else {
-                updateJBackpackProperties(backupSource, backupDirectory);
-            }
+            // Do firewall and backup
 
         } else {
             installSelectedPackages();
         }
 
-        // update lernstickWelcome properties
-        try {
-            properties.setProperty(SHOW_WELCOME,
-                    readWriteCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(SHOW_READ_ONLY_INFO,
-                    readOnlyCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(BACKUP,
-                    backupCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(BACKUP_SCREENSHOT,
-                    screenShotCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(EXCHANGE_ACCESS,
-                    exchangeAccessCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(BACKUP_DIRECTORY_ENABLED,
-                    backupDirectoryCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(BACKUP_PARTITION_ENABLED,
-                    backupPartitionCheckBox.isSelected() ? "true" : "false");
-            properties.setProperty(BACKUP_SOURCE, backupSource);
-            properties.setProperty(BACKUP_DIRECTORY, backupDirectory);
-            properties.setProperty(BACKUP_PARTITION, backupPartition);
-            Number backupFrequency = (Number) backupFrequencySpinner.getValue();
-            properties.setProperty(BACKUP_FREQUENCY,
-                    backupFrequency.toString());
-            properties.setProperty(KDE_LOCK,
-                    kdePlasmaLockCheckBox.isSelected() ? "true" : "false");
-            properties.store(new FileOutputStream(propertiesFile),
-                    "lernstick Welcome properties");
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-
-        if (IMAGE_IS_WRITABLE) {
-            updateBootloaders();
-        }
-
-        if (Files.exists(ALSA_PULSE_CONFIG_FILE)) {
-            if (noPulseAudioCheckbox.isSelected()) {
-                // divert alsa pulse config file
-                PROCESS_EXECUTOR.executeProcess("dpkg-divert",
-                        "--rename", ALSA_PULSE_CONFIG_FILE.toString());
-            }
-        } else if (!noPulseAudioCheckbox.isSelected()) {
-            // restore original alsa pulse config file
-            PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--remove",
-                    "--rename", ALSA_PULSE_CONFIG_FILE.toString());
-        }
 
         // show "done" message
         // toolkit.beep();
@@ -2623,30 +2497,11 @@ public class Welcome extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void updateBootloaders() throws DBusException {
-        // TODO Update Model
-        SpinnerNumberModel spinnerNumberModel
-                = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
-        final int timeout = spinnerNumberModel.getNumber().intValue();
-        final String systemName = systemNameTextField.getText();
-        final String systemVersion = systemVersionTextField.getText();
-
-    }
-
-    private void updateBootloaders(File directory, int timeout,
-            String systemName, String systemVersion) throws DBusException {
-            systemconfigTask.updateBootloader(directory, timeout, systemName, systemVersion);
-    }
-
-    private void updateFirewall() {
-        firewallTask.updateFirewall();
-    }
-
     private boolean checkBackupDirectory() {
         try {
             backupTask.checkBackupDirectory();
-        } catch(ProcessingException ex) {
-            showBackupDirectoryError(MessageFormat.format(BUNDLE.getString(ex.getMessage()), (Object[])ex.getMessageDetails()));
+        } catch (ProcessingException ex) {
+            showBackupDirectoryError(MessageFormat.format(BUNDLE.getString(ex.getMessage()), (Object[]) ex.getMessageDetails()));
         }
     }
 
@@ -2664,15 +2519,10 @@ public class Welcome extends javax.swing.JFrame {
                 WelcomeUtil.checkPortRange((String) ipTableModel.getValueAt(i, 2), i);
             }
             return true;
-        } catch(TableCellValidationException ex) {
+        } catch (TableCellValidationException ex) {
             firewallError(MessageFormat.format(BUNDLE.getString(ex.getMessage()), ex.getMessageDetails()), ex.getRow(), ex.getCol());
             return false;
         }
-    }
-
-    public void portRangeError(int index) {
-        String errorMessage = BUNDLE.getString("Error_PortRange");
-        firewallError(errorMessage, index, 2);
     }
 
     // XXX GUI

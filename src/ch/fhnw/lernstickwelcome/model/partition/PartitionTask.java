@@ -27,6 +27,7 @@ public class PartitionTask extends Task<Boolean> {
     private static final Logger LOGGER = Logger.getLogger(PartitionTask.class.getName());
     private static final ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private Partition exchangePartition;
+    private Properties properties;
     
     private String oldExchangePartitionLabel;
     private StringProperty exchangePartitionLabel = new SimpleStringProperty();
@@ -35,6 +36,8 @@ public class PartitionTask extends Task<Boolean> {
     private BooleanProperty showReadWriteWelcome = new SimpleBooleanProperty();
 
     public PartitionTask(Properties properties) {
+        this.properties = properties;
+        
         StorageDevice sd = WelcomeModelFactory.getSystemStorageDevice();
         if(sd != null) {
             exchangePartition = sd.getExchangePartition();
@@ -43,6 +46,7 @@ public class PartitionTask extends Task<Boolean> {
                 oldExchangePartitionLabel = exchangePartitionLabel.get();
             }
         }
+        
         accessExchangePartition.set("true".equals(
                 properties.getProperty(WelcomeConstants.EXCHANGE_ACCESS)));
         showReadWriteWelcome.set("true".equals(
@@ -93,6 +97,13 @@ public class PartitionTask extends Task<Boolean> {
                 }
             }
         }
+        
+        properties.setProperty(WelcomeConstants.SHOW_WELCOME,
+                showReadWriteWelcome.get() ? "true" : "false");
+        properties.setProperty(WelcomeConstants.SHOW_READ_ONLY_INFO,
+                showReadOnlyInfo.get() ? "true" : "false");
+        properties.setProperty(WelcomeConstants.EXCHANGE_ACCESS,
+                accessExchangePartition.get() ? "true" : "false");
         return true;
     }
 }
