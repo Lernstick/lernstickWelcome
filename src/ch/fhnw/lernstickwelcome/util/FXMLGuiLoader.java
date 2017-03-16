@@ -14,10 +14,12 @@ import ch.fhnw.lernstickwelcome.view.WelcomeApplicationSystemController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -31,10 +33,10 @@ public class FXMLGuiLoader {
     private WelcomeController welcomeController;
     
     private Scene welcomeApplicationStart;
-    private Scene system;
-    private Scene firewall;
-    private Scene information;
-    private Scene backup;
+    private Pane system;
+    private Pane firewall;
+    private Pane information;
+    private Pane backup;
 
     
     // Controller
@@ -44,31 +46,43 @@ public class FXMLGuiLoader {
     private WelcomeApplicationStartController welcomeApplicationStartController;
     private WelcomeApplicationSystemController welcomeApplicationSystemController;
     
-    public FXMLGuiLoader(WelcomeController welcomeController) {
+    public FXMLGuiLoader(WelcomeController welcomeController, boolean isExamEnvironment) {
         this.welcomeController = welcomeController;
 
         // Create all instances with their controllers        
         try {
             
 	    BUNDLE = ResourceBundle.getBundle("ch/fhnw/welcomeapplication/Bundle");
-                        
-            welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/WelcomeApplicationStart.fxml"), BUNDLE));
-            
-            FXMLLoader loadProvSup = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationSystem.fxml"), BUNDLE);
-            system = new Scene((Parent)loadProvSup.load());
+             
+            FXMLLoader loadSystem = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationSystem.fxml"), BUNDLE);
+            system = new Pane((Parent)loadSystem.load());
             welcomeApplicationSystemController = new WelcomeApplicationSystemController(welcomeController);
             
-            FXMLLoader loadReqSup = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationFirewall.fxml"), BUNDLE);
-            firewall = new Scene((Parent)loadReqSup.load());
+            FXMLLoader loadFirewall = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationFirewall.fxml"), BUNDLE);
+            firewall = new Pane((Parent)loadFirewall.load());
             welcomeApplicationFirewallController = new WelcomeApplicationFirewallController(welcomeController);
                         
-            FXMLLoader loadConnecting = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationInformation.fxml"), BUNDLE);
-            information = new Scene((Parent) loadConnecting.load());
+            FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationInformation.fxml"), BUNDLE);
+            information = new Pane((Parent) loadInfo.load());
             welcomeApplicationInformationController = new WelcomeApplicationInformationController(welcomeController);
             
-            FXMLLoader loadConnected = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationBackup.fxml"), BUNDLE);
-            backup = new Scene((Parent) loadConnected.load());
+            FXMLLoader loadBackup = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationBackup.fxml"), BUNDLE);
+            backup = new Pane((Parent) loadBackup.load());
             welcomeApplicationBackupController = new WelcomeApplicationBackupController(welcomeController);
+            
+            /* (...) */
+            
+            HashMap<String, Pane> panes = new HashMap<String, Pane>();
+            panes.put("System", system);
+            panes.put("Firewall", firewall);
+            panes.put("Information", information);
+            panes.put("Backup", backup);
+            
+            
+            FXMLLoader loadWelcome = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationStart.fxml"), BUNDLE);
+            system = new Pane((Parent)loadWelcome.load());
+            welcomeApplicationStartController = new WelcomeApplicationStartController(welcomeController, isExamEnvironment, panes);
+            
             
         } catch(IOException ex) {
                ex.printStackTrace();
@@ -78,24 +92,24 @@ public class FXMLGuiLoader {
     }
     
     
-    public Scene getWelcomeApplicationStart() {
-        return welcomeApplicationStart;
+    public WelcomeApplicationStartController getWelcomeApplicationStart() {
+        return welcomeApplicationStartController;
     }
 
-    public Scene getSystem() {
-        return system;
+    public WelcomeApplicationSystemController getSystem() {
+        return welcomeApplicationSystemController;
     }
 
-    public Scene getFirewall() {
-        return firewall;
+    public WelcomeApplicationFirewallController getFirewall() {
+        return welcomeApplicationFirewallController;
     }
 
-    public Scene getInformation() {
-        return information;
+    public WelcomeApplicationInformationController getInformation() {
+        return welcomeApplicationInformationController;
     }
 
-    public Scene getBackup() {
-        return backup;
+    public WelcomeApplicationBackupController getBackup() {
+        return welcomeApplicationBackupController;
     }
     
     /**

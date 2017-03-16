@@ -26,7 +26,7 @@ public class WelcomeApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         controller = new WelcomeController();
-        guiLoader = new FXMLGuiLoader(controller);
+        guiLoader = new FXMLGuiLoader(controller, isExamEnvironment());
         
         Scene scene = guiLoader.getWelcomeApplicationStart();
         primaryStage.setScene(scene);
@@ -42,8 +42,9 @@ public class WelcomeApplication extends Application {
         examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
     
     }
+    
 
-    private boolean isExamEnvironment() {
+    public boolean isExamEnvironment() {
         return getParameters().getRaw().contains("examEnvironment");
     }
     

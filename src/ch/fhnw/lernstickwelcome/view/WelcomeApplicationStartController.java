@@ -9,13 +9,17 @@ import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 
@@ -31,15 +35,20 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private Button SaveButton;
     
-    private HashMap<String, WelcomeApplicationViewController> test = new HashMap<String, WelcomeApplicationViewController>();
-    private WelcomeApplicationBackupController backup;
-    private WelcomeApplicationFirewallController firewall;
-    private WelcomeApplicationInformationController information;
-    private WelcomeApplicationSystemController system;
     
-    //placeholder list
-    
+    private ArrayList<String> menuStrings = new ArrayList<String>();
     private ArrayList<String> menuStringsExam = new ArrayList<String>();
+    
+    private Scene backupEX, informationEX, systemEX, firewallEX;
+    private Scene backup, information, system, firewall;
+    
+    private Button btnShowBackup, btnShowInfo, btnShowSystem, btnShowFirewall;
+    private Button btnShowBackupEX, btnShowInfoEX, btnShowSystemEX, btnShowFirewallEX;
+    
+    private boolean isExam;
+    
+    
+    private HashMap<String, Pane> panes;
     
     private WelcomeController controller;
     
@@ -47,16 +56,19 @@ public class WelcomeApplicationStartController implements Initializable {
     
     private ResourceBundle bundle;
     @FXML
-    private VBox MenuPane;
+    private VBox menuPane;
     @FXML
-    private AnchorPane MainPane;
+    private AnchorPane mainPane;
 
-    public WelcomeApplicationStartController(WelcomeController controller) {
+    public WelcomeApplicationStartController(WelcomeController controller, 
+                                            boolean isExam, HashMap<String, Pane> panes) {
         this.controller = controller;
         menuStringsExam.add("Information");
         menuStringsExam.add("Firewall");
         menuStringsExam.add("Backup");
         menuStringsExam.add("System");
+        this.isExam = isExam;
+        this.panes = panes;
     }
     
     /**
@@ -64,22 +76,34 @@ public class WelcomeApplicationStartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //im Controller bundle = rb;
-        for(int i = 0; i < menu.length; ++i)
-        {
-            MenuPane.getChildren().add(new Button(menuStringExam[i]));
+        //im Controller bundle = rb;            
+        Iterator it = panes.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            
+            Button button = new Button(pair.getKey().toString());
+            button.setOnMouseClicked((t) -> {
+                showPane((Pane)pair.getValue());
+            });
+            mainPane.getChildren().add(button);
+            
+            it.remove(); 
         }
-        information = new WelcomeApplicationInformationController();
-        
-        test.put("Information", information);
-        test.put("System", system);
-        test.put("Firewall", firewall);
-        test.put("Backup", backup);
+
         
         
-        MainPane.getChildren().add(test.get(menu[0]).getPane());
         
     } 
+    
+    private void showPane(Pane pane){
+        Iterator it = panes.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            ((Pane)pair.getValue()).setVisible(false);
+            it.remove();
+        }
+        pane.setVisible(true);
+    }
     
     @FXML
      private void onFinishClickedAction(MouseEvent event) {
@@ -93,6 +117,7 @@ public class WelcomeApplicationStartController implements Initializable {
         //save all
     }
 
+  /*   private void onClickShowSystem*/
     
     
 }
