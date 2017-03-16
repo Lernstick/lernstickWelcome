@@ -5,7 +5,9 @@
  */
 package ch.fhnw.lernstickwelcome.view;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -37,7 +39,9 @@ public class WelcomeApplicationStartController implements Initializable {
     
     //placeholder list
     
-    private String[] menu = {"Information", "Firewall", "Backup", "System"};
+    private ArrayList<String> menuStringsExam = new ArrayList<String>();
+    
+    private WelcomeController controller;
     
     //Konstruktor (Controller, boolean ExamVersion)
     
@@ -47,7 +51,13 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private AnchorPane MainPane;
 
-    
+    public WelcomeApplicationStartController(WelcomeController controller) {
+        this.controller = controller;
+        menuStringsExam.add("Information");
+        menuStringsExam.add("Firewall");
+        menuStringsExam.add("Backup");
+        menuStringsExam.add("System");
+    }
     
     /**
      * Initializes the controller class.

@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.view;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -23,7 +24,14 @@ public class WelcomeApplicationInformationController implements Initializable, W
     private Label label_info_os;
     @FXML
     private Label label_info_version;
+    
+    WelcomeController controller;
 
+    public WelcomeApplicationInformationController(WelcomeController controller)
+    {
+        this.controller = controller;
+    }
+    
     /**
      * Initializes the controller class.
      */

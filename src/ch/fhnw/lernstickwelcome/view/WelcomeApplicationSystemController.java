@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.view;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -47,6 +48,13 @@ public class WelcomeApplicationSystemController implements Initializable, Welcom
     private CheckBox cb_sys_access_user;
     @FXML
     private CheckBox cb_sys_show_warning;
+    
+    
+    private WelcomeController controller;
+    
+    public WelcomeApplicationSystemController(WelcomeController controller){
+        this.controller = controller;
+    }
 
     /**
      * Initializes the controller class.
