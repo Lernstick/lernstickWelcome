@@ -47,6 +47,8 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private AnchorPane MainPane;
 
+    
+    
     /**
      * Initializes the controller class.
      */
