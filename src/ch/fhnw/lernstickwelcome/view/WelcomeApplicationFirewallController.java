@@ -8,13 +8,14 @@ package ch.fhnw.lernstickwelcome.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
  *
  * @author user
  */
-public class WelcomeApplicationFirewallController implements Initializable {
+public class WelcomeApplicationFirewallController implements Initializable, WelcomeApplicationViewController {
 
     /**
      * Initializes the controller class.
@@ -23,5 +24,10 @@ public class WelcomeApplicationFirewallController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @Override
+    public Pane getPane() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

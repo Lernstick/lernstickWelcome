@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.view;
 
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.Pane;
 
 
 /**
@@ -30,7 +29,7 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private Button SaveButton;
     
-    
+    private HashMap<String, WelcomeApplicationViewController> test = new HashMap<String, WelcomeApplicationViewController>();
     private WelcomeApplicationBackupController backup;
     private WelcomeApplicationFirewallController firewall;
     private WelcomeApplicationInformationController information;
@@ -58,7 +57,16 @@ public class WelcomeApplicationStartController implements Initializable {
             MenuPane.getChildren().add(new Button(menu[i]));
         }
         information = new WelcomeApplicationInformationController();
-        MainPane.getChildren().add();
+        
+        test.put("Information", information);
+        test.put("System", system);
+        test.put("Firewall", firewall);
+        test.put("Backup", backup);
+        
+        fo
+        
+        MainPane.getChildren().add(test.get(menu[0]));
+        
     } 
     
     @FXML
