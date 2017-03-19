@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<application name="hedgewars">
+	<description>a war game with hedgehogs</description>
+	<icon>hedgewars.ico</icon>
+	<help-path>hedgewars.html</help-path>
+	<packages>
+		<package type="aptget">hedgewars</package>
+		<package type="wget" fetchUrl="blablabla">libhedgewars</package>
+	</packages>
+	<tags>
+		<tag>recommended</tag>
+		<tag>game</tag>
+	</tags>
+</application>
