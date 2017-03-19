@@ -80,6 +80,11 @@ public class WelcomeModelFactory {
     }
     // TODO add more categories which should be initialized
     
+    /**
+     * Searches the application.xml for an application with the given name.
+     * @param name
+     * @return a Task for this specific application or null if no application was found.
+     */
     public static ApplicationTask getApplicationTask(String name) {
     	File xmlFile = new File("applications.xml");
     	Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
@@ -122,5 +127,6 @@ public class WelcomeModelFactory {
     			}
     		}
     	}
+    	return null;
     }
 }
