@@ -99,7 +99,11 @@ public class WelcomeModelFactory {
         			String helpPath = app.getElementsByTagName("help-path").item(0).getNodeValue();
         			List<String> aptgetPackages = new ArrayList<>();
         			List<String> wgetPackages = new ArrayList<>();
-        			String wgetFetchUrl;
+        			// XXX does really every wget package have the same fetchUrl and SaveDir?
+        			// In application.xml I defined it so every package can have different ones.
+        			// In class WgetPackages however, there is only one property for all packages.
+        			// So for now this function uses just the last ones of the properties.
+        			String wgetFetchUrl; 
         			String wgetSaveDir;
         			NodeList packages = app.getElementsByTagName("package");
         			for (int j = 0; j < packages.getLength(); j++) {

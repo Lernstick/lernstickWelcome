@@ -5,7 +5,7 @@
 	<help-path>hedgewars.html</help-path>
 	<packages>
 		<package type="aptget">hedgewars</package>
-		<package type="wget" fetchUrl="blablabla">libhedgewars</package>
+		<package type="wget" fetchUrl="blablabla" saveDir="whatever">libhedgewars</package>
 	</packages>
 	<tags>
 		<tag>recommended</tag>
