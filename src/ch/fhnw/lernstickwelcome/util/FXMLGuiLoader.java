@@ -6,12 +6,12 @@
 package ch.fhnw.lernstickwelcome.util;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationBackupController;
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationFirewallController;
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationInformationController;
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationInstallController;
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationStartController;
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationSystemController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInstallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ResourceBundle;

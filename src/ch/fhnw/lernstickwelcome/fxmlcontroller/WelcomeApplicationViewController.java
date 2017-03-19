@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.view;
+package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
 import javafx.scene.layout.Pane;
 

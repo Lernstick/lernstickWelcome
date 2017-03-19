@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationInstallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInstallController;
 
 /**
  *

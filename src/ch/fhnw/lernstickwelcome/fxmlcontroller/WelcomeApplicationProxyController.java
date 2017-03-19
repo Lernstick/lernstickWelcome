@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.view;
+package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -18,18 +19,20 @@ import javafx.scene.input.MouseEvent;
  *
  * @author user
  */
-public class WelcomeApplicationAdditionalSoftwareController implements Initializable {
+public class WelcomeApplicationProxyController implements Initializable {
 
     @FXML
-    private Button btn_as_help;
+    private Button btn_pxy_help;
     @FXML
-    private ToggleButton tbtn_as_teaching;
+    private CheckBox cb_pxy_use;
     @FXML
-    private ToggleButton tbtn_as_skype;
+    private TextField txt_pxy_host;
     @FXML
-    private ToggleButton tbtn_as_gComris1;
+    private TextField txt_pxy_port;
     @FXML
-    private ToggleButton tbtn_as_gComris2;
+    private TextField txt_pxy_user;
+    @FXML
+    private TextField txt_pxy_pwd;
 
     /**
      * Initializes the controller class.

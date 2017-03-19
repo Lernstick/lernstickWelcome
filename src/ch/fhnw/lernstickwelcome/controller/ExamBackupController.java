@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
-import ch.fhnw.lernstickwelcome.view.WelcomeApplicationBackupController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
