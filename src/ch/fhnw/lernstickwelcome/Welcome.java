@@ -399,50 +399,8 @@ public class Welcome extends javax.swing.JFrame {
         additionalTabbedPane = new javax.swing.JTabbedPane();
         additionalScrollPane = new javax.swing.JScrollPane();
         additionalScrollPanel = new ScrollableJPanel();
-        gcomprisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        omnituxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        kstarsPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        etoysPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        wxMaximaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        hydrogenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        sweetHome3DPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        openClipartPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        lyxPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        scribusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        gespeakerPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        gnucashPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        netbeansPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        processingPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        rStudioPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        lazarusPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        webweaverdesktopPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        lehrerOfficePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        wizbeePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        calcularisPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         gamesScrollPane = new javax.swing.JScrollPane();
         gamesScrollPanel = new ScrollableJPanel();
-        minetestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        colobotGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        riliGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        filletsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        neverballGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        neverputtGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        freecolGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        frogattoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        supertuxGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        supertuxkartGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        xmotoGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        triggerGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        openClonkPanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        wesnothGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        flareGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        hedgewarsGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        megaglestGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        ufoaiGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
-        astromenaceGamePanel = new ch.fhnw.lernstickwelcome.GamePanel();
         proxyPanel = new javax.swing.JPanel();
         proxyInfoLabel = new javax.swing.JLabel();
         proxyCheckBox = new javax.swing.JCheckBox();
@@ -1004,453 +962,11 @@ public class Welcome extends javax.swing.JFrame {
         additionalPanel.add(additionalInfoLabel, gridBagConstraints);
 
         additionalScrollPanel.setLayout(new java.awt.GridBagLayout());
-
-        gcomprisPanel.setDescription(bundle.getString("Welcome.gcomprisPanel.description")); // NOI18N
-        gcomprisPanel.setGameName("GCompris"); // NOI18N
-        gcomprisPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gcompris.png"))); // NOI18N
-        gcomprisPanel.setWebsite(bundle.getString("Welcome.gcomprisPanel.website")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(gcomprisPanel, gridBagConstraints);
-
-        omnituxPanel.setDescription(bundle.getString("Welcome.omnituxPanel.description")); // NOI18N
-        omnituxPanel.setGameName("Omnitux"); // NOI18N
-        omnituxPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/omnitux.png"))); // NOI18N
-        omnituxPanel.setWebsite(bundle.getString("Welcome.omnituxPanel.website")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(omnituxPanel, gridBagConstraints);
-
-        tuxPaintPanel.setDescription(bundle.getString("Welcome.tuxPaintPanel.description")); // NOI18N
-        tuxPaintPanel.setGameName("Tux Paint"); // NOI18N
-        tuxPaintPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/tuxpaint.png"))); // NOI18N
-        tuxPaintPanel.setWebsite("http://www.tuxpaint.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(tuxPaintPanel, gridBagConstraints);
-
-        stellariumPanel.setDescription(bundle.getString("Welcome.stellariumPanel.description")); // NOI18N
-        stellariumPanel.setGameName("Stellarium"); // NOI18N
-        stellariumPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/stellarium.png"))); // NOI18N
-        stellariumPanel.setWebsite(bundle.getString("Welcome.stellariumPanel.website")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(stellariumPanel, gridBagConstraints);
-
-        kstarsPanel.setDescription(bundle.getString("Welcome.kstarsPanel.description")); // NOI18N
-        kstarsPanel.setGameName("KStars"); // NOI18N
-        kstarsPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/kstars.png"))); // NOI18N
-        kstarsPanel.setWebsite("https://edu.kde.org/kstars/"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(kstarsPanel, gridBagConstraints);
-
-        etoysPanel.setDescription(bundle.getString("Welcome.etoysPanel.description")); // NOI18N
-        etoysPanel.setGameName("Etoys"); // NOI18N
-        etoysPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/etoys.png"))); // NOI18N
-        etoysPanel.setWebsite("http://squeakland.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(etoysPanel, gridBagConstraints);
-
-        wxMaximaPanel.setDescription(bundle.getString("Welcome.wxMaximaPanel.description")); // NOI18N
-        wxMaximaPanel.setGameName("wxMaxima"); // NOI18N
-        wxMaximaPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/wxmaxima.png"))); // NOI18N
-        wxMaximaPanel.setWebsite("http://andrejv.github.io/wxmaxima/"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(wxMaximaPanel, gridBagConstraints);
-
-        rosegardenPanel.setDescription(bundle.getString("Welcome.rosegardenPanel.description")); // NOI18N
-        rosegardenPanel.setGameName("Rosegarden"); // NOI18N
-        rosegardenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rosegarden.png"))); // NOI18N
-        rosegardenPanel.setWebsite("http://www.rosegardenmusic.com"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(rosegardenPanel, gridBagConstraints);
-
-        hydrogenPanel.setDescription(bundle.getString("Welcome.hydrogenPanel.description")); // NOI18N
-        hydrogenPanel.setGameName("Hydrogen"); // NOI18N
-        hydrogenPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/hydrogen.png"))); // NOI18N
-        hydrogenPanel.setWebsite("http://www.hydrogen-music.org/hcms/"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(hydrogenPanel, gridBagConstraints);
-
-        sweetHome3DPanel.setDescription(bundle.getString("Welcome.sweetHome3DPanel.description")); // NOI18N
-        sweetHome3DPanel.setGameName("Sweet Home 3D"); // NOI18N
-        sweetHome3DPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/sweethome3d.png"))); // NOI18N
-        sweetHome3DPanel.setWebsite("http://www.sweethome3d.com"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(sweetHome3DPanel, gridBagConstraints);
-
-        openClipartPanel.setDescription(bundle.getString("Welcome.openClipartPanel.description")); // NOI18N
-        openClipartPanel.setGameName("Openclipart"); // NOI18N
-        openClipartPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/openclipart.png"))); // NOI18N
-        openClipartPanel.setWebsite("http://openclipart.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(openClipartPanel, gridBagConstraints);
-
-        lyxPanel.setDescription(bundle.getString("Welcome.lyxPanel.description")); // NOI18N
-        lyxPanel.setGameName("LyX"); // NOI18N
-        lyxPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lyx.png"))); // NOI18N
-        lyxPanel.setWebsite(bundle.getString("Welcome.lyxPanel.website")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(lyxPanel, gridBagConstraints);
-
-        scribusPanel.setDescription(bundle.getString("Welcome.scribusPanel.description")); // NOI18N
-        scribusPanel.setGameName("Scribus"); // NOI18N
-        scribusPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/scribus.png"))); // NOI18N
-        scribusPanel.setWebsite("http://www.scribus.net"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(scribusPanel, gridBagConstraints);
-
-        gespeakerPanel.setDescription(bundle.getString("Welcome.gespeakerPanel.description")); // NOI18N
-        gespeakerPanel.setGameName("Gespeaker"); // NOI18N
-        gespeakerPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gespeaker.png"))); // NOI18N
-        gespeakerPanel.setWebsite(bundle.getString("Welcome.gespeakerPanel.website")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(gespeakerPanel, gridBagConstraints);
-
-        gnucashPanel.setDescription(bundle.getString("Welcome.gnucashPanel.description")); // NOI18N
-        gnucashPanel.setGameName("GnuCash"); // NOI18N
-        gnucashPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gnucash.png"))); // NOI18N
-        gnucashPanel.setWebsite("http://www.gnucash.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(gnucashPanel, gridBagConstraints);
-
-        netbeansPanel.setDescription(bundle.getString("Welcome.netbeansPanel.description")); // NOI18N
-        netbeansPanel.setGameName("NetBeans"); // NOI18N
-        netbeansPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/netbeans.png"))); // NOI18N
-        netbeansPanel.setWebsite("https://netbeans.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(netbeansPanel, gridBagConstraints);
-
-        processingPanel.setDescription(bundle.getString("Welcome.processingPanel.description")); // NOI18N
-        processingPanel.setGameName("Processing"); // NOI18N
-        processingPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/processing.png"))); // NOI18N
-        processingPanel.setWebsite("http://processing.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(processingPanel, gridBagConstraints);
-
-        rStudioPanel.setDescription(bundle.getString("Welcome.rStudioPanel.description")); // NOI18N
-        rStudioPanel.setGameName("RStudio"); // NOI18N
-        rStudioPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/rstudio.png"))); // NOI18N
-        rStudioPanel.setWebsite("http://www.rstudio.com"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(rStudioPanel, gridBagConstraints);
-
-        lazarusPanel.setDescription(bundle.getString("Welcome.lazarusPanel.description")); // NOI18N
-        lazarusPanel.setGameName("Lazarus"); // NOI18N
-        lazarusPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lazarus.png"))); // NOI18N
-        lazarusPanel.setWebsite("http://lazarus.freepascal.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(lazarusPanel, gridBagConstraints);
-
-        webweaverdesktopPanel.setDescription(bundle.getString("Welcome.webweaverdesktopPanel.description")); // NOI18N
-        webweaverdesktopPanel.setGameName("WebWeaver Desktop"); // NOI18N
-        webweaverdesktopPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/webweaverdesktop.png"))); // NOI18N
-        webweaverdesktopPanel.setWebsite("http://www.digionline.de/wws/webweaver_desktop.php"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(webweaverdesktopPanel, gridBagConstraints);
-
-        lehrerOfficePanel.setDescription(bundle.getString("Welcome.lehrerOfficePanel.description")); // NOI18N
-        lehrerOfficePanel.setGameName("LehrerOffice"); // NOI18N
-        lehrerOfficePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/lehreroffice.png"))); // NOI18N
-        lehrerOfficePanel.setWebsite("http://www.lehreroffice.ch"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(lehrerOfficePanel, gridBagConstraints);
-
-        wizbeePanel.setDescription(bundle.getString("Welcome.wizbeePanel.description")); // NOI18N
-        wizbeePanel.setGameName("Wizbee"); // NOI18N
-        wizbeePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/wizbee.png"))); // NOI18N
-        wizbeePanel.setWebsite("https://www.wizbee.ch"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(wizbeePanel, gridBagConstraints);
-
-        calcularisPanel.setDescription(bundle.getString("Welcome.calcularisPanel.description")); // NOI18N
-        calcularisPanel.setGameName("Dybuster Calcularis"); // NOI18N
-        calcularisPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/calcularis.png"))); // NOI18N
-        calcularisPanel.setWebsite("http://www.calcularis.ch"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        additionalScrollPanel.add(calcularisPanel, gridBagConstraints);
-
         additionalScrollPane.setViewportView(additionalScrollPanel);
 
         additionalTabbedPane.addTab(bundle.getString("Welcome.additionalScrollPane.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/applications-other.png")), additionalScrollPane); // NOI18N
 
         gamesScrollPanel.setLayout(new java.awt.GridBagLayout());
-
-        minetestGamePanel.setDescription(bundle.getString("Welcome.minetestGamePanel.description")); // NOI18N
-        minetestGamePanel.setGameName("Minetest"); // NOI18N
-        minetestGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/minetest.png"))); // NOI18N
-        minetestGamePanel.setWebsite("http://minetest.net"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(minetestGamePanel, gridBagConstraints);
-
-        colobotGamePanel.setDescription(bundle.getString("Welcome.colobotGamePanel.description")); // NOI18N
-        colobotGamePanel.setGameName("Colobot"); // NOI18N
-        colobotGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/colobot.png"))); // NOI18N
-        colobotGamePanel.setWebsite("http://www.colobot.info"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(colobotGamePanel, gridBagConstraints);
-
-        riliGamePanel.setDescription(bundle.getString("Welcome.riliGamePanel.description")); // NOI18N
-        riliGamePanel.setGameName("Ri-li"); // NOI18N
-        riliGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/ri-li.png"))); // NOI18N
-        riliGamePanel.setWebsite("http://ri-li.sourceforge.net"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(riliGamePanel, gridBagConstraints);
-
-        filletsGamePanel.setDescription(bundle.getString("Welcome.filletsGamePanel.description")); // NOI18N
-        filletsGamePanel.setGameName("Fish Fillets NG"); // NOI18N
-        filletsGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/fillets.png"))); // NOI18N
-        filletsGamePanel.setWebsite("http://fillets.sourceforge.net"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(filletsGamePanel, gridBagConstraints);
-
-        neverballGamePanel.setDescription(bundle.getString("Welcome.neverballGamePanel.description")); // NOI18N
-        neverballGamePanel.setGameName("Neverball"); // NOI18N
-        neverballGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/neverball.png"))); // NOI18N
-        neverballGamePanel.setWebsite("http://neverball.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(neverballGamePanel, gridBagConstraints);
-
-        neverputtGamePanel.setDescription(bundle.getString("Welcome.neverputtGamePanel.description")); // NOI18N
-        neverputtGamePanel.setGameName("Neverputt"); // NOI18N
-        neverputtGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/neverputt.png"))); // NOI18N
-        neverputtGamePanel.setWebsite("http://neverball.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(neverputtGamePanel, gridBagConstraints);
-
-        freecolGamePanel.setDescription(bundle.getString("Welcome.freecolGamePanel.description")); // NOI18N
-        freecolGamePanel.setGameName("FreeCol"); // NOI18N
-        freecolGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/freecol.png"))); // NOI18N
-        freecolGamePanel.setWebsite("http://www.freecol.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(freecolGamePanel, gridBagConstraints);
-
-        frogattoGamePanel.setDescription(bundle.getString("Welcome.frogattoGamePanel.description")); // NOI18N
-        frogattoGamePanel.setGameName("Frogatto & Friends"); // NOI18N
-        frogattoGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/frogatto.png"))); // NOI18N
-        frogattoGamePanel.setWebsite("http://www.frogatto.com"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(frogattoGamePanel, gridBagConstraints);
-
-        supertuxGamePanel.setDescription(bundle.getString("Welcome.supertuxGamePanel.description")); // NOI18N
-        supertuxGamePanel.setGameName("SuperTux"); // NOI18N
-        supertuxGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/supertux.png"))); // NOI18N
-        supertuxGamePanel.setWebsite("http://supertux.lethargik.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(supertuxGamePanel, gridBagConstraints);
-
-        supertuxkartGamePanel.setDescription(bundle.getString("Welcome.supertuxkartGamePanel.description")); // NOI18N
-        supertuxkartGamePanel.setGameName("SuperTuxKart"); // NOI18N
-        supertuxkartGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/supertuxkart.png"))); // NOI18N
-        supertuxkartGamePanel.setWebsite("http://supertuxkart.sourceforge.net"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(supertuxkartGamePanel, gridBagConstraints);
-
-        xmotoGamePanel.setDescription(bundle.getString("Welcome.xmotoGamePanel.description")); // NOI18N
-        xmotoGamePanel.setGameName("XMoto"); // NOI18N
-        xmotoGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/xmoto.png"))); // NOI18N
-        xmotoGamePanel.setWebsite("http://xmoto.tuxfamily.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(xmotoGamePanel, gridBagConstraints);
-
-        triggerGamePanel.setDescription(bundle.getString("Welcome.triggerGamePanel.description")); // NOI18N
-        triggerGamePanel.setGameName("Trigger Rally"); // NOI18N
-        triggerGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/trigger.png"))); // NOI18N
-        triggerGamePanel.setWebsite("http://trigger-rally.sourceforge.net"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(triggerGamePanel, gridBagConstraints);
-
-        openClonkPanel.setDescription(bundle.getString("Welcome.openClonkPanel.description")); // NOI18N
-        openClonkPanel.setGameName("OpenClonk"); // NOI18N
-        openClonkPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/openclonk.png"))); // NOI18N
-        openClonkPanel.setWebsite("http://www.openclonk.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(openClonkPanel, gridBagConstraints);
-
-        wesnothGamePanel.setDescription(bundle.getString("Welcome.wesnothGamePanel.description")); // NOI18N
-        wesnothGamePanel.setGameName("The Battle for Wesnoth"); // NOI18N
-        wesnothGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/wesnoth.png"))); // NOI18N
-        wesnothGamePanel.setWebsite("http://wesnoth.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(wesnothGamePanel, gridBagConstraints);
-
-        flareGamePanel.setDescription(bundle.getString("Welcome.flareGamePanel.description")); // NOI18N
-        flareGamePanel.setGameName("FLARE"); // NOI18N
-        flareGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/flare.png"))); // NOI18N
-        flareGamePanel.setWebsite("http://flarerpg.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(flareGamePanel, gridBagConstraints);
-
-        hedgewarsGamePanel.setDescription(bundle.getString("Welcome.hedgewarsGamePanel.description")); // NOI18N
-        hedgewarsGamePanel.setGameName("Hedgewars"); // NOI18N
-        hedgewarsGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/hedgewars.png"))); // NOI18N
-        hedgewarsGamePanel.setWebsite("http://hedgewars.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(hedgewarsGamePanel, gridBagConstraints);
-
-        megaglestGamePanel.setDescription(bundle.getString("Welcome.megaglestGamePanel.description")); // NOI18N
-        megaglestGamePanel.setGameName("MegaGlest"); // NOI18N
-        megaglestGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/megaglest.png"))); // NOI18N
-        megaglestGamePanel.setWebsite("http://megaglest.org"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(megaglestGamePanel, gridBagConstraints);
-
-        ufoaiGamePanel.setDescription(bundle.getString("Welcome.ufoaiGamePanel.description")); // NOI18N
-        ufoaiGamePanel.setGameName("UFO: Alien Invasion"); // NOI18N
-        ufoaiGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/ufoai.png"))); // NOI18N
-        ufoaiGamePanel.setWebsite("http://ufoai.org/wiki/About"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(ufoaiGamePanel, gridBagConstraints);
-
-        astromenaceGamePanel.setDescription(bundle.getString("Welcome.astromenaceGamePanel.description")); // NOI18N
-        astromenaceGamePanel.setGameName("Astromenace"); // NOI18N
-        astromenaceGamePanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/astromenace.png"))); // NOI18N
-        astromenaceGamePanel.setWebsite("http://www.viewizard.com/astromenace/index_linux.php"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
-        gamesScrollPanel.add(astromenaceGamePanel, gridBagConstraints);
-
         gamesScrollPane.setViewportView(gamesScrollPanel);
 
         additionalTabbedPane.addTab(bundle.getString("Welcome.gamesScrollPane.TabConstraints.tabTitle"), new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/input-gaming.png")), gamesScrollPane); // NOI18N
@@ -3449,7 +2965,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JTabbedPane additionalTabbedPane;
     private javax.swing.JCheckBox allowFilesystemMountCheckbox;
     private javax.swing.JButton applyButton;
-    private ch.fhnw.lernstickwelcome.GamePanel astromenaceGamePanel;
     private javax.swing.JCheckBox backupCheckBox;
     private javax.swing.JPanel backupDestinationsPanel;
     private javax.swing.JButton backupDirectoryButton;
@@ -3471,18 +2986,14 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel bootTimeoutLabel;
     private javax.swing.JSpinner bootTimeoutSpinner;
     private javax.swing.JPanel bottomPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel calcularisPanel;
     private javax.swing.JButton cancelButton;
-    private ch.fhnw.lernstickwelcome.GamePanel colobotGamePanel;
     private javax.swing.JPanel dataPartitionPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel etoysPanel;
     private javax.swing.JCheckBox exchangeAccessCheckBox;
     private javax.swing.JLabel exchangePartitionNameLabel;
     private javax.swing.JTextField exchangePartitionNameTextField;
     private javax.swing.JPanel exchangePartitionPanel;
     private javax.swing.JLabel exchangeRebootLabel;
     private javax.swing.JPanel fillPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel filletsGamePanel;
     private javax.swing.JPanel firewallIPButtonPanel;
     private javax.swing.JScrollPane firewallIPScrollPane;
     private javax.swing.JTable firewallIPTable;
@@ -3495,23 +3006,15 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane firewallURLScrollPane;
     private javax.swing.JTextArea firewallURLTextArea;
     private javax.swing.JPanel firewallipv4Panel;
-    private ch.fhnw.lernstickwelcome.GamePanel flareGamePanel;
     private javax.swing.JCheckBox flashCheckBox;
     private javax.swing.JLabel flashLabel;
     private javax.swing.JLabel fontsLabel;
-    private ch.fhnw.lernstickwelcome.GamePanel freecolGamePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel frogattoGamePanel;
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel gcomprisPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel gespeakerPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel gnucashPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
     private javax.swing.JLabel googleEarthLabel;
-    private ch.fhnw.lernstickwelcome.GamePanel hedgewarsGamePanel;
     private javax.swing.JScrollPane helpScrollPane;
     private javax.swing.JTextPane helpTextPane;
-    private ch.fhnw.lernstickwelcome.GamePanel hydrogenPanel;
     private javax.swing.JEditorPane infoEditorPane;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JScrollPane infoScrollPane;
@@ -3519,35 +3022,23 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JCheckBox kdePlasmaLockCheckBox;
-    private ch.fhnw.lernstickwelcome.GamePanel kstarsPanel;
     private javax.swing.JCheckBox laCheckBox;
     private javax.swing.JLabel laLabel;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel label2;
-    private ch.fhnw.lernstickwelcome.GamePanel lazarusPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel lehrerOfficePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel lyxPanel;
     private javax.swing.JPanel mainCardPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel megaglestGamePanel;
     private javax.swing.JList menuList;
     private javax.swing.JScrollPane menuScrollPane;
-    private ch.fhnw.lernstickwelcome.GamePanel minetestGamePanel;
     private javax.swing.JPanel miscPanel;
     private javax.swing.JButton moveDownIPButton;
     private javax.swing.JButton moveUpIPButton;
     private javax.swing.JCheckBox multimediaCheckBox;
     private javax.swing.JLabel multimediaLabel;
     private javax.swing.JPanel navigaionPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel netbeansPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel neverballGamePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel neverputtGamePanel;
     private javax.swing.JButton nextButton;
     private javax.swing.JCheckBox noPulseAudioCheckbox;
     private javax.swing.JLabel nonfreeLabel;
     private javax.swing.JPanel nonfreePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel omnituxPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel openClipartPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel openClonkPanel;
     private javax.swing.JPanel partitionsPanel;
     private javax.swing.JButton passwordChangeButton;
     private javax.swing.JLabel passwordChangeInfoLabel;
@@ -3555,7 +3046,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordField1;
     private javax.swing.JPasswordField passwordField2;
     private javax.swing.JButton previousButton;
-    private ch.fhnw.lernstickwelcome.GamePanel processingPanel;
     private javax.swing.JCheckBox proxyCheckBox;
     private javax.swing.JLabel proxyHostLabel;
     private javax.swing.JTextField proxyHostTextField;
@@ -3567,7 +3057,6 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField proxyPortTextField;
     private javax.swing.JLabel proxyUserNameLabel;
     private javax.swing.JTextField proxyUserNameTextField;
-    private ch.fhnw.lernstickwelcome.GamePanel rStudioPanel;
     private javax.swing.JCheckBox readOnlyCheckBox;
     private javax.swing.JPanel readOnlyPanel;
     private javax.swing.JCheckBox readWriteCheckBox;
@@ -3576,17 +3065,10 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JLabel readerLabel;
     private javax.swing.JPanel recommendedPanel;
     private javax.swing.JButton removeIPButton;
-    private ch.fhnw.lernstickwelcome.GamePanel riliGamePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel rosegardenPanel;
     private javax.swing.JCheckBox screenShotCheckBox;
-    private ch.fhnw.lernstickwelcome.GamePanel scribusPanel;
     private javax.swing.JLabel secondsLabel;
     private javax.swing.JCheckBox skypeCheckBox;
     private javax.swing.JLabel skypeLabel;
-    private ch.fhnw.lernstickwelcome.GamePanel stellariumPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel supertuxGamePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel supertuxkartGamePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel sweetHome3DPanel;
     private javax.swing.JLabel systemNameLabel;
     private javax.swing.JTextField systemNameTextField;
     private javax.swing.JPanel systemPanel;
@@ -3595,18 +3077,10 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JEditorPane teachingEditorPane;
     private javax.swing.JPanel teachingPanel;
     private javax.swing.JScrollPane teachingScrollPane;
-    private ch.fhnw.lernstickwelcome.GamePanel triggerGamePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel tuxPaintPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel ufoaiGamePanel;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JCheckBox virtualBoxCheckBox;
     private javax.swing.JLabel virtualBoxLabel;
-    private ch.fhnw.lernstickwelcome.GamePanel webweaverdesktopPanel;
     private javax.swing.JLabel welcomeLabel;
-    private ch.fhnw.lernstickwelcome.GamePanel wesnothGamePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel wizbeePanel;
-    private ch.fhnw.lernstickwelcome.GamePanel wxMaximaPanel;
-    private ch.fhnw.lernstickwelcome.GamePanel xmotoGamePanel;
     // End of variables declaration//GEN-END:variables
 }
