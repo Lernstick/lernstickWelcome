@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -53,11 +55,6 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
     @FXML
     private ChoiceBox<?> choice_bu_backup;
 
-    private WelcomeController welcomeController;
-    
-    public WelcomeApplicationBackupController(WelcomeController welcomeController){
-        this.welcomeController = welcomeController;
-    }
     
     /**
      * Initializes the controller class.
@@ -78,17 +75,35 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
 
     @FXML
     private void onClickSetBackupPath(MouseEvent event) {
-        //Directory Chooser
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose Backup Path");
+        File file = chooser.showDialog(new Stage());
+
+        if(file!=null){
+             String path = file.getPath();
+        }
     }
     
     @FXML
     private void onClickSetRemotePartition(MouseEvent event) {
-                //Directory Chooser
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose Remote Partition");
+        File file = chooser.showDialog(new Stage());
+
+        if(file!=null){
+             String path = file.getPath();
+        }
     }
 
     @FXML
     private void onClickSetLocalFolder(MouseEvent event) {
-                //Directory Chooser
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Set Local Folder");
+        File file = chooser.showDialog(new Stage());
+
+        if(file!=null){
+             String path = file.getPath();
+        }
     }
 
     public Button getBtn_bu_help() {

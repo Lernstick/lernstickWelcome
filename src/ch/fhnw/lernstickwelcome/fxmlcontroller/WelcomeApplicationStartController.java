@@ -50,9 +50,6 @@ public class WelcomeApplicationStartController implements Initializable {
     
     private HashMap<String, Pane> panes;
     
-    private WelcomeController controller;
-    
-    //Konstruktor (Controller, boolean ExamVersion)
     
     private ResourceBundle bundle;
     @FXML
@@ -60,13 +57,7 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private AnchorPane mainPane;
 
-    public WelcomeApplicationStartController(WelcomeController controller, 
-                                            boolean isExam, HashMap<String, Pane> panes) {
-        this.controller = controller;
-        menuStringsExam.add("Information");
-        menuStringsExam.add("Firewall");
-        menuStringsExam.add("Backup");
-        menuStringsExam.add("System");
+    public WelcomeApplicationStartController(boolean isExam, HashMap<String, Pane> panes) {
         this.isExam = isExam;
         this.panes = panes;
     }

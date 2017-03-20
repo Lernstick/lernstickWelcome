@@ -5,47 +5,31 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
  *
  * @author user
  */
-public class WelcomeApplicationInformationController implements Initializable, WelcomeApplicationViewController {
+public class WelcomeApplicationInformationStdController implements Initializable {
 
-
+    @FXML
     private Label label_info_os;
+    @FXML
     private Label label_info_version;
-   
+
     
     /**
      * Initializes the controller class.
      */
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         // TODO
     }    
-
-    @Override
-    public Pane getPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public Label getLabel_info_os() {
-        return label_info_os;
-    }
-
-    public Label getLabel_info_version() {
-        return label_info_version;
-    }
-
     
 }

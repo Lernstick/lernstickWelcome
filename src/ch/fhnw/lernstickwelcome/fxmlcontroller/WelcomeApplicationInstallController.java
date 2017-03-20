@@ -32,12 +32,6 @@ public class WelcomeApplicationInstallController implements Initializable {
     @FXML
     private Label txt_inst_mesage;
     
-    WelcomeController welcomeController;
-    
-    public WelcomeApplicationInstallController(WelcomeController controller)
-    {
-        this.welcomeController = controller;
-    }
 
     /**
      * Initializes the controller class.

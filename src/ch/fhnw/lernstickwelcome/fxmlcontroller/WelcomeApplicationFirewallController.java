@@ -63,12 +63,6 @@ public class WelcomeApplicationFirewallController implements Initializable, Welc
     @FXML
     private ComboBox<?> choice_fw_protocol;
 
-    private WelcomeController welcomeController;
-    
-    public WelcomeApplicationFirewallController(WelcomeController welcomeController){
-        this.welcomeController = welcomeController;
-    }
-    
     /**
      * Initializes the controller class.
      */

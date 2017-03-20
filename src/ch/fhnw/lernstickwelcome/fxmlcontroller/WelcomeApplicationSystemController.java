@@ -49,13 +49,6 @@ public class WelcomeApplicationSystemController implements Initializable, Welcom
     @FXML
     private CheckBox cb_sys_show_warning;
     
-    
-    private WelcomeController controller;
-    
-    public WelcomeApplicationSystemController(WelcomeController controller){
-        this.controller = controller;
-    }
-
     /**
      * Initializes the controller class.
      */
