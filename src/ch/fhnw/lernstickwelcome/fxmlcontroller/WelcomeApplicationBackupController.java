@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,8 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 /**
  * FXML Controller class
@@ -53,7 +52,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
     @FXML
     private ChoiceBox<?> choice_bu_medium;
     @FXML
-    private ChoiceBox<?> choice_bu_backup;
+    private ChoiceBox<Number> choice_bu_backup;
 
     
     /**
@@ -61,6 +60,19 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        choice_bu_backup.setConverter(new StringConverter<Number>() {
+            
+            @Override
+            public String toString(Number v) {
+                return v.intValue() + " " + (v.intValue() != 1 ? rb.getString("") : rb.getString(""));
+            }
+
+            @Override
+            public Number fromString(String string) {
+                return Integer.valueOf(string.split(" ")[0]);
+            }
+        });
+        choice_bu_medium.setVisible(false);
         // TODO
     }    
 
@@ -80,7 +92,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             String path = file.getPath();
+             txt_bu_src_path.textProperty().set(file.getPath());
         }
     }
     
@@ -91,7 +103,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             String path = file.getPath();
+             txt_bu_remote_path.textProperty().set(file.getPath());
         }
     }
 
@@ -102,7 +114,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             String path = file.getPath();
+             txt_bu_dest_path.textProperty().set(file.getPath());
         }
     }
 
@@ -154,7 +166,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         return choice_bu_medium;
     }
 
-    public ChoiceBox<?> getChoice_bu_backup() {
+    public ChoiceBox<Number> getChoice_bu_backup() {
         return choice_bu_backup;
     }
     
