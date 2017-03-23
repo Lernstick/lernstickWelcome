@@ -92,7 +92,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             String path = file.getPath();
+             txt_bu_src_path.textProperty().set(file.getPath());
         }
     }
     
@@ -103,7 +103,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             String path = file.getPath();
+             txt_bu_remote_path.textProperty().set(file.getPath());
         }
     }
 
@@ -114,7 +114,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             String path = file.getPath();
+             txt_bu_dest_path.textProperty().set(file.getPath());
         }
     }
 
