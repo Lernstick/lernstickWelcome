@@ -68,4 +68,58 @@ public class WelcomeModelFactory {
         return new ProxyTask();
     }
     // TODO add more categories which should be initialized
+    
+    /**
+     * Searches the application.xml for an application with the given name.
+     * @param name
+     * @return a Task for this specific application or null if no application was found.
+     */
+    public static ApplicationTask getApplicationTask(String name) {/*
+    	File xmlFile = new File("applications.xml");
+    	Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
+    	NodeList applications = xmlDoc.getElementsByTagName("application");
+    	for (int i = 0; i < applications.getLength(); i++) {
+    		Node application = applications.item(i);
+    		if (application.getNodeType() == Node.ELEMENT_NODE) {
+    			Element app = (Element) application;
+    			if (app.getAttribute("name") == name) { // found application
+        			String description = app.getElementsByTagName("description").item(0).getNodeValue();
+        			String icon = app.getElementsByTagName("icon").item(0).getNodeValue();
+        			String helpPath = app.getElementsByTagName("help-path").item(0).getNodeValue();
+        			List<String> aptgetPackages = new ArrayList<>();
+        			List<String> wgetPackages = new ArrayList<>();
+        			// XXX does really every wget package have the same fetchUrl and SaveDir?
+        			// In application.xml I defined it so every package can have different ones.
+        			// In class WgetPackages however, there is only one property for all packages.
+        			// So for now this function uses just the last ones of the properties.
+        			String wgetFetchUrl; 
+        			String wgetSaveDir;
+        			NodeList packages = app.getElementsByTagName("package");
+        			for (int j = 0; j < packages.getLength(); j++) {
+        				Element pkg = ((Element)packages.item(j));
+        				String type = pkg.getAttribute("type");
+        				String pkgName = pkg.getNodeValue();
+        				switch (type) {
+						case "aptget":
+							aptgetPackages.add(pkgName);
+							break;
+						case "wget":
+							wgetPackages.add(pkgName);
+	        				wgetFetchUrl = pkg.getAttribute("fetchUrl");
+	        				wgetSaveDir = pkg.getAttribute("saveDir");
+							break;
+						default: break;
+						}
+        			}
+        			CombinedPackages pkgs = new CombinedPackages(
+    					new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])), 
+    					new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir)
+        			);
+        			ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
+        			return task;
+    			}
+    		}
+    	}*/
+    	return null;
+    }
 }

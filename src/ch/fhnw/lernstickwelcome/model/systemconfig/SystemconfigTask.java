@@ -22,10 +22,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -80,9 +83,11 @@ public class SystemconfigTask extends Task<Boolean> {
     private BooleanProperty directSoundOutput = new SimpleBooleanProperty();
     private BooleanProperty allowAccessToOtherFilesystems = new SimpleBooleanProperty();
     private MountInfo bootConfigMountInfo;
+    private Properties properties;
     
     public SystemconfigTask(boolean isExamEnv, Properties properties) {
         this.isExamEnv = isExamEnv;
+        this.properties = properties;
         
         blockKdeDesktopApplets.set("true".equals(
                 properties.getProperty(WelcomeConstants.KDE_LOCK)));
@@ -94,10 +99,45 @@ public class SystemconfigTask extends Task<Boolean> {
 
     @Override
     protected Boolean call() throws Exception {
-        if(username.get().equals(oldUsername))
+        if(username.get().equals(oldUsername)) {
             LOGGER.log(Level.INFO,
                     "updating full user name to \"{0}\"", username.get());
             PROCESS_EXECUTOR.executeProcess("chfn", "-f", username.get(), "user");
+        }
+        if(WelcomeUtil.isImageWritable()) {
+            updateBootloaders();
+        }
+        
+        if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
+            if (directSoundOutput.get()) {
+                // divert alsa pulse config file
+                PROCESS_EXECUTOR.executeProcess("dpkg-divert",
+                        "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
+            }
+        } else if (!directSoundOutput.get()) {
+            // restore original alsa pulse config file
+            PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--remove",
+                    "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
+        }
+        
+        if(blockKdeDesktopApplets.get()) {
+            try {
+                PosixFileAttributes attributes = Files.readAttributes(
+                        WelcomeConstants.APPLETS_CONFIG_FILE, PosixFileAttributes.class
+                );
+                Set<PosixFilePermission> permissions = attributes.permissions();
+
+                permissions.add(PosixFilePermission.OWNER_WRITE);
+
+                Files.setPosixFilePermissions(WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
+            } catch (IOException iOException) {
+                LOGGER.log(Level.WARNING, "", iOException);
+            }
+        }
+        
+        properties.setProperty(WelcomeConstants.KDE_LOCK,
+                blockKdeDesktopApplets.get() ? "true" : "false");
+        
         return true;
     }
 
