@@ -122,7 +122,7 @@ public class GamePanel extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editorPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {//GEN-FIRST:event_editorPaneHyperlinkUpdate
-        Welcome.openLinkInBrowser(evt);
+        //Welcome.openLinkInBrowser(evt);
     }//GEN-LAST:event_editorPaneHyperlinkUpdate
 
     private void labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelMouseClicked

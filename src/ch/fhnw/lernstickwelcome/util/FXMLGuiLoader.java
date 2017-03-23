@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.util;
 
-import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationAdditionalSoftwareController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
@@ -32,9 +31,8 @@ import javafx.stage.Stage;
  * @author Roger Obrist
  */
 public class FXMLGuiLoader {
-    private static ResourceBundle BUNDLE;;
-    
-    private WelcomeController welcomeController;
+    private static ResourceBundle BUNDLE;
+    private static final FXMLGuiLoader INSTANCE = new FXMLGuiLoader(false);
     
     private Scene welcomeApplicationStart;
     
@@ -51,6 +49,7 @@ public class FXMLGuiLoader {
     private Pane backup;
     private Pane system;
 
+    private boolean isExamEnvironment;
     
     // Controller
     private WelcomeApplicationBackupController welcomeApplicationBackupController;
@@ -65,17 +64,18 @@ public class FXMLGuiLoader {
     private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
     private WelcomeApplicationProxyController welcomeApplicationProxyController;
     
-    public FXMLGuiLoader(WelcomeController welcomeController, boolean isExamEnvironment) {
-        this.welcomeController = welcomeController;
-
+    public FXMLGuiLoader(boolean isExamEnvironment) {
+        this.isExamEnvironment = isExamEnvironment;
         // Create all instances with their controllers        
         try {
             
-	    BUNDLE = ResourceBundle.getBundle("ch/fhnw/welcomeapplication/Bundle");
+	    BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+            //welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/WelcomeApplicationStart.fxml"), BUNDLE));
+
             HashMap<String, Pane> panes = new HashMap<String, Pane>();
             
-            if(!isExamEnvironment){
-                FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/WelcomeApplicationAdditionalSoftware.fxml"), BUNDLE);
+            if(!this.isExamEnvironment){
+                FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/WelcomeApplicationInformationStd.fxml"), BUNDLE);
                 informationStd = new Pane((Parent)loadInfoStd.load());
                 welcomeApplicationInformationStdController = new WelcomeApplicationInformationStdController();
                         
@@ -138,6 +138,10 @@ public class FXMLGuiLoader {
         
     }
     
+    public static FXMLGuiLoader getInstance(boolean isExamEnvironment) {
+        INSTANCE.isExamEnvironment = isExamEnvironment;
+        return INSTANCE;
+    }
     
     public WelcomeApplicationStartController getWelcomeApplicationStart() {
         return welcomeApplicationStartController;
@@ -166,7 +170,6 @@ public class FXMLGuiLoader {
     public WelcomeApplicationInstallController getInstaller() {
         return welcomeApplicationInstallController;
     }
-    
     
     /**
      * 
