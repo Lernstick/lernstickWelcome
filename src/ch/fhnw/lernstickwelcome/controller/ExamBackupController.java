@@ -6,8 +6,6 @@
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  *
@@ -24,8 +22,8 @@ public class ExamBackupController {
         backup.getCb_bu_use_local().selectedProperty().bindBidirectional(controller.getBackup().getLocal());
         backup.getCb_bu_use_remote().selectedProperty().bindBidirectional(controller.getBackup().getPartition());
         
-        backup.getChoice_bu_backup().getSelectionModel().selectedItemProperty().bindBidirectional(controller.getBackup().getFrequency());
-        backup.getChoice_bu_medium().getSelectionModel().selectedItemProperty().bindBidirectional(controller.getBackup().getM);
+        backup.getChoice_bu_backup().valueProperty().bindBidirectional(controller.getBackup().getFrequency());
+        //backup.getChoice_bu_medium().getSelectionModel().selectedItemProperty().bindBidirectional(controller.getBackup().getM);
         backup.getTxt_bu_dest_path().textProperty().bindBidirectional(controller.getBackup().getDestinationPath());
         backup.getTxt_bu_remote_path().textProperty().bindBidirectional(controller.getBackup().getPartitionPath());
         backup.getTxt_bu_src_path().textProperty().bindBidirectional(controller.getBackup().getSourcePath());

@@ -24,7 +24,7 @@ public class ExamSystemController {
         system.getCb_sys_direct_sound().selectedProperty().bindBidirectional(controller.getSystem().getDirectSoundOutput());
         system.getCb_sys_show_warning().selectedProperty().bindBidirectional(controller.getPartition().getShowReadWriteWelcome());
         system.getCb_sys_start_wa().selectedProperty().bindBidirectional(controller.getPartition().getShowReadOnlyInfo());
-        system.getChoice_sys_visible_for().getSelectionModel().selectedItemProperty().bindBidirectional(controller.getSystem().getTimeoutSeconds());
+        system.getChoice_sys_visible_for().valueProperty().bindBidirectional(controller.getSystem().getTimeoutSeconds());
         system.getTxt_sys_exchange_partition().textProperty().bindBidirectional(controller.getPartition().getExchangePartitionLabel());
         system.getTxt_sys_password().textProperty().bindBidirectional(controller.getSystem().getPassword());
         system.getTxt_sys_password_repeat().textProperty().bindBidirectional(controller.getSystem().getPasswordRepeat());
