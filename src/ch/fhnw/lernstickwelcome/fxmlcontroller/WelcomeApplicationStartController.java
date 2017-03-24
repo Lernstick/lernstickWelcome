@@ -56,18 +56,11 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private Pane mainPane;
 
-    public WelcomeApplicationStartController(boolean isExam, HashMap<String, Pane> panes) {
+    public void initializeController(boolean isExam, HashMap<String, Pane> panes) {
         this.isExam = isExam;
         this.panes = panes;
-    }
-    
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        //im Controller bundle = rb;            
-        Iterator it = panes.entrySet().iterator();
+        
+      /*  Iterator it = panes.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             
@@ -78,7 +71,16 @@ public class WelcomeApplicationStartController implements Initializable {
             mainPane.getChildren().add(button);
             
             it.remove(); 
-        }           
+        }  */
+    }
+    
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        //im Controller bundle = rb;            
+                 
     } 
     
     private void showPane(Pane pane){

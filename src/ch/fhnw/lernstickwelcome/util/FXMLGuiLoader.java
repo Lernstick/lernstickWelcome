@@ -129,8 +129,8 @@ public class FXMLGuiLoader {
            // welcomeApplicationStart = new Scene((Parent)loadWelcome.load());
             welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/welcomeApplicationStart.fxml"), BUNDLE));
 
-            welcomeApplicationStartController = new WelcomeApplicationStartController(isExamEnvironment, panes);
-            
+            welcomeApplicationStartController = new WelcomeApplicationStartController();
+            welcomeApplicationStartController.initializeController(isExamEnvironment, panes);
             
         } catch(IOException ex) {
                ex.printStackTrace();
