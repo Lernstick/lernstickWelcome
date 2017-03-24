@@ -51,26 +51,21 @@ public class WelcomeModelFactory {
             }
         }
         return SYSTEM_STORAGE_DEVICE;
-    }
+    }    
     
-    public static ApplicationGroupTask getRecommendedApplicationTask(ProxyTask proxy) {
-        ArrayList<ApplicationTask> list = new ArrayList<ApplicationTask>();
-        // TODO create and add recommended applications
+    /**
+     * Creates an ApplicationGroupTask containing all the application with given tag.
+     * @param tag tag to be searched for
+     * @param title a title for the group task, can be anything
+     * @param proxy
+     * @return ApplicationGroupTask
+     */
+    public static ApplicationGroupTask getApplicationGroupTask(String tag, String title, ProxyTask proxy) {
+        List<ApplicationTask> apps = getApplicationTasks(tag);
         ApplicationGroupTask task = new ApplicationGroupTask(
-                "RecommendedSoftware", 
+                title, 
                 proxy,
-                list
-        );
-        return task;
-    }
-    
-    public static ApplicationGroupTask getTeachingApplicationTask(ProxyTask proxy) {
-        ArrayList<ApplicationTask> list = new ArrayList<ApplicationTask>();
-        // TODO create and add teaching applications
-        ApplicationGroupTask task = new ApplicationGroupTask(
-                "TeachingSoftware", 
-                proxy,
-                list
+                apps
         );
         return task;
     }
@@ -78,7 +73,32 @@ public class WelcomeModelFactory {
     public static ProxyTask getProxyTask() {
         return new ProxyTask();
     }
-    // TODO add more categories which should be initialized
+
+    /**
+     * Searches the application.xml for applications with the given tag.
+     * @param name
+     * @return List of ApplicationTasks
+     */
+    public static List<ApplicationTask> getApplicationTasks(String tag) {
+    	ArrayList<ApplicationTask> apps = new ArrayList<>();
+    	File xmlFile = new File("applications.xml");
+    	Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
+    	NodeList applications = xmlDoc.getElementsByTagName("application");
+    	for (int i = 0; i < applications.getLength(); i++) {
+    		Node application = applications.item(i);
+    		if (application.getNodeType() == Node.ELEMENT_NODE) {
+    			Element app = (Element) application;
+    			NodeList tags = app.getElementsByTagName("tag");
+    			for (int j = 0; j < tags.getLength(); j++) {
+    				Element t = ((Element)tags.item(j));
+    				if (t.getNodeValue() == tag) {
+    					apps.add(getApplicationTask(app));
+    				}
+    			}
+    		}
+    	}
+    	return apps;
+    }
     
     /**
      * Searches the application.xml for an application with the given name.
@@ -94,43 +114,53 @@ public class WelcomeModelFactory {
     		if (application.getNodeType() == Node.ELEMENT_NODE) {
     			Element app = (Element) application;
     			if (app.getAttribute("name") == name) { // found application
-        			String description = app.getElementsByTagName("description").item(0).getNodeValue();
-        			String icon = app.getElementsByTagName("icon").item(0).getNodeValue();
-        			String helpPath = app.getElementsByTagName("help-path").item(0).getNodeValue();
-        			List<String> aptgetPackages = new ArrayList<>();
-        			List<String> wgetPackages = new ArrayList<>();
-        			// XXX does really every wget package have the same fetchUrl and SaveDir?
-        			// In application.xml I defined it so every package can have different ones.
-        			// In class WgetPackages however, there is only one property for all packages.
-        			// So for now this function uses just the last ones of the properties.
-        			String wgetFetchUrl; 
-        			String wgetSaveDir;
-        			NodeList packages = app.getElementsByTagName("package");
-        			for (int j = 0; j < packages.getLength(); j++) {
-        				Element pkg = ((Element)packages.item(j));
-        				String type = pkg.getAttribute("type");
-        				String pkgName = pkg.getNodeValue();
-        				switch (type) {
-						case "aptget":
-							aptgetPackages.add(pkgName);
-							break;
-						case "wget":
-							wgetPackages.add(pkgName);
-	        				wgetFetchUrl = pkg.getAttribute("fetchUrl");
-	        				wgetSaveDir = pkg.getAttribute("saveDir");
-							break;
-						default: break;
-						}
-        			}
-        			CombinedPackages pkgs = new CombinedPackages(
-    					new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])), 
-    					new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir)
-        			);
-        			ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
-        			return task;
+        			return getApplicationTask(app);
     			}
     		}
     	}
     	return null;
+    }
+    
+    /**
+     * Helper function to get ApplicationTask from XML application element.
+     * @param app (XML Element)
+     * @return ApplicationTask
+     */
+    private static ApplicationTask getApplicationTask(Element app) {
+    	String name = app.getAttribute("name");
+    	String description = app.getElementsByTagName("description").item(0).getNodeValue();
+		String icon = app.getElementsByTagName("icon").item(0).getNodeValue();
+		String helpPath = app.getElementsByTagName("help-path").item(0).getNodeValue();
+		List<String> aptgetPackages = new ArrayList<>();
+		List<String> wgetPackages = new ArrayList<>();
+		// XXX does really every wget package have the same fetchUrl and SaveDir?
+		// In application.xml I defined it so every package can have different ones.
+		// In class WgetPackages however, there is only one property for all packages.
+		// So for now this function uses just the last ones of the properties.
+		String wgetFetchUrl; 
+		String wgetSaveDir;
+		NodeList packages = app.getElementsByTagName("package");
+		for (int j = 0; j < packages.getLength(); j++) {
+			Element pkg = ((Element)packages.item(j));
+			String type = pkg.getAttribute("type");
+			String pkgName = pkg.getNodeValue();
+			switch (type) {
+			case "aptget":
+				aptgetPackages.add(pkgName);
+				break;
+			case "wget":
+				wgetPackages.add(pkgName);
+				wgetFetchUrl = pkg.getAttribute("fetchUrl");
+				wgetSaveDir = pkg.getAttribute("saveDir");
+				break;
+			default: break;
+			}
+		}
+		CombinedPackages pkgs = new CombinedPackages(
+			new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])), 
+			new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir)
+		);
+		ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
+		return task;
     }
 }
