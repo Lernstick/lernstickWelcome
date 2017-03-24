@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController">
@@ -20,15 +21,11 @@
             </TitledPane>
          </top>
          <center>
-            <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                     <children>
-                        <VBox fx:id="MenuPane" prefHeight="322.0" prefWidth="175.0" />
-                     </children>
-                  </AnchorPane>
-                <AnchorPane fx:id="MainPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-              </items>
+            <SplitPane dividerPositions="0.27759197324414714" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <items>
+                  <VBox fx:id="MenuPane" prefHeight="310.0" prefWidth="99.0" />
+                  <Pane fx:id="MainPane" prefHeight="310.0" prefWidth="428.0" />
+               </items>
             </SplitPane>
          </center>
          <bottom>

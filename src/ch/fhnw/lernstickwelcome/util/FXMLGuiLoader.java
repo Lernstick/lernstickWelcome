@@ -32,7 +32,7 @@ import javafx.stage.Stage;
  */
 public class FXMLGuiLoader {
     private static ResourceBundle BUNDLE;
-    private static final FXMLGuiLoader INSTANCE = new FXMLGuiLoader(false);
+   // private static final FXMLGuiLoader INSTANCE = new FXMLGuiLoader(true);
     
     private Scene welcomeApplicationStart;
     
@@ -70,28 +70,27 @@ public class FXMLGuiLoader {
         try {
             
 	    BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
-            //welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/WelcomeApplicationStart.fxml"), BUNDLE));
 
             HashMap<String, Pane> panes = new HashMap<String, Pane>();
             
             if(!this.isExamEnvironment){
-                FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/WelcomeApplicationInformationStd.fxml"), BUNDLE);
+                FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationInformationStd.fxml"), BUNDLE);
                 informationStd = new Pane((Parent)loadInfoStd.load());
                 welcomeApplicationInformationStdController = new WelcomeApplicationInformationStdController();
                         
-                FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/WelcomeApplicationRecommendedSoftware.fxml"), BUNDLE);
+                FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), BUNDLE);
                 recommended = new Pane((Parent)loadRecomm.load());
                 welcomeApplicationRecommendedSoftwareController = new WelcomeApplicationRecommendedSoftwareController();
                         
-                FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/WelcomeApplicationAdditionalSoftware.fxml"), BUNDLE);
+                FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), BUNDLE);
                 addSoftware = new Pane((Parent)loadAdd.load());
                 welcomeApplicationAdditionalSoftwareController = new WelcomeApplicationAdditionalSoftwareController();
                         
-                FXMLLoader loadProxy = new FXMLLoader(getClass().getResource("../view/standard/WelcomeApplicationProxy.fxml"), BUNDLE);
+                FXMLLoader loadProxy = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationProxy.fxml"), BUNDLE);
                 proxy = new Pane((Parent)loadProxy.load());
                 welcomeApplicationProxyController = new WelcomeApplicationProxyController();
                         
-                FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/WelcomeApplicationSystemStd.fxml"), BUNDLE);
+                FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), BUNDLE);
                 systemStd = new Pane((Parent)loadSystemStd.load());
                 welcomeApplicationSystemStdController = new WelcomeApplicationSystemStdController();
                 
@@ -103,19 +102,19 @@ public class FXMLGuiLoader {
                 
             }else{
                 
-                FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/WelcomeApplicationInformation.fxml"), BUNDLE);
+                FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), BUNDLE);
                 information = new Pane((Parent) loadInfo.load());
                 welcomeApplicationInformationController = new WelcomeApplicationInformationController();
                 
-                FXMLLoader loadFirewall = new FXMLLoader(getClass().getResource("../view/exam/WelcomeApplicationFirewall.fxml"), BUNDLE);
+                FXMLLoader loadFirewall = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationFirewall.fxml"), BUNDLE);
                 firewall = new Pane((Parent)loadFirewall.load());
                 welcomeApplicationFirewallController = new WelcomeApplicationFirewallController();
 
-                FXMLLoader loadBackup = new FXMLLoader(getClass().getResource("../view/exam/WelcomeApplicationBackup.fxml"), BUNDLE);
+                FXMLLoader loadBackup = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationBackup.fxml"), BUNDLE);
                 backup = new Pane((Parent) loadBackup.load());
                 welcomeApplicationBackupController = new WelcomeApplicationBackupController();
 
-                FXMLLoader loadSystem = new FXMLLoader(getClass().getResource("../view/exam/WelcomeApplicationSystem.fxml"), BUNDLE);
+                FXMLLoader loadSystem = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationSystem.fxml"), BUNDLE);
                 system = new Pane((Parent)loadSystem.load());
                 welcomeApplicationSystemController = new WelcomeApplicationSystemController();
 
@@ -126,8 +125,10 @@ public class FXMLGuiLoader {
 
             }
             
-            FXMLLoader loadWelcome = new FXMLLoader(getClass().getResource("../view/WelcomeApplicationStart.fxml"), BUNDLE);
-            welcomeApplicationStart = new Scene((Parent)loadWelcome.load());
+            //FXMLLoader loadWelcome = new FXMLLoader(getClass().getResource("../view/welcomeApplicationStart.fxml"), BUNDLE);
+           // welcomeApplicationStart = new Scene((Parent)loadWelcome.load());
+            welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/welcomeApplicationStart.fxml"), BUNDLE));
+
             welcomeApplicationStartController = new WelcomeApplicationStartController(isExamEnvironment, panes);
             
             
@@ -138,10 +139,10 @@ public class FXMLGuiLoader {
         
     }
     
-    public static FXMLGuiLoader getInstance(boolean isExamEnvironment) {
+    /*public static FXMLGuiLoader getInstance(boolean isExamEnvironment) {
         INSTANCE.isExamEnvironment = isExamEnvironment;
         return INSTANCE;
-    }
+    }*/
     
     public WelcomeApplicationStartController getWelcomeApplicationStart() {
         return welcomeApplicationStartController;

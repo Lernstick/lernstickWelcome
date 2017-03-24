@@ -19,7 +19,7 @@ public class ExamInformationController {
     }
     
     private void getSystem(WelcomeController controller, WelcomeApplicationInformationController information){
-        information.getLabel_info_os().setText(controller.getSystem().getSystemname().getValue());
-        information.getLabel_info_version().setText(controller.getSystem().getSystemversion().getValue());
+       // information.getLabel_info_os().setText(controller.getSystem().getSystemname().getValue());
+        //information.getLabel_info_version().setText(controller.getSystem().getSystemversion().getValue());
     }
 }

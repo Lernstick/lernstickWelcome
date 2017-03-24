@@ -18,7 +18,7 @@ public class ExamSystemController {
     }
     
     private void addBindings(WelcomeController controller, WelcomeApplicationSystemController system){
-        system.getCb_sys_access_user().selectedProperty().bindBidirectional(controller.getPartition().getAccessExchangePartition());
+       /* system.getCb_sys_access_user().selectedProperty().bindBidirectional(controller.getPartition().getAccessExchangePartition());
         system.getCb_sys_allow_file_systems().selectedProperty().bindBidirectional(controller.getSystem().getAllowAccessToOtherFilesystems());
         system.getCb_sys_block_kde().selectedProperty().bindBidirectional(controller.getSystem().getBlockKdeDesktopApplets());
         system.getCb_sys_direct_sound().selectedProperty().bindBidirectional(controller.getSystem().getDirectSoundOutput());
@@ -29,6 +29,6 @@ public class ExamSystemController {
         system.getTxt_sys_password().textProperty().bindBidirectional(controller.getSystem().getPassword());
         system.getTxt_sys_password_repeat().textProperty().bindBidirectional(controller.getSystem().getPasswordRepeat());
         system.getTxt_sys_username().textProperty().bindBidirectional(controller.getSystem().getUsername());
-    }
+   */ }
     
 }

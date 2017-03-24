@@ -52,9 +52,9 @@ public class WelcomeApplicationStartController implements Initializable {
     
     private ResourceBundle bundle;
     @FXML
-    private VBox menuPane;
+    private VBox MenuPane;
     @FXML
-    private AnchorPane mainPane;
+    private Pane mainPane;
 
     public WelcomeApplicationStartController(boolean isExam, HashMap<String, Pane> panes) {
         this.isExam = isExam;
