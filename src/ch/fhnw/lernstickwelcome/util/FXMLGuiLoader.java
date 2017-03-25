@@ -73,6 +73,9 @@ public class FXMLGuiLoader {
 
             HashMap<String, Pane> panes = new HashMap<String, Pane>();
             
+            welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/welcomeApplicationStart.fxml"), BUNDLE));
+            welcomeApplicationStartController = new WelcomeApplicationStartController();
+            
             if(!this.isExamEnvironment){
                 FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationInformationStd.fxml"), BUNDLE);
                 informationStd = new Pane((Parent)loadInfoStd.load());
@@ -94,7 +97,7 @@ public class FXMLGuiLoader {
                 systemStd = new Pane((Parent)loadSystemStd.load());
                 welcomeApplicationSystemStdController = new WelcomeApplicationSystemStdController();
                 
-                panes.put("Info", informationStd);
+                panes.put("Information", informationStd);
                 panes.put("Recommended Software", recommended);
                 panes.put("Additional Software", addSoftware);
                 panes.put("Proxy", proxy);
@@ -118,18 +121,14 @@ public class FXMLGuiLoader {
                 system = new Pane((Parent)loadSystem.load());
                 welcomeApplicationSystemController = new WelcomeApplicationSystemController();
 
-                panes.put("Info", information);
+                panes.put("Information", information);
                 panes.put("Firewall", firewall);
                 panes.put("Backup", backup);
                 panes.put("System", system);
 
             }
-            
-            //FXMLLoader loadWelcome = new FXMLLoader(getClass().getResource("../view/welcomeApplicationStart.fxml"), BUNDLE);
-           // welcomeApplicationStart = new Scene((Parent)loadWelcome.load());
-            welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/welcomeApplicationStart.fxml"), BUNDLE));
 
-            welcomeApplicationStartController = new WelcomeApplicationStartController();
+
             welcomeApplicationStartController.initializeController(isExamEnvironment, panes);
             
         } catch(IOException ex) {
@@ -138,11 +137,6 @@ public class FXMLGuiLoader {
         
         
     }
-    
-    /*public static FXMLGuiLoader getInstance(boolean isExamEnvironment) {
-        INSTANCE.isExamEnvironment = isExamEnvironment;
-        return INSTANCE;
-    }*/
     
     public WelcomeApplicationStartController getWelcomeApplicationStart() {
         return welcomeApplicationStartController;

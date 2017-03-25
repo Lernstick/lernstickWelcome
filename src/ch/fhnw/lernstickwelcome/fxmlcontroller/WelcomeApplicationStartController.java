@@ -16,9 +16,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 
@@ -54,13 +56,30 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private VBox MenuPane;
     @FXML
-    private Pane mainPane;
+    private Pane MainPane;
+    @FXML
+    private SplitPane SplitPane;
 
     public void initializeController(boolean isExam, HashMap<String, Pane> panes) {
         this.isExam = isExam;
         this.panes = panes;
         
-      /*  Iterator it = panes.entrySet().iterator();
+        for (Map.Entry<String, Pane> entry : panes.entrySet())
+        {
+            String text = entry.getKey();
+            Button button = new Button(text);
+            button.setOnMouseClicked((t) -> {
+                //MainPane.getChildren().removeAll();
+                entry.getValue().setVisible(true);
+               // MainPane.getChildren().add((Pane)entry.getValue());
+            }); 
+           // MenuPane.getChildren();//.add(button);
+        } 
+        
+       // MainPane.getChildren().add(panes.get("Information"));
+
+        
+  /*     Iterator it = panes.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             
@@ -68,7 +87,7 @@ public class WelcomeApplicationStartController implements Initializable {
             button.setOnMouseClicked((t) -> {
                 showPane((Pane)pair.getValue());
             });
-            mainPane.getChildren().add(button);
+            MainPane.getChildren().add(button);
             
             it.remove(); 
         }  */
@@ -79,8 +98,7 @@ public class WelcomeApplicationStartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //im Controller bundle = rb;            
-                 
+        
     } 
     
     private void showPane(Pane pane){

@@ -21,7 +21,7 @@
             </TitledPane>
          </top>
          <center>
-            <SplitPane dividerPositions="0.27759197324414714" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <SplitPane fx:id="SplitPane" dividerPositions="0.27759197324414714" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <items>
                   <VBox fx:id="MenuPane" prefHeight="310.0" prefWidth="99.0" />
                   <Pane fx:id="MainPane" prefHeight="310.0" prefWidth="428.0" />

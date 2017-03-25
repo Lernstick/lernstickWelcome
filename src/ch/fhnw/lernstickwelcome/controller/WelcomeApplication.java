@@ -35,23 +35,15 @@ public class WelcomeApplication extends Application {
         }
         
         guiLoader = new FXMLGuiLoader(isExamEnvironment());
-        //Scene scene = FXMLGuiLoader.getInstance(isExamEnvironment()).getMainStage();
         Scene scene = guiLoader.getMainStage();
 
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        
-       // examInformationController = new ExamInformationController(controller,  FXMLGuiLoader.getInstance(isExamEnvironment()).getInformation());
-       // examBackupController = new ExamBackupController(controller, FXMLGuiLoader.getInstance(isExamEnvironment()).getBackup());
-       // examSystemController = new ExamSystemController(controller, FXMLGuiLoader.getInstance(isExamEnvironment()).getSystem());
-       // installController = new InstallController(controller, FXMLGuiLoader.getInstance(isExamEnvironment()).getInstaller());
-    
         examInformationController = new ExamInformationController(controller,  guiLoader.getInformation());
         examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
         examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
         installController = new InstallController(controller, guiLoader.getInstaller());
-    
     }
     
 
