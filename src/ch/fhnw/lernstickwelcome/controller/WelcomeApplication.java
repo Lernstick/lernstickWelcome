@@ -47,7 +47,12 @@ public class WelcomeApplication extends Application {
         primaryStage.show();
         
     }
-    
+
+    @Override
+    public void stop() throws Exception {
+        controller.closeApplication();
+        System.exit(0); // TODO investigate into thread that still runs.
+    }
 
     public boolean isExamEnvironment() {
         return getParameters().getRaw().contains("examEnvironment");

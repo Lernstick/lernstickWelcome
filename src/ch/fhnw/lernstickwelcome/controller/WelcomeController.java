@@ -84,6 +84,13 @@ public class WelcomeController {
     public void startInstallation() {
         installer.install();
     }
+    
+    public void closeApplication() {
+        if(isExamEnvironment) {
+            firewall.stopFirewallStateChecking();
+        }
+        sysconf.umountBootConfig();
+    }
 
     public TaskProcessor getInstaller() {
         return installer;

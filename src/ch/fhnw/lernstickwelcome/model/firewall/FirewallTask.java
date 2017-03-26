@@ -33,6 +33,7 @@ public class FirewallTask extends Task<Boolean> {
     private List<IpFilter> ipList = new ArrayList<>();
     private List<WebsiteFilter> websiteList = new ArrayList<>();
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
+    private Timer timer;
     
     public FirewallTask() {
         try {
@@ -48,7 +49,7 @@ public class FirewallTask extends Task<Boolean> {
         }
         
         // start periodic firewall status check
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -63,6 +64,10 @@ public class FirewallTask extends Task<Boolean> {
         // checkFirewall - in GUI or Controller
         updateFirewall();
         return true;
+    }
+    
+    public void stopFirewallStateChecking() {
+        timer.cancel();
     }
     
     private void updateFirewall() {

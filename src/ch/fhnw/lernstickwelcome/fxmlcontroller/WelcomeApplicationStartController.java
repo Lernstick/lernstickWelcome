@@ -11,17 +11,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 
 /**
@@ -36,61 +42,34 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private Button SaveButton;
     
-    
-    private ArrayList<String> menuStrings = new ArrayList<String>();
-    private ArrayList<String> menuStringsExam = new ArrayList<String>();
-    
-    private Scene backupEX, informationEX, systemEX, firewallEX;
-    private Scene backup, information, system, firewall;
-    
-    private Button btnShowBackup, btnShowInfo, btnShowSystem, btnShowFirewall;
-    private Button btnShowBackupEX, btnShowInfoEX, btnShowSystemEX, btnShowFirewallEX;
-    
-    private boolean isExam;
-    
-    
-    private HashMap<String, Pane> panes;
-    
-    
     private ResourceBundle bundle;
     @FXML
-    private VBox MenuPane;
+    private ListView<MenuPaneItem> MenuPane;
     @FXML
     private Pane MainPane;
     @FXML
     private SplitPane SplitPane;
 
-    public void initializeController(boolean isExam, HashMap<String, Pane> panes) {
-        this.isExam = isExam;
-        this.panes = panes;
-        
-        for (Map.Entry<String, Pane> entry : panes.entrySet())
-        {
-            String text = entry.getKey();
-            Button button = new Button(text);
-            button.setOnMouseClicked((t) -> {
-                //MainPane.getChildren().removeAll();
-                entry.getValue().setVisible(true);
-               // MainPane.getChildren().add((Pane)entry.getValue());
-            }); 
-           // MenuPane.getChildren();//.add(button);
-        } 
-        
-       // MainPane.getChildren().add(panes.get("Information"));
-
-        
-  /*     Iterator it = panes.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+    public void initializeMenu(ObservableList<MenuPaneItem> list) {
+        MenuPane.setCellFactory(lv -> new ListCell<MenuPaneItem>() {
             
-            Button button = new Button(pair.getKey().toString());
-            button.setOnMouseClicked((t) -> {
-                showPane((Pane)pair.getValue());
-            });
-            MainPane.getChildren().add(button);
-            
-            it.remove(); 
-        }  */
+            @Override
+            protected void updateItem(MenuPaneItem item, boolean empty) { 
+                if(!empty) {
+                    setText(item.getDisplayText());
+                    if(item.getImagePath() != null)
+                        setGraphic(new ImageView(item.getImagePath()));
+                }
+            }
+        });
+        MenuPane.setItems(list);
+        
+        MenuPane.selectionModelProperty().addListener(cl -> { 
+            MainPane.getChildren().clear();
+            MainPane.getChildren().add(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
+        });
+        MenuPane.getSelectionModel().selectFirst();
+        MainPane.getChildren().add(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
     }
     
     /**
@@ -100,16 +79,6 @@ public class WelcomeApplicationStartController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
     } 
-    
-    private void showPane(Pane pane){
-        Iterator it = panes.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            ((Pane)pair.getValue()).setVisible(false);
-            it.remove();
-        }
-        pane.setVisible(true);
-    }
     
     @FXML
      private void onFinishClickedAction(MouseEvent event) {
