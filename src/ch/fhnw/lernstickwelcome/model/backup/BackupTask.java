@@ -8,7 +8,7 @@ package ch.fhnw.lernstickwelcome.model.backup;
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
-import ch.fhnw.lernstickwelcome.model.WelcomeUtil;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.File;

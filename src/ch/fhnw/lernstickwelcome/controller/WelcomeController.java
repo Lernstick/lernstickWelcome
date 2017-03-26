@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
+import ch.fhnw.lernstickwelcome.model.PropertiesTask;
 import ch.fhnw.lernstickwelcome.model.TaskProcessor;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
@@ -23,14 +24,17 @@ import javafx.concurrent.Task;
  * @author sschw
  */
 public class WelcomeController {
+    private ResourceBundle rb;
+    
     private TaskProcessor installer;
+    // Backend Tasks
+    private PropertiesTask properties;
     // Standard Environment
     private ProxyTask proxy;
     private ApplicationGroupTask recApps;
     private ApplicationGroupTask teachApps;
     private ApplicationGroupTask softwApps;
     private ApplicationGroupTask gamesApps;
-    private SystemconfigTask system;
     private PartitionTask partition;
     // Exam Environment
     private FirewallTask firewall;
@@ -38,30 +42,43 @@ public class WelcomeController {
     // General
     private SystemconfigTask sysconf;
     
-    private ResourceBundle rb;
     private boolean  isExamEnvironment;
     
-    
-    
-    public void loadExamEnvironment() {
+    public void loadExamEnvironment(ResourceBundle rb) {
+        this.rb = rb;
 
-        List<Task> installTasks = new ArrayList<Task>();
+        properties = WelcomeModelFactory.getPropertiesTask();
+        firewall = WelcomeModelFactory.getFirewallTask();
+        backup = WelcomeModelFactory.getBackupTask(properties, rb.getString("Backup_Directory"));
+        sysconf = WelcomeModelFactory.getSystemTask(true, properties);
+        partition = WelcomeModelFactory.getPartitionTask(properties);
         
-        installer = new TaskProcessor(installTasks);
+        List<Task> processingList = new ArrayList<Task>();
+        processingList.add(firewall);
+        processingList.add(backup);
+        processingList.add(sysconf);
+        processingList.add(partition);
+        processingList.add(properties);
+        installer = new TaskProcessor(processingList);
     }
     
-    public void loadStandardEnvironment() {
+    public void loadStandardEnvironment(ResourceBundle rb) {
+        this.rb = rb;
+        
         isExamEnvironment = false;
         // Init Model
+        properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
         recApps = WelcomeModelFactory.getRecommendedApplicationTask(proxy);
         
-        // Init Installer
-        List<Task> installTasks = new ArrayList<Task>();
-        installTasks.add(proxy);
-        installTasks.add(recApps);
+        sysconf = WelcomeModelFactory.getSystemTask(false, properties);
         
-        installer = new TaskProcessor(installTasks);
+        // Init Installer
+        List<Task> processingList = new ArrayList<Task>();
+        processingList.add(proxy);
+        processingList.add(recApps);
+        
+        installer = new TaskProcessor(processingList);
     }
     
     public void startInstallation() {
@@ -92,10 +109,6 @@ public class WelcomeController {
         return gamesApps;
     }
 
-    public SystemconfigTask getSystem() {
-        return system;
-    }
-
     public PartitionTask getPartition() {
         return partition;
     }
@@ -111,8 +124,5 @@ public class WelcomeController {
     public SystemconfigTask getSysconf() {
         return sysconf;
     }
-    
-    
-    
     
 }

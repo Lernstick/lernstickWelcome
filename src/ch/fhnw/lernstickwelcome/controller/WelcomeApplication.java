@@ -5,11 +5,11 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
+import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
 
 /**
  *
@@ -27,23 +27,25 @@ public class WelcomeApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         controller = new WelcomeController();
+        ResourceBundle rb = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+        
+        guiLoader = new FXMLGuiLoader(isExamEnvironment(), rb);
+        Scene scene = guiLoader.getMainStage();
         
         if(isExamEnvironment()){
-            controller.loadExamEnvironment();
+            controller.loadExamEnvironment(rb);
+            
+            examInformationController = new ExamInformationController(controller,  guiLoader.getInformation());
+            examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
+            examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
+            installController = new InstallController(controller, guiLoader.getInstaller());
         }else{
-            controller.loadStandardEnvironment();  
+            controller.loadStandardEnvironment(rb);  
         }
-        
-        guiLoader = new FXMLGuiLoader(isExamEnvironment());
-        Scene scene = guiLoader.getMainStage();
 
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        examInformationController = new ExamInformationController(controller,  guiLoader.getInformation());
-        examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
-        examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
-        installController = new InstallController(controller, guiLoader.getInstaller());
     }
     
 

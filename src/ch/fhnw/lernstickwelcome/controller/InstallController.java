@@ -17,11 +17,12 @@ public class InstallController {
     }
     
     private void addBindings(WelcomeController controller, WelcomeApplicationInstallController install){
-    /*    install.getProg_inst_bar().progressProperty().bind(controller.getInstaller().progressProperty());
+        // FIXME Isnt initialized in FXMLController
+        /*install.getProg_inst_bar().progressProperty().bind(controller.getInstaller().progressProperty());
         install.getTxt_inst_installtitle().textProperty().bind(controller.getInstaller().titleProperty());
         install.getTxt_inst_prc().textProperty().bind(controller.getInstaller().progressProperty().asString());
-        install.getTxt_inst_mesage().textProperty().bind(controller.getInstaller().messageProperty());
-   */ }
+        install.getTxt_inst_mesage().textProperty().bind(controller.getInstaller().messageProperty());*/
+    }
             
     
 }

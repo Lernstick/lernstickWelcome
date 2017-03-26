@@ -123,4 +123,8 @@ public class PartitionTask extends Task<Boolean> {
         return showReadWriteWelcome;
     }
     
+    public boolean hasExchangePartition() {
+        return exchangePartition != null;
+    }
+    
 }

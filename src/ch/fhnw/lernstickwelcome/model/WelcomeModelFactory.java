@@ -7,7 +7,11 @@ package ch.fhnw.lernstickwelcome.model;
 
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
+import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
+import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
+import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
 import ch.fhnw.util.StorageTools;
@@ -121,5 +125,25 @@ public class WelcomeModelFactory {
     		}
     	}*/
     	return null;
+    }
+
+    public static PropertiesTask getPropertiesTask() {
+        return new PropertiesTask();
+    }
+
+    public static FirewallTask getFirewallTask() {
+        return new FirewallTask();
+    }
+
+    public static BackupTask getBackupTask(PropertiesTask properties, String backupDirectoryName) {
+        return new BackupTask(properties.getProperties(), backupDirectoryName);
+    }
+
+    public static SystemconfigTask getSystemTask(boolean isExam, PropertiesTask properties) {
+        return new SystemconfigTask(isExam, properties.getProperties());
+    }
+
+    public static PartitionTask getPartitionTask(PropertiesTask properties) {
+        return new PartitionTask(properties.getProperties());
     }
 }

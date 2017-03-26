@@ -9,7 +9,6 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationAdditionalSoftw
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationStdController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInstallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProxyController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController;
@@ -31,7 +30,6 @@ import javafx.stage.Stage;
  * @author Roger Obrist
  */
 public class FXMLGuiLoader {
-    private static ResourceBundle BUNDLE;
    // private static final FXMLGuiLoader INSTANCE = new FXMLGuiLoader(true);
     
     private Scene welcomeApplicationStart;
@@ -55,7 +53,6 @@ public class FXMLGuiLoader {
     private WelcomeApplicationBackupController welcomeApplicationBackupController;
     private WelcomeApplicationFirewallController welcomeApplicationFirewallController;
     private WelcomeApplicationInformationController welcomeApplicationInformationController;
-    private WelcomeApplicationInformationStdController welcomeApplicationInformationStdController;
     private WelcomeApplicationStartController welcomeApplicationStartController;
     private WelcomeApplicationSystemController welcomeApplicationSystemController;
     private WelcomeApplicationSystemStdController welcomeApplicationSystemStdController;
@@ -64,38 +61,36 @@ public class FXMLGuiLoader {
     private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
     private WelcomeApplicationProxyController welcomeApplicationProxyController;
     
-    public FXMLGuiLoader(boolean isExamEnvironment) {
+    public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb) {
         this.isExamEnvironment = isExamEnvironment;
         // Create all instances with their controllers        
         try {
-            
-	    BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
 
             HashMap<String, Pane> panes = new HashMap<String, Pane>();
             
-            welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/welcomeApplicationStart.fxml"), BUNDLE));
+            welcomeApplicationStart = new Scene((Parent)FXMLLoader.load(getClass().getResource("../view/welcomeApplicationStart.fxml"), rb));
             welcomeApplicationStartController = new WelcomeApplicationStartController();
             
             if(!this.isExamEnvironment){
-                FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationInformationStd.fxml"), BUNDLE);
+                FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationInformationStd.fxml"), rb);
                 informationStd = new Pane((Parent)loadInfoStd.load());
-                welcomeApplicationInformationStdController = new WelcomeApplicationInformationStdController();
+                welcomeApplicationInformationController = loadInfoStd.getController();
                         
-                FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), BUNDLE);
+                FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), rb);
                 recommended = new Pane((Parent)loadRecomm.load());
-                welcomeApplicationRecommendedSoftwareController = new WelcomeApplicationRecommendedSoftwareController();
+                welcomeApplicationRecommendedSoftwareController = loadRecomm.getController();
                         
-                FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), BUNDLE);
+                FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), rb);
                 addSoftware = new Pane((Parent)loadAdd.load());
-                welcomeApplicationAdditionalSoftwareController = new WelcomeApplicationAdditionalSoftwareController();
+                welcomeApplicationAdditionalSoftwareController = loadAdd.getController();
                         
-                FXMLLoader loadProxy = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationProxy.fxml"), BUNDLE);
+                FXMLLoader loadProxy = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationProxy.fxml"), rb);
                 proxy = new Pane((Parent)loadProxy.load());
-                welcomeApplicationProxyController = new WelcomeApplicationProxyController();
+                welcomeApplicationProxyController = loadProxy.getController();
                         
-                FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), BUNDLE);
+                FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), rb);
                 systemStd = new Pane((Parent)loadSystemStd.load());
-                welcomeApplicationSystemStdController = new WelcomeApplicationSystemStdController();
+                welcomeApplicationSystemStdController = loadSystemStd.getController();
                 
                 panes.put("Information", informationStd);
                 panes.put("Recommended Software", recommended);
@@ -105,21 +100,21 @@ public class FXMLGuiLoader {
                 
             }else{
                 
-                FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), BUNDLE);
+                FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), rb);
                 information = new Pane((Parent) loadInfo.load());
-                welcomeApplicationInformationController = new WelcomeApplicationInformationController();
+                welcomeApplicationInformationController = loadInfo.getController();
                 
-                FXMLLoader loadFirewall = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationFirewall.fxml"), BUNDLE);
+                FXMLLoader loadFirewall = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationFirewall.fxml"), rb);
                 firewall = new Pane((Parent)loadFirewall.load());
-                welcomeApplicationFirewallController = new WelcomeApplicationFirewallController();
+                welcomeApplicationFirewallController = loadFirewall.getController();
 
-                FXMLLoader loadBackup = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationBackup.fxml"), BUNDLE);
+                FXMLLoader loadBackup = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationBackup.fxml"), rb);
                 backup = new Pane((Parent) loadBackup.load());
-                welcomeApplicationBackupController = new WelcomeApplicationBackupController();
+                welcomeApplicationBackupController = loadBackup.getController();
 
-                FXMLLoader loadSystem = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationSystem.fxml"), BUNDLE);
+                FXMLLoader loadSystem = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationSystem.fxml"), rb);
                 system = new Pane((Parent)loadSystem.load());
-                welcomeApplicationSystemController = new WelcomeApplicationSystemController();
+                welcomeApplicationSystemController = loadSystem.getController();
 
                 panes.put("Information", information);
                 panes.put("Firewall", firewall);

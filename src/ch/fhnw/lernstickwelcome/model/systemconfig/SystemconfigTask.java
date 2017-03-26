@@ -8,7 +8,8 @@ package ch.fhnw.lernstickwelcome.model.systemconfig;
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
-import ch.fhnw.lernstickwelcome.model.WelcomeUtil;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import ch.fhnw.util.LernstickFileTools;
 import ch.fhnw.util.MountInfo;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
@@ -108,6 +109,8 @@ public class SystemconfigTask extends Task<Boolean> {
             updateBootloaders();
         }
         
+        updateAllowFilesystemMount();
+        
         if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
             if (directSoundOutput.get()) {
                 // divert alsa pulse config file
@@ -120,25 +123,28 @@ public class SystemconfigTask extends Task<Boolean> {
                     "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
         }
         
-        if(blockKdeDesktopApplets.get()) {
-            try {
-                PosixFileAttributes attributes = Files.readAttributes(
-                        WelcomeConstants.APPLETS_CONFIG_FILE, PosixFileAttributes.class
-                );
-                Set<PosixFilePermission> permissions = attributes.permissions();
-
-                permissions.add(PosixFilePermission.OWNER_WRITE);
-
-                Files.setPosixFilePermissions(WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
-            } catch (IOException iOException) {
-                LOGGER.log(Level.WARNING, "", iOException);
-            }
-        }
+        updateBlockKdeDesktopApplets();
         
         properties.setProperty(WelcomeConstants.KDE_LOCK,
                 blockKdeDesktopApplets.get() ? "true" : "false");
         
+        changePassword();
+        
         return true;
+    }
+    
+    public void updateAllowFilesystemMount() {
+        try {
+            if (allowAccessToOtherFilesystems.get()) {
+                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(),
+                        Pattern.compile("=auth_self"), "=yes");
+            } else {
+                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(),
+                        Pattern.compile("=yes"), "=auth_self");
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
     }
 
     private void getBootConfigInfos() {
@@ -463,7 +469,7 @@ public class SystemconfigTask extends Task<Boolean> {
         return -1;
     }
 
-    private void changePassword() throws ProcessingException {
+    public void changePassword() throws ProcessingException {
         // check, if both passwords are the same
         String password1 = password.get();
         String password2 = passwordRepeat.get();
@@ -620,6 +626,23 @@ public class SystemconfigTask extends Task<Boolean> {
 
     public BooleanProperty getAllowAccessToOtherFilesystems() {
         return allowAccessToOtherFilesystems;
+    }
+
+    public void updateBlockKdeDesktopApplets() {
+        if(!blockKdeDesktopApplets.get()) {
+            try {
+                PosixFileAttributes attributes = Files.readAttributes(
+                        WelcomeConstants.APPLETS_CONFIG_FILE, PosixFileAttributes.class
+                );
+                Set<PosixFilePermission> permissions = attributes.permissions();
+
+                permissions.add(PosixFilePermission.OWNER_WRITE);
+
+                Files.setPosixFilePermissions(WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
+            } catch (IOException iOException) {
+                LOGGER.log(Level.WARNING, "", iOException);
+            }
+        }
     }
     
     
