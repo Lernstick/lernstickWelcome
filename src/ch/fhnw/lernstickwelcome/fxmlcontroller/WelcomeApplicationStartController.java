@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 
@@ -59,6 +61,7 @@ public class WelcomeApplicationStartController implements Initializable {
                     setText(item.getDisplayText());
                     if(item.getImagePath() != null)
                         setGraphic(new ImageView(item.getImagePath()));
+                    setPrefHeight(60);
                 }
             }
         });
@@ -82,14 +85,14 @@ public class WelcomeApplicationStartController implements Initializable {
     
     @FXML
      private void onFinishClickedAction(MouseEvent event) {
-        ((Node)(event.getSource())).getScene().getWindow().hide();
+        ((Stage)((Node)(event.getSource())).getScene().getWindow()).close();
         //create progress bar
     }
      
     @FXML
      private void onSaveClickedAction(MouseEvent event) {
-        ((Node)(event.getSource())).getScene().getWindow().hide();
         //save all
+        ((Stage)((Node)(event.getSource())).getScene().getWindow()).close();
     }
 
   /*   private void onClickShowSystem*/

@@ -21,7 +21,7 @@ public class WelcomeApplication extends Application {
     ExamBackupController examBackupController;
     ExamSystemController examSystemController;
     InstallController installController;
-    public FXMLGuiLoader guiLoader;
+    FXMLGuiLoader guiLoader;
     
 
     @Override

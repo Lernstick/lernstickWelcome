@@ -53,7 +53,7 @@ public class WelcomeController {
         sysconf = WelcomeModelFactory.getSystemTask(true, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);
         
-        List<Task> processingList = new ArrayList<Task>();
+        List<Task> processingList = new ArrayList<>();
         processingList.add(firewall);
         processingList.add(backup);
         processingList.add(sysconf);
@@ -74,7 +74,7 @@ public class WelcomeController {
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
         
         // Init Installer
-        List<Task> processingList = new ArrayList<Task>();
+        List<Task> processingList = new ArrayList<>();
         processingList.add(proxy);
         processingList.add(recApps);
         
