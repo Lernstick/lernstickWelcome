@@ -87,5 +87,13 @@ public class WelcomeApplicationFirewallController implements Initializable, Welc
     @FXML
     private void onClickNewServerRule(MouseEvent event) {
     }
+
+    public TableView getTv_fw_allowed_sites() {
+        return tv_fw_allowed_sites;
+    }
+
+    public TableView getTv_fw_allowed_servers() {
+        return tv_fw_allowed_servers;
+    }
     
 }

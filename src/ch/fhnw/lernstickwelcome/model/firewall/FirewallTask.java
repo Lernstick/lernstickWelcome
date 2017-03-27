@@ -13,14 +13,14 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
 /**
@@ -30,8 +30,8 @@ import javafx.concurrent.Task;
 public class FirewallTask extends Task<Boolean> {
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
-    private List<IpFilter> ipList = new ArrayList<>();
-    private List<WebsiteFilter> websiteList = new ArrayList<>();
+    private ObservableList<IpFilter> ipList = FXCollections.observableArrayList();
+    private ObservableList<WebsiteFilter> websiteList = FXCollections.observableArrayList();
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
     private Timer timer;
     
@@ -184,5 +184,13 @@ public class FirewallTask extends Task<Boolean> {
 
             line = bufferedReader.readLine();
         }
+    }
+
+    public ObservableList<WebsiteFilter> getWebsiteList() {
+        return websiteList;
+    }
+
+    public ObservableList<IpFilter> getIpList() {
+        return ipList;
     }
 }

@@ -6,30 +6,29 @@
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 
 /**
@@ -57,22 +56,22 @@ public class WelcomeApplicationStartController implements Initializable {
             
             @Override
             protected void updateItem(MenuPaneItem item, boolean empty) { 
+                super.updateItem(item, empty);
                 if(!empty) {
                     setText(item.getDisplayText());
                     if(item.getImagePath() != null)
                         setGraphic(new ImageView(item.getImagePath()));
-                    setPrefHeight(60);
                 }
             }
         });
         MenuPane.setItems(list);
+        MenuPane.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
-        MenuPane.selectionModelProperty().addListener(cl -> { 
+        MenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> { 
             MainPane.getChildren().clear();
             MainPane.getChildren().add(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
         });
         MenuPane.getSelectionModel().selectFirst();
-        MainPane.getChildren().add(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
     }
     
     /**
@@ -80,7 +79,6 @@ public class WelcomeApplicationStartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
     } 
     
     @FXML
