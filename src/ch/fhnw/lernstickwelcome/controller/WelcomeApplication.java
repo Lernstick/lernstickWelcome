@@ -46,7 +46,7 @@ public class WelcomeApplication extends Application {
         Stage progressStage = FXMLGuiLoader.createDialog(
                 primaryStage,
                 guiLoader.getProgressScene(),
-                rb.getString("welcomeApplicationProgress.save"),
+                controller.getBundle().getString("welcomeApplicationProgress.save"),
                 true
         );
 
