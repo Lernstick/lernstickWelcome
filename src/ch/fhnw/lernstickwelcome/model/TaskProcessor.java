@@ -5,13 +5,17 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
+import java.util.Iterator;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
@@ -30,6 +34,8 @@ public class TaskProcessor {
     private final DoubleProperty progress = new SimpleDoubleProperty();
 
     private final BooleanProperty finished = new SimpleBooleanProperty();
+    
+    private final ObjectProperty<Exception> exception = new SimpleObjectProperty<>();
 
     private final StringProperty title = new SimpleStringProperty();
 
@@ -48,19 +54,35 @@ public class TaskProcessor {
     public void run() {
         finished.set(false);
         new Thread(() -> {
-            try {
-                for (Task t : tasks) {
+            Iterator<Task> iterator = tasks.iterator();
+            while(iterator.hasNext() && exception.getValue() == null) {
+                Task t = iterator.next();
+                Platform.runLater(() -> {
                     title.bind(t.titleProperty());
                     message.bind(t.messageProperty());
-                    t.run();
+                    exception.bind(t.exceptionProperty());
+                });
+                t.run();
+                Platform.runLater(() -> {
                     title.unbind();
                     message.unbind();
-                }
+                    exception.unbind();
+                });
+            }
+            if(exception.getValue() == null) {
                 // If there was a rounding error still set the value to 100%.
-                progress.unbind();
-                progress.set(1);
-            } finally {
-                finished.set(true);
+                Platform.runLater(() -> {
+                    progress.unbind();
+                    progress.set(1);
+                    finished.set(true);
+                });
+            } else {
+                // Set progress to a undefined state.
+                Platform.runLater(() -> {
+                    progress.unbind();
+                    progress.set(-1);
+                    finished.set(true);
+                });
             }
         }).start();
     }
@@ -79,5 +101,9 @@ public class TaskProcessor {
 
     public StringProperty messageProperty() {
         return message;
+    }
+
+    public ObjectProperty<Exception> exceptionProperty() {
+        return exception;
     }
 }

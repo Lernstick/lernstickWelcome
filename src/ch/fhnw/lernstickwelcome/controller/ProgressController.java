@@ -5,9 +5,9 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
 import javafx.animation.PauseTransition;
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.stage.Stage;
@@ -19,34 +19,55 @@ import javafx.util.Duration;
  */
 public class ProgressController {
 
+    private final WelcomeController controller;
+    private final WelcomeApplicationProgressController install;
+
     public ProgressController(WelcomeController controller, WelcomeApplicationProgressController install) {
-        addBindings(controller, install);
-        addHandlers(controller, install);
+        this.controller = controller;
+        this.install = install;
     }
 
-    private void addBindings(WelcomeController controller, WelcomeApplicationProgressController install) {
+    public void initBindings() {
         install.getProg_inst_bar().progressProperty().bind(controller.getInstaller().progressProperty());
-        install.getTxt_inst_prc().textProperty().bind(controller.getInstaller().progressProperty().asString());
+        install.getTxt_inst_prc().textProperty().bind(controller.getInstaller().progressProperty().multiply(100).asString("%.0f%%"));
 
         // Get the text of the title and the message from resource bundle
         StringBinding title = Bindings.createStringBinding(
-                () -> controller.getBundle().getString(controller.getInstaller().titleProperty().get()),
-                controller.getInstaller().titleProperty()
-        );
+                () -> {
+                    try {
+                        return controller.getBundle().getString(controller.getInstaller().titleProperty().get());
+                    } catch(Exception ex) {
+                        return controller.getInstaller().titleProperty().get(); // No text could be load
+                    }
+                }, controller.getInstaller().titleProperty());
         StringBinding message = Bindings.createStringBinding(
-                () -> controller.getBundle().getString(controller.getInstaller().messageProperty().get()),
-                controller.getInstaller().messageProperty()
+                () -> {
+                    try {
+                        return controller.getBundle().getString(controller.getInstaller().messageProperty().get());
+                    } catch(Exception ex) {
+                        return controller.getInstaller().messageProperty().get(); // No text could be load
+                    }
+                }, controller.getInstaller().messageProperty()
         );
         install.getTxt_inst_installtitle().textProperty().bind(title);
         install.getTxt_inst_mesage().textProperty().bind(message);
     }
 
-    private void addHandlers(WelcomeController controller, WelcomeApplicationProgressController install) {
-        // Close scene if finished after 3 seconds
+    public void initHandlers(Stage errorDialog, WelcomeApplicationErrorController error) {
+        // Listen on task processor finished
         controller.getInstaller().finishedProperty().addListener(cl -> {
             if (controller.getInstaller().finishedProperty().get()) {
-                PauseTransition delay = new PauseTransition(Duration.seconds(3));
-                delay.setOnFinished(event -> ((Stage) install.getProg_inst_bar().getScene().getWindow()).close());
+                if(controller.getInstaller().exceptionProperty().getValue() != null) {
+                    // Show error dialog on exception
+                    error.initErrorMessage(controller.getInstaller().exceptionProperty().get());
+                    errorDialog.showAndWait();
+                    ((Stage) install.getProg_inst_bar().getScene().getWindow()).close();
+                } else {
+                    // Close scene if finished after 3 seconds
+                    PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                    delay.setOnFinished(event -> ((Stage) install.getProg_inst_bar().getScene().getWindow()).close());
+                    delay.play();
+                }
             }
         });
     }

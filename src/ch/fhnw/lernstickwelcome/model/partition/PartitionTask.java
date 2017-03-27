@@ -58,6 +58,10 @@ public class PartitionTask extends Task<Boolean> {
 
     @Override
     protected Boolean call() throws Exception {
+        updateProgress(0, 2);
+        updateTitle("PartitionTask.title");
+        updateMessage("PartitionTask.message");
+        
         LOGGER.log(Level.INFO, "new exchange partition label: \"{0}\"",
                 exchangePartitionLabel.get());
         if (!exchangePartitionLabel.get().isEmpty()
@@ -98,12 +102,16 @@ public class PartitionTask extends Task<Boolean> {
             }
         }
         
+        updateProgress(1, 2);
+        
         properties.setProperty(WelcomeConstants.SHOW_WELCOME,
                 showReadWriteWelcome.get() ? "true" : "false");
         properties.setProperty(WelcomeConstants.SHOW_READ_ONLY_INFO,
                 showReadOnlyInfo.get() ? "true" : "false");
         properties.setProperty(WelcomeConstants.EXCHANGE_ACCESS,
                 accessExchangePartition.get() ? "true" : "false");
+        
+        updateProgress(2, 2);
         return true;
     }
 

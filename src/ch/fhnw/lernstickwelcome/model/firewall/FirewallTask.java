@@ -28,13 +28,14 @@ import javafx.concurrent.Task;
  * @author sschw
  */
 public class FirewallTask extends Task<Boolean> {
+
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
     private ObservableList<IpFilter> ipList = FXCollections.observableArrayList();
     private ObservableList<WebsiteFilter> websiteList = FXCollections.observableArrayList();
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
     private Timer timer;
-    
+
     public FirewallTask() {
         try {
             parseNetWhiteList();
@@ -47,30 +48,32 @@ public class FirewallTask extends Task<Boolean> {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
-        
+
         // start periodic firewall status check
         timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                updateFirewallState();
-            }
-            
-        }, 0, 3000);
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                updateFirewallState();
+//            }
+//
+//        }, 0, 3000);
     }
 
     @Override
     protected Boolean call() throws Exception {
-        // checkFirewall - in GUI or Controller
+        updateTitle("FirewallTask.title");
         updateFirewall();
         return true;
     }
-    
+
     public void stopFirewallStateChecking() {
         timer.cancel();
     }
-    
+
     private void updateFirewall() {
+        updateProgress(0, 3);
+        updateMessage("FirewallTask.saveIps");
         // save IP tables
         StringBuilder stringBuilder = new StringBuilder();
         for (IpFilter ip : ipList) {
@@ -96,10 +99,13 @@ public class FirewallTask extends Task<Boolean> {
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
+        
+        updateProgress(1, 3);
+        updateMessage("FirewallTask.saveWebsites");
 
         // save URL whitelist
         stringBuilder = new StringBuilder();
-        for(WebsiteFilter website : websiteList) {
+        for (WebsiteFilter website : websiteList) {
             stringBuilder.append(website.getSearchPattern() + "\n");
         }
         String urlTables = stringBuilder.toString();
@@ -110,10 +116,16 @@ public class FirewallTask extends Task<Boolean> {
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
+        
+        updateProgress(2, 3);
+        updateMessage("FirewallTask.restartFirewall");
+        
         PROCESS_EXECUTOR.executeProcess(
                 "/etc/init.d/lernstick-firewall", "reload");
+        
+        updateProgress(3, 3);
     }
-    
+
     public void toggleFirewallState() throws ProcessingException {
         String action = firewallRunning.get() ? "stop" : "start";
         int ret = PROCESS_EXECUTOR.executeProcess(true, true, "lernstick-firewall", action);
@@ -137,11 +149,11 @@ public class FirewallTask extends Task<Boolean> {
             throw new ProcessingException(messageId);
         }
     }
-    
+
     private void updateFirewallState() {
         firewallRunning.set(PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0);
     }
-    
+
     private void parseURLWhiteList() throws IOException {
         try (FileReader fileReader = new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME);
                 BufferedReader bufferedReader = new BufferedReader(fileReader)) {

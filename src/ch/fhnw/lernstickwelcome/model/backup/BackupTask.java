@@ -94,6 +94,9 @@ public class BackupTask extends Task<Boolean> {
 
     @Override
     protected Boolean call() throws Exception {
+        updateProgress(0, 2);
+        updateTitle("BackupTask.title");
+        updateMessage("BackupTask.setupMessage");
         if (checkBackupDirectory()) { // XXX validation should not be in backend
             if (!local.get()
                     || destinationPath.get().isEmpty()) {
@@ -106,6 +109,8 @@ public class BackupTask extends Task<Boolean> {
                 updateJBackpackProperties(sourcePath.get(), destinationPath.get());
             }
         }
+        updateProgress(1, 2);
+        updateMessage("BackupTask.saveConfig");
         properties.setProperty(WelcomeConstants.BACKUP,
                 active.get() ? "true" : "false");
         properties.setProperty(WelcomeConstants.BACKUP_SCREENSHOT,
@@ -119,6 +124,7 @@ public class BackupTask extends Task<Boolean> {
         properties.setProperty(WelcomeConstants.BACKUP_PARTITION, partitionPath.get());
         properties.setProperty(WelcomeConstants.BACKUP_FREQUENCY,
                 Integer.toString(frequency.get()));
+        updateProgress(2, 2);
         return true;
     }
 

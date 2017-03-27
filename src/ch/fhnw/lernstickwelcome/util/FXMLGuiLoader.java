@@ -8,6 +8,7 @@ package ch.fhnw.lernstickwelcome.util;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.MenuPaneItem;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationAdditionalSoftwareController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
@@ -39,6 +40,7 @@ public class FXMLGuiLoader {
     private Scene welcomeApplicationStart;
     
     private Scene welcomeApplicationProgress;
+    private Scene welcomeApplicationError;
     
     /* standard */
     private Parent informationStd;
@@ -55,14 +57,16 @@ public class FXMLGuiLoader {
 
     private boolean isExamEnvironment;
     
-    // Controller
+    // FXMLController
+    private WelcomeApplicationProgressController welcomeApplicationProgressController;
+    private WelcomeApplicationErrorController welcomeApplicationErrorController;
+    
     private WelcomeApplicationBackupController welcomeApplicationBackupController;
     private WelcomeApplicationFirewallController welcomeApplicationFirewallController;
     private WelcomeApplicationInformationController welcomeApplicationInformationController;
     private WelcomeApplicationStartController welcomeApplicationStartController;
     private WelcomeApplicationSystemController welcomeApplicationSystemController;
     private WelcomeApplicationSystemStdController welcomeApplicationSystemStdController;
-    private WelcomeApplicationProgressController welcomeApplicationProgressController;
     private WelcomeApplicationAdditionalSoftwareController welcomeApplicationAdditionalSoftwareController;
     private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
     private WelcomeApplicationProxyController welcomeApplicationProxyController;
@@ -133,6 +137,10 @@ public class FXMLGuiLoader {
             welcomeApplicationProgress = new Scene(loadProgress.load());
             welcomeApplicationProgressController = loadProgress.getController();
             
+            FXMLLoader loadError = new FXMLLoader(getClass().getResource("../view/welcomeApplicationError.fxml"), rb);
+            welcomeApplicationError = new Scene(loadError.load());
+            welcomeApplicationErrorController = loadError.getController();
+            
             welcomeApplicationStartController.initializeMenu(menuPaneItems);
             
         } catch(IOException ex) {
@@ -153,6 +161,10 @@ public class FXMLGuiLoader {
         return welcomeApplicationProgress;
     }
     
+    public Scene getErrorScene() {
+        return welcomeApplicationError;
+    }
+    
     public WelcomeApplicationSystemController getSystem() {
         return welcomeApplicationSystemController;
     }
@@ -171,6 +183,10 @@ public class FXMLGuiLoader {
 
     public WelcomeApplicationProgressController getProgress() {
         return welcomeApplicationProgressController;
+    }
+    
+    public WelcomeApplicationErrorController getError() {
+        return welcomeApplicationErrorController;
     }
     
     /**

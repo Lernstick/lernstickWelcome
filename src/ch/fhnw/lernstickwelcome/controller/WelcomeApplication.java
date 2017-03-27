@@ -41,8 +41,16 @@ public class WelcomeApplication extends Application {
         } else {
             controller.loadStandardEnvironment();
         }
+        Stage errorStage = FXMLGuiLoader.createDialog(
+                primaryStage,
+                guiLoader.getErrorScene(),
+                controller.getBundle().getString("welcomeApplicationError.title"),
+                true
+        );
+        
         progressController = new ProgressController(controller, guiLoader.getProgress());
-
+        progressController.initBindings();
+        progressController.initHandlers(errorStage, guiLoader.getError());
         Stage progressStage = FXMLGuiLoader.createDialog(
                 primaryStage,
                 guiLoader.getProgressScene(),

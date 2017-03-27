@@ -100,16 +100,29 @@ public class SystemconfigTask extends Task<Boolean> {
 
     @Override
     protected Boolean call() throws Exception {
+        updateProgress(0, 6);
+        updateTitle("SystemconfigTask.title");
+        updateMessage("SystemconfigTask.username");
+        
         if(username.get().equals(oldUsername)) {
             LOGGER.log(Level.INFO,
                     "updating full user name to \"{0}\"", username.get());
             PROCESS_EXECUTOR.executeProcess("chfn", "-f", username.get(), "user");
         }
+        
+        updateProgress(1, 6);
+        updateMessage("SystemconfigTask.bootloader");
+        
         if(WelcomeUtil.isImageWritable()) {
             updateBootloaders();
         }
         
+        updateProgress(2, 6);
+        updateMessage("SystemconfigTask.setup");
+        
         updateAllowFilesystemMount();
+        
+        updateProgress(3, 6);
         
         if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
             if (directSoundOutput.get()) {
@@ -123,12 +136,19 @@ public class SystemconfigTask extends Task<Boolean> {
                     "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
         }
         
+        updateProgress(4, 6);
+        
         updateBlockKdeDesktopApplets();
         
         properties.setProperty(WelcomeConstants.KDE_LOCK,
                 blockKdeDesktopApplets.get() ? "true" : "false");
         
+        updateProgress(5, 6);
+        updateMessage("SystemconfigTask.password");
+        
         changePassword();
+        
+        updateProgress(6, 6);
         
         return true;
     }
