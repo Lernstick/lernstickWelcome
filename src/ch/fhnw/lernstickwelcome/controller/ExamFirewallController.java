@@ -38,12 +38,21 @@ public class ExamFirewallController {
         
         // Bind net_whitelist view data to model data
         ObservableList<IpFilter> modelIFData = controller.getFirewall().getIpList();
-        ObservableList<IpFilter> viewIFData = (ObservableList<IpFilter>) firewall.getTv_fw_allowed_sites().getItems();
+        ObservableList<IpFilter> viewIFData = (ObservableList<IpFilter>) firewall.getTv_fw_allowed_servers().getItems();
         viewIFData.addListener((ListChangeListener.Change<?> changes) -> {
             if(changes.wasAdded()) modelIFData.addAll((ObservableList<IpFilter>) changes.getAddedSubList());
             if(changes.wasRemoved()) modelIFData.removeAll((ObservableList<IpFilter>) changes.getRemoved());
         });
         // Bind net_whitelist model data to view data
+        firewall.getBtn_fw_add_new_server().onActionProperty().addListener(cl -> {
+                if(firewall.validateFields()) {
+                    viewIFData.add(new IpFilter(
+                            firewall.getChoice_fw_protocol().getValue(), 
+                            firewall.getTxt_fw_new_ip().getText(), 
+                            firewall.getTxt_fw_new_port().getText(), 
+                            firewall.getTxt_fw_new_desc().getText()));
+                }
+        });
         /*controller.getFirewall().getIpList().addListener((ListChangeListener.Change<? extends IpFilter> changes) -> {
             
         });*/

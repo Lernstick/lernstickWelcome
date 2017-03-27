@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
@@ -47,7 +48,7 @@ public class WelcomeApplicationStartController implements Initializable {
     @FXML
     private ListView<MenuPaneItem> MenuPane;
     @FXML
-    private Pane MainPane;
+    private ScrollPane MainPane;
     @FXML
     private SplitPane SplitPane;
 
@@ -68,8 +69,7 @@ public class WelcomeApplicationStartController implements Initializable {
         MenuPane.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
         MenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> { 
-            MainPane.getChildren().clear();
-            MainPane.getChildren().add(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
+            MainPane.setContent(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
         });
         MenuPane.getSelectionModel().selectFirst();
     }

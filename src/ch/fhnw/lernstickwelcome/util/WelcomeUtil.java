@@ -123,7 +123,7 @@ public class WelcomeUtil {
         }
     }
 
-    public static void checkPortString(String portString, int index) throws TableCellValidationException {
+    private static void checkPortString(String portString, int index) throws TableCellValidationException {
         try {
             int portNumber = Integer.parseInt(portString);
             if ((portNumber < 0) || (portNumber > 65535)) {
@@ -166,7 +166,7 @@ public class WelcomeUtil {
         }
     }
 
-    public static void checkHostName(String string, int index) throws TableCellValidationException {
+    private static void checkHostName(String string, int index) throws TableCellValidationException {
         // Hostnames are composed of series of labels concatenated with dots, as
         // are all domain names. For example, "en.wikipedia.org" is a hostname.
         // Each label must be between 1 and 63 characters long, and the entire
@@ -202,7 +202,7 @@ public class WelcomeUtil {
         }
     }
 
-    public static void checkIPv4Address(String string, int index) throws TableCellValidationException {
+    private static void checkIPv4Address(String string, int index) throws TableCellValidationException {
         String[] octetStrings = string.split("\\.");
         for (String octetString : octetStrings) {
             int octet = Integer.parseInt(octetString);
