@@ -5,16 +5,16 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
+import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import java.util.List;
-import javafx.concurrent.Task;
 
 /**
  * Representing multiple applications which can be installed.
  *
  * @author sschw
  */
-public class ApplicationGroupTask extends Task<Boolean> {
+public class ApplicationGroupTask extends ResetableTask<Boolean> {
     private List<ApplicationTask> apps;
     private ProxyTask proxy;
     

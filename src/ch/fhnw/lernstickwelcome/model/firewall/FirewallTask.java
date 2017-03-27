@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.firewall;
 
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
@@ -21,13 +22,12 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 
 /**
  *
  * @author sschw
  */
-public class FirewallTask extends Task<Boolean> {
+public class FirewallTask extends ResetableTask<Boolean> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
@@ -51,13 +51,13 @@ public class FirewallTask extends Task<Boolean> {
 
         // start periodic firewall status check
         timer = new Timer();
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                updateFirewallState();
-//            }
-//
-//        }, 0, 3000);
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateFirewallState();
+            }
+
+        }, 0, 3000);
     }
 
     @Override

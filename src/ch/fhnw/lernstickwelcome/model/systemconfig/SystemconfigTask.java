@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.systemconfig;
 
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
@@ -59,8 +60,8 @@ import org.xml.sax.SAXException;
  *
  * @author sschw
  */
-public class SystemconfigTask extends Task<Boolean> {
-    private ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
+public class SystemconfigTask extends ResetableTask<Boolean> {
+    private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     private static final String LOCAL_POLKIT_PATH

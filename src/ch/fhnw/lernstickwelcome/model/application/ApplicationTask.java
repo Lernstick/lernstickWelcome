@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
+import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
@@ -14,14 +15,13 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 
 /**
  *
  * @author sschw
  */
-public class ApplicationTask extends Task<Boolean> {
+public class ApplicationTask extends ResetableTask<Boolean> {
     private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     

@@ -26,7 +26,7 @@ import javafx.concurrent.Task;
  */
 public class TaskProcessor {
 
-    private final List<Task> tasks;
+    private final List<ResetableTask> tasks;
     /**
      * Value represents progress by binding it to the values of the tasks.<br>
      * Tasks need to use progress.
@@ -41,7 +41,7 @@ public class TaskProcessor {
 
     private final StringProperty message = new SimpleStringProperty();
 
-    public TaskProcessor(List<Task> tasks) {
+    public TaskProcessor(List<ResetableTask> tasks) {
         this.tasks = tasks;
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(
@@ -53,8 +53,9 @@ public class TaskProcessor {
 
     public void run() {
         finished.set(false);
+        tasks.forEach(t -> t.reset());
         new Thread(() -> {
-            Iterator<Task> iterator = tasks.iterator();
+            Iterator<ResetableTask> iterator = tasks.iterator();
             while(iterator.hasNext() && exception.getValue() == null) {
                 Task t = iterator.next();
                 Platform.runLater(() -> {
