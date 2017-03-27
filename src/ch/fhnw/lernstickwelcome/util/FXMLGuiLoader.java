@@ -10,7 +10,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationAdditionalSoftw
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInstallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProxyController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
@@ -38,6 +38,8 @@ public class FXMLGuiLoader {
     
     private Scene welcomeApplicationStart;
     
+    private Scene welcomeApplicationProgress;
+    
     /* standard */
     private Parent informationStd;
     private Parent recommended;
@@ -60,7 +62,7 @@ public class FXMLGuiLoader {
     private WelcomeApplicationStartController welcomeApplicationStartController;
     private WelcomeApplicationSystemController welcomeApplicationSystemController;
     private WelcomeApplicationSystemStdController welcomeApplicationSystemStdController;
-    private WelcomeApplicationInstallController welcomeApplicationInstallController;
+    private WelcomeApplicationProgressController welcomeApplicationProgressController;
     private WelcomeApplicationAdditionalSoftwareController welcomeApplicationAdditionalSoftwareController;
     private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
     private WelcomeApplicationProxyController welcomeApplicationProxyController;
@@ -126,8 +128,11 @@ public class FXMLGuiLoader {
                 menuPaneItems.add(new MenuPaneItem(system, "System", null));
 
             }
-
-
+            
+            FXMLLoader loadProgress = new FXMLLoader(getClass().getResource("../view/welcomeApplicationProgress.fxml"), rb);
+            welcomeApplicationProgress = new Scene(loadProgress.load());
+            welcomeApplicationProgressController = loadProgress.getController();
+            
             welcomeApplicationStartController.initializeMenu(menuPaneItems);
             
         } catch(IOException ex) {
@@ -143,6 +148,11 @@ public class FXMLGuiLoader {
     {
         return welcomeApplicationStart;
     }
+    
+    public Scene getProgressScene() {
+        return welcomeApplicationProgress;
+    }
+    
     public WelcomeApplicationSystemController getSystem() {
         return welcomeApplicationSystemController;
     }
@@ -159,8 +169,8 @@ public class FXMLGuiLoader {
         return welcomeApplicationBackupController;
     }
 
-    public WelcomeApplicationInstallController getInstaller() {
-        return welcomeApplicationInstallController;
+    public WelcomeApplicationProgressController getProgress() {
+        return welcomeApplicationProgressController;
     }
     
     /**
@@ -171,7 +181,7 @@ public class FXMLGuiLoader {
      * @param modal modal
      * @return 
      */
-    public Stage createDialog(Stage parent, Scene scene, String title, boolean modal) {
+    public static Stage createDialog(Stage parent, Scene scene, String title, boolean modal) {
         Stage stage = new Stage();
         stage.initOwner(parent);
         if(modal) {

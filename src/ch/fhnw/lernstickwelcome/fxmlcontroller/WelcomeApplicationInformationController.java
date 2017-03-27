@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
  *
  * @author user
  */
-public class WelcomeApplicationInformationController implements Initializable, WelcomeApplicationViewController {
+public class WelcomeApplicationInformationController implements Initializable {
 
 
     @FXML
@@ -35,11 +35,6 @@ public class WelcomeApplicationInformationController implements Initializable, W
     public void initialize(URL url, ResourceBundle rb) {
         
         // TODO
-    }    
-
-    @Override
-    public Pane getPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public Label getLabel_info_os() {

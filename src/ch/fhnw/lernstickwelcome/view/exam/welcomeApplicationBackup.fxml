@@ -44,9 +44,9 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <CheckBox fx:id="cb_bu_backup" mnemonicParsing="false" prefHeight="29.0" prefWidth="89.0" text="CheckBox" />
+                        <CheckBox fx:id="cb_bu_backup" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="29.0" prefWidth="109.0" />
                         <ChoiceBox id="choice_bu_time" fx:id="choice_bu_backup" prefWidth="150.0" />
-                        <CheckBox fx:id="cb_bu_screenshot" mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" text="CheckBox" />
+                        <CheckBox fx:id="cb_bu_screenshot" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="111.0" />
                      </children>
                   </VBox>
                </children>
@@ -75,7 +75,7 @@
                   <Button fx:id="btn_bu_dest_path" layoutX="350.0" layoutY="63.0" mnemonicParsing="false" onMouseClicked="#onClickSetLocalFolder" text="ff" />
                   <CheckBox fx:id="cb_bu_use_local" layoutX="7.0" layoutY="30.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useLocalFolder" />
                   <Label layoutY="136.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
-                  <TextField fx:id="txt_bu_remote_path" layoutX="195.0" layoutY="135.0" prefHeight="26.0" prefWidth="149.0" />
+                  <TextField fx:id="txt_bu_remote_path" layoutX="87.0" layoutY="135.0" prefHeight="26.0" prefWidth="257.0" />
                   <Button fx:id="btn_bu_remote_path" layoutX="350.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#onClickSetRemotePartition" text="ff" />
                   <CheckBox fx:id="cb_bu_use_remote" layoutX="6.0" layoutY="102.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useRemotePartition" />
                   <ChoiceBox fx:id="choice_bu_medium" layoutX="87.0" layoutY="135.0" prefHeight="26.0" prefWidth="108.0" />

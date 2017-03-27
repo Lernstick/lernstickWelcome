@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,11 +17,8 @@ import javafx.scene.control.ProgressBar;
  *
  * @author user
  */
-public class WelcomeApplicationInstallController implements Initializable {
+public class WelcomeApplicationProgressController implements Initializable {
 
-
-    @FXML
-    private Label txt_inst_title;
     @FXML
     private ProgressBar prog_inst_bar;
     @FXML
@@ -38,7 +34,6 @@ public class WelcomeApplicationInstallController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }   
 
     public ProgressBar getProg_inst_bar() {

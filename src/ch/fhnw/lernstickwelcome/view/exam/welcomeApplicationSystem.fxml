@@ -74,7 +74,7 @@
                               <Label prefHeight="18.0" prefWidth="233.0" text="%welcomeApplicationSystem.restartNote" textFill="#f20000" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="306.0" prefWidth="134.0" spacing="7.5">
+                        <VBox alignment="TOP_RIGHT" prefHeight="306.0" prefWidth="134.0" spacing="7.5">
                            <children>
                               <TextField fx:id="txt_sys_username" />
                               <Pane prefHeight="47.0" prefWidth="127.0" />
@@ -82,35 +82,35 @@
                               <TextField fx:id="txt_sys_password_repeat" />
                               <Pane prefHeight="47.0" prefWidth="127.0" />
                               <ChoiceBox fx:id="choice_sys_visible_for" prefWidth="150.0" />
-                              <CheckBox fx:id="cb_sys_start_wa" mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_start_wa" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
-                              <CheckBox fx:id="cb_sys_show_warning" mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_show_warning" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
                               <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <CheckBox fx:id="cb_sys_direct_sound" mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_direct_sound" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
-                              <CheckBox fx:id="cb_sys_block_kde" mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_block_kde" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
-                              <CheckBox fx:id="cb_sys_allow_file_systems" mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_allow_file_systems" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </CheckBox>
                               <Pane prefHeight="47.0" prefWidth="127.0" />
                               <TextField fx:id="txt_sys_exchange_partition" />
-                              <CheckBox fx:id="cb_sys_access_user" mnemonicParsing="false" text="CheckBox">
+                              <CheckBox fx:id="cb_sys_access_user" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>

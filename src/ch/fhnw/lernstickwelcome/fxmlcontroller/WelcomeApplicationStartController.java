@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -20,15 +19,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 
@@ -68,9 +59,17 @@ public class WelcomeApplicationStartController implements Initializable {
         MenuPane.setItems(list);
         MenuPane.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
+        // Change and resize the content
         MenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> { 
             MainPane.setContent(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
+            ((Region)(MainPane.getContent())).setPrefWidth(MainPane.getWidth());
+            ((Region)(MainPane.getContent())).setPrefHeight(MainPane.getHeight());
         });
+        // Resize the content
+        MainPane.widthProperty().addListener(cl -> ((Region)(MainPane.getContent())).setPrefWidth(MainPane.getWidth()));
+        MainPane.heightProperty().addListener(cl -> ((Region)(MainPane.getContent())).setPrefHeight(MainPane.getHeight()));
+        
+        // Select first node as start screen
         MenuPane.getSelectionModel().selectFirst();
     }
     
@@ -94,6 +93,14 @@ public class WelcomeApplicationStartController implements Initializable {
     }
 
   /*   private void onClickShowSystem*/
+
+    public Button getFinishButton() {
+        return FinishButton;
+    }
+
+    public Button getSaveButton() {
+        return SaveButton;
+    }
     
     
 }

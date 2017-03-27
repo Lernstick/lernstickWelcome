@@ -22,7 +22,7 @@ import javafx.util.StringConverter;
  *
  * @author user
  */
-public class WelcomeApplicationSystemController implements Initializable, WelcomeApplicationViewController {
+public class WelcomeApplicationSystemController implements Initializable {
 
     @FXML
     private Button btn_sys_help;
@@ -49,6 +49,8 @@ public class WelcomeApplicationSystemController implements Initializable, Welcom
     @FXML
     private CheckBox cb_sys_show_warning;
     
+    private final Integer[] visibleForValues = new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    
     /**
      * Initializes the controller class.
      */
@@ -57,7 +59,7 @@ public class WelcomeApplicationSystemController implements Initializable, Welcom
         choice_sys_visible_for.setConverter(new StringConverter<Number>() {
             @Override
             public String toString(Number t) {
-                return t.intValue() + " " + (t.intValue() != 0 ? rb.getString("") : rb.getString(""));
+                return t.intValue() + " " + (t.intValue() == 1 ? rb.getString("welcomeApplicationSystem.second") : rb.getString("welcomeApplicationSystem.seconds"));
             }
 
             @Override
@@ -65,12 +67,8 @@ public class WelcomeApplicationSystemController implements Initializable, Welcom
                 return Integer.valueOf(string.split(" ")[0]);
             }
         });
-        // TODO
-    }    
-
-    @Override
-    public Pane getPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        choice_sys_visible_for.getItems().addAll(visibleForValues);
     }
 
     @FXML

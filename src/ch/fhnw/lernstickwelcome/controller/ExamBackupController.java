@@ -17,6 +17,7 @@ public class ExamBackupController {
     }
     
     private void addBindings(WelcomeController controller, WelcomeApplicationBackupController backup){
+        // Create bindings
         backup.getCb_bu_backup().selectedProperty().bindBidirectional(controller.getBackup().getActive());
         backup.getCb_bu_screenshot().selectedProperty().bindBidirectional(controller.getBackup().getScreenshot());
         backup.getCb_bu_use_local().selectedProperty().bindBidirectional(controller.getBackup().getLocal());

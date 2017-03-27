@@ -48,9 +48,9 @@
                   </TableView>
                   <Pane prefHeight="69.0" prefWidth="359.0">
                      <children>
-                        <TextField fx:id="txt_fw_matching_string" layoutX="143.0" layoutY="1.0" prefHeight="26.0" prefWidth="187.0" />
-                        <ComboBox fx:id="choice_fw_matchtype" layoutY="1.0" prefHeight="26.0" prefWidth="142.0" promptText="exact" />
-                        <Button fx:id="btn_fw_new_rule" layoutX="331.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" text="+" />
+                        <TextField fx:id="txt_fw_matching_string" layoutX="143.0" layoutY="1.0" prefHeight="26.0" prefWidth="203.0" />
+                        <ComboBox fx:id="choice_fw_matchtype" layoutY="1.0" prefHeight="26.0" prefWidth="142.0" />
+                        <Button fx:id="btn_fw_new_rule" layoutX="348.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" text="+" />
                      </children>
                   </Pane>
                   <Label text="%welcomeApplicationFirewall.allowedServers">
@@ -68,11 +68,11 @@
                   </TableView>
                   <Pane prefHeight="54.0" prefWidth="359.0">
                      <children>
-                        <Button fx:id="btn_fw_add_new_server" layoutX="331.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" text="+" />
-                        <TextField fx:id="txt_fw_new_desc" layoutX="213.0" layoutY="1.0" prefHeight="26.0" prefWidth="119.0" />
-                        <TextField fx:id="txt_fw_new_port" layoutX="162.0" layoutY="1.0" prefHeight="26.0" prefWidth="51.0" />
-                        <TextField fx:id="txt_fw_new_ip" layoutX="67.0" layoutY="1.0" prefHeight="26.0" prefWidth="95.0" />
-                        <ComboBox fx:id="choice_fw_protocol" layoutX="-1.0" layoutY="1.0" prefHeight="26.0" prefWidth="68.0" />
+                        <Button fx:id="btn_fw_add_new_server" layoutX="347.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" text="+" />
+                        <TextField fx:id="txt_fw_new_desc" layoutX="221.0" layoutY="1.0" prefHeight="26.0" prefWidth="124.0" />
+                        <TextField fx:id="txt_fw_new_port" layoutX="170.0" layoutY="1.0" prefHeight="26.0" prefWidth="51.0" />
+                        <TextField fx:id="txt_fw_new_ip" layoutX="75.0" layoutY="1.0" prefHeight="26.0" prefWidth="95.0" />
+                        <ComboBox fx:id="choice_fw_protocol" layoutX="-1.0" layoutY="1.0" prefHeight="26.0" prefWidth="76.0" />
                      </children>
                   </Pane>
                </children>

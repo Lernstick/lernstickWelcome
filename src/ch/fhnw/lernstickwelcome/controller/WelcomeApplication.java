@@ -16,48 +16,58 @@ import javafx.stage.Stage;
  * @author sschw
  */
 public class WelcomeApplication extends Application {
-    WelcomeController controller;
-    ExamInformationController examInformationController;
-    ExamBackupController examBackupController;
-    ExamSystemController examSystemController;
-    InstallController installController;
-    FXMLGuiLoader guiLoader;
-    
+
+    private WelcomeController controller;
+    private ExamInformationController examInformationController;
+    private ExamBackupController examBackupController;
+    private ExamSystemController examSystemController;
+    private ProgressController progressController;
+    private FXMLGuiLoader guiLoader;
+    private MainBinder mainBinder;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         controller = new WelcomeController();
-        ResourceBundle rb = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
-        
-        guiLoader = new FXMLGuiLoader(isExamEnvironment(), rb);
+
+        guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle());
         Scene scene = guiLoader.getMainStage();
-        
-        if(isExamEnvironment()){
-            controller.loadExamEnvironment(rb);
-            
-            examInformationController = new ExamInformationController(controller,  guiLoader.getInformation());
+
+        if (isExamEnvironment()) {
+            controller.loadExamEnvironment();
+
+            examInformationController = new ExamInformationController(controller, guiLoader.getInformation());
             examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
             examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
-            installController = new InstallController(controller, guiLoader.getInstaller());
-        }else{
-            controller.loadStandardEnvironment(rb);  
+        } else {
+            controller.loadStandardEnvironment();
         }
+        progressController = new ProgressController(controller, guiLoader.getProgress());
+
+        Stage progressStage = FXMLGuiLoader.createDialog(
+                primaryStage,
+                guiLoader.getProgressScene(),
+                rb.getString("welcomeApplicationProgress.save"),
+                true
+        );
+
+        mainBinder = new MainBinder(controller, guiLoader.getWelcomeApplicationStart());
+        mainBinder.initHandlers(progressStage);
 
         primaryStage.setScene(scene);
         primaryStage.show();
-        
+
     }
 
     @Override
     public void stop() throws Exception {
         controller.closeApplication();
-        System.exit(0); // TODO investigate into thread that still runs.
+        System.exit(0);
     }
 
     public boolean isExamEnvironment() {
         return getParameters().getRaw().contains("examEnvironment");
     }
-    
+
     public static void main(String[] args) {
         WelcomeApplication.launch(args);
     }

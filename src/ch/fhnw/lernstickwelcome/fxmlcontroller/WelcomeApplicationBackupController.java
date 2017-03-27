@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
+import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,7 +16,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -25,7 +25,9 @@ import javafx.util.StringConverter;
  *
  * @author user
  */
-public class WelcomeApplicationBackupController implements Initializable, WelcomeApplicationViewController {
+public class WelcomeApplicationBackupController implements Initializable {
+
+    private final static Integer[] backupFrequency = new Integer[] { 1, 2, 3, 4, 5, 10, 15, 30, 60 };
 
     @FXML
     private Button btn_bu_help;
@@ -53,7 +55,6 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
     private ChoiceBox<?> choice_bu_medium;
     @FXML
     private ChoiceBox<Number> choice_bu_backup;
-
     
     /**
      * Initializes the controller class.
@@ -64,7 +65,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
             
             @Override
             public String toString(Number v) {
-                return v.intValue() + " " + (v.intValue() != 1 ? rb.getString("") : rb.getString(""));
+                return v.intValue() + " " +  rb.getString("welcomeApplicationBackup.minutes");
             }
 
             @Override
@@ -72,13 +73,23 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
                 return Integer.valueOf(string.split(" ")[0]);
             }
         });
+        // Currently not supported
         choice_bu_medium.setVisible(false);
-        // TODO
-    }    
-
-    @Override
-    public Pane getPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        choice_bu_backup.getItems().addAll(backupFrequency);
+        
+        // Bind options
+        cb_bu_screenshot.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        txt_bu_src_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        btn_bu_src_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        txt_bu_dest_path.disableProperty().bind(cb_bu_backup.selectedProperty().not().or(cb_bu_use_local.selectedProperty().not()));
+        btn_bu_dest_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        cb_bu_use_local.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        txt_bu_remote_path.disableProperty().bind(cb_bu_backup.selectedProperty().not().or(cb_bu_use_remote.selectedProperty().not()));
+        btn_bu_remote_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        cb_bu_use_remote.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        choice_bu_medium.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        choice_bu_backup.disableProperty().bind(cb_bu_backup.selectedProperty().not());
     }
 
     @FXML
@@ -103,7 +114,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             txt_bu_remote_path.textProperty().set(file.getPath());
+             txt_bu_remote_path.setText(file.getPath());
         }
     }
 
@@ -114,7 +125,7 @@ public class WelcomeApplicationBackupController implements Initializable, Welcom
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             txt_bu_dest_path.textProperty().set(file.getPath());
+             txt_bu_dest_path.setText(file.getPath());
         }
     }
 

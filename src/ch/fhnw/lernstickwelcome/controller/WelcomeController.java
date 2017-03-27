@@ -24,9 +24,9 @@ import javafx.concurrent.Task;
  * @author sschw
  */
 public class WelcomeController {
-    private ResourceBundle rb;
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     
-    private TaskProcessor installer;
+    private TaskProcessor taskProcessor;
     // Backend Tasks
     private PropertiesTask properties;
     // Standard Environment
@@ -44,12 +44,12 @@ public class WelcomeController {
     
     private boolean  isExamEnvironment;
     
-    public void loadExamEnvironment(ResourceBundle rb) {
-        this.rb = rb;
-
+    public void loadExamEnvironment() {
+        isExamEnvironment = true;
+        
         properties = WelcomeModelFactory.getPropertiesTask();
         firewall = WelcomeModelFactory.getFirewallTask();
-        backup = WelcomeModelFactory.getBackupTask(properties, rb.getString("Backup_Directory"));
+        backup = WelcomeModelFactory.getBackupTask(properties, bundle.getString("Backup_Directory"));
         sysconf = WelcomeModelFactory.getSystemTask(true, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);
         
@@ -59,12 +59,10 @@ public class WelcomeController {
         processingList.add(sysconf);
         processingList.add(partition);
         processingList.add(properties);
-        installer = new TaskProcessor(processingList);
+        taskProcessor = new TaskProcessor(processingList);
     }
     
-    public void loadStandardEnvironment(ResourceBundle rb) {
-        this.rb = rb;
-        
+    public void loadStandardEnvironment() {
         isExamEnvironment = false;
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
@@ -78,11 +76,11 @@ public class WelcomeController {
         processingList.add(proxy);
         processingList.add(recApps);
         
-        installer = new TaskProcessor(processingList);
+        taskProcessor = new TaskProcessor(processingList);
     }
     
-    public void startInstallation() {
-        installer.install();
+    public void startProcessingTasks() {
+        taskProcessor.run();
     }
     
     public void closeApplication() {
@@ -93,7 +91,7 @@ public class WelcomeController {
     }
 
     public TaskProcessor getInstaller() {
-        return installer;
+        return taskProcessor;
     }
 
     public ProxyTask getProxy() {
@@ -130,6 +128,10 @@ public class WelcomeController {
 
     public SystemconfigTask getSysconf() {
         return sysconf;
+    }
+
+    public ResourceBundle getBundle() {
+        return bundle;
     }
     
 }

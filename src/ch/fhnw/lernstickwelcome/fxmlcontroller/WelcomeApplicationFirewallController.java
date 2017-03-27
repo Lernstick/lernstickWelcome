@@ -24,14 +24,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
  *
  * @author user
  */
-public class WelcomeApplicationFirewallController implements Initializable, WelcomeApplicationViewController {
+public class WelcomeApplicationFirewallController implements Initializable {
 
     @FXML
     private Button btn_fw_help;
@@ -69,19 +68,17 @@ public class WelcomeApplicationFirewallController implements Initializable, Welc
     private TextField txt_fw_new_ip;
     @FXML
     private ComboBox<IpFilter.Protocol> choice_fw_protocol;
+    
+    private ResourceBundle rb;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.rb = rb;
         choice_fw_matchtype.getItems().addAll(WebsiteFilter.SearchPattern.values());
         choice_fw_protocol.getItems().addAll(IpFilter.Protocol.values());
-    }    
-
-    @Override
-    public Pane getPane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @FXML
@@ -145,7 +142,7 @@ public class WelcomeApplicationFirewallController implements Initializable, Welc
             WelcomeUtil.checkTarget(txt_fw_new_ip.getText(), -1);
             txt_fw_new_ip.setStyle("");
         } catch(ValidationException ex) {
-            txt_fw_new_ip.setPromptText(MessageFormat.format(ex.getMessage(), ex.getMessageDetails()));
+            txt_fw_new_ip.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
             txt_fw_new_ip.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
             return false;
         }
@@ -153,7 +150,7 @@ public class WelcomeApplicationFirewallController implements Initializable, Welc
             WelcomeUtil.checkPortRange(txt_fw_new_port.getText(), -1);
             txt_fw_new_ip.setStyle("");
         } catch(ValidationException ex) {
-            txt_fw_new_port.setPromptText(MessageFormat.format(ex.getMessage(), ex.getMessageDetails()));
+            txt_fw_new_port.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
             txt_fw_new_port.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
             return false;
         }
