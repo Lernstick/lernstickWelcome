@@ -31,24 +31,26 @@ public class WelcomeApplication extends Application {
         controller = new WelcomeController();
 
         guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle());
-        Scene scene = guiLoader.getMainStage();
-
-        if (isExamEnvironment()) {
-            controller.loadExamEnvironment();
-
-            examInformationController = new ExamInformationController(controller, guiLoader.getInformation());
-            examFirewallController = new ExamFirewallController(controller, guiLoader.getFirewall());
-            examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
-            examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
-        } else {
-            controller.loadStandardEnvironment();
-        }
+        
         Stage errorStage = FXMLGuiLoader.createDialog(
                 primaryStage,
                 guiLoader.getErrorScene(),
                 controller.getBundle().getString("welcomeApplicationError.title"),
                 true
         );
+
+        if (isExamEnvironment()) {
+            controller.loadExamEnvironment();
+
+            examInformationController = new ExamInformationController(controller, guiLoader.getInformation());
+            examFirewallController = new ExamFirewallController(controller, guiLoader.getFirewall());
+            examFirewallController.initBindings();
+            examFirewallController.initHandlers(errorStage, guiLoader.getError());
+            examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
+            examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
+        } else {
+            controller.loadStandardEnvironment();
+        }
         
         progressController = new ProgressController(controller, guiLoader.getProgress());
         progressController.initBindings();
@@ -63,6 +65,7 @@ public class WelcomeApplication extends Application {
         mainBinder = new MainBinder(controller, guiLoader.getWelcomeApplicationStart());
         mainBinder.initHandlers(progressStage);
 
+        Scene scene = guiLoader.getMainStage();
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -74,7 +77,7 @@ public class WelcomeApplication extends Application {
         System.exit(0);
     }
 
-    public boolean isExamEnvironment() {
+    private boolean isExamEnvironment() {
         return getParameters().getRaw().contains("examEnvironment");
     }
 

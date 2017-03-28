@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -14,6 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 
 <AnchorPane id="AnchorPane" prefHeight="594.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController">
    <children>
@@ -34,7 +34,10 @@
                         <Button fx:id="btn_fw_help" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
                      </children>
                   </HBox>
-                  <CheckBox fx:id="cb_fw_allow_monitoring" mnemonicParsing="false" prefHeight="18.0" prefWidth="373.0" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
+                  <HBox spacing="15" alignment="CENTER_LEFT">
+                    <ToggleSwitch fx:id="cb_fw_allow_monitoring" textOn="%ToggleSwitch.on" textOff="%ToggleSwitch.off" />
+                    <Label text="%welcomeApplicationFirewall.monitoringInternetAccess" />
+                  </HBox>
                   <Label text="%welcomeApplicationFirewall.allowedWebsites">
                      <font>
                         <Font name="System Bold" size="13.0" />

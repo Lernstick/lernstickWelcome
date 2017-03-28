@@ -491,6 +491,9 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
     }
 
     public void changePassword() throws ProcessingException {
+        // Check if password should be changed
+        if(password.get().isEmpty() || passwordRepeat.get().isEmpty())
+            return;
         // check, if both passwords are the same
         String password1 = password.get();
         String password2 = passwordRepeat.get();

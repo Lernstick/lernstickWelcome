@@ -9,6 +9,7 @@ import ch.fhnw.lernstickwelcome.controller.ValidationException;
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -34,7 +35,7 @@ public class WelcomeApplicationFirewallController implements Initializable {
     @FXML
     private Button btn_fw_help;
     @FXML
-    private CheckBox cb_fw_allow_monitoring;
+    private ToggleSwitch cb_fw_allow_monitoring;
     @FXML
     private TableView<WebsiteFilter> tv_fw_allowed_sites;
     @FXML
@@ -141,7 +142,7 @@ public class WelcomeApplicationFirewallController implements Initializable {
         return tv_fw_allowed_servers;
     }
 
-    public CheckBox getCb_fw_allow_monitoring() {
+    public ToggleSwitch getCb_fw_allow_monitoring() {
         return cb_fw_allow_monitoring;
     }
 
