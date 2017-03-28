@@ -11,17 +11,19 @@ import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  *
@@ -31,8 +33,8 @@ public class FirewallTask extends ResetableTask<Boolean> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
-    private ObservableList<IpFilter> ipList = FXCollections.observableArrayList();
-    private ObservableList<WebsiteFilter> websiteList = FXCollections.observableArrayList();
+    private ListProperty<IpFilter> ipList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private ListProperty<WebsiteFilter> websiteList = new SimpleListProperty<>(FXCollections.observableArrayList());
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
     private Timer timer;
 
@@ -74,28 +76,27 @@ public class FirewallTask extends ResetableTask<Boolean> {
     private void updateFirewall() {
         updateProgress(0, 3);
         updateMessage("FirewallTask.saveIps");
+        
         // save IP tables
-        StringBuilder stringBuilder = new StringBuilder();
-        for (IpFilter ip : ipList) {
-            // comment
-            stringBuilder.append("# ");
-            stringBuilder.append(ip.getDescription());
-            stringBuilder.append('\n');
-            // protocol
-            stringBuilder.append(ip.getProtocol().toString());
-            stringBuilder.append(' ');
-            // target
-            stringBuilder.append(ip.getIpAddress());
-            stringBuilder.append(' ');
-            // port
-            stringBuilder.append(ip.getPortRange());
-            stringBuilder.append('\n');
-        }
-        String ipTables = stringBuilder.toString();
-        try (FileOutputStream fileOutputStream
-                = new FileOutputStream(WelcomeConstants.IP_TABLES_FILENAME)) {
-            fileOutputStream.write(ipTables.getBytes());
-            fileOutputStream.flush();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.IP_TABLES_FILENAME))) {
+            for (IpFilter ip : ipList) {
+                StringBuilder sb = new StringBuilder();
+                // comment
+                sb.append("# ");
+                sb.append(ip.getDescription());
+                sb.append('\n');
+                // protocol
+                sb.append(ip.getProtocol().toString());
+                sb.append(' ');
+                // target
+                sb.append(ip.getIpAddress());
+                sb.append(' ');
+                // port
+                sb.append(ip.getPortRange());
+                sb.append('\n');
+                // write line to file
+                bw.write(sb.toString());
+            }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
@@ -104,15 +105,13 @@ public class FirewallTask extends ResetableTask<Boolean> {
         updateMessage("FirewallTask.saveWebsites");
 
         // save URL whitelist
-        stringBuilder = new StringBuilder();
-        for (WebsiteFilter website : websiteList) {
-            stringBuilder.append(website.getSearchPattern() + "\n");
-        }
-        String urlTables = stringBuilder.toString();
-        try (FileOutputStream fileOutputStream
-                = new FileOutputStream(WelcomeConstants.URL_WHITELIST_FILENAME)) {
-            fileOutputStream.write(urlTables.getBytes());
-            fileOutputStream.flush();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.URL_WHITELIST_FILENAME))) { 
+            for (WebsiteFilter website : websiteList) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(website.getSearchPattern());
+                sb.append('\n');
+                bw.write(sb.toString());
+            }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
@@ -155,9 +154,9 @@ public class FirewallTask extends ResetableTask<Boolean> {
     }
 
     private void parseURLWhiteList() throws IOException {
-        try (FileReader fileReader = new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME);
-                BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            for (String line = bufferedReader.readLine(); line != null;) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
                 websiteList.add(new WebsiteFilter(line));
                 line = bufferedReader.readLine();
             }
@@ -198,11 +197,11 @@ public class FirewallTask extends ResetableTask<Boolean> {
         }
     }
 
-    public ObservableList<WebsiteFilter> getWebsiteList() {
+    public ListProperty<WebsiteFilter> getWebsiteListProperty() {
         return websiteList;
     }
 
-    public ObservableList<IpFilter> getIpList() {
+    public ListProperty<IpFilter> getIpListProperty() {
         return ipList;
     }
 }

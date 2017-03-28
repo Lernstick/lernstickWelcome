@@ -5,10 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.controller.ProcessingException;
 import ch.fhnw.lernstickwelcome.controller.ValidationException;
-import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
@@ -23,6 +20,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -37,11 +36,11 @@ public class WelcomeApplicationFirewallController implements Initializable {
     @FXML
     private CheckBox cb_fw_allow_monitoring;
     @FXML
-    private TableView<?> tv_fw_allowed_sites;
+    private TableView<WebsiteFilter> tv_fw_allowed_sites;
     @FXML
-    private TableColumn<?, ?> tab_fw_allowed_sites;
+    private TableColumn<WebsiteFilter, WebsiteFilter.SearchPattern> tab_fw_allowed_sites;
     @FXML
-    private TableColumn<?, ?> tab_fw_allowed_sites_firewall;
+    private TableColumn<WebsiteFilter, String> tab_fw_allowed_sites_firewall;
     @FXML
     private TextField txt_fw_matching_string;
     @FXML
@@ -49,15 +48,15 @@ public class WelcomeApplicationFirewallController implements Initializable {
     @FXML
     private Button btn_fw_new_rule;
     @FXML
-    private TableView<?> tv_fw_allowed_servers;
+    private TableView<IpFilter> tv_fw_allowed_servers;
     @FXML
-    private TableColumn<?, ?> tab_fw_server_protocol;
+    private TableColumn<IpFilter, IpFilter.Protocol> tab_fw_server_protocol;
     @FXML
-    private TableColumn<?, ?> tab_fw_server_ip;
+    private TableColumn<IpFilter, String> tab_fw_server_ip;
     @FXML
-    private TableColumn<?, ?> tab_fw_server_port;
+    private TableColumn<IpFilter, String> tab_fw_server_port;
     @FXML
-    private TableColumn<?, ?> tab_fw_server_desc;
+    private TableColumn<IpFilter, String> tab_fw_server_desc;
     @FXML
     private Button btn_fw_add_new_server;
     @FXML
@@ -77,6 +76,36 @@ public class WelcomeApplicationFirewallController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.rb = rb;
+        
+        // Set TableView WebsiteFilter cell properties and implement edit functionality
+        tab_fw_allowed_sites.setCellValueFactory(p -> p.getValue().searchPatternProperty());
+        tab_fw_allowed_sites.setCellFactory(ComboBoxTableCell.forTableColumn(WebsiteFilter.SearchPattern.values()));
+        tab_fw_allowed_sites.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+                        .searchPatternProperty().setValue(e.getNewValue()));
+        tab_fw_allowed_sites_firewall.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
+        tab_fw_allowed_sites_firewall.setCellFactory(TextFieldTableCell.forTableColumn());
+        tab_fw_allowed_sites_firewall.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+                        .searchCriteriaProperty().setValue(e.getNewValue()));
+        
+        // Set TableView IpFilter cell properties and implement edit functionality
+        tab_fw_server_protocol.setCellValueFactory(p -> p.getValue().protocolProperty());
+        tab_fw_server_protocol.setCellFactory(ComboBoxTableCell.forTableColumn(IpFilter.Protocol.values()));
+        tab_fw_server_protocol.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+                        .protocolProperty().setValue(e.getNewValue()));
+        tab_fw_server_ip.setCellFactory(TextFieldTableCell.forTableColumn());
+        tab_fw_server_ip.setCellValueFactory(p -> p.getValue().ipAddressProperty());
+        tab_fw_server_ip.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+                        .ipAddressProperty().setValue(e.getNewValue()));
+        tab_fw_server_port.setCellValueFactory(p -> p.getValue().portProperty());
+        tab_fw_server_port.setCellFactory(TextFieldTableCell.forTableColumn());
+        tab_fw_server_port.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+                        .portProperty().setValue(e.getNewValue()));
+        tab_fw_server_desc.setCellValueFactory(p -> p.getValue().descriptionProperty());
+        tab_fw_server_desc.setCellFactory(TextFieldTableCell.forTableColumn());
+        tab_fw_server_desc.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+                        .descriptionProperty().setValue(e.getNewValue()));
+        
+        // Load ComboBox data
         choice_fw_matchtype.getItems().addAll(WebsiteFilter.SearchPattern.values());
         choice_fw_protocol.getItems().addAll(IpFilter.Protocol.values());
     }
@@ -87,10 +116,21 @@ public class WelcomeApplicationFirewallController implements Initializable {
 
     @FXML
     private void onClickNewWebsiteRule(MouseEvent event) {
+        if (validateSitesFields())
+        tv_fw_allowed_sites.getItems().add(new WebsiteFilter(
+                choice_fw_matchtype.getValue(),
+                txt_fw_matching_string.getText()));
     }
 
     @FXML
     private void onClickNewServerRule(MouseEvent event) {
+        if(validateServerFields()) {
+            tv_fw_allowed_servers.getItems().add(new IpFilter(
+                    choice_fw_protocol.getValue(), 
+                    txt_fw_new_ip.getText(), 
+                    txt_fw_new_port.getText(), 
+                    txt_fw_new_desc.getText()));
+        }
     }
 
     public TableView getTv_fw_allowed_sites() {
@@ -136,8 +176,15 @@ public class WelcomeApplicationFirewallController implements Initializable {
     public ComboBox<IpFilter.Protocol> getChoice_fw_protocol() {
         return choice_fw_protocol;
     }
+    
+    private boolean validateSitesFields() {
+        if (choice_fw_matchtype.getSelectionModel().isEmpty()) return false;
+        if (txt_fw_matching_string.getText().length() <= 0) return false;
+        return true;
+    }
 
-    public boolean validateFields() {
+    private boolean validateServerFields() {
+        if (choice_fw_protocol.getSelectionModel().isEmpty()) return false;
         try {
             WelcomeUtil.checkTarget(txt_fw_new_ip.getText(), -1);
             txt_fw_new_ip.setStyle("");

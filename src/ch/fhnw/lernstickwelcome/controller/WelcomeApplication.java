@@ -19,6 +19,7 @@ public class WelcomeApplication extends Application {
 
     private WelcomeController controller;
     private ExamInformationController examInformationController;
+    private ExamFirewallController examFirewallController;
     private ExamBackupController examBackupController;
     private ExamSystemController examSystemController;
     private ProgressController progressController;
@@ -36,6 +37,7 @@ public class WelcomeApplication extends Application {
             controller.loadExamEnvironment();
 
             examInformationController = new ExamInformationController(controller, guiLoader.getInformation());
+            examFirewallController = new ExamFirewallController(controller, guiLoader.getFirewall());
             examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
             examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
         } else {

@@ -15,15 +15,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="479.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController">
+<AnchorPane id="AnchorPane" prefHeight="594.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController">
    <children>
-      <BorderPane prefHeight="611.0" prefWidth="416.0">
+      <BorderPane prefHeight="611.0" prefWidth="489.0">
          <center>
-            <VBox prefHeight="643.0" prefWidth="399.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="612.0" prefWidth="489.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="28.0" prefWidth="359.0">
+                  <HBox prefHeight="28.0" prefWidth="359.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label id="Description" prefHeight="25.0" prefWidth="362.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationFirewall.description1" textAlignment="CENTER" wrapText="true">
+                        <Label id="Description" prefHeight="25.0" prefWidth="430.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationFirewall.description1" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
                            <padding>
                               <Insets left="10.0" right="10.0" />
                            </padding>
@@ -31,7 +31,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="btn_fw_help" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
+                        <Button fx:id="btn_fw_help" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
                      </children>
                   </HBox>
                   <CheckBox fx:id="cb_fw_allow_monitoring" mnemonicParsing="false" prefHeight="18.0" prefWidth="373.0" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
@@ -40,17 +40,17 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="tv_fw_allowed_sites" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="tv_fw_allowed_sites" editable="true" prefHeight="200.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="tab_fw_allowed_sites" prefWidth="131.0" text="%welcomeApplicationFirewall.searchCriteria" />
-                      <TableColumn fx:id="tab_fw_allowed_sites_firewall" prefWidth="226.0" text="%welcomeApplicationFirewall.searchPattern" />
+                      <TableColumn fx:id="tab_fw_allowed_sites_firewall" prefWidth="317.0" text="%welcomeApplicationFirewall.searchPattern" />
                     </columns>
                   </TableView>
                   <Pane prefHeight="69.0" prefWidth="359.0">
                      <children>
-                        <TextField fx:id="txt_fw_matching_string" layoutX="143.0" layoutY="1.0" prefHeight="26.0" prefWidth="203.0" />
-                        <ComboBox fx:id="choice_fw_matchtype" layoutY="1.0" prefHeight="26.0" prefWidth="142.0" />
-                        <Button fx:id="btn_fw_new_rule" layoutX="348.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" text="+" />
+                        <TextField fx:id="txt_fw_matching_string" layoutX="146.0" layoutY="1.0" prefHeight="26.0" prefWidth="270.0" promptText="Muster" />
+                        <ComboBox fx:id="choice_fw_matchtype" layoutY="1.0" prefHeight="26.0" prefWidth="142.0" promptText="Mustertyp" />
+                        <Button fx:id="btn_fw_new_rule" layoutX="421.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" text="+" />
                      </children>
                   </Pane>
                   <Label text="%welcomeApplicationFirewall.allowedServers">
@@ -58,21 +58,21 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="tv_fw_allowed_servers" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="tv_fw_allowed_servers" editable="true" prefHeight="200.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="tab_fw_server_protocol" prefWidth="66.0" text="%welcomeApplicationFirewall.protocol" />
-                      <TableColumn fx:id="tab_fw_server_ip" prefWidth="92.0" text="%welcomeApplicationFirewall.ip" />
-                        <TableColumn fx:id="tab_fw_server_port" prefWidth="57.0" text="%welcomeApplicationFirewall.port" />
-                        <TableColumn fx:id="tab_fw_server_desc" prefWidth="143.0" text="%welcomeApplicationFirewall.serverDescription" />
+                      <TableColumn fx:id="tab_fw_server_ip" prefWidth="121.0" text="%welcomeApplicationFirewall.ip" />
+                        <TableColumn fx:id="tab_fw_server_port" prefWidth="86.0" text="%welcomeApplicationFirewall.port" />
+                        <TableColumn fx:id="tab_fw_server_desc" prefWidth="174.0" text="%welcomeApplicationFirewall.serverDescription" />
                     </columns>
                   </TableView>
-                  <Pane prefHeight="54.0" prefWidth="359.0">
+                  <Pane prefHeight="73.0" prefWidth="449.0">
                      <children>
-                        <Button fx:id="btn_fw_add_new_server" layoutX="347.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" text="+" />
-                        <TextField fx:id="txt_fw_new_desc" layoutX="221.0" layoutY="1.0" prefHeight="26.0" prefWidth="124.0" />
-                        <TextField fx:id="txt_fw_new_port" layoutX="170.0" layoutY="1.0" prefHeight="26.0" prefWidth="51.0" />
-                        <TextField fx:id="txt_fw_new_ip" layoutX="75.0" layoutY="1.0" prefHeight="26.0" prefWidth="95.0" />
-                        <ComboBox fx:id="choice_fw_protocol" layoutX="-1.0" layoutY="1.0" prefHeight="26.0" prefWidth="76.0" />
+                        <Button fx:id="btn_fw_add_new_server" layoutX="420.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" text="+" />
+                        <TextField fx:id="txt_fw_new_desc" layoutX="270.0" layoutY="2.0" prefHeight="26.0" prefWidth="144.0" promptText="Beschreibung" />
+                        <TextField fx:id="txt_fw_new_port" layoutX="213.0" layoutY="2.0" prefHeight="26.0" prefWidth="51.0" promptText="Port" />
+                        <TextField fx:id="txt_fw_new_ip" layoutX="98.0" layoutY="2.0" prefHeight="26.0" prefWidth="109.0" promptText="IP" />
+                        <ComboBox fx:id="choice_fw_protocol" layoutX="-1.0" layoutY="2.0" prefHeight="26.0" prefWidth="94.0" promptText="Prot." />
                      </children>
                   </Pane>
                </children>
