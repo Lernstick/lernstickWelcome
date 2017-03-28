@@ -12,9 +12,7 @@ import javafx.concurrent.Task;
  * 
  * @author sschw
  */
-public abstract class ResetableTask<T> extends Task<T> {
+public abstract class ResetableTask<T> {
     
-    public void reset() {
-        updateProgress(0, 1);
-    }
+    public abstract Task<T> getTask();
 }

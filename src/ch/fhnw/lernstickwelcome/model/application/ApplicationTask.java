@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 
 /**
@@ -22,9 +23,10 @@ import javafx.scene.image.Image;
  * @author sschw
  */
 public class ApplicationTask extends ResetableTask<Boolean> {
+
     private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    
+
     private String name;
     private String description;
     private Image icon;
@@ -33,7 +35,7 @@ public class ApplicationTask extends ResetableTask<Boolean> {
     private BooleanProperty installing = new SimpleBooleanProperty();
     private boolean installed;
     private ProxyTask proxy;
-    
+
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
         this.description = description;
@@ -41,51 +43,42 @@ public class ApplicationTask extends ResetableTask<Boolean> {
         this.packages = packages;
         this.installed = initIsInstalled();
     }
-    
+
     public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
         this(name, description, icon, packages);
         this.helpPath = helpPath;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public Image getIcon() {
         return icon;
     }
-    
+
     public String getHelpPath() {
         return helpPath;
     }
-    
+
     public BooleanProperty installingProperty() {
         return installing;
     }
-    
+
     public boolean isInstalled() {
         return installed;
     }
-    
+
     public int getNoPackages() {
         return packages.getNumberOfPackages();
     }
 
     public void setProxy(ProxyTask proxy) {
         this.proxy = proxy;
-    }
-
-    @Override
-    protected Boolean call() throws Exception {
-        updateProgress(0, packages.getNumberOfPackages());
-        //XXX May nice if there would update the percentage while execute
-        PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
-        // TODO ev. call apt-get -f install to fix dependencies which are missing
-        return true;
     }
 
     private boolean initIsInstalled() {
@@ -117,5 +110,22 @@ public class ApplicationTask extends ResetableTask<Boolean> {
         }
         return true;
     }
-    
+
+    @Override
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+
+    private class InternalTask extends Task<Boolean> {
+
+        @Override
+        protected Boolean call() throws Exception {
+            updateProgress(0, packages.getNumberOfPackages());
+            //XXX May nice if there would update the percentage while execute
+            PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
+            // TODO ev. call apt-get -f install to fix dependencies which are missing
+            return true;
+        }
+    }
+
 }

@@ -12,40 +12,33 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.concurrent.Task;
 
 /**
  *
  * @author sschw
  */
 public class ProxyTask extends ResetableTask<Boolean> {
+
     private BooleanProperty proxyActive = new SimpleBooleanProperty();
     private StringProperty hostname = new SimpleStringProperty();
     private IntegerProperty port = new SimpleIntegerProperty();
     private StringProperty username = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
-    
+
     // Init to prevent typos in commands if inactive
     private String wgetProxy = " ";
     private String aptGetProxy = " ";
-    
+
     public ProxyTask() {
     }
-    
+
     public String getWgetProxy() {
         return wgetProxy;
     }
-    
+
     public String getAptGetProxy() {
         return aptGetProxy;
-    }
-
-    @Override
-    protected Boolean call() throws Exception {
-        if(proxyActive.get()) {
-            setupWgetProxy();
-            setupAptGetProxy();
-        }
-        return true;
     }
 
     private void setupWgetProxy() {
@@ -87,5 +80,22 @@ public class ProxyTask extends ResetableTask<Boolean> {
         stringBuilder.append(' ');
         aptGetProxy = stringBuilder.toString();
     }
-    
+
+    @Override
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+
+    private class InternalTask extends Task<Boolean> {
+
+        @Override
+        protected Boolean call() throws Exception {
+            if (proxyActive.get()) {
+                setupWgetProxy();
+                setupAptGetProxy();
+            }
+            return true;
+        }
+    }
+
 }

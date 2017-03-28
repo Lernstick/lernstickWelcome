@@ -24,6 +24,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 
 /**
  *
@@ -62,67 +63,8 @@ public class FirewallTask extends ResetableTask<Boolean> {
         }, 0, 3000);
     }
 
-    @Override
-    protected Boolean call() throws Exception {
-        updateTitle("FirewallTask.title");
-        updateFirewall();
-        return true;
-    }
-
     public void stopFirewallStateChecking() {
         timer.cancel();
-    }
-
-    private void updateFirewall() {
-        updateProgress(0, 3);
-        updateMessage("FirewallTask.saveIps");
-        
-        // save IP tables
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.IP_TABLES_FILENAME))) {
-            for (IpFilter ip : ipList) {
-                StringBuilder sb = new StringBuilder();
-                // comment
-                sb.append("# ");
-                sb.append(ip.getDescription());
-                sb.append('\n');
-                // protocol
-                sb.append(ip.getProtocol().toString());
-                sb.append(' ');
-                // target
-                sb.append(ip.getIpAddress());
-                sb.append(' ');
-                // port
-                sb.append(ip.getPortRange());
-                sb.append('\n');
-                // write line to file
-                bw.write(sb.toString());
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
-        }
-        
-        updateProgress(1, 3);
-        updateMessage("FirewallTask.saveWebsites");
-
-        // save URL whitelist
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.URL_WHITELIST_FILENAME))) { 
-            for (WebsiteFilter website : websiteList) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(website.getSearchPattern());
-                sb.append('\n');
-                bw.write(sb.toString());
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
-        }
-        
-        updateProgress(2, 3);
-        updateMessage("FirewallTask.restartFirewall");
-        
-        PROCESS_EXECUTOR.executeProcess(
-                "/etc/init.d/lernstick-firewall", "reload");
-        
-        updateProgress(3, 3);
     }
 
     public void toggleFirewallState() throws ProcessingException {
@@ -204,8 +146,75 @@ public class FirewallTask extends ResetableTask<Boolean> {
     public ListProperty<IpFilter> getIpListProperty() {
         return ipList;
     }
-    
+
     public BooleanProperty firewallRunningProperty() {
         return firewallRunning;
+    }
+
+    private void saveIpTables() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.IP_TABLES_FILENAME))) {
+            for (IpFilter ip : ipList) {
+                StringBuilder sb = new StringBuilder();
+                // comment
+                sb.append("# ");
+                sb.append(ip.getDescription());
+                sb.append('\n');
+                // protocol
+                sb.append(ip.getProtocol().toString());
+                sb.append(' ');
+                // target
+                sb.append(ip.getIpAddress());
+                sb.append(' ');
+                // port
+                sb.append(ip.getPortRange());
+                sb.append('\n');
+                // write line to file
+                bw.write(sb.toString());
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+    }
+
+    @Override
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+
+    private class InternalTask extends Task<Boolean> {
+
+        @Override
+        protected Boolean call() throws Exception {
+            updateTitle("FirewallTask.title");
+            updateProgress(0, 3);
+            updateMessage("FirewallTask.saveIps");
+
+            // save IP tables
+            saveIpTables();
+
+            updateProgress(1, 3);
+            updateMessage("FirewallTask.saveWebsites");
+
+            // save URL whitelist
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.URL_WHITELIST_FILENAME))) {
+                for (WebsiteFilter website : websiteList) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(website.getSearchPattern());
+                    sb.append('\n');
+                    bw.write(sb.toString());
+                }
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "", ex);
+            }
+
+            updateProgress(2, 3);
+            updateMessage("FirewallTask.restartFirewall");
+
+            PROCESS_EXECUTOR.executeProcess(
+                    "/etc/init.d/lernstick-firewall", "reload");
+
+            updateProgress(3, 3);
+            return true;
+        }
     }
 }

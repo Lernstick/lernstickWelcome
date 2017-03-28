@@ -31,7 +31,7 @@ public class WebsiteFilter {
         public String getPattern(String searchCriteria) {
             // Escape the search criteria if it isn't Custom
             if(this != Custom)
-                searchCriteria = searchCriteria.replaceAll("([.^$*+?()[{\\\\|])", "\\$1"); // Pattern.quote doesnt work
+                searchCriteria = searchCriteria.replaceAll("([.^$*+?()\\[{\\\\|])", "\\\\$1"); // Pattern.quote doesnt work
             return pre + searchCriteria + post;
         }
     }

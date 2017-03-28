@@ -61,24 +61,25 @@ import org.xml.sax.SAXException;
  * @author sschw
  */
 public class SystemconfigTask extends ResetableTask<Boolean> {
+
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     private static final String LOCAL_POLKIT_PATH
             = "/etc/polkit-1/localauthority/50-local.d";
-    
+
     // Some functions are only required in exam env.
-    private boolean isExamEnv;
+    private boolean isExamEnv; // TODO Block functions for Std. Version
     private Partition bootConfigPartition;
     private Partition exchangePartition;
     private StorageDevice systemStorageDevice;
-    
+
     private IntegerProperty timeoutSeconds = new SimpleIntegerProperty();
     private StringProperty systemname = new SimpleStringProperty();
     private StringProperty systemversion = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
     private StringProperty passwordRepeat = new SimpleStringProperty();
-    
+
     private String oldUsername;
     private StringProperty username = new SimpleStringProperty();
     private BooleanProperty blockKdeDesktopApplets = new SimpleBooleanProperty();
@@ -86,11 +87,11 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
     private BooleanProperty allowAccessToOtherFilesystems = new SimpleBooleanProperty();
     private MountInfo bootConfigMountInfo;
     private Properties properties;
-    
+
     public SystemconfigTask(boolean isExamEnv, Properties properties) {
         this.isExamEnv = isExamEnv;
         this.properties = properties;
-        
+
         blockKdeDesktopApplets.set("true".equals(
                 properties.getProperty(WelcomeConstants.KDE_LOCK)));
         allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
@@ -99,61 +100,6 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         getFullUserName();
     }
 
-    @Override
-    protected Boolean call() throws Exception {
-        updateProgress(0, 6);
-        updateTitle("SystemconfigTask.title");
-        updateMessage("SystemconfigTask.username");
-        
-        if(username.get().equals(oldUsername)) {
-            LOGGER.log(Level.INFO,
-                    "updating full user name to \"{0}\"", username.get());
-            PROCESS_EXECUTOR.executeProcess("chfn", "-f", username.get(), "user");
-        }
-        
-        updateProgress(1, 6);
-        updateMessage("SystemconfigTask.bootloader");
-        
-        if(WelcomeUtil.isImageWritable()) {
-            updateBootloaders();
-        }
-        
-        updateProgress(2, 6);
-        updateMessage("SystemconfigTask.setup");
-        
-        updateAllowFilesystemMount();
-        
-        updateProgress(3, 6);
-        
-        if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
-            if (directSoundOutput.get()) {
-                // divert alsa pulse config file
-                PROCESS_EXECUTOR.executeProcess("dpkg-divert",
-                        "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
-            }
-        } else if (!directSoundOutput.get()) {
-            // restore original alsa pulse config file
-            PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--remove",
-                    "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
-        }
-        
-        updateProgress(4, 6);
-        
-        updateBlockKdeDesktopApplets();
-        
-        properties.setProperty(WelcomeConstants.KDE_LOCK,
-                blockKdeDesktopApplets.get() ? "true" : "false");
-        
-        updateProgress(5, 6);
-        updateMessage("SystemconfigTask.password");
-        
-        changePassword();
-        
-        updateProgress(6, 6);
-        
-        return true;
-    }
-    
     public void updateAllowFilesystemMount() {
         try {
             if (allowAccessToOtherFilesystems.get()) {
@@ -170,13 +116,13 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
 
     private void getBootConfigInfos() {
         // timeoutSeconds.setValue(10); // One Customer wanted 10sec. by default.
-        
+
         try {
             timeoutSeconds.set(getTimeout());
         } catch (IOException | DBusException ex) {
             LOGGER.log(Level.WARNING, "could not set boot timeout value", ex);
         }
-        
+
         // Read XmlBootConfig
         try {
             File xmlBootConfigFile = getXmlBootConfigFile();
@@ -195,8 +141,8 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                     systemversion.setValue(node.getTextContent());
                 }
             }
-        } catch (ParserConfigurationException | SAXException |
-                IOException | DBusException ex) {
+        } catch (ParserConfigurationException | SAXException
+                | IOException | DBusException ex) {
             LOGGER.log(Level.WARNING, "could not parse xmlboot config", ex);
         }
     }
@@ -223,7 +169,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
             }
         }
     }
-    
+
     private void getPartitions() {
         systemStorageDevice = WelcomeModelFactory.getSystemStorageDevice();
         if (systemStorageDevice != null) {
@@ -296,12 +242,12 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
             exchangePartition.executeMounted(updateBootloaderAction);
         }
     }
-    
+
     private void updateBootloaders(File directory, int timeout,
             String systemName, String systemVersion) throws DBusException {
 
         // syslinux
-        for(File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
+        for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
             PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|timeout .*|timeout " + (timeout * 10) + "|1",
                     syslinuxConfigFile.getPath());
@@ -344,8 +290,8 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                 PROCESS_EXECUTOR.executeProcess("gfxboot",
                         "--archive", bootlogoDir.getPath(),
                         "--pack-archive", syslinuxDir.getPath() + "/bootlogo");
-            } catch (ParserConfigurationException | SAXException | IOException |
-                    DOMException | TransformerException ex) {
+            } catch (ParserConfigurationException | SAXException | IOException
+                    | DOMException | TransformerException ex) {
                 LOGGER.log(Level.WARNING, "can not update xmlboot config", ex);
             }
         }
@@ -367,7 +313,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                     grubThemeFilePath);
         }
     }
-    
+
     private List<File> getSyslinuxConfigFiles(File directory) {
 
         List<File> configFiles = new ArrayList<>();
@@ -406,7 +352,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
 
         return configFiles;
     }
-    
+
     private File getXmlBootConfigFile() throws DBusException {
 
         if (bootConfigPartition == null) {
@@ -492,8 +438,9 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
 
     public void changePassword() throws ProcessingException {
         // Check if password should be changed
-        if(password.get().isEmpty() || passwordRepeat.get().isEmpty())
+        if (password.get() == null || passwordRepeat.get() == null || password.get().isEmpty() || passwordRepeat.get().isEmpty()) {
             return;
+        }
         // check, if both passwords are the same
         String password1 = password.get();
         String password2 = passwordRepeat.get();
@@ -601,7 +548,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
             }
         }
     }
-    
+
     public void umountBootConfig() {
         if ((bootConfigMountInfo != null) && (!bootConfigMountInfo.alreadyMounted())) {
             try {
@@ -653,7 +600,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
     }
 
     public void updateBlockKdeDesktopApplets() {
-        if(!blockKdeDesktopApplets.get()) {
+        if (!blockKdeDesktopApplets.get()) {
             try {
                 PosixFileAttributes attributes = Files.readAttributes(
                         WelcomeConstants.APPLETS_CONFIG_FILE, PosixFileAttributes.class
@@ -668,7 +615,68 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
             }
         }
     }
-    
-    
+
+    @Override
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+
+    private class InternalTask extends Task<Boolean> {
+
+        @Override
+        protected Boolean call() throws Exception {
+            updateProgress(0, 6);
+            updateTitle("SystemconfigTask.title");
+            updateMessage("SystemconfigTask.username");
+
+            if (username.get().equals(oldUsername)) {
+                LOGGER.log(Level.INFO,
+                        "updating full user name to \"{0}\"", username.get());
+                PROCESS_EXECUTOR.executeProcess("chfn", "-f", username.get(), "user");
+            }
+
+            updateProgress(1, 6);
+            updateMessage("SystemconfigTask.bootloader");
+
+            if (WelcomeUtil.isImageWritable()) {
+                updateBootloaders();
+            }
+
+            updateProgress(2, 6);
+            updateMessage("SystemconfigTask.setup");
+
+            updateAllowFilesystemMount();
+
+            updateProgress(3, 6);
+
+            if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
+                if (directSoundOutput.get()) {
+                    // divert alsa pulse config file
+                    PROCESS_EXECUTOR.executeProcess("dpkg-divert",
+                            "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
+                }
+            } else if (!directSoundOutput.get()) {
+                // restore original alsa pulse config file
+                PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--remove",
+                        "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
+            }
+
+            updateProgress(4, 6);
+
+            updateBlockKdeDesktopApplets();
+
+            properties.setProperty(WelcomeConstants.KDE_LOCK,
+                    blockKdeDesktopApplets.get() ? "true" : "false");
+
+            updateProgress(5, 6);
+            updateMessage("SystemconfigTask.password");
+
+            changePassword();
+
+            updateProgress(6, 6);
+
+            return true;
+        }
+    }
 
 }

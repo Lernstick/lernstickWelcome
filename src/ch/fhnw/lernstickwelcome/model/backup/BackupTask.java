@@ -64,7 +64,7 @@ public class BackupTask extends ResetableTask<Boolean> {
 
     public BackupTask(Properties properties, String backupDirectoryName) {
         this.properties = properties;
-        
+
         active.set("true".equals(properties.getProperty(WelcomeConstants.BACKUP)));
         sourcePath.set(properties.getProperty(WelcomeConstants.BACKUP_SOURCE, "/home/user/"));
         local.set("true".equals(
@@ -91,42 +91,6 @@ public class BackupTask extends ResetableTask<Boolean> {
                 LOGGER.log(Level.SEVERE, "", ex);
             }
         }
-    }
-
-    @Override
-    protected Boolean call() throws Exception {
-        updateProgress(0, 2);
-        updateTitle("BackupTask.title");
-        updateMessage("BackupTask.setupMessage");
-        if (checkBackupDirectory()) { // XXX validation should not be in backend
-            if (!local.get()
-                    || destinationPath.get().isEmpty()) {
-                if (partition.get()
-                        && !partitionPath.get().isEmpty()) {
-                    updateJBackpackProperties(sourcePath.get(), "/mnt/backup/"
-                            + partitionPath.get() + "/lernstick_backup");
-                }
-            } else {
-                updateJBackpackProperties(sourcePath.get(), destinationPath.get());
-            }
-        }
-        updateProgress(1, 2);
-        updateMessage("BackupTask.saveConfig");
-        properties.setProperty(WelcomeConstants.BACKUP,
-                active.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_SCREENSHOT,
-                screenshot.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY_ENABLED,
-                local.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_PARTITION_ENABLED,
-                partition.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_SOURCE, sourcePath.get());
-        properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY, destinationPath.get());
-        properties.setProperty(WelcomeConstants.BACKUP_PARTITION, partitionPath.get());
-        properties.setProperty(WelcomeConstants.BACKUP_FREQUENCY,
-                Integer.toString(frequency.get()));
-        updateProgress(2, 2);
-        return true;
     }
 
     private boolean checkBackupDirectory() throws ProcessingException {
@@ -311,7 +275,53 @@ public class BackupTask extends ResetableTask<Boolean> {
     public IntegerProperty getFrequency() {
         return frequency;
     }
-    
-    
+
+    @Override
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+
+    private class InternalTask extends Task<Boolean> {
+
+        @Override
+        protected Boolean call() throws Exception {
+            updateProgress(0, 2);
+            updateTitle("BackupTask.title");
+            updateMessage("BackupTask.setupMessage");
+            if (checkBackupDirectory()) { // XXX validation should not be in backend
+                if (!local.get()
+                        || destinationPath.get() == null
+                        || destinationPath.get().isEmpty()) {
+                    if (partition.get()
+                            && !partitionPath.get().isEmpty()) {
+                        updateJBackpackProperties(sourcePath.get(), "/mnt/backup/"
+                                + partitionPath.get() + "/lernstick_backup");
+                    }
+                } else {
+                    updateJBackpackProperties(sourcePath.get(), destinationPath.get());
+                }
+            }
+            updateProgress(1, 2);
+            updateMessage("BackupTask.saveConfig");
+            properties.setProperty(WelcomeConstants.BACKUP,
+                    active.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_SCREENSHOT,
+                    screenshot.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY_ENABLED,
+                    local.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_PARTITION_ENABLED,
+                    partition.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_SOURCE,
+                    sourcePath.get() != null ? sourcePath.get() : "");
+            properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY,
+                    destinationPath.get() != null ? destinationPath.get() : "");
+            properties.setProperty(WelcomeConstants.BACKUP_PARTITION,
+                    partitionPath.get() != null ? partitionPath.get() : "");
+            properties.setProperty(WelcomeConstants.BACKUP_FREQUENCY,
+                    Integer.toString(frequency.get()));
+            updateProgress(2, 2);
+            return true;
+        }
+    }
 
 }

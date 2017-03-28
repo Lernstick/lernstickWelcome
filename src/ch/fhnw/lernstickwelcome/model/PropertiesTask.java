@@ -39,15 +39,24 @@ public class PropertiesTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    protected Boolean call() throws Exception {
-        updateProgress(0, 1);
-        try {
-            properties.store(new FileOutputStream(propertiesFile),
-                    "lernstick Welcome properties");
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+    
+    private class InternalTask extends Task<Boolean> {
+        @Override
+        protected Boolean call() throws Exception {
+            updateProgress(0, 1);
+            updateTitle("PropertiesTask.title");
+            updateMessage("PropertiesTask.message");
+            try {
+                properties.store(new FileOutputStream(propertiesFile),
+                        "lernstick Welcome properties");
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+            updateProgress(1, 1);
+            return true;
         }
-        updateProgress(1, 1);
-        return true;
     }
 }

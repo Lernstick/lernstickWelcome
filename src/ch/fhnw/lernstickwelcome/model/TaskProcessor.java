@@ -7,6 +7,11 @@ package ch.fhnw.lernstickwelcome.model;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -43,19 +48,22 @@ public class TaskProcessor {
 
     public TaskProcessor(List<ResetableTask> tasks) {
         this.tasks = tasks;
-        // Binding progress to tasks
-        progress.bind(Bindings.createDoubleBinding(
-                () -> tasks.stream().mapToDouble(
-                        t -> t.getProgress() // Add progress to bind
-                ).sum() / tasks.size(),
-                tasks.stream().map(t -> t.progressProperty()).toArray(s -> new ReadOnlyDoubleProperty[s])));
     }
 
     public void run() {
         finished.set(false);
-        tasks.forEach(t -> t.reset());
+        List<Task> taskList = tasks.stream().map(t -> t.getTask()).collect(Collectors.toList());
+        
+        // Binding progress to tasks
+        progress.bind(Bindings.createDoubleBinding(
+                () -> taskList.stream().mapToDouble(
+                        t -> t.getProgress() // Add progress to bind
+                ).sum() / tasks.size(),
+                taskList.stream().map(t -> t.progressProperty()).toArray(s -> new ReadOnlyDoubleProperty[s])));
+        
         new Thread(() -> {
-            Iterator<ResetableTask> iterator = tasks.iterator();
+            Iterator<Task> iterator = taskList.iterator();
+            
             while(iterator.hasNext() && exception.getValue() == null) {
                 Task t = iterator.next();
                 Platform.runLater(() -> {
@@ -70,21 +78,14 @@ public class TaskProcessor {
                     exception.unbind();
                 });
             }
-            if(exception.getValue() == null) {
-                // If there was a rounding error still set the value to 100%.
-                Platform.runLater(() -> {
-                    progress.unbind();
-                    progress.set(1);
-                    finished.set(true);
-                });
-            } else {
-                // Set progress to a undefined state.
-                Platform.runLater(() -> {
-                    progress.unbind();
-                    progress.set(-1);
-                    finished.set(true);
-                });
-            }
+            // Set progress to a undefined state.
+            Platform.runLater(() -> {
+                finished.set(true);
+                title.unbind();
+                title.set("TaskProcessor.finishedTitle");
+                message.unbind();
+                message.set("TaskProcessor.finishedMessage");
+            });
         }).start();
     }
 
