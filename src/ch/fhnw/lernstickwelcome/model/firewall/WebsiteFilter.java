@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.firewall;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,6 +35,17 @@ public class WebsiteFilter {
                 searchCriteria = searchCriteria.replaceAll("([.^$*+?()\\[{\\\\|])", "\\\\$1"); // Pattern.quote doesnt work
             return pre + searchCriteria + post;
         }
+        
+        @Override
+        public String toString() {
+            switch(this) {
+                case Exact: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterExact");
+                case Contains: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterContains");
+                case StartsWith: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterStartsWith");
+                case Custom: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterCustom");
+                default: return null;
+            }
+        }
     }
     
     private ObjectProperty<SearchPattern> searchPattern = new SimpleObjectProperty<>();
@@ -52,14 +64,14 @@ public class WebsiteFilter {
         } else if(line.startsWith("^")) { // ^ at the beginning
             if(line.endsWith("$")) { // $ at the end
                 searchPattern.set(SearchPattern.Exact);
-                searchCriteria.setValue(line.substring(1, line.length() - 2));
+                searchCriteria.setValue(line.substring(1, line.length() - 1).replaceAll("\\\\", ""));
             } else {
                 searchPattern.set(SearchPattern.StartsWith);
-                searchCriteria.setValue(line.substring(1));
+                searchCriteria.setValue(line.substring(1).replaceAll("\\\\", ""));
             }
         } else {
             searchPattern.set(SearchPattern.Contains);
-            searchCriteria.setValue(line);
+            searchCriteria.setValue(line.replaceAll("\\\\", ""));
         }
     }
     
