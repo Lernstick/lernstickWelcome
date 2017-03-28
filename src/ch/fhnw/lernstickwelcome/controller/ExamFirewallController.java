@@ -6,10 +6,6 @@
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
-import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
-import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 /**
  *
@@ -28,6 +24,8 @@ public class ExamFirewallController {
         
         // Bind net_whitelist view data to model data
         firewall.getTv_fw_allowed_servers().itemsProperty().bindBidirectional(controller.getFirewall().getIpListProperty());
+        
+        firewall.getCb_fw_allow_monitoring().selectedProperty().bindBidirectional(controller.getFirewall().firewallRunningProperty());
     }
 }
 

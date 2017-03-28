@@ -50,6 +50,14 @@ public class FirewallTask extends ResetableTask<Boolean> {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
+        
+        firewallRunning.addListener(cl -> {
+            try {
+                toggleFirewallState();
+            } catch (ProcessingException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        });
 
         // start periodic firewall status check
         timer = new Timer();
@@ -203,5 +211,9 @@ public class FirewallTask extends ResetableTask<Boolean> {
 
     public ListProperty<IpFilter> getIpListProperty() {
         return ipList;
+    }
+    
+    public BooleanProperty firewallRunningProperty() {
+        return firewallRunning;
     }
 }
