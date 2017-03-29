@@ -108,7 +108,7 @@ public class FXMLGuiLoader {
                 menuPaneItems.add(new MenuPaneItem(proxy, "Proxy", null));
                 menuPaneItems.add(new MenuPaneItem(systemStd, "System", null));
                 
-            }else{
+            } else {
                 
                 FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), rb);
                 information = (Parent) loadInfo.load();

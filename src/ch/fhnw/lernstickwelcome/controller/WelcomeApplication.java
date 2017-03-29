@@ -16,7 +16,6 @@ import javafx.stage.Stage;
  * @author sschw
  */
 public class WelcomeApplication extends Application {
-
     private WelcomeController controller;
     private ExamInformationController examInformationController;
     private ExamFirewallController examFirewallController;
@@ -66,9 +65,11 @@ public class WelcomeApplication extends Application {
         mainBinder.initHandlers(progressStage);
 
         Scene scene = guiLoader.getMainStage();
+        primaryStage.setTitle(controller.getBundle().getString("Welcome.title"));
         primaryStage.setScene(scene);
         primaryStage.show();
-
+        primaryStage.setMinHeight(scene.getHeight());
+        primaryStage.setMinWidth(scene.getWidth());
     }
 
     @Override

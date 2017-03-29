@@ -25,7 +25,7 @@ import javafx.concurrent.Task;
  * @author sschw
  */
 public class WelcomeController {
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+    public static final ResourceBundle bundle = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     
     private TaskProcessor taskProcessor;
     // Backend Tasks

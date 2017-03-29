@@ -1,0 +1,19 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+icons: <a href="https://icons8.com/web-app/16263/Edit-Row">Edit row icon credits</a>
+*/
+/* 
+    Created on : 29.03.2017, 16:36:49
+    Author     : tiagosantosb
+*/
+
+.btn_add {          
+    -fx-background-image: url("../icons/50x50/add.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 25;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+

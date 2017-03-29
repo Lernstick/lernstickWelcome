@@ -16,7 +16,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,13 +38,13 @@ public class WelcomeApplicationFirewallController implements Initializable {
     @FXML
     private TableView<WebsiteFilter> tv_fw_allowed_sites;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter.SearchPattern> tab_fw_allowed_sites;
+    private TableColumn<WebsiteFilter, WebsiteFilter.SearchPattern> tab_fw_search_pattern;
     @FXML
-    private TableColumn<WebsiteFilter, String> tab_fw_allowed_sites_firewall;
+    private TableColumn<WebsiteFilter, String> tab_fw_search_criteria;
     @FXML
-    private TextField txt_fw_matching_string;
+    private ComboBox<WebsiteFilter.SearchPattern> choice_fw_search_pattern;
     @FXML
-    private ComboBox<WebsiteFilter.SearchPattern> choice_fw_matchtype;
+    private TextField txt_fw_search_criteria;
     @FXML
     private Button btn_fw_new_rule;
     @FXML
@@ -79,13 +78,13 @@ public class WelcomeApplicationFirewallController implements Initializable {
         this.rb = rb;
         
         // Set TableView WebsiteFilter cell properties and implement edit functionality
-        tab_fw_allowed_sites.setCellValueFactory(p -> p.getValue().searchPatternProperty());
-        tab_fw_allowed_sites.setCellFactory(ComboBoxTableCell.forTableColumn(WebsiteFilter.SearchPattern.values()));
-        tab_fw_allowed_sites.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tab_fw_search_pattern.setCellValueFactory(p -> p.getValue().searchPatternProperty());
+        tab_fw_search_pattern.setCellFactory(ComboBoxTableCell.forTableColumn(WebsiteFilter.SearchPattern.values()));
+        tab_fw_search_pattern.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchPatternProperty().setValue(e.getNewValue()));
-        tab_fw_allowed_sites_firewall.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
-        tab_fw_allowed_sites_firewall.setCellFactory(TextFieldTableCell.forTableColumn());
-        tab_fw_allowed_sites_firewall.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tab_fw_search_criteria.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
+        tab_fw_search_criteria.setCellFactory(TextFieldTableCell.forTableColumn());
+        tab_fw_search_criteria.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchCriteriaProperty().setValue(e.getNewValue()));
         
         // Set TableView IpFilter cell properties and implement edit functionality
@@ -107,7 +106,7 @@ public class WelcomeApplicationFirewallController implements Initializable {
                         .descriptionProperty().setValue(e.getNewValue()));
         
         // Load ComboBox data
-        choice_fw_matchtype.getItems().addAll(WebsiteFilter.SearchPattern.values());
+        choice_fw_search_pattern.getItems().addAll(WebsiteFilter.SearchPattern.values());
         choice_fw_protocol.getItems().addAll(IpFilter.Protocol.values());
     }
 
@@ -119,8 +118,8 @@ public class WelcomeApplicationFirewallController implements Initializable {
     private void onClickNewWebsiteRule(MouseEvent event) {
         if (validateSitesFields())
         tv_fw_allowed_sites.getItems().add(new WebsiteFilter(
-                choice_fw_matchtype.getValue(),
-                txt_fw_matching_string.getText()));
+                choice_fw_search_pattern.getValue(),
+                txt_fw_search_criteria.getText()));
     }
 
     @FXML
@@ -146,12 +145,12 @@ public class WelcomeApplicationFirewallController implements Initializable {
         return cb_fw_allow_monitoring;
     }
 
-    public TextField getTxt_fw_matching_string() {
-        return txt_fw_matching_string;
+    public ComboBox<WebsiteFilter.SearchPattern> getChoice_fw_search_pattern() {
+        return choice_fw_search_pattern;
     }
 
-    public ComboBox<WebsiteFilter.SearchPattern> getChoice_fw_matchtype() {
-        return choice_fw_matchtype;
+    public TextField getTxt_fw_search_criteria() {
+        return txt_fw_search_criteria;
     }
 
     public Button getBtn_fw_new_rule() {
@@ -179,8 +178,8 @@ public class WelcomeApplicationFirewallController implements Initializable {
     }
     
     private boolean validateSitesFields() {
-        if (choice_fw_matchtype.getSelectionModel().isEmpty()) return false;
-        if (txt_fw_matching_string.getText().length() <= 0) return false;
+        if (choice_fw_search_pattern.getSelectionModel().isEmpty()) return false;
+        if (txt_fw_search_criteria.getText().length() <= 0) return false;
         return true;
     }
 
