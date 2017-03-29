@@ -7,80 +7,106 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="320.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController">
+<AnchorPane id="AnchorPane" prefWidth="428.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController">
    <children>
-      <VBox layoutX="-1.0" prefHeight="449.0" prefWidth="416.0" spacing="20.0">
+      <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane prefHeight="26.0" prefWidth="376.0">
-               <children>
-                  <Label id="Description" layoutX="-1.0" layoutY="-1.0" prefHeight="25.0" prefWidth="346.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationBackup.title" textAlignment="CENTER" wrapText="true">
+            <BorderPane>
+               <right>
+                  <Button fx:id="btn_bu_help" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" BorderPane.alignment="CENTER" />
+               </right>
+               <left>
+                  <Label id="Description" text="%welcomeApplicationBackup.title" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
                      <padding>
-                        <Insets left="10.0" right="10.0" />
+                        <Insets right="10.0" />
                      </padding>
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btn_bu_help" layoutX="351.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
-               </children>
-            </Pane>
-            <HBox prefHeight="95.0" prefWidth="376.0">
+               </left>
+            </BorderPane>
+            <GridPane vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <VBox prefHeight="91.0" prefWidth="278.0">
-                     <children>
-                        <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.doBackup">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.minutes" />
-                        <Label prefHeight="30.0" prefWidth="279.0" text="%welcomeApplicationBackup.saveScreenshot" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <CheckBox fx:id="cb_bu_backup" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="29.0" prefWidth="109.0" />
-                        <ChoiceBox id="choice_bu_time" fx:id="choice_bu_backup" prefWidth="150.0" />
-                        <CheckBox fx:id="cb_bu_screenshot" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="111.0" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <Pane prefHeight="60.0" prefWidth="376.0">
-               <children>
-                  <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.source">
+                  <Label text="%welcomeApplicationBackup.doBackup">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutY="33.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
-                  <TextField fx:id="txt_bu_src_path" layoutX="87.0" layoutY="32.0" prefHeight="26.0" prefWidth="257.0" />
-                  <Button id="btn_bu_src_path" fx:id="btn_bu_src_path" layoutX="350.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#onClickSetBackupPath" text="ff" />
+                  <CheckBox fx:id="cb_bu_backup" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <Label text="%welcomeApplicationBackup.minutes" GridPane.rowIndex="1" />
+                  <ChoiceBox id="choice_bu_time" fx:id="choice_bu_backup" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="%welcomeApplicationBackup.saveScreenshot" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="cb_bu_screenshot" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                </children>
-            </Pane>
-            <Pane prefHeight="177.0" prefWidth="376.0">
+            </GridPane>
+            <GridPane vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="15.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Label prefHeight="30.0" prefWidth="281.0" text="%welcomeApplicationBackup.destination">
+                  <Label text="%welcomeApplicationBackup.source" GridPane.columnSpan="2147483647">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutY="63.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
-                  <TextField fx:id="txt_bu_dest_path" layoutX="87.0" layoutY="63.0" prefHeight="26.0" prefWidth="257.0" />
-                  <Button fx:id="btn_bu_dest_path" layoutX="350.0" layoutY="63.0" mnemonicParsing="false" onMouseClicked="#onClickSetLocalFolder" text="ff" />
-                  <CheckBox fx:id="cb_bu_use_local" layoutX="7.0" layoutY="30.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useLocalFolder" />
-                  <Label layoutY="136.0" prefHeight="30.0" prefWidth="89.0" text="%welcomeApplicationBackup.path" />
-                  <TextField fx:id="txt_bu_remote_path" layoutX="87.0" layoutY="135.0" prefHeight="26.0" prefWidth="257.0" />
-                  <Button fx:id="btn_bu_remote_path" layoutX="350.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#onClickSetRemotePartition" text="ff" />
-                  <CheckBox fx:id="cb_bu_use_remote" layoutX="6.0" layoutY="102.0" mnemonicParsing="false" text="%welcomeApplicationBackup.useRemotePartition" />
-                  <ChoiceBox fx:id="choice_bu_medium" layoutX="87.0" layoutY="135.0" prefHeight="26.0" prefWidth="108.0" />
+                  <Label text="%welcomeApplicationBackup.path" GridPane.rowIndex="1" />
+                  <TextField fx:id="txt_bu_src_path" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <Button id="btn_bu_src_path" fx:id="btn_bu_src_path" mnemonicParsing="false" onMouseClicked="#onClickSetBackupPath" text="ff" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                </children>
-            </Pane>
+            </GridPane>
+            <GridPane layoutX="10.0" layoutY="126.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="15.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="%welcomeApplicationBackup.destination" GridPane.columnSpan="2147483647">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="cb_bu_use_local" mnemonicParsing="false" text="%welcomeApplicationBackup.useLocalFolder" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                  <Label text="%welcomeApplicationBackup.path" GridPane.rowIndex="2" />
+                  <TextField fx:id="txt_bu_dest_path" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                  <Button fx:id="btn_bu_dest_path" mnemonicParsing="false" onMouseClicked="#onClickSetLocalFolder" text="ff" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="cb_bu_use_remote" mnemonicParsing="false" text="%welcomeApplicationBackup.useRemotePartition" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                  <Label text="%welcomeApplicationBackup.path" GridPane.rowIndex="4" />
+                  <ChoiceBox fx:id="choice_bu_medium" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="txt_bu_remote_path" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                  <Button fx:id="btn_bu_remote_path" mnemonicParsing="false" onMouseClicked="#onClickSetRemotePartition" text="ff" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
          </children>
          <padding>
             <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
