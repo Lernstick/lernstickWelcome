@@ -181,6 +181,8 @@ public class WelcomeApplicationBackupController implements Initializable {
         return choice_bu_backup;
     }
     
-    
+    public Button getBtnBuHelp() {
+        return btn_bu_help;
+    }
     
 }

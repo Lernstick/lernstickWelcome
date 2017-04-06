@@ -25,7 +25,7 @@
                <children>
                   <HBox prefHeight="24.0" prefWidth="359.0">
                      <children>
-                        <Label id="Description" prefHeight="17.0" prefWidth="334.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationSystem.systemTitle" textAlignment="CENTER" wrapText="true">
+                        <Label id="Description" prefHeight="17.0" prefWidth="334.0" text="%welcomeApplicationSystem.systemTitle" textAlignment="CENTER" wrapText="true">
                            <padding>
                               <Insets left="10.0" right="10.0" />
                            </padding>

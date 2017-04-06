@@ -11,14 +11,17 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationCont
  *
  * @author user
  */
-public class ExamInformationController {
+public class ExamInformationBinder {
+    private final WelcomeController controller;
+    private final WelcomeApplicationInformationController information;
 
     
-    public ExamInformationController(WelcomeController controller, WelcomeApplicationInformationController information){
-        getSystem(controller, information);
+    public ExamInformationBinder(WelcomeController controller, WelcomeApplicationInformationController information){
+        this.controller = controller;
+        this.information = information;
     }
     
-    private void getSystem(WelcomeController controller, WelcomeApplicationInformationController information){
+    public void initBindings(){
         information.getLabel_info_os().setText(controller.getSysconf().getSystemname().getValue());
         information.getLabel_info_version().setText(controller.getSysconf().getSystemversion().getValue());
     }

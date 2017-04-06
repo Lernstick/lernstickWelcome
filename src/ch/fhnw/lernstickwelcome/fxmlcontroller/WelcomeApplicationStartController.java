@@ -34,8 +34,6 @@ public class WelcomeApplicationStartController implements Initializable {
     private Button FinishButton;
     @FXML
     private Button SaveButton;
-    
-    private ResourceBundle bundle;
     @FXML
     private ListView<MenuPaneItem> MenuPane;
     @FXML

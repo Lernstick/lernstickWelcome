@@ -39,10 +39,10 @@ public class WebsiteFilter {
         @Override
         public String toString() {
             switch(this) {
-                case Exact: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterExact");
-                case Contains: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterContains");
-                case StartsWith: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterStartsWith");
-                case Custom: return WelcomeController.bundle.getString("welcomeApplicationFirewall.filterCustom");
+                case Exact: return "welcomeApplicationFirewall.filterExact";
+                case Contains: return "welcomeApplicationFirewall.filterContains";
+                case StartsWith: return "welcomeApplicationFirewall.filterStartsWith";
+                case Custom: return "welcomeApplicationFirewall.filterCustom";
                 default: return null;
             }
         }

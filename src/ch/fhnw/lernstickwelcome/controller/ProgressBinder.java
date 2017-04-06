@@ -17,12 +17,12 @@ import javafx.util.Duration;
  *
  * @author user
  */
-public class ProgressController {
+public class ProgressBinder {
 
     private final WelcomeController controller;
     private final WelcomeApplicationProgressController install;
 
-    public ProgressController(WelcomeController controller, WelcomeApplicationProgressController install) {
+    public ProgressBinder(WelcomeController controller, WelcomeApplicationProgressController install) {
         this.controller = controller;
         this.install = install;
     }

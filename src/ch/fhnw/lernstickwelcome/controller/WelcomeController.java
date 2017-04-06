@@ -12,20 +12,20 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
+import ch.fhnw.lernstickwelcome.model.help.HelpLoader;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.concurrent.Task;
 
 /**
  *
  * @author sschw
  */
 public class WelcomeController {
-    public static final ResourceBundle bundle = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     
     private TaskProcessor taskProcessor;
     // Backend Tasks
@@ -43,14 +43,18 @@ public class WelcomeController {
     // General
     private SystemconfigTask sysconf;
     
+    private HelpLoader help;
+    
     private boolean  isExamEnvironment;
     
     public void loadExamEnvironment() {
         isExamEnvironment = true;
         
+        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0]);
+        
         properties = WelcomeModelFactory.getPropertiesTask();
         firewall = WelcomeModelFactory.getFirewallTask();
-        backup = WelcomeModelFactory.getBackupTask(properties, bundle.getString("Backup_Directory"));
+        backup = WelcomeModelFactory.getBackupTask(properties, BUNDLE.getString("Backup_Directory"));
         sysconf = WelcomeModelFactory.getSystemTask(true, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);
         
@@ -65,6 +69,8 @@ public class WelcomeController {
     
     public void loadStandardEnvironment() {
         isExamEnvironment = false;
+        
+        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0]);
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
@@ -132,7 +138,11 @@ public class WelcomeController {
     }
 
     public ResourceBundle getBundle() {
-        return bundle;
+        return BUNDLE;
+    }
+
+    public HelpLoader getHelpLoader() {
+        return help;
     }
     
 }

@@ -6,7 +6,6 @@
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
-import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,13 +16,7 @@ import javafx.stage.Stage;
  */
 public class WelcomeApplication extends Application {
     private WelcomeController controller;
-    private ExamInformationController examInformationController;
-    private ExamFirewallController examFirewallController;
-    private ExamBackupController examBackupController;
-    private ExamSystemController examSystemController;
-    private ProgressController progressController;
     private FXMLGuiLoader guiLoader;
-    private MainBinder mainBinder;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -37,23 +30,46 @@ public class WelcomeApplication extends Application {
                 controller.getBundle().getString("welcomeApplicationError.title"),
                 true
         );
+        Stage helpStage = FXMLGuiLoader.createDialog(
+                primaryStage, 
+                guiLoader.getHelpScene(), 
+                controller.getBundle().getString("welcomeApplicationHelp.title"), 
+                false
+        );
 
         if (isExamEnvironment()) {
             controller.loadExamEnvironment();
-
-            examInformationController = new ExamInformationController(controller, guiLoader.getInformation());
-            examFirewallController = new ExamFirewallController(controller, guiLoader.getFirewall());
-            examFirewallController.initBindings();
-            examFirewallController.initHandlers(errorStage, guiLoader.getError());
-            examBackupController = new ExamBackupController(controller, guiLoader.getBackup());
-            examSystemController = new ExamSystemController(controller, guiLoader.getSystem());
+            
+            HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelp());
+            helpBinder.initBindings();
+            helpBinder.initHandlers();
+            
+            ExamInformationBinder examInformationBinder = new ExamInformationBinder(controller, guiLoader.getInformation());
+            examInformationBinder.initBindings();
+            
+            ExamFirewallBinder examFirewallBinder = new ExamFirewallBinder(controller, guiLoader.getFirewall());
+            examFirewallBinder.initBindings();
+            examFirewallBinder.initHandlers(errorStage, guiLoader.getError());
+            examFirewallBinder.initHelp(helpStage, helpBinder);
+            
+            ExamBackupBinder examBackupBinder = new ExamBackupBinder(controller, guiLoader.getBackup());
+            examBackupBinder.initBindings();
+            examBackupBinder.initHelp(helpStage, helpBinder);
+            
+            ExamSystemBinder examSystemBinder = new ExamSystemBinder(controller, guiLoader.getSystem());
+            examSystemBinder.initBindings();
+            examSystemBinder.initHelp(helpStage, helpBinder);
         } else {
             controller.loadStandardEnvironment();
+            
+            HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelp());
+            helpBinder.initBindings();
+            helpBinder.initHandlers();
         }
         
-        progressController = new ProgressController(controller, guiLoader.getProgress());
-        progressController.initBindings();
-        progressController.initHandlers(errorStage, guiLoader.getError());
+        ProgressBinder progressBinder = new ProgressBinder(controller, guiLoader.getProgress());
+        progressBinder.initBindings();
+        progressBinder.initHandlers(errorStage, guiLoader.getError());
         Stage progressStage = FXMLGuiLoader.createDialog(
                 primaryStage,
                 guiLoader.getProgressScene(),
@@ -61,7 +77,7 @@ public class WelcomeApplication extends Application {
                 true
         );
 
-        mainBinder = new MainBinder(controller, guiLoader.getWelcomeApplicationStart());
+        MainBinder mainBinder = new MainBinder(controller, guiLoader.getWelcomeApplicationStart());
         mainBinder.initHandlers(progressStage);
 
         Scene scene = guiLoader.getMainStage();

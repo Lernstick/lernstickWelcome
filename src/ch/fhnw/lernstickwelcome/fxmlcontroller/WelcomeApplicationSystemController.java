@@ -14,7 +14,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 
 /**
@@ -121,5 +120,7 @@ public class WelcomeApplicationSystemController implements Initializable {
         return cb_sys_show_warning;
     }
     
-    
+    public Button getBtnSysHelp() {
+        return btn_sys_help;
+    }
 }

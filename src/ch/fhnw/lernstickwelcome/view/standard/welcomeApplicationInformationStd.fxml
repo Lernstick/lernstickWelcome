@@ -15,7 +15,7 @@
          <children>
             <TextFlow prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label id="Description" prefHeight="64.0" prefWidth="378.0" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationInformation.welcome" textAlignment="CENTER" wrapText="true">
+                  <Label id="Description" prefHeight="64.0" prefWidth="378.0" text="%welcomeApplicationInformation.welcome" textAlignment="CENTER" wrapText="true">
                      <padding>
                         <Insets left="10.0" right="10.0" />
                      </padding>

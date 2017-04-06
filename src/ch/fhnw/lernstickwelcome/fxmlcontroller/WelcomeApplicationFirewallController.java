@@ -8,6 +8,7 @@ package ch.fhnw.lernstickwelcome.fxmlcontroller;
 import ch.fhnw.lernstickwelcome.controller.ValidationException;
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
+import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter.SearchPattern;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.net.URL;
@@ -23,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.util.StringConverter;
 
 /**
  * FXML Controller class
@@ -79,7 +81,24 @@ public class WelcomeApplicationFirewallController implements Initializable {
         
         // Set TableView WebsiteFilter cell properties and implement edit functionality
         tab_fw_search_pattern.setCellValueFactory(p -> p.getValue().searchPatternProperty());
-        tab_fw_search_pattern.setCellFactory(ComboBoxTableCell.forTableColumn(WebsiteFilter.SearchPattern.values()));
+        tab_fw_search_pattern.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<SearchPattern>() {
+            @Override
+            public String toString(SearchPattern t) {
+                return rb.getString(t.toString());
+            }
+
+            @Override
+            public SearchPattern fromString(String string) {
+                if(rb.getString(SearchPattern.Exact.toString()).equals(string))
+                    return SearchPattern.Exact;
+                if(rb.getString(SearchPattern.StartsWith.toString()).equals(string))
+                    return SearchPattern.StartsWith;
+                if(rb.getString(SearchPattern.Contains.toString()).equals(string))
+                    return SearchPattern.Contains;
+                return SearchPattern.Custom;
+            }
+            
+        }, WebsiteFilter.SearchPattern.values()));
         tab_fw_search_pattern.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchPatternProperty().setValue(e.getNewValue()));
         tab_fw_search_criteria.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
@@ -204,4 +223,7 @@ public class WelcomeApplicationFirewallController implements Initializable {
         return true;
     }
     
+    public Button getBtnFwHelp() {
+        return btn_fw_help;
+    }
 }

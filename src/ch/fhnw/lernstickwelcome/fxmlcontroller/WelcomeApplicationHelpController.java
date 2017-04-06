@@ -5,11 +5,14 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
+import ch.fhnw.lernstickwelcome.model.help.HelpEntry;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TreeView;
+import javafx.scene.web.WebView;
 
 /**
  * FXML Controller class
@@ -19,16 +22,28 @@ import javafx.scene.control.Label;
 public class WelcomeApplicationHelpController implements Initializable {
 
     @FXML
-    private Label txt_help_titel;
+    private TreeView<HelpEntry> tvHelpList;
     @FXML
-    private Label txt_help_text;
+    private WebView wvHelpView;
+    @FXML
+    private Button btnOk;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }    
     
+    public TreeView<HelpEntry> getTvHelpList() {
+        return tvHelpList;
+    }
+    
+    public WebView getWvHelpView() {
+        return wvHelpView;
+    }
+    
+    public Button getBtnOk() {
+        return btnOk;
+    }
 }

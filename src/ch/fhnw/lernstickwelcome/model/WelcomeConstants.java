@@ -58,4 +58,7 @@ public class WelcomeConstants {
     public static final String[] FLASH_PACKAGES = new String[]{
         "flashplugin-nonfree", "libhal1-flash"
     };
+    public static final String RESOURCE_FILE_PATH = "res";
+    public static final String HELP_FILE_PATH = RESOURCE_FILE_PATH + "/help";
+    public static final String ICON_FILE_PATH = RESOURCE_FILE_PATH + "/icon";
 }

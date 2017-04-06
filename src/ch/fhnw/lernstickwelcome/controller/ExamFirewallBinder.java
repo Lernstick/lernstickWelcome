@@ -7,19 +7,20 @@ package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import javafx.stage.Stage;
 
 /**
  *
  * @author user
  */
-public class ExamFirewallController {
+public class ExamFirewallBinder {
 
     private final WelcomeController controller;
     private final WelcomeApplicationFirewallController firewall;
 
     
-    public ExamFirewallController(WelcomeController controller, WelcomeApplicationFirewallController firewall) {
+    public ExamFirewallBinder(WelcomeController controller, WelcomeApplicationFirewallController firewall) {
         this.controller = controller;
         this.firewall = firewall;
     }
@@ -52,6 +53,13 @@ public class ExamFirewallController {
 
     private boolean firewallStateChanged() {
         return controller.getFirewall().firewallRunningProperty().get() != firewall.getCb_fw_allow_monitoring().switchOnProperty().get();
+    }
+
+    public void initHelp(Stage helpStage, HelpBinder help) {
+        firewall.getBtnFwHelp().setOnAction(evt -> {
+            help.setHelpEntry("Firewall");
+            helpStage.show();
+        });
     }
 }
 

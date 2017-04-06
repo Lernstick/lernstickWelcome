@@ -15,7 +15,7 @@
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <Label id="Description" stylesheets="@../../../../../../rscc/src/ch/imedias/rscc/view/edit.css" text="%welcomeApplicationInformation.welcome" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+            <Label id="Description" text="%welcomeApplicationInformation.welcome" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding>

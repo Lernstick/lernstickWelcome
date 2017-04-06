@@ -10,6 +10,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationAdditionalSoftw
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProxyController;
@@ -41,6 +42,7 @@ public class FXMLGuiLoader {
     
     private Scene welcomeApplicationProgress;
     private Scene welcomeApplicationError;
+    private Scene welcomeApplicationHelp;
     
     /* standard */
     private Parent informationStd;
@@ -60,6 +62,7 @@ public class FXMLGuiLoader {
     // FXMLController
     private WelcomeApplicationProgressController welcomeApplicationProgressController;
     private WelcomeApplicationErrorController welcomeApplicationErrorController;
+    private WelcomeApplicationHelpController welcomeApplicationHelpController;
     
     private WelcomeApplicationBackupController welcomeApplicationBackupController;
     private WelcomeApplicationFirewallController welcomeApplicationFirewallController;
@@ -107,9 +110,7 @@ public class FXMLGuiLoader {
                 menuPaneItems.add(new MenuPaneItem(addSoftware, "Additional Software", null));
                 menuPaneItems.add(new MenuPaneItem(proxy, "Proxy", null));
                 menuPaneItems.add(new MenuPaneItem(systemStd, "System", null));
-                
             } else {
-                
                 FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), rb);
                 information = (Parent) loadInfo.load();
                 welcomeApplicationInformationController = loadInfo.getController();
@@ -130,7 +131,6 @@ public class FXMLGuiLoader {
                 menuPaneItems.add(new MenuPaneItem(firewall, "Firewall", null));
                 menuPaneItems.add(new MenuPaneItem(backup, "Backup", null));
                 menuPaneItems.add(new MenuPaneItem(system, "System", null));
-
             }
             
             FXMLLoader loadProgress = new FXMLLoader(getClass().getResource("../view/welcomeApplicationProgress.fxml"), rb);
@@ -141,15 +141,15 @@ public class FXMLGuiLoader {
             welcomeApplicationError = new Scene(loadError.load());
             welcomeApplicationErrorController = loadError.getController();
             
+            FXMLLoader loadHelp = new FXMLLoader(getClass().getResource("../view/welcomeApplicationHelp.fxml"), rb);
+            welcomeApplicationHelp = new Scene(loadHelp.load());
+            welcomeApplicationHelpController = loadHelp.getController();
+            
             welcomeApplicationStartController.initializeMenu(menuPaneItems);
             
         } catch(IOException ex) {
             LOGGER.log(Level.WARNING, "There was an error while loading the scene from the fxml files.", ex);
         }
-    }
-    
-    public WelcomeApplicationStartController getWelcomeApplicationStart() {
-        return welcomeApplicationStartController;
     }
     
     public Scene getMainStage()
@@ -163,6 +163,14 @@ public class FXMLGuiLoader {
     
     public Scene getErrorScene() {
         return welcomeApplicationError;
+    }
+
+    public Scene getHelpScene() {
+        return welcomeApplicationHelp;
+    }
+    
+    public WelcomeApplicationStartController getWelcomeApplicationStart() {
+        return welcomeApplicationStartController;
     }
     
     public WelcomeApplicationSystemController getSystem() {
@@ -187,6 +195,10 @@ public class FXMLGuiLoader {
     
     public WelcomeApplicationErrorController getError() {
         return welcomeApplicationErrorController;
+    }
+    
+    public WelcomeApplicationHelpController getHelp() {
+        return welcomeApplicationHelpController;
     }
     
     /**
