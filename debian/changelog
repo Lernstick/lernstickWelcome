@@ -1,3 +1,9 @@
+lernstickwelcome (201704091224-1) lernstick-8; urgency=medium
+
+  * [2dae1d] use subdirectory for strict polkit rules (closer to the spec)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 09 Apr 2017 12:24:55 +0200
+
 lernstickwelcome (201701141840-1) lernstick-8; urgency=medium
 
   * [4c60be] save hardened PKLAs in its own files
