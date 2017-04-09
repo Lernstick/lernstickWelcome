@@ -2549,7 +2549,7 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private void passwordEnabled() {
+    private void passwordEnabled() throws IOException {
         // TODO: the password hint is deprecated
         // remove this code block somewhen in the future...
 
@@ -2610,8 +2610,13 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
-    private void hardenPKLAs(String... pklas) {
+    private void hardenPKLAs(String... pklas) throws IOException {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
+        Path strictPoliciesDir = Paths.get(
+                "/etc/polkit-1/localauthority/55-lernstick-exam.d");
+        if (!Files.isDirectory(strictPoliciesDir)) {
+            Files.createDirectories(strictPoliciesDir);
+        }
         for (String pkla : pklas) {
             try {
                 Path lenientPath = Paths.get(
@@ -2626,8 +2631,8 @@ public class Welcome extends javax.swing.JFrame {
                     }
                     strictLines.add(lenientLine);
                 }
-                Path strictPath = Paths.get(
-                        LOCAL_POLKIT_PATH, "20-" + pkla + "_strict.pkla");
+                Path strictPath = strictPoliciesDir.resolve(
+                        "10-" + pkla + "_strict.pkla");
                 Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 showErrorMessage(ex.getMessage());
