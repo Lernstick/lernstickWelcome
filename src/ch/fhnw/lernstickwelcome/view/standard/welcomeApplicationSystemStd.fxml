@@ -5,109 +5,145 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="481.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController">
+<AnchorPane id="AnchorPane" minHeight="699.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController">
    <children>
-      <BorderPane prefHeight="487.0" prefWidth="416.0">
-         <right>
-            <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
-         </right>
-         <center>
-            <VBox prefHeight="494.0" prefWidth="399.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox layoutX="10.0" layoutY="10.0" prefWidth="551.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <BorderPane>
+               <left>
+                  <Label id="Description" text="%welcomeApplicationSystem.systemTitle" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </left>
+               <right>
+                  <Button fx:id="btn_sys_help" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" BorderPane.alignment="CENTER" />
+               </right>
+            </BorderPane>
+            <GridPane vgap="15.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <HBox prefHeight="24.0" prefWidth="359.0">
-                     <children>
-                        <Label id="Description" prefHeight="17.0" prefWidth="334.0" text="%welcomeApplicationSystem.systemTitle" textAlignment="CENTER" wrapText="true">
-                           <padding>
-                              <Insets left="10.0" right="10.0" />
-                           </padding>
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="btn_sysStd_help" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="426.0" prefWidth="359.0">
-                     <children>
-                        <VBox prefHeight="601.0" prefWidth="233.0">
-                           <children>
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.userName" />
-                              <Pane prefHeight="20.0" prefWidth="233.0" />
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.startupConfig">
-                                 <font>
-                                    <Font name="System Bold" size="13.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.visibleFor" />
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.startWA" />
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.showWarning" />
-                              <Pane prefHeight="20.0" prefWidth="233.0" />
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.andvancedSettings">
-                                 <font>
-                                    <Font name="System Bold" size="13.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.soundOutput" />
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.PlasmaDesktopApplets" />
-                              <Pane prefHeight="20.0" prefWidth="233.0" />
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.Partition">
-                                 <font>
-                                    <Font name="System Bold" size="13.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="35.0" prefWidth="244.0" text="%welcomeApplicationSystem.exchangePartition" />
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="306.0" prefWidth="134.0" spacing="7.5">
-                           <children>
-                              <TextField fx:id="txt_sysStd_username">
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin></TextField>
-                              <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <ChoiceBox fx:id="choice_sysStd_visible_for" prefWidth="150.0" />
-                              <CheckBox fx:id="cb_sysStd_start_wa" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="19.0" prefWidth="132.0">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="cb_sysStd_show_warning" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="18.0" prefWidth="148.0">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <CheckBox fx:id="cb_sysStd_direct_sound" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="18.0" prefWidth="146.0">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="cb_sysStd_block_kde" alignment="CENTER_RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="18.0" prefWidth="165.0">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <Pane prefHeight="47.0" prefWidth="127.0" />
-                              <TextField fx:id="txt_sysStd_exchange_partition" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
+                  <Label text="%welcomeApplicationSystem.userName" />
+                  <TextField fx:id="txt_sysStd_username" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                </children>
-               <padding>
-                  <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
-               </padding>
-            </VBox>
-         </center>
-      </BorderPane>
+            </GridPane>
+            <GridPane vgap="15.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="%welcomeApplicationSystem.startupConfig" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="1" />
+                  <ChoiceBox fx:id="choice_sysStd_visible_for" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="%welcomeApplicationSystem.startWA" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="cb_sysStd_start_wa" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="3" />
+                  <CheckBox fx:id="cb_sysStd_show_warning" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <GridPane vgap="15.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="%welcomeApplicationSystem.andvancedSettings" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="%welcomeApplicationSystem.soundOutput" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cb_sysStd_direct_sound" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="%welcomeApplicationSystem.PlasmaDesktopApplets" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="cb_sysStd_block_kde" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane vgap="15.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="%welcomeApplicationSystem.Partition" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="%welcomeApplicationSystem.exchangePartition" GridPane.rowIndex="1" />
+                  <TextField fx:id="txt_sys_exchange_partition" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane vgap="15.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="%welcomeApplicationProxy.title" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="%WelcomeApplicationProxy.use" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cb_sysStd_proxy" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#onProxyClicked" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="%WelcomeApplicationProxy.host" GridPane.rowIndex="2" />
+                  <Label text="%WelcomeApplicationProxy.port" GridPane.rowIndex="3" />
+                  <Label text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="4" />
+                  <Label text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="5" />
+                  <TextField fx:id="txt_sysStd_host" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txt_sysStd_port" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txt_sysStd_user" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="txt_sysStd_pwd" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               </children>
+            </GridPane>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="20.0" right="30.0" top="15.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>
