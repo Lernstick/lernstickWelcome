@@ -26,6 +26,10 @@ public class WelcomeApplicationSystemController implements Initializable {
     @FXML
     private Button btn_sys_help;
     @FXML
+    private TextField txt_sys_systemname;
+    @FXML
+    private TextField txt_sys_systemversion;
+    @FXML
     private TextField txt_sys_username;
     @FXML
     private TextField txt_sys_password;
@@ -74,6 +78,14 @@ public class WelcomeApplicationSystemController implements Initializable {
     private void onClickShowHelp(MouseEvent event) {
         // TODO: popupwindow with Help Text
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public TextField getTxt_sys_systemname() {
+        return txt_sys_systemname;
+    }
+    
+    public TextField getTxt_sys_systemversion() {
+        return txt_sys_systemversion;
     }
 
     public TextField getTxt_sys_username() {
