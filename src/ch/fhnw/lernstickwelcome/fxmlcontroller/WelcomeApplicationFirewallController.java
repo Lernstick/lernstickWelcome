@@ -81,24 +81,7 @@ public class WelcomeApplicationFirewallController implements Initializable {
         
         // Set TableView WebsiteFilter cell properties and implement edit functionality
         tab_fw_search_pattern.setCellValueFactory(p -> p.getValue().searchPatternProperty());
-        tab_fw_search_pattern.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<SearchPattern>() {
-            @Override
-            public String toString(SearchPattern t) {
-                return rb.getString(t.toString());
-            }
-
-            @Override
-            public SearchPattern fromString(String string) {
-                if(rb.getString(SearchPattern.Exact.toString()).equals(string))
-                    return SearchPattern.Exact;
-                if(rb.getString(SearchPattern.StartsWith.toString()).equals(string))
-                    return SearchPattern.StartsWith;
-                if(rb.getString(SearchPattern.Contains.toString()).equals(string))
-                    return SearchPattern.Contains;
-                return SearchPattern.Custom;
-            }
-            
-        }, WebsiteFilter.SearchPattern.values()));
+        tab_fw_search_pattern.setCellFactory(ComboBoxTableCell.forTableColumn(getSearchPatternStringConverter(), WebsiteFilter.SearchPattern.values()));
         tab_fw_search_pattern.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchPatternProperty().setValue(e.getNewValue()));
         tab_fw_search_criteria.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
@@ -125,8 +108,30 @@ public class WelcomeApplicationFirewallController implements Initializable {
                         .descriptionProperty().setValue(e.getNewValue()));
         
         // Load ComboBox data
+        choice_fw_search_pattern.setConverter(getSearchPatternStringConverter());
         choice_fw_search_pattern.getItems().addAll(WebsiteFilter.SearchPattern.values());
         choice_fw_protocol.getItems().addAll(IpFilter.Protocol.values());
+    }
+    
+    private StringConverter<SearchPattern> getSearchPatternStringConverter() {
+        return new StringConverter<SearchPattern>() {
+            @Override
+            public String toString(SearchPattern t) {
+                return rb.getString(t.toString());
+            }
+
+            @Override
+            public SearchPattern fromString(String string) {
+                if(rb.getString(SearchPattern.Exact.toString()).equals(string))
+                    return SearchPattern.Exact;
+                if(rb.getString(SearchPattern.StartsWith.toString()).equals(string))
+                    return SearchPattern.StartsWith;
+                if(rb.getString(SearchPattern.Contains.toString()).equals(string))
+                    return SearchPattern.Contains;
+                return SearchPattern.Custom;
+            }
+            
+        };
     }
 
     @FXML

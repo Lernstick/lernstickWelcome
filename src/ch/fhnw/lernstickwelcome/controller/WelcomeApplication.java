@@ -40,6 +40,18 @@ public class WelcomeApplication extends Application {
         if (isExamEnvironment()) {
             controller.loadExamEnvironment();
             
+            if(!controller.getSysconf().isPasswordChanged()) {
+                ExamPasswordChangeBinder examPasswordChangeBinder = new ExamPasswordChangeBinder(controller, guiLoader.getPasswordChange());
+                examPasswordChangeBinder.initHandlers(errorStage, guiLoader.getError());
+                Stage passwordChangeStage = FXMLGuiLoader.createDialog(
+                        primaryStage, 
+                        guiLoader.getPasswordChangeScene(), 
+                        controller.getBundle().getString("welcomeApplicationPasswordChange.title"), 
+                        false
+                );
+                passwordChangeStage.showAndWait();
+            }
+            
             HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelp());
             helpBinder.initBindings();
             helpBinder.initHandlers();

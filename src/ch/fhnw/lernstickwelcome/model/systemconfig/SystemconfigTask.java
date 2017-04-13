@@ -70,6 +70,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
 
     // Some functions are only required in exam env.
     private boolean isExamEnv; // TODO Block functions for Std. Version
+    private boolean passwordChanged;
     private Partition bootConfigPartition;
     private Partition exchangePartition;
     private StorageDevice systemStorageDevice;
@@ -94,6 +95,8 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
 
         blockKdeDesktopApplets.set("true".equals(
                 properties.getProperty(WelcomeConstants.KDE_LOCK)));
+        passwordChanged = ("true".equals(
+                properties.getProperty(WelcomeConstants.PASSWORD_CHANGED)));
         allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
         getPartitions();
         getBootConfigInfos();
@@ -458,6 +461,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                     true, true, passwordChangeScript);
             if (returnValue == 0) {
                 passwordEnabled();
+                passwordChanged = true;
             } else {
                 throw new ProcessingException("Password_Change_Error");
             }
@@ -598,6 +602,10 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
     public BooleanProperty getAllowAccessToOtherFilesystems() {
         return allowAccessToOtherFilesystems;
     }
+    
+    public boolean isPasswordChanged() {
+        return passwordChanged;
+    }
 
     public void updateBlockKdeDesktopApplets() {
         if (!blockKdeDesktopApplets.get()) {
@@ -667,6 +675,8 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
 
             properties.setProperty(WelcomeConstants.KDE_LOCK,
                     blockKdeDesktopApplets.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.PASSWORD_CHANGED,
+                    passwordChanged ? "true" : "false");
 
             updateProgress(5, 6);
             updateMessage("SystemconfigTask.password");
