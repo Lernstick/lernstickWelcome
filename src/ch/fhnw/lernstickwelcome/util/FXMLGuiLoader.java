@@ -14,7 +14,6 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationPasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProxyController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
@@ -76,7 +75,6 @@ public class FXMLGuiLoader {
     private WelcomeApplicationSystemStdController welcomeApplicationSystemStdController;
     private WelcomeApplicationAdditionalSoftwareController welcomeApplicationAdditionalSoftwareController;
     private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
-    private WelcomeApplicationProxyController welcomeApplicationProxyController;
     
     public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb) {
         this.isExamEnvironment = isExamEnvironment;
@@ -101,10 +99,6 @@ public class FXMLGuiLoader {
                 addSoftware = (Parent)loadAdd.load();
                 welcomeApplicationAdditionalSoftwareController = loadAdd.getController();
                         
-                FXMLLoader loadProxy = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationProxy.fxml"), rb);
-                proxy = (Parent)loadProxy.load();
-                welcomeApplicationProxyController = loadProxy.getController();
-                        
                 FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), rb);
                 systemStd = (Parent)loadSystemStd.load();
                 welcomeApplicationSystemStdController = loadSystemStd.getController();
@@ -112,7 +106,6 @@ public class FXMLGuiLoader {
                 menuPaneItems.add(new MenuPaneItem(informationStd, "Information", null));
                 menuPaneItems.add(new MenuPaneItem(recommended, "Recommended Software", null));
                 menuPaneItems.add(new MenuPaneItem(addSoftware, "Additional Software", null));
-                menuPaneItems.add(new MenuPaneItem(proxy, "Proxy", null));
                 menuPaneItems.add(new MenuPaneItem(systemStd, "System", null));
             } else {
                 FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
