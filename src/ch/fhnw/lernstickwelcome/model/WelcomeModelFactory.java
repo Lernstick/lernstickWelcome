@@ -22,11 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.freedesktop.dbus.exceptions.DBusException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+//import org.freedesktop.dbus.exceptions.DBusException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * XXX Change this class if applications should be load from file
@@ -59,8 +65,11 @@ public class WelcomeModelFactory {
      * @param title a title for the group task, can be anything
      * @param proxy
      * @return ApplicationGroupTask
+     * @throws IOException 
+     * @throws SAXException 
+     * @throws ParserConfigurationException 
      */
-    public static ApplicationGroupTask getApplicationGroupTask(String tag, String title, ProxyTask proxy) {
+    public static ApplicationGroupTask getApplicationGroupTask(String tag, String title, ProxyTask proxy) throws ParserConfigurationException, SAXException, IOException {
         List<ApplicationTask> apps = getApplicationTasks(tag);
         ApplicationGroupTask task = new ApplicationGroupTask(
                 title, 
@@ -78,8 +87,11 @@ public class WelcomeModelFactory {
      * Searches the application.xml for applications with the given tag.
      * @param name
      * @return List of ApplicationTasks
+     * @throws IOException 
+     * @throws SAXException 
+     * @throws ParserConfigurationException 
      */
-    public static List<ApplicationTask> getApplicationTasks(String tag) {
+    public static List<ApplicationTask> getApplicationTasks(String tag) throws ParserConfigurationException, SAXException, IOException {
     	ArrayList<ApplicationTask> apps = new ArrayList<>();
     	File xmlFile = new File("applications.xml");
     	Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
@@ -91,7 +103,7 @@ public class WelcomeModelFactory {
     			NodeList tags = app.getElementsByTagName("tag");
     			for (int j = 0; j < tags.getLength(); j++) {
     				Element t = ((Element)tags.item(j));
-    				if (t.getNodeValue() == tag) {
+    				if (t.getTextContent().equals(tag)) {
     					apps.add(getApplicationTask(app));
     				}
     			}
@@ -104,16 +116,21 @@ public class WelcomeModelFactory {
      * Searches the application.xml for an application with the given name.
      * @param name
      * @return a Task for this specific application or null if no application was found.
+     * @throws IOException 
+     * @throws SAXException 
+     * @throws ParserConfigurationException 
      */
-    public static ApplicationTask getApplicationTask(String name) {
+    public static ApplicationTask getApplicationTask(String name) throws ParserConfigurationException, SAXException, IOException {
     	File xmlFile = new File("applications.xml");
     	Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
+    	/*DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    	Document xmlDoc = builder.parse(xmlFile);*/
     	NodeList applications = xmlDoc.getElementsByTagName("application");
     	for (int i = 0; i < applications.getLength(); i++) {
     		Node application = applications.item(i);
     		if (application.getNodeType() == Node.ELEMENT_NODE) {
     			Element app = (Element) application;
-    			if (app.getAttribute("name") == name) { // found application
+    			if (app.getAttribute("name").equals(name)) { // found application
         			return getApplicationTask(app);
     			}
     		}
@@ -128,17 +145,18 @@ public class WelcomeModelFactory {
      */
     private static ApplicationTask getApplicationTask(Element app) {
     	String name = app.getAttribute("name");
-    	String description = app.getElementsByTagName("description").item(0).getNodeValue();
-		String icon = app.getElementsByTagName("icon").item(0).getNodeValue();
-		String helpPath = app.getElementsByTagName("help-path").item(0).getNodeValue();
+    	Node l = app.getElementsByTagName("description").item(0);
+    	String description = app.getElementsByTagName("description").item(0).getTextContent();
+		String icon = app.getElementsByTagName("icon").item(0).getTextContent();
+		String helpPath = app.getElementsByTagName("help-path").item(0).getTextContent();
 		List<String> aptgetPackages = new ArrayList<>();
 		List<String> wgetPackages = new ArrayList<>();
 		// XXX does really every wget package have the same fetchUrl and SaveDir?
 		// In application.xml I defined it so every package can have different ones.
 		// In class WgetPackages however, there is only one property for all packages.
 		// So for now this function uses just the last ones of the properties.
-		String wgetFetchUrl; 
-		String wgetSaveDir;
+		String wgetFetchUrl = null; 
+		String wgetSaveDir = null;
 		NodeList packages = app.getElementsByTagName("package");
 		for (int j = 0; j < packages.getLength(); j++) {
 			Element pkg = ((Element)packages.item(j));

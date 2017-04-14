@@ -17,7 +17,7 @@ public class CombinedPackages extends ApplicationPackages {
     
     public CombinedPackages(ApplicationPackages... packages) {
         super(Arrays.stream(packages).flatMap(p -> Arrays.stream(p.getPackageNames())).toArray(i -> new String[i]));
-        this.packageList = packages;
+    	this.packageList = packages;
     }
 
     @Override

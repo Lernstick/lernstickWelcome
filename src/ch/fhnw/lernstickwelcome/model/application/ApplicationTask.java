@@ -37,7 +37,7 @@ public class ApplicationTask extends Task<Boolean> {
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
         this.description = description;
-        this.icon = new Image(icon);
+        //this.icon = new Image(icon);
         this.packages = packages;
         this.installed = initIsInstalled();
     }
