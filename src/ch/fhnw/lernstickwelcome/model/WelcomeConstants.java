@@ -26,6 +26,7 @@ public class WelcomeConstants {
     public static final String BACKUP_FREQUENCY = "BackupFrequency";
     public static final String EXCHANGE_ACCESS = "ExchangeAccess";
     public static final String KDE_LOCK = "LockKDE";
+    public static final String PASSWORD_CHANGED = "ShowPasswordDialog";
     
     // PATHS
     // !!! NO trailing slash at the end (would break comparison later) !!!

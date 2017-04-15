@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
 import javafx.stage.Stage;
 

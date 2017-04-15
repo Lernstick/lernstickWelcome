@@ -12,6 +12,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationPasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
@@ -53,6 +54,8 @@ public class FXMLGuiLoader {
     private Parent systemStd;
     
     /* exam */
+    private Scene welcomeApplicationPasswordChange;
+    
     private Parent information;
     private Parent firewall;
     private Parent backup;
@@ -65,6 +68,7 @@ public class FXMLGuiLoader {
     private WelcomeApplicationErrorController welcomeApplicationErrorController;
     private WelcomeApplicationHelpController welcomeApplicationHelpController;
     
+    private WelcomeApplicationPasswordChangeController welcomeApplicationPasswordChangeController;
     private WelcomeApplicationBackupController welcomeApplicationBackupController;
     private WelcomeApplicationFirewallController welcomeApplicationFirewallController;
     private WelcomeApplicationInformationController welcomeApplicationInformationController;
@@ -108,6 +112,10 @@ public class FXMLGuiLoader {
                 menuPaneItems.add(new MenuPaneItem(addSoftware, "Additional Software", null));
                 menuPaneItems.add(new MenuPaneItem(systemStd, "System", null));
             } else {
+                FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
+                welcomeApplicationPasswordChange = new Scene(loadPasswordChange.load());
+                welcomeApplicationPasswordChangeController = loadPasswordChange.getController();
+                
                 FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), rb);
                 information = (Parent) loadInfo.load();
                 welcomeApplicationInformationController = loadInfo.getController();
@@ -166,6 +174,10 @@ public class FXMLGuiLoader {
         return welcomeApplicationHelp;
     }
     
+    public Scene getPasswordChangeScene() {
+        return welcomeApplicationPasswordChange;
+    }
+    
     public WelcomeApplicationStartController getWelcomeApplicationStart() {
         return welcomeApplicationStartController;
     }
@@ -196,6 +208,10 @@ public class FXMLGuiLoader {
     
     public WelcomeApplicationHelpController getHelp() {
         return welcomeApplicationHelpController;
+    }
+    
+    public WelcomeApplicationPasswordChangeController getPasswordChange() {
+        return welcomeApplicationPasswordChangeController;
     }
     
     /**

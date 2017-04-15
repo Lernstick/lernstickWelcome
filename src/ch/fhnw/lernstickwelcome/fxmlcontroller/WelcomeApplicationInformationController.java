@@ -25,12 +25,10 @@ public class WelcomeApplicationInformationController implements Initializable {
     private Label label_info_os;
     @FXML
     private Label label_info_version;
-   
     
     /**
      * Initializes the controller class.
      */
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
