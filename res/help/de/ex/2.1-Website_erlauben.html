@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Websiten erlauben</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <p>
+            Definieren Sie URL's, welche vom System erlaubt werden. Sie haben dabei
+            verschiedene Möglichkeiten, die URL zu definieren.
+        </p>
+        <p>
+            <b>exact</b><br>
+            Definieren Sie eine exakte URL, welche zugelassen wird. Dabei wird nur genau die
+            definierte URL berücksichtigt.
+        </p>
+        <p>
+            <b>starts with</b><br>
+            Definieren Sie einen beliebigen Text. Fängt eine URL mit diesem Text an,
+            wird sie zugelassen.<br>
+            Bsp: www.lernstick.com<br>
+            Wird zugelassen: www.lernstick.com/download
+        </p>
+        <p>
+            <b>contains</b><br>
+            Definieren Sie einen belieigen Text. Enthält eine URL diesen Text, wird sie zugelassen.<br>
+            Bsp: lernstick<br>
+            Wird zugelassen: www.lernstick.com
+            Wird zugelassen: www.google.com/lernstick/info
+        </p>
+        <p>
+            <b>custom</b><br>
+            Definieren Sie einen Regulären Ausdruck. Matcht eine URL diesen Regex, wird sie 
+            zugelassen.
+        </p>
+    </body>
+</html>

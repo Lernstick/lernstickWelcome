@@ -6,9 +6,10 @@
 package ch.fhnw.lernstickwelcome.model.backup;
 
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
-import ch.fhnw.lernstickwelcome.model.WelcomeUtil;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.File;
@@ -44,7 +45,7 @@ import org.xml.sax.SAXException;
  *
  * @author user
  */
-public class BackupTask extends Task<Boolean> {
+public class BackupTask extends ResetableTask<Boolean> {
 
     private final static Logger LOGGER = Logger.getLogger(BackupTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
@@ -63,7 +64,7 @@ public class BackupTask extends Task<Boolean> {
 
     public BackupTask(Properties properties, String backupDirectoryName) {
         this.properties = properties;
-        
+
         active.set("true".equals(properties.getProperty(WelcomeConstants.BACKUP)));
         sourcePath.set(properties.getProperty(WelcomeConstants.BACKUP_SOURCE, "/home/user/"));
         local.set("true".equals(
@@ -90,36 +91,6 @@ public class BackupTask extends Task<Boolean> {
                 LOGGER.log(Level.SEVERE, "", ex);
             }
         }
-    }
-
-    @Override
-    protected Boolean call() throws Exception {
-        if (checkBackupDirectory()) { // XXX validation should not be in backend
-            if (!local.get()
-                    || destinationPath.get().isEmpty()) {
-                if (partition.get()
-                        && !partitionPath.get().isEmpty()) {
-                    updateJBackpackProperties(sourcePath.get(), "/mnt/backup/"
-                            + partitionPath.get() + "/lernstick_backup");
-                }
-            } else {
-                updateJBackpackProperties(sourcePath.get(), destinationPath.get());
-            }
-        }
-        properties.setProperty(WelcomeConstants.BACKUP,
-                active.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_SCREENSHOT,
-                screenshot.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY_ENABLED,
-                local.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_PARTITION_ENABLED,
-                partition.get() ? "true" : "false");
-        properties.setProperty(WelcomeConstants.BACKUP_SOURCE, sourcePath.get());
-        properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY, destinationPath.get());
-        properties.setProperty(WelcomeConstants.BACKUP_PARTITION, partitionPath.get());
-        properties.setProperty(WelcomeConstants.BACKUP_FREQUENCY,
-                Integer.toString(frequency.get()));
-        return true;
     }
 
     private boolean checkBackupDirectory() throws ProcessingException {
@@ -270,6 +241,86 @@ public class BackupTask extends Task<Boolean> {
                 PROCESS_EXECUTOR.executeProcess(
                         "chown", "-R", "user.user", "/home/user/.java/");
             }
+        }
+    }
+
+    public BooleanProperty getActive() {
+        return active;
+    }
+
+    public StringProperty getSourcePath() {
+        return sourcePath;
+    }
+
+    public BooleanProperty getLocal() {
+        return local;
+    }
+
+    public StringProperty getDestinationPath() {
+        return destinationPath;
+    }
+
+    public BooleanProperty getPartition() {
+        return partition;
+    }
+
+    public StringProperty getPartitionPath() {
+        return partitionPath;
+    }
+
+    public BooleanProperty getScreenshot() {
+        return screenshot;
+    }
+
+    public IntegerProperty getFrequency() {
+        return frequency;
+    }
+
+    @Override
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+
+    private class InternalTask extends Task<Boolean> {
+
+        @Override
+        protected Boolean call() throws Exception {
+            updateProgress(0, 2);
+            updateTitle("BackupTask.title");
+            updateMessage("BackupTask.setupMessage");
+            if (checkBackupDirectory()) { // XXX validation should not be in backend
+                if (!local.get()
+                        || destinationPath.get() == null
+                        || destinationPath.get().isEmpty()) {
+                    if (partition.get()
+                            && !partitionPath.get().isEmpty()) {
+                        updateJBackpackProperties(sourcePath.get(), "/mnt/backup/"
+                                + partitionPath.get() + "/lernstick_backup");
+                    }
+                } else {
+                    updateJBackpackProperties(sourcePath.get(), destinationPath.get());
+                }
+            }
+            updateProgress(1, 2);
+            updateMessage("BackupTask.saveConfig");
+            properties.setProperty(WelcomeConstants.BACKUP,
+                    active.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_SCREENSHOT,
+                    screenshot.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY_ENABLED,
+                    local.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_PARTITION_ENABLED,
+                    partition.get() ? "true" : "false");
+            properties.setProperty(WelcomeConstants.BACKUP_SOURCE,
+                    sourcePath.get() != null ? sourcePath.get() : "");
+            properties.setProperty(WelcomeConstants.BACKUP_DIRECTORY,
+                    destinationPath.get() != null ? destinationPath.get() : "");
+            properties.setProperty(WelcomeConstants.BACKUP_PARTITION,
+                    partitionPath.get() != null ? partitionPath.get() : "");
+            properties.setProperty(WelcomeConstants.BACKUP_FREQUENCY,
+                    Integer.toString(frequency.get()));
+            updateProgress(2, 2);
+            return true;
         }
     }
 

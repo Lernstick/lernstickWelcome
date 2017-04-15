@@ -18,7 +18,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class PropertiesTask extends Task<Boolean> {
+public class PropertiesTask extends ResetableTask<Boolean> {
     private static final Logger LOGGER = Logger.getLogger(PropertiesTask.class.getName());
     private Properties properties;
     private File propertiesFile;
@@ -39,13 +39,24 @@ public class PropertiesTask extends Task<Boolean> {
     }
 
     @Override
-    protected Boolean call() throws Exception {
-        try {
-            properties.store(new FileOutputStream(propertiesFile),
-                    "lernstick Welcome properties");
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+    
+    private class InternalTask extends Task<Boolean> {
+        @Override
+        protected Boolean call() throws Exception {
+            updateProgress(0, 1);
+            updateTitle("PropertiesTask.title");
+            updateMessage("PropertiesTask.message");
+            try {
+                properties.store(new FileOutputStream(propertiesFile),
+                        "lernstick Welcome properties");
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+            updateProgress(1, 1);
+            return true;
         }
-        return true;
     }
 }

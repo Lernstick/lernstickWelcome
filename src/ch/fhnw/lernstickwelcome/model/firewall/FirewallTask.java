@@ -6,34 +6,39 @@
 package ch.fhnw.lernstickwelcome.model.firewall;
 
 import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 
 /**
  *
  * @author sschw
  */
-public class FirewallTask extends Task<Boolean> {
+public class FirewallTask extends ResetableTask<Boolean> {
+
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
-    private List<IpFilter> ipList = new ArrayList<>();
-    private List<WebsiteFilter> websiteList = new ArrayList<>();
+    private ListProperty<IpFilter> ipList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private ListProperty<WebsiteFilter> websiteList = new SimpleListProperty<>(FXCollections.observableArrayList());
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
-    
+    private Timer timer;
+
     public FirewallTask() {
         try {
             parseNetWhiteList();
@@ -46,69 +51,22 @@ public class FirewallTask extends Task<Boolean> {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
-        
+
         // start periodic firewall status check
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 updateFirewallState();
             }
-            
+
         }, 0, 3000);
     }
 
-    @Override
-    protected Boolean call() throws Exception {
-        // checkFirewall - in GUI or Controller
-        updateFirewall();
-        return true;
+    public void stopFirewallStateChecking() {
+        timer.cancel();
     }
-    
-    private void updateFirewall() {
-        // save IP tables
-        StringBuilder stringBuilder = new StringBuilder();
-        for (IpFilter ip : ipList) {
-            // comment
-            stringBuilder.append("# ");
-            stringBuilder.append(ip.getDescription());
-            stringBuilder.append('\n');
-            // protocol
-            stringBuilder.append(ip.getProtocol().toString());
-            stringBuilder.append(' ');
-            // target
-            stringBuilder.append(ip.getIpAddress());
-            stringBuilder.append(' ');
-            // port
-            stringBuilder.append(ip.getPortRange());
-            stringBuilder.append('\n');
-        }
-        String ipTables = stringBuilder.toString();
-        try (FileOutputStream fileOutputStream
-                = new FileOutputStream(WelcomeConstants.IP_TABLES_FILENAME)) {
-            fileOutputStream.write(ipTables.getBytes());
-            fileOutputStream.flush();
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
-        }
 
-        // save URL whitelist
-        stringBuilder = new StringBuilder();
-        for(WebsiteFilter website : websiteList) {
-            stringBuilder.append(website.getSearchPattern() + "\n");
-        }
-        String urlTables = stringBuilder.toString();
-        try (FileOutputStream fileOutputStream
-                = new FileOutputStream(WelcomeConstants.URL_WHITELIST_FILENAME)) {
-            fileOutputStream.write(urlTables.getBytes());
-            fileOutputStream.flush();
-        } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "", ex);
-        }
-        PROCESS_EXECUTOR.executeProcess(
-                "/etc/init.d/lernstick-firewall", "reload");
-    }
-    
     public void toggleFirewallState() throws ProcessingException {
         String action = firewallRunning.get() ? "stop" : "start";
         int ret = PROCESS_EXECUTOR.executeProcess(true, true, "lernstick-firewall", action);
@@ -132,15 +90,15 @@ public class FirewallTask extends Task<Boolean> {
             throw new ProcessingException(messageId);
         }
     }
-    
+
     private void updateFirewallState() {
         firewallRunning.set(PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0);
     }
-    
+
     private void parseURLWhiteList() throws IOException {
-        try (FileReader fileReader = new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME);
-                BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            for (String line = bufferedReader.readLine(); line != null;) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
                 websiteList.add(new WebsiteFilter(line));
                 line = bufferedReader.readLine();
             }
@@ -178,6 +136,85 @@ public class FirewallTask extends Task<Boolean> {
             }
 
             line = bufferedReader.readLine();
+        }
+    }
+
+    public ListProperty<WebsiteFilter> getWebsiteListProperty() {
+        return websiteList;
+    }
+
+    public ListProperty<IpFilter> getIpListProperty() {
+        return ipList;
+    }
+
+    public BooleanProperty firewallRunningProperty() {
+        return firewallRunning;
+    }
+
+    private void saveIpTables() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.IP_TABLES_FILENAME))) {
+            for (IpFilter ip : ipList) {
+                StringBuilder sb = new StringBuilder();
+                // comment
+                sb.append("# ");
+                sb.append(ip.getDescription());
+                sb.append('\n');
+                // protocol
+                sb.append(ip.getProtocol().toString());
+                sb.append(' ');
+                // target
+                sb.append(ip.getIpAddress());
+                sb.append(' ');
+                // port
+                sb.append(ip.getPortRange());
+                sb.append('\n');
+                // write line to file
+                bw.write(sb.toString());
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+    }
+
+    @Override
+    public Task<Boolean> getTask() {
+        return new InternalTask();
+    }
+
+    private class InternalTask extends Task<Boolean> {
+
+        @Override
+        protected Boolean call() throws Exception {
+            updateTitle("FirewallTask.title");
+            updateProgress(0, 3);
+            updateMessage("FirewallTask.saveIps");
+
+            // save IP tables
+            saveIpTables();
+
+            updateProgress(1, 3);
+            updateMessage("FirewallTask.saveWebsites");
+
+            // save URL whitelist
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.URL_WHITELIST_FILENAME))) {
+                for (WebsiteFilter website : websiteList) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(website.getSearchPattern());
+                    sb.append('\n');
+                    bw.write(sb.toString());
+                }
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "", ex);
+            }
+
+            updateProgress(2, 3);
+            updateMessage("FirewallTask.restartFirewall");
+
+            PROCESS_EXECUTOR.executeProcess(
+                    "/etc/init.d/lernstick-firewall", "reload");
+
+            updateProgress(3, 3);
+            return true;
         }
     }
 }

@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.firewall;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,8 +32,19 @@ public class WebsiteFilter {
         public String getPattern(String searchCriteria) {
             // Escape the search criteria if it isn't Custom
             if(this != Custom)
-                searchCriteria = searchCriteria.replaceAll("([.^$*+?()[{\\|])", "\\$1"); // Pattern.quote doesnt work
+                searchCriteria = searchCriteria.replaceAll("([.^$*+?()\\[{\\\\|])", "\\\\$1"); // Pattern.quote doesnt work
             return pre + searchCriteria + post;
+        }
+        
+        @Override
+        public String toString() {
+            switch(this) {
+                case Exact: return "welcomeApplicationFirewall.filterExact";
+                case Contains: return "welcomeApplicationFirewall.filterContains";
+                case StartsWith: return "welcomeApplicationFirewall.filterStartsWith";
+                case Custom: return "welcomeApplicationFirewall.filterCustom";
+                default: return null;
+            }
         }
     }
     
@@ -46,17 +58,26 @@ public class WebsiteFilter {
     
     public WebsiteFilter(String line) {
         // Set correct searchPattern according to the found RegEx.
-        if(line.matches("[^\\][.*+?()[{\\|]")) // Search for unescaped RegEx (without ^ and $)
+        if(line.matches("[^\\\\][.*+?()\\[{\\\\|]")) { // Search for unescaped RegEx (without ^ and $)
             searchPattern.set(SearchPattern.Custom);
-        else if(line.startsWith("^")) { // ^ at the beginning
-            if(line.endsWith("$")) // $ at the end
+            searchCriteria.setValue(line);
+        } else if(line.startsWith("^")) { // ^ at the beginning
+            if(line.endsWith("$")) { // $ at the end
                 searchPattern.set(SearchPattern.Exact);
-            else
+                searchCriteria.setValue(line.substring(1, line.length() - 1).replaceAll("\\\\", ""));
+            } else {
                 searchPattern.set(SearchPattern.StartsWith);
-        }
-        else {
+                searchCriteria.setValue(line.substring(1).replaceAll("\\\\", ""));
+            }
+        } else {
             searchPattern.set(SearchPattern.Contains);
+            searchCriteria.setValue(line.replaceAll("\\\\", ""));
         }
+    }
+    
+    public WebsiteFilter(SearchPattern pattern, String criteria) {
+        searchPattern.set(pattern);
+        searchCriteria.set(criteria);
     }
     
     public ObjectProperty<SearchPattern> searchPatternProperty() {

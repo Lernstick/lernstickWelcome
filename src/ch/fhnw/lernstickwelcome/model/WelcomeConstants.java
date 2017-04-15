@@ -26,6 +26,7 @@ public class WelcomeConstants {
     public static final String BACKUP_FREQUENCY = "BackupFrequency";
     public static final String EXCHANGE_ACCESS = "ExchangeAccess";
     public static final String KDE_LOCK = "LockKDE";
+    public static final String PASSWORD_CHANGED = "ShowPasswordDialog";
     
     // PATHS
     // !!! NO trailing slash at the end (would break comparison later) !!!
@@ -58,4 +59,7 @@ public class WelcomeConstants {
     public static final String[] FLASH_PACKAGES = new String[]{
         "flashplugin-nonfree", "libhal1-flash"
     };
+    public static final String RESOURCE_FILE_PATH = "res";
+    public static final String HELP_FILE_PATH = RESOURCE_FILE_PATH + "/help";
+    public static final String ICON_FILE_PATH = RESOURCE_FILE_PATH + "/icon";
 }

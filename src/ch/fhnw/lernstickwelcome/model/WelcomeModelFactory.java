@@ -5,35 +5,34 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
-import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
-import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
-import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
-import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
-import ch.fhnw.lernstickwelcome.model.application.WgetPackages;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
-import ch.fhnw.lernstickwelcome.model.WelcomeUtil;
-import ch.fhnw.util.ProcessExecutor;
-import ch.fhnw.util.StorageDevice;
-import ch.fhnw.util.StorageTools;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-//import org.freedesktop.dbus.exceptions.DBusException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
+import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
+import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
+import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
+import ch.fhnw.lernstickwelcome.model.application.WgetPackages;
+import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
+import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
+import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
+import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import ch.fhnw.util.ProcessExecutor;
+import ch.fhnw.util.StorageDevice;
+//import org.freedesktop.dbus.exceptions.DBusException;
 /**
  * XXX Change this class if applications should be load from file
  * 
@@ -50,11 +49,11 @@ public class WelcomeModelFactory {
     
     public static StorageDevice getSystemStorageDevice() {
         if(SYSTEM_STORAGE_DEVICE == null) {
-            try {
+           /* try {
                 SYSTEM_STORAGE_DEVICE = StorageTools.getSystemStorageDevice();
             } catch (DBusException | IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            }
+            }*/
         }
         return SYSTEM_STORAGE_DEVICE;
     }    
@@ -161,7 +160,7 @@ public class WelcomeModelFactory {
 		for (int j = 0; j < packages.getLength(); j++) {
 			Element pkg = ((Element)packages.item(j));
 			String type = pkg.getAttribute("type");
-			String pkgName = pkg.getNodeValue();
+			String pkgName = pkg.getTextContent();
 			switch (type) {
 			case "aptget":
 				aptgetPackages.add(pkgName);
@@ -180,5 +179,25 @@ public class WelcomeModelFactory {
 		);
 		ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
 		return task;
+	}
+
+    public static PropertiesTask getPropertiesTask() {
+        return new PropertiesTask();
+    }
+
+    public static FirewallTask getFirewallTask() {
+        return new FirewallTask();
+    }
+
+    public static BackupTask getBackupTask(PropertiesTask properties, String backupDirectoryName) {
+        return new BackupTask(properties.getProperties(), backupDirectoryName);
+    }
+
+    public static SystemconfigTask getSystemTask(boolean isExam, PropertiesTask properties) {
+        return new SystemconfigTask(isExam, properties.getProperties());
+    }
+
+    public static PartitionTask getPartitionTask(PropertiesTask properties) {
+        return new PartitionTask(properties.getProperties());
     }
 }
