@@ -22,7 +22,7 @@ public class ProxyTask extends ResetableTask<Boolean> {
 
     private BooleanProperty proxyActive = new SimpleBooleanProperty();
     private StringProperty hostname = new SimpleStringProperty();
-    private IntegerProperty port = new SimpleIntegerProperty();
+    private StringProperty port = new SimpleStringProperty();
     private StringProperty username = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
 
@@ -45,7 +45,7 @@ public class ProxyTask extends ResetableTask<Boolean> {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(" -e http_proxy=http://");
         stringBuilder.append(hostname.get());
-        if (port.get() != 0) {
+        if (port.get() != null && !port.get().isEmpty()) {
             stringBuilder.append(':');
             stringBuilder.append(port.get());
         }
@@ -73,7 +73,7 @@ public class ProxyTask extends ResetableTask<Boolean> {
             stringBuilder.append('@');
         }
         stringBuilder.append(hostname.get());
-        if (port.get() != 0) {
+        if (port.get() != null && !port.get().isEmpty()) {
             stringBuilder.append(':');
             stringBuilder.append(port.get());
         }
@@ -97,5 +97,27 @@ public class ProxyTask extends ResetableTask<Boolean> {
             return true;
         }
     }
+
+    public BooleanProperty getProxyActive() {
+        return proxyActive;
+    }
+
+    public StringProperty getHostname() {
+        return hostname;
+    }
+
+    public StringProperty getPort() {
+        return port;
+    }
+
+    public StringProperty getUsername() {
+        return username;
+    }
+
+    public StringProperty getPassword() {
+        return password;
+    }
+    
+    
 
 }

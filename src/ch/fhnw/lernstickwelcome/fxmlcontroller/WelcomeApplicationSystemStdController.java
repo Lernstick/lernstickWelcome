@@ -12,8 +12,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.util.StringConverter;
 
 
@@ -53,6 +55,14 @@ public class WelcomeApplicationSystemStdController implements Initializable {
     private TextField txt_sysStd_user;
     @FXML
     private TextField txt_sysStd_pwd;
+    @FXML
+    private Label lbl_sysStd_host;
+    @FXML
+    private Label lbl_sysStd_port;
+    @FXML
+    private Label lbl_sysStd_user;
+    @FXML
+    private Label lbl_sysStd_pwd;
 
     /**
      * Initializes the controller class.
@@ -73,32 +83,67 @@ public class WelcomeApplicationSystemStdController implements Initializable {
         
         choice_sysStd_visible_for.getItems().addAll(visibleForValues);
         
-        if(!cb_sysStd_proxy.isSelected()){
-            txt_sysStd_host.setEditable(false);
-            txt_sysStd_port.setEditable(false);
-            txt_sysStd_user.setEditable(false);
-            txt_sysStd_pwd.setEditable(false);
-        }
+        txt_sysStd_host.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());
+        txt_sysStd_port.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());
+        txt_sysStd_pwd.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());
+        txt_sysStd_user.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());  
     }    
 
-    @FXML
-    private void onClickShowHelp(MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Integer[] getVisibleForValues() {
+        return visibleForValues;
     }
 
-    @FXML
-    private void onProxyClicked(MouseEvent event) {
-        if(cb_sysStd_proxy.isSelected()){
-            txt_sysStd_host.setEditable(true);
-            txt_sysStd_port.setEditable(true);
-            txt_sysStd_user.setEditable(true);
-            txt_sysStd_pwd.setEditable(true);
-        }else{
-            txt_sysStd_host.setEditable(false);
-            txt_sysStd_port.setEditable(false);
-            txt_sysStd_user.setEditable(false);
-            txt_sysStd_pwd.setEditable(false);
-        }
+    public Button getBtn_sys_help() {
+        return btn_sys_help;
     }
+
+    public TextField getTxt_sysStd_username() {
+        return txt_sysStd_username;
+    }
+
+    public ChoiceBox<Number> getChoice_sysStd_visible_for() {
+        return choice_sysStd_visible_for;
+    }
+
+    public CheckBox getCb_sysStd_start_wa() {
+        return cb_sysStd_start_wa;
+    }
+
+    public CheckBox getCb_sysStd_show_warning() {
+        return cb_sysStd_show_warning;
+    }
+
+    public CheckBox getCb_sysStd_direct_sound() {
+        return cb_sysStd_direct_sound;
+    }
+
+    public CheckBox getCb_sysStd_block_kde() {
+        return cb_sysStd_block_kde;
+    }
+
+    public TextField getTxt_sys_exchange_partition() {
+        return txt_sys_exchange_partition;
+    }
+
+    public CheckBox getCb_sysStd_proxy() {
+        return cb_sysStd_proxy;
+    }
+
+    public TextField getTxt_sysStd_host() {
+        return txt_sysStd_host;
+    }
+
+    public TextField getTxt_sysStd_port() {
+        return txt_sysStd_port;
+    }
+
+    public TextField getTxt_sysStd_user() {
+        return txt_sysStd_user;
+    }
+
+    public TextField getTxt_sysStd_pwd() {
+        return txt_sysStd_pwd;
+    }    
+    
     
 }

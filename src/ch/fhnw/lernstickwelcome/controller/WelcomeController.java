@@ -75,6 +75,7 @@ public class WelcomeController {
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
         recApps = WelcomeModelFactory.getRecommendedApplicationTask(proxy);
+        teachApps = WelcomeModelFactory.getTeachingApplicationTask(proxy);
         
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
         

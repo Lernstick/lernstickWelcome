@@ -17,7 +17,10 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoft
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController;
+import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
+import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +50,6 @@ public class FXMLGuiLoader {
     private Parent informationStd;
     private Parent recommended;
     private Parent addSoftware;
-    private Parent proxy;
     private Parent systemStd;
     
     /* exam */
@@ -72,7 +74,7 @@ public class FXMLGuiLoader {
     private WelcomeApplicationAdditionalSoftwareController welcomeApplicationAdditionalSoftwareController;
     private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
     
-    public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb) {
+    public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb, ApplicationGroupTask recApps, ApplicationGroupTask teachingApps, ApplicationGroupTask softwApps, ApplicationGroupTask gameApps) {
         this.isExamEnvironment = isExamEnvironment;
         // Create all instances with their controllers        
         try {
@@ -90,10 +92,12 @@ public class FXMLGuiLoader {
                 FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), rb);
                 recommended = (Parent)loadRecomm.load();
                 welcomeApplicationRecommendedSoftwareController = loadRecomm.getController();
+                welcomeApplicationRecommendedSoftwareController.initializeApps(recApps);
                         
                 FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), rb);
                 addSoftware = (Parent)loadAdd.load();
                 welcomeApplicationAdditionalSoftwareController = loadAdd.getController();
+                welcomeApplicationAdditionalSoftwareController.initializeApps(teachingApps, softwApps, gameApps);
                         
                 FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), rb);
                 systemStd = (Parent)loadSystemStd.load();

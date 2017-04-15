@@ -22,7 +22,8 @@ public class WelcomeApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         controller = new WelcomeController();
 
-        guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle());
+        guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle(), controller.getRecApps(), controller.getTeachApps(), controller.getSoftwApps(), controller.getGamesApps());
+
         
         Stage errorStage = FXMLGuiLoader.createDialog(
                 primaryStage,

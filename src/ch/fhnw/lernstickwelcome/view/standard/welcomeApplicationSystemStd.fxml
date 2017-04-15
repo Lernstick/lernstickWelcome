@@ -27,7 +27,7 @@
                   </Label>
                </left>
                <right>
-                  <Button fx:id="btn_sys_help" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btn_sys_help" mnemonicParsing="false" text="?" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
             <GridPane vgap="15.0">
@@ -129,11 +129,11 @@
                      </font>
                   </Label>
                   <Label text="%WelcomeApplicationProxy.use" GridPane.rowIndex="1" />
-                  <CheckBox fx:id="cb_sysStd_proxy" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#onProxyClicked" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                  <Label text="%WelcomeApplicationProxy.host" GridPane.rowIndex="2" />
-                  <Label text="%WelcomeApplicationProxy.port" GridPane.rowIndex="3" />
-                  <Label text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="4" />
-                  <Label text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="5" />
+                  <CheckBox fx:id="cb_sysStd_proxy" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label fx:id="lbl_sysStd_host" text="%WelcomeApplicationProxy.host" GridPane.rowIndex="2" />
+                  <Label fx:id="lbl_sysStd_port" text="%WelcomeApplicationProxy.port" GridPane.rowIndex="3" />
+                  <Label fx:id="lbl_sysStd_user" text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="4" />
+                  <Label fx:id="lbl_sysStd_pwd" text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="5" />
                   <TextField fx:id="txt_sysStd_host" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="txt_sysStd_port" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="txt_sysStd_user" GridPane.columnIndex="1" GridPane.rowIndex="4" />

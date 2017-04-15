@@ -5,13 +5,20 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
+import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
+import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 
 /**
  * FXML Controller class
@@ -20,27 +27,75 @@ import javafx.scene.input.MouseEvent;
  */
 public class WelcomeApplicationRecommendedSoftwareController implements Initializable {
 
-    @FXML
-    private Button btn_rs_help;
-    @FXML
     private ToggleButton tbtn_rs_flash;
-    @FXML
     private ToggleButton tbtn_rs_reader;
-    @FXML
     private ToggleButton tbtn_rs_font;
-    @FXML
     private ToggleButton tbtn_rs_mmFormats;
+    @FXML
+    private Button btn_sys_help;
+    @FXML
+    private GridPane gp_recommended;
+    
+    ResourceBundle rb;
 
+     public void initializeApps(ApplicationGroupTask recApps)
+    {
+       try{
+            for(ApplicationTask app : recApps.getApps())
+            {
+                int i = 1;
+                Image icon = app.getIcon();
+                Label name = new Label(app.getName());
+                String description = app.getDescription();
+                ToggleButton tbutton = new ToggleButton(rb.getString("WelcomeApplicationRecommendedSoftware.t1"));
+                tbutton.disableProperty().setValue(app.isInstalled());
+                tbutton.selectedProperty().bindBidirectional(app.installingProperty());
+                gp_recommended.add(new ImageView(icon), i, 0);
+                gp_recommended.add(name, i, 1);
+                gp_recommended.add(tbutton, i, 2);
+                if(!"".equals(description))
+                {
+                    Label descript = new Label(description);
+                    descript.setFont(new Font(11));
+                    gp_recommended.add(descript, ++i, 0);
+                }           
+                ++i;      
+            }
+        }catch(NullPointerException e){
+            Label error = new Label(rb.getString("WelcomeApplicationAdditionalSoftware.notAvailable"));
+            gp_recommended.add(error, 1, 0);
+        }
+    }
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.rb = rb;
     }    
 
-    @FXML
-    private void onClickShowHelp(MouseEvent event) {
+
+    public ToggleButton getTbtn_rs_flash() {
+        return tbtn_rs_flash;
     }
+
+    public ToggleButton getTbtn_rs_reader() {
+        return tbtn_rs_reader;
+    }
+
+    public ToggleButton getTbtn_rs_font() {
+        return tbtn_rs_font;
+    }
+
+    public ToggleButton getTbtn_rs_mmFormats() {
+        return tbtn_rs_mmFormats;
+    }
+
+    public Button getBtn_sys_help() {
+        return btn_sys_help;
+    }
+    
+    
     
 }

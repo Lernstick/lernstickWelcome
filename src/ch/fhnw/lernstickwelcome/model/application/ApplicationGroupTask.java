@@ -56,4 +56,9 @@ public class ApplicationGroupTask extends ResetableTask<Boolean> {
             return true;
         }
     }
+
+    public List<ApplicationTask> getApps() {
+        return apps;
+    }
+    
 }
