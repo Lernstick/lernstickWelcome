@@ -5,7 +5,6 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
@@ -22,11 +21,10 @@ import javafx.scene.image.Image;
  *
  * @author sschw
  */
-public class ApplicationTask extends ResetableTask<Boolean> {
-
+public class ApplicationTask extends Task<Boolean> {
     private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-
+    
     private String name;
     private String description;
     private Image icon;
@@ -35,44 +33,44 @@ public class ApplicationTask extends ResetableTask<Boolean> {
     private BooleanProperty installing = new SimpleBooleanProperty();
     private boolean installed;
     private ProxyTask proxy;
-
+    
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
         this.description = description;
-        //this.icon = new Image(icon);
+        //this.icon = new Image(icon); TODO where dem icons at?
         this.packages = packages;
         this.installed = initIsInstalled();
     }
-
+    
     public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
         this(name, description, icon, packages);
         this.helpPath = helpPath;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public Image getIcon() {
         return icon;
     }
-
+    
     public String getHelpPath() {
         return helpPath;
     }
-
+    
     public BooleanProperty installingProperty() {
         return installing;
     }
-
+    
     public boolean isInstalled() {
         return installed;
     }
-
+    
     public int getNoPackages() {
         return packages.getNumberOfPackages();
     }
@@ -81,12 +79,24 @@ public class ApplicationTask extends ResetableTask<Boolean> {
         this.proxy = proxy;
     }
 
+    @Override
+    protected Boolean call() throws Exception {
+        updateProgress(0, packages.getNumberOfPackages());
+        //XXX May nice if there would update the percentage while execute
+        PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
+        // TODO ev. call apt-get -f install to fix dependencies which are missing
+        return true;
+    }
+
     private boolean initIsInstalled() {
         int length = packages.getNumberOfPackages();
         String[] commandArray = new String[length + 2];
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
-        System.arraycopy(packages, 0, commandArray, 2, length);
+        // @Sandro: i changed the line next from 
+        // System.arraycopy(packages, 0, commandArray, 2, length);
+        // to this (i think this was a bug, or do i miss something?): 
+        System.arraycopy(packages.getPackageNames(), 0, commandArray, 2, length);
         PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         for (String packageName : packages.getPackageNames()) {
@@ -110,22 +120,5 @@ public class ApplicationTask extends ResetableTask<Boolean> {
         }
         return true;
     }
-
-    @Override
-    public Task<Boolean> getTask() {
-        return new InternalTask();
-    }
-
-    private class InternalTask extends Task<Boolean> {
-
-        @Override
-        protected Boolean call() throws Exception {
-            updateProgress(0, packages.getNumberOfPackages());
-            //XXX May nice if there would update the percentage while execute
-            PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
-            // TODO ev. call apt-get -f install to fix dependencies which are missing
-            return true;
-        }
-    }
-
+    
 }

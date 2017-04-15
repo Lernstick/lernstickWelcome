@@ -23,6 +23,7 @@ public class WelcomeModelFactoryTest {
 	public void testGetApplicationTask() throws ParserConfigurationException, SAXException, IOException {
 		ApplicationTask t = WelcomeModelFactory.getApplicationTask("Kstars");
 		assertTrue(t.getName().equals("Kstars"));
+		assertTrue(t.getNoPackages() == 4);
 	}
 	
 	@Test
