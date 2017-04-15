@@ -74,6 +74,11 @@ public class ApplicationTask extends Task<Boolean> {
     public int getNoPackages() {
         return packages.getNumberOfPackages();
     }
+    
+    /* only used for testcases */
+    public ApplicationPackages getPackages() {
+        return packages;
+    }
 
     public void setProxy(ProxyTask proxy) {
         this.proxy = proxy;

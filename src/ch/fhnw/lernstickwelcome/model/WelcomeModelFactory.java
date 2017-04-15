@@ -32,7 +32,7 @@ import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
-//import org.freedesktop.dbus.exceptions.DBusException;
+import org.freedesktop.dbus.exceptions.DBusException;
 /**
  * XXX Change this class if applications should be load from file
  * 
@@ -49,11 +49,11 @@ public class WelcomeModelFactory {
     
     public static StorageDevice getSystemStorageDevice() {
         if(SYSTEM_STORAGE_DEVICE == null) {
-           /* try {
+            try {
                 SYSTEM_STORAGE_DEVICE = StorageTools.getSystemStorageDevice();
             } catch (DBusException | IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            }*/
+            }
         }
         return SYSTEM_STORAGE_DEVICE;
     }    
