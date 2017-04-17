@@ -69,21 +69,21 @@ public class WelcomeController {
     
     public void loadStandardEnvironment() {
         isExamEnvironment = false;
-        
+
         help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0]);
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
         recApps = WelcomeModelFactory.getRecommendedApplicationTask(proxy);
         teachApps = WelcomeModelFactory.getTeachingApplicationTask(proxy);
-        
+
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
-        
+
         // Init Installer
         List<ResetableTask> processingList = new ArrayList<>();
         processingList.add(proxy);
         processingList.add(recApps);
-        
+
         taskProcessor = new TaskProcessor(processingList);
     }
     

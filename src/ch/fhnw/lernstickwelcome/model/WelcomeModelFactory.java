@@ -141,6 +141,7 @@ public class WelcomeModelFactory {
 
     public static SystemconfigTask getSystemTask(boolean isExam, PropertiesTask properties) {
         return new SystemconfigTask(isExam, properties.getProperties());
+
     }
 
     public static PartitionTask getPartitionTask(PropertiesTask properties) {

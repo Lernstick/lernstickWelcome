@@ -20,10 +20,10 @@ public class WelcomeApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        try{
         controller = new WelcomeController();
 
         guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle(), controller.getRecApps(), controller.getTeachApps(), controller.getSoftwApps(), controller.getGamesApps());
-
         
         Stage errorStage = FXMLGuiLoader.createDialog(
                 primaryStage,
@@ -31,6 +31,7 @@ public class WelcomeApplication extends Application {
                 controller.getBundle().getString("welcomeApplicationError.title"),
                 true
         );
+
         Stage helpStage = FXMLGuiLoader.createDialog(
                 primaryStage, 
                 guiLoader.getHelpScene(), 
@@ -39,6 +40,7 @@ public class WelcomeApplication extends Application {
         );
 
         if (isExamEnvironment()) {
+
             controller.loadExamEnvironment();
             
             if(!controller.getSysconf().isPasswordChanged()) {
@@ -74,10 +76,10 @@ public class WelcomeApplication extends Application {
             examSystemBinder.initHelp(helpStage, helpBinder);
         } else {
             controller.loadStandardEnvironment();
-            
-            HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelp());
-            helpBinder.initBindings();
-            helpBinder.initHandlers();
+
+            //HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelp());
+            //helpBinder.initBindings();
+            //helpBinder.initHandlers();
         }
         
         ProgressBinder progressBinder = new ProgressBinder(controller, guiLoader.getProgress());
@@ -99,6 +101,9 @@ public class WelcomeApplication extends Application {
         primaryStage.show();
         primaryStage.setMinHeight(scene.getHeight());
         primaryStage.setMinWidth(scene.getWidth());
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     @Override
