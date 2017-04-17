@@ -50,20 +50,20 @@ public class WelcomeApplicationRecommendedSoftwareController implements Initiali
                 ToggleButton tbutton = new ToggleButton(rb.getString("WelcomeApplicationRecommendedSoftware.t1"));
                 tbutton.disableProperty().setValue(app.isInstalled());
                 tbutton.selectedProperty().bindBidirectional(app.installingProperty());
-                gp_recommended.add(new ImageView(icon), i, 0);
-                gp_recommended.add(name, i, 1);
-                gp_recommended.add(tbutton, i, 2);
+                gp_recommended.add(new ImageView(icon), 0, i);
+                gp_recommended.add(name, 1, i);
+                gp_recommended.add(tbutton, 2, i);
                 if(!"".equals(description))
                 {
                     Label descript = new Label(description);
                     descript.setFont(new Font(11));
-                    gp_recommended.add(descript, ++i, 0);
+                    gp_recommended.add(descript, 0, ++i);
                 }           
                 ++i;      
             }
         }catch(NullPointerException e){
             Label error = new Label(rb.getString("WelcomeApplicationAdditionalSoftware.notAvailable"));
-            gp_recommended.add(error, 1, 0);
+            gp_recommended.add(error, 0, 1);
         }
     }
     

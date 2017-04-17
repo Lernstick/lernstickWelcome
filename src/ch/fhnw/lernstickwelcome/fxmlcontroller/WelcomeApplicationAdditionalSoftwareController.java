@@ -56,20 +56,20 @@ public class WelcomeApplicationAdditionalSoftwareController implements Initializ
                 ToggleButton tbutton = new ToggleButton(rb.getString("WelcomeApplicationRecommendedSoftware.t1"));
                 tbutton.disableProperty().setValue(app.isInstalled());
                 tbutton.selectedProperty().bindBidirectional(app.installingProperty());
-                gp_teaching.add(new ImageView(icon), i, 0);
-                gp_teaching.add(name, i, 1);
-                gp_teaching.add(tbutton, i, 2);
+                gp_teaching.add(new ImageView(icon), 0, i);
+                gp_teaching.add(name, 1, i);
+                gp_teaching.add(tbutton, 2, i);
                 if(!"".equals(description))
                 {
                     Label descript = new Label(description);
                     descript.setFont(new Font(11));
-                    gp_teaching.add(descript, ++i, 0);
+                    gp_teaching.add(descript, 0, ++i);
                 }           
                 ++i;      
             }
         }catch(NullPointerException e){
             Label error = new Label(rb.getString("WelcomeApplicationAdditionalSoftware.notAvailable"));
-            gp_teaching.add(error, 1, 0);
+            gp_teaching.add(error, 0, 1);
         }
         
         
@@ -83,20 +83,20 @@ public class WelcomeApplicationAdditionalSoftwareController implements Initializ
                 ToggleButton tbutton = new ToggleButton(rb.getString("WelcomeApplicationRecommendedSoftware.t1"));
                 tbutton.disableProperty().setValue(app.isInstalled());
                 tbutton.selectedProperty().bindBidirectional(app.installingProperty());
-                gp_softw.add(new ImageView(icon), i, 0);
-                gp_softw.add(name, i, 1);
-                gp_softw.add(tbutton, i, 2);
+                gp_softw.add(new ImageView(icon), 0, i);
+                gp_softw.add(name, 1, i);
+                gp_softw.add(tbutton, 2, i);
                 if(!"".equals(description))
                 {
                     Label descript = new Label(description);
                     descript.setFont(new Font(11));
-                    gp_softw.add(descript, ++i, 0);
+                    gp_softw.add(descript, 0, ++i);
                 }
                 ++i;      
             }
         }catch(NullPointerException e){
             Label error = new Label(rb.getString("WelcomeApplicationAdditionalSoftware.notAvailable"));
-            gp_softw.add(error, 1, 0);
+            gp_softw.add(error, 0, 1);
         }
          
         try{        
@@ -109,20 +109,20 @@ public class WelcomeApplicationAdditionalSoftwareController implements Initializ
                 ToggleButton tbutton = new ToggleButton(rb.getString("WelcomeApplicationRecommendedSoftware.t1"));
                 tbutton.disableProperty().setValue(app.isInstalled());
                 tbutton.selectedProperty().bindBidirectional(app.installingProperty());
-                gp_games.add(new ImageView(icon), i, 0);
-                gp_games.add(name, i, 1);
-                gp_games.add(tbutton, i, 2);
+                gp_games.add(new ImageView(icon), 0, i);
+                gp_games.add(name, 1, i);
+                gp_games.add(tbutton, 2, i);
                 if(!"".equals(description))
                 {
                     Label descript = new Label(description);
                     descript.setFont(new Font(11));
-                    gp_games.add(descript, ++i, 0);
+                    gp_games.add(descript, 0, ++i);
                 }
                 ++i;     
             }
         }catch(NullPointerException e){
             Label error = new Label(rb.getString("WelcomeApplicationAdditionalSoftware.notAvailable"));
-            gp_games.add(error, 1, 0);
+            gp_games.add(error, 0, 1);
         }
     }
     /**
