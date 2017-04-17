@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
@@ -10,7 +5,8 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdContro
 import javafx.stage.Stage;
 
 /**
- *
+ *Binder class to init binings between view components and backend (model) properties
+ * 
  * @author user
  */
 public class StdSystemBinder {
@@ -18,11 +14,20 @@ public class StdSystemBinder {
     private WelcomeController controller;
     private WelcomeApplicationSystemStdController system;
     
+   /**
+     * Constructor of ExamInformationBinder class
+     * 
+     * @param controller        is needed to provide access to the backend properties
+     * @param system            FXML controller which prviedes the view properties
+     */
     public StdSystemBinder(WelcomeController controller, WelcomeApplicationSystemStdController system){
         this.controller = controller;
         this.system = system;
     }
     
+    /**
+     * Method to initialize the bidirectional bindings between the view and packend properties
+     */
     public void initBindings(){
         system.getCb_sysStd_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().getBlockKdeDesktopApplets());
         system.getCb_sysStd_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().getDirectSoundOutput());

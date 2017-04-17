@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
@@ -11,7 +6,8 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import javafx.stage.Stage;
 
 /**
- *
+ * Binder class to init binings and between view components and backend (model) properties and add handlers
+ * 
  * @author user
  */
 public class ExamFirewallBinder {
@@ -19,12 +15,20 @@ public class ExamFirewallBinder {
     private final WelcomeController controller;
     private final WelcomeApplicationFirewallController firewall;
 
-    
+    /**
+     * Constructor of ExamBackupBinder class
+     * 
+     * @param controller        is needed to provide access to the backend properties
+     * @param firewall            FXML controller which prviedes the view properties
+     */
     public ExamFirewallBinder(WelcomeController controller, WelcomeApplicationFirewallController firewall) {
         this.controller = controller;
         this.firewall = firewall;
     }
     
+    /**
+     * Method to initialize the bidirectional bindings between the view and packend properties
+     */
     public void initBindings() {
         // Bind url_whitelist view data to model data
         firewall.getTv_fw_allowed_sites().itemsProperty().bindBidirectional(controller.getFirewall().getWebsiteListProperty());
@@ -55,6 +59,11 @@ public class ExamFirewallBinder {
         return controller.getFirewall().firewallRunningProperty().get() != firewall.getCb_fw_allow_monitoring().switchOnProperty().get();
     }
 
+    /**
+     * Open other view by clicking on help button
+     * @param helpStage     additional window showing help
+     * @param help          links to online user guide
+     */
     public void initHelp(Stage helpStage, HelpBinder help) {
         firewall.getBtnFwHelp().setOnAction(evt -> {
             help.setHelpEntry("Firewall");

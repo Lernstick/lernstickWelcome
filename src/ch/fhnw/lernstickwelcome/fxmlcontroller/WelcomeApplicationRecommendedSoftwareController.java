@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
@@ -23,7 +18,7 @@ import javafx.scene.text.Font;
 /**
  * FXML Controller class
  *
- * @author user
+ * @author Line Stettler
  */
 public class WelcomeApplicationRecommendedSoftwareController implements Initializable {
 
@@ -35,11 +30,18 @@ public class WelcomeApplicationRecommendedSoftwareController implements Initiali
     private Button btn_sys_help;
     @FXML
     private GridPane gp_recommended;
-    
+    //needed to get value of key for description and error message
     ResourceBundle rb;
 
+    /**
+     * Method to get all available applikation tasks, which are tagged with 'recommended',
+     * display them in groups with icon, name and (optional) description.
+     * 
+     * @param recApps     list of applications usable for lectures/learning
+     */
      public void initializeApps(ApplicationGroupTask recApps)
     {
+        //Add all recommended apps to view and add bindings
        try{
             for(ApplicationTask app : recApps.getApps())
             {
@@ -62,6 +64,7 @@ public class WelcomeApplicationRecommendedSoftwareController implements Initiali
                 ++i;      
             }
         }catch(NullPointerException e){
+            //If no applications are available/configured with the tag "recommended" in xml file
             Label error = new Label(rb.getString("WelcomeApplicationAdditionalSoftware.notAvailable"));
             gp_recommended.add(error, 0, 1);
         }

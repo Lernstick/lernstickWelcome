@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
@@ -10,19 +6,29 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import javafx.stage.Stage;
 
 /**
- *
- * @author user
+ * Binder class to init binings between view components and backend (model) properties
+ * 
+ * @author Sandro Schwager, Line Stettler
  */
 public class ExamBackupBinder {
 
     private final WelcomeController controller;
     private final WelcomeApplicationBackupController backup;
     
+    /**
+     * Constructor of ExamBackupBinder class
+     * 
+     * @param controller        is needed to provide access to the backend properties
+     * @param backup            FXML controller which prviedes the view properties
+     */
     public ExamBackupBinder(WelcomeController controller, WelcomeApplicationBackupController backup){
         this.controller = controller;
         this.backup = backup;
     }
     
+    /**
+     * Method to initialize the bidirectional bindings between the view and packend properties
+     */
     public void initBindings(){
         // Create bindings
         backup.getCb_bu_backup().selectedProperty().bindBidirectional(controller.getBackup().getActive());
@@ -36,6 +42,11 @@ public class ExamBackupBinder {
         backup.getTxt_bu_src_path().textProperty().bindBidirectional(controller.getBackup().getSourcePath());
     }
 
+    /**
+     * Open other view by clicking on help button
+     * @param helpStage     additional window showing help
+     * @param help          links to online user guide
+     */
     public void initHelp(Stage helpStage, HelpBinder help) {
         backup.getBtnBuHelp().setOnAction(evt -> {
             help.setHelpEntry("Backup");

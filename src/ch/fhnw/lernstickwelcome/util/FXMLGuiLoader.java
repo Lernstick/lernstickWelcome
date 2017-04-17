@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.fhnw.lernstickwelcome.util;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.MenuPaneItem;
@@ -80,10 +75,11 @@ public class FXMLGuiLoader {
     
     public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb, ApplicationGroupTask recApps, ApplicationGroupTask teachingApps, ApplicationGroupTask softwApps, ApplicationGroupTask gameApps) {
         this.isExamEnvironment = isExamEnvironment;
-        // Create all instances with their controllers        
+        // Create all instances with their controllers and load the internatioalized strings       
         try {
             ObservableList<MenuPaneItem> menuPaneItems = FXCollections.observableArrayList();
             
+            // load start view
             FXMLLoader loadStart = new FXMLLoader(getClass().getResource("../view/welcomeApplicationStart.fxml"), rb);
             welcomeApplicationStart = new Scene(loadStart.load());
             welcomeApplicationStartController = loadStart.getController();
@@ -96,17 +92,20 @@ public class FXMLGuiLoader {
                 FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), rb);
                 recommended = (Parent)loadRecomm.load();
                 welcomeApplicationRecommendedSoftwareController = loadRecomm.getController();
+                // initialize alle recommended apps (configured in the xml file with the tag "recommended")
                 welcomeApplicationRecommendedSoftwareController.initializeApps(recApps);
                         
                 FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), rb);
                 addSoftware = (Parent)loadAdd.load();
                 welcomeApplicationAdditionalSoftwareController = loadAdd.getController();
+                // initialize alle addional apps (configured in the xml file with the tags "teaching", "game" and "others")
                 welcomeApplicationAdditionalSoftwareController.initializeApps(teachingApps, softwApps, gameApps);
                         
                 FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), rb);
                 systemStd = (Parent)loadSystemStd.load();
                 welcomeApplicationSystemStdController = loadSystemStd.getController();
                 
+                //add to pane list for the standard version
                 menuPaneItems.add(new MenuPaneItem(informationStd, "Information", null));
                 menuPaneItems.add(new MenuPaneItem(recommended, "Recommended Software", null));
                 menuPaneItems.add(new MenuPaneItem(addSoftware, "Additional Software", null));
@@ -132,6 +131,7 @@ public class FXMLGuiLoader {
                 system = (Parent)loadSystem.load();
                 welcomeApplicationSystemController = loadSystem.getController();
 
+                //add to pane list for the exam version
                 menuPaneItems.add(new MenuPaneItem(information, "Information", null));
                 menuPaneItems.add(new MenuPaneItem(firewall, "Firewall", null));
                 menuPaneItems.add(new MenuPaneItem(backup, "Backup", null));
@@ -150,6 +150,7 @@ public class FXMLGuiLoader {
             welcomeApplicationHelp = new Scene(loadHelp.load());
             welcomeApplicationHelpController = loadHelp.getController();
             
+            // add menu buttons to welcome application main window and panes according to exam/std version of the lernsick
             welcomeApplicationStartController.initializeMenu(menuPaneItems);
             
         } catch(IOException ex) {
@@ -215,6 +216,7 @@ public class FXMLGuiLoader {
     }
     
     /**
+     * Method to create welcome application dialog (main window)
      * 
      * @param parent parent
      * @param scene scene
