@@ -44,7 +44,7 @@
                   <Label text="%welcomeApplicationSystem.userName" GridPane.rowIndex="2" />
                   <TextField fx:id="txt_sys_username" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.systemname" />
-                  <Label text="welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
+                  <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
                   <TextField fx:id="txt_sys_systemversion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="txt_sys_systemname" GridPane.columnIndex="1" />
                </children>

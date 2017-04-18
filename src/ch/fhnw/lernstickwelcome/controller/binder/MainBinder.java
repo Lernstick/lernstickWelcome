@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.controller;
+package ch.fhnw.lernstickwelcome.controller.binder;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
 import javafx.stage.Stage;
 
@@ -17,7 +18,7 @@ public class MainBinder {
     private final WelcomeController controller;
     private final WelcomeApplicationStartController welcomeApplicationStart;
 
-    MainBinder(WelcomeController controller, WelcomeApplicationStartController welcomeApplicationStart) {
+    public MainBinder(WelcomeController controller, WelcomeApplicationStartController welcomeApplicationStart) {
         this.controller = controller;
         this.welcomeApplicationStart = welcomeApplicationStart;
     }

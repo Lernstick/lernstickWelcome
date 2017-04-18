@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome;
 
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
-import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.PropertiesTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;

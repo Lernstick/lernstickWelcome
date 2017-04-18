@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.systemconfig;
 
-import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
@@ -548,7 +548,8 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                 }
                 Files.write(path, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
-                throw new ProcessingException(ex.getMessage());
+                LOGGER.log(Level.WARNING, "", ex);
+                throw new ProcessingException("SystemconfigTask.cantWritePasswordPolicy", ex.getMessage());
             }
         }
     }

@@ -16,9 +16,15 @@ import ch.fhnw.lernstickwelcome.model.help.HelpLoader;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  *
@@ -26,6 +32,7 @@ import java.util.ResourceBundle;
  */
 public class WelcomeController {
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+    private static final Logger LOGGER = Logger.getLogger(WelcomeApplication.class.getName());
     
     private TaskProcessor taskProcessor;
     // Backend Tasks
@@ -48,9 +55,11 @@ public class WelcomeController {
     private boolean  isExamEnvironment;
     
     public void loadExamEnvironment() {
+        configureLogger();
+        
         isExamEnvironment = true;
         
-        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0]);
+        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0], isExamEnvironment);
         
         properties = WelcomeModelFactory.getPropertiesTask();
         firewall = WelcomeModelFactory.getFirewallTask();
@@ -68,9 +77,11 @@ public class WelcomeController {
     }
     
     public void loadStandardEnvironment() {
+        configureLogger();
+        
         isExamEnvironment = false;
 
-        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0]);
+        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0], isExamEnvironment);
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
@@ -96,6 +107,31 @@ public class WelcomeController {
             firewall.stopFirewallStateChecking();
         }
         sysconf.umountBootConfig();
+    }
+
+    public void configureLogger() {
+        
+        // log everything...
+        Logger globalLogger = Logger.getLogger("ch.fhnw");
+        globalLogger.setLevel(Level.ALL);
+        SimpleFormatter formatter = new SimpleFormatter();
+
+        // log to console
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(formatter);
+        consoleHandler.setLevel(Level.ALL);
+        globalLogger.addHandler(consoleHandler);
+
+        // log into a rotating temporaty file of max 5 MB
+        try {
+            FileHandler fileHandler
+                    = new FileHandler("%t/lernstickWelcome", 5000000, 2, true);
+            fileHandler.setFormatter(formatter);
+            fileHandler.setLevel(Level.ALL);
+            globalLogger.addHandler(fileHandler);
+        } catch (IOException | SecurityException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
     }
 
     public TaskProcessor getInstaller() {

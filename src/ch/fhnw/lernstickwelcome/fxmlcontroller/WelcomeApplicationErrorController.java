@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;

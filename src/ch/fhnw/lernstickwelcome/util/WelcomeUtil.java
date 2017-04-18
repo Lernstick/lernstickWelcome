@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.util;
 
-import ch.fhnw.lernstickwelcome.controller.TableCellValidationException;
+import ch.fhnw.lernstickwelcome.controller.exception.TableCellValidationException;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.LernstickFileTools;
@@ -205,8 +205,12 @@ public class WelcomeUtil {
     private static void checkIPv4Address(String string, int index) throws TableCellValidationException {
         String[] octetStrings = string.split("\\.");
         for (String octetString : octetStrings) {
-            int octet = Integer.parseInt(octetString);
-            if (octet < 0 || octet > 255) {
+            try {
+                int octet = Integer.parseInt(octetString);
+                if (octet < 0 || octet > 255) {
+                    throw new TableCellValidationException("Error_Octet", index, 1, string, octetString);
+                }
+            } catch (NumberFormatException ex) {
                 throw new TableCellValidationException("Error_Octet", index, 1, string, octetString);
             }
         }

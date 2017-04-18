@@ -23,13 +23,13 @@ public class ToggleSwitch extends HBox {
     private final Label label = new Label();
     private final Button button = new Button();
 
-    private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
     private SimpleStringProperty textOn = new SimpleStringProperty();
     private SimpleStringProperty textOff = new SimpleStringProperty();
     
     public ToggleSwitch() {
         init();
-        switchedOn.addListener((a, b, c) -> {
+        selected.addListener((a, b, c) -> {
             if (c) {
                 label.textProperty().unbind();
                 label.textProperty().bind(this.textOn);
@@ -55,10 +55,10 @@ public class ToggleSwitch extends HBox {
             
         getChildren().addAll(label, button);
         button.setOnAction((e) -> {
-            switchedOn.set(!switchedOn.get());
+            selected.set(!selected.get());
         });
         label.setOnMouseClicked((e) -> {
-            switchedOn.set(!switchedOn.get());
+            selected.set(!selected.get());
         });
         setStyle();
             
@@ -80,8 +80,8 @@ public class ToggleSwitch extends HBox {
         button.prefHeightProperty().bind(heightProperty());
     }
 
-    public BooleanProperty switchOnProperty() {
-        return switchedOn;
+    public BooleanProperty selectedProperty() {
+        return selected;
     }
     
     public void setTextOn(String textOn) {

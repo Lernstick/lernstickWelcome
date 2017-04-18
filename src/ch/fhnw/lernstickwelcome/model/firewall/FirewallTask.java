@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.firewall;
 
-import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.ResetableTask;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;

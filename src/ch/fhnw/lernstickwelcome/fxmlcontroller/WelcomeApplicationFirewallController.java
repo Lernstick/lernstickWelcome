@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.controller.ValidationException;
+import ch.fhnw.lernstickwelcome.controller.exception.ValidationException;
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter.SearchPattern;
@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -69,6 +70,8 @@ public class WelcomeApplicationFirewallController implements Initializable {
     private TextField txt_fw_new_ip;
     @FXML
     private ComboBox<IpFilter.Protocol> choice_fw_protocol;
+    @FXML
+    private Label lbl_fw_allow_monitoring;
     
     private ResourceBundle rb;
 
@@ -199,6 +202,10 @@ public class WelcomeApplicationFirewallController implements Initializable {
 
     public ComboBox<IpFilter.Protocol> getChoice_fw_protocol() {
         return choice_fw_protocol;
+    }
+    
+    public Label getLbl_fw_allow_monitoring() {
+        return lbl_fw_allow_monitoring;
     }
     
     private boolean validateSitesFields() {

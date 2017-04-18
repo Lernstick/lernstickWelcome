@@ -19,3 +19,10 @@ and open the template in the editor.
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;   
 }
+
+.lbl_on {
+    -fx-text-fill: green;
+}
+.lbl_off {
+    -fx-text-fill: red;
+}

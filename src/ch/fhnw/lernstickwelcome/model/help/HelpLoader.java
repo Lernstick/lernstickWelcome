@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.help;
 
-import ch.fhnw.lernstickwelcome.controller.ProcessingException;
+import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import java.io.File;
 import java.nio.file.Files;
@@ -23,18 +23,25 @@ import java.util.regex.Pattern;
 public class HelpLoader {
     private List<HelpEntry> entries = new ArrayList<>();
     
-    public HelpLoader(String language) {
-        loadHelpEntries(language);
+    public HelpLoader(String language, boolean isExamEnvironment) {
+        loadHelpEntries(language, isExamEnvironment);
     }
     
-    private void loadHelpEntries(String language) {
-        File rootDir = new File(WelcomeConstants.HELP_FILE_PATH + "/" + language);
-        fillFoundEntriesIntoList(rootDir, "^", entries);
+    private void loadHelpEntries(String language, boolean isExamEnvironment) {
+        // Look for path under HelpFilePath/Language/std or ex
+        File rootDir = new File(getHelpPath(language, isExamEnvironment));
+        
+        // If language isn't supported use English as default
+        if(!rootDir.exists())
+            rootDir = new File(getHelpPath("en", isExamEnvironment));
+        
+        // Fill Help Entries recursive
+        fillFoundEntriesIntoList(rootDir.listFiles(), "^", entries);
     }
     
-    private void fillFoundEntriesIntoList(File rootDir, String levelString, List<HelpEntry> parent) {
-        String regexPattern = levelString + "([1-9]+)-([A-Za-z_0-9]+).html";
-        for(File f : rootDir.listFiles()) {
+    private void fillFoundEntriesIntoList(File[] subfiles, String levelString, List<HelpEntry> parent) {
+        String regexPattern = levelString + "([0-9]+)-([A-Za-z_0-9]+).html";
+        for(File f : subfiles) {
             Pattern pattern = Pattern.compile(regexPattern);
             Matcher matcher = pattern.matcher(f.getName());
             
@@ -46,10 +53,16 @@ public class HelpLoader {
                 entry.setIndex(index);
                 parent.add(entry);
 
-                fillFoundEntriesIntoList(rootDir, levelString + index + "\\.", entry.getSubEntries());
+                fillFoundEntriesIntoList(subfiles, levelString + index + "\\.", entry.getSubEntries());
             }
         }
         Collections.sort(parent);
+    }
+    
+    private String getHelpPath(String language, boolean isExamEnvironment) {
+        return WelcomeConstants.HELP_FILE_PATH + "/"
+                + language + "/"
+                + (isExamEnvironment ? "ex" : "std");
     }
     
     public List<HelpEntry> getHelpEntries() {

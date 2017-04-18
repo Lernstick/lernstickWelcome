@@ -36,7 +36,7 @@
             <HBox alignment="CENTER_LEFT" spacing="15">
                <children>
                   <ToggleSwitch fx:id="cb_fw_allow_monitoring" textOn="%ToggleSwitch.on" textOff="%ToggleSwitch.off" />
-                  <Label text="%welcomeApplicationFirewall.monitoringInternetAccess" />
+                  <Label fx:id="lbl_fw_allow_monitoring" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
                </children>
             </HBox>
             <HBox>

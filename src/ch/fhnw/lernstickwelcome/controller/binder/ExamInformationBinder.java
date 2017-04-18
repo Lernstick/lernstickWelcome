@@ -1,5 +1,6 @@
-package ch.fhnw.lernstickwelcome.controller;
+package ch.fhnw.lernstickwelcome.controller.binder;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
 
 /**

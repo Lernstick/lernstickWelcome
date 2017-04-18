@@ -3,21 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.controller;
+package ch.fhnw.lernstickwelcome.controller.exception;
 
 /**
- * Thrown if a field on a GUI has an invalid value.
- * 
+ * Thrown if a backend process fails.
+ *
  * @author sschw
  */
-public class ValidationException extends Exception {
+public class ProcessingException extends Exception {
     private Object[] details;
     
-    public ValidationException(String message) {
+    public ProcessingException(String message) {
         super(message);
     }
 
-    public ValidationException(String message, Object... details) {
+    public ProcessingException(String message, Object... details) {
         super(message);
         this.details = details;
     }
