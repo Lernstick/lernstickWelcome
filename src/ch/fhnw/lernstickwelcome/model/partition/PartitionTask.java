@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.partition;
 
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.Partition;
@@ -24,7 +24,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class PartitionTask extends ResetableTask<Boolean> {
+public class PartitionTask implements Processable<Boolean> {
 
     private static final Logger LOGGER = Logger.getLogger(PartitionTask.class.getName());
     private static final ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
@@ -79,7 +79,7 @@ public class PartitionTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
 

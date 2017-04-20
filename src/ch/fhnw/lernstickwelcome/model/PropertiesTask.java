@@ -18,7 +18,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class PropertiesTask extends ResetableTask<Boolean> {
+public class PropertiesTask implements Processable<Boolean> {
     private static final Logger LOGGER = Logger.getLogger(PropertiesTask.class.getName());
     private Properties properties;
     private File propertiesFile;
@@ -39,7 +39,7 @@ public class PropertiesTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
     

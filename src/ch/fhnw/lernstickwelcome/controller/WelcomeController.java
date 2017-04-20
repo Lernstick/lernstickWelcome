@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.model.PropertiesTask;
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.TaskProcessor;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
@@ -67,7 +67,7 @@ public class WelcomeController {
         sysconf = WelcomeModelFactory.getSystemTask(true, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);
         
-        List<ResetableTask> processingList = new ArrayList<>();
+        List<Processable> processingList = new ArrayList<>();
         processingList.add(firewall);
         processingList.add(backup);
         processingList.add(sysconf);
@@ -91,7 +91,7 @@ public class WelcomeController {
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
 
         // Init Installer
-        List<ResetableTask> processingList = new ArrayList<>();
+        List<Processable> processingList = new ArrayList<>();
         processingList.add(proxy);
         processingList.add(recApps);
 

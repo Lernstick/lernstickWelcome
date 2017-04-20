@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.firewall;
 
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
@@ -30,7 +30,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class FirewallTask extends ResetableTask<Boolean> {
+public class FirewallTask implements Processable<Boolean> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
@@ -177,7 +177,7 @@ public class FirewallTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
 

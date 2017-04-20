@@ -5,11 +5,9 @@
  */
 package ch.fhnw.lernstickwelcome.model.proxy;
 
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
@@ -18,7 +16,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class ProxyTask extends ResetableTask<Boolean> {
+public class ProxyTask implements Processable<Boolean> {
 
     private BooleanProperty proxyActive = new SimpleBooleanProperty();
     private StringProperty hostname = new SimpleStringProperty();
@@ -82,7 +80,7 @@ public class ProxyTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
 

@@ -173,9 +173,9 @@ public class Welcome extends javax.swing.JFrame {
         backupPartitionCheckBox.setSelected(backupTask.getPartition().get());
         backupPartitionTextField.setText(backupTask.getPartitionPath().get());
         screenShotCheckBox.setSelected(backupTask.getScreenshot().get());
-        exchangeAccessCheckBox.setSelected(sysconfTask.getAllowAccessToOtherFilesystems().get());
-        kdePlasmaLockCheckBox.setSelected(sysconfTask.getBlockKdeDesktopApplets().get());
-        allowFilesystemMountCheckbox.setSelected(sysconfTask.getAllowAccessToOtherFilesystems().get());
+        exchangeAccessCheckBox.setSelected(sysconfTask.allowAccessToOtherFilesystemsProperty().get());
+        kdePlasmaLockCheckBox.setSelected(sysconfTask.blockKdeDesktopAppletsProperty().get());
+        allowFilesystemMountCheckbox.setSelected(sysconfTask.allowAccessToOtherFilesystemsProperty().get());
 
         backupFrequencySpinner.setValue(backupTask.getFrequency().get());
         
@@ -248,12 +248,12 @@ public class Welcome extends javax.swing.JFrame {
         // timeout
         ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
         ((JSpinner.DefaultEditor) backupFrequencySpinner.getEditor()).getTextField().setColumns(2);
-        bootTimeoutSpinner.setValue(sysconfTask.getTimeoutSeconds().get());
+        bootTimeoutSpinner.setValue(sysconfTask.timeoutSecondsProperty().get());
         
         updateSecondsLabel();
         // system strings
-        systemNameTextField.setText(sysconfTask.getSystemname().get());
-        systemVersionTextField.setText(sysconfTask.getSystemversion().get());
+        systemNameTextField.setText(sysconfTask.systemnameProperty().get());
+        systemVersionTextField.setText(sysconfTask.systemversionProperty().get());
         if (!WelcomeUtil.isImageWritable()) {
             bootTimeoutSpinner.setEnabled(false);
             systemNameTextField.setEditable(false);
@@ -321,7 +321,7 @@ public class Welcome extends javax.swing.JFrame {
             firewallStatusTimer.start();
         }
 
-        noPulseAudioCheckbox.setSelected(sysconfTask.getDirectSoundOutput().get());
+        noPulseAudioCheckbox.setSelected(sysconfTask.directSoundOutputProperty().get());
 
         helpTextPane.setCaretPosition(0);
 
@@ -347,7 +347,7 @@ public class Welcome extends javax.swing.JFrame {
         AbstractDocument userNameDocument
                 = (AbstractDocument) userNameTextField.getDocument();
         userNameDocument.setDocumentFilter(new FullUserNameFilter());
-        userNameTextField.setText(sysconfTask.getUsername().get());
+        userNameTextField.setText(sysconfTask.usernameProperty().get());
     }
 
     /**
@@ -2098,8 +2098,8 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void passwordChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordChangeButtonActionPerformed
-        sysconfTask.getPassword().set(new String(passwordField1.getPassword()));
-        sysconfTask.getPasswordRepeat().set(new String(passwordField2.getPassword()));
+        sysconfTask.passwordProperty().set(new String(passwordField1.getPassword()));
+        sysconfTask.passwordRepeatProperty().set(new String(passwordField2.getPassword()));
         try {
             sysconfTask.changePassword();
         } catch(ProcessingException ex) {
@@ -2113,8 +2113,8 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordField1ActionPerformed
 
     private void passwordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordField2ActionPerformed
-        sysconfTask.getPassword().set(new String(passwordField1.getPassword()));
-        sysconfTask.getPasswordRepeat().set(new String(passwordField2.getPassword()));
+        sysconfTask.passwordProperty().set(new String(passwordField1.getPassword()));
+        sysconfTask.passwordRepeatProperty().set(new String(passwordField2.getPassword()));
         try {
             sysconfTask.changePassword();
         } catch(ProcessingException ex) {
@@ -2166,7 +2166,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_backupPartitionCheckBoxItemStateChanged
 
     private void kdePlasmaLockCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kdePlasmaLockCheckBoxItemStateChanged
-        sysconfTask.getBlockKdeDesktopApplets().set(kdePlasmaLockCheckBox.isSelected());
+        sysconfTask.blockKdeDesktopAppletsProperty().set(kdePlasmaLockCheckBox.isSelected());
         sysconfTask.updateBlockKdeDesktopApplets();
     }//GEN-LAST:event_kdePlasmaLockCheckBoxItemStateChanged
 
@@ -2179,7 +2179,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_virtualBoxLabelMouseClicked
 
     private void allowFilesystemMountCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allowFilesystemMountCheckboxItemStateChanged
-        sysconfTask.getAllowAccessToOtherFilesystems().set(allowFilesystemMountCheckbox.isSelected());
+        sysconfTask.allowAccessToOtherFilesystemsProperty().set(allowFilesystemMountCheckbox.isSelected());
         sysconfTask.updateAllowFilesystemMount();
     }//GEN-LAST:event_allowFilesystemMountCheckboxItemStateChanged
 

@@ -30,18 +30,18 @@ public class ExamSystemBinder {
      */
     public void initBindings(){
         system.getCb_sys_access_user().selectedProperty().bindBidirectional(controller.getPartition().getAccessExchangePartition());
-        system.getCb_sys_allow_file_systems().selectedProperty().bindBidirectional(controller.getSysconf().getAllowAccessToOtherFilesystems());
-        system.getCb_sys_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().getBlockKdeDesktopApplets());
-        system.getCb_sys_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().getDirectSoundOutput());
+        system.getCb_sys_allow_file_systems().selectedProperty().bindBidirectional(controller.getSysconf().allowAccessToOtherFilesystemsProperty());
+        system.getCb_sys_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().blockKdeDesktopAppletsProperty());
+        system.getCb_sys_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().directSoundOutputProperty());
         system.getCb_sys_show_warning().selectedProperty().bindBidirectional(controller.getPartition().getShowReadWriteWelcome());
         system.getCb_sys_start_wa().selectedProperty().bindBidirectional(controller.getPartition().getShowReadOnlyInfo());
-        system.getChoice_sys_visible_for().valueProperty().bindBidirectional(controller.getSysconf().getTimeoutSeconds());
-        system.getTxt_sys_systemname().textProperty().bindBidirectional(controller.getSysconf().getSystemname());
-        system.getTxt_sys_systemversion().textProperty().bindBidirectional(controller.getSysconf().getSystemversion());
+        system.getChoice_sys_visible_for().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
+        system.getTxt_sys_systemname().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
+        system.getTxt_sys_systemversion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
         system.getTxt_sys_exchange_partition().textProperty().bindBidirectional(controller.getPartition().getExchangePartitionLabel());
-        system.getTxt_sys_password().textProperty().bindBidirectional(controller.getSysconf().getPassword());
-        system.getTxt_sys_password_repeat().textProperty().bindBidirectional(controller.getSysconf().getPasswordRepeat());
-        system.getTxt_sys_username().textProperty().bindBidirectional(controller.getSysconf().getUsername());
+        system.getTxt_sys_password().textProperty().bindBidirectional(controller.getSysconf().passwordProperty());
+        system.getTxt_sys_password_repeat().textProperty().bindBidirectional(controller.getSysconf().passwordRepeatProperty());
+        system.getTxt_sys_username().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
     }
 
     /**

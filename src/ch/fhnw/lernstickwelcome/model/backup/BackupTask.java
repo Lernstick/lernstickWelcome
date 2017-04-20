@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.backup;
 
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
@@ -45,7 +45,7 @@ import org.xml.sax.SAXException;
  *
  * @author user
  */
-public class BackupTask extends ResetableTask<Boolean> {
+public class BackupTask implements Processable<Boolean> {
 
     private final static Logger LOGGER = Logger.getLogger(BackupTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
@@ -277,7 +277,7 @@ public class BackupTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
 

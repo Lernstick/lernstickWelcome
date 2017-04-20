@@ -30,7 +30,7 @@ import javafx.concurrent.Task;
  */
 public class TaskProcessor {
     private final static Logger LOGGER = Logger.getLogger(TaskProcessor.class.getName());
-    private final List<ResetableTask> tasks;
+    private final List<Processable> tasks;
     /**
      * Value represents progress by binding it to the values of the tasks.<br>
      * Tasks need to use progress.
@@ -45,13 +45,18 @@ public class TaskProcessor {
 
     private final StringProperty message = new SimpleStringProperty();
 
-    public TaskProcessor(List<ResetableTask> tasks) {
+    public TaskProcessor(List<Processable> tasks) {
         this.tasks = tasks;
     }
 
     public void run() {
+        // Reset all values
         finished.set(false);
-        List<Task> taskList = tasks.stream().map(t -> t.getTask()).collect(Collectors.toList());
+        title.unbind();
+        message.unbind();
+        exception.unbind();
+        exception.set(null);
+        List<Task> taskList = tasks.stream().map(t -> t.newTask()).collect(Collectors.toList());
         
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(

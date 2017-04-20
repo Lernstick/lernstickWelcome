@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +16,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class ApplicationGroupTask extends ResetableTask<Boolean> {
+public class ApplicationGroupTask implements Processable<Boolean> {
 
     private List<ApplicationTask> apps;
     private ProxyTask proxy;
@@ -29,7 +29,7 @@ public class ApplicationGroupTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
 
@@ -44,7 +44,7 @@ public class ApplicationGroupTask extends ResetableTask<Boolean> {
 
                 for (ApplicationTask app : apps) {
                     updateMessage(app.getName());
-                    Task<Boolean> appTask = app.getTask();
+                    Task<Boolean> appTask = app.newTask();
                     // update this progress on changes of sub-process
                     final double previouslyDone = getWorkDone();
                     appTask.progressProperty().addListener(cl -> updateProgress(previouslyDone + appTask.getWorkDone(), totalWork));

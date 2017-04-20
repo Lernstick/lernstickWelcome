@@ -9,7 +9,6 @@ import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationPasswordChangeController;
-import java.util.concurrent.ExecutionException;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
@@ -29,11 +28,11 @@ public class ExamPasswordChangeBinder {
     
     public void initHandlers(Stage errorStage, WelcomeApplicationErrorController error) {
         password.getBtnOk().setOnAction(evt -> {
-            controller.getSysconf().getPassword().setValue(password.getTxtPassword().getText());
-            controller.getSysconf().getPasswordRepeat().setValue(password.getTxtPasswordRepeat().getText());
+            controller.getSysconf().passwordProperty().setValue(password.getTxtPassword().getText());
+            controller.getSysconf().passwordRepeatProperty().setValue(password.getTxtPasswordRepeat().getText());
             try {
                 controller.getSysconf().changePassword();
-                controller.getProperties().getTask().run();
+                controller.getProperties().newTask().run();
                 ((Stage)((Node) evt.getSource()).getScene().getWindow()).close();
             } catch(ProcessingException ex) {
                 error.initErrorMessage(ex);
@@ -43,8 +42,8 @@ public class ExamPasswordChangeBinder {
         // If user clicks on ignore remove the already tried passwords.
         password.getBtnCancel().setOnAction(evt -> 
         {
-            controller.getSysconf().getPassword().setValue(null);
-            controller.getSysconf().getPasswordRepeat().setValue(null);
+            controller.getSysconf().passwordProperty().setValue(null);
+            controller.getSysconf().passwordRepeatProperty().setValue(null);
             ((Stage)((Node) evt.getSource()).getScene().getWindow()).close();
         });
     }

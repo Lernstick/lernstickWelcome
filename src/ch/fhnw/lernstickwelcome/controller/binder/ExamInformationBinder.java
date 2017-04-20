@@ -28,7 +28,7 @@ public class ExamInformationBinder {
      * (gets debian version)
      */
     public void initBindings(){
-        information.getLabel_info_os().textProperty().bind(controller.getSysconf().getSystemname());
-        information.getLabel_info_version().textProperty().bind(controller.getSysconf().getSystemversion());
+        information.getLabel_info_os().textProperty().bind(controller.getSysconf().systemnameProperty());
+        information.getLabel_info_version().textProperty().bind(controller.getSysconf().systemversionProperty());
     }
 }

@@ -1,7 +1,7 @@
 package ch.fhnw.lernstickwelcome.model.systemconfig;
 
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
@@ -54,13 +54,13 @@ import org.xml.sax.SAXException;
 /**
  * This class handles system changes for the Lernstick.
  * <br>
- * In order to process a backend task multiple times it extends ResetableTask
+ In order to process a backend task multiple times it extends Processable
  * 
- * @see ResetableTask
+ * @see Processable
  * 
  * @author sschw
  */
-public class SystemconfigTask extends ResetableTask<Boolean> {
+public class SystemconfigTask implements Processable<Boolean> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
@@ -113,7 +113,8 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
     /**
      * Update the access to other filesystems by editing the PKLA File.
      * <br>
-     * Uses the allowAccessToOtherFilesystems Property to check how the option has to be adjusted.
+     * Uses the {@link #allowAccessToOtherFilesystems} Property to check how the
+     * option has to be adjusted.
      */
     private void updateAllowFilesystemMount() {
         try {
@@ -149,7 +150,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                 Node systemNode = xmlBootDocument.getElementsByTagName(
                         "system").item(0);
                 Element systemElement = (Element) systemNode;
-                // Read out the systemname (text tag)
+                // Read out the systemnameProperty (text tag)
                 Node node = systemElement.getElementsByTagName("text").item(0);
                 if (node != null) {
                     systemname.setValue(node.getTextContent());
@@ -306,7 +307,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                 Node systemNode = xmlBootDocument.
                         getElementsByTagName("system").item(0);
                 Element systemElement = (Element) systemNode;
-                // Read out the systemname (text tag)
+                // Read out the systemnameProperty (text tag)
                 Node node = systemElement.getElementsByTagName("text").item(0);
                 if (node != null) {
                     node.setTextContent(systemName);
@@ -615,6 +616,14 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         hardenPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
     }
 
+    /**
+     * Adds an action with a description to the given pkla-file.<br>
+     * This new rule for the PolicyKit Local Authority results into a password
+     * request when trying to run this action.
+     * @param fileName the pkla file in which the action should be saved
+     * @param description description of the action
+     * @param action the action that should be run
+     */
     private void addStrictPKLA(
             String fileName, String description, String action) {
         File strictPKLA = new File(LOCAL_POLKIT_PATH, fileName);
@@ -632,6 +641,11 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         }
     }
 
+    /**
+     * Adds new pkla-files to the PolicyKit Local Authority.
+     * @param pklas The actions that should be restricted.
+     * @throws ProcessingException 
+     */
     private void hardenPKLAs(String... pklas) throws ProcessingException {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
         for (String pkla : pklas) {
@@ -651,11 +665,15 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                 Files.write(path, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
-                throw new ProcessingException("SystemconfigTask.cantWritePasswordPolicy", ex.getMessage());
+                throw new ProcessingException("SystemconfigTask.cantWritePasswordPolicy", pkla);
             }
         }
     }
 
+    /**
+     * If the bootConfigPartition was mounted to make configurations on it, this
+     * function has to be called to umount it after use.
+     */
     public void umountBootConfig() {
         if ((bootConfigMountInfo != null) && (!bootConfigMountInfo.alreadyMounted())) {
             try {
@@ -666,50 +684,11 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         }
     }
 
-    public StringProperty getSystemname() {
-        return systemname;
-    }
-
-    public StringProperty getSystemversion() {
-        return systemversion;
-    }
-
-    public boolean isIsExamEnv() {
-        return isExamEnv;
-    }
-
-    public IntegerProperty getTimeoutSeconds() {
-        return timeoutSeconds;
-    }
-
-    public StringProperty getPassword() {
-        return password;
-    }
-
-    public StringProperty getPasswordRepeat() {
-        return passwordRepeat;
-    }
-
-    public StringProperty getUsername() {
-        return username;
-    }
-
-    public BooleanProperty getBlockKdeDesktopApplets() {
-        return blockKdeDesktopApplets;
-    }
-
-    public BooleanProperty getDirectSoundOutput() {
-        return directSoundOutput;
-    }
-
-    public BooleanProperty getAllowAccessToOtherFilesystems() {
-        return allowAccessToOtherFilesystems;
-    }
-    
-    public boolean isPasswordChanged() {
-        return passwordChanged;
-    }
-
+    /**
+     * Updates the permission of the File 
+     * {@link WelcomeConstants#APPLETS_CONFIG_FILE} according to the value of
+     * the {@link #blockKdeDesktopApplets} Property
+     */
     public void updateBlockKdeDesktopApplets() {
         if (!blockKdeDesktopApplets.get()) {
             try {
@@ -724,22 +703,81 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
             } catch (IOException iOException) {
                 LOGGER.log(Level.WARNING, "", iOException);
             }
+        } else {
+            try {
+                PosixFileAttributes attributes = Files.readAttributes(
+                        WelcomeConstants.APPLETS_CONFIG_FILE, PosixFileAttributes.class
+                );
+                Set<PosixFilePermission> permissions = attributes.permissions();
+
+                permissions.remove(PosixFilePermission.OWNER_WRITE);
+
+                Files.setPosixFilePermissions(WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
+            } catch (IOException iOException) {
+                LOGGER.log(Level.WARNING, "", iOException);
+            }
         }
     }
 
+    public StringProperty systemnameProperty() {
+        return systemname;
+    }
+
+    public StringProperty systemversionProperty() {
+        return systemversion;
+    }
+
+    public IntegerProperty timeoutSecondsProperty() {
+        return timeoutSeconds;
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public StringProperty passwordRepeatProperty() {
+        return passwordRepeat;
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public BooleanProperty blockKdeDesktopAppletsProperty() {
+        return blockKdeDesktopApplets;
+    }
+
+    public BooleanProperty directSoundOutputProperty() {
+        return directSoundOutput;
+    }
+
+    public BooleanProperty allowAccessToOtherFilesystemsProperty() {
+        return allowAccessToOtherFilesystems;
+    }
+    
+    public boolean isPasswordChanged() {
+        return passwordChanged;
+    }
+
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     * @see Processable
+     */
     private class InternalTask extends Task<Boolean> {
 
         @Override
         protected Boolean call() throws Exception {
+            // Set labels and progress
             updateProgress(0, 6);
             updateTitle("SystemconfigTask.title");
             updateMessage("SystemconfigTask.username");
 
+            // Set Username
             if (username.get().equals(oldUsername)) {
                 LOGGER.log(Level.INFO,
                         "updating full user name to \"{0}\"", username.get());
@@ -749,6 +787,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
             updateProgress(1, 6);
             updateMessage("SystemconfigTask.bootloader");
 
+            // Update bootloader
             if (WelcomeUtil.isImageWritable()) {
                 updateBootloaders();
             }
@@ -756,10 +795,12 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
             updateProgress(2, 6);
             updateMessage("SystemconfigTask.setup");
 
+            // Update allow filesystem mount
             updateAllowFilesystemMount();
 
             updateProgress(3, 6);
 
+            // Update direct sound
             if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
                 if (directSoundOutput.get()) {
                     // divert alsa pulse config file
@@ -774,16 +815,16 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
 
             updateProgress(4, 6);
 
+            // Update kde applets
             updateBlockKdeDesktopApplets();
 
             properties.setProperty(WelcomeConstants.KDE_LOCK,
                     blockKdeDesktopApplets.get() ? "true" : "false");
-            properties.setProperty(WelcomeConstants.PASSWORD_CHANGED,
-                    passwordChanged ? "true" : "false");
 
             updateProgress(5, 6);
             updateMessage("SystemconfigTask.password");
 
+            // Update password
             changePassword();
 
             updateProgress(6, 6);

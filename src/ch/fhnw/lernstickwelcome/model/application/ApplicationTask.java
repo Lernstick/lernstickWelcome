@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
-import ch.fhnw.lernstickwelcome.model.ResetableTask;
+import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
@@ -22,7 +22,7 @@ import javafx.scene.image.Image;
  *
  * @author sschw
  */
-public class ApplicationTask extends ResetableTask<Boolean> {
+public class ApplicationTask implements Processable<Boolean> {
 
     private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
@@ -112,7 +112,7 @@ public class ApplicationTask extends ResetableTask<Boolean> {
     }
 
     @Override
-    public Task<Boolean> getTask() {
+    public Task<Boolean> newTask() {
         return new InternalTask();
     }
 

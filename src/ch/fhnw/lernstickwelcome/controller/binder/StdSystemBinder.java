@@ -30,13 +30,13 @@ public class StdSystemBinder {
      * Method to initialize the bidirectional bindings between the view and packend properties
      */
     public void initBindings(){
-        system.getCb_sysStd_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().getBlockKdeDesktopApplets());
-        system.getCb_sysStd_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().getDirectSoundOutput());
+        system.getCb_sysStd_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().blockKdeDesktopAppletsProperty());
+        system.getCb_sysStd_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().directSoundOutputProperty());
         system.getCb_sysStd_show_warning().selectedProperty().bindBidirectional(controller.getPartition().getShowReadWriteWelcome());
         system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().getShowReadOnlyInfo());
-        system.getChoice_sysStd_visible_for().valueProperty().bindBidirectional(controller.getSysconf().getTimeoutSeconds());
+        system.getChoice_sysStd_visible_for().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
         system.getTxt_sys_exchange_partition().textProperty().bindBidirectional(controller.getPartition().getExchangePartitionLabel());
-        system.getTxt_sysStd_username().textProperty().bindBidirectional(controller.getSysconf().getUsername());
+        system.getTxt_sysStd_username().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
         system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().getShowReadOnlyInfo());
         system.getCb_sysStd_proxy().selectedProperty().bindBidirectional(controller.getProxy().getProxyActive());
         system.getTxt_sysStd_host().textProperty().bindBidirectional(controller.getProxy().getHostname());
