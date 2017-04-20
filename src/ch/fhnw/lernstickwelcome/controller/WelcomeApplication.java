@@ -51,7 +51,6 @@ public class WelcomeApplication extends Application {
             );
 
             if (isExamEnvironment()) {
-
                 controller.loadExamEnvironment();
 
                 if(!controller.getSysconf().isPasswordChanged()) {

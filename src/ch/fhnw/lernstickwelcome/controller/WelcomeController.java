@@ -173,6 +173,10 @@ public class WelcomeController {
     public SystemconfigTask getSysconf() {
         return sysconf;
     }
+    
+    public PropertiesTask getProperties() {
+        return properties;
+    }
 
     public ResourceBundle getBundle() {
         return BUNDLE;

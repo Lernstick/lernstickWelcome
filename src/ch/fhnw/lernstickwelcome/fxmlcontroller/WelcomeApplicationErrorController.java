@@ -44,7 +44,7 @@ public class WelcomeApplicationErrorController implements Initializable {
     public void initErrorMessage(Exception ex) {
         if(ex instanceof ProcessingException) {
             lblErrorTitle.setText(rb.getString("welcomeApplicationError.saveStopped"));
-            lblErrorMessage.setText(MessageFormat.format(ex.getMessage(), ((ProcessingException) ex).getMessageDetails()));
+            lblErrorMessage.setText(MessageFormat.format(rb.getString(ex.getMessage()), ((ProcessingException) ex).getMessageDetails()));
             LOGGER.log(Level.INFO, "Error Dialog shown for ProcessingException", ex);
         } else {
             lblErrorTitle.setText(rb.getString("welcomeApplicationError.unknownException"));

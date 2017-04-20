@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.fhnw.lernstickwelcome.model.systemconfig;
 
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
@@ -57,7 +52,12 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * This class handles system changes for the Lernstick.
+ * <br>
+ * In order to process a backend task multiple times it extends ResetableTask
+ * 
+ * @see ResetableTask
+ * 
  * @author sschw
  */
 public class SystemconfigTask extends ResetableTask<Boolean> {
@@ -65,8 +65,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
     private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
-    private static final String LOCAL_POLKIT_PATH
-            = "/etc/polkit-1/localauthority/50-local.d";
+    private static final String LOCAL_POLKIT_PATH = "/etc/polkit-1/localauthority/50-local.d";
 
     // Some functions are only required in exam env.
     private boolean isExamEnv; // TODO Block functions for Std. Version
@@ -89,37 +88,50 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
     private MountInfo bootConfigMountInfo;
     private Properties properties;
 
+    /**
+     * Creates a SystemconfigTask by loading the values from the properties or bootconfig.
+     * 
+     * @param isExamEnv Some functions won't be load in Std. Version
+     * @param properties Property File of the Welcome Application
+     */
     public SystemconfigTask(boolean isExamEnv, Properties properties) {
         this.isExamEnv = isExamEnv;
         this.properties = properties;
 
-        blockKdeDesktopApplets.set("true".equals(
-                properties.getProperty(WelcomeConstants.KDE_LOCK)));
-        passwordChanged = ("true".equals(
-                properties.getProperty(WelcomeConstants.PASSWORD_CHANGED)));
+        // Load properties
+        blockKdeDesktopApplets.set("true".equals(properties.getProperty(WelcomeConstants.KDE_LOCK)));
+        passwordChanged = ("true".equals(properties.getProperty(WelcomeConstants.PASSWORD_CHANGED)));
         allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
+        // Load partitions
         getPartitions();
+        // Load BootConfigInfos from the BootPartition
         getBootConfigInfos();
+        // Load the Username
         getFullUserName();
     }
 
-    public void updateAllowFilesystemMount() {
+    /**
+     * Update the access to other filesystems by editing the PKLA File.
+     * <br>
+     * Uses the allowAccessToOtherFilesystems Property to check how the option has to be adjusted.
+     */
+    private void updateAllowFilesystemMount() {
         try {
             if (allowAccessToOtherFilesystems.get()) {
-                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(),
-                        Pattern.compile("=auth_self"), "=yes");
+                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(), Pattern.compile("=auth_self"), "=yes");
             } else {
-                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(),
-                        Pattern.compile("=yes"), "=auth_self");
+                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
     }
 
+    /**
+     * Loads the bootconfig info by reading out values from the xmlBootConfig and the syslinuxConfigFile.
+     */
     private void getBootConfigInfos() {
-        // timeoutSeconds.setValue(10); // One Customer wanted 10sec. by default.
-
+        // Read out the bootloader timeout in seconds
         try {
             timeoutSeconds.set(getTimeout());
         } catch (IOException | DBusException ex) {
@@ -130,15 +142,19 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         try {
             File xmlBootConfigFile = getXmlBootConfigFile();
             if (xmlBootConfigFile != null) {
+                // Convert the boot config to a xml
                 Document xmlBootDocument = WelcomeUtil.parseXmlFile(xmlBootConfigFile);
                 xmlBootDocument.getDocumentElement().normalize();
+                // Search for the system tag
                 Node systemNode = xmlBootDocument.getElementsByTagName(
                         "system").item(0);
                 Element systemElement = (Element) systemNode;
+                // Read out the systemname (text tag)
                 Node node = systemElement.getElementsByTagName("text").item(0);
                 if (node != null) {
                     systemname.setValue(node.getTextContent());
                 }
+                // Read out the systemversion (version tag)
                 node = systemElement.getElementsByTagName("version").item(0);
                 if (node != null) {
                     systemversion.setValue(node.getTextContent());
@@ -150,6 +166,9 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         }
     }
 
+    /**
+     * Read out the full username by running {@code getent passwd user} with the {@link ProcessExecutor}
+     */
     private void getFullUserName() {
         PROCESS_EXECUTOR.executeProcess(true, true, "getent", "passwd", "user");
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
@@ -173,6 +192,11 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         }
     }
 
+    /**
+     * Loads the partitions by using {@link WelcomeModelFactory#getSystemStorageDevice() }.
+     * <br>
+     * Loads the bootConfigParition and the exchangePartition.
+     */
     private void getPartitions() {
         systemStorageDevice = WelcomeModelFactory.getSystemStorageDevice();
         if (systemStorageDevice != null) {
@@ -202,6 +226,12 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                     exchangePartition, bootConfigPartition});
     }
 
+    /**
+     * Updates the BootLoaders of the exchangePartition and the bootConfigPartition.
+     * <br>
+     * If boot config isn't seperated, it will do the action onto the running system.
+     * @throws DBusException 
+     */
     private void updateBootloaders() throws DBusException {
         final int timeout = timeoutSeconds.get();
         final String systemName = systemname.get();
@@ -246,6 +276,15 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         }
     }
 
+    /**
+     * Updates the bootloader of the given partition.
+     * 
+     * @param directory root directory of the partition
+     * @param timeout the timeout that has to be set
+     * @param systemName the systemName that has to be set
+     * @param systemVersion the systemVersion that has to be set
+     * @throws DBusException 
+     */
     private void updateBootloaders(File directory, int timeout,
             String systemName, String systemVersion) throws DBusException {
 
@@ -260,21 +299,27 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         File xmlBootConfigFile = getXmlBootConfigFile(directory);
         if (xmlBootConfigFile != null) {
             try {
+                // Convert the boot config to a xml
                 Document xmlBootDocument = WelcomeUtil.parseXmlFile(xmlBootConfigFile);
                 xmlBootDocument.getDocumentElement().normalize();
+                // Search for the system tag
                 Node systemNode = xmlBootDocument.
                         getElementsByTagName("system").item(0);
                 Element systemElement = (Element) systemNode;
+                // Read out the systemname (text tag)
                 Node node = systemElement.getElementsByTagName("text").item(0);
                 if (node != null) {
                     node.setTextContent(systemName);
                 }
+                // Read out the systemversion (version tag)
                 node = systemElement.getElementsByTagName("version").item(0);
                 if (node != null) {
                     node.setTextContent(systemVersion);
                 }
 
                 // write changes back to config file
+                
+                // Create a temp file.
                 File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
                 TransformerFactory transformerFactory
                         = TransformerFactory.newInstance();
@@ -283,6 +328,7 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                 DOMSource source = new DOMSource(xmlBootDocument);
                 StreamResult result = new StreamResult(tmpFile);
                 transformer.transform(source, result);
+                // Replace existing bootconfig with the temp file using mv.
                 PROCESS_EXECUTOR.executeProcess("mv", tmpFile.getPath(),
                         xmlBootConfigFile.getPath());
 
@@ -317,6 +363,23 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         }
     }
 
+    /**
+     * Load the syslinuxConfigFile of the partition.
+     * <br>
+     * The following config files can be found:
+     * <ul>
+     * <li><pre>directory/isolinux/isolinux.cfg</pre></li>
+     * <li><pre>directory/isolinux/syslinux.cfg</pre></li>
+     * <li><pre>directory/isolinux/boot_486.cfg</pre></li>
+     * <li><pre>directory/isolinux/boot_686.cfg</pre></li>
+     * <li><pre>directory/syslinux/isolinux.cfg</pre></li>
+     * <li><pre>directory/syslinux/syslinux.cfg</pre></li>
+     * <li><pre>directory/syslinux/boot_486.cfg</pre></li>
+     * <li><pre>directory/syslinux/boot_686.cfg</pre></li>
+     * </ul>
+     * @param directory root dir of the partition
+     * @return config files in the syslinux folder
+     */
     private List<File> getSyslinuxConfigFiles(File directory) {
 
         List<File> configFiles = new ArrayList<>();
@@ -356,6 +419,14 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         return configFiles;
     }
 
+    /**
+     * Load the xmlBootConfigFile of the bootConfigPartition.
+     * <br>
+     * If the variable bootConfigPartition is null, the function will use the 
+     * running system as bootConfigPartition.
+     * @return the bootConfigFile or null if it doesn't exist
+     * @throws DBusException 
+     */
     private File getXmlBootConfigFile() throws DBusException {
 
         if (bootConfigPartition == null) {
@@ -382,6 +453,19 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         return null;
     }
 
+    /**
+     * Load the xmlBootConfigFile of the partition.
+     * <br>
+     * The File loaded by this function can be under the following paths: <br>
+     * <ul>
+     * <li><pre>directory/isolinux/xmlboot.config</pre></li>
+     * <li><pre>directory/isolinux/bootlogo.dir/xmlboot.config</pre></li>
+     * <li><pre>directory/syslinux/xmlboot.config</pre></li>
+     * <li><pre>directory/syslinux/bootlogo.dir/xmlboot.config</pre></li>
+     * </ul>
+     * @param directory
+     * @return the bootConfigFile or null if it doesn't exist
+     */
     private File getXmlBootConfigFile(File directory) {
         // search through all known variants
         String[] dirs = new String[]{"isolinux", "syslinux"};
@@ -400,14 +484,19 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         return null;
     }
 
+    /**
+     * Loads the timeout out of the syslinuxConfigFile using a regex to match
+     * the timout value in the files.
+     * @return first occurence of the timeout or -1 if it couldn't be found.
+     * @throws IOException
+     * @throws DBusException 
+     */
     private int getTimeout() throws IOException, DBusException {
-
         // use syslinux configuration as reference for the timeout setting
         List<File> syslinuxConfigFiles;
         if (bootConfigPartition == null) {
             // legacy system
-            syslinuxConfigFiles = getSyslinuxConfigFiles(
-                    new File(IMAGE_DIRECTORY));
+            syslinuxConfigFiles = getSyslinuxConfigFiles(new File(IMAGE_DIRECTORY));
         } else {
             // system with a separate boot partition
             syslinuxConfigFiles = bootConfigPartition.executeMounted(
@@ -439,6 +528,11 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         return -1;
     }
 
+    /**
+     * Changes the password of the user by running {@code chpasswd} with the 
+     * {@link ProcessExecutor} and calling {@link #passwordEnabled() }.
+     * @throws ProcessingException 
+     */
     public void changePassword() throws ProcessingException {
         // Check if password should be changed
         if (password.get() == null || passwordRepeat.get() == null || password.get().isEmpty() || passwordRepeat.get().isEmpty()) {
@@ -461,7 +555,6 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                     true, true, passwordChangeScript);
             if (returnValue == 0) {
                 passwordEnabled();
-                passwordChanged = true;
             } else {
                 throw new ProcessingException("Password_Change_Error");
             }
@@ -470,6 +563,10 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
         }
     }
 
+    /**
+     * Enables the password by updating the empty_passwd_info and
+     * @throws ProcessingException 
+     */
     private void passwordEnabled() throws ProcessingException {
         // TODO: the password hint is deprecated
         // remove this code block somewhen in the future...
@@ -499,6 +596,11 @@ public class SystemconfigTask extends ResetableTask<Boolean> {
                 LOGGER.log(Level.SEVERE, "", ex);
             }
         }
+        
+        // set password in properties as changed
+        passwordChanged = true;
+        properties.setProperty(WelcomeConstants.PASSWORD_CHANGED,
+                passwordChanged ? "true" : "false");
 
         // add polkit rules to enforce authentication
         // rules for our own applications

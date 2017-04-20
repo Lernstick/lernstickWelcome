@@ -59,10 +59,14 @@ public class ProgressBinder {
         controller.getInstaller().finishedProperty().addListener(cl -> {
             if (controller.getInstaller().finishedProperty().get()) {
                 if(controller.getInstaller().exceptionProperty().getValue() != null) {
+                    // Current stage not always on top anymore so error can be shown
+                    Stage currentStage = ((Stage) install.getProg_inst_bar().getScene().getWindow());
+                    currentStage.setAlwaysOnTop(false);
                     // Show error dialog on exception
                     error.initErrorMessage(controller.getInstaller().exceptionProperty().get());
                     errorDialog.showAndWait();
-                    ((Stage) install.getProg_inst_bar().getScene().getWindow()).close();
+                    // Close stage after error was clicked away
+                    currentStage.close();
                 } else {
                     // Close scene if finished after 3 seconds
                     PauseTransition delay = new PauseTransition(Duration.seconds(3));

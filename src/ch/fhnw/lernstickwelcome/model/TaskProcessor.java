@@ -11,7 +11,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -30,7 +29,7 @@ import javafx.concurrent.Task;
  * @author user
  */
 public class TaskProcessor {
-
+    private final static Logger LOGGER = Logger.getLogger(TaskProcessor.class.getName());
     private final List<ResetableTask> tasks;
     /**
      * Value represents progress by binding it to the values of the tasks.<br>
@@ -64,28 +63,33 @@ public class TaskProcessor {
         new Thread(() -> {
             Iterator<Task> iterator = taskList.iterator();
             
-            while(iterator.hasNext() && exception.getValue() == null) {
-                Task t = iterator.next();
+            try {
+                while(iterator.hasNext() && exception.getValue() == null) {
+                    Task t = iterator.next();
+                    Platform.runLater(() -> {
+                        title.bind(t.titleProperty());
+                        message.bind(t.messageProperty());
+                        exception.bind(t.exceptionProperty());
+                    });
+                    t.run();
+                    t.get();
+                    Platform.runLater(() -> {
+                        title.unbind();
+                        message.unbind();
+                        exception.unbind();
+                    });
+                }
                 Platform.runLater(() -> {
-                    title.bind(t.titleProperty());
-                    message.bind(t.messageProperty());
-                    exception.bind(t.exceptionProperty());
+                    title.set("TaskProcessor.finishedTitle");
+                    message.set("TaskProcessor.finishedMessage");
                 });
-                t.run();
-                Platform.runLater(() -> {
-                    title.unbind();
-                    message.unbind();
-                    exception.unbind();
-                });
+            } catch(ExecutionException ex) {
+                LOGGER.log(Level.INFO, "Task throwed an exception", ex);
+            } catch(InterruptedException ex) {
+                LOGGER.log(Level.WARNING, "Save task got interrupted", ex);
+            } finally {
+                Platform.runLater(() -> finished.set(true));
             }
-            // Set progress to a undefined state.
-            Platform.runLater(() -> {
-                finished.set(true);
-                title.unbind();
-                title.set("TaskProcessor.finishedTitle");
-                message.unbind();
-                message.set("TaskProcessor.finishedMessage");
-            });
         }).start();
     }
 

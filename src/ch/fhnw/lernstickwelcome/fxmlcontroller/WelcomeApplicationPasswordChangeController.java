@@ -34,7 +34,7 @@ public class WelcomeApplicationPasswordChangeController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        btnOk.disableProperty().bind(txtPassword.textProperty().isEmpty().or(txtPasswordRepeat.textProperty().isEmpty()));
     }    
     
     public Button getBtnOk() {
