@@ -54,7 +54,7 @@ import org.xml.sax.SAXException;
 /**
  * This class handles system changes for the Lernstick.
  * <br>
- In order to process a backend task multiple times it extends Processable
+ * In order to process a backend task multiple times it extends Processable
  * 
  * @see Processable
  * 

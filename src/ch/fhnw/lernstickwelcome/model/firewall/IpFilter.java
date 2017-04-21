@@ -11,8 +11,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- *
- * @author user
+ * Describes a host which should be whitelisted.
+ * @author sschw
  */
 public class IpFilter {
     public enum Protocol {

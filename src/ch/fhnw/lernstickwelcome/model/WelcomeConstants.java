@@ -9,10 +9,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- *
+ * This class contains the Constants which are used in the Welcome Application.
+ * 
  * @author sschw
  */
-public class WelcomeConstants {
+public final class WelcomeConstants {
+    private WelcomeConstants() {}
+    
     // PROPERTIES CONSTANTS
     public static final String SHOW_WELCOME = "ShowWelcome";
     public static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";

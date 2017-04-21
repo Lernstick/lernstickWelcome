@@ -27,7 +27,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- *
+ * The controller of the WA.
+ * 
  * @author sschw
  */
 public class WelcomeController {
@@ -54,6 +55,9 @@ public class WelcomeController {
     
     private boolean  isExamEnvironment;
     
+    /**
+     * Loads the data for the Exam Env.
+     */
     public void loadExamEnvironment() {
         configureLogger();
         
@@ -76,6 +80,9 @@ public class WelcomeController {
         taskProcessor = new TaskProcessor(processingList);
     }
     
+    /**
+     * Loads the data for the Standard Env.
+     */
     public void loadStandardEnvironment() {
         configureLogger();
         
@@ -98,10 +105,16 @@ public class WelcomeController {
         taskProcessor = new TaskProcessor(processingList);
     }
     
+    /**
+     * Starts the TaskProcessor.
+     */
     public void startProcessingTasks() {
         taskProcessor.run();
     }
     
+    /**
+     * Stops backend tasks when the application should be closed.
+     */
     public void closeApplication() {
         if(isExamEnvironment) {
             firewall.stopFirewallStateChecking();
@@ -109,6 +122,9 @@ public class WelcomeController {
         sysconf.umountBootConfig();
     }
 
+    /**
+     * Configures the Logger.
+     */
     public void configureLogger() {
         
         // log everything...
@@ -134,8 +150,16 @@ public class WelcomeController {
         }
     }
 
+    public ResourceBundle getBundle() {
+        return BUNDLE;
+    }
+
     public TaskProcessor getInstaller() {
         return taskProcessor;
+    }
+
+    public HelpLoader getHelpLoader() {
+        return help;
     }
 
     public ProxyTask getProxy() {
@@ -176,14 +200,6 @@ public class WelcomeController {
     
     public PropertiesTask getProperties() {
         return properties;
-    }
-
-    public ResourceBundle getBundle() {
-        return BUNDLE;
-    }
-
-    public HelpLoader getHelpLoader() {
-        return help;
     }
     
 }

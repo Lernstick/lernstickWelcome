@@ -42,11 +42,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- *
- * @author user
+ * This class handles configurations for the backup process.
+ * @author sschw
  */
 public class BackupTask implements Processable<Boolean> {
-
     private final static Logger LOGGER = Logger.getLogger(BackupTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
 
@@ -62,6 +61,12 @@ public class BackupTask implements Processable<Boolean> {
     private BooleanProperty screenshot = new SimpleBooleanProperty();
     private IntegerProperty frequency = new SimpleIntegerProperty();
 
+    /**
+     * Loads the backup configuration from the property file and the exchange
+     * partition to preconfigure the destination path.
+     * @param properties Property File of the Welcome Application
+     * @param backupDirectoryName the name for the backup folder
+     */
     public BackupTask(Properties properties, String backupDirectoryName) {
         this.properties = properties;
 
@@ -86,7 +91,7 @@ public class BackupTask implements Processable<Boolean> {
                         "exchangeMountPath: {0}", exchangeMountPath);
                 destinationPath.set(properties.getProperty(
                         WelcomeConstants.BACKUP_DIRECTORY, exchangeMountPath + '/'
-                        + backupDirectoryName)); // BUNDLE.getString("Backup_Directory");
+                        + backupDirectoryName));
             } catch (DBusException ex) {
                 LOGGER.log(Level.SEVERE, "", ex);
             }
@@ -154,6 +159,12 @@ public class BackupTask implements Processable<Boolean> {
         return true;
     }
 
+    /**
+     * Configures the backup by calling {@link #updateJBackpackProperties(java.io.File, boolean) }
+     * for the userPrefs directory of the user and the root.
+     * @param backupSource
+     * @param backupDestination 
+     */
     private void updateJBackpackProperties(
             String backupSource, String backupDestination) {
         // update JBackpack preferences of the default user
@@ -167,6 +178,17 @@ public class BackupTask implements Processable<Boolean> {
         updateJBackpackProperties(prefsDirectory, false);
     }
 
+    /**
+     * Modifies the jbackpack xml file by changing the following values:
+     * <ul>
+     * <li>destination</li>
+     * <li>local_destination_directory</li>
+     * <li>source</li>
+     * </ul>
+     * If the xml couldn't be found it will be created by this function.
+     * @param prefsDirectory
+     * @param chown 
+     */
     private void updateJBackpackProperties(File prefsDirectory, boolean chown) {
         File prefsFile = new File(prefsDirectory, "prefs.xml");
         String prefsFilePath = prefsFile.getPath();
@@ -216,12 +238,13 @@ public class BackupTask implements Processable<Boolean> {
             }
 
         } else {
+            // JBackpack config doesn't exist and has to be created.
             if (!prefsDirectory.exists() && !prefsDirectory.mkdirs()) {
                 LOGGER.log(Level.WARNING,
                         "could not create directory {0}", prefsDirectory);
                 return;
             }
-            // create mininal JBackpack preferences
+            // create minimal JBackpack preferences
             String preferences
                     = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
                     + "<!DOCTYPE map SYSTEM \"http://java.sun.com/dtd/preferences.dtd\">\n"
@@ -244,35 +267,35 @@ public class BackupTask implements Processable<Boolean> {
         }
     }
 
-    public BooleanProperty getActive() {
+    public BooleanProperty activeProperty() {
         return active;
     }
 
-    public StringProperty getSourcePath() {
+    public StringProperty sourcePathProperty() {
         return sourcePath;
     }
 
-    public BooleanProperty getLocal() {
+    public BooleanProperty localProperty() {
         return local;
     }
 
-    public StringProperty getDestinationPath() {
+    public StringProperty destinationPathProperty() {
         return destinationPath;
     }
 
-    public BooleanProperty getPartition() {
+    public BooleanProperty partitionProperty() {
         return partition;
     }
 
-    public StringProperty getPartitionPath() {
+    public StringProperty partitionPathProperty() {
         return partitionPath;
     }
 
-    public BooleanProperty getScreenshot() {
+    public BooleanProperty screenshotProperty() {
         return screenshot;
     }
 
-    public IntegerProperty getFrequency() {
+    public IntegerProperty frequencyProperty() {
         return frequency;
     }
 
@@ -281,6 +304,10 @@ public class BackupTask implements Processable<Boolean> {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     * @see Processable
+     */
     private class InternalTask extends Task<Boolean> {
 
         @Override
@@ -288,7 +315,7 @@ public class BackupTask implements Processable<Boolean> {
             updateProgress(0, 2);
             updateTitle("BackupTask.title");
             updateMessage("BackupTask.setupMessage");
-            if (checkBackupDirectory()) { // XXX validation should not be in backend
+            if (checkBackupDirectory()) { // XXX move validation to controller
                 if (!local.get()
                         || destinationPath.get() == null
                         || destinationPath.get().isEmpty()) {

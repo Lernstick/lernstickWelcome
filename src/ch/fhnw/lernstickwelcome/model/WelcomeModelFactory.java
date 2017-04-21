@@ -22,7 +22,8 @@ import java.util.logging.Logger;
 import org.freedesktop.dbus.exceptions.DBusException;
 
 /**
- * XXX Change this class if applications should be load from file
+ * The WelcomeModelFactory creates the Model of the Welcome Application and 
+ * Objects which are used by different Model Classes.
  * 
  * @author sschw
  */
@@ -31,10 +32,20 @@ public class WelcomeModelFactory {
     private final static Logger LOGGER = Logger.getLogger(WelcomeModelFactory.class.getName());
     private static StorageDevice SYSTEM_STORAGE_DEVICE;
     
+    /**
+     * Returns the general {@link ProcessExecutor} which is used to run 
+     * processes.
+     * @return singleton instance of {@link ProcessExecutor}
+     */
     public static ProcessExecutor getProcessExecutor() {
         return PROCESS_EXECUTOR;
     }
     
+    /**
+     * Returns the general {@link StorageDevice} which is used to read and write
+     * data on other partitions.
+     * @return 
+     */
     public static StorageDevice getSystemStorageDevice() {
         if(SYSTEM_STORAGE_DEVICE == null) {
             try {
@@ -127,23 +138,48 @@ public class WelcomeModelFactory {
     	return null;
     }
 
+    /**
+     * Returns a new instance of this class.
+     * @return {@link PropertiesTask}
+     */
     public static PropertiesTask getPropertiesTask() {
         return new PropertiesTask();
     }
 
+    /**
+     * Returns a new instance of this class.
+     * @return {@link FirewallTask}
+     */
     public static FirewallTask getFirewallTask() {
         return new FirewallTask();
     }
 
+    /**
+     * Returns a new instance of this class.
+     * @param properties Property File of the Welcome Application
+     * @param backupDirectoryName the name for the backup folder
+     * @return {@link BackupTask}
+     */
     public static BackupTask getBackupTask(PropertiesTask properties, String backupDirectoryName) {
         return new BackupTask(properties.getProperties(), backupDirectoryName);
     }
 
+    /**
+     * Returns a new instance of this class.
+     * @param isExam Some functions won't be load in Std. Version
+     * @param properties Property File of the Welcome Application
+     * @return {@link SystemconfigTask} 
+     */
     public static SystemconfigTask getSystemTask(boolean isExam, PropertiesTask properties) {
         return new SystemconfigTask(isExam, properties.getProperties());
 
     }
 
+    /**
+     * Returns a new instance of this class.
+     * @param properties Property File of the Welcome Application
+     * @return {@link PartitionTask}
+     */
     public static PartitionTask getPartitionTask(PropertiesTask properties) {
         return new PartitionTask(properties.getProperties());
     }

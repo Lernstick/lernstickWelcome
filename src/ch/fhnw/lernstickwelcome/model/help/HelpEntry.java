@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Represents a single help file which can be loaded.
+ * <br>
+ * Help entries can be ordered by its index.
  * @author sschw
  */
 public class HelpEntry implements Comparable<HelpEntry> {

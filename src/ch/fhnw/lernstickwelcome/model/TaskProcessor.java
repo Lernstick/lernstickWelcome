@@ -25,8 +25,17 @@ import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
 /**
- *
- * @author user
+ * This class takes {@link Processable} objects and runs them in a new thread 
+ * sequentially.
+ * <br>
+ * The TaskProcessor binds its properties (progress, title, message and exception)
+ * to the corrently processing {@link Task} of the {@link Processable}.
+ * <br>
+ * If the TaskProcessor is finished, the finished Property is set to true.
+ * <br>
+ * If a processable throws an error the whole process stops and finished is set to true.
+ * 
+ * @author sschw
  */
 public class TaskProcessor {
     private final static Logger LOGGER = Logger.getLogger(TaskProcessor.class.getName());
@@ -49,13 +58,14 @@ public class TaskProcessor {
         this.tasks = tasks;
     }
 
+    /**
+     * Run the TaskProcessor.
+     */
     public void run() {
         // Reset all values
-        finished.set(false);
-        title.unbind();
-        message.unbind();
-        exception.unbind();
-        exception.set(null);
+        resetTaskProcessor();
+        
+        // Get Tasks from Processable
         List<Task> taskList = tasks.stream().map(t -> t.newTask()).collect(Collectors.toList());
         
         // Binding progress to tasks
@@ -64,20 +74,28 @@ public class TaskProcessor {
                         t -> t.getProgress() // Add progress to bind
                 ).sum() / tasks.size(),
                 taskList.stream().map(t -> t.progressProperty()).toArray(s -> new ReadOnlyDoubleProperty[s])));
-        
+
         new Thread(() -> {
             Iterator<Task> iterator = taskList.iterator();
             
+            // Running a task might throw an exception
+            // If an exception is thrown the while has to be interrupted
             try {
+                // As long we have tasks and there is no exception.
                 while(iterator.hasNext() && exception.getValue() == null) {
                     Task t = iterator.next();
+                    // Bind the values in GUI Thread.
                     Platform.runLater(() -> {
                         title.bind(t.titleProperty());
                         message.bind(t.messageProperty());
                         exception.bind(t.exceptionProperty());
                     });
+                    // Run the task
                     t.run();
+                    // Ensure the task is finished
+                    // If the task had an exception, throw it.
                     t.get();
+                    // Unbind the values in GUI Thread.
                     Platform.runLater(() -> {
                         title.unbind();
                         message.unbind();
@@ -93,9 +111,21 @@ public class TaskProcessor {
             } catch(InterruptedException ex) {
                 LOGGER.log(Level.WARNING, "Save task got interrupted", ex);
             } finally {
+                // If leaving this method, the task processor has finished its work.
                 Platform.runLater(() -> finished.set(true));
             }
         }).start();
+    }
+
+    /**
+     * Resets the TaskProcessor Properties.
+     */
+    private void resetTaskProcessor() {
+        finished.set(false);
+        title.unbind();
+        message.unbind();
+        exception.unbind();
+        exception.set(null);
     }
 
     public DoubleProperty progressProperty() {

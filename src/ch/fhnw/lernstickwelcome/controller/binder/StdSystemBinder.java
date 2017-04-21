@@ -32,17 +32,17 @@ public class StdSystemBinder {
     public void initBindings(){
         system.getCb_sysStd_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().blockKdeDesktopAppletsProperty());
         system.getCb_sysStd_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().directSoundOutputProperty());
-        system.getCb_sysStd_show_warning().selectedProperty().bindBidirectional(controller.getPartition().getShowReadWriteWelcome());
-        system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().getShowReadOnlyInfo());
+        system.getCb_sysStd_show_warning().selectedProperty().bindBidirectional(controller.getPartition().showReadWriteWelcomeProperty());
+        system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
         system.getChoice_sysStd_visible_for().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
-        system.getTxt_sys_exchange_partition().textProperty().bindBidirectional(controller.getPartition().getExchangePartitionLabel());
+        system.getTxt_sys_exchange_partition().textProperty().bindBidirectional(controller.getPartition().exchangePartitionLabelProperty());
         system.getTxt_sysStd_username().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
-        system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().getShowReadOnlyInfo());
-        system.getCb_sysStd_proxy().selectedProperty().bindBidirectional(controller.getProxy().getProxyActive());
-        system.getTxt_sysStd_host().textProperty().bindBidirectional(controller.getProxy().getHostname());
-        system.getTxt_sysStd_port().textProperty().bindBidirectional(controller.getProxy().getPort());
-        system.getTxt_sysStd_pwd().textProperty().bindBidirectional(controller.getProxy().getPassword());
-        system.getTxt_sysStd_user().textProperty().bindBidirectional(controller.getProxy().getUsername());
+        system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
+        system.getCb_sysStd_proxy().selectedProperty().bindBidirectional(controller.getProxy().proxyActiveProperty());
+        system.getTxt_sysStd_host().textProperty().bindBidirectional(controller.getProxy().hostnameProperty());
+        system.getTxt_sysStd_port().textProperty().bindBidirectional(controller.getProxy().portProperty());
+        system.getTxt_sysStd_pwd().textProperty().bindBidirectional(controller.getProxy().passwordProperty());
+        system.getTxt_sysStd_user().textProperty().bindBidirectional(controller.getProxy().usernameProperty());
        
     }
 

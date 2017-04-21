@@ -167,20 +167,20 @@ public class Welcome extends javax.swing.JFrame {
 //        firewallTask = new FirewallTask();
         partitionTask = new PartitionTask(properties);
         
-        backupCheckBox.setSelected(backupTask.getActive().get());
-        backupSourceTextField.setText(backupTask.getSourcePath().get());
-        backupDirectoryCheckBox.setSelected(backupTask.getLocal().get());
-        backupPartitionCheckBox.setSelected(backupTask.getPartition().get());
-        backupPartitionTextField.setText(backupTask.getPartitionPath().get());
-        screenShotCheckBox.setSelected(backupTask.getScreenshot().get());
+        backupCheckBox.setSelected(backupTask.activeProperty().get());
+        backupSourceTextField.setText(backupTask.sourcePathProperty().get());
+        backupDirectoryCheckBox.setSelected(backupTask.localProperty().get());
+        backupPartitionCheckBox.setSelected(backupTask.partitionProperty().get());
+        backupPartitionTextField.setText(backupTask.partitionPathProperty().get());
+        screenShotCheckBox.setSelected(backupTask.screenshotProperty().get());
         exchangeAccessCheckBox.setSelected(sysconfTask.allowAccessToOtherFilesystemsProperty().get());
         kdePlasmaLockCheckBox.setSelected(sysconfTask.blockKdeDesktopAppletsProperty().get());
         allowFilesystemMountCheckbox.setSelected(sysconfTask.allowAccessToOtherFilesystemsProperty().get());
 
-        backupFrequencySpinner.setValue(backupTask.getFrequency().get());
+        backupFrequencySpinner.setValue(backupTask.frequencyProperty().get());
         
-        readWriteCheckBox.setSelected(partitionTask.getShowReadWriteWelcome().get());
-        readOnlyCheckBox.setSelected(partitionTask.getShowReadOnlyInfo().get());
+        readWriteCheckBox.setSelected(partitionTask.showReadWriteWelcomeProperty().get());
+        readOnlyCheckBox.setSelected(partitionTask.showReadOnlyInfoProperty().get());
 
         menuList.setModel(menuListModel);
 
@@ -239,9 +239,9 @@ public class Welcome extends javax.swing.JFrame {
             exchangePartitionNameLabel.setEnabled(false);
             exchangePartitionNameTextField.setEnabled(false);
         } else {
-            exchangePartitionNameTextField.setText(partitionTask.getExchangePartitionLabel().get());
+            exchangePartitionNameTextField.setText(partitionTask.exchangePartitionLabelProperty().get());
 
-            backupDirectoryTextField.setText(backupTask.getDestinationPath().get());
+            backupDirectoryTextField.setText(backupTask.destinationPathProperty().get());
         }
 
         // *** determine some boot config properties ***

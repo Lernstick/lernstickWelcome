@@ -12,8 +12,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
+
 /**
- *
+ * This class handles the proxy settings for the Lernstick.
+ * <br>
+ * In order to process a backend task multiple times it extends Processable
+ * 
+ * @see Processable
+ * 
  * @author sschw
  */
 public class ProxyTask implements Processable<Boolean> {
@@ -28,6 +34,9 @@ public class ProxyTask implements Processable<Boolean> {
     private String wgetProxy = " ";
     private String aptGetProxy = " ";
 
+    /**
+     * Settings of previous starts wont be saved.
+     */
     public ProxyTask() {
     }
 
@@ -39,6 +48,10 @@ public class ProxyTask implements Processable<Boolean> {
         return aptGetProxy;
     }
 
+    /**
+     * Modifies the wgetProxy-String to allow a connection over a proxy when
+     * calling a wget command.
+     */
     private void setupWgetProxy() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(" -e http_proxy=http://");
@@ -59,6 +72,10 @@ public class ProxyTask implements Processable<Boolean> {
         wgetProxy = stringBuilder.toString();
     }
 
+    /**
+     * Modifies the aptGetProxy-String to allow a connection over a proxy when
+     * calling a apt-get command.
+     */
     private void setupAptGetProxy() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(" -o Acquire::http::proxy=http://");
@@ -79,11 +96,35 @@ public class ProxyTask implements Processable<Boolean> {
         aptGetProxy = stringBuilder.toString();
     }
 
+    public BooleanProperty proxyActiveProperty() {
+        return proxyActive;
+    }
+
+    public StringProperty hostnameProperty() {
+        return hostname;
+    }
+
+    public StringProperty portProperty() {
+        return port;
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
     @Override
     public Task<Boolean> newTask() {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     * @see Processable
+     */
     private class InternalTask extends Task<Boolean> {
 
         @Override
@@ -95,27 +136,5 @@ public class ProxyTask implements Processable<Boolean> {
             return true;
         }
     }
-
-    public BooleanProperty getProxyActive() {
-        return proxyActive;
-    }
-
-    public StringProperty getHostname() {
-        return hostname;
-    }
-
-    public StringProperty getPort() {
-        return port;
-    }
-
-    public StringProperty getUsername() {
-        return username;
-    }
-
-    public StringProperty getPassword() {
-        return password;
-    }
-    
-    
 
 }

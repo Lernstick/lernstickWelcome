@@ -21,7 +21,13 @@ import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
 /**
- *
+ * This class handles changes of the exchange partition or changes on behalf of
+ * configurations on partitions for the Lernstick.
+ * <br>
+ * In order to process a backend task multiple times it extends Processable
+ * 
+ * @see Processable
+ * 
  * @author sschw
  */
 public class PartitionTask implements Processable<Boolean> {
@@ -37,6 +43,13 @@ public class PartitionTask implements Processable<Boolean> {
     private BooleanProperty showReadOnlyInfo = new SimpleBooleanProperty();
     private BooleanProperty showReadWriteWelcome = new SimpleBooleanProperty();
 
+    /**
+     * Loads the partitions with 
+     * {@link WelcomeModelFactory#getSystemStorageDevice() } and loads data from
+     * the properties-file.
+     * 
+     * @param properties Property File of the Welcome Application
+     */
     public PartitionTask(Properties properties) {
         this.properties = properties;
 
@@ -58,24 +71,29 @@ public class PartitionTask implements Processable<Boolean> {
 
     }
 
-    public StringProperty getExchangePartitionLabel() {
+    /**
+     * If there is no exchange partition, some functions might wan't to be
+     * deactivated.
+     * @return boolean describing if the exchange partition could be loaded.
+     */
+    public boolean hasExchangePartition() {
+        return exchangePartition != null;
+    }
+
+    public StringProperty exchangePartitionLabelProperty() {
         return exchangePartitionLabel;
     }
 
-    public BooleanProperty getAccessExchangePartition() {
+    public BooleanProperty accessExchangePartitionProperty() {
         return accessExchangePartition;
     }
 
-    public BooleanProperty getShowReadOnlyInfo() {
+    public BooleanProperty showReadOnlyInfoProperty() {
         return showReadOnlyInfo;
     }
 
-    public BooleanProperty getShowReadWriteWelcome() {
+    public BooleanProperty showReadWriteWelcomeProperty() {
         return showReadWriteWelcome;
-    }
-
-    public boolean hasExchangePartition() {
-        return exchangePartition != null;
     }
 
     @Override
@@ -83,6 +101,10 @@ public class PartitionTask implements Processable<Boolean> {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     * @see Processable
+     */
     private class InternalTask extends Task<Boolean> {
 
         @Override
@@ -93,6 +115,8 @@ public class PartitionTask implements Processable<Boolean> {
 
             LOGGER.log(Level.INFO, "new exchange partition label: \"{0}\"",
                     exchangePartitionLabel.get());
+            
+            // If exchange partition label has changed - modify it on call
             if (exchangePartitionLabel.get() != null && !exchangePartitionLabel.get().isEmpty()
                     && !exchangePartitionLabel.get().equals(oldExchangePartitionLabel)) {
                 String binary = null;
@@ -122,6 +146,7 @@ public class PartitionTask implements Processable<Boolean> {
                     if (tmpUmount) {
                         exchangePartition.umount();
                     }
+                    // Change label by calling binary /dev/device_name new_label
                     PROCESS_EXECUTOR.executeProcess(binary,
                             "/dev/" + exchangePartition.getDeviceAndNumber(),
                             exchangePartitionLabel.get());
@@ -133,6 +158,7 @@ public class PartitionTask implements Processable<Boolean> {
 
             updateProgress(1, 2);
 
+            // Edit the properties
             properties.setProperty(WelcomeConstants.SHOW_WELCOME,
                     showReadWriteWelcome.get() ? "true" : "false");
             properties.setProperty(WelcomeConstants.SHOW_READ_ONLY_INFO,

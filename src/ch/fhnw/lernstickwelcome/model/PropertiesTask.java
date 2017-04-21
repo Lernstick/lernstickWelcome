@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javafx.concurrent.Task;
 
 /**
- *
+ * This class loads and saves the property file.
  * @author sschw
  */
 public class PropertiesTask implements Processable<Boolean> {
@@ -23,6 +23,9 @@ public class PropertiesTask implements Processable<Boolean> {
     private Properties properties;
     private File propertiesFile;
     
+    /**
+     * Loads the property file on creation.
+     */
     public PropertiesTask() {
         properties = new Properties();
         propertiesFile = new File("/etc/lernstickWelcome");
@@ -43,6 +46,12 @@ public class PropertiesTask implements Processable<Boolean> {
         return new InternalTask();
     }
     
+    /**
+     * Task for {@link #newTask() }
+     * <br>
+     * Saves the property file.
+     * @see Processable
+     */
     private class InternalTask extends Task<Boolean> {
         @Override
         protected Boolean call() throws Exception {

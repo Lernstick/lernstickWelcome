@@ -40,9 +40,12 @@ public class ApplicationGroupTask implements Processable<Boolean> {
             updateTitle(title);
             if (apps != null) {
                 // Calculate total work
-                final int totalWork = apps.stream().mapToInt(a -> a.getNoPackages()).sum();
+                final List<ApplicationTask> appsToInstall = apps.stream().
+                        filter(a -> !a.isInstalled() && a.installingProperty().get()).
+                        collect(Collectors.toList());
+                final int totalWork = appsToInstall.stream().mapToInt(a -> a.getNoPackages()).sum();
 
-                for (ApplicationTask app : apps) {
+                for(ApplicationTask app : appsToInstall) {
                     updateMessage(app.getName());
                     Task<Boolean> appTask = app.newTask();
                     // update this progress on changes of sub-process
@@ -51,6 +54,7 @@ public class ApplicationGroupTask implements Processable<Boolean> {
 
                     app.setProxy(proxy);
                     appTask.run();
+                    appTask.get();
                 }
             }
             return true;
