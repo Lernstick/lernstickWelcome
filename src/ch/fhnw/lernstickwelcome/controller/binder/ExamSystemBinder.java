@@ -42,6 +42,8 @@ public class ExamSystemBinder {
         system.getTxt_sys_password().textProperty().bindBidirectional(controller.getSysconf().passwordProperty());
         system.getTxt_sys_password_repeat().textProperty().bindBidirectional(controller.getSysconf().passwordRepeatProperty());
         system.getTxt_sys_username().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
+        
+        system.setHasExchangePartition(controller.getPartition().hasExchangePartition());
     }
 
     /**
