@@ -34,6 +34,7 @@ public final class WelcomeConstants {
     // PATHS
     // !!! NO trailing slash at the end (would break comparison later) !!!
     public static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
+    
     public static final String IP_TABLES_FILENAME
             = "/etc/lernstick-firewall/net_whitelist";
     public static final String URL_WHITELIST_FILENAME
@@ -46,23 +47,11 @@ public final class WelcomeConstants {
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
     public static final Path PKLA_PATH = Paths.get(
 "/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
+    
     public static final String USER_HOME = System.getProperty("user.home");
     
-    // PACKAGES
-    // XXX ev. move to other class
-    public static final String[] FONTS_PACKAGES = new String[]{
-        "ttf-mscorefonts-installer"
-    };
-    // "ttf-pelikan-schulschriften" are currently unavailable
-    // "mplayer-codecs" are currently unavailable
-    public static final String[] MULTIMEDIA_PACKAGES = new String[]{
-        "libdvdcss2", "libmp3lame0", "lame"
-    };
-    // pepperflashplugin-nonfree doesn't install on i386
-    public static final String[] FLASH_PACKAGES = new String[]{
-        "flashplugin-nonfree", "libhal1-flash"
-    };
     public static final String RESOURCE_FILE_PATH = "res";
     public static final String HELP_FILE_PATH = RESOURCE_FILE_PATH + "/help";
     public static final String ICON_FILE_PATH = RESOURCE_FILE_PATH + "/icon";
+    public static final String ICON_INSTALL_FILE_PATH = ICON_FILE_PATH + "/install";
 }

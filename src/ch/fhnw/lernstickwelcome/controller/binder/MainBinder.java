@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationMainController;
 import javafx.stage.Stage;
 
 /**
@@ -16,9 +16,9 @@ import javafx.stage.Stage;
 public class MainBinder {
 
     private final WelcomeController controller;
-    private final WelcomeApplicationStartController welcomeApplicationStart;
+    private final WelcomeApplicationMainController welcomeApplicationStart;
 
-    public MainBinder(WelcomeController controller, WelcomeApplicationStartController welcomeApplicationStart) {
+    public MainBinder(WelcomeController controller, WelcomeApplicationMainController welcomeApplicationStart) {
         this.controller = controller;
         this.welcomeApplicationStart = welcomeApplicationStart;
     }

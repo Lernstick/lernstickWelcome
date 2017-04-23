@@ -10,7 +10,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationCont
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationPasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationStartController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationMainController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
@@ -67,7 +67,7 @@ public class FXMLGuiLoader {
     private WelcomeApplicationBackupController welcomeApplicationBackupController;
     private WelcomeApplicationFirewallController welcomeApplicationFirewallController;
     private WelcomeApplicationInformationController welcomeApplicationInformationController;
-    private WelcomeApplicationStartController welcomeApplicationStartController;
+    private WelcomeApplicationMainController welcomeApplicationStartController;
     private WelcomeApplicationSystemController welcomeApplicationSystemController;
     private WelcomeApplicationSystemStdController welcomeApplicationSystemStdController;
     private WelcomeApplicationAdditionalSoftwareController welcomeApplicationAdditionalSoftwareController;
@@ -80,7 +80,7 @@ public class FXMLGuiLoader {
             ObservableList<MenuPaneItem> menuPaneItems = FXCollections.observableArrayList();
             
             // load start view
-            FXMLLoader loadStart = new FXMLLoader(getClass().getResource("../view/welcomeApplicationStart.fxml"), rb);
+            FXMLLoader loadStart = new FXMLLoader(getClass().getResource("../view/welcomeApplicationMain.fxml"), rb);
             welcomeApplicationStart = new Scene(loadStart.load());
             welcomeApplicationStartController = loadStart.getController();
             
@@ -179,7 +179,7 @@ public class FXMLGuiLoader {
         return welcomeApplicationPasswordChange;
     }
     
-    public WelcomeApplicationStartController getWelcomeApplicationStart() {
+    public WelcomeApplicationMainController getWelcomeApplicationStart() {
         return welcomeApplicationStartController;
     }
     

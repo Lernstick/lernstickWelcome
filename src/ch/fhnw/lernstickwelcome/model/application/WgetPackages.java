@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.util.logging.Logger;
 
 /**

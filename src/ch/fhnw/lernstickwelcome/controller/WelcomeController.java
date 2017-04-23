@@ -10,11 +10,13 @@ import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.TaskProcessor;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPostprocessingTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.help.HelpLoader;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,16 +42,18 @@ public class WelcomeController {
     private PropertiesTask properties;
     // Standard Environment
     private ProxyTask proxy;
+    private InstallPreparationTask prepare;
     private ApplicationGroupTask recApps;
     private ApplicationGroupTask teachApps;
     private ApplicationGroupTask softwApps;
     private ApplicationGroupTask gamesApps;
-    private PartitionTask partition;
+    private InstallPostprocessingTask post;
     // Exam Environment
     private FirewallTask firewall;
     private BackupTask backup;
     // General
     private SystemconfigTask sysconf;
+    private PartitionTask partition;
     
     private HelpLoader help;
     
@@ -92,15 +96,22 @@ public class WelcomeController {
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
+        prepare = WelcomeModelFactory.getInstallPreparationTask(proxy);
         recApps = WelcomeModelFactory.getRecommendedApplicationTask(proxy);
         teachApps = WelcomeModelFactory.getTeachingApplicationTask(proxy);
 
+        post = WelcomeModelFactory.getInstallPostprocessingTask(proxy);
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
 
         // Init Installer
         List<Processable> processingList = new ArrayList<>();
         processingList.add(proxy);
+        processingList.add(prepare);
         processingList.add(recApps);
+        
+        processingList.add(post);
+        
+        processingList.add(sysconf);
 
         taskProcessor = new TaskProcessor(processingList);
     }

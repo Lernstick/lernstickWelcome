@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.Processable;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.concurrent.Task;
@@ -26,6 +26,10 @@ public class ApplicationGroupTask implements Processable<Boolean> {
         this.title = title;
         this.proxy = proxy;
         this.apps = apps;
+    }
+
+    public List<ApplicationTask> getApps() {
+        return apps;
     }
 
     @Override
@@ -59,10 +63,6 @@ public class ApplicationGroupTask implements Processable<Boolean> {
             }
             return true;
         }
-    }
-
-    public List<ApplicationTask> getApps() {
-        return apps;
     }
     
 }

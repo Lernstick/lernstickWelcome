@@ -53,6 +53,8 @@ public class TaskProcessor {
     private final StringProperty title = new SimpleStringProperty();
 
     private final StringProperty message = new SimpleStringProperty();
+    
+    private final StringProperty value = new SimpleStringProperty();
 
     public TaskProcessor(List<Processable> tasks) {
         this.tasks = tasks;
@@ -88,6 +90,7 @@ public class TaskProcessor {
                     Platform.runLater(() -> {
                         title.bind(t.titleProperty());
                         message.bind(t.messageProperty());
+                        value.bind(t.valueProperty());
                         exception.bind(t.exceptionProperty());
                     });
                     // Run the task
@@ -99,10 +102,12 @@ public class TaskProcessor {
                     Platform.runLater(() -> {
                         title.unbind();
                         message.unbind();
+                        value.unbind();
                         exception.unbind();
                     });
                 }
                 Platform.runLater(() -> {
+                    value.set(null);
                     title.set("TaskProcessor.finishedTitle");
                     message.set("TaskProcessor.finishedMessage");
                 });
@@ -124,6 +129,7 @@ public class TaskProcessor {
         finished.set(false);
         title.unbind();
         message.unbind();
+        value.unbind();
         exception.unbind();
         exception.set(null);
     }
@@ -142,6 +148,10 @@ public class TaskProcessor {
 
     public StringProperty messageProperty() {
         return message;
+    }
+    
+    public StringProperty valueProperty() {
+        return value;
     }
 
     public ObjectProperty<Exception> exceptionProperty() {

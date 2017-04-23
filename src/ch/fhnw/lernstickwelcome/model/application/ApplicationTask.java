@@ -7,7 +7,7 @@ package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import java.util.List;
 import java.util.logging.Level;
@@ -123,7 +123,7 @@ public class ApplicationTask implements Processable<Boolean> {
             updateProgress(0, packages.getNumberOfPackages());
             //XXX May nice if there would update the percentage while execute
             PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
-            // TODO ev. call apt-get -f install to fix dependencies which are missing
+            updateProgress(packages.getNumberOfPackages(), packages.getNumberOfPackages());
             return true;
         }
     }

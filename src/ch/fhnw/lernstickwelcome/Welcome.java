@@ -115,7 +115,7 @@ public class Welcome extends javax.swing.JFrame {
     private FirewallTask firewallTask;
     private BackupTask backupTask;
     private PartitionTask partitionTask;
-    
+
     /**
      * Creates new form Welcome
      *
@@ -156,17 +156,17 @@ public class Welcome extends javax.swing.JFrame {
         virtualBoxLabel.setVisible(false);
 
         ToolTipManager.sharedInstance().setDismissDelay(60000);
-        setBordersEnabled(false);
+//        setBordersEnabled(false);
 
         // load and apply all properties
         propTask = new PropertiesTask();
         properties = propTask.getProperties();
-        
+
         backupTask = new BackupTask(properties, BUNDLE.getString("Backup_Directory"));
         sysconfTask = new SystemconfigTask(examEnvironment, properties);
 //        firewallTask = new FirewallTask();
         partitionTask = new PartitionTask(properties);
-        
+
         backupCheckBox.setSelected(backupTask.activeProperty().get());
         backupSourceTextField.setText(backupTask.sourcePathProperty().get());
         backupDirectoryCheckBox.setSelected(backupTask.localProperty().get());
@@ -178,7 +178,7 @@ public class Welcome extends javax.swing.JFrame {
         allowFilesystemMountCheckbox.setSelected(sysconfTask.allowAccessToOtherFilesystemsProperty().get());
 
         backupFrequencySpinner.setValue(backupTask.frequencyProperty().get());
-        
+
         readWriteCheckBox.setSelected(partitionTask.showReadWriteWelcomeProperty().get());
         readOnlyCheckBox.setSelected(partitionTask.showReadOnlyInfoProperty().get());
 
@@ -249,8 +249,8 @@ public class Welcome extends javax.swing.JFrame {
         ((JSpinner.DefaultEditor) bootTimeoutSpinner.getEditor()).getTextField().setColumns(2);
         ((JSpinner.DefaultEditor) backupFrequencySpinner.getEditor()).getTextField().setColumns(2);
         bootTimeoutSpinner.setValue(sysconfTask.timeoutSecondsProperty().get());
-        
-        updateSecondsLabel();
+
+//        updateSecondsLabel();
         // system strings
         systemNameTextField.setText(sysconfTask.systemnameProperty().get());
         systemVersionTextField.setText(sysconfTask.systemversionProperty().get());
@@ -297,24 +297,24 @@ public class Welcome extends javax.swing.JFrame {
         });
 
         if (examEnvironment) {
-            try {
-                parseNetWhiteList();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
-            }
-
-            try {
-                parseURLWhiteList();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
-            }
+//            try {
+//                parseNetWhiteList();
+//            } catch (IOException ex) {
+//                LOGGER.log(Level.SEVERE, "", ex);
+//            }
+//
+//            try {
+//                parseURLWhiteList();
+//            } catch (IOException ex) {
+//                LOGGER.log(Level.SEVERE, "", ex);
+//            }
 
             // start periodic firewall status check
             javax.swing.Timer firewallStatusTimer = new javax.swing.Timer(
                     3000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    updateFirewallState();
+//                    updateFirewallState();
                 }
             });
             firewallStatusTimer.setInitialDelay(0);
@@ -342,7 +342,7 @@ public class Welcome extends javax.swing.JFrame {
 
         setVisible(true);
     }
-    
+
     private void getFullUserName() {
         AbstractDocument userNameDocument
                 = (AbstractDocument) userNameTextField.getDocument();
@@ -353,25 +353,24 @@ public class Welcome extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        System.setProperty("awt.useSystemAAFontSettings", "on");
-        boolean examEnvironment = false;
-        for (String arg : args) {
-            if (arg.equals("examEnvironment")) {
-                examEnvironment = true;
-                break;
-            }
-        }
-        final boolean examEnv = examEnvironment;
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Welcome(examEnv);
-            }
-        });
-    }
-
+//    public static void main(String args[]) {
+//        System.setProperty("awt.useSystemAAFontSettings", "on");
+//        boolean examEnvironment = false;
+//        for (String arg : args) {
+//            if (arg.equals("examEnvironment")) {
+//                examEnvironment = true;
+//                break;
+//            }
+//        }
+//        final boolean examEnv = examEnvironment;
+//
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new Welcome(examEnv);
+//            }
+//        });
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -559,6 +558,7 @@ public class Welcome extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
+
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
@@ -1991,7 +1991,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void googleEarthLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_googleEarthLabelMouseClicked
         toggleCheckBox(googleEarthCheckBox);
-}//GEN-LAST:event_googleEarthLabelMouseClicked
+    }//GEN-LAST:event_googleEarthLabelMouseClicked
 
     private void skypeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_skypeLabelMouseClicked
         toggleCheckBox(skypeCheckBox);
@@ -2020,7 +2020,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void multimediaLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_multimediaLabelMouseClicked
         toggleCheckBox(multimediaCheckBox);
-}//GEN-LAST:event_multimediaLabelMouseClicked
+    }//GEN-LAST:event_multimediaLabelMouseClicked
 
     private void infoEditorPaneHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {//GEN-FIRST:event_infoEditorPaneHyperlinkUpdate
         WelcomeUtil.openLinkInBrowser(evt);
@@ -2036,7 +2036,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void proxyCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_proxyCheckBoxItemStateChanged
-        setProxyEnabled(proxyCheckBox.isSelected());
+//        setProxyEnabled(proxyCheckBox.isSelected());
     }//GEN-LAST:event_proxyCheckBoxItemStateChanged
 
     private void laLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laLabelMouseClicked
@@ -2058,7 +2058,7 @@ public class Welcome extends javax.swing.JFrame {
 
         MainMenuListEntry entry
                 = (MainMenuListEntry) menuList.getSelectedValue();
-        selectCard(entry.getPanelID());
+//        selectCard(entry.getPanelID());
 
         previousButton.setEnabled(selectedIndex > 0);
         nextButton.setEnabled(
@@ -2088,7 +2088,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_teachingEditorPaneHyperlinkUpdate
 
     private void bootTimeoutSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_bootTimeoutSpinnerStateChanged
-        updateSecondsLabel();
+//        updateSecondsLabel();
     }//GEN-LAST:event_bootTimeoutSpinnerStateChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -2102,7 +2102,7 @@ public class Welcome extends javax.swing.JFrame {
         sysconfTask.passwordRepeatProperty().set(new String(passwordField2.getPassword()));
         try {
             sysconfTask.changePassword();
-        } catch(ProcessingException ex) {
+        } catch (ProcessingException ex) {
             JOptionPane.showMessageDialog(this, BUNDLE.getString(ex.getMessage()), BUNDLE.getString("Warning"), JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_passwordChangeButtonActionPerformed
@@ -2117,7 +2117,7 @@ public class Welcome extends javax.swing.JFrame {
         sysconfTask.passwordRepeatProperty().set(new String(passwordField2.getPassword()));
         try {
             sysconfTask.changePassword();
-        } catch(ProcessingException ex) {
+        } catch (ProcessingException ex) {
             JOptionPane.showMessageDialog(this, BUNDLE.getString(ex.getMessage()), BUNDLE.getString("Warning"), JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_passwordField2ActionPerformed
@@ -2138,31 +2138,31 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_removeIPButtonActionPerformed
 
     private void moveUpIPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveUpIPButtonActionPerformed
-        ipTableModel.moveEntries(true);
+//        ipTableModel.moveEntries(true);
     }//GEN-LAST:event_moveUpIPButtonActionPerformed
 
     private void moveDownIPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveDownIPButtonActionPerformed
-        ipTableModel.moveEntries(false);
+//        ipTableModel.moveEntries(false);
     }//GEN-LAST:event_moveDownIPButtonActionPerformed
 
     private void backupCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_backupCheckBoxItemStateChanged
-        setBackupEnabled(backupCheckBox.isSelected());
+//        setBackupEnabled(backupCheckBox.isSelected());
     }//GEN-LAST:event_backupCheckBoxItemStateChanged
 
     private void backupSourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupSourceButtonActionPerformed
-        showFileSelector(backupSourceTextField);
+//        showFileSelector(backupSourceTextField);
     }//GEN-LAST:event_backupSourceButtonActionPerformed
 
     private void backupDirectoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupDirectoryButtonActionPerformed
-        showFileSelector(backupDirectoryTextField);
+//        showFileSelector(backupDirectoryTextField);
     }//GEN-LAST:event_backupDirectoryButtonActionPerformed
 
     private void backupDirectoryCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_backupDirectoryCheckBoxItemStateChanged
-        updateBackupDirectoryEnabled();
+//        updateBackupDirectoryEnabled();
     }//GEN-LAST:event_backupDirectoryCheckBoxItemStateChanged
 
     private void backupPartitionCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_backupPartitionCheckBoxItemStateChanged
-        updateBackupPartitionEnabled();
+//        updateBackupPartitionEnabled();
     }//GEN-LAST:event_backupPartitionCheckBoxItemStateChanged
 
     private void kdePlasmaLockCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_kdePlasmaLockCheckBoxItemStateChanged
@@ -2171,7 +2171,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_kdePlasmaLockCheckBoxItemStateChanged
 
     private void firewallStartStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firewallStartStopButtonActionPerformed
-        toggleFirewallState();
+//        toggleFirewallState();
     }//GEN-LAST:event_firewallStartStopButtonActionPerformed
 
     private void virtualBoxLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_virtualBoxLabelMouseClicked
@@ -2180,224 +2180,8 @@ public class Welcome extends javax.swing.JFrame {
 
     private void allowFilesystemMountCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allowFilesystemMountCheckboxItemStateChanged
         sysconfTask.allowAccessToOtherFilesystemsProperty().set(allowFilesystemMountCheckbox.isSelected());
-        sysconfTask.updateAllowFilesystemMount();
+//        sysconfTask.updateAllowFilesystemMount();
     }//GEN-LAST:event_allowFilesystemMountCheckboxItemStateChanged
-
-    private void toggleFirewallState() {
-        String action = firewallRunning ? "stop" : "start";
-        int ret = PROCESS_EXECUTOR.executeProcess(
-                true, true, "lernstick-firewall", action);
-
-        if (ret == 0) {
-            firewallRunning = !firewallRunning;
-            // update widget
-            updateFirewallState();
-        } else {
-            LOGGER.log(Level.WARNING,
-                    action + "ing lernstick-firewall failed, return code {0} "
-                    + "stdout: '{1}', stderr: '{2}'",
-                    new Object[]{
-                        ret,
-                        PROCESS_EXECUTOR.getStdOut(),
-                        PROCESS_EXECUTOR.getStdErr()
-                    });
-            String messageId = firewallRunning
-                    ? "Stop_firewall_error"
-                    : "Start_firewall_error";
-            JOptionPane.showMessageDialog(this,
-                    BUNDLE.getString(messageId),
-                    BUNDLE.getString("Error"),
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void updateFirewallState() {
-        // check firewall state
-        int ret = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status");
-        firewallRunning = ret == 0;
-
-        // update button icon
-        String iconBasePath = "/ch/fhnw/lernstickwelcome/icons/16x16/";
-        String iconPath = firewallRunning
-                ? iconBasePath + "stop.png"
-                : iconBasePath + "start.png";
-        firewallStartStopButton.setIcon(
-                new ImageIcon(getClass().getResource(iconPath)));
-        String tooltipString = firewallRunning
-                ? BUNDLE.getString("Firewall_toolTip_stop")
-                : BUNDLE.getString("Firewall_toolTip_start");
-        firewallStartStopButton.setToolTipText(tooltipString);
-
-        // update label text and color
-        String labelString = firewallRunning
-                ? BUNDLE.getString("Welcome.firewallStatusLabel.text_running")
-                : BUNDLE.getString("Welcome.firewallStatusLabel.text_stopped");
-        firewallStatusLabel.setText(labelString);
-        firewallStatusLabel.setForeground(firewallRunning
-                ? Color.green
-                : Color.red);
-    }
-
-    private void showFileSelector(JTextField textField) {
-        UIManager.put("FileChooser.readOnly", Boolean.TRUE);
-        File selectedDirectory = new File(textField.getText());
-        JFileChooser fileChooser
-                = new JFileChooser(selectedDirectory.getParent());
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.setSelectedFile(selectedDirectory);
-        fileChooser.showOpenDialog(this);
-        selectedDirectory = fileChooser.getSelectedFile();
-        textField.setText(selectedDirectory.getPath());
-    }
-
-    private void setBackupEnabled(boolean enabled) {
-        backupSourceLabel.setEnabled(enabled);
-        backupSourceTextField.setEnabled(enabled);
-        backupSourceButton.setEnabled(enabled);
-
-        backupDirectoryCheckBox.setEnabled(enabled);
-        updateBackupDirectoryEnabled();
-
-        backupPartitionCheckBox.setEnabled(enabled);
-        updateBackupPartitionEnabled();
-
-        screenShotCheckBox.setEnabled(enabled);
-
-        backupFrequencyEveryLabel.setEnabled(enabled);
-        backupFrequencySpinner.setEnabled(enabled);
-        backupFrequencyMinuteLabel.setEnabled(enabled);
-
-        setBordersEnabled(enabled);
-    }
-
-    private void updateBackupDirectoryEnabled() {
-        boolean enabled = backupCheckBox.isSelected()
-                && backupDirectoryCheckBox.isSelected();
-        backupDirectoryLabel.setEnabled(enabled);
-        backupDirectoryTextField.setEnabled(enabled);
-        backupDirectoryButton.setEnabled(enabled);
-    }
-
-    private void updateBackupPartitionEnabled() {
-        boolean enabled = backupCheckBox.isSelected()
-                && backupPartitionCheckBox.isSelected();
-        backupPartitionLabel.setEnabled(enabled);
-        backupPartitionTextField.setEnabled(enabled);
-    }
-
-    private void setBordersEnabled(boolean enabled) {
-        Color color = enabled ? Color.BLACK : Color.GRAY;
-        TitledBorder border = (TitledBorder) backupSourcePanel.getBorder();
-        border.setTitleColor(color);
-        border = (TitledBorder) backupDestinationsPanel.getBorder();
-        border.setTitleColor(color);
-        backupSourcePanel.repaint();
-        backupDestinationsPanel.repaint();
-    }
-
-    private void parseURLWhiteList() throws IOException {
-        try (FileReader fileReader = new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME);
-                BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            StringBuilder builder = new StringBuilder();
-            for (String line = bufferedReader.readLine(); line != null;) {
-                builder.append(line);
-                builder.append('\n');
-                line = bufferedReader.readLine();
-            }
-            firewallURLTextArea.setText(builder.toString());
-        }
-    }
-
-    private void parseNetWhiteList() throws IOException {
-        FileReader fileReader = new FileReader(WelcomeConstants.IP_TABLES_FILENAME);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String lastComment = "";
-        for (String line = bufferedReader.readLine(); line != null;) {
-            if (line.startsWith("#")) {
-                lastComment = line.substring(1).trim();
-            } else {
-                // try parsing "protocol target port"
-                String[] tokens = line.split(" ");
-                if (tokens.length == 3) {
-                    Protocol protocol;
-                    if (tokens[0].equalsIgnoreCase("TCP")) {
-                        protocol = Protocol.TCP;
-                    } else if (tokens[0].equalsIgnoreCase("UDP")) {
-                        protocol = Protocol.UDP;
-                    } else {
-                        LOGGER.log(Level.WARNING,
-                                "could not parse protocol \"{0}\"", tokens[0]);
-                        continue;
-                    }
-                    String target = tokens[1];
-                    String portRange = tokens[2];
-                    ipTableModel.addEntry(new IPTableEntry(
-                            protocol, target, portRange, lastComment));
-                } else {
-                    LOGGER.log(Level.WARNING,
-                            "unsupported net whitelist:\n{0}", line);
-                }
-            }
-
-            line = bufferedReader.readLine();
-        }
-        ipTableModel.fireTableDataChanged();
-    }
-
-    private void updateSecondsLabel() {
-        SpinnerNumberModel model
-                = (SpinnerNumberModel) bootTimeoutSpinner.getModel();
-        if (model.getNumber().intValue() == 1) {
-            secondsLabel.setText(BUNDLE.getString("second"));
-        } else {
-            secondsLabel.setText(BUNDLE.getString("seconds"));
-        }
-    }
-
-    private void selectCard(String cardName) {
-        CardLayout cardLayout = (CardLayout) mainCardPanel.getLayout();
-        cardLayout.show(mainCardPanel, cardName);
-    }
-
-    private void setProxyEnabled(boolean enabled) {
-        proxyHostLabel.setEnabled(enabled);
-        proxyHostTextField.setEnabled(enabled);
-        proxyPortLabel.setEnabled(enabled);
-        proxyPortTextField.setEnabled(enabled);
-        proxyUserNameLabel.setEnabled(enabled);
-        proxyUserNameTextField.setEnabled(enabled);
-        proxyPasswordLabel.setEnabled(enabled);
-        proxyPasswordField.setEnabled(enabled);
-    }
-
-    private String getWgetProxyLine() {
-        if (proxyCheckBox.isSelected()) {
-            String proxyHost = proxyHostTextField.getText();
-            int proxyPort = ((Number) proxyPortTextField.getValue()).intValue();
-            String proxyUserName = proxyUserNameTextField.getText();
-            String proxyPassword
-                    = String.valueOf(proxyPasswordField.getPassword());
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" -e http_proxy=http://");
-            stringBuilder.append(proxyHost);
-            if (proxyPort != 0) {
-                stringBuilder.append(':');
-                stringBuilder.append(proxyPort);
-            }
-            if (!proxyUserName.isEmpty()) {
-                stringBuilder.append(" --proxy-user=");
-                stringBuilder.append(proxyUserName);
-            }
-            if (!proxyPassword.isEmpty()) {
-                stringBuilder.append(" --proxy-password=");
-                stringBuilder.append(proxyPassword);
-            }
-            stringBuilder.append(' ');
-            return stringBuilder.toString();
-        } else {
-            return " ";
-        }
-    }
 
     private String getAptGetProxyLine() {
         if (proxyCheckBox.isSelected()) {
@@ -2882,27 +2666,6 @@ public class Welcome extends javax.swing.JFrame {
     }
 
     private void updatePackagesLists() {
-        // make sure that update-notifier does not get into our way
-        String script = "#!/bin/sh\n"
-                + "mykill() {\n"
-                + "   ID=`ps -u 0 | grep \"${1}\" | awk '{ print $1 }'`\n"
-                + "   if [ -n \"${ID}\" ]\n"
-                + "   then\n"
-                + "       kill -9 ${ID}\n"
-                + "   fi\n"
-                + "}\n"
-                + "mykill /usr/lib/update-notifier/apt-check\n"
-                + "mykill update-notifier";
-
-        try {
-            int exitValue = PROCESS_EXECUTOR.executeScript(script);
-            if (exitValue != 0) {
-                LOGGER.log(Level.WARNING, "Could not kill update-notifier: {0}",
-                        PROCESS_EXECUTOR.getOutput());
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
 
         // update packaging information
         ProgressDialog updateDialog = new ProgressDialog(this,
@@ -3021,14 +2784,14 @@ public class Welcome extends javax.swing.JFrame {
         // check which applications are already installed
 
         // nonfree software
-        checkInstall(flashCheckBox, flashLabel,
-                "Welcome.flashLabel.text", WelcomeConstants.FLASH_PACKAGES);
-        checkInstall(readerCheckBox, readerLabel,
-                "Welcome.readerLabel.text", "adobereader-enu");
-        checkInstall(additionalFontsCheckBox, fontsLabel,
-                "Welcome.fontsLabel.text", WelcomeConstants.FONTS_PACKAGES);
-        checkInstall(multimediaCheckBox, multimediaLabel,
-                "Welcome.multimediaLabel.text", WelcomeConstants.MULTIMEDIA_PACKAGES);
+//        checkInstall(flashCheckBox, flashLabel,
+//                "Welcome.flashLabel.text", WelcomeConstants.FLASH_PACKAGES);
+//        checkInstall(readerCheckBox, readerLabel,
+//                "Welcome.readerLabel.text", "adobereader-enu");
+//        checkInstall(additionalFontsCheckBox, fontsLabel,
+//                "Welcome.fontsLabel.text", WelcomeConstants.FONTS_PACKAGES);
+//        checkInstall(multimediaCheckBox, multimediaLabel,
+//                "Welcome.multimediaLabel.text", WelcomeConstants.MULTIMEDIA_PACKAGES);
         checkInstall(googleEarthCheckBox, googleEarthLabel,
                 "Welcome.googleEarthLabel.text", "google-earth-stable");
         checkInstall(skypeCheckBox, skypeLabel,
@@ -3201,18 +2964,18 @@ public class Welcome extends javax.swing.JFrame {
         protected Boolean doInBackground() throws Exception {
 
             // nonfree packages
-            installNonFreeApplication(flashCheckBox, "Welcome.flashLabel.text",
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Flash_cs3.png",
-                    WelcomeConstants.FLASH_PACKAGES);
-            installAdobeReader();
-            installNonFreeApplication(additionalFontsCheckBox,
-                    "Welcome.fontsLabel.text",
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/fonts.png",
-                    WelcomeConstants.FONTS_PACKAGES);
-            installNonFreeApplication(multimediaCheckBox,
-                    "Welcome.multimediaLabel.text",
-                    "/ch/fhnw/lernstickwelcome/icons/48x48/package_multimedia.png",
-                    WelcomeConstants.MULTIMEDIA_PACKAGES);
+//            installNonFreeApplication(flashCheckBox, "Welcome.flashLabel.text",
+//                    "/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Flash_cs3.png",
+//                    WelcomeConstants.FLASH_PACKAGES);
+//            installAdobeReader();
+//            installNonFreeApplication(additionalFontsCheckBox,
+//                    "Welcome.fontsLabel.text",
+//                    "/ch/fhnw/lernstickwelcome/icons/48x48/fonts.png",
+//                    WelcomeConstants.FONTS_PACKAGES);
+//            installNonFreeApplication(multimediaCheckBox,
+//                    "Welcome.multimediaLabel.text",
+//                    "/ch/fhnw/lernstickwelcome/icons/48x48/package_multimedia.png",
+//                    WelcomeConstants.MULTIMEDIA_PACKAGES);
             installGoogleEarth();
             installSkype();
             installNonFreeApplication(virtualBoxCheckBox,
@@ -3407,7 +3170,7 @@ public class Welcome extends javax.swing.JFrame {
             publish(progressAction);
             String fileName = "AdbeRdr9.5.5-1_i386linux_enu.deb";
             String adobeReaderInstallScript = "cd " + WelcomeConstants.USER_HOME + '\n'
-                    + "wget" + getWgetProxyLine()
+                    + "wget"// + getWgetProxyLine()
                     + "ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/"
                     + fileName + '\n'
                     + "dpkg -i " + fileName + '\n'
@@ -3479,7 +3242,7 @@ public class Welcome extends javax.swing.JFrame {
             String googleEarthInstallScript = "apt-get" + getAptGetProxyLine()
                     + "-y --force-yes install lsb-core\n"
                     + "cd " + WelcomeConstants.USER_HOME + '\n'
-                    + "wget" + getWgetProxyLine()
+                    + "wget" //+ getWgetProxyLine()
                     + "http://dl.google.com/dl/earth/client/current/" + debName + '\n'
                     + "dpkg -i " + debName + '\n'
                     + "rm " + debName;
@@ -3506,7 +3269,7 @@ public class Welcome extends javax.swing.JFrame {
             publish(progressAction);
 
             String debName = "google-chrome-stable_current_i386.deb";
-            String googleEarthInstallScript = "wget" + getWgetProxyLine()
+            String googleEarthInstallScript = "wget" //+ getWgetProxyLine()
                     + "https://dl.google.com/linux/direct/" + debName + '\n'
                     + "dpkg -i " + debName + '\n'
                     + "rm " + debName;

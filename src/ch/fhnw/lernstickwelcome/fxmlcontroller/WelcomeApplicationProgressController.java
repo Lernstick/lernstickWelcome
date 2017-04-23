@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -27,6 +28,8 @@ public class WelcomeApplicationProgressController implements Initializable {
     private Label txt_inst_prc;
     @FXML
     private Label txt_inst_mesage;
+    @FXML
+    private ImageView img_value;
     
 
     /**
@@ -52,8 +55,7 @@ public class WelcomeApplicationProgressController implements Initializable {
         return txt_inst_mesage;
     }
 
-  
-    
-    
-    
+    public ImageView getImg_value() {
+        return img_value;
+    }
 }

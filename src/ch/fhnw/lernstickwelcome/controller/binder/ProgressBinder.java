@@ -8,9 +8,15 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
+import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
+import java.io.File;
 import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.StringBinding;
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -50,8 +56,23 @@ public class ProgressBinder {
                     }
                 }, controller.getInstaller().messageProperty()
         );
+        // Get an image from the value property of the TaskProcessor
+        ObjectBinding<Image> value = Bindings.createObjectBinding(
+                () -> { 
+                    if(controller.getInstaller().valueProperty().get() != null)
+                        return new Image(WelcomeConstants.ICON_INSTALL_FILE_PATH
+                                + "/"
+                                + controller.getInstaller().valueProperty().get()
+                                + ".png");
+                    else
+                        return null;
+                }, controller.getInstaller().valueProperty());
+        
         install.getTxt_inst_installtitle().textProperty().bind(title);
         install.getTxt_inst_mesage().textProperty().bind(message);
+        install.getImg_value().imageProperty().bind(value);
+        // Hide the image if none is available
+        install.getImg_value().visibleProperty().bind(controller.getInstaller().valueProperty().isNotNull());
     }
 
     public void initHandlers(Stage errorDialog, WelcomeApplicationErrorController error) {
@@ -68,6 +89,11 @@ public class ProgressBinder {
                     // Close stage after error was clicked away
                     currentStage.close();
                 } else {
+                    // Play a sound on success
+                    String musicFile = WelcomeConstants.RESOURCE_FILE_PATH + "/sound/KDE_Notify.wav";
+                    Media sound = new Media(new File(musicFile).toURI().toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                    mediaPlayer.play();
                     // Close scene if finished after 3 seconds
                     PauseTransition delay = new PauseTransition(Duration.seconds(3));
                     delay.setOnFinished(event -> ((Stage) install.getProg_inst_bar().getScene().getWindow()).close());

@@ -64,8 +64,6 @@ public class SystemconfigTask implements Processable<Boolean> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
-    private static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
-    private static final String LOCAL_POLKIT_PATH = "/etc/polkit-1/localauthority/50-local.d";
 
     // Some functions are only required in exam env.
     private boolean isExamEnv; // TODO Block functions for Std. Version
@@ -260,14 +258,14 @@ public class SystemconfigTask implements Processable<Boolean> {
 
             // make image temporarily writable
             PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,rw", IMAGE_DIRECTORY);
+                    "mount", "-o", "remount,rw", WelcomeConstants.IMAGE_DIRECTORY);
 
-            updateBootloaders(new File(IMAGE_DIRECTORY),
+            updateBootloaders(new File(WelcomeConstants.IMAGE_DIRECTORY),
                     timeout, systemName, systemVersion);
 
             // remount image read-only
             PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,ro", IMAGE_DIRECTORY);
+                    "mount", "-o", "remount,ro", WelcomeConstants.IMAGE_DIRECTORY);
         } else {
             // system with a separate boot partition
             bootConfigPartition.executeMounted(updateBootloaderAction);
@@ -432,7 +430,7 @@ public class SystemconfigTask implements Processable<Boolean> {
 
         if (bootConfigPartition == null) {
             // legacy system
-            File configFile = getXmlBootConfigFile(new File(IMAGE_DIRECTORY));
+            File configFile = getXmlBootConfigFile(new File(WelcomeConstants.IMAGE_DIRECTORY));
             if (configFile != null) {
                 return configFile;
             }
@@ -497,7 +495,7 @@ public class SystemconfigTask implements Processable<Boolean> {
         List<File> syslinuxConfigFiles;
         if (bootConfigPartition == null) {
             // legacy system
-            syslinuxConfigFiles = getSyslinuxConfigFiles(new File(IMAGE_DIRECTORY));
+            syslinuxConfigFiles = getSyslinuxConfigFiles(new File(WelcomeConstants.IMAGE_DIRECTORY));
         } else {
             // system with a separate boot partition
             syslinuxConfigFiles = bootConfigPartition.executeMounted(
@@ -626,7 +624,7 @@ public class SystemconfigTask implements Processable<Boolean> {
      */
     private void addStrictPKLA(
             String fileName, String description, String action) {
-        File strictPKLA = new File(LOCAL_POLKIT_PATH, fileName);
+        File strictPKLA = new File(WelcomeConstants.LOCAL_POLKIT_PATH, fileName);
         String strictWelcomeRule
                 = "[" + description + "]\n"
                 + "Identity=unix-user:*\n"
@@ -651,7 +649,7 @@ public class SystemconfigTask implements Processable<Boolean> {
         for (String pkla : pklas) {
             try {
                 Path path = Paths.get(
-                        LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
+                        WelcomeConstants.LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
                 List<String> lenientLines = Files.readAllLines(
                         path, StandardCharsets.UTF_8);
                 List<String> strictLines = new ArrayList<>();

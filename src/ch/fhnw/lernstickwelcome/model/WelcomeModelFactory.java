@@ -7,10 +7,12 @@ package ch.fhnw.lernstickwelcome.model;
 
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPostprocessingTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
-import ch.fhnw.lernstickwelcome.model.proxy.ProxyTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
@@ -182,5 +184,23 @@ public class WelcomeModelFactory {
      */
     public static PartitionTask getPartitionTask(PropertiesTask properties) {
         return new PartitionTask(properties.getProperties());
+    }
+
+    /**
+     * Returns a new instance of this class.
+     * @param proxy The proxy task which calculates the proxy for the commands
+     * @return {@link InstallPreparationTask}
+     */
+    public static InstallPreparationTask getInstallPreparationTask(ProxyTask proxy) {
+        return new InstallPreparationTask(proxy);
+    }
+
+    /**
+     * Returns a new instance of this class.
+     * @param proxy The proxy task which calculates the proxy for the commands
+     * @return {@link InstallPostprocessingTask}
+     */
+    public static InstallPostprocessingTask getInstallPostprocessingTask(ProxyTask proxy) {
+        return new InstallPostprocessingTask(proxy);
     }
 }

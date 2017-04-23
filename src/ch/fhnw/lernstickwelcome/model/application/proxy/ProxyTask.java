@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.model.proxy;
+package ch.fhnw.lernstickwelcome.model.application.proxy;
 
 import ch.fhnw.lernstickwelcome.model.Processable;
 import javafx.beans.property.BooleanProperty;
@@ -14,7 +14,8 @@ import javafx.concurrent.Task;
 
 
 /**
- * This class handles the proxy settings for the Lernstick.
+ * This class handles the proxy settings which are used for installing the 
+ * applications.
  * <br>
  * In order to process a backend task multiple times it extends Processable
  * 
@@ -129,10 +130,14 @@ public class ProxyTask implements Processable<Boolean> {
 
         @Override
         protected Boolean call() throws Exception {
+            updateProgress(0, 1);
             if (proxyActive.get()) {
+                updateTitle("ProxyTask.title");
+                updateTitle("ProxyTask.message");
                 setupWgetProxy();
                 setupAptGetProxy();
             }
+            updateProgress(1, 1);
             return true;
         }
     }

@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author user
  */
-public class WelcomeApplicationStartController implements Initializable {
+public class WelcomeApplicationMainController implements Initializable {
 
     @FXML
     private Button FinishButton;
@@ -38,8 +38,6 @@ public class WelcomeApplicationStartController implements Initializable {
     private ListView<MenuPaneItem> MenuPane;
     @FXML
     private ScrollPane MainPane;
-    @FXML
-    private SplitPane SplitPane;
 
     public void initializeMenu(ObservableList<MenuPaneItem> list) {
         MenuPane.setCellFactory(lv -> new ListCell<MenuPaneItem>() {
@@ -60,6 +58,7 @@ public class WelcomeApplicationStartController implements Initializable {
         // Change and resize the content
         MenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> { 
             MainPane.setContent(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
+            MainPane.setVvalue(0);
             ((Region)(MainPane.getContent())).setPrefWidth(MainPane.getWidth());
             ((Region)(MainPane.getContent())).setPrefHeight(MainPane.getHeight());
         });
@@ -89,8 +88,6 @@ public class WelcomeApplicationStartController implements Initializable {
         //save all
         ((Stage)((Node)(event.getSource())).getScene().getWindow()).close();
     }
-
-  /*   private void onClickShowSystem*/
 
     public Button getFinishButton() {
         return FinishButton;
