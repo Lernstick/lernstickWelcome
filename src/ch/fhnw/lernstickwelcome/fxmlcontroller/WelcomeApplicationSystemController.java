@@ -5,8 +5,12 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -53,6 +57,7 @@ public class WelcomeApplicationSystemController implements Initializable {
     private CheckBox cb_sys_show_warning;
     
     private final Integer[] visibleForValues = new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    private Boolean hasExchangePartition = false;
     
     /**
      * Initializes the controller class.
@@ -71,7 +76,91 @@ public class WelcomeApplicationSystemController implements Initializable {
             }
         });
         
+        txt_sys_username.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (isAllowed(newValue)) {
+                    txt_sys_username.setText(newValue);
+                }
+            }
+            
+            private boolean isAllowed(String string) {
+                for (int i = 0, length = string.length(); i < length; i++) {
+                    char character = string.charAt(i);
+                    if ((character == ':')
+                            || (character == ',')
+                            || (character == '=')) {
+                        Toolkit.getDefaultToolkit().beep();
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+
+        txt_sys_exchange_partition.textProperty().addListener(new ChangeListener<String>() {
+            private final static int MAX_CHARS = 11;
+            
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // only allow ASCII input
+                if (!isASCII(newValue)) {
+                    txt_sys_exchange_partition.setText(oldValue);
+                    return;
+                }
+
+                if (getSpecialLength(newValue) <= MAX_CHARS) {
+                    txt_sys_exchange_partition.setText(newValue);
+                } else {
+                    txt_sys_exchange_partition.setText(oldValue);
+                    Toolkit.getDefaultToolkit().beep();
+                }
+            }
+            
+             private boolean isASCII(String string) {
+                for (int i = 0, length = string.length(); i < length; i++) {
+                    char character = string.charAt(i);
+                    if ((character < 0) || (character > 127)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            private int getSpecialLength(String string) {
+                // follow special rules for VFAT labels
+                int count = 0;
+                for (int i = 0, length = string.length(); i < length; i++) {
+                    char character = string.charAt(i);
+                    if ((character >= 0) && (character <= 127)) {
+                        // ASCII
+                        if ((character == 39) || (character == 96)) {
+                            // I have no idea why those both characters take up 3 bytes
+                            // but they really do...
+                            count += 3;
+                        } else {
+                            count++;
+                        }
+                    } else {
+                        // non ASCII
+                        count += 2;
+                    }
+                }
+                return count;
+            }
+        });
+             
+        if (!hasExchangePartition) {
+            txt_sys_exchange_partition.setEditable(false);
+        }
+        
         choice_sys_visible_for.getItems().addAll(visibleForValues);
+        
+        if (!WelcomeUtil.isImageWritable()) {
+            choice_sys_visible_for.hide();
+            txt_sys_systemname.setEditable(false);
+            txt_sys_systemversion.setEditable(false);
+        }
     }
 
     @FXML
@@ -134,5 +223,9 @@ public class WelcomeApplicationSystemController implements Initializable {
     
     public Button getBtnSysHelp() {
         return btn_sys_help;
+    }
+    
+    public void setHasExchangePartition(Boolean hasExchangePartition) {
+        this.hasExchangePartition = hasExchangePartition;
     }
 }
