@@ -34,7 +34,6 @@ import javafx.stage.Stage;
  */
 public class FXMLGuiLoader {
     private static final Logger LOGGER = Logger.getLogger(FXMLGuiLoader.class.getName());
-   // private static final FXMLGuiLoader INSTANCE = new FXMLGuiLoader(true);
     
     private Scene welcomeApplicationStart;
     
@@ -55,8 +54,6 @@ public class FXMLGuiLoader {
     private Parent firewall;
     private Parent backup;
     private Parent system;
-
-    private boolean isExamEnvironment;
     
     // FXMLController
     private WelcomeApplicationProgressController welcomeApplicationProgressController;
@@ -73,8 +70,7 @@ public class FXMLGuiLoader {
     private WelcomeApplicationAdditionalSoftwareController welcomeApplicationAdditionalSoftwareController;
     private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
     
-    public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb, ApplicationGroupTask recApps, ApplicationGroupTask teachingApps, ApplicationGroupTask softwApps, ApplicationGroupTask gameApps) {
-        this.isExamEnvironment = isExamEnvironment;
+    public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb) {
         // Create all instances with their controllers and load the internatioalized strings       
         try {
             ObservableList<MenuPaneItem> menuPaneItems = FXCollections.observableArrayList();
@@ -84,7 +80,7 @@ public class FXMLGuiLoader {
             welcomeApplicationStart = new Scene(loadStart.load());
             welcomeApplicationStartController = loadStart.getController();
             
-            if(!this.isExamEnvironment){
+            if(!isExamEnvironment){
                 FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationInformationStd.fxml"), rb);
                 informationStd = (Parent)loadInfoStd.load();
                 welcomeApplicationInformationController = loadInfoStd.getController();
@@ -92,24 +88,20 @@ public class FXMLGuiLoader {
                 FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), rb);
                 recommended = (Parent)loadRecomm.load();
                 welcomeApplicationRecommendedSoftwareController = loadRecomm.getController();
-                // initialize alle recommended apps (configured in the xml file with the tag "recommended")
-                welcomeApplicationRecommendedSoftwareController.initializeApps(recApps);
                         
                 FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), rb);
                 addSoftware = (Parent)loadAdd.load();
                 welcomeApplicationAdditionalSoftwareController = loadAdd.getController();
-                // initialize alle addional apps (configured in the xml file with the tags "teaching", "game" and "others")
-                welcomeApplicationAdditionalSoftwareController.initializeApps(teachingApps, softwApps, gameApps);
                         
                 FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), rb);
                 systemStd = (Parent)loadSystemStd.load();
                 welcomeApplicationSystemStdController = loadSystemStd.getController();
                 
                 //add to pane list for the standard version
-                menuPaneItems.add(new MenuPaneItem(informationStd, "Information", null));
-                menuPaneItems.add(new MenuPaneItem(recommended, "Recommended Software", null));
-                menuPaneItems.add(new MenuPaneItem(addSoftware, "Additional Software", null));
-                menuPaneItems.add(new MenuPaneItem(systemStd, "System", null));
+                menuPaneItems.add(new MenuPaneItem(informationStd, rb.getString("welcomeApplicationMain.Information"), null));
+                menuPaneItems.add(new MenuPaneItem(recommended, rb.getString("welcomeApplicationMain.RecommendedSoftware"), null));
+                menuPaneItems.add(new MenuPaneItem(addSoftware, rb.getString("welcomeApplicationMain.AdditionalSoftware"), null));
+                menuPaneItems.add(new MenuPaneItem(systemStd, rb.getString("welcomeApplicationMain.System"), null));
             } else {
                 FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
                 welcomeApplicationPasswordChange = new Scene(loadPasswordChange.load());
@@ -132,10 +124,10 @@ public class FXMLGuiLoader {
                 welcomeApplicationSystemController = loadSystem.getController();
 
                 //add to pane list for the exam version
-                menuPaneItems.add(new MenuPaneItem(information, "Information", null));
-                menuPaneItems.add(new MenuPaneItem(firewall, "Firewall", null));
-                menuPaneItems.add(new MenuPaneItem(backup, "Backup", null));
-                menuPaneItems.add(new MenuPaneItem(system, "System", null));
+                menuPaneItems.add(new MenuPaneItem(information, rb.getString("welcomeApplicationMain.Information"), null));
+                menuPaneItems.add(new MenuPaneItem(firewall, rb.getString("welcomeApplicationMain.Firewall"), null));
+                menuPaneItems.add(new MenuPaneItem(backup, rb.getString("welcomeApplicationMain.Backup"), null));
+                menuPaneItems.add(new MenuPaneItem(system, rb.getString("welcomeApplicationMain.System"), null));
             }
             
             FXMLLoader loadProgress = new FXMLLoader(getClass().getResource("../view/welcomeApplicationProgress.fxml"), rb);
@@ -215,6 +207,18 @@ public class FXMLGuiLoader {
         return welcomeApplicationPasswordChangeController;
     }
     
+    public WelcomeApplicationRecommendedSoftwareController getRecommended() {
+        return welcomeApplicationRecommendedSoftwareController;
+    }
+    
+    public WelcomeApplicationAdditionalSoftwareController getAddSoftware() {
+        return welcomeApplicationAdditionalSoftwareController;
+    }
+    
+    public WelcomeApplicationSystemStdController getSystemStd() {
+        return welcomeApplicationSystemStdController;
+    }
+    
     /**
      * Method to create welcome application dialog (main window)
      * 
@@ -235,5 +239,4 @@ public class FXMLGuiLoader {
         stage.setScene(scene);
         return stage;
     }
-    
 }

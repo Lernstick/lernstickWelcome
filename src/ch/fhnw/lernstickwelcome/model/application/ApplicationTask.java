@@ -28,7 +28,7 @@ public class ApplicationTask implements Processable<Boolean> {
     
     private String name;
     private String description;
-    private Image icon;
+    private String icon;
     private ApplicationPackages packages;
     private String helpPath;
     private BooleanProperty installing = new SimpleBooleanProperty();
@@ -38,7 +38,7 @@ public class ApplicationTask implements Processable<Boolean> {
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
         this.description = description;
-        //this.icon = new Image(icon); TODO where dem icons at?
+        this.icon = icon;
         this.packages = packages;
         this.installed = initIsInstalled();
     }
@@ -56,7 +56,7 @@ public class ApplicationTask implements Processable<Boolean> {
         return description;
     }
     
-    public Image getIcon() {
+    public String getIcon() {
         return icon;
     }
     
@@ -90,9 +90,7 @@ public class ApplicationTask implements Processable<Boolean> {
         String[] commandArray = new String[length + 2];
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
-        // @Sandro: i changed the line next from 
-        // System.arraycopy(packages, 0, commandArray, 2, length);
-        // to this (i think this was a bug, or do i miss something?): 
+        
         System.arraycopy(packages.getPackageNames(), 0, commandArray, 2, length);
         PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();

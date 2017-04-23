@@ -71,6 +71,7 @@ public class WelcomeController {
         
         help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0], isExamEnvironment);
         
+        // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
         firewall = WelcomeModelFactory.getFirewallTask();
         backup = WelcomeModelFactory.getBackupTask(properties, BUNDLE.getString("Backup_Directory"));
@@ -98,16 +99,20 @@ public class WelcomeController {
         isExamEnvironment = false;
 
         help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0], isExamEnvironment);
+        
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
+        
         prepare = WelcomeModelFactory.getInstallPreparationTask(proxy);
+        
         recApps = WelcomeModelFactory.getApplicationGroupTask("recommended", "RecommendedApplication.title", proxy);
         teachApps = WelcomeModelFactory.getApplicationGroupTask("teaching", "TeachingApplication.title", proxy);
-        softwApps = WelcomeModelFactory.getApplicationGroupTask("software", "SoftwareApplication.title", proxy);
+        softwApps = WelcomeModelFactory.getApplicationGroupTask("others", "OthersApplication.title", proxy);
         gamesApps = WelcomeModelFactory.getApplicationGroupTask("game", "GameApplication.title", proxy);
-
+        
         post = WelcomeModelFactory.getInstallPostprocessingTask(proxy);
+        
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);
 

@@ -548,9 +548,8 @@ public class SystemconfigTask implements Processable<Boolean> {
         String passwordChangeScript = "#!/bin/sh\n"
                 + "echo \"user:" + password1 + "\""
                 + " | /usr/sbin/chpasswd\n";
-        ProcessExecutor executor = new ProcessExecutor();
         try {
-            int returnValue = executor.executeScript(
+            int returnValue = PROCESS_EXECUTOR.executeScript(
                     true, true, passwordChangeScript);
             if (returnValue == 0) {
                 passwordEnabled();

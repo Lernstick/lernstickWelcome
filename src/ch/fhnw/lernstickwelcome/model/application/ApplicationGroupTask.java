@@ -31,6 +31,10 @@ public class ApplicationGroupTask implements Processable<Boolean> {
     public List<ApplicationTask> getApps() {
         return apps;
     }
+    
+    public String getTitle() {
+        return title;
+    }
 
     @Override
     public Task<Boolean> newTask() {

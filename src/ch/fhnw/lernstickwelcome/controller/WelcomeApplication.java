@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
+import ch.fhnw.lernstickwelcome.controller.binder.ApplicationBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamFirewallBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamPasswordChangeBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamBackupBinder;
@@ -34,7 +35,7 @@ public class WelcomeApplication extends Application {
         try{
             controller = new WelcomeController();
 
-            guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle(), controller.getRecApps(), controller.getTeachApps(), controller.getSoftwApps(), controller.getGamesApps());
+            guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle());
 
             Stage errorStage = FXMLGuiLoader.createDialog(
                     primaryStage,
@@ -90,6 +91,14 @@ public class WelcomeApplication extends Application {
                 HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelp());
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
+                
+                ApplicationBinder recAppsBinder = new ApplicationBinder(controller, guiLoader.getRecommended().getVbApps());
+                recAppsBinder.addApplications(controller.getRecApps(), helpBinder, helpStage);
+                
+                ApplicationBinder addAppsBinder = new ApplicationBinder(controller, guiLoader.getAddSoftware().getVbApps());
+                addAppsBinder.addApplicationGroup(controller.getTeachApps(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(controller.getSoftwApps(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(controller.getGamesApps(), helpBinder, helpStage);
             }
 
             ProgressBinder progressBinder = new ProgressBinder(controller, guiLoader.getProgress());

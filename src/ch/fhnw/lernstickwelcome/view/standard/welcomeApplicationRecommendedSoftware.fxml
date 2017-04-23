@@ -5,14 +5,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" minHeight="335.0" prefHeight="335.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController">
    <children>
-      <VBox layoutX="10.0" layoutY="10.0" prefHeight="335.0" prefWidth="644.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="vbApps" layoutX="10.0" layoutY="10.0" prefHeight="335.0" prefWidth="644.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <BorderPane>
                <left>
@@ -26,12 +24,6 @@
                   <Button fx:id="btn_sys_help" mnemonicParsing="false" text="?" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
-            <GridPane fx:id="gp_recommended" vgap="15.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
-               </columnConstraints>
-            </GridPane>
          </children>
          <padding>
             <Insets bottom="15.0" left="20.0" right="30.0" top="15.0" />
