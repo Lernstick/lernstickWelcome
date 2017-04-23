@@ -36,7 +36,9 @@ public class StdSystemBinder {
         system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
         system.getChoice_sysStd_visible_for().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
         system.getTxt_sys_exchange_partition().textProperty().bindBidirectional(controller.getPartition().exchangePartitionLabelProperty());
-        system.getTxt_sysStd_username().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
+        system.getTxt_sys_username().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
+        system.getTxt_sys_systemname().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
+        system.getTxt_sys_systemversion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
         system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
         system.getCb_sysStd_proxy().selectedProperty().bindBidirectional(controller.getProxy().proxyActiveProperty());
         system.getTxt_sysStd_host().textProperty().bindBidirectional(controller.getProxy().hostnameProperty());

@@ -14,8 +14,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import javafx.util.StringConverter;
 
 
@@ -31,8 +29,6 @@ public class WelcomeApplicationSystemStdController implements Initializable {
     
     @FXML
     private Button btn_sys_help;
-    @FXML
-    private TextField txt_sysStd_username;
     @FXML
     private ChoiceBox<Number> choice_sysStd_visible_for;
     @FXML
@@ -63,6 +59,12 @@ public class WelcomeApplicationSystemStdController implements Initializable {
     private Label lbl_sysStd_user;
     @FXML
     private Label lbl_sysStd_pwd;
+    @FXML
+    private TextField txt_sys_username;
+    @FXML
+    private TextField txt_sys_systemversion;
+    @FXML
+    private TextField txt_sys_systemname;
 
     /**
      * Initializes the controller class.
@@ -97,8 +99,16 @@ public class WelcomeApplicationSystemStdController implements Initializable {
         return btn_sys_help;
     }
 
-    public TextField getTxt_sysStd_username() {
-        return txt_sysStd_username;
+    public TextField getTxt_sys_username() {
+        return txt_sys_username;
+    }
+
+    public TextField getTxt_sys_systemname() {
+        return txt_sys_systemname;
+    }
+
+    public TextField getTxt_sys_systemversion() {
+        return txt_sys_systemversion;
     }
 
     public ChoiceBox<Number> getChoice_sysStd_visible_for() {

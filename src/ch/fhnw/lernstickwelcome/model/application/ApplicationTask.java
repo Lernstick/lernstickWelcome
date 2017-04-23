@@ -23,10 +23,9 @@ import javafx.scene.image.Image;
  * @author sschw
  */
 public class ApplicationTask implements Processable<Boolean> {
-
     private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-
+    
     private String name;
     private String description;
     private Image icon;
@@ -35,46 +34,51 @@ public class ApplicationTask implements Processable<Boolean> {
     private BooleanProperty installing = new SimpleBooleanProperty();
     private boolean installed;
     private ProxyTask proxy;
-
+    
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
         this.description = description;
-        this.icon = new Image(icon);
+        //this.icon = new Image(icon); TODO where dem icons at?
         this.packages = packages;
         this.installed = initIsInstalled();
     }
-
+    
     public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
         this(name, description, icon, packages);
         this.helpPath = helpPath;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public Image getIcon() {
         return icon;
     }
-
+    
     public String getHelpPath() {
         return helpPath;
     }
-
+    
     public BooleanProperty installingProperty() {
         return installing;
     }
-
+    
     public boolean isInstalled() {
         return installed;
     }
-
+    
     public int getNoPackages() {
         return packages.getNumberOfPackages();
+    }
+    
+    /* only used for testcases */
+    public ApplicationPackages getPackages() {
+        return packages;
     }
 
     public void setProxy(ProxyTask proxy) {
@@ -86,7 +90,10 @@ public class ApplicationTask implements Processable<Boolean> {
         String[] commandArray = new String[length + 2];
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
-        System.arraycopy(packages, 0, commandArray, 2, length);
+        // @Sandro: i changed the line next from 
+        // System.arraycopy(packages, 0, commandArray, 2, length);
+        // to this (i think this was a bug, or do i miss something?): 
+        System.arraycopy(packages.getPackageNames(), 0, commandArray, 2, length);
         PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         for (String packageName : packages.getPackageNames()) {

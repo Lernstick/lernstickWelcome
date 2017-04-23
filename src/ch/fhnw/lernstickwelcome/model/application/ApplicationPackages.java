@@ -14,7 +14,7 @@ import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 public abstract class ApplicationPackages {
     private String[] packageNames;
     
-    public ApplicationPackages(String[] packageName) {
+    public ApplicationPackages(String[] packageNames) {
         this.packageNames = packageNames;
     }
     

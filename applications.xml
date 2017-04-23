@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<applications>
+	<application name="example">
+		<description></description>
+		<icon></icon>
+		<help-path></help-path>
+		<packages>
+			<package type="aptget">foo</package>
+			<package type="wget" fetchUrl="bar" saveDir="baz">kux</package>
+		</packages>
+		<tags>
+			<tag>example1</tag>
+			<tag>example2</tag>
+		</tags>
+	</application>
+	<application name="Omnitux">
+		<description>a war game with hedgehogs</description>
+		<icon>/ch/fhnw/lernstickwelcome/icons/48x48/omnitux.png</icon>
+		<help-path></help-path>
+		<packages>
+			<package type="aptget">omnitux</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Stellarium">
+		<description>a war game with hedgehogs</description>
+		<icon></icon>
+		<help-path></help-path>
+		<packages>
+			<package type="aptget">lernstick-stellarium</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Kstars">
+		<description>a war game with hedgehogs</description>
+		<icon>ch/fhnw/lernstickwelcome/icons/48x48/kstars.png</icon>
+		<help-path></help-path>
+		<packages>
+			<package type="aptget">lernstick-kstars</package>
+			<package type="aptget">kstars</package>
+			<package type="aptget">kstars-data</package>
+			<package type="aptget">kstars-data-extra-tycho2</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Kstars">
+		<description>a war game with hedgehogs</description>
+		<icon>ch/fhnw/lernstickwelcome/icons/48x48/etoys.png</icon>
+		<help-path></help-path>
+		<packages>
+			<package type="aptget">lernstick-etoys</package>
+			<package type="aptget">lernstick-squeak-vm</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="AdobeReader">
+		<description>PDF Reader</description>
+		<icon>/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Reader_8_icon.png</icon>
+		<help-path></help-path>
+		<packages>
+			<package type="aptget">lernstick-adobereader-enu</package>
+			<package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+</applications>

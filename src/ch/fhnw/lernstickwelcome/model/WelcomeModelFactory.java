@@ -5,51 +5,69 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPostprocessingTask;
 import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPreparationTask;
+import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
+import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
+import ch.fhnw.lernstickwelcome.model.application.WgetPackages;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
 import ch.fhnw.util.StorageTools;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.freedesktop.dbus.exceptions.DBusException;
 
 /**
- * The WelcomeModelFactory creates the Model of the Welcome Application and 
+ * The WelcomeModelFactory creates the Model of the Welcome Application and
  * Objects which are used by different Model Classes.
- * 
+ *
  * @author sschw
  */
 public class WelcomeModelFactory {
+
     private final static ProcessExecutor PROCESS_EXECUTOR = new ProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(WelcomeModelFactory.class.getName());
     private static StorageDevice SYSTEM_STORAGE_DEVICE;
-    
+
     /**
-     * Returns the general {@link ProcessExecutor} which is used to run 
+     * Returns the general {@link ProcessExecutor} which is used to run
      * processes.
+     *
      * @return singleton instance of {@link ProcessExecutor}
      */
     public static ProcessExecutor getProcessExecutor() {
         return PROCESS_EXECUTOR;
     }
-    
+
     /**
      * Returns the general {@link StorageDevice} which is used to read and write
      * data on other partitions.
-     * @return 
+     *
+     * @return
      */
     public static StorageDevice getSystemStorageDevice() {
-        if(SYSTEM_STORAGE_DEVICE == null) {
+        if (SYSTEM_STORAGE_DEVICE == null) {
             try {
                 SYSTEM_STORAGE_DEVICE = StorageTools.getSystemStorageDevice();
             } catch (DBusException | IOException ex) {
@@ -58,90 +76,41 @@ public class WelcomeModelFactory {
         }
         return SYSTEM_STORAGE_DEVICE;
     }
-    
-    public static ApplicationGroupTask getRecommendedApplicationTask(ProxyTask proxy) {
-        ArrayList<ApplicationTask> list = new ArrayList<ApplicationTask>();
-        // TODO create and add recommended applications
-        ApplicationGroupTask task = new ApplicationGroupTask(
-                "RecommendedSoftware", 
-                proxy,
-                list
-        );
-        return task;
-    }
-    
-    public static ApplicationGroupTask getTeachingApplicationTask(ProxyTask proxy) {
-        ArrayList<ApplicationTask> list = new ArrayList<ApplicationTask>();
-        // TODO create and add teaching applications
-        ApplicationGroupTask task = new ApplicationGroupTask(
-                "TeachingSoftware", 
-                proxy,
-                list
-        );
-        return task;
-    }
-    
-    public static ProxyTask getProxyTask() {
-        return new ProxyTask();
-    }
-    // TODO add more categories which should be initialized
-    
+
     /**
-     * Searches the application.xml for an application with the given name.
-     * @param name
-     * @return a Task for this specific application or null if no application was found.
+     * Creates an ApplicationGroupTask containing all the application with given
+     * tag.
+     *
+     * @param tag tag to be searched for
+     * @param title a title for the group task, can be anything
+     * @param proxy
+     * @return ApplicationGroupTask
+     * @throws IOException
+     * @throws SAXException
+     * @throws ParserConfigurationException
      */
-    public static ApplicationTask getApplicationTask(String name) {/*
-    	File xmlFile = new File("applications.xml");
-    	Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
-    	NodeList applications = xmlDoc.getElementsByTagName("application");
-    	for (int i = 0; i < applications.getLength(); i++) {
-    		Node application = applications.item(i);
-    		if (application.getNodeType() == Node.ELEMENT_NODE) {
-    			Element app = (Element) application;
-    			if (app.getAttribute("name") == name) { // found application
-        			String description = app.getElementsByTagName("description").item(0).getNodeValue();
-        			String icon = app.getElementsByTagName("icon").item(0).getNodeValue();
-        			String helpPath = app.getElementsByTagName("help-path").item(0).getNodeValue();
-        			List<String> aptgetPackages = new ArrayList<>();
-        			List<String> wgetPackages = new ArrayList<>();
-        			// XXX does really every wget package have the same fetchUrl and SaveDir?
-        			// In application.xml I defined it so every package can have different ones.
-        			// In class WgetPackages however, there is only one property for all packages.
-        			// So for now this function uses just the last ones of the properties.
-        			String wgetFetchUrl; 
-        			String wgetSaveDir;
-        			NodeList packages = app.getElementsByTagName("package");
-        			for (int j = 0; j < packages.getLength(); j++) {
-        				Element pkg = ((Element)packages.item(j));
-        				String type = pkg.getAttribute("type");
-        				String pkgName = pkg.getNodeValue();
-        				switch (type) {
-						case "aptget":
-							aptgetPackages.add(pkgName);
-							break;
-						case "wget":
-							wgetPackages.add(pkgName);
-	        				wgetFetchUrl = pkg.getAttribute("fetchUrl");
-	        				wgetSaveDir = pkg.getAttribute("saveDir");
-							break;
-						default: break;
-						}
-        			}
-        			CombinedPackages pkgs = new CombinedPackages(
-    					new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])), 
-    					new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir)
-        			);
-        			ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
-        			return task;
-    			}
-    		}
-    	}*/
-    	return null;
+    public static ApplicationGroupTask getApplicationGroupTask(String tag, String title, ProxyTask proxy) throws ParserConfigurationException, SAXException, IOException {
+        List<ApplicationTask> apps = getApplicationTasks(tag);
+        ApplicationGroupTask task = new ApplicationGroupTask(
+                title,
+                proxy,
+                apps
+        );
+        return task;
     }
 
     /**
      * Returns a new instance of this class.
+     *
+     * @return {@link ProxyTask}
+     */
+    public static ProxyTask getProxyTask() {
+        return new ProxyTask();
+    }
+
+    /**
+     * Returns a new instance of this class.
+     *
      * @return {@link PropertiesTask}
      */
     public static PropertiesTask getPropertiesTask() {
@@ -150,6 +119,7 @@ public class WelcomeModelFactory {
 
     /**
      * Returns a new instance of this class.
+     *
      * @return {@link FirewallTask}
      */
     public static FirewallTask getFirewallTask() {
@@ -158,6 +128,7 @@ public class WelcomeModelFactory {
 
     /**
      * Returns a new instance of this class.
+     *
      * @param properties Property File of the Welcome Application
      * @param backupDirectoryName the name for the backup folder
      * @return {@link BackupTask}
@@ -168,9 +139,10 @@ public class WelcomeModelFactory {
 
     /**
      * Returns a new instance of this class.
+     *
      * @param isExam Some functions won't be load in Std. Version
      * @param properties Property File of the Welcome Application
-     * @return {@link SystemconfigTask} 
+     * @return {@link SystemconfigTask}
      */
     public static SystemconfigTask getSystemTask(boolean isExam, PropertiesTask properties) {
         return new SystemconfigTask(isExam, properties.getProperties());
@@ -179,6 +151,7 @@ public class WelcomeModelFactory {
 
     /**
      * Returns a new instance of this class.
+     *
      * @param properties Property File of the Welcome Application
      * @return {@link PartitionTask}
      */
@@ -188,6 +161,7 @@ public class WelcomeModelFactory {
 
     /**
      * Returns a new instance of this class.
+     *
      * @param proxy The proxy task which calculates the proxy for the commands
      * @return {@link InstallPreparationTask}
      */
@@ -197,10 +171,115 @@ public class WelcomeModelFactory {
 
     /**
      * Returns a new instance of this class.
+     *
      * @param proxy The proxy task which calculates the proxy for the commands
      * @return {@link InstallPostprocessingTask}
      */
     public static InstallPostprocessingTask getInstallPostprocessingTask(ProxyTask proxy) {
         return new InstallPostprocessingTask(proxy);
+    }
+
+    /**
+     * Searches the application.xml for applications with the given tag.
+     *
+     * @param name
+     * @return List of ApplicationTasks
+     * @throws IOException
+     * @throws SAXException
+     * @throws ParserConfigurationException
+     */
+    public static List<ApplicationTask> getApplicationTasks(String tag) throws ParserConfigurationException, SAXException, IOException {
+        ArrayList<ApplicationTask> apps = new ArrayList<>();
+        File xmlFile = new File("applications.xml");
+        Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
+        NodeList applications = xmlDoc.getElementsByTagName("application");
+        for (int i = 0; i < applications.getLength(); i++) {
+            Node application = applications.item(i);
+            if (application.getNodeType() == Node.ELEMENT_NODE) {
+                Element app = (Element) application;
+                NodeList tags = app.getElementsByTagName("tag");
+                for (int j = 0; j < tags.getLength(); j++) {
+                    Element t = ((Element) tags.item(j));
+                    if (t.getTextContent().equals(tag)) {
+                        apps.add(getApplicationTask(app));
+                    }
+                }
+            }
+        }
+        return apps;
+    }
+
+    /**
+     * Searches the application.xml for an application with the given name.
+     *
+     * @param name
+     * @return a Task for this specific application or null if no application
+     * was found.
+     * @throws IOException
+     * @throws SAXException
+     * @throws ParserConfigurationException
+     */
+    public static ApplicationTask getApplicationTask(String name) throws ParserConfigurationException, SAXException, IOException {
+        File xmlFile = new File("applications.xml");
+        Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
+        /*DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    	Document xmlDoc = builder.parse(xmlFile);*/
+        NodeList applications = xmlDoc.getElementsByTagName("application");
+        for (int i = 0; i < applications.getLength(); i++) {
+            Node application = applications.item(i);
+            if (application.getNodeType() == Node.ELEMENT_NODE) {
+                Element app = (Element) application;
+                if (app.getAttribute("name").equals(name)) { // found application
+                    return getApplicationTask(app);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Helper function to get ApplicationTask from XML application element.
+     *
+     * @param app (XML Element)
+     * @return ApplicationTask
+     */
+    private static ApplicationTask getApplicationTask(Element app) {
+        String name = app.getAttribute("name");
+        Node l = app.getElementsByTagName("description").item(0);
+        String description = app.getElementsByTagName("description").item(0).getTextContent();
+        String icon = app.getElementsByTagName("icon").item(0).getTextContent();
+        String helpPath = app.getElementsByTagName("help-path").item(0).getTextContent();
+        List<String> aptgetPackages = new ArrayList<>();
+        List<String> wgetPackages = new ArrayList<>();
+        // XXX does really every wget package have the same fetchUrl and SaveDir?
+        // In application.xml I defined it so every package can have different ones.
+        // In class WgetPackages however, there is only one property for all packages.
+        // So for now this function uses just the last ones of the properties.
+        String wgetFetchUrl = null;
+        String wgetSaveDir = null;
+        NodeList packages = app.getElementsByTagName("package");
+        for (int j = 0; j < packages.getLength(); j++) {
+            Element pkg = ((Element) packages.item(j));
+            String type = pkg.getAttribute("type");
+            String pkgName = pkg.getTextContent();
+            switch (type) {
+                case "aptget":
+                    aptgetPackages.add(pkgName);
+                    break;
+                case "wget":
+                    wgetPackages.add(pkgName);
+                    wgetFetchUrl = pkg.getAttribute("fetchUrl");
+                    wgetSaveDir = pkg.getAttribute("saveDir");
+                    break;
+                default:
+                    break;
+            }
+        }
+        CombinedPackages pkgs = new CombinedPackages(
+                new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])),
+                new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir)
+        );
+        ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
+        return task;
     }
 }

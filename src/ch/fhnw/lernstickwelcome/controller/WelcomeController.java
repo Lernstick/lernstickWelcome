@@ -27,6 +27,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  * The controller of the WA.
@@ -86,8 +88,11 @@ public class WelcomeController {
     
     /**
      * Loads the data for the Standard Env.
+     * @throws javax.xml.parsers.ParserConfigurationException
+     * @throws org.xml.sax.SAXException
+     * @throws java.io.IOException
      */
-    public void loadStandardEnvironment() {
+    public void loadStandardEnvironment() throws ParserConfigurationException, SAXException, IOException {
         configureLogger();
         
         isExamEnvironment = false;
@@ -97,21 +102,29 @@ public class WelcomeController {
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
         prepare = WelcomeModelFactory.getInstallPreparationTask(proxy);
-        recApps = WelcomeModelFactory.getRecommendedApplicationTask(proxy);
-        teachApps = WelcomeModelFactory.getTeachingApplicationTask(proxy);
+        recApps = WelcomeModelFactory.getApplicationGroupTask("recommended", "RecommendedApplication.title", proxy);
+        teachApps = WelcomeModelFactory.getApplicationGroupTask("teaching", "TeachingApplication.title", proxy);
+        softwApps = WelcomeModelFactory.getApplicationGroupTask("software", "SoftwareApplication.title", proxy);
+        gamesApps = WelcomeModelFactory.getApplicationGroupTask("game", "GameApplication.title", proxy);
 
         post = WelcomeModelFactory.getInstallPostprocessingTask(proxy);
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
+        partition = WelcomeModelFactory.getPartitionTask(properties);
 
         // Init Installer
         List<Processable> processingList = new ArrayList<>();
         processingList.add(proxy);
         processingList.add(prepare);
         processingList.add(recApps);
-        
+        processingList.add(teachApps);
+        processingList.add(softwApps);
+        processingList.add(gamesApps);
         processingList.add(post);
         
+        processingList.add(partition);
         processingList.add(sysconf);
+        
+        processingList.add(properties);
 
         taskProcessor = new TaskProcessor(processingList);
     }
