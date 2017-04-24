@@ -95,7 +95,7 @@ public class ExamFirewallBinder {
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
         firewall.getBtnFwHelp().setOnAction(evt -> {
-            help.setHelpEntry("2");
+            help.setHelpEntryByChapter("2");
             helpStage.show();
         });
     }

@@ -14,6 +14,7 @@ import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamInformationBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.MainBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamSystemBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.StdSystemBinder;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -99,6 +100,10 @@ public class WelcomeApplication extends Application {
                 addAppsBinder.addApplicationGroup(controller.getTeachApps(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(controller.getSoftwApps(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(controller.getGamesApps(), helpBinder, helpStage);
+                
+                StdSystemBinder stdSystemBinder = new StdSystemBinder(controller, guiLoader.getSystemStd());
+                stdSystemBinder.initBindings();
+                stdSystemBinder.initHelp(helpStage, helpBinder);
             }
 
             ProgressBinder progressBinder = new ProgressBinder(controller, guiLoader.getProgress());

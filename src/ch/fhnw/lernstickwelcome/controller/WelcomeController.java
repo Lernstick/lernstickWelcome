@@ -108,7 +108,7 @@ public class WelcomeController {
         
         recApps = WelcomeModelFactory.getApplicationGroupTask("recommended", "RecommendedApplication.title", proxy);
         teachApps = WelcomeModelFactory.getApplicationGroupTask("teaching", "TeachingApplication.title", proxy);
-        softwApps = WelcomeModelFactory.getApplicationGroupTask("others", "OthersApplication.title", proxy);
+        softwApps = WelcomeModelFactory.getApplicationGroupTask("misc", "MiscApplication.title", proxy);
         gamesApps = WelcomeModelFactory.getApplicationGroupTask("game", "GameApplication.title", proxy);
         
         post = WelcomeModelFactory.getInstallPostprocessingTask(proxy);

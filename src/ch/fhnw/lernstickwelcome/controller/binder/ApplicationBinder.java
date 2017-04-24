@@ -52,7 +52,7 @@ public class ApplicationBinder {
 //            appView.setDescription(rb.getString(app.getDescription()));
             if(app.getHelpPath() != null && !app.getHelpPath().isEmpty()) {
                 appView.setHelpAction(evt -> {
-                    binder.setHelpEntry(app.getHelpPath());
+                    binder.setHelpEntryByChapter(app.getHelpPath());
                     help.show();
                 });
             }

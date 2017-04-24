@@ -66,7 +66,7 @@ public class HelpBinder {
                 -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close());
     }
 
-    public void setHelpEntry(String chapter) {
+    public void setHelpEntryByChapter(String chapter) {
         String[] chapters = chapter.split("\\.");
         TreeItem<HelpEntry> entry = help.getTvHelpList().getRoot();
         for(String c : chapters) {
