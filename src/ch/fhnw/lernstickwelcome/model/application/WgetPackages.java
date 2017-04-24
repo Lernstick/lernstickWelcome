@@ -17,12 +17,10 @@ public class WgetPackages extends ApplicationPackages {
     private final static Logger LOGGER = Logger.getLogger(WgetPackages.class.getName());
     private String fetchUrl;
     private String saveDir;
-    private String[] fetchName;
     
     public WgetPackages(String packageName[], String fetchUrl) {
         super(packageName);
         this.fetchUrl = fetchUrl;
-        this.fetchName = packageName;
         this.saveDir = WelcomeConstants.USER_HOME;
     }
     
@@ -33,17 +31,12 @@ public class WgetPackages extends ApplicationPackages {
         else
             this.saveDir = saveDir;
     }
-    
-    public WgetPackages(String packageName[], String fetchUrl, String saveDir, String[] fetchName) {
-        this(packageName, fetchUrl, saveDir);
-        this.fetchName = fetchName;
-    }
 
     @Override
     public String getInstallCommand(ProxyTask proxy) {
         StringBuilder builder = new StringBuilder();
         builder.append("cd " + saveDir);
-        for(String packageName : fetchName) {
+        for(String packageName : getPackageNames()) {
             builder.append("\nwget" + proxy.getWgetProxy());
 //            builder.append(String.format(fetchUrl, packageName));
             builder.append(fetchUrl + "/" + packageName);

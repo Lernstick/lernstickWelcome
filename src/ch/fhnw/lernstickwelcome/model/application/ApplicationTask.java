@@ -36,6 +36,7 @@ public class ApplicationTask implements Processable<String> {
     private BooleanProperty installing = new SimpleBooleanProperty();
     private BooleanProperty installed = new SimpleBooleanProperty();
     private ProxyTask proxy;
+    private String[] installedNames;
 
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
@@ -43,11 +44,18 @@ public class ApplicationTask implements Processable<String> {
         this.icon = icon;
         this.packages = packages;
         this.installed.set(initIsInstalled());
+        installedNames = packages.getPackageNames();
     }
 
     public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
         this(name, description, icon, packages);
         this.helpPath = helpPath;
+    }
+
+    public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages, String[] installedNames) {
+        this(name, description, icon, packages);
+        this.helpPath = helpPath;
+        this.installedNames = installedNames;
     }
 
     public String getName() {
@@ -88,12 +96,12 @@ public class ApplicationTask implements Processable<String> {
     }
 
     private boolean initIsInstalled() {
-        int length = packages.getNumberOfPackages();
+        int length = installedNames.length;
         String[] commandArray = new String[length + 2];
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
 
-        System.arraycopy(packages.getPackageNames(), 0, commandArray, 2, length);
+        System.arraycopy(installedNames, 0, commandArray, 2, length);
         PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         for (String packageName : packages.getPackageNames()) {
