@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.model.application.proxy;
+package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -36,8 +37,8 @@ public class InstallPreparationTask implements Processable<String> {
 
         @Override
         protected String call() throws Exception {
-            updateTitle("ApplicationInstallPreparationTask.title");
-            updateMessage("ApplicationInstallPreparationTask.prepareUpdate");
+            updateTitle("InstallPreparationTask.title");
+            updateMessage("InstallPreparationTask.prepareUpdate");
             updateProgress(0, 2);
             // make sure that update-notifier does not get into our way
             String script = "#!/bin/sh\n"
@@ -61,7 +62,7 @@ public class InstallPreparationTask implements Processable<String> {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
             updateProgress(1, 2);
-            updateMessage("ApplicationInstallPreparationTask.update");
+            updateMessage("InstallPreparationTask.update");
             String updateScript = "cd " + WelcomeConstants.USER_HOME + '\n'
                     + "apt-get" + proxy.getAptGetProxy() + "update";
             int exitValue = PROCESS_EXECUTOR.executeScript(

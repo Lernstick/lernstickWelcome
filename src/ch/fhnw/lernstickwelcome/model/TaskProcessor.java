@@ -73,7 +73,7 @@ public class TaskProcessor {
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(
                 () -> taskList.stream().mapToDouble(
-                        t -> t.getProgress() // Add progress to bind
+                        t -> t.getProgress() > 0 ? t.getProgress() : 0 // Add progress to bind
                 ).sum() / tasks.size(),
                 taskList.stream().map(t -> t.progressProperty()).toArray(s -> new ReadOnlyDoubleProperty[s])));
 

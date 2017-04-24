@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.model.application.proxy;
+package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.Processable;
-import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import javafx.concurrent.Task;
 

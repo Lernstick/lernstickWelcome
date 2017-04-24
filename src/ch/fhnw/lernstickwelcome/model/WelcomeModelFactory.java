@@ -22,8 +22,8 @@ import org.xml.sax.SAXException;
 
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
-import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPostprocessingTask;
-import ch.fhnw.lernstickwelcome.model.application.proxy.InstallPreparationTask;
+import ch.fhnw.lernstickwelcome.model.application.InstallPostprocessingTask;
+import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
 import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
 import ch.fhnw.lernstickwelcome.model.application.WgetPackages;

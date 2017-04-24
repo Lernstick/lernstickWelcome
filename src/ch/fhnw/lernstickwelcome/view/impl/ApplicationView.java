@@ -46,8 +46,6 @@ public class ApplicationView extends GridPane {
         icon.setFitHeight(50);
         icon.setFitWidth(50);
         install.setPrefWidth(100);
-        install.setTextAlignment(TextAlignment.CENTER);
-        install.setAlignment(Pos.CENTER_RIGHT);
         
         add(icon, 0, 0, 1, 2);
         add(title, 1, 0, 1, 2);

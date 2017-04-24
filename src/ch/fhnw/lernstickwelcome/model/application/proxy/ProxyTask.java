@@ -133,7 +133,7 @@ public class ProxyTask implements Processable<String> {
             updateProgress(0, 1);
             if (proxyActive.get()) {
                 updateTitle("ProxyTask.title");
-                updateTitle("ProxyTask.message");
+                updateMessage("ProxyTask.message");
                 setupWgetProxy();
                 setupAptGetProxy();
             }

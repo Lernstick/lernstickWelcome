@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.Processable;
+import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,21 +54,24 @@ public class ApplicationGroupTask implements Processable<String> {
                         filter(a -> !a.isInstalled() && a.installingProperty().get()).
                         collect(Collectors.toList());
                 final int totalWork = appsToInstall.stream().mapToInt(a -> a.getNoPackages()).sum();
-                
-                int previouslyDone = 0;
-                for (ApplicationTask app : appsToInstall) {
-                    updateMessage(app.getName());
-                    Task<String> appTask = app.newTask();
-                    // update this progress on changes of sub-process
-                    final int fPreviouslyDone = previouslyDone;
-                    appTask.progressProperty().addListener(cl -> updateProgress(fPreviouslyDone + appTask.getWorkDone(), totalWork));
-                    appTask.valueProperty().addListener(cl -> updateValue(appTask.getValue()));
+                if(totalWork != 0) {
+                    updateProgress(0, totalWork);
+                    int previouslyDone = 0;
+                    for (ApplicationTask app : appsToInstall) {
+                        updateMessage(app.getName());
+                        updateValue(WelcomeConstants.ICON_APPLICATION_FOLDER + "/" + app.getIcon());
+                        Task<String> appTask = app.newTask();
+                        // update this progress on changes of sub-process
+                        final int fPreviouslyDone = previouslyDone;
+                        appTask.progressProperty().addListener(cl -> updateProgress(fPreviouslyDone + appTask.getWorkDone(), totalWork));
 
-                    app.setProxy(proxy);
-                    appTask.run();
-                    appTask.get();
-                    previouslyDone += app.getNoPackages();
+                        app.setProxy(proxy);
+                        appTask.run();
+                        appTask.get();
+                        previouslyDone += app.getNoPackages();
+                    }
                 }
+                updateProgress(1, 1);
             }
             return null;
         }

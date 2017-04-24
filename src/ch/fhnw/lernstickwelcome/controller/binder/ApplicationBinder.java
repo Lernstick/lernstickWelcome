@@ -48,8 +48,17 @@ public class ApplicationBinder {
         ResourceBundle rb = controller.getBundle();
         for(ApplicationTask app : applications) {
             ApplicationView appView = new ApplicationView(rb);
-            appView.setTitle(app.getName());
-//            appView.setDescription(rb.getString(app.getDescription()));
+            try {
+                appView.setTitle(rb.getString(app.getName()));
+            } catch(Exception ex) {
+                appView.setTitle(app.getName());
+            }
+            try {
+                appView.setDescription(rb.getString(app.getDescription()));
+            } catch(Exception ex) {
+                appView.setDescription(app.getDescription());
+            }
+            
             if(app.getHelpPath() != null && !app.getHelpPath().isEmpty()) {
                 appView.setHelpAction(evt -> {
                     binder.setHelpEntryByChapter(app.getHelpPath());

@@ -59,10 +59,11 @@ public class ProgressBinder {
         // Get an image from the value property of the TaskProcessor
         ObjectBinding<Image> value = Bindings.createObjectBinding(
                 () -> { 
-                    if(controller.getInstaller().valueProperty().get() != null) {
+                    String val = controller.getInstaller().valueProperty().get();
+                    if(val != null) {
                         File f = new File(WelcomeConstants.ICON_FILE_PATH
                                 + "/"
-                                + controller.getInstaller().valueProperty().get()
+                                + val
                                 + ".png");
                         if(f.exists())
                             return new Image(f.toURI().toString());
@@ -77,6 +78,7 @@ public class ProgressBinder {
         install.getTxt_inst_mesage().textProperty().bind(message);
         install.getImg_value().imageProperty().bind(value);
         // Hide the image if none is available
+        install.getImg_value().managedProperty().bind(install.getImg_value().visibleProperty());
         install.getImg_value().visibleProperty().bind(controller.getInstaller().valueProperty().isNotNull());
     }
 
