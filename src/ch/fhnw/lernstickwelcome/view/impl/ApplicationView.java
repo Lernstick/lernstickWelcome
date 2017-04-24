@@ -9,7 +9,9 @@ import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -17,7 +19,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 /**
  *
@@ -42,7 +45,11 @@ public class ApplicationView extends GridPane {
         help.setVisible(false);
         
         title.setAlignment(Pos.CENTER_LEFT);
+        title.setFont(Font.font(null, FontWeight.BOLD, 14));
+        title.setPadding(new Insets(0, 0, 0, 10));
         description.setAlignment(Pos.CENTER_LEFT);
+        description.setFont(Font.font(null, FontWeight.NORMAL, 13));
+        description.setPadding(new Insets(0, 0, 0, 10));
         icon.setFitHeight(50);
         icon.setFitWidth(50);
         install.setPrefWidth(100);
@@ -51,6 +58,9 @@ public class ApplicationView extends GridPane {
         add(title, 1, 0, 1, 2);
         add(help, 2, 1, 1, 2);
         add(install, 3, 1, 1, 2);
+        
+        setValignment(help, VPos.CENTER);
+        setValignment(install, VPos.CENTER);
         
         setHgrow(title, Priority.ALWAYS);
         setHgrow(description, Priority.ALWAYS);

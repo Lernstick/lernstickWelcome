@@ -10,6 +10,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 /**
  * This class represents an ApplicationGroup in the view which can be 
@@ -30,6 +32,7 @@ public class ApplicationGroupView extends BorderPane {
         content.setFillWidth(true);
         
         title.setAlignment(Pos.TOP_LEFT);
+        title.setFont(Font.font(null, FontWeight.BOLD, 14));
         setTop(title);
         
         setCenter(content);
