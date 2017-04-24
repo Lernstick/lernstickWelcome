@@ -45,6 +45,8 @@ public class StdSystemBinder {
         system.getTxt_sysStd_port().textProperty().bindBidirectional(controller.getProxy().portProperty());
         system.getTxt_sysStd_pwd().textProperty().bindBidirectional(controller.getProxy().passwordProperty());
         system.getTxt_sysStd_user().textProperty().bindBidirectional(controller.getProxy().usernameProperty());
+        
+        system.getTxt_sys_exchange_partition().setDisable(!controller.getPartition().hasExchangePartition());
        
     }
 

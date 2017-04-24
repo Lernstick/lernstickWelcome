@@ -5,8 +5,12 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -82,8 +86,87 @@ public class WelcomeApplicationSystemStdController implements Initializable {
                 return Integer.valueOf(string.split(" ")[0]);
             }
         });
-        
         choice_sysStd_visible_for.getItems().addAll(visibleForValues);
+        
+        txt_sys_username.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (isAllowed(newValue)) {
+                    txt_sys_username.setText(newValue);
+                }
+            }
+            
+            private boolean isAllowed(String string) {
+                for (int i = 0, length = string.length(); i < length; i++) {
+                    char character = string.charAt(i);
+                    if ((character == ':')
+                            || (character == ',')
+                            || (character == '=')) {
+                        Toolkit.getDefaultToolkit().beep();
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+
+        txt_sys_exchange_partition.textProperty().addListener(new ChangeListener<String>() {
+            private final static int MAX_CHARS = 11;
+            
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // only allow ASCII input
+                if (!isASCII(newValue)) {
+                    txt_sys_exchange_partition.setText(oldValue);
+                    return;
+                }
+
+                if (getSpecialLength(newValue) <= MAX_CHARS) {
+                    txt_sys_exchange_partition.setText(newValue);
+                } else {
+                    txt_sys_exchange_partition.setText(oldValue);
+                    Toolkit.getDefaultToolkit().beep();
+                }
+            }
+            
+             private boolean isASCII(String string) {
+                for (int i = 0, length = string.length(); i < length; i++) {
+                    char character = string.charAt(i);
+                    if ((character < 0) || (character > 127)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            private int getSpecialLength(String string) {
+                // follow special rules for VFAT labels
+                int count = 0;
+                for (int i = 0, length = string.length(); i < length; i++) {
+                    char character = string.charAt(i);
+                    if ((character >= 0) && (character <= 127)) {
+                        // ASCII
+                        if ((character == 39) || (character == 96)) {
+                            // I have no idea why those both characters take up 3 bytes
+                            // but they really do...
+                            count += 3;
+                        } else {
+                            count++;
+                        }
+                    } else {
+                        // non ASCII
+                        count += 2;
+                    }
+                }
+                return count;
+            }
+        });
+        
+        if (!WelcomeUtil.isImageWritable()) {
+            choice_sysStd_visible_for.setVisible(false);
+            txt_sys_systemname.setDisable(true);
+            txt_sys_systemversion.setDisable(true);
+        }
         
         txt_sysStd_host.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());
         txt_sysStd_port.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());

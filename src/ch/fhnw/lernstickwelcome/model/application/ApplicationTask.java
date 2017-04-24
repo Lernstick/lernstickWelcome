@@ -38,24 +38,17 @@ public class ApplicationTask implements Processable<String> {
     private ProxyTask proxy;
     private String[] installedNames;
 
-    public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
+    public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages, String[] installedNames) {
         this.name = name;
         this.description = description;
         this.icon = icon;
         this.packages = packages;
+        this.helpPath = helpPath;
+        if(installedNames != null && installedNames.length > 0)
+            this.installedNames = installedNames;
+        else
+            this.installedNames = packages.getPackageNames();
         this.installed.set(initIsInstalled());
-        installedNames = packages.getPackageNames();
-    }
-
-    public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
-        this(name, description, icon, packages);
-        this.helpPath = helpPath;
-    }
-
-    public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages, String[] installedNames) {
-        this(name, description, icon, packages);
-        this.helpPath = helpPath;
-        this.installedNames = installedNames;
     }
 
     public String getName() {
@@ -104,7 +97,7 @@ public class ApplicationTask implements Processable<String> {
         System.arraycopy(installedNames, 0, commandArray, 2, length);
         PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
-        for (String packageName : packages.getPackageNames()) {
+        for (String packageName : installedNames) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
             Pattern pattern = Pattern.compile("^ii  " + packageName + ".*");
             boolean found = false;

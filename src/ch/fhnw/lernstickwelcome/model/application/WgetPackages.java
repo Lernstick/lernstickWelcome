@@ -7,6 +7,7 @@ package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
+import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 /**
@@ -38,8 +39,8 @@ public class WgetPackages extends ApplicationPackages {
         builder.append("cd " + saveDir);
         for(String packageName : getPackageNames()) {
             builder.append("\nwget" + proxy.getWgetProxy());
-//            builder.append(String.format(fetchUrl, packageName));
-            builder.append(fetchUrl + "/" + packageName);
+            builder.append("-O " + packageName + " ");
+            builder.append(MessageFormat.format(fetchUrl, packageName));
             builder.append('\n');
             builder.append("dpkg -i " + packageName + '\n');
             builder.append("rm " + packageName);

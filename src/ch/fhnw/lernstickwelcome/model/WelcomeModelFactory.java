@@ -51,7 +51,7 @@ public class WelcomeModelFactory {
     private final static ProcessExecutor PROCESS_EXECUTOR = new ProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(WelcomeModelFactory.class.getName());
     private static StorageDevice SYSTEM_STORAGE_DEVICE;
-    
+
     // used to store ApplicationTasks, so there is only 1 instance of each task
     private static HashMap<String, ApplicationTask> applicationTasks = new HashMap<>();
 
@@ -187,7 +187,7 @@ public class WelcomeModelFactory {
     /**
      * Searches the application.xml for applications with the given tag.
      *
-     * @param name
+     * @param tag
      * @return List of ApplicationTasks
      * @throws IOException
      * @throws SAXException
@@ -241,57 +241,66 @@ public class WelcomeModelFactory {
         }
         return null;
     }
-    
+
     /**
      * Helper function to create an ApplicationTask out of xml data.
+     *
      * @param app
-     * @return ApplicationTask
-     * TODO: at the moment, only 1 single fetchUrl and savedir is considered and used for all wgetpackages.
-     * this should be adjusted. Possible solution: make it possible in xml to add multiple packages
-     * to a single fetchurl and saveDir and adjust the code below accordingly.
+     * @return ApplicationTask TODO: at the moment, only 1 single fetchUrl and
+     * savedir is considered and used for all wgetpackages. this should be
+     * adjusted. Possible solution: make it possible in xml to add multiple
+     * packages to a single fetchurl and saveDir and adjust the code below
+     * accordingly.
      */
     private static ApplicationTask getApplicationTask(Element app) {
-    	String name = app.getAttribute("name");
-    	if (applicationTasks.containsKey(name)) {
-    		return applicationTasks.get(name);
-    	}
-    	Node l = app.getElementsByTagName("description").item(0);
-    	String description = app.getElementsByTagName("description").item(0).getTextContent();
-		String icon = app.getElementsByTagName("icon").item(0).getTextContent();
-		String helpPath = app.getElementsByTagName("help-path").item(0).getTextContent();
-		List<String> aptgetPackages = new ArrayList<>();
-		List<String> wgetPackages = new ArrayList<>();
-		String wgetFetchUrl = null; 
-		String wgetSaveDir = null;
-		NodeList packages = app.getElementsByTagName("package");
-		for (int j = 0; j < packages.getLength(); j++) {
-			Element pkg = ((Element)packages.item(j));
-			String type = pkg.getAttribute("type");
-			String pkgName = pkg.getTextContent();
-			switch (type) {
-			case "aptget":
-				aptgetPackages.add(pkgName);
-				break;
-			case "wget":
-				wgetPackages.add(pkgName);
-				wgetFetchUrl = pkg.getAttribute("fetchUrl");
-				wgetSaveDir = pkg.getAttribute("saveDir");
-				break;
-			default: break;
-			}
-		}
-		List<ApplicationPackages> params = new ArrayList<>();
-		if (aptgetPackages.size() > 0) {
-			params.add(new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])));
-		}
-		if (wgetPackages.size() > 0) {
-			params.add(new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir));
-		}
-		CombinedPackages pkgs = new CombinedPackages(
-			params.toArray(new ApplicationPackages[params.size()])
-		);
-		ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
-		applicationTasks.put(name, task);
-		return task;
-	}
+        String name = app.getAttribute("name");
+        if (applicationTasks.containsKey(name)) {
+            return applicationTasks.get(name);
+        }
+        Node l = app.getElementsByTagName("description").item(0);
+        String description = app.getElementsByTagName("description").item(0).getTextContent();
+        String icon = app.getElementsByTagName("icon").item(0).getTextContent();
+        String helpPath = app.getElementsByTagName("help-path").item(0).getTextContent();
+
+        NodeList installedNamesNode = app.getElementsByTagName("installed-name");
+        String[] installedNames = new String[installedNamesNode.getLength()];
+        for (int i = 0; i < installedNames.length; i++) {
+            installedNames[i] = installedNamesNode.item(i).getTextContent();
+        }
+        List<String> aptgetPackages = new ArrayList<>();
+        List<String> wgetPackages = new ArrayList<>();
+        String wgetFetchUrl = null;
+        String wgetSaveDir = null;
+        NodeList packages = app.getElementsByTagName("package");
+        for (int j = 0; j < packages.getLength(); j++) {
+            Element pkg = ((Element) packages.item(j));
+            String type = pkg.getAttribute("type");
+            String pkgName = pkg.getTextContent();
+            switch (type) {
+                case "aptget":
+                    aptgetPackages.add(pkgName);
+                    break;
+                case "wget":
+                    wgetPackages.add(pkgName);
+                    wgetFetchUrl = pkg.getAttribute("fetchUrl");
+                    wgetSaveDir = pkg.getAttribute("saveDir");
+                    break;
+                default:
+                    break;
+            }
+        }
+        List<ApplicationPackages> params = new ArrayList<>();
+        if (aptgetPackages.size() > 0) {
+            params.add(new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])));
+        }
+        if (wgetPackages.size() > 0) {
+            params.add(new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir));
+        }
+        CombinedPackages pkgs = new CombinedPackages(
+                params.toArray(new ApplicationPackages[params.size()])
+        );
+        ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs, installedNames);
+        applicationTasks.put(name, task);
+        return task;
+    }
 }

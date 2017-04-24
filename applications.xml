@@ -4,9 +4,12 @@
 		<description />
 		<icon>example</icon>
 		<help-path />
+                <installed-names>
+                    <installed-name>packageInstalledUnderThisName</installed-name>
+                </installed-names>
 		<packages>
 			<package type="aptget">foo</package>
-			<package type="wget" fetchUrl="bar" saveDir="baz">kux</package>
+			<package type="wget" fetchUrl="http://example.com/bar/{0}" saveDir="baz">kux</package>
 		</packages>
 		<tags>
 			<tag>example1</tag>
@@ -539,9 +542,12 @@
 		<description>PDF Reader</description>
 		<icon>Adobe_Reader_8_icon</icon>
 		<help-path />
+                <installed-names>
+                    <installed-name>adobereader-enu</installed-name>
+                </installed-names>
 		<packages>
 			<package type="aptget">lernstick-adobereader-enu</package>
-			<package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
+			<package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
 		</packages>
 		<tags>
 			<tag>recommended</tag>
@@ -552,8 +558,11 @@
 		<description>Skype</description>
 		<icon>skype</icon>
 		<help-path />
+                <installed-names>
+                    <installed-name>skype</installed-name>
+                </installed-names>
 		<packages>
-			<package type="wget" fetchUrl="http://www.skype.com/go/getskype-linux-deb" saveDir="USER_HOME">skype-install.deb</package>
+			<package type="wget" fetchUrl="https://www.skype.com/go/getskype-linux-deb" saveDir="USER_HOME">skype-install.deb</package>
 		</packages>
 		<tags>
 			<tag>recommended</tag>
@@ -564,28 +573,31 @@
 		<description>Google Earth</description>
 		<icon>googleearth</icon>
 		<help-path />
+                <installed-names>
+                    <installed-name>google-earth-stable</installed-name>
+                </installed-names>
 		<packages>
 			<package type="aptget">lsb-core</package>
-			<package type="wget" fetchUrl="http://dl.google.com/dl/earth/client/current/" saveDir="USER_HOME">google-earth-stable_current_i386.deb</package>
+			<package type="wget" fetchUrl="http://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-stable_current_i386.deb</package>
 		</packages>
 		<tags>
 			<tag>recommended</tag>
 			<tag>utility</tag>
 		</tags>
 	</application>
-	<application name="Chrome">
+	<!--<application name="Chrome">
 		<description>Google Earth</description>
 		<icon>chrome</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lsb-core</package>
-			<package type="wget" fetchUrl="https://dl.google.com/linux/direct/" saveDir="USER_HOME">google-chrome-stable_current_i386.deb</package>
+			<package type="wget" fetchUrl="https://dl.google.com/linux/direct/{0}" saveDir="USER_HOME">google-chrome-stable_current_i386.deb</package>
 		</packages>
 		<tags>
 			<tag>recommended</tag>
 			<tag>utility</tag>
 		</tags>
-	</application>
+	</application>-->
 	<!-- NONFREE FRM HERE -->
 	<application name="flash">
 		<description />
@@ -623,7 +635,7 @@
 			<tag>recommended</tag>
 		</tags>
 	</application>
-	<application name="virtualbox">
+	<!--<application name="virtualbox">
 		<description />
 		<icon>virtualbox</icon>
 		<help-path />
@@ -633,7 +645,7 @@
 		<tags>
 			<tag>recommended</tag>
 		</tags>
-	</application>
+	</application>-->
 	<application name="lateaching">
 		<description />
 		<icon>LinuxAdvanced</icon>
@@ -658,7 +670,7 @@
 			<package type="aptget">gcompris-sound-fr</package>
 			<package type="aptget">gcompris-sound-it</package>
 			<package type="aptget">gcompris-sound-ptbr</package>
-			<package type="aptget">gcompris-sound-r</package>
+			<package type="aptget">gcompris-sound-ru</package>
 		</packages>
 		<tags>
 			<tag>misc</tag>

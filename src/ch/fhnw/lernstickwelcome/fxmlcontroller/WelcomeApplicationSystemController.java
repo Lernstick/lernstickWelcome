@@ -57,7 +57,6 @@ public class WelcomeApplicationSystemController implements Initializable {
     private CheckBox cb_sys_show_warning;
     
     private final Integer[] visibleForValues = new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    private Boolean hasExchangePartition = false;
     
     /**
      * Initializes the controller class.
@@ -149,17 +148,13 @@ public class WelcomeApplicationSystemController implements Initializable {
                 return count;
             }
         });
-             
-        if (!hasExchangePartition) {
-            txt_sys_exchange_partition.setEditable(false);
-        }
         
         choice_sys_visible_for.getItems().addAll(visibleForValues);
         
         if (!WelcomeUtil.isImageWritable()) {
-            choice_sys_visible_for.hide();
-            txt_sys_systemname.setEditable(false);
-            txt_sys_systemversion.setEditable(false);
+            choice_sys_visible_for.setVisible(false);
+            txt_sys_systemname.setDisable(true);
+            txt_sys_systemversion.setDisable(true);
         }
     }
 
@@ -223,9 +218,5 @@ public class WelcomeApplicationSystemController implements Initializable {
     
     public Button getBtnSysHelp() {
         return btn_sys_help;
-    }
-    
-    public void setHasExchangePartition(Boolean hasExchangePartition) {
-        this.hasExchangePartition = hasExchangePartition;
     }
 }
