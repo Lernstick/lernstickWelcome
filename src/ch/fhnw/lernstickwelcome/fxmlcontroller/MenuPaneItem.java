@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
+import java.io.File;
 import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
@@ -21,8 +22,12 @@ public class MenuPaneItem {
     public MenuPaneItem(Parent parentScene, String displayText, String imagePath) {
         this.parentScene = parentScene;
         this.displayText = displayText;
-        this.imagePath = imagePath;
-        
+        if (imagePath != null) {
+            File f = new File(imagePath);
+            if (f.exists()) {
+                this.imagePath = f.toURI().toString();
+            }
+        }
     }
 
     public Parent getParentScene() {

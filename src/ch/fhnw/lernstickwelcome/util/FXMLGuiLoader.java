@@ -13,6 +13,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoft
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationMainController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController;
+import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import java.io.IOException;
@@ -98,10 +99,10 @@ public class FXMLGuiLoader {
                 welcomeApplicationSystemStdController = loadSystemStd.getController();
                 
                 //add to pane list for the standard version
-                menuPaneItems.add(new MenuPaneItem(informationStd, rb.getString("welcomeApplicationMain.Information"), null));
-                menuPaneItems.add(new MenuPaneItem(recommended, rb.getString("welcomeApplicationMain.RecommendedSoftware"), null));
-                menuPaneItems.add(new MenuPaneItem(addSoftware, rb.getString("welcomeApplicationMain.AdditionalSoftware"), null));
-                menuPaneItems.add(new MenuPaneItem(systemStd, rb.getString("welcomeApplicationMain.System"), null));
+                menuPaneItems.add(new MenuPaneItem(informationStd, rb.getString("welcomeApplicationMain.Information"), WelcomeConstants.ICON_FILE_PATH + "/menu/messagebox_info.png"));
+                menuPaneItems.add(new MenuPaneItem(recommended, rb.getString("welcomeApplicationMain.RecommendedSoftware"), WelcomeConstants.ICON_FILE_PATH + "/menu/copyright.png"));
+                menuPaneItems.add(new MenuPaneItem(addSoftware, rb.getString("welcomeApplicationMain.AdditionalSoftware"), WelcomeConstants.ICON_FILE_PATH + "/menu/list-add.png"));
+                menuPaneItems.add(new MenuPaneItem(systemStd, rb.getString("welcomeApplicationMain.System"), WelcomeConstants.ICON_FILE_PATH + "/menu/system-run.png"));
             } else {
                 FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
                 welcomeApplicationPasswordChange = new Scene(loadPasswordChange.load());
@@ -124,10 +125,10 @@ public class FXMLGuiLoader {
                 welcomeApplicationSystemController = loadSystem.getController();
 
                 //add to pane list for the exam version
-                menuPaneItems.add(new MenuPaneItem(information, rb.getString("welcomeApplicationMain.Information"), null));
-                menuPaneItems.add(new MenuPaneItem(firewall, rb.getString("welcomeApplicationMain.Firewall"), null));
-                menuPaneItems.add(new MenuPaneItem(backup, rb.getString("welcomeApplicationMain.Backup"), null));
-                menuPaneItems.add(new MenuPaneItem(system, rb.getString("welcomeApplicationMain.System"), null));
+                menuPaneItems.add(new MenuPaneItem(information, rb.getString("welcomeApplicationMain.Information"), WelcomeConstants.ICON_FILE_PATH + "/menu/messagebox_info.png"));
+                menuPaneItems.add(new MenuPaneItem(firewall, rb.getString("welcomeApplicationMain.Firewall"), WelcomeConstants.ICON_FILE_PATH + "/menu/network-server.png"));
+                menuPaneItems.add(new MenuPaneItem(backup, rb.getString("welcomeApplicationMain.Backup"), WelcomeConstants.ICON_FILE_PATH + "/menu/partitionmanager.png"));
+                menuPaneItems.add(new MenuPaneItem(system, rb.getString("welcomeApplicationMain.System"), WelcomeConstants.ICON_FILE_PATH + "/menu/system-run.png"));
             }
             
             FXMLLoader loadProgress = new FXMLLoader(getClass().getResource("../view/welcomeApplicationProgress.fxml"), rb);
