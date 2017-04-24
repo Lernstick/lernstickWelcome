@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <applications>
 	<application name="example">
-		<description></description>
-		<icon></icon>
-		<help-path></help-path>
+		<description />
+		<icon />
+		<help-path />
 		<packages>
 			<package type="aptget">foo</package>
 			<package type="wget" fetchUrl="bar" saveDir="baz">kux</package>
@@ -14,21 +14,31 @@
 		</tags>
 	</application>
 	<application name="Omnitux">
-		<description>a war game with hedgehogs</description>
-		<icon>/ch/fhnw/lernstickwelcome/icons/48x48/omnitux.png</icon>
-		<help-path></help-path>
+		<description />
+		<icon />
+		<help-path />
 		<packages>
 			<package type="aptget">omnitux</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
 			<tag>game</tag>
 		</tags>
 	</application>
+	<application name="TuxPaint">
+		<description>Tux Paint</description>
+		<icon />
+		<help-path>http://www.tuxpaint.org</help-path>
+		<packages>
+			<package type="aptget">lernstick-tuxpaint</package>
+		</packages>
+		<tags>
+			<tag>utility</tag>
+		</tags>
+	</application>
 	<application name="Stellarium">
-		<description>a war game with hedgehogs</description>
-		<icon></icon>
-		<help-path></help-path>
+		<description />
+		<icon />
+		<help-path />
 		<packages>
 			<package type="aptget">lernstick-stellarium</package>
 		</packages>
@@ -38,9 +48,9 @@
 		</tags>
 	</application>
 	<application name="Kstars">
-		<description>a war game with hedgehogs</description>
+		<description />
 		<icon>ch/fhnw/lernstickwelcome/icons/48x48/kstars.png</icon>
-		<help-path></help-path>
+		<help-path />
 		<packages>
 			<package type="aptget">lernstick-kstars</package>
 			<package type="aptget">kstars</package>
@@ -51,22 +61,484 @@
 			<tag>game</tag>
 		</tags>
 	</application>
-	<application name="Kstars">
-		<description>a war game with hedgehogs</description>
-		<icon>ch/fhnw/lernstickwelcome/icons/48x48/etoys.png</icon>
-		<help-path></help-path>
+	<application name="Etoys">
+		<description>PDF Reader</description>
+		<icon />
+		<help-path>http://squeakland.org</help-path>
 		<packages>
 			<package type="aptget">lernstick-etoys</package>
 			<package type="aptget">lernstick-squeak-vm</package>
 		</packages>
 		<tags>
 			<tag>recommended</tag>
+			<tag>utility</tag>
 		</tags>
 	</application>
+	<application name="wxMaxima">
+		<description />
+		<icon />
+		<help-path>http://andrejv.github.io/wxmaxima/</help-path>
+		<packages>
+			<package type="aptget">lernstick-wxmaxima</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+	<application name="Rosegarden">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">rosegarden</package>
+			<package type="aptget">fluid-soundfont-gm</package>
+			<package type="aptget">fluid-soundfont-gs</package>
+			<package type="aptget">fluidsynth-dssi</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="Hydrogen">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">hydrogen</package>
+			<package type="aptget">hydrogen-drumkits</package>
+			<package type="aptget">hydrogen-drumkits-effects</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="Sweet Home 3D">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">sweethome3d</package>
+			<package type="aptget">sweethome3d-furniture</package>
+			<package type="aptget">sweethome3d-furniture-nonfree</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Openclipart">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">openclipart-libreoffice</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="LyX">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lyx</package>
+			<package type="aptget">fonts-lyx</package>
+			<package type="aptget">lernstick-lyx</package>
+			<package type="aptget">texlive-lang-all</package>
+			<package type="aptget">texlive-latex-extra</package>
+			<package type="aptget">texlive-fonts-recommended</package>
+			<package type="aptget">texlive-fonts-extra</package>
+			<package type="aptget">texlive-font-utils</package>
+			<package type="aptget">texlive-generic-extra</package>
+			<package type="aptget">texlive-generic-recommended</package>
+			<package type="aptget">texlive-science</package>
+			<package type="aptget">texlive-humanities</package>
+			<package type="aptget">tipa</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Scribus">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">scribus</package>
+			<package type="aptget">scribus-template</package>
+			<package type="aptget">scribus-doc</package>
+			<package type="aptget">lernstick-scribus</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Gespeaker">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">gespeaker</package>
+			<package type="aptget">mbrola-br1</package>
+			<package type="aptget">mbrola-br3</package>
+			<package type="aptget">mbrola-br4</package>
+			<package type="aptget">mbrola-de2</package>
+			<package type="aptget">mbrola-de3</package>
+			<package type="aptget">mbrola-de4</package>
+			<package type="aptget">mbrola-de5</package>
+			<package type="aptget">mbrola-de6</package>
+			<package type="aptget">mbrola-de7</package>
+			<package type="aptget">mbrola-en1</package>
+			<package type="aptget">mbrola-es1</package>
+			<package type="aptget">mbrola-es2</package>
+			<package type="aptget">mbrola-fr1</package>
+			<package type="aptget">mbrola-fr4</package>
+			<package type="aptget">mbrola-it3</package>
+			<package type="aptget">mbrola-it4</package>
+			<package type="aptget">mbrola-us1</package>
+			<package type="aptget">mbrola-us2</package>
+			<package type="aptget">mbrola-us3</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="GnuCash">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">gnucash</package>
+			<package type="aptget">gnucash-docs</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="NetBeans">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lernstick-netbeans</package>
+			<package type="aptget">lernstick-visualvm</package>
+			<package type="aptget">lernstick-scenebuilder</package>
+			<package type="aptget">scenebuilder</package>
+			<package type="aptget">openjdk-8-source</package>
+			<package type="aptget">openjdk-8-doc</package>
+			<package type="aptget">openjfx</package>
+			<package type="aptget">openjfx-source</package>
+			<package type="aptget">libopenjfx-java-doc</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Processing">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">processing</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="RStudio">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">rstudio</package>
+			<package type="aptget">r-base</package>
+			<package type="aptget">lernstick-r-base-core</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Lazarus">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lazarus</package>
+			<package type="aptget">fpc-source</package>
+			<package type="aptget">lcl</package>
+			<package type="aptget">fp-units-gfx</package>
+			<package type="aptget">fp-units-gtk</package>
+			<package type="aptget">fp-units-misc</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="WebWeaver Desktop">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">webweaverdesktop</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="LehrerOffice">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lehreroffice</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="Wizbee">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">wizbee</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="Dybuster Calcularis">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">calcularis-de</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="Minetest">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lernstick-minetest-game-bfd</package>
+			<package type="aptget">lernstick-minetest-game-carbone-ng</package>
+			<package type="aptget">lernstick-minetest-game-tutorial</package>
+			<package type="aptget">lernstick-minetest-mod-dreambuilder</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Colobot">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">colobot</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Ri-li">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">ri-li</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Fish Fillets NG">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lernstick-fillets-ng</package>
+			<package type="aptget">fillets-ng-data-cs</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Neverball">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">live-neverball</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Neverputt">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">live-neverputt</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="FreeCol">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">freecol</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Frogatto &amp; Friends">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lernstick-frogatto</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="SuperTux">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">live-supertux</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="SuperTuxKart">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">live-supertuxkart</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="XMoto">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">live-xmoto</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Trigger Rally">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">live-trigger-rally</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="OpenClonk">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">openclonk</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="The Battle for Wesnoth">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">wesnoth-1.12</package>
+			<package type="aptget">wesnoth-1.12-music</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="FLARE">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">flare-game</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Hedgewars">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">hedgewars</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="MegaGlest">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">megaglest</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="UFO: Alien Invasion">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">ufoai</package>
+			<package type="aptget">ufoai-music</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Astromenace">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lernstick-astromenace</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<!-- SPECIAL APPS -->
 	<application name="AdobeReader">
 		<description>PDF Reader</description>
 		<icon>/ch/fhnw/lernstickwelcome/icons/48x48/Adobe_Reader_8_icon.png</icon>
-		<help-path></help-path>
+		<help-path />
 		<packages>
 			<package type="aptget">lernstick-adobereader-enu</package>
 			<package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
@@ -74,6 +546,122 @@
 		<tags>
 			<tag>recommended</tag>
 			<tag>utility</tag>
+		</tags>
+	</application>
+	<application name="Skype">
+		<description>Skype</description>
+		<icon />
+		<help-path />
+		<packages>
+			<package type="wget" fetchUrl="http://www.skype.com/go/getskype-linux-deb" saveDir="USER_HOME">skype-install.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+	<application name="GoogleEarth">
+		<description>Google Earth</description>
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lsb-core</package>
+			<package type="wget" fetchUrl="http://dl.google.com/dl/earth/client/current/" saveDir="USER_HOME">google-earth-stable_current_i386.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+	<application name="Chrome">
+		<description>Google Earth</description>
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lsb-core</package>
+			<package type="wget" fetchUrl="https://dl.google.com/linux/direct/" saveDir="USER_HOME">google-chrome-stable_current_i386.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+	<!-- NONFREE FRM HERE -->
+	<application name="flash">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">flashplugin-nonfree</package>
+			<package type="aptget">libhal1-flash</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="fonts">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">ttf-mscorefonts-installer</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="multimedia">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">libdvdcss2</package>
+			<package type="aptget">libmp3lame0</package>
+			<package type="aptget">lame</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="virtualbox">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">virtualbox-ext-pack</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="lateaching">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lateaching</package>
+		</packages>
+		<tags>
+			<tag>teaching</tag>
+		</tags>
+	</application>
+	<application name="gcompris">
+		<description />
+		<icon />
+		<help-path />
+		<packages>
+			<package type="aptget">lernstick-gcompris</package>
+			<package type="aptget">gcompris</package>
+			<package type="aptget">gcompris-sound-de</package>
+			<package type="aptget">gcompris-sound-en</package>
+			<package type="aptget">gcompris-sound-es</package>
+			<package type="aptget">gcompris-sound-fr</package>
+			<package type="aptget">gcompris-sound-it</package>
+			<package type="aptget">gcompris-sound-ptbr</package>
+			<package type="aptget">gcompris-sound-r</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
 		</tags>
 	</application>
 </applications>
