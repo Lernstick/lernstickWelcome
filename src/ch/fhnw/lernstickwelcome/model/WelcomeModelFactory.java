@@ -8,6 +8,7 @@ package ch.fhnw.lernstickwelcome.model;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -42,6 +43,9 @@ public class WelcomeModelFactory {
     private final static ProcessExecutor PROCESS_EXECUTOR = new ProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(WelcomeModelFactory.class.getName());
     private static StorageDevice SYSTEM_STORAGE_DEVICE;
+    
+    // used to store ApplicationTasks, so there is only 1 instance of each task
+    private static HashMap<String, ApplicationTask> applicationTasks = new HashMap<>();
     
     public static ProcessExecutor getProcessExecutor() {
         return PROCESS_EXECUTOR;
@@ -144,6 +148,9 @@ public class WelcomeModelFactory {
      */
     private static ApplicationTask getApplicationTask(Element app) {
     	String name = app.getAttribute("name");
+    	if (applicationTasks.containsKey(name)) {
+    		return applicationTasks.get(name);
+    	}
     	Node l = app.getElementsByTagName("description").item(0);
     	String description = app.getElementsByTagName("description").item(0).getTextContent();
 		String icon = app.getElementsByTagName("icon").item(0).getTextContent();
@@ -178,6 +185,7 @@ public class WelcomeModelFactory {
 			new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir)
 		);
 		ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs);
+		applicationTasks.put(name, task);
 		return task;
 	}
 

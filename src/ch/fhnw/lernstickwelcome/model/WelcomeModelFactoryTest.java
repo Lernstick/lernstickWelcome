@@ -35,7 +35,7 @@ public class WelcomeModelFactoryTest {
 		ProxyTask pt = WelcomeModelFactory.getProxyTask();
 		assertTrue(t.getPackages().getInstallCommand(pt).contains("install lernstick-kstars"));
 		
-		//testing a wget application
+		// testing a wget application
 		t = WelcomeModelFactory.getApplicationTask("AdobeReader");
 		assertTrue(t.getName().equals("AdobeReader"));
 		assertTrue(t.getNoPackages() == 2);
@@ -43,6 +43,11 @@ public class WelcomeModelFactoryTest {
 		assertArrayEquals(t.getPackages().getPackageNames(), expectedPackages2);
 		// checking the fetchurl
 		assertTrue(t.getPackages().getInstallCommand(pt).contains("ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/"));
+		
+		// making sure every task exist no more than once
+		ApplicationTask t1 = WelcomeModelFactory.getApplicationTask("Chrome");
+		ApplicationTask t2 = WelcomeModelFactory.getApplicationTask("Chrome");
+		assertTrue(t1 == t2);
 	}
 	
 	@Test
@@ -50,8 +55,8 @@ public class WelcomeModelFactoryTest {
 		List<ApplicationTask> ts = WelcomeModelFactory.getApplicationTasks("recommended");
 		ts.forEach(t -> System.out.println(t.getName()));
 		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("AdobeReader")));
-		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Kstars")));
-		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Omnitux")));
+		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("fonts")));
+		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Chrome")));
 	}
 
 }
