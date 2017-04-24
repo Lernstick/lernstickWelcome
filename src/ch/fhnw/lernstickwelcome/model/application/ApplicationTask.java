@@ -22,7 +22,7 @@ import javafx.scene.image.Image;
  *
  * @author sschw
  */
-public class ApplicationTask implements Processable<Boolean> {
+public class ApplicationTask implements Processable<String> {
     private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     
@@ -117,19 +117,19 @@ public class ApplicationTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateProgress(0, packages.getNumberOfPackages());
             //XXX May nice if there would update the percentage while execute
             PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
             updateProgress(packages.getNumberOfPackages(), packages.getNumberOfPackages());
-            return true;
+            return null;
         }
     }
 

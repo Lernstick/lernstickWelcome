@@ -23,7 +23,7 @@ import javafx.concurrent.Task;
  * 
  * @author sschw
  */
-public class ProxyTask implements Processable<Boolean> {
+public class ProxyTask implements Processable<String> {
 
     private BooleanProperty proxyActive = new SimpleBooleanProperty();
     private StringProperty hostname = new SimpleStringProperty();
@@ -118,7 +118,7 @@ public class ProxyTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
@@ -126,10 +126,10 @@ public class ProxyTask implements Processable<Boolean> {
      * Task for {@link #newTask() }
      * @see Processable
      */
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateProgress(0, 1);
             if (proxyActive.get()) {
                 updateTitle("ProxyTask.title");
@@ -138,7 +138,7 @@ public class ProxyTask implements Processable<Boolean> {
                 setupAptGetProxy();
             }
             updateProgress(1, 1);
-            return true;
+            return null;
         }
     }
 

@@ -53,7 +53,7 @@ public class ExamSystemBinder {
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
         system.getBtnSysHelp().setOnAction(evt -> {
-            help.setHelpEntry("System");
+            help.setHelpEntry("4");
             helpStage.show();
         });
     }

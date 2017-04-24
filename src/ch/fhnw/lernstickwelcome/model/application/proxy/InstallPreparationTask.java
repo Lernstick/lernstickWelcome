@@ -18,7 +18,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class InstallPreparationTask implements Processable<Boolean> {
+public class InstallPreparationTask implements Processable<String> {
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(InstallPreparationTask.class.getName());
     private final ProxyTask proxy;
@@ -28,14 +28,14 @@ public class InstallPreparationTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateTitle("ApplicationInstallPreparationTask.title");
             updateMessage("ApplicationInstallPreparationTask.prepareUpdate");
             updateProgress(0, 2);
@@ -74,7 +74,7 @@ public class InstallPreparationTask implements Processable<Boolean> {
 //                throw new ProcessingException("InstallPreparationTask.aptGetFailed", aptGetOutput); // TODO Find good solution for this
             }
             updateProgress(2, 2);
-            return true;
+            return null;
         }
 
     }

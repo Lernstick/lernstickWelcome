@@ -60,7 +60,7 @@ import org.xml.sax.SAXException;
  * 
  * @author sschw
  */
-public class SystemconfigTask implements Processable<Boolean> {
+public class SystemconfigTask implements Processable<String> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
@@ -757,7 +757,7 @@ public class SystemconfigTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
@@ -765,10 +765,10 @@ public class SystemconfigTask implements Processable<Boolean> {
      * Task for {@link #newTask() }
      * @see Processable
      */
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             // Set labels and progress
             updateProgress(0, 6);
             updateTitle("SystemconfigTask.title");
@@ -826,7 +826,7 @@ public class SystemconfigTask implements Processable<Boolean> {
 
             updateProgress(6, 6);
 
-            return true;
+            return null;
         }
     }
 

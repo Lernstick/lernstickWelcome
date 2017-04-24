@@ -30,7 +30,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class FirewallTask implements Processable<Boolean> {
+public class FirewallTask implements Processable<String> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
@@ -177,14 +177,14 @@ public class FirewallTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateTitle("FirewallTask.title");
             updateProgress(0, 3);
             updateMessage("FirewallTask.saveIps");
@@ -214,7 +214,7 @@ public class FirewallTask implements Processable<Boolean> {
                     "/etc/init.d/lernstick-firewall", "reload");
 
             updateProgress(3, 3);
-            return true;
+            return null;
         }
     }
 }

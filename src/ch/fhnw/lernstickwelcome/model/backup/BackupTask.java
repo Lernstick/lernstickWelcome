@@ -45,7 +45,7 @@ import org.xml.sax.SAXException;
  * This class handles configurations for the backup process.
  * @author sschw
  */
-public class BackupTask implements Processable<Boolean> {
+public class BackupTask implements Processable<String> {
     private final static Logger LOGGER = Logger.getLogger(BackupTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
 
@@ -300,7 +300,7 @@ public class BackupTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
@@ -308,10 +308,10 @@ public class BackupTask implements Processable<Boolean> {
      * Task for {@link #newTask() }
      * @see Processable
      */
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateProgress(0, 2);
             updateTitle("BackupTask.title");
             updateMessage("BackupTask.setupMessage");
@@ -347,7 +347,7 @@ public class BackupTask implements Processable<Boolean> {
             properties.setProperty(WelcomeConstants.BACKUP_FREQUENCY,
                     Integer.toString(frequency.get()));
             updateProgress(2, 2);
-            return true;
+            return null;
         }
     }
 

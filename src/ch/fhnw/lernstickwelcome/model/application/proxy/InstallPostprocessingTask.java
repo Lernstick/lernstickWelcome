@@ -17,7 +17,7 @@ import javafx.concurrent.Task;
  * 
  * @author sschw
  */
-public class InstallPostprocessingTask implements Processable<Boolean> {
+public class InstallPostprocessingTask implements Processable<String> {
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
     private final ProxyTask proxy;
     
@@ -26,21 +26,21 @@ public class InstallPostprocessingTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateTitle("InstallPostprocessingTask.title");
             updateMessage("InstallPostprocessingTask.message");
             updateProgress(0, 1);
             String script = "apt-get" + proxy.getAptGetProxy() + "-f install";
             PROCESS_EXECUTOR.executeScript(script);
             updateProgress(1, 1);
-            return true;
+            return null;
         }
 
     }

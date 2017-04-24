@@ -50,7 +50,7 @@ public class ExamBackupBinder {
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
         backup.getBtnBuHelp().setOnAction(evt -> {
-            help.setHelpEntry("Backup");
+            help.setHelpEntry("3");
             helpStage.show();
         });
     }

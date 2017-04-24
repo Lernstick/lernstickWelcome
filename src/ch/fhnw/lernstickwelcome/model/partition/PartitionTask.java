@@ -30,7 +30,7 @@ import javafx.concurrent.Task;
  * 
  * @author sschw
  */
-public class PartitionTask implements Processable<Boolean> {
+public class PartitionTask implements Processable<String> {
 
     private static final Logger LOGGER = Logger.getLogger(PartitionTask.class.getName());
     private static final ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
@@ -97,7 +97,7 @@ public class PartitionTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
@@ -105,10 +105,10 @@ public class PartitionTask implements Processable<Boolean> {
      * Task for {@link #newTask() }
      * @see Processable
      */
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateProgress(0, 2);
             updateTitle("PartitionTask.title");
             updateMessage("PartitionTask.message");
@@ -167,7 +167,7 @@ public class PartitionTask implements Processable<Boolean> {
                     accessExchangePartition.get() ? "true" : "false");
 
             updateProgress(2, 2);
-            return true;
+            return null;
         }
     }
 

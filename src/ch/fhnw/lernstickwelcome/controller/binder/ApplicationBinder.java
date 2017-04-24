@@ -57,7 +57,7 @@ public class ApplicationBinder {
                 });
             }
             if(app.getIcon() != null && !app.getIcon().isEmpty()) {
-                String path = WelcomeConstants.ICON_FILE_PATH + "/" + app.getIcon();
+                String path = WelcomeConstants.ICON_APPLICATION_FILE_PATH + "/" + app.getIcon() + ".png";
                 if(new File(path).exists()) {
                     appView.setIcon(new Image(path));
                 }

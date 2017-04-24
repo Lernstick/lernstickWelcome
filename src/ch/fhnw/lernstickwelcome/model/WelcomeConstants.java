@@ -14,9 +14,11 @@ import java.nio.file.Paths;
  * @author sschw
  */
 public final class WelcomeConstants {
+
     private WelcomeConstants() {}
     
     // PROPERTIES CONSTANTS
+    public static final String PROPERTIES_PATH = "/etc/lernstickWelcome";
     public static final String SHOW_WELCOME = "ShowWelcome";
     public static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     public static final String BACKUP = "Backup";
@@ -53,5 +55,6 @@ public final class WelcomeConstants {
     public static final String RESOURCE_FILE_PATH = "res";
     public static final String HELP_FILE_PATH = RESOURCE_FILE_PATH + "/help";
     public static final String ICON_FILE_PATH = RESOURCE_FILE_PATH + "/icon";
+    public static final String ICON_APPLICATION_FILE_PATH = ICON_FILE_PATH + "/apps";
     public static final String ICON_INSTALL_FILE_PATH = ICON_FILE_PATH + "/install";
 }

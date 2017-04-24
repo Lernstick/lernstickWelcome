@@ -16,7 +16,7 @@ import javafx.concurrent.Task;
  *
  * @author sschw
  */
-public class ApplicationGroupTask implements Processable<Boolean> {
+public class ApplicationGroupTask implements Processable<String> {
 
     private List<ApplicationTask> apps;
     private ProxyTask proxy;
@@ -37,14 +37,14 @@ public class ApplicationGroupTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
 
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
 
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateTitle(title);
             if (apps != null) {
                 // Calculate total work
@@ -55,7 +55,7 @@ public class ApplicationGroupTask implements Processable<Boolean> {
 
                 for(ApplicationTask app : appsToInstall) {
                     updateMessage(app.getName());
-                    Task<Boolean> appTask = app.newTask();
+                    Task<String> appTask = app.newTask();
                     // update this progress on changes of sub-process
                     final double previouslyDone = getWorkDone();
                     appTask.progressProperty().addListener(cl -> updateProgress(previouslyDone + appTask.getWorkDone(), totalWork));
@@ -65,7 +65,7 @@ public class ApplicationGroupTask implements Processable<Boolean> {
                     appTask.get();
                 }
             }
-            return true;
+            return null;
         }
     }
     

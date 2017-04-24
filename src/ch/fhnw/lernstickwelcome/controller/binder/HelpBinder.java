@@ -66,9 +66,15 @@ public class HelpBinder {
                 -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close());
     }
 
-    public void setHelpEntry(String name) {
-        help.getTvHelpList().getSelectionModel().select(
-                treeItems.stream().filter(ti -> name.equals(ti.getValue().getTitle())).findFirst().get()
-        );
+    public void setHelpEntry(String chapter) {
+        String[] chapters = chapter.split("\\.");
+        TreeItem<HelpEntry> entry = help.getTvHelpList().getRoot();
+        for(String c : chapters) {
+            entry = entry.getChildren().stream().
+                    filter(t -> t.getValue().getIndex() == Integer.parseInt(c)).
+                    findFirst().
+                    get();
+        }
+        help.getTvHelpList().getSelectionModel().select(entry);
     }
 }

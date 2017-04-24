@@ -103,6 +103,7 @@ public class TaskProcessor {
                         title.unbind();
                         message.unbind();
                         value.unbind();
+                        value.set(null);
                         exception.unbind();
                     });
                 }

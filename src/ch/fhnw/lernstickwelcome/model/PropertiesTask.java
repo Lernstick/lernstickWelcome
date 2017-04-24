@@ -18,7 +18,7 @@ import javafx.concurrent.Task;
  * This class loads and saves the property file.
  * @author sschw
  */
-public class PropertiesTask implements Processable<Boolean> {
+public class PropertiesTask implements Processable<String> {
     private static final Logger LOGGER = Logger.getLogger(PropertiesTask.class.getName());
     private Properties properties;
     private File propertiesFile;
@@ -28,7 +28,7 @@ public class PropertiesTask implements Processable<Boolean> {
      */
     public PropertiesTask() {
         properties = new Properties();
-        propertiesFile = new File("/etc/lernstickWelcome");
+        propertiesFile = new File(WelcomeConstants.PROPERTIES_PATH);
         try {
             properties.load(new FileInputStream(propertiesFile));
         } catch (IOException ex) {
@@ -42,7 +42,7 @@ public class PropertiesTask implements Processable<Boolean> {
     }
 
     @Override
-    public Task<Boolean> newTask() {
+    public Task<String> newTask() {
         return new InternalTask();
     }
     
@@ -52,9 +52,9 @@ public class PropertiesTask implements Processable<Boolean> {
      * Saves the property file.
      * @see Processable
      */
-    private class InternalTask extends Task<Boolean> {
+    private class InternalTask extends Task<String> {
         @Override
-        protected Boolean call() throws Exception {
+        protected String call() throws Exception {
             updateProgress(0, 1);
             updateTitle("PropertiesTask.title");
             updateMessage("PropertiesTask.message");
@@ -65,7 +65,7 @@ public class PropertiesTask implements Processable<Boolean> {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
             updateProgress(1, 1);
-            return true;
+            return null;
         }
     }
 }
