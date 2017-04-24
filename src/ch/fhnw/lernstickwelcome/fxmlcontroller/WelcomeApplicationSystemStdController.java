@@ -115,6 +115,7 @@ public class WelcomeApplicationSystemStdController implements Initializable {
             
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(newValue == null) return;
                 // only allow ASCII input
                 if (!isASCII(newValue)) {
                     txt_sys_exchange_partition.setText(oldValue);

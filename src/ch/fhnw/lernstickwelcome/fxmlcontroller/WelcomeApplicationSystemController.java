@@ -102,6 +102,7 @@ public class WelcomeApplicationSystemController implements Initializable {
             
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(newValue == null) return;
                 // only allow ASCII input
                 if (!isASCII(newValue)) {
                     txt_sys_exchange_partition.setText(oldValue);
@@ -116,7 +117,7 @@ public class WelcomeApplicationSystemController implements Initializable {
                 }
             }
             
-             private boolean isASCII(String string) {
+            private boolean isASCII(String string) {
                 for (int i = 0, length = string.length(); i < length; i++) {
                     char character = string.charAt(i);
                     if ((character < 0) || (character > 127)) {
