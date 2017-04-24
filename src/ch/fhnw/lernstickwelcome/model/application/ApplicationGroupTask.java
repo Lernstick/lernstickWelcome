@@ -9,6 +9,7 @@ import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 /**
@@ -31,7 +32,7 @@ public class ApplicationGroupTask implements Processable<String> {
     public List<ApplicationTask> getApps() {
         return apps;
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -52,22 +53,24 @@ public class ApplicationGroupTask implements Processable<String> {
                         filter(a -> !a.isInstalled() && a.installingProperty().get()).
                         collect(Collectors.toList());
                 final int totalWork = appsToInstall.stream().mapToInt(a -> a.getNoPackages()).sum();
-
-                for(ApplicationTask app : appsToInstall) {
+                
+                int previouslyDone = 0;
+                for (ApplicationTask app : appsToInstall) {
                     updateMessage(app.getName());
                     Task<String> appTask = app.newTask();
                     // update this progress on changes of sub-process
-                    final double previouslyDone = getWorkDone();
-                    appTask.progressProperty().addListener(cl -> updateProgress(previouslyDone + appTask.getWorkDone(), totalWork));
+                    final int fPreviouslyDone = previouslyDone;
+                    appTask.progressProperty().addListener(cl -> updateProgress(fPreviouslyDone + appTask.getWorkDone(), totalWork));
                     appTask.valueProperty().addListener(cl -> updateValue(appTask.getValue()));
 
                     app.setProxy(proxy);
                     appTask.run();
                     appTask.get();
+                    previouslyDone += app.getNoPackages();
                 }
             }
             return null;
         }
     }
-    
+
 }

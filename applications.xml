@@ -346,7 +346,7 @@
 	</application>
 	<application name="Ri-li">
 		<description />
-		<icon>li</icon>
+		<icon>ri-li</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">ri-li</package>
@@ -513,7 +513,7 @@
 	</application>
 	<application name="UFO: Alien Invasion">
 		<description />
-		<icon>invasion</icon>
+		<icon>ufoai</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">ufoai</package>
@@ -636,7 +636,7 @@
 	</application>
 	<application name="lateaching">
 		<description />
-		<icon>lateaching</icon>
+		<icon>LinuxAdvanced</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lateaching</package>
