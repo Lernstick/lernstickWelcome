@@ -12,7 +12,6 @@ import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import ch.fhnw.lernstickwelcome.view.impl.ApplicationGroupView;
 import ch.fhnw.lernstickwelcome.view.impl.ApplicationView;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
@@ -72,7 +71,7 @@ public class ApplicationBinder {
                     appView.setIcon(new Image(f.toURI().toString()));
                 }
             }
-            appView.setDisable(app.isInstalled());
+            appView.disableProperty().bind(app.installedProperty());
             appView.installingProperty().bindBidirectional(app.installingProperty());
             appView.setPrefWidth(container.getWidth());
             container.getChildren().add(appView);

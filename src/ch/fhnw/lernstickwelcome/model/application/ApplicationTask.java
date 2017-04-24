@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
@@ -33,7 +34,7 @@ public class ApplicationTask implements Processable<String> {
     private ApplicationPackages packages;
     private String helpPath;
     private BooleanProperty installing = new SimpleBooleanProperty();
-    private boolean installed;
+    private BooleanProperty installed = new SimpleBooleanProperty();
     private ProxyTask proxy;
 
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
@@ -41,7 +42,7 @@ public class ApplicationTask implements Processable<String> {
         this.description = description;
         this.icon = icon;
         this.packages = packages;
-        this.installed = initIsInstalled();
+        this.installed.set(initIsInstalled());
     }
 
     public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
@@ -69,7 +70,7 @@ public class ApplicationTask implements Processable<String> {
         return installing;
     }
 
-    public boolean isInstalled() {
+    public BooleanProperty installedProperty() {
         return installed;
     }
 
@@ -135,6 +136,10 @@ public class ApplicationTask implements Processable<String> {
                 LOGGER.severe(errorMessage);
                 throw new ProcessingException(errorMessage);
             }
+            Platform.runLater(() -> {
+                installed.set(initIsInstalled());
+                installing.set(false);
+            });
             updateProgress(packages.getNumberOfPackages(), packages.getNumberOfPackages());
             return null;
         }

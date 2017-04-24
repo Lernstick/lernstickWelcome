@@ -51,7 +51,7 @@ public class ApplicationGroupTask implements Processable<String> {
             if (apps != null) {
                 // Calculate total work
                 final List<ApplicationTask> appsToInstall = apps.stream().
-                        filter(a -> !a.isInstalled() && a.installingProperty().get()).
+                        filter(a -> !a.installedProperty().get() && a.installingProperty().get()).
                         collect(Collectors.toList());
                 final int totalWork = appsToInstall.stream().mapToInt(a -> a.getNoPackages()).sum();
                 if(totalWork != 0) {
