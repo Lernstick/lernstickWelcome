@@ -58,8 +58,9 @@ public class ApplicationBinder {
             }
             if(app.getIcon() != null && !app.getIcon().isEmpty()) {
                 String path = WelcomeConstants.ICON_APPLICATION_FILE_PATH + "/" + app.getIcon() + ".png";
-                if(new File(path).exists()) {
-                    appView.setIcon(new Image(path));
+                File f = new File(path);
+                if(f.exists()) {
+                    appView.setIcon(new Image(f.toURI().toString()));
                 }
             }
             appView.setDisable(app.isInstalled());

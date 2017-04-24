@@ -59,11 +59,16 @@ public class ProgressBinder {
         // Get an image from the value property of the TaskProcessor
         ObjectBinding<Image> value = Bindings.createObjectBinding(
                 () -> { 
-                    if(controller.getInstaller().valueProperty().get() != null)
-                        return new Image(WelcomeConstants.ICON_INSTALL_FILE_PATH
+                    if(controller.getInstaller().valueProperty().get() != null) {
+                        File f = new File(WelcomeConstants.ICON_FILE_PATH
                                 + "/"
                                 + controller.getInstaller().valueProperty().get()
                                 + ".png");
+                        if(f.exists())
+                            return new Image(f.toURI().toString());
+                        else
+                            return null;
+                    }
                     else
                         return null;
                 }, controller.getInstaller().valueProperty());

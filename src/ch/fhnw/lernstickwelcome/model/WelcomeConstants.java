@@ -55,6 +55,6 @@ public final class WelcomeConstants {
     public static final String RESOURCE_FILE_PATH = "res";
     public static final String HELP_FILE_PATH = RESOURCE_FILE_PATH + "/help";
     public static final String ICON_FILE_PATH = RESOURCE_FILE_PATH + "/icon";
-    public static final String ICON_APPLICATION_FILE_PATH = ICON_FILE_PATH + "/apps";
-    public static final String ICON_INSTALL_FILE_PATH = ICON_FILE_PATH + "/install";
+    public static final String ICON_APPLICATION_FOLDER = "apps";
+    public static final String ICON_APPLICATION_FILE_PATH = ICON_FILE_PATH + "/" + ICON_APPLICATION_FOLDER;
 }

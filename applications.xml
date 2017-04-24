@@ -2,7 +2,7 @@
 <applications>
 	<application name="example">
 		<description />
-		<icon>example.png</icon>
+		<icon>example</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">foo</package>
@@ -15,7 +15,7 @@
 	</application>
 	<application name="Omnitux">
 		<description />
-		<icon>omnitux.png</icon>
+		<icon>omnitux</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">omnitux</package>
@@ -26,7 +26,7 @@
 	</application>
 	<application name="TuxPaint">
 		<description>Tux Paint</description>
-		<icon>tuxpaint.png</ic>tuxpaint.png</icon>
+		<icon>tuxpaint</icon>
 		<help-path>http://www.tuxpaint.org</help-path>
 		<packages>
 			<package type="aptget">lernstick-tuxpaint</package>
@@ -37,7 +37,7 @@
 	</application>
 	<application name="Stellarium">
 		<description />
-		<icon>stellarium.png</icon>
+		<icon>stellarium</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-stellarium</package>
@@ -49,7 +49,7 @@
 	</application>
 	<application name="Kstars">
 		<description />
-		<icon>ch/fhn>kstars.png</icon>ernstickwelcome/icons/48x48/kstars.png</icon>
+		<icon>kstars</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-kstars</package>
@@ -63,7 +63,7 @@
 	</application>
 	<application name="Etoys">
 		<description>PDF Reader</description>
-		<icon>etoys.png</icon>
+		<icon>etoys</icon>
 		<help-path>http://squeakland.org</help-path>
 		<packages>
 			<package type="aptget">lernstick-etoys</package>
@@ -76,7 +76,7 @@
 	</application>
 	<application name="wxMaxima">
 		<description />
-		<icon>wxmaxima.png</icon>
+		<icon>wxmaxima</icon>
 		<help-path>http://andrejv.github.io/wxmaxima/</help-path>
 		<packages>
 			<package type="aptget">lernstick-wxmaxima</package>
@@ -88,7 +88,7 @@
 	</application>
 	<application name="Rosegarden">
 		<description />
-		<icon>rosegarden.png</icon>
+		<icon>rosegarden</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">rosegarden</package>
@@ -102,7 +102,7 @@
 	</application>
 	<application name="Hydrogen">
 		<description />
-		<icon>hydrogen.png</icon>
+		<icon>hydrogen</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">hydrogen</package>
@@ -115,7 +115,7 @@
 	</application>
 	<application name="Sweet Home 3D">
 		<description />
-		<icon>sweethome3d.png</icon>
+		<icon>sweethome3d</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">sweethome3d</package>
@@ -128,7 +128,7 @@
 	</application>
 	<application name="Openclipart">
 		<description />
-		<icon>openclipart.png</icon>
+		<icon>openclipart</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">openclipart-libreoffice</package>
@@ -139,7 +139,7 @@
 	</application>
 	<application name="LyX">
 		<description />
-		<icon>lyx.png</icon>
+		<icon>lyx</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lyx</package>
@@ -162,7 +162,7 @@
 	</application>
 	<application name="Scribus">
 		<description />
-		<icon>scribus.png</icon>
+		<icon>scribus</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">scribus</package>
@@ -176,7 +176,7 @@
 	</application>
 	<application name="Gespeaker">
 		<description />
-		<icon>gespeaker.png</icon>
+		<icon>gespeaker</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">gespeaker</package>
@@ -206,7 +206,7 @@
 	</application>
 	<application name="GnuCash">
 		<description />
-		<icon>gnucash.png</icon>
+		<icon>gnucash</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">gnucash</package>
@@ -218,7 +218,7 @@
 	</application>
 	<application name="NetBeans">
 		<description />
-		<icon>netbeans.png</icon>
+		<icon>netbeans</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-netbeans</package>
@@ -237,7 +237,7 @@
 	</application>
 	<application name="Processing">
 		<description />
-		<icon>processing.png</icon>
+		<icon>processing</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">processing</package>
@@ -248,7 +248,7 @@
 	</application>
 	<application name="RStudio">
 		<description />
-		<icon>rstudio.png</icon>
+		<icon>rstudio</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">rstudio</package>
@@ -261,7 +261,7 @@
 	</application>
 	<application name="Lazarus">
 		<description />
-		<icon>lazarus.png</icon>
+		<icon>lazarus</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lazarus</package>
@@ -277,7 +277,7 @@
 	</application>
 	<application name="WebWeaver Desktop">
 		<description />
-		<icon>webweaverdesktop.png</icon>
+		<icon>webweaverdesktop</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">webweaverdesktop</package>
@@ -288,7 +288,7 @@
 	</application>
 	<application name="LehrerOffice">
 		<description />
-		<icon>lehreroffice.png</icon>
+		<icon>lehreroffice</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lehreroffice</package>
@@ -299,7 +299,7 @@
 	</application>
 	<application name="Wizbee">
 		<description />
-		<icon>wizbee.png</icon>
+		<icon>wizbee</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">wizbee</package>
@@ -310,7 +310,7 @@
 	</application>
 	<application name="Dybuster Calcularis">
 		<description />
-		<icon>calcularis.png</icon>
+		<icon>calcularis</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">calcularis-de</package>
@@ -321,7 +321,7 @@
 	</application>
 	<application name="Minetest">
 		<description />
-		<icon>minetest.png</icon>
+		<icon>minetest</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-minetest-game-bfd</package>
@@ -335,7 +335,7 @@
 	</application>
 	<application name="Colobot">
 		<description />
-		<icon>colobot.png</icon>
+		<icon>colobot</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">colobot</package>
@@ -346,7 +346,7 @@
 	</application>
 	<application name="Ri-li">
 		<description />
-		<icon>li.png</icon>
+		<icon>li</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">ri-li</package>
@@ -357,7 +357,7 @@
 	</application>
 	<application name="Fish Fillets NG">
 		<description />
-		<icon>fillets.png</icon>
+		<icon>fillets</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-fillets-ng</package>
@@ -369,7 +369,7 @@
 	</application>
 	<application name="Neverball">
 		<description />
-		<icon>neverball.png</icon>
+		<icon>neverball</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">live-neverball</package>
@@ -380,7 +380,7 @@
 	</application>
 	<application name="Neverputt">
 		<description />
-		<icon>neverputt.png</icon>
+		<icon>neverputt</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">live-neverputt</package>
@@ -391,7 +391,7 @@
 	</application>
 	<application name="FreeCol">
 		<description />
-		<icon>freecol.png</icon>
+		<icon>freecol</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">freecol</package>
@@ -402,7 +402,7 @@
 	</application>
 	<application name="Frogatto &amp; Friends">
 		<description />
-		<icon>frogatto.png</icon>
+		<icon>frogatto</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-frogatto</package>
@@ -413,7 +413,7 @@
 	</application>
 	<application name="SuperTux">
 		<description />
-		<icon>supertux.png</icon>
+		<icon>supertux</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">live-supertux</package>
@@ -424,7 +424,7 @@
 	</application>
 	<application name="SuperTuxKart">
 		<description />
-		<icon>supertuxkart.png</icon>
+		<icon>supertuxkart</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">live-supertuxkart</package>
@@ -435,7 +435,7 @@
 	</application>
 	<application name="XMoto">
 		<description />
-		<icon>xmoto.png</icon>
+		<icon>xmoto</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">live-xmoto</package>
@@ -446,7 +446,7 @@
 	</application>
 	<application name="Trigger Rally">
 		<description />
-		<icon>trigger.png</icon>
+		<icon>trigger</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">live-trigger-rally</package>
@@ -457,7 +457,7 @@
 	</application>
 	<application name="OpenClonk">
 		<description />
-		<icon>openclonk.png</icon>
+		<icon>openclonk</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">openclonk</package>
@@ -468,7 +468,7 @@
 	</application>
 	<application name="The Battle for Wesnoth">
 		<description />
-		<icon>wesnoth.png</icon>
+		<icon>wesnoth</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">wesnoth-1.12</package>
@@ -480,7 +480,7 @@
 	</application>
 	<application name="FLARE">
 		<description />
-		<icon>flare.png</icon>
+		<icon>flare</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">flare-game</package>
@@ -491,7 +491,7 @@
 	</application>
 	<application name="Hedgewars">
 		<description />
-		<icon>hedgewars.png</icon>
+		<icon>hedgewars</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">hedgewars</package>
@@ -502,7 +502,7 @@
 	</application>
 	<application name="MegaGlest">
 		<description />
-		<icon>megaglest.png</icon>
+		<icon>megaglest</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">megaglest</package>
@@ -513,7 +513,7 @@
 	</application>
 	<application name="UFO: Alien Invasion">
 		<description />
-		<icon>invasion.png</icon>
+		<icon>invasion</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">ufoai</package>
@@ -525,7 +525,7 @@
 	</application>
 	<application name="Astromenace">
 		<description />
-		<icon>astromenace.png</icon>
+		<icon>astromenace</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-astromenace</package>
@@ -537,7 +537,7 @@
 	<!-- SPECIAL APPS -->
 	<application name="AdobeReader">
 		<description>PDF Reader</description>
-		<icon>/ch/fhnw/lernstickwe>adobereader.png</icon>me/icons/48x48/Adobe_Reader_8_icon.png</icon>
+		<icon>Adobe_Reader_8_icon</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-adobereader-enu</package>
@@ -550,7 +550,7 @@
 	</application>
 	<application name="Skype">
 		<description>Skype</description>
-		<icon>skype.png</icon>
+		<icon>skype</icon>
 		<help-path />
 		<packages>
 			<package type="wget" fetchUrl="http://www.skype.com/go/getskype-linux-deb" saveDir="USER_HOME">skype-install.deb</package>
@@ -562,7 +562,7 @@
 	</application>
 	<application name="GoogleEarth">
 		<description>Google Earth</description>
-		<icon>googleearth.png</icon>
+		<icon>googleearth</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lsb-core</package>
@@ -575,7 +575,7 @@
 	</application>
 	<application name="Chrome">
 		<description>Google Earth</description>
-		<icon>chrome.png</icon>
+		<icon>chrome</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lsb-core</package>
@@ -589,7 +589,7 @@
 	<!-- NONFREE FRM HERE -->
 	<application name="flash">
 		<description />
-		<icon>flash.png</icon>
+		<icon>flash</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">flashplugin-nonfree</package>
@@ -601,7 +601,7 @@
 	</application>
 	<application name="fonts">
 		<description />
-		<icon>fonts.png</icon>
+		<icon>fonts</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">ttf-mscorefonts-installer</package>
@@ -612,7 +612,7 @@
 	</application>
 	<application name="multimedia">
 		<description />
-		<icon>multimedia.png</icon>
+		<icon>multimedia</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">libdvdcss2</package>
@@ -625,7 +625,7 @@
 	</application>
 	<application name="virtualbox">
 		<description />
-		<icon>virtualbox.png</icon>
+		<icon>virtualbox</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">virtualbox-ext-pack</package>
@@ -636,7 +636,7 @@
 	</application>
 	<application name="lateaching">
 		<description />
-		<icon>lateaching.png</icon>
+		<icon>lateaching</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lateaching</package>
@@ -647,7 +647,7 @@
 	</application>
 	<application name="gcompris">
 		<description />
-		<icon>gcompris.png</icon>
+		<icon>gcompris</icon>
 		<help-path />
 		<packages>
 			<package type="aptget">lernstick-gcompris</package>

@@ -59,6 +59,7 @@ public class ApplicationGroupTask implements Processable<String> {
                     // update this progress on changes of sub-process
                     final double previouslyDone = getWorkDone();
                     appTask.progressProperty().addListener(cl -> updateProgress(previouslyDone + appTask.getWorkDone(), totalWork));
+                    appTask.valueProperty().addListener(cl -> updateValue(appTask.getValue()));
 
                     app.setProxy(proxy);
                     appTask.run();

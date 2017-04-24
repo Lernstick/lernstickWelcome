@@ -367,14 +367,14 @@ public class SystemconfigTask implements Processable<String> {
      * <br>
      * The following config files can be found:
      * <ul>
-     * <li><pre>directory/isolinux/isolinux.cfg</pre></li>
-     * <li><pre>directory/isolinux/syslinux.cfg</pre></li>
-     * <li><pre>directory/isolinux/boot_486.cfg</pre></li>
-     * <li><pre>directory/isolinux/boot_686.cfg</pre></li>
-     * <li><pre>directory/syslinux/isolinux.cfg</pre></li>
-     * <li><pre>directory/syslinux/syslinux.cfg</pre></li>
-     * <li><pre>directory/syslinux/boot_486.cfg</pre></li>
-     * <li><pre>directory/syslinux/boot_686.cfg</pre></li>
+     * <li>{@code directory/isolinux/isolinux.cfg}</li>
+     * <li>{@code directory/isolinux/syslinux.cfg}</li>
+     * <li>{@code directory/isolinux/boot_486.cfg}</li>
+     * <li>{@code directory/isolinux/boot_686.cfg}</li>
+     * <li>{@code directory/syslinux/isolinux.cfg}</li>
+     * <li>{@code directory/syslinux/syslinux.cfg}</li>
+     * <li>{@code directory/syslinux/boot_486.cfg}</li>
+     * <li>{@code directory/syslinux/boot_686.cfg}</li>
      * </ul>
      * @param directory root dir of the partition
      * @return config files in the syslinux folder
@@ -457,10 +457,10 @@ public class SystemconfigTask implements Processable<String> {
      * <br>
      * The File loaded by this function can be under the following paths: <br>
      * <ul>
-     * <li><pre>directory/isolinux/xmlboot.config</pre></li>
-     * <li><pre>directory/isolinux/bootlogo.dir/xmlboot.config</pre></li>
-     * <li><pre>directory/syslinux/xmlboot.config</pre></li>
-     * <li><pre>directory/syslinux/bootlogo.dir/xmlboot.config</pre></li>
+     * <li>{@code directory/isolinux/xmlboot.config}</li>
+     * <li>{@code directory/isolinux/bootlogo.dir/xmlboot.config}</li>
+     * <li>{@code directory/syslinux/xmlboot.config}</li>
+     * <li>{@code directory/syslinux/bootlogo.dir/xmlboot.config}</li>
      * </ul>
      * @param directory
      * @return the bootConfigFile or null if it doesn't exist
