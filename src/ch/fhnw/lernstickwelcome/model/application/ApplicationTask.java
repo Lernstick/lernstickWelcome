@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
+import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
@@ -16,16 +17,16 @@ import java.util.regex.Pattern;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
-import javafx.scene.image.Image;
 
 /**
  *
  * @author sschw
  */
 public class ApplicationTask implements Processable<String> {
+
     private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
     private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    
+
     private String name;
     private String description;
     private String icon;
@@ -34,7 +35,7 @@ public class ApplicationTask implements Processable<String> {
     private BooleanProperty installing = new SimpleBooleanProperty();
     private boolean installed;
     private ProxyTask proxy;
-    
+
     public ApplicationTask(String name, String description, String icon, ApplicationPackages packages) {
         this.name = name;
         this.description = description;
@@ -42,40 +43,40 @@ public class ApplicationTask implements Processable<String> {
         this.packages = packages;
         this.installed = initIsInstalled();
     }
-    
+
     public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages) {
         this(name, description, icon, packages);
         this.helpPath = helpPath;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public String getIcon() {
         return icon;
     }
-    
+
     public String getHelpPath() {
         return helpPath;
     }
-    
+
     public BooleanProperty installingProperty() {
         return installing;
     }
-    
+
     public boolean isInstalled() {
         return installed;
     }
-    
+
     public int getNoPackages() {
         return packages.getNumberOfPackages();
     }
-    
+
     /* only used for testcases */
     public ApplicationPackages getPackages() {
         return packages;
@@ -90,7 +91,7 @@ public class ApplicationTask implements Processable<String> {
         String[] commandArray = new String[length + 2];
         commandArray[0] = "dpkg";
         commandArray[1] = "-l";
-        
+
         System.arraycopy(packages.getPackageNames(), 0, commandArray, 2, length);
         PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
@@ -127,7 +128,13 @@ public class ApplicationTask implements Processable<String> {
         protected String call() throws Exception {
             updateProgress(0, packages.getNumberOfPackages());
             //XXX May nice if there would update the percentage while execute
-            PROCESS_EXECUTOR.executeProcess(packages.getInstallCommand(proxy));
+            int exitValue = PROCESS_EXECUTOR.executeScript(true, true, packages.getInstallCommand(proxy));
+            if (exitValue != 0) {
+                String errorMessage = "apt-get failed with the following "
+                        + "output:\n" + PROCESS_EXECUTOR.getOutput();
+                LOGGER.severe(errorMessage);
+                throw new ProcessingException(errorMessage);
+            }
             updateProgress(packages.getNumberOfPackages(), packages.getNumberOfPackages());
             return null;
         }
