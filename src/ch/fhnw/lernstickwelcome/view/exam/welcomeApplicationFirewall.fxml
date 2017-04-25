@@ -52,6 +52,8 @@
                 <columns>
                     <TableColumn fx:id="tab_fw_search_pattern" minWidth="131.0" maxWidth="131.0" text="%welcomeApplicationFirewall.searchPattern" />
                     <TableColumn fx:id="tab_fw_search_criteria" minWidth="317.0" text="%welcomeApplicationFirewall.searchCriteria" />
+                    <TableColumn fx:id="tab_fw_search_btn_edit_save" minWidth="35.0" maxWidth="35.0" />
+                    <TableColumn fx:id="tab_fw_search_btn_delete"  minWidth="35.0" maxWidth="35.0" />
                 </columns>
             </TableView>
             <HBox prefHeight="69.0" spacing="5.0">
@@ -76,6 +78,8 @@
                     <TableColumn fx:id="tab_fw_server_ip" minWidth="130.0" maxWidth="130.0" text="%welcomeApplicationFirewall.ip" />
                     <TableColumn fx:id="tab_fw_server_port" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.port" />
                     <TableColumn fx:id="tab_fw_server_desc" prefWidth="9999" text="%welcomeApplicationFirewall.serverDescription" />
+                    <TableColumn fx:id="tab_fw_server_btn_edit_save" minWidth="35.0" maxWidth="35.0" />
+                    <TableColumn fx:id="tab_fw_server_btn_delete"  minWidth="35.0" maxWidth="35.0" />
                 </columns>
             </TableView>
             <HBox prefHeight="73.0" spacing="5.0">
