@@ -24,7 +24,7 @@
 			<package type="aptget">omnitux</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="TuxPaint">
@@ -35,7 +35,7 @@
 			<package type="aptget">lernstick-tuxpaint</package>
 		</packages>
 		<tags>
-			<tag>utility</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Stellarium">
@@ -46,8 +46,7 @@
 			<package type="aptget">lernstick-stellarium</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Kstars">
@@ -61,7 +60,7 @@
 			<package type="aptget">kstars-data-extra-tycho2</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Etoys">
@@ -73,8 +72,7 @@
 			<package type="aptget">lernstick-squeak-vm</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
-			<tag>utility</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="wxMaxima">
@@ -85,8 +83,7 @@
 			<package type="aptget">lernstick-wxmaxima</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
-			<tag>utility</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Rosegarden">
@@ -100,7 +97,7 @@
 			<package type="aptget">fluidsynth-dssi</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Hydrogen">
@@ -113,7 +110,7 @@
 			<package type="aptget">hydrogen-drumkits-effects</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Sweet Home 3D">
@@ -126,7 +123,7 @@
 			<package type="aptget">sweethome3d-furniture-nonfree</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Openclipart">
@@ -137,7 +134,7 @@
 			<package type="aptget">openclipart-libreoffice</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="LyX">
@@ -160,7 +157,7 @@
 			<package type="aptget">tipa</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Scribus">
@@ -174,7 +171,7 @@
 			<package type="aptget">lernstick-scribus</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Gespeaker">
@@ -204,7 +201,7 @@
 			<package type="aptget">mbrola-us3</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="GnuCash">
@@ -216,7 +213,7 @@
 			<package type="aptget">gnucash-docs</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="NetBeans">
@@ -235,7 +232,7 @@
 			<package type="aptget">libopenjfx-java-doc</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Processing">
@@ -246,7 +243,7 @@
 			<package type="aptget">processing</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="RStudio">
@@ -259,7 +256,7 @@
 			<package type="aptget">lernstick-r-base-core</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Lazarus">
@@ -275,7 +272,7 @@
 			<package type="aptget">fp-units-misc</package>
 		</packages>
 		<tags>
-			<tag>game</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="WebWeaver Desktop">
@@ -286,7 +283,7 @@
 			<package type="aptget">webweaverdesktop</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="LehrerOffice">
@@ -297,7 +294,7 @@
 			<package type="aptget">lehreroffice</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Wizbee">
@@ -308,7 +305,7 @@
 			<package type="aptget">wizbee</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Dybuster Calcularis">
@@ -319,7 +316,7 @@
 			<package type="aptget">calcularis-de</package>
 		</packages>
 		<tags>
-			<tag>recommended</tag>
+			<tag>misc</tag>
 		</tags>
 	</application>
 	<application name="Minetest">
@@ -538,7 +535,7 @@
 		</tags>
 	</application>
 	<!-- SPECIAL APPS -->
-	<application name="AdobeReader">
+	<application name="Adobe Reader">
 		<description>Welcome.Adobe_Reader_8_iconPanel.description</description>
 		<icon>Adobe_Reader_8_icon</icon>
 		<help-path>Welcome.Adobe_Reader_8_iconPanel.website</help-path>
@@ -569,7 +566,7 @@
 			<tag>utility</tag>
 		</tags>
 	</application>
-	<application name="GoogleEarth">
+	<application name="Google Earth">
 		<description>Welcome.googleearthPanel.description</description>
 		<icon>googleearth</icon>
 		<help-path>Welcome.googleearthPanel.website</help-path>
@@ -599,7 +596,7 @@
 		</tags>
 	</application>-->
 	<!-- NONFREE FRM HERE -->
-	<application name="flash">
+	<application name="Adobe Flash Player">
 		<description>Welcome.flashPanel.description</description>
 		<icon>flash</icon>
 		<help-path>Welcome.flashPanel.website</help-path>
@@ -611,7 +608,7 @@
 			<tag>recommended</tag>
 		</tags>
 	</application>
-	<application name="fonts">
+	<application name="Welcome.fontsLabel.text">
 		<description>Welcome.fontsPanel.description</description>
 		<icon>fonts</icon>
 		<help-path>Welcome.fontsPanel.website</help-path>
@@ -622,7 +619,7 @@
 			<tag>recommended</tag>
 		</tags>
 	</application>
-	<application name="multimedia">
+	<application name="Welcome.multimediaLabel.text">
 		<description>Welcome.multimediaPanel.description</description>
 		<icon>multimedia</icon>
 		<help-path>Welcome.multimediaPanel.website</help-path>
@@ -646,7 +643,7 @@
 			<tag>recommended</tag>
 		</tags>
 	</application>-->
-	<application name="lateaching">
+	<application name="Linux Advanced Teaching-System<">
 		<description>Welcome.LinuxAdvancedPanel.description</description>
 		<icon>LinuxAdvanced</icon>
 		<help-path>Welcome.LinuxAdvancedPanel.website</help-path>
