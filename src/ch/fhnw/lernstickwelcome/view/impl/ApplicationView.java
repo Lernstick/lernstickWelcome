@@ -69,6 +69,8 @@ public class ApplicationView extends GridPane {
         setHgrow(help, Priority.NEVER);
         setHgrow(install, Priority.NEVER);
         
+        setPadding(new Insets(10, 5, 10, 5));
+        
         install.setText(rb.getString("ApplicationView.install"));
         install.disabledProperty().addListener(evt -> install.setText(rb.getString("ApplicationView.installed")));
     }

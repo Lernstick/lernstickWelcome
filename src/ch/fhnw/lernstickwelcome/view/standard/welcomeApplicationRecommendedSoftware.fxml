@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" prefWidth="644.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController">
    <children>
-      <VBox fx:id="vbApps" layoutX="10.0" layoutY="10.0" prefWidth="644.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="vbApps" layoutX="10.0" layoutY="10.0" prefWidth="644.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <BorderPane>
                <left>
@@ -18,6 +18,9 @@
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
+                    <padding>
+                       <Insets bottom="15.0" left="0.0" right="0.0" top="0.0" />
+                    </padding>
                   </Label>
                </left>
                <right>

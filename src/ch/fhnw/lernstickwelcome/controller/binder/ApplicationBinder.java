@@ -17,8 +17,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 /**
@@ -49,6 +54,7 @@ public class ApplicationBinder {
     
     private void addApplicationList(VBox container, List<ApplicationTask> applications, HelpBinder binder, Stage help) {
         ResourceBundle rb = controller.getBundle();
+        boolean even = false;
         for(ApplicationTask app : applications) {
             ApplicationView appView = new ApplicationView(rb);
             try {
@@ -59,7 +65,7 @@ public class ApplicationBinder {
             try {
                 appView.setDescription(rb.getString(app.getDescription()));
             } catch(Exception ex) {
-                LOGGER.log(Level.WARNING, "Description has key but key couldnt be load from bundle", ex);
+                LOGGER.log(Level.WARNING, "Description has key but key couldnt be load from bundle for app {0}", app.getName());
             }
             
             if(app.getHelpPath() != null && !app.getHelpPath().isEmpty()) {
@@ -75,7 +81,7 @@ public class ApplicationBinder {
                             WelcomeUtil.openLinkInBrowser(s);
                         });
                     } catch(Exception ex) {
-                        LOGGER.log(Level.WARNING, "Help Path not local nor key for url in bundle", ex);
+                        LOGGER.log(Level.WARNING, "Help Path not local nor key for url in bundle for app {0}", app.getName());
                     }
                 }
             }
@@ -89,6 +95,9 @@ public class ApplicationBinder {
             appView.disableProperty().bind(app.installedProperty());
             appView.installingProperty().bindBidirectional(app.installingProperty());
             appView.setPrefWidth(container.getWidth());
+            if(even)
+                appView.setBackground(new Background(new BackgroundFill(Paint.valueOf("#00000011"), CornerRadii.EMPTY, Insets.EMPTY)));
+            even = !even;
             container.getChildren().add(appView);
         }
     }

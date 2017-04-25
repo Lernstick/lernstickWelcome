@@ -38,8 +38,6 @@ public class ApplicationGroupView extends BorderPane {
         setCenter(content);
         content.setAlignment(Pos.TOP_LEFT);
         
-        content.setPadding(new Insets(20, 0, 10, 0));
-        content.setSpacing(20);
     }
     
     public void setTitle(String text) {
