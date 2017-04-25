@@ -643,7 +643,7 @@
 			<tag>recommended</tag>
 		</tags>
 	</application>-->
-	<application name="Linux Advanced Teaching-System<">
+	<application name="Linux Advanced Teaching-System">
 		<description>Welcome.LinuxAdvancedPanel.description</description>
 		<icon>LinuxAdvanced</icon>
 		<help-path>Welcome.LinuxAdvancedPanel.website</help-path>
