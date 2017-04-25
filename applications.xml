@@ -28,7 +28,7 @@
 		</tags>
 	</application>
 	<application name="TuxPaint">
-		<description>Tux Paint</descripti>Welcome.tuxpaintPanel.description</description>
+		<description>Welcome.tuxpaintPanel.description</description>
 		<icon>tuxpaint</icon>
 		<help-path>Welcome.tuxpaintPanel.website</help-path>
 		<packages>
@@ -65,7 +65,7 @@
 		</tags>
 	</application>
 	<application name="Etoys">
-		<description>PDF Reader</descripti>Welcome.etoysPanel.description</description>
+		<description>Welcome.etoysPanel.description</description>
 		<icon>etoys</icon>
 		<help-path>Welcome.etoysPanel.website</help-path>
 		<packages>
@@ -539,7 +539,7 @@
 	</application>
 	<!-- SPECIAL APPS -->
 	<application name="AdobeReader">
-		<description>PDF Reader</descripti>Welcome.Adobe_Reader_8_iconPanel.description</description>
+		<description>Welcome.Adobe_Reader_8_iconPanel.description</description>
 		<icon>Adobe_Reader_8_icon</icon>
 		<help-path>Welcome.Adobe_Reader_8_iconPanel.website</help-path>
                 <installed-names>
@@ -555,7 +555,7 @@
 		</tags>
 	</application>
 	<application name="Skype">
-		<description>Skype</descripti>Welcome.skypePanel.description</description>
+		<description>Welcome.skypePanel.description</description>
 		<icon>skype</icon>
 		<help-path>Welcome.skypePanel.website</help-path>
                 <installed-names>
@@ -570,7 +570,7 @@
 		</tags>
 	</application>
 	<application name="GoogleEarth">
-		<description>Google Earth</descripti>Welcome.googleearthPanel.description</description>
+		<description>Welcome.googleearthPanel.description</description>
 		<icon>googleearth</icon>
 		<help-path>Welcome.googleearthPanel.website</help-path>
                 <installed-names>
@@ -586,7 +586,7 @@
 		</tags>
 	</application>
 	<!--<application name="Chrome">
-		<description>Google Earth</descripti>Welcome.chromePanel.description</description>
+		<description>Welcome.chromePanel.description</description>
 		<icon>chrome</icon>
 		<help-path>Welcome.chromePanel.website</help-path>
 		<packages>

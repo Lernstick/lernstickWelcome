@@ -9,11 +9,14 @@ import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.lernstickwelcome.view.impl.ApplicationGroupView;
 import ch.fhnw.lernstickwelcome.view.impl.ApplicationView;
 import java.io.File;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -23,6 +26,7 @@ import javafx.stage.Stage;
  * @author sschw
  */
 public class ApplicationBinder {
+    private final static Logger LOGGER = Logger.getLogger(ApplicationBinder.class.getName());
     private final VBox applicationContainer;
     private final WelcomeController controller;
     
@@ -55,14 +59,25 @@ public class ApplicationBinder {
             try {
                 appView.setDescription(rb.getString(app.getDescription()));
             } catch(Exception ex) {
-                appView.setDescription(app.getDescription());
+                LOGGER.log(Level.WARNING, "Description has key but key couldnt be load from bundle", ex);
             }
             
             if(app.getHelpPath() != null && !app.getHelpPath().isEmpty()) {
-                appView.setHelpAction(evt -> {
-                    binder.setHelpEntryByChapter(app.getHelpPath());
-                    help.show();
-                });
+                if(app.getHelpPath().matches("([0-9].?)+")) {
+                    appView.setHelpAction(evt -> {
+                        binder.setHelpEntryByChapter(app.getHelpPath());
+                        help.show();
+                    });
+                } else {
+                    try {
+                        String s = rb.getString(app.getHelpPath());
+                        appView.setHelpAction(evt -> {
+                            WelcomeUtil.openLinkInBrowser(s);
+                        });
+                    } catch(Exception ex) {
+                        LOGGER.log(Level.WARNING, "Help Path not local nor key for url in bundle", ex);
+                    }
+                }
             }
             if(app.getIcon() != null && !app.getIcon().isEmpty()) {
                 String path = WelcomeConstants.ICON_APPLICATION_FILE_PATH + "/" + app.getIcon() + ".png";

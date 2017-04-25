@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,24 +26,29 @@ import org.xml.sax.SAXException;
 
 /**
  * This class contains help functions for the Lernstick Welcome Application
- * 
+ *
  * @author sschw
  */
 public class WelcomeUtil {
+
     private static final Logger LOGGER = Logger.getLogger(WelcomeUtil.class.getName());
     private static final ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    /** see {@link #isImageWritable()} **/
+    /**
+     * see {@link #isImageWritable()} *
+     */
     private static Boolean isImageWritable;
-    
-    private WelcomeUtil() {}
-    
+
+    private WelcomeUtil() {
+    }
+
     /**
      * Parses a file as a xml file
+     *
      * @param file The file that should be converted to a xml document
      * @return the xml document
      * @throws ParserConfigurationException
      * @throws SAXException
-     * @throws IOException 
+     * @throws IOException
      */
     public static Document parseXmlFile(File file)
             throws ParserConfigurationException, SAXException, IOException {
@@ -57,12 +64,13 @@ public class WelcomeUtil {
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(file);
     }
-    
+
     /**
      * Help function which reads a whole file content into the memory.
+     *
      * @param file the file which content should be loaded into the memory
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     public static List<String> readFile(File file) throws IOException {
         List<String> lines = new ArrayList<>();
@@ -74,13 +82,14 @@ public class WelcomeUtil {
         }
         return lines;
     }
-    
+
     /**
      * Checks if the filesystem mount is allowed.
      * <br>
      * Reads out the {@link WelcomeConstants#PKLA_PATH} File to check if a rule
      * is defined.
-     * @return 
+     *
+     * @return
      */
     public static boolean isFileSystemMountAllowed() {
         try {
@@ -96,25 +105,23 @@ public class WelcomeUtil {
         }
         return false;
     }
-    
+
     /**
      * Checks if the partition has rw rights.
      * <br>
      * Calls the following commands to check if the partition has rw rights:
      * <ul>
-     * <li>
-     * "{@code mount -o remount,rw} {@link WelcomeConstants#IMAGE_DIRECTORY}"
+     * <li> "{@code mount -o remount,rw}
+     * {@link WelcomeConstants#IMAGE_DIRECTORY}"
      * </li>
-     * <li>
-     * "{@code touch} 
+     * <li> "{@code touch}
      * {@link WelcomeConstants#IMAGE_DIRECTORY}{@code /lernstickWelcome.tmp}"
      * </li>
-     * <li>
-     * "{@code rm} 
+     * <li> "{@code rm}
      * {@link WelcomeConstants#IMAGE_DIRECTORY}{@code /lernstickWelcome.tmp}"
      * </li>
-     * <li>
-     * "{@code mount -o remount,ro} {@link WelcomeConstants#IMAGE_DIRECTORY}"
+     * <li> "{@code mount -o remount,ro}
+     * {@link WelcomeConstants#IMAGE_DIRECTORY}"
      * </li>
      * </ul>
      * This ensures that the image is mounted with ro rights but still can be
@@ -122,10 +129,11 @@ public class WelcomeUtil {
      * <br>
      * Because it needs much time to calculate the result will be saved locally
      * in the {@link #isImageWritable} variable.
-     * @return 
+     *
+     * @return
      */
     public static boolean isImageWritable() {
-        if(isImageWritable == null) {
+        if (isImageWritable == null) {
             PROCESS_EXECUTOR.executeProcess(
                     "mount", "-o", "remount,rw", WelcomeConstants.IMAGE_DIRECTORY);
             String testPath = WelcomeConstants.IMAGE_DIRECTORY + "/lernstickWelcome.tmp";
@@ -147,11 +155,13 @@ public class WelcomeUtil {
         }
         return isImageWritable;
     }
-    
+
     /**
      * Help function to check if the port range is formatted correctly.
+     *
      * @param portRange port formatted as range XXXX:XXXX or as single port XXXX
-     * @param index if the calculation is inside a table, also give the TableCell index
+     * @param index if the calculation is inside a table, also give the
+     * TableCell index
      * @throws TableCellValidationException
      */
     public static void checkPortRange(String portRange, int index) throws TableCellValidationException {
@@ -177,9 +187,11 @@ public class WelcomeUtil {
      * Help function to check if the port is formatted correctly.
      * <br>
      * Called by {@link #checkPortRange(java.lang.String, int) }
+     *
      * @param portString the port
-     * @param index if the calculation is inside a table, also give the TableCell index
-     * @throws TableCellValidationException 
+     * @param index if the calculation is inside a table, also give the
+     * TableCell index
+     * @throws TableCellValidationException
      */
     private static void checkPortString(String portString, int index) throws TableCellValidationException {
         try {
@@ -194,9 +206,11 @@ public class WelcomeUtil {
 
     /**
      * Help function to check if the host/ip is formatted correctly.
+     *
      * @param target connection target formatted as host address or ip address
-     * @param index if the calculation is inside a table, also give the TableCell index
-     * @throws TableCellValidationException 
+     * @param index if the calculation is inside a table, also give the
+     * TableCell index
+     * @throws TableCellValidationException
      */
     public static void checkTarget(String target, int index) throws TableCellValidationException {
         // a CIDR block has the syntax: <IP address>\<prefix length>
@@ -224,7 +238,7 @@ public class WelcomeUtil {
             matcher = ipv4Pattern.matcher(target);
             if (matcher.matches()) {
                 checkIPv4Address(target, index);
-            } else { 
+            } else {
                 checkHostName(target, index);
             }
         }
@@ -234,9 +248,11 @@ public class WelcomeUtil {
      * Help function to check if the hostname is formatted correctly.
      * <br>
      * Called by {@link #checkTarget(java.lang.String, int) }
+     *
      * @param string connection target formatted as host address
-     * @param index if the calculation is inside a table, also give the TableCell index
-     * @throws TableCellValidationException 
+     * @param index if the calculation is inside a table, also give the
+     * TableCell index
+     * @throws TableCellValidationException
      */
     private static void checkHostName(String string, int index) throws TableCellValidationException {
         // Hostnames are composed of series of labels concatenated with dots, as
@@ -278,9 +294,11 @@ public class WelcomeUtil {
      * Help function to check if the ip is formatted correctly.
      * <br>
      * Called by {@link #checkTarget(java.lang.String, int) }
+     *
      * @param string connection target formatted as ip address
-     * @param index if the calculation is inside a table, also give the TableCell index
-     * @throws TableCellValidationException 
+     * @param index if the calculation is inside a table, also give the
+     * TableCell index
+     * @throws TableCellValidationException
      */
     private static void checkIPv4Address(String string, int index) throws TableCellValidationException {
         String[] octetStrings = string.split("\\.");
@@ -295,34 +313,28 @@ public class WelcomeUtil {
             }
         }
     }
-    
+
     /**
      * Opens a clicked link in the browser of the Lernstick (Firefox)
      *
      * @param evt the corresponding HyperlinkEvent
      */
-    public static void openLinkInBrowser(HyperlinkEvent evt) {
-        if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-//            try {
-//                Desktop.getDesktop().browse(evt.getURL().toURI());
-//            } catch (IOException ex) {
-//                logger.log(Level.SEVERE, "could not open URL", ex);
-//            } catch (URISyntaxException ex) {
-//                logger.log(Level.SEVERE, "could not open URL", ex);
-//            }
-
-            // as long as Konqueror sucks so bad, we enforce firefox
-            // (this is a quick and dirty solution, if konqueror starts to be
-            // usable, switch back to the code above)
-            final HyperlinkEvent finalEvent = evt;
+    public static void openLinkInBrowser(String url) {
+// as long as Konqueror sucks so bad, we enforce firefox
+// (this is a quick and dirty solution, if konqueror starts to be
+// usable, switch back to the code above)
+        try {
+            final URL finalUrl = new URL(url);
             Thread browserThread = new Thread() {
                 @Override
                 public void run() {
                     PROCESS_EXECUTOR.executeProcess(new String[]{
-                        "firefox", finalEvent.getURL().toString()});
+                        "firefox", finalUrl.toString()});
                 }
             };
             browserThread.start();
+        } catch (MalformedURLException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -52,12 +52,13 @@ public class ApplicationView extends GridPane {
         description.setPadding(new Insets(0, 0, 0, 10));
         icon.setFitHeight(50);
         icon.setFitWidth(50);
-        install.setPrefWidth(100);
+        install.setMinWidth(100);
+        install.setMaxWidth(100);
         
         add(icon, 0, 0, 1, 2);
         add(title, 1, 0, 1, 2);
-        add(help, 2, 1, 1, 2);
-        add(install, 3, 1, 1, 2);
+        add(help, 2, 0, 1, 2);
+        add(install, 3, 0, 1, 2);
         
         setValignment(help, VPos.CENTER);
         setValignment(install, VPos.CENTER);
