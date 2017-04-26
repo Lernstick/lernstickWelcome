@@ -555,6 +555,7 @@ public class Welcome extends javax.swing.JFrame {
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         kstarsPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        tigerjythonPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         etoysPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wxMaximaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         rosegardenPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1203,6 +1204,17 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(kstarsPanel, gridBagConstraints);
+
+        tigerjythonPanel.setDescription(bundle.getString("Welcome.tigerjythonPanel.description")); // NOI18N
+        tigerjythonPanel.setGameName("TigerJython"); // NOI18N
+        tigerjythonPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/tigerjython.png"))); // NOI18N
+        tigerjythonPanel.setWebsite("http://jython.tobiaskohn.ch"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(tigerjythonPanel, gridBagConstraints);
 
         etoysPanel.setDescription(bundle.getString("Welcome.etoysPanel.description")); // NOI18N
         etoysPanel.setGameName("Etoys"); // NOI18N
@@ -3656,6 +3668,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
         numberOfPackages += stellariumPanel.isSelected() ? 1 : 0;
         numberOfPackages += kstarsPanel.isSelected() ? 1 : 0;
+        numberOfPackages += tigerjythonPanel.isSelected() ? 1 : 0;
         numberOfPackages += etoysPanel.isSelected() ? 1 : 0;
         numberOfPackages += wxMaximaPanel.isSelected() ? 1 : 0;
         numberOfPackages += tuxPaintPanel.isSelected() ? 1 : 0;
@@ -3755,6 +3768,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(omnituxPanel, "omnitux");
         checkAppInstall(stellariumPanel, "lernstick-stellarium");
         checkAppInstall(kstarsPanel, "lernstick-kstars");
+        checkAppInstall(tigerjythonPanel, "tigerjython");
         checkAppInstall(etoysPanel, "lernstick-etoys");
         checkAppInstall(wxMaximaPanel, "lernstick-wxmaxima");
         checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
@@ -3954,6 +3968,9 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/kstars.png",
                     "lernstick-kstars", "kstars",
                     "kstars-data", "kstars-data-extra-tycho2");
+            installApplication(tigerjythonPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/tigerjython.png",
+                    "tigerjython");
             installApplication(etoysPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/etoys.png",
                     "lernstick-etoys", "lernstick-squeak-vm");
@@ -4053,7 +4070,6 @@ public class Welcome extends javax.swing.JFrame {
                     "freecol");
             installApplication(minetestGamePanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/minetest.png",
-                    "lernstick-minetest-game-bfd",
                     "lernstick-minetest-game-carbone-ng",
                     "lernstick-minetest-game-tutorial",
                     "lernstick-minetest-mod-dreambuilder");
@@ -4484,6 +4500,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JEditorPane teachingEditorPane;
     private javax.swing.JPanel teachingPanel;
     private javax.swing.JScrollPane teachingScrollPane;
+    private ch.fhnw.lernstickwelcome.GamePanel tigerjythonPanel;
     private ch.fhnw.lernstickwelcome.GamePanel triggerGamePanel;
     private ch.fhnw.lernstickwelcome.GamePanel tuxPaintPanel;
     private ch.fhnw.lernstickwelcome.GamePanel ufoaiGamePanel;
