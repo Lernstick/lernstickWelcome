@@ -1,3 +1,9 @@
+lernstickwelcome (201704261625-1) lernstick-8; urgency=medium
+
+  * added TigerJython, updated Minetest package list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 26 Apr 2017 16:25:37 +0200
+
 lernstickwelcome (201704091224-1) lernstick-8; urgency=medium
 
   * [2dae1d] use subdirectory for strict polkit rules (closer to the spec)
