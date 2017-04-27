@@ -1,5 +1,6 @@
-package ch.fhnw.lernstickwelcome.model;
+package ch.fhnw.lernstickwelcome.test.model;
 
+import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -36,8 +37,8 @@ public class WelcomeModelFactoryTest {
 		assertTrue(t.getPackages().getInstallCommand(pt).contains("install lernstick-kstars"));
 		
 		//testing a wget application
-		t = WelcomeModelFactory.getApplicationTask("AdobeReader");
-		assertTrue(t.getName().equals("AdobeReader"));
+		t = WelcomeModelFactory.getApplicationTask("Adobe Reader");
+		assertTrue(t.getName().equals("Adobe Reader"));
 		assertTrue(t.getNoPackages() == 2);
 		String[] expectedPackages2 = {"lernstick-adobereader-enu", "AdbeRdr9.5.5-1_i386linux_enu.deb"};
 		assertArrayEquals(t.getPackages().getPackageNames(), expectedPackages2);
@@ -49,9 +50,9 @@ public class WelcomeModelFactoryTest {
 	public void testGetApplicationTasks() throws ParserConfigurationException, SAXException, IOException {
 		List<ApplicationTask> ts = WelcomeModelFactory.getApplicationTasks("recommended");
 		ts.forEach(t -> System.out.println(t.getName()));
-		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("AdobeReader")));
-		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Kstars")));
-		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Omnitux")));
+		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Adobe Reader")));
+		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Skype")));
+		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Adobe Flash Player")));
 	}
 
 }

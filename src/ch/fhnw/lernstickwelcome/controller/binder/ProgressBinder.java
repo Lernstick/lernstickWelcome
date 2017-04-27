@@ -105,6 +105,8 @@ public class ProgressBinder {
                         MediaPlayer mediaPlayer = new MediaPlayer(sound);
                         mediaPlayer.play();
                     } catch(Exception ex) {
+                        // There might be an exception
+                        // http://stackoverflow.com/questions/24090356/javafx-mediaplayer-could-not-create-player-error-in-ubuntu-14-04
                         LOGGER.log(Level.WARNING, "Sound couldn't be played", ex);
                     }
                     // Close scene if finished after 3 seconds

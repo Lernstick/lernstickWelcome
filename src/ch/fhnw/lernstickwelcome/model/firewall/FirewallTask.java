@@ -73,6 +73,9 @@ public class FirewallTask implements Processable<String> {
         }, 0, 3000);
     }
 
+    /**
+     * Stops the timer in order to stop the background thread.
+     */
     public void stopFirewallStateChecking() {
         timer.cancel();
     }
