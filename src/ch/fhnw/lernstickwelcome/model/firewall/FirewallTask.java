@@ -27,7 +27,11 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 
 /**
- *
+ * This class handles changes to the internet access.
+ * <br>
+ * In order to process a backend task multiple times it extends Processable
+ * 
+ * @see Processable
  * @author sschw
  */
 public class FirewallTask implements Processable<String> {
@@ -39,6 +43,12 @@ public class FirewallTask implements Processable<String> {
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
     private Timer timer;
 
+    /**
+     * Creates a FirewallTask by loading the 
+     * {@link #parseNetWhiteList() Server Whitelist}, 
+     * {@link #parseURLWhiteList()  Website Whitelist} and starting a 
+     * {@link Timer} to load the firewall state every 3 seconds.
+     */
     public FirewallTask() {
         try {
             parseNetWhiteList();

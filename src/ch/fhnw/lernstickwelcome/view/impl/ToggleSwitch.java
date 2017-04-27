@@ -15,7 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 /**
- *
+ * A simple toggle switch.
+ * <br>
+ * Optimized for the use in a fxml file.
+ * 
  * @author TheItachiUchiha & sschw
  */
 public class ToggleSwitch extends HBox {
@@ -67,6 +70,8 @@ public class ToggleSwitch extends HBox {
 
     private void setStyle() {
         //Default Width
+        setMaxWidth(80);
+        setMinWidth(80);
         setWidth(80);
         label.setAlignment(Pos.CENTER);
         setStyle("-fx-background-color: grey; -fx-text-fill:black; -fx-background-radius: 4;");

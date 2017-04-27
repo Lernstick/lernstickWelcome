@@ -14,7 +14,6 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -23,7 +22,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- *
+ * This class represents an application in the GUI.
+ * 
  * @author sschw
  */
 public class ApplicationView extends GridPane {
@@ -31,7 +31,8 @@ public class ApplicationView extends GridPane {
     private final Label description = new Label();
     private final ImageView icon = new ImageView();
     private final Button help = new Button("?");
-    private final ToggleButton install = new ToggleButton();
+    private final Label installDescription = new Label();
+    private final ToggleSwitch install = new ToggleSwitch();
     
     public ApplicationView(ResourceBundle rb) {
         super();
@@ -52,27 +53,31 @@ public class ApplicationView extends GridPane {
         description.setPadding(new Insets(0, 0, 0, 10));
         icon.setFitHeight(50);
         icon.setFitWidth(50);
-        install.setMinWidth(100);
-        install.setMaxWidth(100);
+        installDescription.setMinWidth(80);
+        installDescription.setMaxWidth(80);
+        installDescription.setAlignment(Pos.BOTTOM_CENTER);
         
         add(icon, 0, 0, 1, 2);
         add(title, 1, 0, 1, 2);
         add(help, 2, 0, 1, 2);
-        add(install, 3, 0, 1, 2);
+        add(installDescription, 3, 0);
+        add(install, 3, 1);
         
         setValignment(help, VPos.CENTER);
-        setValignment(install, VPos.CENTER);
+        setValignment(installDescription, VPos.BOTTOM);
+        setValignment(install, VPos.TOP);
         
         setHgrow(title, Priority.ALWAYS);
         setHgrow(description, Priority.ALWAYS);
         setHgrow(icon, Priority.NEVER);
         setHgrow(help, Priority.NEVER);
+        setHgrow(installDescription, Priority.NEVER);
         setHgrow(install, Priority.NEVER);
         
         setPadding(new Insets(10, 5, 10, 5));
         
-        install.setText(rb.getString("ApplicationView.install"));
-        install.disabledProperty().addListener(evt -> install.setText(rb.getString("ApplicationView.installed")));
+        installDescription.setText(rb.getString("ApplicationView.install"));
+        install.disabledProperty().addListener(evt -> installDescription.setText(rb.getString("ApplicationView.installed")));
     }
     
     public void setTitle(String title) {

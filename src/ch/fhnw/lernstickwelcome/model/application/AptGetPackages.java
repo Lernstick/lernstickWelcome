@@ -10,8 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author user
+ * This class creates an apt-get command out of packages which should be 
+ * installed.
+ * 
+ * @see ApplicationPackages
+ * @author sschw
  */
 public class AptGetPackages extends ApplicationPackages {
     private final static Logger LOGGER = Logger.getLogger(AptGetPackages.class.getName());

@@ -10,7 +10,6 @@ import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 /**

@@ -98,8 +98,10 @@ public class SystemconfigTask implements Processable<String> {
 
         // Load properties
         blockKdeDesktopApplets.set("true".equals(properties.getProperty(WelcomeConstants.KDE_LOCK)));
-        passwordChanged = ("true".equals(properties.getProperty(WelcomeConstants.PASSWORD_CHANGED)));
+        passwordChanged = "true".equals(properties.getProperty(WelcomeConstants.PASSWORD_CHANGED));
         allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
+        // Load Sound Output
+        directSoundOutput.set(!Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE));
         // Load partitions
         getPartitions();
         // Load BootConfigInfos from the BootPartition
@@ -639,7 +641,8 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Adds new pkla-files to the PolicyKit Local Authority.
+     * Hardens the rule in an pkla-files to restrict access to the action by the
+     * PolicyKit Local Authority.
      * @param pklas The actions that should be restricted.
      * @throws ProcessingException 
      */

@@ -5,7 +5,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemControlle
 import javafx.stage.Stage;
 
 /**
- *Binder class to init binings between view components and backend (model) properties
+ * Binder class to init binings between view components and backend (model) properties
  * 
  * @author user
  */
@@ -17,8 +17,8 @@ public class ExamSystemBinder {
     /**
      * Constructor of ExamSystemBinder class
      * 
-     * @param controller        is needed to provide access to the backend properties
-     * @param system       FXML controller which prviedes the view properties
+     * @param controller is needed to provide access to the backend properties
+     * @param system FXML controller which proviedes the view properties
      */
     public ExamSystemBinder(WelcomeController controller, WelcomeApplicationSystemController system){
         this.controller = controller;

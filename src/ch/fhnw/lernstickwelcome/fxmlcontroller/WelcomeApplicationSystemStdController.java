@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +15,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,17 +36,17 @@ public class WelcomeApplicationSystemStdController implements Initializable {
     @FXML
     private ChoiceBox<Number> choice_sysStd_visible_for;
     @FXML
-    private CheckBox cb_sysStd_start_wa;
+    private ToggleSwitch cb_sysStd_start_wa;
     @FXML
-    private CheckBox cb_sysStd_show_warning;
+    private ToggleSwitch cb_sysStd_show_warning;
     @FXML
-    private CheckBox cb_sysStd_direct_sound;
+    private ToggleSwitch cb_sysStd_direct_sound;
     @FXML
-    private CheckBox cb_sysStd_block_kde;
+    private ToggleSwitch cb_sysStd_block_kde;
     @FXML
     private TextField txt_sys_exchange_partition;
     @FXML
-    private CheckBox cb_sysStd_proxy;
+    private ToggleSwitch cb_sysStd_proxy;
     @FXML
     private TextField txt_sysStd_host;
     @FXML
@@ -199,19 +199,19 @@ public class WelcomeApplicationSystemStdController implements Initializable {
         return choice_sysStd_visible_for;
     }
 
-    public CheckBox getCb_sysStd_start_wa() {
+    public ToggleSwitch getCb_sysStd_start_wa() {
         return cb_sysStd_start_wa;
     }
 
-    public CheckBox getCb_sysStd_show_warning() {
+    public ToggleSwitch getCb_sysStd_show_warning() {
         return cb_sysStd_show_warning;
     }
 
-    public CheckBox getCb_sysStd_direct_sound() {
+    public ToggleSwitch getCb_sysStd_direct_sound() {
         return cb_sysStd_direct_sound;
     }
 
-    public CheckBox getCb_sysStd_block_kde() {
+    public ToggleSwitch getCb_sysStd_block_kde() {
         return cb_sysStd_block_kde;
     }
 
@@ -219,7 +219,7 @@ public class WelcomeApplicationSystemStdController implements Initializable {
         return txt_sys_exchange_partition;
     }
 
-    public CheckBox getCb_sysStd_proxy() {
+    public ToggleSwitch getCb_sysStd_proxy() {
         return cb_sysStd_proxy;
     }
 

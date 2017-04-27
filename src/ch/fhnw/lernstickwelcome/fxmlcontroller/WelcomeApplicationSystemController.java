@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +15,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -42,19 +42,19 @@ public class WelcomeApplicationSystemController implements Initializable {
     @FXML
     private ChoiceBox<Number> choice_sys_visible_for;
     @FXML
-    private CheckBox cb_sys_start_wa;
+    private ToggleSwitch cb_sys_start_wa;
     @FXML
-    private CheckBox cb_sys_direct_sound;
+    private ToggleSwitch cb_sys_direct_sound;
     @FXML
-    private CheckBox cb_sys_block_kde;
+    private ToggleSwitch cb_sys_block_kde;
     @FXML
-    private CheckBox cb_sys_allow_file_systems;
+    private ToggleSwitch cb_sys_allow_file_systems;
     @FXML
     private TextField txt_sys_exchange_partition;
     @FXML
-    private CheckBox cb_sys_access_user;
+    private ToggleSwitch cb_sys_access_user;
     @FXML
-    private CheckBox cb_sys_show_warning;
+    private ToggleSwitch cb_sys_show_warning;
     
     private final Integer[] visibleForValues = new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     
@@ -189,19 +189,19 @@ public class WelcomeApplicationSystemController implements Initializable {
         return choice_sys_visible_for;
     }
 
-    public CheckBox getCb_sys_start_wa() {
+    public ToggleSwitch getCb_sys_start_wa() {
         return cb_sys_start_wa;
     }
 
-    public CheckBox getCb_sys_direct_sound() {
+    public ToggleSwitch getCb_sys_direct_sound() {
         return cb_sys_direct_sound;
     }
 
-    public CheckBox getCb_sys_block_kde() {
+    public ToggleSwitch getCb_sys_block_kde() {
         return cb_sys_block_kde;
     }
 
-    public CheckBox getCb_sys_allow_file_systems() {
+    public ToggleSwitch getCb_sys_allow_file_systems() {
         return cb_sys_allow_file_systems;
     }
 
@@ -209,11 +209,11 @@ public class WelcomeApplicationSystemController implements Initializable {
         return txt_sys_exchange_partition;
     }
 
-    public CheckBox getCb_sys_access_user() {
+    public ToggleSwitch getCb_sys_access_user() {
         return cb_sys_access_user;
     }
 
-    public CheckBox getCb_sys_show_warning() {
+    public ToggleSwitch getCb_sys_show_warning() {
         return cb_sys_show_warning;
     }
     

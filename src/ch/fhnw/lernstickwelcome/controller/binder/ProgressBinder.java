@@ -10,6 +10,8 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
@@ -25,7 +27,7 @@ import javafx.util.Duration;
  * @author user
  */
 public class ProgressBinder {
-
+    private final static Logger LOGGER = Logger.getLogger(ProgressBinder.class.getName());
     private final WelcomeController controller;
     private final WelcomeApplicationProgressController install;
 
@@ -97,10 +99,14 @@ public class ProgressBinder {
                     currentStage.close();
                 } else {
                     // Play a sound on success
-                    String musicFile = WelcomeConstants.RESOURCE_FILE_PATH + "/sound/KDE_Notify.wav";
-                    Media sound = new Media(new File(musicFile).toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                    mediaPlayer.play();
+                    try {
+                        String musicFile = WelcomeConstants.RESOURCE_FILE_PATH + "/sound/KDE_Notify.wav";
+                        Media sound = new Media(new File(musicFile).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                        mediaPlayer.play();
+                    } catch(Exception ex) {
+                        LOGGER.log(Level.WARNING, "Sound couldn't be played", ex);
+                    }
                     // Close scene if finished after 3 seconds
                     PauseTransition delay = new PauseTransition(Duration.seconds(3));
                     delay.setOnFinished(event -> ((Stage) install.getProg_inst_bar().getScene().getWindow()).close());

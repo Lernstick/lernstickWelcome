@@ -13,7 +13,7 @@ import javafx.concurrent.Task;
 
 /**
  * After Installation of application with {@link ApplicationTask}, this Task is
- * called to fix dependencies using {@code apt-get -f install}.
+ * called to fix dependencies using {@code apt-get -f -y --force-yes install}.
  * 
  * @author sschw
  */
@@ -37,7 +37,7 @@ public class InstallPostprocessingTask implements Processable<String> {
             updateTitle("InstallPostprocessingTask.title");
             updateMessage("InstallPostprocessingTask.message");
             updateProgress(0, 1);
-            String script = "apt-get" + proxy.getAptGetProxy() + "-f install";
+            String script = "apt-get" + proxy.getAptGetProxy() + "-f -y --force-yes install";
             PROCESS_EXECUTOR.executeScript(script);
             updateProgress(1, 1);
             return null;

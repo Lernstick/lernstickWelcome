@@ -11,13 +11,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.event.HyperlinkEvent;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -93,15 +93,17 @@ public class WelcomeUtil {
      */
     public static boolean isFileSystemMountAllowed() {
         try {
-            List<String> pklaRules
-                    = LernstickFileTools.readFile(WelcomeConstants.PKLA_PATH.toFile());
-            for (String pklaRule : pklaRules) {
-                if (pklaRule.equals("ResultAny=yes")) {
-                    return true;
+            if(Files.exists(WelcomeConstants.PKLA_PATH)) {
+                List<String> pklaRules
+                        = LernstickFileTools.readFile(WelcomeConstants.PKLA_PATH.toFile());
+                for (String pklaRule : pklaRules) {
+                    if (pklaRule.equals("ResultAny=yes")) {
+                        return true;
+                    }
                 }
             }
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
+            LOGGER.log(Level.INFO, "", ex);
         }
         return false;
     }

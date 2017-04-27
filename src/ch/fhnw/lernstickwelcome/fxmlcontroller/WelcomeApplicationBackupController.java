@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -32,9 +31,9 @@ public class WelcomeApplicationBackupController implements Initializable {
     @FXML
     private Button btn_bu_help;
     @FXML
-    private CheckBox cb_bu_backup;
+    private ToggleSwitch cb_bu_backup;
     @FXML
-    private CheckBox cb_bu_screenshot;
+    private ToggleSwitch cb_bu_screenshot;
     @FXML
     private TextField txt_bu_src_path;
     @FXML
@@ -44,13 +43,13 @@ public class WelcomeApplicationBackupController implements Initializable {
     @FXML
     private Button btn_bu_dest_path;
     @FXML
-    private CheckBox cb_bu_use_local;
+    private ToggleSwitch cb_bu_use_local;
     @FXML
     private TextField txt_bu_remote_path;
     @FXML
     private Button btn_bu_remote_path;
     @FXML
-    private CheckBox cb_bu_use_remote;
+    private ToggleSwitch cb_bu_use_remote;
     @FXML
     private ChoiceBox<?> choice_bu_medium;
     @FXML
@@ -133,11 +132,11 @@ public class WelcomeApplicationBackupController implements Initializable {
         return btn_bu_help;
     }
 
-    public CheckBox getCb_bu_backup() {
+    public ToggleSwitch getCb_bu_backup() {
         return cb_bu_backup;
     }
 
-    public CheckBox getCb_bu_screenshot() {
+    public ToggleSwitch getCb_bu_screenshot() {
         return cb_bu_screenshot;
     }
 
@@ -157,7 +156,7 @@ public class WelcomeApplicationBackupController implements Initializable {
         return btn_bu_dest_path;
     }
 
-    public CheckBox getCb_bu_use_local() {
+    public ToggleSwitch getCb_bu_use_local() {
         return cb_bu_use_local;
     }
 
@@ -169,7 +168,7 @@ public class WelcomeApplicationBackupController implements Initializable {
         return btn_bu_remote_path;
     }
 
-    public CheckBox getCb_bu_use_remote() {
+    public ToggleSwitch getCb_bu_use_remote() {
         return cb_bu_use_remote;
     }
 

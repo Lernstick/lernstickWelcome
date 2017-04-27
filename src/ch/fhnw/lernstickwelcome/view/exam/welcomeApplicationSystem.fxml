@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -14,6 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 
 <AnchorPane id="AnchorPane" minHeight="699.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController">
    <children>
@@ -92,9 +92,9 @@
                   <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="1" />
                   <ChoiceBox fx:id="choice_sys_visible_for" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.startWA" GridPane.rowIndex="2" />
-                  <CheckBox fx:id="cb_sys_start_wa" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <ToggleSwitch fx:id="cb_sys_start_wa" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="3" />
-                  <CheckBox fx:id="cb_sys_show_warning" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                  <ToggleSwitch fx:id="cb_sys_show_warning" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <GridPane vgap="15.0">
@@ -115,11 +115,11 @@
                      </font>
                   </Label>
                   <Label text="%welcomeApplicationSystem.soundOutput" GridPane.rowIndex="1" />
-                  <CheckBox fx:id="cb_sys_direct_sound" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <ToggleSwitch fx:id="cb_sys_direct_sound" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.PlasmaDesktopApplets" GridPane.rowIndex="2" />
-                  <CheckBox fx:id="cb_sys_block_kde" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <ToggleSwitch fx:id="cb_sys_block_kde" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.accessFileSystem" GridPane.rowIndex="3" />
-                  <CheckBox fx:id="cb_sys_allow_file_systems" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                  <ToggleSwitch fx:id="cb_sys_allow_file_systems" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <GridPane vgap="15.0">
@@ -142,7 +142,7 @@
                   <Label text="%welcomeApplicationSystem.exchangePartition" GridPane.rowIndex="1" />
                   <TextField fx:id="txt_sys_exchange_partition" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.accessbyUser" GridPane.rowIndex="2" />
-                  <CheckBox fx:id="cb_sys_access_user" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <ToggleSwitch fx:id="cb_sys_access_user" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.restartNote" textFill="#f20000" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                </children>
             </GridPane>

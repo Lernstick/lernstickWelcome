@@ -6,7 +6,9 @@
 package ch.fhnw.lernstickwelcome.controller.exception;
 
 /**
- *
+ * Thrown if a validation fails inside a table.
+ * 
+ * @see ValidationException
  * @author sschw
  */
 public class TableCellValidationException extends ValidationException {
