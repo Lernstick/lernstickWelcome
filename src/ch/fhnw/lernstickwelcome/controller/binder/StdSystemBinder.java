@@ -52,7 +52,7 @@ public class StdSystemBinder {
 
     public void initHelp(Stage helpStage, HelpBinder help) {
         system.getBtn_sys_help().setOnAction(evt -> {
-            help.setHelpEntryByChapter("4");
+            help.setHelpEntryByChapter("6");
             helpStage.show();
         });
     }
