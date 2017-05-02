@@ -47,7 +47,7 @@ public final class WelcomeConstants {
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     public static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
-    public static final Path PKLA_PATH = Paths.get(
+    public static final Path UDISKS_PKLA_PATH = Paths.get(
 "/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
     
     public static final String USER_HOME = System.getProperty("user.home");
