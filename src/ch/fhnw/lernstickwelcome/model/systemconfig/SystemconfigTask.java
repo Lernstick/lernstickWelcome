@@ -119,9 +119,9 @@ public class SystemconfigTask implements Processable<String> {
     private void updateAllowFilesystemMount() {
         try {
             if (allowAccessToOtherFilesystems.get()) {
-                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=auth_self"), "=yes");
+                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=auth_.*"), "=yes");
             } else {
-                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self");
+                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self_keep");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
