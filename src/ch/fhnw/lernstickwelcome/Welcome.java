@@ -555,6 +555,7 @@ public class Welcome extends javax.swing.JFrame {
         tuxPaintPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         stellariumPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         kstarsPanel = new ch.fhnw.lernstickwelcome.GamePanel();
+        gdevelopPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         tigerjythonPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         etoysPanel = new ch.fhnw.lernstickwelcome.GamePanel();
         wxMaximaPanel = new ch.fhnw.lernstickwelcome.GamePanel();
@@ -1204,6 +1205,17 @@ public class Welcome extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         additionalScrollPanel.add(kstarsPanel, gridBagConstraints);
+
+        gdevelopPanel.setDescription(bundle.getString("Welcome.gdevelopPanel.description")); // NOI18N
+        gdevelopPanel.setGameName("GDevelop"); // NOI18N
+        gdevelopPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/fhnw/lernstickwelcome/icons/32x32/gdevelop.png"))); // NOI18N
+        gdevelopPanel.setWebsite("http://compilgames.net"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        additionalScrollPanel.add(gdevelopPanel, gridBagConstraints);
 
         tigerjythonPanel.setDescription(bundle.getString("Welcome.tigerjythonPanel.description")); // NOI18N
         tigerjythonPanel.setGameName("TigerJython"); // NOI18N
@@ -3668,6 +3680,7 @@ public class Welcome extends javax.swing.JFrame {
         numberOfPackages += omnituxPanel.isSelected() ? 1 : 0;
         numberOfPackages += stellariumPanel.isSelected() ? 1 : 0;
         numberOfPackages += kstarsPanel.isSelected() ? 1 : 0;
+        numberOfPackages += gdevelopPanel.isSelected() ? 1 : 0;
         numberOfPackages += tigerjythonPanel.isSelected() ? 1 : 0;
         numberOfPackages += etoysPanel.isSelected() ? 1 : 0;
         numberOfPackages += wxMaximaPanel.isSelected() ? 1 : 0;
@@ -3768,6 +3781,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(omnituxPanel, "omnitux");
         checkAppInstall(stellariumPanel, "lernstick-stellarium");
         checkAppInstall(kstarsPanel, "lernstick-kstars");
+        checkAppInstall(gdevelopPanel, "gdevelop");
         checkAppInstall(tigerjythonPanel, "tigerjython");
         checkAppInstall(etoysPanel, "lernstick-etoys");
         checkAppInstall(wxMaximaPanel, "lernstick-wxmaxima");
@@ -3968,6 +3982,9 @@ public class Welcome extends javax.swing.JFrame {
                     "/ch/fhnw/lernstickwelcome/icons/48x48/kstars.png",
                     "lernstick-kstars", "kstars",
                     "kstars-data", "kstars-data-extra-tycho2");
+            installApplication(gdevelopPanel,
+                    "/ch/fhnw/lernstickwelcome/icons/48x48/gdevelop.png",
+                    "gdevelop");
             installApplication(tigerjythonPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tigerjython.png",
                     "tigerjython");
@@ -4409,6 +4426,7 @@ public class Welcome extends javax.swing.JFrame {
     private javax.swing.JScrollPane gamesScrollPane;
     private javax.swing.JPanel gamesScrollPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gcomprisPanel;
+    private ch.fhnw.lernstickwelcome.GamePanel gdevelopPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gespeakerPanel;
     private ch.fhnw.lernstickwelcome.GamePanel gnucashPanel;
     private javax.swing.JCheckBox googleEarthCheckBox;
