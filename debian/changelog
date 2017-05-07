@@ -1,3 +1,10 @@
+lernstickwelcome (201705071938-1) lernstick-8; urgency=medium
+
+  * [ed8004] removed original tigerjython icon
+  * [4a3a56] added support for GDevelop
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 07 May 2017 19:38:15 +0200
+
 lernstickwelcome (201704261625-1) lernstick-8; urgency=medium
 
   * added TigerJython, updated Minetest package list
