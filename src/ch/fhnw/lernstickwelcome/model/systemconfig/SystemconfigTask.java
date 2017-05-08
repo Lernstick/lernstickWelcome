@@ -650,7 +650,11 @@ public class SystemconfigTask implements Processable<String> {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
         Path strictPoliciesDir = Paths.get("/etc/polkit-1/localauthority/55-lernstick-exam.d");
         if (!Files.isDirectory(strictPoliciesDir)) {
-        	Files.createDirectories(strictPoliciesDir);
+            try {
+                Files.createDirectories(strictPoliciesDir);
+            } catch (IOException ex) {
+                Logger.getLogger(SystemconfigTask.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         for (String pkla : pklas) {
             try {
