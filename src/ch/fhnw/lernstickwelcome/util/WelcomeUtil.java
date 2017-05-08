@@ -319,7 +319,7 @@ public class WelcomeUtil {
     /**
      * Opens a clicked link in the browser of the Lernstick (Firefox)
      *
-     * @param evt the corresponding HyperlinkEvent
+     * @param url the corresponding url
      */
     public static void openLinkInBrowser(String url) {
 // as long as Konqueror sucks so bad, we enforce firefox

@@ -30,7 +30,7 @@ import javafx.concurrent.Task;
  * This class handles changes to the internet access.
  * <br>
  * In order to process a backend task multiple times it extends Processable
- * 
+ *
  * @see Processable
  * @author sschw
  */
@@ -44,9 +44,8 @@ public class FirewallTask implements Processable<String> {
     private Timer timer;
 
     /**
-     * Creates a FirewallTask by loading the 
-     * {@link #parseNetWhiteList() Server Whitelist}, 
-     * {@link #parseURLWhiteList()  Website Whitelist} and starting a 
+     * Creates a FirewallTask by loading the      {@link #parseNetWhiteList() Server Whitelist}, 
+     * {@link #parseURLWhiteList()  Website Whitelist} and starting a
      * {@link Timer} to load the firewall state every 3 seconds.
      */
     public FirewallTask() {
@@ -80,6 +79,11 @@ public class FirewallTask implements Processable<String> {
         timer.cancel();
     }
 
+    /**
+     * Toggles the firewall on/off.
+     *
+     * @throws ProcessingException thrown when the state can't be changed.
+     */
     public void toggleFirewallState() throws ProcessingException {
         String action = firewallRunning.get() ? "stop" : "start";
         int ret = PROCESS_EXECUTOR.executeProcess(true, true, "lernstick-firewall", action);
@@ -104,10 +108,19 @@ public class FirewallTask implements Processable<String> {
         }
     }
 
+    /**
+     * This function is called by the timer to update the current state of the
+     * firewall.
+     */
     private void updateFirewallState() {
         firewallRunning.set(PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0);
     }
 
+    /**
+     * Loads the url whitelist from the config file.
+     *
+     * @throws IOException
+     */
     private void parseURLWhiteList() throws IOException {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME))) {
             String line = bufferedReader.readLine();
@@ -118,6 +131,11 @@ public class FirewallTask implements Processable<String> {
         }
     }
 
+    /**
+     * Loads the ip whitelist from the config file.
+     *
+     * @throws IOException
+     */
     private void parseNetWhiteList() throws IOException {
         FileReader fileReader = new FileReader(WelcomeConstants.IP_TABLES_FILENAME);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -152,18 +170,9 @@ public class FirewallTask implements Processable<String> {
         }
     }
 
-    public ListProperty<WebsiteFilter> getWebsiteListProperty() {
-        return websiteList;
-    }
-
-    public ListProperty<IpFilter> getIpListProperty() {
-        return ipList;
-    }
-
-    public BooleanProperty firewallRunningProperty() {
-        return firewallRunning;
-    }
-
+    /**
+     * Saves the ip whitelist entries into the config file.
+     */
     private void saveIpTables() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.IP_TABLES_FILENAME))) {
             for (IpFilter ip : ipList) {
@@ -189,11 +198,45 @@ public class FirewallTask implements Processable<String> {
         }
     }
 
+    /**
+     * Saves the url whitelist entries into the config file.
+     */
+    public void saveUrlWhitelist() {
+        // save URL whitelist
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.URL_WHITELIST_FILENAME))) {
+            for (WebsiteFilter website : websiteList) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(website.getSearchPattern());
+                sb.append('\n');
+                bw.write(sb.toString());
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+    }
+
+    public ListProperty<WebsiteFilter> getWebsiteListProperty() {
+        return websiteList;
+    }
+
+    public ListProperty<IpFilter> getIpListProperty() {
+        return ipList;
+    }
+
+    public BooleanProperty firewallRunningProperty() {
+        return firewallRunning;
+    }
+
     @Override
     public Task<String> newTask() {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     *
+     * @see Processable
+     */
     private class InternalTask extends Task<String> {
 
         @Override
@@ -208,17 +251,7 @@ public class FirewallTask implements Processable<String> {
             updateProgress(1, 3);
             updateMessage("FirewallTask.saveWebsites");
 
-            // save URL whitelist
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.URL_WHITELIST_FILENAME))) {
-                for (WebsiteFilter website : websiteList) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(website.getSearchPattern());
-                    sb.append('\n');
-                    bw.write(sb.toString());
-                }
-            } catch (IOException ex) {
-                LOGGER.log(Level.WARNING, "", ex);
-            }
+            saveUrlWhitelist();
 
             updateProgress(2, 3);
             updateMessage("FirewallTask.restartFirewall");

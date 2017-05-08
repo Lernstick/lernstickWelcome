@@ -6,7 +6,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationCont
 /**
  * Binder class to init binings between view components and backend (model) properties
  * 
- * @author LineStettler
+ * @author Line Stettler
  */
 public class ExamInformationBinder {
     private final WelcomeController controller;

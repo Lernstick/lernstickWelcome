@@ -30,6 +30,9 @@ public class ToggleSwitch extends HBox {
     private SimpleStringProperty textOn = new SimpleStringProperty();
     private SimpleStringProperty textOff = new SimpleStringProperty();
     
+    /**
+     * Initializes a toggle switch.
+     */
     public ToggleSwitch() {
         init();
         selected.addListener((a, b, c) -> {
@@ -47,12 +50,20 @@ public class ToggleSwitch extends HBox {
         });
     }
 
+    /**
+     * Initializes a toggle switch.
+     * @param textOn Text if the toggle switch is selected.
+     * @param textOff Text if the toggle switch is deselected.
+     */
     public ToggleSwitch(@NamedArg("textOn") String textOn, @NamedArg("textOff") String textOff) {
         this();
         setTextOn(textOn);
         setTextOff(textOff);
     }
 
+    /**
+     * Sets the bindings of the text, the click handlers and the style.
+     */
     private void init() {
         label.textProperty().bind(textOff);
             
@@ -68,6 +79,9 @@ public class ToggleSwitch extends HBox {
         bindProperties();
     }
 
+    /**
+     * Defines the style of the toggle switch.
+     */
     private void setStyle() {
         //Default Width
         setMaxWidth(80);
@@ -78,6 +92,9 @@ public class ToggleSwitch extends HBox {
         setAlignment(Pos.CENTER_LEFT);
     }
 
+    /**
+     * Binds the label size and button size to the whole toggle switch.
+     */
     private void bindProperties() {
         label.prefWidthProperty().bind(widthProperty().divide(2));
         label.prefHeightProperty().bind(heightProperty());
@@ -85,14 +102,26 @@ public class ToggleSwitch extends HBox {
         button.prefHeightProperty().bind(heightProperty());
     }
 
+    /**
+     * The selected state of the toggle switch.
+     * @return 
+     */
     public BooleanProperty selectedProperty() {
         return selected;
     }
     
+    /**
+     * Sets the selected text.
+     * @param textOn 
+     */
     public void setTextOn(String textOn) {
         this.textOn.set(textOn);
     }
     
+    /**
+     * Sets the deselected text.
+     * @param textOff 
+     */
     public void setTextOff(String textOff) {
         this.textOff.set(textOff);
     }

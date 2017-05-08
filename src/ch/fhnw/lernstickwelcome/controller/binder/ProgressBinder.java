@@ -23,19 +23,29 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- *
- * @author user
+ * Binder class to init binings between view components and backend (model)
+ * properties
+ * @author sschw
  */
 public class ProgressBinder {
     private final static Logger LOGGER = Logger.getLogger(ProgressBinder.class.getName());
     private final WelcomeController controller;
     private final WelcomeApplicationProgressController install;
 
+    /**
+     * Constructor of HelpBinder class
+     *
+     * @param controller is needed to provide access to the backend properties
+     * @param install FXML controller which proviedes the view properties
+     */
     public ProgressBinder(WelcomeController controller, WelcomeApplicationProgressController install) {
         this.controller = controller;
         this.install = install;
     }
 
+    /**
+     * Method to initialize the bidirectional bindings between the view and packend properties
+     */
     public void initBindings() {
         install.getProg_inst_bar().progressProperty().bind(controller.getInstaller().progressProperty());
         install.getTxt_inst_prc().textProperty().bind(controller.getInstaller().progressProperty().multiply(100).asString("%.0f%%"));
@@ -84,6 +94,12 @@ public class ProgressBinder {
         install.getImg_value().visibleProperty().bind(controller.getInstaller().valueProperty().isNotNull());
     }
 
+    /**
+     * Method to initialize the handlers for this class.
+     * 
+     * @param errorDialog the dialog that should be shown on error.
+     * @param error the controller which the error message can be provided.
+     */
     public void initHandlers(Stage errorDialog, WelcomeApplicationErrorController error) {
         // Listen on task processor finished
         controller.getInstaller().finishedProperty().addListener(cl -> {

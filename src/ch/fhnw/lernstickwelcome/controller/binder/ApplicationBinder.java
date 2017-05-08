@@ -27,7 +27,8 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 /**
- *
+ * Binder class to init bindings between view components and backend (model) properties
+ * 
  * @author sschw
  */
 public class ApplicationBinder {
@@ -35,11 +36,23 @@ public class ApplicationBinder {
     private final VBox applicationContainer;
     private final WelcomeController controller;
     
+    /**
+     * Constructor of ApplicationBinder class
+     * 
+     * @param controller is needed to provide access to the backend properties
+     * @param applicationContainer the gui container for the applications
+     */
     public ApplicationBinder(WelcomeController controller, VBox applicationContainer) {
         this.controller = controller;
         this.applicationContainer = applicationContainer;
     }
     
+    /**
+     * Loads an application group into the applicationContainer.
+     * @param appGroup the application group that should be loaded into the container
+     * @param binder the binder for the help to configure the help dialog.
+     * @param help the help dialog that should be shown.
+     */
     public void addApplicationGroup(ApplicationGroupTask appGroup, HelpBinder binder, Stage help) {
         ResourceBundle rb = controller.getBundle();
         ApplicationGroupView groupView = new ApplicationGroupView();
@@ -48,6 +61,12 @@ public class ApplicationBinder {
         applicationContainer.getChildren().add(groupView);
     }
     
+    /**
+     * Loads applications of an application group into the applicationContainer.
+     * @param appGroup the application group that should be loaded into the container
+     * @param binder the binder for the help to configure the help dialog.
+     * @param help the help dialog that should be shown.
+     */
     public void addApplications(ApplicationGroupTask appGroup, HelpBinder binder, Stage help) {
         addApplicationList(applicationContainer, appGroup.getApps(), binder, help);
     }

@@ -19,15 +19,16 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
+import org.freedesktop.dbus.exceptions.DBusException;
 
 /**
  * This class handles changes of the exchange partition or changes on behalf of
  * configurations on partitions for the Lernstick.
  * <br>
  * In order to process a backend task multiple times it extends Processable
- * 
+ *
  * @see Processable
- * 
+ *
  * @author sschw
  */
 public class PartitionTask implements Processable<String> {
@@ -47,7 +48,7 @@ public class PartitionTask implements Processable<String> {
      * Loads the partitions with 
      * {@link WelcomeModelFactory#getSystemStorageDevice() } and loads data from
      * the properties-file.
-     * 
+     *
      * @param properties Property File of the Welcome Application
      */
     public PartitionTask(Properties properties) {
@@ -72,8 +73,51 @@ public class PartitionTask implements Processable<String> {
     }
 
     /**
+     * Updates the exchange partition label.
+     * @throws DBusException 
+     */
+    private void updateExchangePartitionLabel() throws DBusException {
+        String binary = null;
+        boolean umount = false;
+        String idType = exchangePartition.getIdType();
+        switch (idType) {
+            case "vfat":
+                binary = "dosfslabel";
+                break;
+            case "exfat":
+                binary = "exfatlabel";
+                break;
+            case "ntfs":
+                binary = "ntfslabel";
+                // ntfslabel refuses to work on a mounted partition with the
+                // error message: "Cannot make changes to a mounted device".
+                // Therefore we have to try to umount the partition.
+                umount = true;
+                break;
+            default:
+                LOGGER.log(Level.WARNING,
+                        "no labeling binary for type \"{0}\"!", idType);
+                break;
+        }
+        if (binary != null) {
+            boolean tmpUmount = umount && exchangePartition.isMounted();
+            if (tmpUmount) {
+                exchangePartition.umount();
+            }
+            // Change label by calling binary /dev/device_name new_label
+            PROCESS_EXECUTOR.executeProcess(binary,
+                    "/dev/" + exchangePartition.getDeviceAndNumber(),
+                    exchangePartitionLabel.get());
+            if (tmpUmount) {
+                exchangePartition.mount();
+            }
+        }
+    }
+
+    /**
      * If there is no exchange partition, some functions might wan't to be
      * deactivated.
+     *
      * @return boolean describing if the exchange partition could be loaded.
      */
     public boolean hasExchangePartition() {
@@ -103,6 +147,7 @@ public class PartitionTask implements Processable<String> {
 
     /**
      * Task for {@link #newTask() }
+     *
      * @see Processable
      */
     private class InternalTask extends Task<String> {
@@ -115,45 +160,11 @@ public class PartitionTask implements Processable<String> {
 
             LOGGER.log(Level.INFO, "new exchange partition label: \"{0}\"",
                     exchangePartitionLabel.get());
-            
+
             // If exchange partition label has changed - modify it on call
             if (exchangePartitionLabel.get() != null && !exchangePartitionLabel.get().isEmpty()
                     && !exchangePartitionLabel.get().equals(oldExchangePartitionLabel)) {
-                String binary = null;
-                boolean umount = false;
-                String idType = exchangePartition.getIdType();
-                switch (idType) {
-                    case "vfat":
-                        binary = "dosfslabel";
-                        break;
-                    case "exfat":
-                        binary = "exfatlabel";
-                        break;
-                    case "ntfs":
-                        binary = "ntfslabel";
-                        // ntfslabel refuses to work on a mounted partition with the
-                        // error message: "Cannot make changes to a mounted device".
-                        // Therefore we have to try to umount the partition.
-                        umount = true;
-                        break;
-                    default:
-                        LOGGER.log(Level.WARNING,
-                                "no labeling binary for type \"{0}\"!", idType);
-                        break;
-                }
-                if (binary != null) {
-                    boolean tmpUmount = umount && exchangePartition.isMounted();
-                    if (tmpUmount) {
-                        exchangePartition.umount();
-                    }
-                    // Change label by calling binary /dev/device_name new_label
-                    PROCESS_EXECUTOR.executeProcess(binary,
-                            "/dev/" + exchangePartition.getDeviceAndNumber(),
-                            exchangePartitionLabel.get());
-                    if (tmpUmount) {
-                        exchangePartition.mount();
-                    }
-                }
+                updateExchangePartitionLabel();
             }
 
             updateProgress(1, 2);

@@ -5,18 +5,18 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
-import ch.fhnw.lernstickwelcome.model.PropertiesTask;
 import ch.fhnw.lernstickwelcome.model.Processable;
+import ch.fhnw.lernstickwelcome.model.PropertiesTask;
 import ch.fhnw.lernstickwelcome.model.TaskProcessor;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.InstallPostprocessingTask;
 import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.help.HelpLoader;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
-import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -104,14 +104,13 @@ public class WelcomeController {
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
         
-        prepare = WelcomeModelFactory.getInstallPreparationTask(proxy);
-        
         recApps = WelcomeModelFactory.getApplicationGroupTask("recommended", "RecommendedApplication.title", proxy);
         teachApps = WelcomeModelFactory.getApplicationGroupTask("teaching", "TeachingApplication.title", proxy);
         softwApps = WelcomeModelFactory.getApplicationGroupTask("misc", "MiscApplication.title", proxy);
         gamesApps = WelcomeModelFactory.getApplicationGroupTask("game", "GameApplication.title", proxy);
         
-        post = WelcomeModelFactory.getInstallPostprocessingTask(proxy);
+        prepare = WelcomeModelFactory.getInstallPreparationTask(proxy, recApps, teachApps, softwApps, gamesApps);
+        post = WelcomeModelFactory.getInstallPostprocessingTask(proxy, recApps, teachApps, softwApps, gamesApps);
         
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);

@@ -14,7 +14,10 @@ import javafx.concurrent.Task;
 
 /**
  * Representing multiple applications which can be installed.
+ * <br>
+ * In order to process a backend task multiple times it extends Processable
  *
+ * @see Processable
  * @author sschw
  */
 public class ApplicationGroupTask implements Processable<String> {
@@ -23,6 +26,12 @@ public class ApplicationGroupTask implements Processable<String> {
     private ProxyTask proxy;
     private String title;
 
+    /**
+     * Initializes a group of application.
+     * @param title The title of the group.
+     * @param proxy The proxy which should be given to the applications.
+     * @param apps The applications that are represented by this group.
+     */
     public ApplicationGroupTask(String title, ProxyTask proxy, List<ApplicationTask> apps) {
         this.title = title;
         this.proxy = proxy;
@@ -42,6 +51,11 @@ public class ApplicationGroupTask implements Processable<String> {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     *
+     * @see Processable
+     */
     private class InternalTask extends Task<String> {
 
         @Override
