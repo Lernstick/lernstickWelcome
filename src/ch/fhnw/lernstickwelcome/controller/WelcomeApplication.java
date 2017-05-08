@@ -8,7 +8,7 @@ package ch.fhnw.lernstickwelcome.controller;
 import ch.fhnw.lernstickwelcome.controller.binder.ApplicationBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamBackupBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamFirewallBinder;
-import ch.fhnw.lernstickwelcome.controller.binder.ExamInformationBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.InformationBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamPasswordChangeBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ExamSystemBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
@@ -106,7 +106,7 @@ public class WelcomeApplication extends Application {
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
 
-                ExamInformationBinder examInformationBinder = new ExamInformationBinder(controller, guiLoader.getInformationController());
+                InformationBinder examInformationBinder = new InformationBinder(controller, guiLoader.getInformationController());
                 examInformationBinder.initBindings();
 
                 ExamFirewallBinder examFirewallBinder = new ExamFirewallBinder(controller, guiLoader.getFirewallController());
@@ -127,6 +127,9 @@ public class WelcomeApplication extends Application {
                 HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelpController());
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
+                
+                InformationBinder information = new InformationBinder(controller, guiLoader.getInformationController());
+                information.initBindings();
 
                 ApplicationBinder recAppsBinder = new ApplicationBinder(controller, guiLoader.getRecommendedController().getVbApps());
                 recAppsBinder.addApplications(controller.getRecApps(), helpBinder, helpStage);

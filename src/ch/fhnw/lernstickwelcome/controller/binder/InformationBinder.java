@@ -8,17 +8,17 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationCont
  * 
  * @author Line Stettler
  */
-public class ExamInformationBinder {
+public class InformationBinder {
     private final WelcomeController controller;
     private final WelcomeApplicationInformationController information;
 
     /**
-     * Constructor of ExamInformationBinder class
+     * Constructor of InformationBinder class
      * 
      * @param controller        is needed to provide access to the backend properties
      * @param information       FXML controller which prviedes the view properties
      */
-    public ExamInformationBinder(WelcomeController controller, WelcomeApplicationInformationController information){
+    public InformationBinder(WelcomeController controller, WelcomeApplicationInformationController information){
         this.controller = controller;
         this.information = information;
     }
