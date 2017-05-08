@@ -91,8 +91,8 @@ public class WelcomeApplicationSystemStdController implements Initializable {
         txt_sys_username.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (isAllowed(newValue)) {
-                    txt_sys_username.setText(newValue);
+                if (!isAllowed(newValue)) {
+                    txt_sys_username.setText(oldValue);
                 }
             }
             
@@ -109,7 +109,7 @@ public class WelcomeApplicationSystemStdController implements Initializable {
                 return true;
             }
         });
-
+        
         txt_sys_exchange_partition.textProperty().addListener(new ChangeListener<String>() {
             private final static int MAX_CHARS = 11;
             
