@@ -6,7 +6,6 @@
 package ch.fhnw.lernstickwelcome;
 
 import ch.fhnw.lernstickwelcome.IPTableEntry.Protocol;
-import ch.fhnw.util.LernstickFileTools;
 import ch.fhnw.util.MountInfo;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
@@ -98,6 +97,8 @@ public class Welcome extends javax.swing.JFrame {
             = "/etc/lernstick-firewall/url_whitelist";
     private static final String LOCAL_POLKIT_PATH
             = "/etc/polkit-1/localauthority/50-local.d";
+    private static final String EXAM_POLKIT_PATH
+            = "/etc/polkit-1/localauthority/55-lernstick-exam.d";
     // !!! processExecutor must be instanciated before the next constants !!!
     private static final ProcessExecutor PROCESS_EXECUTOR
             = new ProcessExecutor();
@@ -127,12 +128,10 @@ public class Welcome extends javax.swing.JFrame {
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     private static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
-    private static final Path UDISKS_PKLA_PATH = Paths.get(
-            "/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
     private final File propertiesFile;
     private final Properties properties;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private final DefaultListModel menuListModel = new DefaultListModel();
+    private final DefaultListModel<MainMenuListEntry> menuListModel;
     private final boolean examEnvironment;
     private String fullName;
     private int menuListIndex = 0;
@@ -143,8 +142,10 @@ public class Welcome extends javax.swing.JFrame {
     private MountInfo bootConfigMountInfo;
     private String aptGetOutput;
     private IPTableModel ipTableModel;
+    private MainMenuListEntry passwordChangeEntry;
     private MainMenuListEntry firewallEntry;
     private MainMenuListEntry backupEntry;
+    private MainMenuListEntry systemEntry;
     private boolean firewallRunning;
 
     /**
@@ -178,6 +179,8 @@ public class Welcome extends javax.swing.JFrame {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         LOGGER.info("*********** Starting lernstick Welcome ***********");
+
+        menuListModel = new DefaultListModel<>();
 
         initComponents();
 
@@ -236,9 +239,10 @@ public class Welcome extends javax.swing.JFrame {
                 "/ch/fhnw/lernstickwelcome/icons/messagebox_info.png",
                 BUNDLE.getString("Information"), "infoPanel"));
         if (examEnvironment) {
-            menuListModel.addElement(new MainMenuListEntry(
+            passwordChangeEntry = new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/dialog-password.png",
-                    BUNDLE.getString("Password"), "passwordChangePanel"));
+                    BUNDLE.getString("Password"), "passwordChangePanel");
+            menuListModel.addElement(passwordChangeEntry);
             firewallEntry = new MainMenuListEntry(
                     "/ch/fhnw/lernstickwelcome/icons/32x32/firewall.png",
                     BUNDLE.getString("Firewall"), "firewallPanel");
@@ -266,9 +270,10 @@ public class Welcome extends javax.swing.JFrame {
 
             checkAllPackages();
         }
-        menuListModel.addElement(new MainMenuListEntry(
+        systemEntry = new MainMenuListEntry(
                 "/ch/fhnw/lernstickwelcome/icons/32x32/system-run.png",
-                BUNDLE.getString("System"), "systemPanel"));
+                BUNDLE.getString("System"), "systemPanel");
+        menuListModel.addElement(systemEntry);
         menuListModel.addElement(new MainMenuListEntry(
                 "/ch/fhnw/lernstickwelcome/icons/32x32/partitionmanager.png",
                 BUNDLE.getString("Partitions"), "partitionsPanel"));
@@ -659,7 +664,7 @@ public class Welcome extends javax.swing.JFrame {
         applyButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle"); // NOI18N
         setTitle(bundle.getString("Welcome.title")); // NOI18N
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -667,8 +672,8 @@ public class Welcome extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -2147,15 +2152,7 @@ public class Welcome extends javax.swing.JFrame {
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if ((bootConfigMountInfo != null)
-                && (!bootConfigMountInfo.alreadyMounted())) {
-            try {
-                bootConfigPartition.umount();
-            } catch (DBusException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-        System.exit(0);
+        exitProgram();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void multimediaLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_multimediaLabelMouseClicked
@@ -2169,11 +2166,6 @@ public class Welcome extends javax.swing.JFrame {
     private void readerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readerLabelMouseClicked
         toggleCheckBox(readerCheckBox);
     }//GEN-LAST:event_readerLabelMouseClicked
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        LOGGER.info("exiting program");
-        System.exit(0);
-    }//GEN-LAST:event_formWindowClosed
 
     private void proxyCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_proxyCheckBoxItemStateChanged
         setProxyEnabled(proxyCheckBox.isSelected());
@@ -2321,30 +2313,68 @@ public class Welcome extends javax.swing.JFrame {
     private void allowFilesystemMountCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allowFilesystemMountCheckboxItemStateChanged
         try {
             if (allowFilesystemMountCheckbox.isSelected()) {
-                LernstickFileTools.replaceText(UDISKS_PKLA_PATH.toString(),
-                        Pattern.compile("=auth_.*"), "=yes");
+                Files.delete(Paths.get(EXAM_POLKIT_PATH,
+                        "10-udisks2_strict.pkla"));
             } else {
-                LernstickFileTools.replaceText(UDISKS_PKLA_PATH.toString(),
-                        Pattern.compile("=yes"), "=auth_self_keep");
+                hardenPKLAs("udisks2");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
     }//GEN-LAST:event_allowFilesystemMountCheckboxItemStateChanged
 
-    private boolean isFileSystemMountAllowed() {
-        try {
-            List<String> pklaRules
-                    = LernstickFileTools.readFile(UDISKS_PKLA_PATH.toFile());
-            for (String pklaRule : pklaRules) {
-                if (pklaRule.equals("ResultAny=yes")) {
-                    return true;
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        exitProgram();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void exitProgram() {
+
+        if (examEnvironment) {
+            // check that a password is set
+            if (!Files.exists(Paths.get(LOCAL_POLKIT_PATH, "10-welcome.pkla"))) {
+                int selectedOption = showYesNoWarningMessage(
+                        "Warning_No_Password_Set");
+                if (selectedOption == JOptionPane.YES_OPTION) {
+                    menuList.setSelectedValue(passwordChangeEntry, true);
+                    passwordField1.requestFocusInWindow();
+                    return;
                 }
             }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
+            // check that backup is enabled
+            if ((exchangePartition != null) && !backupCheckBox.isSelected()) {
+                int selectedOption = showYesNoWarningMessage(
+                        "Warning_No_Backup_Configured");
+                if (selectedOption == JOptionPane.YES_OPTION) {
+                    menuList.setSelectedValue(backupEntry, true);
+                    return;
+                }
+            }
+            // check that file system access is blocked
+            if (allowFilesystemMountCheckbox.isSelected()) {
+                int selectedOption = showYesNoWarningMessage(
+                        "Warning_Mount_Allowed");
+                if (selectedOption == JOptionPane.YES_OPTION) {
+                    menuList.setSelectedValue(systemEntry, true);
+                    return;
+                }
+            }
         }
-        return false;
+
+        if ((bootConfigMountInfo != null)
+                && (!bootConfigMountInfo.alreadyMounted())) {
+            try {
+                bootConfigPartition.umount();
+            } catch (DBusException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
+        LOGGER.info("exiting program");
+        System.exit(0);
+    }
+
+    private boolean isFileSystemMountAllowed() {
+        return !Files.exists(Paths.get(EXAM_POLKIT_PATH,
+                "10-udisks2_strict.pkla"));
     }
 
     private void toggleFirewallState() {
@@ -2613,8 +2643,7 @@ public class Welcome extends javax.swing.JFrame {
                 "ch.lernstick.dlcopy");
 
         // harden our custom rules for third party applications
-        hardenPKLAs("jbackpack", "gnome-system-log",
-                "packagekit", "synaptic", "udisks2");
+        hardenPKLAs("jbackpack", "gnome-system-log", "packagekit", "synaptic");
     }
 
     private void addStrictPKLA(
@@ -2636,8 +2665,7 @@ public class Welcome extends javax.swing.JFrame {
 
     private void hardenPKLAs(String... pklas) throws IOException {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
-        Path strictPoliciesDir = Paths.get(
-                "/etc/polkit-1/localauthority/55-lernstick-exam.d");
+        Path strictPoliciesDir = Paths.get(EXAM_POLKIT_PATH);
         if (!Files.isDirectory(strictPoliciesDir)) {
             Files.createDirectories(strictPoliciesDir);
         }
@@ -3877,10 +3905,15 @@ public class Welcome extends javax.swing.JFrame {
         }
     }
 
+    private int showYesNoWarningMessage(String messageKey) {
+        return JOptionPane.showConfirmDialog(this,
+                BUNDLE.getString(messageKey), BUNDLE.getString("Warning"),
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    }
+
     private void showErrorMessage(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage,
                 BUNDLE.getString("Error"), JOptionPane.ERROR_MESSAGE);
-
     }
 
     private class PackageListUpdater
