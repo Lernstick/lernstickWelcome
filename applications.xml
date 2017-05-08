@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications>
+	<application name="example">
+		<description>Welcome.examplePanel.description</description>
+		<icon>example</icon>
+		<help-path>Welcome.examplePanel.website</help-path>
+                <installed-names>
+                    <installed-name>packageInstalledUnderThisName</installed-name>
+                </installed-names>
+		<packages>
+			<package type="aptget">foo</package>
+			<package type="wget" fetchUrl="http://example.com/bar/{0}" saveDir="baz">kux</package>
+		</packages>
+		<tags>
+			<tag>example1</tag>
+			<tag>example2</tag>
+		</tags>
+	</application>
+	<application name="Omnitux">
+		<description>Welcome.omnituxPanel.description</description>
+		<icon>omnitux</icon>
+		<help-path>Welcome.omnituxPanel.website</help-path>
+		<packages>
+			<package type="aptget">omnitux</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="TuxPaint">
+		<description>Welcome.tuxpaintPanel.description</description>
+		<icon>tuxpaint</icon>
+		<help-path>Welcome.tuxpaintPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-tuxpaint</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Stellarium">
+		<description>Welcome.stellariumPanel.description</description>
+		<icon>stellarium</icon>
+		<help-path>Welcome.stellariumPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-stellarium</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Kstars">
+		<description>Welcome.kstarsPanel.description</description>
+		<icon>kstars</icon>
+		<help-path>Welcome.kstarsPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-kstars</package>
+			<package type="aptget">kstars</package>
+			<package type="aptget">kstars-data</package>
+			<package type="aptget">kstars-data-extra-tycho2</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Etoys">
+		<description>Welcome.etoysPanel.description</description>
+		<icon>etoys</icon>
+		<help-path>Welcome.etoysPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-etoys</package>
+			<package type="aptget">lernstick-squeak-vm</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="wxMaxima">
+		<description>Welcome.wxmaximaPanel.description</description>
+		<icon>wxmaxima</icon>
+		<help-path>Welcome.wxmaximaPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-wxmaxima</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Rosegarden">
+		<description>Welcome.rosegardenPanel.description</description>
+		<icon>rosegarden</icon>
+		<help-path>Welcome.rosegardenPanel.website</help-path>
+		<packages>
+			<package type="aptget">rosegarden</package>
+			<package type="aptget">fluid-soundfont-gm</package>
+			<package type="aptget">fluid-soundfont-gs</package>
+			<package type="aptget">fluidsynth-dssi</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Hydrogen">
+		<description>Welcome.hydrogenPanel.description</description>
+		<icon>hydrogen</icon>
+		<help-path>Welcome.hydrogenPanel.website</help-path>
+		<packages>
+			<package type="aptget">hydrogen</package>
+			<package type="aptget">hydrogen-drumkits</package>
+			<package type="aptget">hydrogen-drumkits-effects</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Sweet Home 3D">
+		<description>Welcome.sweethome3dPanel.description</description>
+		<icon>sweethome3d</icon>
+		<help-path>Welcome.sweethome3dPanel.website</help-path>
+		<packages>
+			<package type="aptget">sweethome3d</package>
+			<package type="aptget">sweethome3d-furniture</package>
+			<package type="aptget">sweethome3d-furniture-nonfree</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Openclipart">
+		<description>Welcome.openclipartPanel.description</description>
+		<icon>openclipart</icon>
+		<help-path>Welcome.openclipartPanel.website</help-path>
+		<packages>
+			<package type="aptget">openclipart-libreoffice</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="LyX">
+		<description>Welcome.lyxPanel.description</description>
+		<icon>lyx</icon>
+		<help-path>Welcome.lyxPanel.website</help-path>
+		<packages>
+			<package type="aptget">lyx</package>
+			<package type="aptget">fonts-lyx</package>
+			<package type="aptget">lernstick-lyx</package>
+			<package type="aptget">texlive-lang-all</package>
+			<package type="aptget">texlive-latex-extra</package>
+			<package type="aptget">texlive-fonts-recommended</package>
+			<package type="aptget">texlive-fonts-extra</package>
+			<package type="aptget">texlive-font-utils</package>
+			<package type="aptget">texlive-generic-extra</package>
+			<package type="aptget">texlive-generic-recommended</package>
+			<package type="aptget">texlive-science</package>
+			<package type="aptget">texlive-humanities</package>
+			<package type="aptget">tipa</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Scribus">
+		<description>Welcome.scribusPanel.description</description>
+		<icon>scribus</icon>
+		<help-path>Welcome.scribusPanel.website</help-path>
+		<packages>
+			<package type="aptget">scribus</package>
+			<package type="aptget">scribus-template</package>
+			<package type="aptget">scribus-doc</package>
+			<package type="aptget">lernstick-scribus</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Gespeaker">
+		<description>Welcome.gespeakerPanel.description</description>
+		<icon>gespeaker</icon>
+		<help-path>Welcome.gespeakerPanel.website</help-path>
+		<packages>
+			<package type="aptget">gespeaker</package>
+			<package type="aptget">mbrola-br1</package>
+			<package type="aptget">mbrola-br3</package>
+			<package type="aptget">mbrola-br4</package>
+			<package type="aptget">mbrola-de2</package>
+			<package type="aptget">mbrola-de3</package>
+			<package type="aptget">mbrola-de4</package>
+			<package type="aptget">mbrola-de5</package>
+			<package type="aptget">mbrola-de6</package>
+			<package type="aptget">mbrola-de7</package>
+			<package type="aptget">mbrola-en1</package>
+			<package type="aptget">mbrola-es1</package>
+			<package type="aptget">mbrola-es2</package>
+			<package type="aptget">mbrola-fr1</package>
+			<package type="aptget">mbrola-fr4</package>
+			<package type="aptget">mbrola-it3</package>
+			<package type="aptget">mbrola-it4</package>
+			<package type="aptget">mbrola-us1</package>
+			<package type="aptget">mbrola-us2</package>
+			<package type="aptget">mbrola-us3</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="GnuCash">
+		<description>Welcome.gnucashPanel.description</description>
+		<icon>gnucash</icon>
+		<help-path>Welcome.gnucashPanel.website</help-path>
+		<packages>
+			<package type="aptget">gnucash</package>
+			<package type="aptget">gnucash-docs</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="NetBeans">
+		<description>Welcome.netbeansPanel.description</description>
+		<icon>netbeans</icon>
+		<help-path>Welcome.netbeansPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-netbeans</package>
+			<package type="aptget">lernstick-visualvm</package>
+			<package type="aptget">lernstick-scenebuilder</package>
+			<package type="aptget">scenebuilder</package>
+			<package type="aptget">openjdk-8-source</package>
+			<package type="aptget">openjdk-8-doc</package>
+			<package type="aptget">openjfx</package>
+			<package type="aptget">openjfx-source</package>
+			<package type="aptget">libopenjfx-java-doc</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Processing">
+		<description>Welcome.processingPanel.description</description>
+		<icon>processing</icon>
+		<help-path>Welcome.processingPanel.website</help-path>
+		<packages>
+			<package type="aptget">processing</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="RStudio">
+		<description>Welcome.rstudioPanel.description</description>
+		<icon>rstudio</icon>
+		<help-path>Welcome.rstudioPanel.website</help-path>
+		<packages>
+			<package type="aptget">rstudio</package>
+			<package type="aptget">r-base</package>
+			<package type="aptget">lernstick-r-base-core</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Lazarus">
+		<description>Welcome.lazarusPanel.description</description>
+		<icon>lazarus</icon>
+		<help-path>Welcome.lazarusPanel.website</help-path>
+		<packages>
+			<package type="aptget">lazarus</package>
+			<package type="aptget">fpc-source</package>
+			<package type="aptget">lcl</package>
+			<package type="aptget">fp-units-gfx</package>
+			<package type="aptget">fp-units-gtk</package>
+			<package type="aptget">fp-units-misc</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="WebWeaver Desktop">
+		<description>Welcome.webweaverdesktopPanel.description</description>
+		<icon>webweaverdesktop</icon>
+		<help-path>Welcome.webweaverdesktopPanel.website</help-path>
+		<packages>
+			<package type="aptget">webweaverdesktop</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="LehrerOffice">
+		<description>Welcome.lehrerofficePanel.description</description>
+		<icon>lehreroffice</icon>
+		<help-path>Welcome.lehrerofficePanel.website</help-path>
+		<packages>
+			<package type="aptget">lehreroffice</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Wizbee">
+		<description>Welcome.wizbeePanel.description</description>
+		<icon>wizbee</icon>
+		<help-path>Welcome.wizbeePanel.website</help-path>
+		<packages>
+			<package type="aptget">wizbee</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Dybuster Calcularis">
+		<description>Welcome.calcularisPanel.description</description>
+		<icon>calcularis</icon>
+		<help-path>Welcome.calcularisPanel.website</help-path>
+		<packages>
+			<package type="aptget">calcularis-de</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="Minetest">
+		<description>Welcome.minetestPanel.description</description>
+		<icon>minetest</icon>
+		<help-path>Welcome.minetestPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-minetest-game-bfd</package>
+			<package type="aptget">lernstick-minetest-game-carbone-ng</package>
+			<package type="aptget">lernstick-minetest-game-tutorial</package>
+			<package type="aptget">lernstick-minetest-mod-dreambuilder</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Colobot">
+		<description>Welcome.colobotPanel.description</description>
+		<icon>colobot</icon>
+		<help-path>Welcome.colobotPanel.website</help-path>
+		<packages>
+			<package type="aptget">colobot</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Ri-li">
+		<description>Welcome.riPanel.description</description>
+		<icon>ri-li</icon>
+		<help-path>Welcome.riPanel.website</help-path>
+		<packages>
+			<package type="aptget">ri-li</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Fish Fillets NG">
+		<description>Welcome.filletsPanel.description</description>
+		<icon>fillets</icon>
+		<help-path>Welcome.filletsPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-fillets-ng</package>
+			<package type="aptget">fillets-ng-data-cs</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Neverball">
+		<description>Welcome.neverballPanel.description</description>
+		<icon>neverball</icon>
+		<help-path>Welcome.neverballPanel.website</help-path>
+		<packages>
+			<package type="aptget">live-neverball</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Neverputt">
+		<description>Welcome.neverputtPanel.description</description>
+		<icon>neverputt</icon>
+		<help-path>Welcome.neverputtPanel.website</help-path>
+		<packages>
+			<package type="aptget">live-neverputt</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="FreeCol">
+		<description>Welcome.freecolPanel.description</description>
+		<icon>freecol</icon>
+		<help-path>Welcome.freecolPanel.website</help-path>
+		<packages>
+			<package type="aptget">freecol</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Frogatto &amp; Friends">
+		<description>Welcome.frogattoPanel.description</description>
+		<icon>frogatto</icon>
+		<help-path>Welcome.frogattoPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-frogatto</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="SuperTux">
+		<description>Welcome.supertuxPanel.description</description>
+		<icon>supertux</icon>
+		<help-path>Welcome.supertuxPanel.website</help-path>
+		<packages>
+			<package type="aptget">live-supertux</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="SuperTuxKart">
+		<description>Welcome.supertuxkartPanel.description</description>
+		<icon>supertuxkart</icon>
+		<help-path>Welcome.supertuxkartPanel.website</help-path>
+		<packages>
+			<package type="aptget">live-supertuxkart</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="XMoto">
+		<description>Welcome.xmotoPanel.description</description>
+		<icon>xmoto</icon>
+		<help-path>Welcome.xmotoPanel.website</help-path>
+		<packages>
+			<package type="aptget">live-xmoto</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Trigger Rally">
+		<description>Welcome.triggerPanel.description</description>
+		<icon>trigger</icon>
+		<help-path>Welcome.triggerPanel.website</help-path>
+		<packages>
+			<package type="aptget">live-trigger-rally</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="OpenClonk">
+		<description>Welcome.openclonkPanel.description</description>
+		<icon>openclonk</icon>
+		<help-path>Welcome.openclonkPanel.website</help-path>
+		<packages>
+			<package type="aptget">openclonk</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="The Battle for Wesnoth">
+		<description>Welcome.wesnothPanel.description</description>
+		<icon>wesnoth</icon>
+		<help-path>Welcome.wesnothPanel.website</help-path>
+		<packages>
+			<package type="aptget">wesnoth-1.12</package>
+			<package type="aptget">wesnoth-1.12-music</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="FLARE">
+		<description>Welcome.flarePanel.description</description>
+		<icon>flare</icon>
+		<help-path>Welcome.flarePanel.website</help-path>
+		<packages>
+			<package type="aptget">flare-game</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Hedgewars">
+		<description>Welcome.hedgewarsPanel.description</description>
+		<icon>hedgewars</icon>
+		<help-path>Welcome.hedgewarsPanel.website</help-path>
+		<packages>
+			<package type="aptget">hedgewars</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="MegaGlest">
+		<description>Welcome.megaglestPanel.description</description>
+		<icon>megaglest</icon>
+		<help-path>Welcome.megaglestPanel.website</help-path>
+		<packages>
+			<package type="aptget">megaglest</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="UFO: Alien Invasion">
+		<description>Welcome.ufoaiPanel.description</description>
+		<icon>ufoai</icon>
+		<help-path>Welcome.ufoaiPanel.website</help-path>
+		<packages>
+			<package type="aptget">ufoai</package>
+			<package type="aptget">ufoai-music</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<application name="Astromenace">
+		<description>Welcome.astromenacePanel.description</description>
+		<icon>astromenace</icon>
+		<help-path>Welcome.astromenacePanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-astromenace</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>
+	<!-- SPECIAL APPS -->
+	<application name="Adobe Reader">
+		<description>Welcome.Adobe_Reader_8_iconPanel.description</description>
+		<icon>Adobe_Reader_8_icon</icon>
+		<help-path>Welcome.Adobe_Reader_8_iconPanel.website</help-path>
+                <installed-names>
+                    <installed-name>adobereader-enu</installed-name>
+                </installed-names>
+		<packages>
+			<package type="aptget">lernstick-adobereader-enu</package>
+			<package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+	<application name="Skype">
+		<description>Welcome.skypePanel.description</description>
+		<icon>skype</icon>
+		<help-path>Welcome.skypePanel.website</help-path>
+                <installed-names>
+                    <installed-name>skype</installed-name>
+                </installed-names>
+		<packages>
+			<package type="wget" fetchUrl="https://www.skype.com/go/getskype-linux-deb" saveDir="USER_HOME">skype-install.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+	<application name="Google Earth">
+		<description>Welcome.googleearthPanel.description</description>
+		<icon>googleearth</icon>
+		<help-path>Welcome.googleearthPanel.website</help-path>
+                <installed-names>
+                    <installed-name>google-earth-stable</installed-name>
+                </installed-names>
+		<packages>
+			<package type="aptget">lsb-core</package>
+			<package type="wget" fetchUrl="http://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-stable_current_i386.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>
+	<!--<application name="Chrome">
+		<description>Welcome.chromePanel.description</description>
+		<icon>chrome</icon>
+		<help-path>Welcome.chromePanel.website</help-path>
+		<packages>
+			<package type="aptget">lsb-core</package>
+			<package type="wget" fetchUrl="https://dl.google.com/linux/direct/{0}" saveDir="USER_HOME">google-chrome-stable_current_i386.deb</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+			<tag>utility</tag>
+		</tags>
+	</application>-->
+	<!-- NONFREE FRM HERE -->
+	<application name="Adobe Flash Player">
+		<description>Welcome.flashPanel.description</description>
+		<icon>flash</icon>
+		<help-path>Welcome.flashPanel.website</help-path>
+		<packages>
+			<package type="aptget">flashplugin-nonfree</package>
+			<package type="aptget">libhal1-flash</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="Welcome.fontsLabel.text">
+		<description>Welcome.fontsPanel.description</description>
+		<icon>fonts</icon>
+		<help-path>Welcome.fontsPanel.website</help-path>
+		<packages>
+			<package type="aptget">ttf-mscorefonts-installer</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<application name="Welcome.multimediaLabel.text">
+		<description>Welcome.multimediaPanel.description</description>
+		<icon>multimedia</icon>
+		<help-path>Welcome.multimediaPanel.website</help-path>
+		<packages>
+			<package type="aptget">libdvdcss2</package>
+			<package type="aptget">libmp3lame0</package>
+			<package type="aptget">lame</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>
+	<!--<application name="virtualbox">
+		<description>Welcome.virtualboxPanel.description</description>
+		<icon>virtualbox</icon>
+		<help-path>Welcome.virtualboxPanel.website</help-path>
+		<packages>
+			<package type="aptget">virtualbox-ext-pack</package>
+		</packages>
+		<tags>
+			<tag>recommended</tag>
+		</tags>
+	</application>-->
+	<application name="Linux Advanced Teaching-System">
+		<description>Welcome.LinuxAdvancedPanel.description</description>
+		<icon>LinuxAdvanced</icon>
+		<help-path>Welcome.LinuxAdvancedPanel.website</help-path>
+		<packages>
+			<package type="aptget">lateaching</package>
+		</packages>
+		<tags>
+			<tag>teaching</tag>
+		</tags>
+	</application>
+	<application name="gcompris">
+		<description>Welcome.gcomprisPanel.description</description>
+		<icon>gcompris</icon>
+		<help-path>Welcome.gcomprisPanel.website</help-path>
+		<packages>
+			<package type="aptget">lernstick-gcompris</package>
+			<package type="aptget">gcompris</package>
+			<package type="aptget">gcompris-sound-de</package>
+			<package type="aptget">gcompris-sound-en</package>
+			<package type="aptget">gcompris-sound-es</package>
+			<package type="aptget">gcompris-sound-fr</package>
+			<package type="aptget">gcompris-sound-it</package>
+			<package type="aptget">gcompris-sound-ptbr</package>
+			<package type="aptget">gcompris-sound-ru</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="tigerjython">
+		<description>Welcome.gcomprisPanel.description</description>
+		<icon>gcompris</icon>
+		<help-path>http://jython.tobiaskohn.ch</help-path>
+		<packages>
+			<package type="aptget">tigerjython</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="widelands">
+		<description>Welcome.widelandsPanel.description</description>
+		<icon>gcompris</icon>
+		<help-path>https://wl.widelands.org</help-path>
+		<packages>
+			<package type="aptget">widelands</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>	
+</applications>
