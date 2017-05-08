@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 /**
  * Binder class to init binings between view components and backend (model) properties
  * 
- * @author user
+ * @author Line Stettler
  */
 public class ExamSystemBinder {
 
