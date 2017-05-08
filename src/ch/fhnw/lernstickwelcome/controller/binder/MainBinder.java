@@ -36,7 +36,7 @@ public class MainBinder {
      * Method to initialize the handlers for this class.
      *
      * @param progressDialog the progressDialog that should be shown when
-     * clicking on save or exit.
+     * clicking on save.
      */
     public void initHandlers(Stage progressDialog) {
         welcomeApplicationStart.getSaveButton().setOnAction(evt -> {
@@ -44,8 +44,8 @@ public class MainBinder {
             progressDialog.showAndWait();
         });
         welcomeApplicationStart.getFinishButton().setOnAction(evt -> {
-            controller.startProcessingTasks();
-            progressDialog.showAndWait();
+//            controller.startProcessingTasks();
+//            progressDialog.showAndWait();
             ((Stage) progressDialog.getOwner()).close();
         });
     }
