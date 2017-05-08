@@ -14,6 +14,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoft
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
+import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -70,10 +71,12 @@ public class FXMLGuiLoader {
         // Create all instances with their controllers   
         try {
             ObservableList<MenuPaneItem> menuPaneItems = FXCollections.observableArrayList();
+            String stylesheet = new File(WelcomeConstants.RESOURCE_FILE_PATH + "/css/style.css").toURI().toString();
             
             // load start view
             FXMLLoader loadStart = new FXMLLoader(getClass().getResource("../view/welcomeApplicationMain.fxml"), rb);
             welcomeApplicationMain = new Scene(loadStart.load());
+            welcomeApplicationMain.getStylesheets().add(stylesheet);
             mainController = loadStart.getController();
             
             if(!isExamEnvironment){
@@ -101,6 +104,7 @@ public class FXMLGuiLoader {
             } else {
                 FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
                 welcomeApplicationPasswordChange = new Scene(loadPasswordChange.load());
+                welcomeApplicationPasswordChange.getStylesheets().add(stylesheet);
                 passwordChangeController = loadPasswordChange.getController();
                 
                 FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), rb);
@@ -128,15 +132,19 @@ public class FXMLGuiLoader {
             
             FXMLLoader loadProgress = new FXMLLoader(getClass().getResource("../view/welcomeApplicationProgress.fxml"), rb);
             welcomeApplicationProgress = new Scene(loadProgress.load());
+            welcomeApplicationProgress.getStylesheets().add(stylesheet);
             progressController = loadProgress.getController();
             
             FXMLLoader loadError = new FXMLLoader(getClass().getResource("../view/welcomeApplicationError.fxml"), rb);
             welcomeApplicationError = new Scene(loadError.load());
+            welcomeApplicationError.getStylesheets().add(stylesheet);
             errorController = loadError.getController();
             
             FXMLLoader loadHelp = new FXMLLoader(getClass().getResource("../view/welcomeApplicationHelp.fxml"), rb);
             welcomeApplicationHelp = new Scene(loadHelp.load());
+            welcomeApplicationHelp.getStylesheets().add(stylesheet);
             helpController = loadHelp.getController();
+            
             
             // add menu buttons to welcome application main window and panes according to exam/std version of the lernstick
             mainController.initializeMenu(menuPaneItems);
