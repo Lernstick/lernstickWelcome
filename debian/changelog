@@ -1,3 +1,9 @@
+lernstickwelcome (201705081742-1) lernstick-8; urgency=medium
+
+  * [ef516f] fixed udisks pkla handling, added some warnings when exiting the exam version unconfigured
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 08 May 2017 17:42:50 +0200
+
 lernstickwelcome (201705071938-1) lernstick-8; urgency=medium
 
   * [ed8004] removed original tigerjython icon
