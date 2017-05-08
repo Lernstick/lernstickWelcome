@@ -119,9 +119,9 @@ public class SystemconfigTask implements Processable<String> {
     private void updateAllowFilesystemMount() {
         try {
             if (allowAccessToOtherFilesystems.get()) {
-                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(), Pattern.compile("=auth_self"), "=yes");
+                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=auth_.*"), "=yes");
             } else {
-                LernstickFileTools.replaceText(WelcomeConstants.PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self");
+                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self_keep");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -612,7 +612,7 @@ public class SystemconfigTask implements Processable<String> {
                 "ch.lernstick.dlcopy");
 
         // harden our custom rules for third party applications
-        hardenPKLAs("gnome-system-log", "packagekit", "synaptic", "udisks2");
+        hardenPKLAs("jbackpack", "gnome-system-log", "packagekit", "synaptic", "udisks2");
     }
 
     /**
@@ -630,9 +630,9 @@ public class SystemconfigTask implements Processable<String> {
                 = "[" + description + "]\n"
                 + "Identity=unix-user:*\n"
                 + "Action=" + action + "\n"
-                + "ResultAny=auth_self\n"
-                + "ResultInactive=auth_self\n"
-                + "ResultActive=auth_self\n";
+                + "ResultAny=auth_self_keep\n"
+                + "ResultInactive=auth_self_keep\n"
+                + "ResultActive=auth_self_keep\n";
         try (FileWriter fileWriter = new FileWriter(strictPKLA)) {
             fileWriter.write(strictWelcomeRule);
         } catch (IOException ex) {
@@ -648,21 +648,30 @@ public class SystemconfigTask implements Processable<String> {
      */
     private void hardenPKLAs(String... pklas) throws ProcessingException {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
+        Path strictPoliciesDir = Paths.get("/etc/polkit-1/localauthority/55-lernstick-exam.d");
+        if (!Files.isDirectory(strictPoliciesDir)) {
+            try {
+                Files.createDirectories(strictPoliciesDir);
+            } catch (IOException ex) {
+                Logger.getLogger(SystemconfigTask.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         for (String pkla : pklas) {
             try {
-                Path path = Paths.get(
+                Path lenientPath = Paths.get(
                         WelcomeConstants.LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
                 List<String> lenientLines = Files.readAllLines(
-                        path, StandardCharsets.UTF_8);
+                		lenientPath, StandardCharsets.UTF_8);
                 List<String> strictLines = new ArrayList<>();
                 for (String lenientLine : lenientLines) {
                     Matcher matcher = yesPattern.matcher(lenientLine);
                     if (matcher.matches()) {
-                        lenientLine = matcher.group(1) + "=auth_self";
+                        lenientLine = matcher.group(1) + "=auth_self_keep";
                     }
                     strictLines.add(lenientLine);
                 }
-                Files.write(path, strictLines, StandardCharsets.UTF_8);
+            Path strictPath = strictPoliciesDir.resolve("10-" + pkla + "_strict.pkla");
+           	Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
                 throw new ProcessingException("SystemconfigTask.cantWritePasswordPolicy", pkla);

@@ -673,4 +673,26 @@
 			<tag>misc</tag>
 		</tags>
 	</application>
+	<application name="tigerjython">
+		<description>Welcome.gcomprisPanel.description</description>
+		<icon>gcompris</icon>
+		<help-path>http://jython.tobiaskohn.ch</help-path>
+		<packages>
+			<package type="aptget">tigerjython</package>
+		</packages>
+		<tags>
+			<tag>misc</tag>
+		</tags>
+	</application>
+	<application name="widelands">
+		<description>Welcome.widelandsPanel.description</description>
+		<icon>gcompris</icon>
+		<help-path>https://wl.widelands.org</help-path>
+		<packages>
+			<package type="aptget">widelands</package>
+		</packages>
+		<tags>
+			<tag>game</tag>
+		</tags>
+	</application>	
 </applications>

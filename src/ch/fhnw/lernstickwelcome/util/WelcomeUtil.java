@@ -93,9 +93,9 @@ public class WelcomeUtil {
      */
     public static boolean isFileSystemMountAllowed() {
         try {
-            if(Files.exists(WelcomeConstants.PKLA_PATH)) {
+            if(Files.exists(WelcomeConstants.UDISKS_PKLA_PATH)) {
                 List<String> pklaRules
-                        = LernstickFileTools.readFile(WelcomeConstants.PKLA_PATH.toFile());
+                        = LernstickFileTools.readFile(WelcomeConstants.UDISKS_PKLA_PATH.toFile());
                 for (String pklaRule : pklaRules) {
                     if (pklaRule.equals("ResultAny=yes")) {
                         return true;
