@@ -244,30 +244,47 @@ public class WelcomeApplicationFirewallController implements Initializable {
     }
     
     private boolean validateSitesFields() {
-        if (choice_fw_search_pattern.getSelectionModel().isEmpty()) return false;
-        if (txt_fw_search_criteria.getText().length() <= 0) return false;
-        return true;
+        boolean result = true;
+        if (!choice_fw_search_pattern.getSelectionModel().isEmpty()) {
+            choice_fw_search_pattern.getStyleClass().remove("error");
+        } else {
+            choice_fw_search_pattern.getStyleClass().add("error");
+            result = false;
+        }
+        if (txt_fw_search_criteria.getText().length() > 0) {
+            txt_fw_search_criteria.getStyleClass().remove("error");
+        } else {
+            txt_fw_search_criteria.getStyleClass().add("error");
+            result = false;
+        }
+        return result;
     }
 
     private boolean validateServerFields() {
-        if (choice_fw_protocol.getSelectionModel().isEmpty()) return false;
+        boolean result = true;
+        if (!choice_fw_protocol.getSelectionModel().isEmpty()) {
+            choice_fw_protocol.getStyleClass().remove("error");
+        } else {
+            choice_fw_protocol.getStyleClass().add("error");
+            result = false;
+        }
         try {
             WelcomeUtil.checkTarget(txt_fw_new_ip.getText(), -1);
             txt_fw_new_ip.getStyleClass().remove("error");
         } catch(ValidationException ex) {
             txt_fw_new_ip.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
             txt_fw_new_ip.getStyleClass().add("error");
-            return false;
+            result = false;
         }
         try {
             WelcomeUtil.checkPortRange(txt_fw_new_port.getText(), -1);
-            txt_fw_new_ip.getStyleClass().remove("error");
+            txt_fw_new_port.getStyleClass().remove("error");
         } catch(ValidationException ex) {
             txt_fw_new_port.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
-            txt_fw_new_ip.getStyleClass().add("error");
-            return false;
+            txt_fw_new_port.getStyleClass().add("error");
+            result = false;
         }
-        return true;
+        return result;
     }
     
     public Button getBtnFwHelp() {

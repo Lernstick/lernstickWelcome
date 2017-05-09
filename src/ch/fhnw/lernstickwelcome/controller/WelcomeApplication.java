@@ -161,8 +161,8 @@ public class WelcomeApplication extends Application {
             primaryStage.setTitle(controller.getBundle().getString("Welcome.title"));
             primaryStage.setScene(scene);
             primaryStage.show();
-            primaryStage.setMinHeight(scene.getHeight());
-            primaryStage.setMinWidth(scene.getWidth());
+            primaryStage.setMinHeight(primaryStage.getHeight());
+            primaryStage.setMinWidth(primaryStage.getWidth());
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);

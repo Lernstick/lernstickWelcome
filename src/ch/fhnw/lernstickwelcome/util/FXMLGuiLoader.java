@@ -24,6 +24,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -103,7 +104,8 @@ public class FXMLGuiLoader {
                 menuPaneItems.add(new MenuPaneItem(systemStd, rb.getString("welcomeApplicationMain.System"), WelcomeConstants.ICON_FILE_PATH + "/menu/system-run.png"));
             } else {
                 FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
-                welcomeApplicationPasswordChange = new Scene(loadPasswordChange.load());
+                Parent passwdChange = loadPasswordChange.<Parent>load();
+                welcomeApplicationPasswordChange = new Scene(passwdChange);
                 welcomeApplicationPasswordChange.getStylesheets().add(stylesheet);
                 passwordChangeController = loadPasswordChange.getController();
                 
@@ -300,7 +302,7 @@ public class FXMLGuiLoader {
      * Method to create welcome application dialog (main window)
      * 
      * @param parent parent
-     * @param scene scene
+     * @param scene scene that has a {@link Region} as Root
      * @param title stage title
      * @param modal modal
      * @return 
@@ -314,6 +316,8 @@ public class FXMLGuiLoader {
         }
         stage.setTitle(title);
         stage.setScene(scene);
+        stage.setMinHeight(((Region) scene.getRoot()).getMinHeight());
+        stage.setMinWidth(((Region) scene.getRoot()).getMinWidth());
         return stage;
     }
 }
