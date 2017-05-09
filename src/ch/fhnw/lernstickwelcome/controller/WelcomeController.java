@@ -37,7 +37,6 @@ import org.xml.sax.SAXException;
  * @author sschw
  */
 public class WelcomeController {
-
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
     private static final Logger LOGGER = Logger.getLogger(WelcomeApplication.class.getName());
 
