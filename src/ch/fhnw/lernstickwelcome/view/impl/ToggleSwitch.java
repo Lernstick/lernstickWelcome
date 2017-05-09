@@ -36,13 +36,15 @@ public class ToggleSwitch extends HBox {
             if (c) {
                 label.textProperty().unbind();
                 label.textProperty().bind(this.textOn);
-                setStyle("-fx-background-color: green;");
-                label.toFront();
+                label.setStyle("-fx-background-color: green; -fx-text-fill:black; -fx-background-radius: 4 0 0 4;");
+                button.setStyle("-fx-text-fill:black; -fx-background-radius: 0 4 4 0;");
+                button.toFront();
             } else {
                 label.textProperty().unbind();
                 label.textProperty().bind(this.textOff);
-                setStyle("-fx-background-color: grey;");
-                button.toFront();
+                label.setStyle("-fx-background-color: grey; -fx-text-fill:black; -fx-background-radius: 0 4 4 0;");
+                button.setStyle("-fx-text-fill:black; -fx-background-radius: 4 0 0 4;");
+                label.toFront();
             }
         });
     }
@@ -56,7 +58,7 @@ public class ToggleSwitch extends HBox {
     private void init() {
         label.textProperty().bind(textOff);
             
-        getChildren().addAll(label, button);
+        getChildren().addAll(button, label);
         button.setOnAction((e) -> {
             selected.set(!selected.get());
         });
@@ -74,7 +76,8 @@ public class ToggleSwitch extends HBox {
         setMinWidth(80);
         setWidth(80);
         label.setAlignment(Pos.CENTER);
-        setStyle("-fx-background-color: grey; -fx-text-fill:black; -fx-background-radius: 4;");
+        label.setStyle("-fx-background-color: grey; -fx-text-fill:black; -fx-background-radius: 0 4 4 0;");
+        button.setStyle("-fx-text-fill:black; -fx-background-radius: 4 0 0 4;");
         setAlignment(Pos.CENTER_LEFT);
     }
 

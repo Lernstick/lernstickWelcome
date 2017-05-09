@@ -16,7 +16,7 @@
 
 <?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 
-<AnchorPane id="AnchorPane" minHeight="612.0" prefHeight="612.0" minWidth="489.0" prefWidth="489.0" stylesheets="@firewall.css" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController">
+<AnchorPane id="AnchorPane" minHeight="612.0" prefHeight="612.0" minWidth="489.0" prefWidth="489.0" stylesheets="@default.css" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController">
    <children>
       <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -30,12 +30,12 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btn_fw_help" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
+                  <Button fx:id="btn_fw_help" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15">
                <children>
-                  <ToggleSwitch fx:id="cb_fw_allow_monitoring" textOn="%ToggleSwitch.on" textOff="%ToggleSwitch.off" />
+                  <ToggleSwitch fx:id="cb_fw_allow_monitoring" />
                   <Label fx:id="lbl_fw_allow_monitoring" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
                </children>
             </HBox>
