@@ -16,11 +16,14 @@ import ch.fhnw.lernstickwelcome.controller.binder.MainBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ProgressBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.StdSystemBinder;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  * The JavaFX Application.
@@ -127,18 +130,28 @@ public class WelcomeApplication extends Application {
                 HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelpController());
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
-                
+
                 InformationBinder information = new InformationBinder(controller, guiLoader.getInformationController());
                 information.initBindings();
 
-                ApplicationBinder recAppsBinder = new ApplicationBinder(controller, guiLoader.getRecommendedController().getVbApps());
+                ApplicationBinder recAppsBinder = new ApplicationBinder(
+                        controller, 
+                        guiLoader.getRecommendedController().getVbApps(),
+                        guiLoader.getRecommendedController().getBtn_sys_help()
+                );
                 recAppsBinder.addApplicationGroup(controller.getNonfreeApps(), helpBinder, helpStage);
                 recAppsBinder.addApplicationGroup(controller.getUtilityApps(), helpBinder, helpStage);
+                recAppsBinder.initHelp("2", helpStage, helpBinder);
 
-                ApplicationBinder addAppsBinder = new ApplicationBinder(controller, guiLoader.getAddSoftwareController().getVbApps());
+                ApplicationBinder addAppsBinder = new ApplicationBinder(
+                        controller, 
+                        guiLoader.getAddSoftwareController().getVbApps(),
+                        guiLoader.getAddSoftwareController().getBtn_sys_help()
+                );
                 addAppsBinder.addApplicationGroup(controller.getTeachApps(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(controller.getSoftwApps(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(controller.getGamesApps(), helpBinder, helpStage);
+                addAppsBinder.initHelp("3", helpStage, helpBinder);
 
                 StdSystemBinder stdSystemBinder = new StdSystemBinder(controller, guiLoader.getSystemStdController());
                 stdSystemBinder.initBindings();
@@ -164,16 +177,17 @@ public class WelcomeApplication extends Application {
             primaryStage.show();
             primaryStage.setMinHeight(scene.getHeight());
             primaryStage.setMinWidth(scene.getWidth());
-        } catch (Exception ex) {
+        } catch (IOException | ParserConfigurationException | SAXException ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
         }
     }
 
     /**
-     * Stops the backend tasks and uses System.exit() to ensure that everything 
+     * Stops the backend tasks and uses System.exit() to ensure that everything
      * closes.
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Override
     public void stop() throws Exception {
