@@ -141,7 +141,7 @@ public class WelcomeApplication extends Application {
                 );
                 recAppsBinder.addApplicationGroup(controller.getNonfreeApps(), helpBinder, helpStage);
                 recAppsBinder.addApplicationGroup(controller.getUtilityApps(), helpBinder, helpStage);
-                recAppsBinder.initHelp("2", helpStage, helpBinder);
+                recAppsBinder.initHelp("1", helpStage, helpBinder);
 
                 ApplicationBinder addAppsBinder = new ApplicationBinder(
                         controller, 
@@ -151,7 +151,7 @@ public class WelcomeApplication extends Application {
                 addAppsBinder.addApplicationGroup(controller.getTeachApps(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(controller.getSoftwApps(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(controller.getGamesApps(), helpBinder, helpStage);
-                addAppsBinder.initHelp("3", helpStage, helpBinder);
+                addAppsBinder.initHelp("2", helpStage, helpBinder);
 
                 StdSystemBinder stdSystemBinder = new StdSystemBinder(controller, guiLoader.getSystemStdController());
                 stdSystemBinder.initBindings();
