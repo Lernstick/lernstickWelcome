@@ -56,7 +56,7 @@ public class WelcomeApplicationSystemController implements Initializable {
     @FXML
     private ToggleSwitch cb_sys_show_warning;
     
-    private final Integer[] visibleForValues = new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    private final Integer[] visibleForValues = new Integer[] { 5, 10, 15, 20, 25, 30, 40, 50, 60 };
     
     /**
      * Initializes the controller class.
