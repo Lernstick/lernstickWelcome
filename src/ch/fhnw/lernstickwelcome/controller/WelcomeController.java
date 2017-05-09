@@ -21,6 +21,7 @@ import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -36,7 +37,7 @@ import org.xml.sax.SAXException;
  * @author sschw
  */
 public class WelcomeController {
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle");
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("ch/fhnw/lernstickwelcome/Bundle", Locale.ENGLISH);
     private static final Logger LOGGER = Logger.getLogger(WelcomeApplication.class.getName());
     
     private TaskProcessor taskProcessor;
