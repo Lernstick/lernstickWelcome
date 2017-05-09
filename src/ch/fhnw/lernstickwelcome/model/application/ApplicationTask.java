@@ -20,7 +20,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 
 /**
+ * This class handles changes to the installation of a single application.
+ * <br>
+ * In order to process a backend task multiple times it extends Processable
  *
+ * @see Processable
  * @author sschw
  */
 public class ApplicationTask implements Processable<String> {
@@ -38,6 +42,16 @@ public class ApplicationTask implements Processable<String> {
     private ProxyTask proxy;
     private String[] installedNames;
 
+    /**
+     * Creates a application
+     * @param name the name of the application or a key for a resource bundle
+     * @param description the description or a key for a resource bundle
+     * @param icon the name of the icon (without extension and folder)
+     * @param helpPath the url or local help chapter.
+     * @param packages the packages that the application needs to be installed
+     * @param installedNames if not null, these names will be checked to ensure 
+     * installation.
+     */
     public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages, String[] installedNames) {
         this.name = name;
         this.description = description;
@@ -88,6 +102,10 @@ public class ApplicationTask implements Processable<String> {
         this.proxy = proxy;
     }
 
+    /**
+     * Checks if the installation is installed.
+     * @return true if {@code dpkg -l installedNames}
+     */
     private boolean initIsInstalled() {
         int length = installedNames.length;
         String[] commandArray = new String[length + 2];
@@ -124,12 +142,17 @@ public class ApplicationTask implements Processable<String> {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     *
+     * @see Processable
+     */
     private class InternalTask extends Task<String> {
 
         @Override
         protected String call() throws Exception {
             updateProgress(0, packages.getNumberOfPackages());
-            //XXX May nice if there would update the percentage while execute
+            // XXX May nice if there would update the percentage while execute
             int exitValue = PROCESS_EXECUTOR.executeScript(true, true, packages.getInstallCommand(proxy));
             if (exitValue != 0) {
                 String errorMessage = "apt-get failed with the following "

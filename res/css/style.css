@@ -13,7 +13,7 @@ and open the template in the editor.
 }
 
 .btn_help {          
-    -fx-background-image: url("../../icons/50x50/help.png");
+    -fx-background-image: url("../icon/help.png");
     -fx-background-image-size: 10;
     -fx-background-size: 20;
     -fx-background-repeat: no-repeat;
@@ -21,7 +21,7 @@ and open the template in the editor.
 }
 
 .btn_open {          
-    -fx-background-image: url("../../icons/50x50/open.png");
+    -fx-background-image: url("../icon/open.png");
     -fx-background-image-size: 10;
     -fx-background-size: 20;
     -fx-background-repeat: no-repeat;
@@ -29,7 +29,7 @@ and open the template in the editor.
 }
 
 .btn_add {          
-    -fx-background-image: url("../../icons/50x50/add.png");
+    -fx-background-image: url("../icon/add.png");
     -fx-background-image-size: 10;
     -fx-background-size: 25;
     -fx-background-repeat: no-repeat;
@@ -37,7 +37,7 @@ and open the template in the editor.
 }
 
 .btn_edit {          
-    -fx-background-image: url("../../icons/50x50/edit.png");
+    -fx-background-image: url("../icon/edit.png");
     -fx-background-image-size: 10;
     -fx-background-size: 20;
     -fx-background-repeat: no-repeat;
@@ -45,7 +45,7 @@ and open the template in the editor.
 }
 
 .btn_save {          
-    -fx-background-image: url("../../icons/50x50/save.png");
+    -fx-background-image: url("../icon/save.png");
     -fx-background-image-size: 10;
     -fx-background-size: 20;
     -fx-background-repeat: no-repeat;
@@ -53,7 +53,7 @@ and open the template in the editor.
 }
 
 .btn_delete {          
-    -fx-background-image: url("../../icons/50x50/delete.png");
+    -fx-background-image: url("../icon/delete.png");
     -fx-background-image-size: 10;
     -fx-background-size: 20;
     -fx-background-repeat: no-repeat;

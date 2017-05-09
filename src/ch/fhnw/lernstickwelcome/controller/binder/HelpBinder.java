@@ -8,8 +8,6 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import ch.fhnw.lernstickwelcome.model.help.HelpEntry;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
@@ -17,6 +15,8 @@ import javafx.scene.control.TreeItem;
 import javafx.stage.Stage;
 
 /**
+ * Binder class to init binings between view components and backend (model)
+ * properties
  *
  * @author sschw
  */
@@ -24,14 +24,22 @@ public class HelpBinder {
 
     private final WelcomeController controller;
     private final WelcomeApplicationHelpController help;
-    // Save all tree items to ensure an fast search for the needed help entry.
-    private List<TreeItem<HelpEntry>> treeItems = new ArrayList<>();
 
+    /**
+     * Constructor of HelpBinder class
+     *
+     * @param controller is needed to provide access to the backend properties
+     * @param help FXML controller which proviedes the view properties
+     */
     public HelpBinder(WelcomeController controller, WelcomeApplicationHelpController help) {
         this.controller = controller;
         this.help = help;
     }
 
+    /**
+     * Method to initialize the bidirectional bindings between the view and
+     * packend properties
+     */
     public void initBindings() {
         TreeItem<HelpEntry> root = new TreeItem<>(null);
         root.getChildren().addAll(getTreeItemsFromList(controller.getHelpLoader().getHelpEntries()));
@@ -39,6 +47,12 @@ public class HelpBinder {
         help.getTvHelpList().setShowRoot(false);
     }
 
+    /**
+     * Loads the backend items into the tree list recursively.
+     *
+     * @param entries the backend items that should be loaded.
+     * @return
+     */
     private List<TreeItem<HelpEntry>> getTreeItemsFromList(List<HelpEntry> entries) {
         if (entries.isEmpty()) {
             return null;
@@ -51,10 +65,12 @@ public class HelpBinder {
             }
             he.setExpanded(true);
         });
-        treeItems.addAll(list);
         return list;
     }
 
+    /**
+     * Method to initialize the handlers for this class.
+     */
     public void initHandlers() {
         help.getTvHelpList().getSelectionModel().selectedItemProperty().addListener(evt
                 -> help.getWvHelpView().getEngine().load(
@@ -66,10 +82,19 @@ public class HelpBinder {
                 -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close());
     }
 
+    /**
+     * Method to set the chapter that should be shown. <br>
+     * In order to be able to be independant of the used language, only the
+     * chapter has to be given. <br>
+     * e.g.: 1.1_Information can be opened by give {@code 1.1} as string to the 
+     * application.
+     * 
+     * @param chapter the chapter that should be shown.
+     */
     public void setHelpEntryByChapter(String chapter) {
         String[] chapters = chapter.split("\\.");
         TreeItem<HelpEntry> entry = help.getTvHelpList().getRoot();
-        for(String c : chapters) {
+        for (String c : chapters) {
             entry = entry.getChildren().stream().
                     filter(t -> t.getValue().getIndex() == Integer.parseInt(c)).
                     findFirst().

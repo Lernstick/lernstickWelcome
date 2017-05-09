@@ -56,16 +56,18 @@ public class ProxyTask implements Processable<String> {
     private void setupWgetProxy() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(" -e http_proxy=http://");
-        stringBuilder.append(hostname.get());
+        if (hostname.get() != null) {
+            stringBuilder.append(hostname.get());
+        }        
         if (port.get() != null && !port.get().isEmpty()) {
             stringBuilder.append(':');
             stringBuilder.append(port.get());
         }
-        if (!username.get().isEmpty()) {
+        if (username.get() != null && !username.get().isEmpty()) {
             stringBuilder.append(" --proxy-user=");
             stringBuilder.append(username.get());
         }
-        if (!password.get().isEmpty()) {
+        if (password.get() != null && !password.get().isEmpty()) {
             stringBuilder.append(" --proxy-password=");
             stringBuilder.append(password.get());
         }
@@ -80,9 +82,9 @@ public class ProxyTask implements Processable<String> {
     private void setupAptGetProxy() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(" -o Acquire::http::proxy=http://");
-        if (!username.get().isEmpty()) {
+        if (username.get() != null && !username.get().isEmpty()) {
             stringBuilder.append(username.get());
-            if (!password.get().isEmpty()) {
+            if (password != null && !password.get().isEmpty()) {
                 stringBuilder.append(':');
                 stringBuilder.append(password.get());
             }

@@ -7,17 +7,15 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationMainController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationPasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationRecommendedSoftwareController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationMainController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
-import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
-import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,72 +29,72 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Roger Obrist
+ * @author sschw
  */
 public class FXMLGuiLoader {
     private static final Logger LOGGER = Logger.getLogger(FXMLGuiLoader.class.getName());
     
-    private Scene welcomeApplicationStart;
+    private Scene welcomeApplicationMain;
     
     private Scene welcomeApplicationProgress;
     private Scene welcomeApplicationError;
     private Scene welcomeApplicationHelp;
     
-    /* standard */
-    private Parent informationStd;
-    private Parent recommended;
-    private Parent addSoftware;
-    private Parent systemStd;
-    
     /* exam */
     private Scene welcomeApplicationPasswordChange;
     
-    private Parent information;
-    private Parent firewall;
-    private Parent backup;
-    private Parent system;
     
     // FXMLController
-    private WelcomeApplicationProgressController welcomeApplicationProgressController;
-    private WelcomeApplicationErrorController welcomeApplicationErrorController;
-    private WelcomeApplicationHelpController welcomeApplicationHelpController;
+    private WelcomeApplicationProgressController progressController;
+    private WelcomeApplicationErrorController errorController;
+    private WelcomeApplicationHelpController helpController;
     
-    private WelcomeApplicationPasswordChangeController welcomeApplicationPasswordChangeController;
-    private WelcomeApplicationBackupController welcomeApplicationBackupController;
-    private WelcomeApplicationFirewallController welcomeApplicationFirewallController;
-    private WelcomeApplicationInformationController welcomeApplicationInformationController;
-    private WelcomeApplicationMainController welcomeApplicationStartController;
-    private WelcomeApplicationSystemController welcomeApplicationSystemController;
-    private WelcomeApplicationSystemStdController welcomeApplicationSystemStdController;
-    private WelcomeApplicationAdditionalSoftwareController welcomeApplicationAdditionalSoftwareController;
-    private WelcomeApplicationRecommendedSoftwareController welcomeApplicationRecommendedSoftwareController; 
+    private WelcomeApplicationPasswordChangeController passwordChangeController;
+    private WelcomeApplicationBackupController backupController;
+    private WelcomeApplicationFirewallController firewallController;
+    private WelcomeApplicationInformationController informationController;
+    private WelcomeApplicationMainController mainController;
+    private WelcomeApplicationSystemController systemExamController;
+    private WelcomeApplicationSystemStdController systemStdController;
+    private WelcomeApplicationAdditionalSoftwareController additionalSoftwareController;
+    private WelcomeApplicationRecommendedSoftwareController recommendedSoftwareController; 
     
+    /**
+     * This class loads the FXML files, creates the menu and saves the fxml 
+     * controller to provide them to backend binders.
+     * 
+     * @param isExamEnvironment Describes which files should be loaded and added
+     * to the menu.
+     * @param rb The ResourceBundle for loading the language into the GUI. 
+     */
     public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb) {
-        // Create all instances with their controllers and load the internatioalized strings       
+        // Create all instances with their controllers   
         try {
             ObservableList<MenuPaneItem> menuPaneItems = FXCollections.observableArrayList();
+            String stylesheet = new File(WelcomeConstants.RESOURCE_FILE_PATH + "/css/style.css").toURI().toString();
             
             // load start view
             FXMLLoader loadStart = new FXMLLoader(getClass().getResource("../view/welcomeApplicationMain.fxml"), rb);
-            welcomeApplicationStart = new Scene(loadStart.load());
-            welcomeApplicationStartController = loadStart.getController();
+            welcomeApplicationMain = new Scene(loadStart.load());
+            welcomeApplicationMain.getStylesheets().add(stylesheet);
+            mainController = loadStart.getController();
             
             if(!isExamEnvironment){
                 FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationInformationStd.fxml"), rb);
-                informationStd = (Parent)loadInfoStd.load();
-                welcomeApplicationInformationController = loadInfoStd.getController();
+                Parent informationStd = loadInfoStd.<Parent>load();
+                informationController = loadInfoStd.getController();
                         
                 FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), rb);
-                recommended = (Parent)loadRecomm.load();
-                welcomeApplicationRecommendedSoftwareController = loadRecomm.getController();
+                Parent recommended = loadRecomm.<Parent>load();
+                recommendedSoftwareController = loadRecomm.getController();
                         
                 FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), rb);
-                addSoftware = (Parent)loadAdd.load();
-                welcomeApplicationAdditionalSoftwareController = loadAdd.getController();
+                Parent addSoftware = loadAdd.<Parent>load();
+                additionalSoftwareController = loadAdd.getController();
                         
                 FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), rb);
-                systemStd = (Parent)loadSystemStd.load();
-                welcomeApplicationSystemStdController = loadSystemStd.getController();
+                Parent systemStd = loadSystemStd.<Parent>load();
+                systemStdController = loadSystemStd.getController();
                 
                 //add to pane list for the standard version
                 menuPaneItems.add(new MenuPaneItem(informationStd, rb.getString("welcomeApplicationMain.Information"), WelcomeConstants.ICON_FILE_PATH + "/menu/messagebox_info.png"));
@@ -106,23 +104,24 @@ public class FXMLGuiLoader {
             } else {
                 FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
                 welcomeApplicationPasswordChange = new Scene(loadPasswordChange.load());
-                welcomeApplicationPasswordChangeController = loadPasswordChange.getController();
+                welcomeApplicationPasswordChange.getStylesheets().add(stylesheet);
+                passwordChangeController = loadPasswordChange.getController();
                 
                 FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), rb);
-                information = (Parent) loadInfo.load();
-                welcomeApplicationInformationController = loadInfo.getController();
+                Parent information = loadInfo.<Parent>load();
+                informationController = loadInfo.getController();
                 
                 FXMLLoader loadFirewall = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationFirewall.fxml"), rb);
-                firewall = (Parent)loadFirewall.load();
-                welcomeApplicationFirewallController = loadFirewall.getController();
+                Parent firewall = loadFirewall.<Parent>load();
+                firewallController = loadFirewall.getController();
 
                 FXMLLoader loadBackup = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationBackup.fxml"), rb);
-                backup = (Parent) loadBackup.load();
-                welcomeApplicationBackupController = loadBackup.getController();
+                Parent backup = loadBackup.<Parent>load();
+                backupController = loadBackup.getController();
 
                 FXMLLoader loadSystem = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationSystem.fxml"), rb);
-                system = (Parent)loadSystem.load();
-                welcomeApplicationSystemController = loadSystem.getController();
+                Parent system = loadSystem.<Parent>load();
+                systemExamController = loadSystem.getController();
 
                 //add to pane list for the exam version
                 menuPaneItems.add(new MenuPaneItem(information, rb.getString("welcomeApplicationMain.Information"), WelcomeConstants.ICON_FILE_PATH + "/menu/messagebox_info.png"));
@@ -133,91 +132,168 @@ public class FXMLGuiLoader {
             
             FXMLLoader loadProgress = new FXMLLoader(getClass().getResource("../view/welcomeApplicationProgress.fxml"), rb);
             welcomeApplicationProgress = new Scene(loadProgress.load());
-            welcomeApplicationProgressController = loadProgress.getController();
+            welcomeApplicationProgress.getStylesheets().add(stylesheet);
+            progressController = loadProgress.getController();
             
             FXMLLoader loadError = new FXMLLoader(getClass().getResource("../view/welcomeApplicationError.fxml"), rb);
             welcomeApplicationError = new Scene(loadError.load());
-            welcomeApplicationErrorController = loadError.getController();
+            welcomeApplicationError.getStylesheets().add(stylesheet);
+            errorController = loadError.getController();
             
             FXMLLoader loadHelp = new FXMLLoader(getClass().getResource("../view/welcomeApplicationHelp.fxml"), rb);
             welcomeApplicationHelp = new Scene(loadHelp.load());
-            welcomeApplicationHelpController = loadHelp.getController();
+            welcomeApplicationHelp.getStylesheets().add(stylesheet);
+            helpController = loadHelp.getController();
             
-            // add menu buttons to welcome application main window and panes according to exam/std version of the lernsick
-            welcomeApplicationStartController.initializeMenu(menuPaneItems);
+            
+            // add menu buttons to welcome application main window and panes according to exam/std version of the lernstick
+            mainController.initializeMenu(menuPaneItems);
             
         } catch(IOException ex) {
             LOGGER.log(Level.WARNING, "There was an error while loading the scene from the fxml files.", ex);
         }
     }
-    
+   
+    /**
+     * Returns the main view.
+     * @return the view, which contains the menu on the left and the content on 
+     * the right.
+     */
     public Scene getMainStage()
     {
-        return welcomeApplicationStart;
+        return welcomeApplicationMain;
     }
     
+    /**
+     * Returns the installation/configuration view.
+     * @return the view, which contains the progress bar, which is shown on
+     * save and exit.
+     */
     public Scene getProgressScene() {
         return welcomeApplicationProgress;
     }
     
+    /**
+     * Returns the error dialog scene.
+     * @return the view, which can be shown to the user when an Exception 
+     * occures.
+     */
     public Scene getErrorScene() {
         return welcomeApplicationError;
     }
 
+    /**
+     * Returns the help dialog scene.
+     * @return the view, which is shown to the user when he wants to see the 
+     * help.
+     */
     public Scene getHelpScene() {
         return welcomeApplicationHelp;
     }
     
+    /**
+     * Returns the password change dialog scene.
+     * @return the view, which is shown at the start of the exam version which
+     * recommends to change the password.
+     */
     public Scene getPasswordChangeScene() {
         return welcomeApplicationPasswordChange;
     }
     
-    public WelcomeApplicationMainController getWelcomeApplicationStart() {
-        return welcomeApplicationStartController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationMainController getMainController() {
+        return mainController;
     }
     
-    public WelcomeApplicationSystemController getSystem() {
-        return welcomeApplicationSystemController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationSystemController getSystemExamController() {
+        return systemExamController;
+    }
+    
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationFirewallController getFirewallController() {
+        return firewallController;
     }
 
-    public WelcomeApplicationFirewallController getFirewall() {
-        return welcomeApplicationFirewallController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationInformationController getInformationController() {
+        return informationController;
     }
 
-    public WelcomeApplicationInformationController getInformation() {
-        return welcomeApplicationInformationController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationBackupController getBackupController() {
+        return backupController;
     }
 
-    public WelcomeApplicationBackupController getBackup() {
-        return welcomeApplicationBackupController;
-    }
-
-    public WelcomeApplicationProgressController getProgress() {
-        return welcomeApplicationProgressController;
-    }
-    
-    public WelcomeApplicationErrorController getError() {
-        return welcomeApplicationErrorController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationProgressController getProgressController() {
+        return progressController;
     }
     
-    public WelcomeApplicationHelpController getHelp() {
-        return welcomeApplicationHelpController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationErrorController getErrorController() {
+        return errorController;
     }
     
-    public WelcomeApplicationPasswordChangeController getPasswordChange() {
-        return welcomeApplicationPasswordChangeController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationHelpController getHelpController() {
+        return helpController;
     }
     
-    public WelcomeApplicationRecommendedSoftwareController getRecommended() {
-        return welcomeApplicationRecommendedSoftwareController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationPasswordChangeController getPasswordChangeController() {
+        return passwordChangeController;
     }
     
-    public WelcomeApplicationAdditionalSoftwareController getAddSoftware() {
-        return welcomeApplicationAdditionalSoftwareController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationRecommendedSoftwareController getRecommendedController() {
+        return recommendedSoftwareController;
     }
     
-    public WelcomeApplicationSystemStdController getSystemStd() {
-        return welcomeApplicationSystemStdController;
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationAdditionalSoftwareController getAddSoftwareController() {
+        return additionalSoftwareController;
+    }
+    
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public WelcomeApplicationSystemStdController getSystemStdController() {
+        return systemStdController;
     }
     
     /**

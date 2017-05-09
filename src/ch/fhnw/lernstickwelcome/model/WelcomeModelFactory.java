@@ -5,40 +5,37 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationPackages;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
-import ch.fhnw.lernstickwelcome.model.application.InstallPostprocessingTask;
-import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
 import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
+import ch.fhnw.lernstickwelcome.model.application.InstallPostprocessingTask;
+import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.application.WgetPackages;
+import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
-import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
 import ch.fhnw.util.StorageTools;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * The WelcomeModelFactory creates the Model of the Welcome Application and
@@ -168,20 +165,22 @@ public class WelcomeModelFactory {
      * Returns a new instance of this class.
      *
      * @param proxy The proxy task which calculates the proxy for the commands
+     * @param groups The application groups that will be installed.
      * @return {@link InstallPreparationTask}
      */
-    public static InstallPreparationTask getInstallPreparationTask(ProxyTask proxy) {
-        return new InstallPreparationTask(proxy);
+    public static InstallPreparationTask getInstallPreparationTask(ProxyTask proxy, ApplicationGroupTask... groups) {
+        return new InstallPreparationTask(proxy, groups);
     }
 
     /**
      * Returns a new instance of this class.
      *
      * @param proxy The proxy task which calculates the proxy for the commands
+     * @param groups The application groups that will be installed.
      * @return {@link InstallPostprocessingTask}
      */
-    public static InstallPostprocessingTask getInstallPostprocessingTask(ProxyTask proxy) {
-        return new InstallPostprocessingTask(proxy);
+    public static InstallPostprocessingTask getInstallPostprocessingTask(ProxyTask proxy, ApplicationGroupTask... groups) {
+        return new InstallPostprocessingTask(proxy, groups);
     }
 
     /**

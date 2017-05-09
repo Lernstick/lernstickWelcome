@@ -1,14 +1,13 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController;
 import javafx.stage.Stage;
 
 /**
- *Binder class to init binings between view components and backend (model) properties
+ * Binder class to init binings between view components and backend (model) properties
  * 
- * @author user
+ * @author Line Stettler
  */
 public class StdSystemBinder {
 
@@ -50,6 +49,12 @@ public class StdSystemBinder {
        
     }
 
+    /**
+     * Open other view by clicking on help button
+     *
+     * @param helpStage additional window showing help
+     * @param help links to online user guide
+     */
     public void initHelp(Stage helpStage, HelpBinder help) {
         system.getBtn_sys_help().setOnAction(evt -> {
             help.setHelpEntryByChapter("6");

@@ -3,13 +3,12 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
 import javafx.stage.Stage;
 
 /**
  * Binder class to init binings between view components and backend (model) properties
  * 
- * @author Sandro Schwager, Line Stettler
+ * @author sschw, Line Stettler
  */
 public class ExamBackupBinder {
 

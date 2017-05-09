@@ -78,8 +78,8 @@ public class WelcomeApplicationSystemController implements Initializable {
         txt_sys_username.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (isAllowed(newValue)) {
-                    txt_sys_username.setText(newValue);
+                if (!isAllowed(newValue)) {
+                    txt_sys_username.setText(oldValue);
                 }
             }
             

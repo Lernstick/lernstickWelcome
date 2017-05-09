@@ -9,7 +9,8 @@ import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.util.Arrays;
 
 /**
- *
+ * If a package is installed by multiple aptGet and Wget packages, use this
+ * Composer class to combine the commands.
  * @author sschw
  */
 public class CombinedPackages extends ApplicationPackages {

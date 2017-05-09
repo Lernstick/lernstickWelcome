@@ -9,12 +9,16 @@ import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javafx.concurrent.Task;
 
 /**
  * Representing multiple applications which can be installed.
+ * <br>
+ * In order to process a backend task multiple times it extends Processable
  *
+ * @see Processable
  * @author sschw
  */
 public class ApplicationGroupTask implements Processable<String> {
@@ -23,6 +27,12 @@ public class ApplicationGroupTask implements Processable<String> {
     private ProxyTask proxy;
     private String title;
 
+    /**
+     * Initializes a group of application.
+     * @param title The title of the group.
+     * @param proxy The proxy which should be given to the applications.
+     * @param apps The applications that are represented by this group.
+     */
     public ApplicationGroupTask(String title, ProxyTask proxy, List<ApplicationTask> apps) {
         this.title = title;
         this.proxy = proxy;
@@ -42,6 +52,11 @@ public class ApplicationGroupTask implements Processable<String> {
         return new InternalTask();
     }
 
+    /**
+     * Task for {@link #newTask() }
+     *
+     * @see Processable
+     */
     private class InternalTask extends Task<String> {
 
         @Override
@@ -57,21 +72,25 @@ public class ApplicationGroupTask implements Processable<String> {
                     updateProgress(0, totalWork);
                     int previouslyDone = 0;
                     for (ApplicationTask app : appsToInstall) {
-                        updateMessage(app.getName());
-                        updateValue(WelcomeConstants.ICON_APPLICATION_FOLDER + "/" + app.getIcon());
-                        Task<String> appTask = app.newTask();
-                        // update this progress on changes of sub-process
-                        final int fPreviouslyDone = previouslyDone;
-                        appTask.progressProperty().addListener(cl -> updateProgress(fPreviouslyDone + appTask.getWorkDone(), totalWork));
+                        try {
+                            updateMessage(app.getName());
+                            updateValue(WelcomeConstants.ICON_APPLICATION_FOLDER + "/" + app.getIcon());
+                            Task<String> appTask = app.newTask();
+                            // update this progress on changes of sub-process
+                            final int fPreviouslyDone = previouslyDone;
+                            appTask.progressProperty().addListener(cl -> updateProgress(fPreviouslyDone + appTask.getWorkDone(), totalWork));
 
-                        app.setProxy(proxy);
-                        appTask.run();
-                        appTask.get();
-                        previouslyDone += app.getNoPackages();
+                            app.setProxy(proxy);
+                            appTask.run();
+                            appTask.get();
+                            previouslyDone += app.getNoPackages();
+                        } catch(ExecutionException ex) {
+                            throw (Exception) ex.getCause();
+                        }
                     }
                 }
-                updateProgress(1, 1);
             }
+            updateProgress(1, 1);
             return null;
         }
     }
