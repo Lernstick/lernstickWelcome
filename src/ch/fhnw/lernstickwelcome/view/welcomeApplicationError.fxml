@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController">
+<AnchorPane id="AnchorPane" minWidth="500.0" minHeight="200.0" prefWidth="500.0" prefHeight="200.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController">
    <children>
       <BorderPane maxWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
