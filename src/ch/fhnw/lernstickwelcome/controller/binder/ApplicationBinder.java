@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -35,6 +36,7 @@ public class ApplicationBinder {
     private final static Logger LOGGER = Logger.getLogger(ApplicationBinder.class.getName());
     private final VBox applicationContainer;
     private final WelcomeController controller;
+    private final Button helpBtn;
     
     /**
      * Constructor of ApplicationBinder class
@@ -42,9 +44,10 @@ public class ApplicationBinder {
      * @param controller is needed to provide access to the backend properties
      * @param applicationContainer the gui container for the applications
      */
-    public ApplicationBinder(WelcomeController controller, VBox applicationContainer) {
+    public ApplicationBinder(WelcomeController controller, VBox applicationContainer, Button helpBtn) {
         this.controller = controller;
         this.applicationContainer = applicationContainer;
+        this.helpBtn = helpBtn;
     }
     
     /**
@@ -119,5 +122,19 @@ public class ApplicationBinder {
             even = !even;
             container.getChildren().add(appView);
         }
+    }
+
+    /**
+     * Open other view by clicking on help button
+     *
+     * @param chapter the help chapter for this application view
+     * @param helpStage additional window showing help
+     * @param help links to online user guide
+     */
+    public void initHelp(String chapter, Stage helpStage, HelpBinder help) {
+        helpBtn.setOnAction(evt -> {
+            help.setHelpEntryByChapter(chapter);
+            helpStage.show();
+        });
     }
 }
