@@ -32,8 +32,8 @@ public class ProxyTask implements Processable<String> {
     private StringProperty password = new SimpleStringProperty();
 
     // Init to prevent typos in commands if inactive
-    private String wgetProxy = " ";
-    private String aptGetProxy = " ";
+    private String wgetProxy;
+    private String aptGetProxy;
 
     /**
      * Settings of previous starts wont be saved.
@@ -138,6 +138,9 @@ public class ProxyTask implements Processable<String> {
                 updateMessage("ProxyTask.message");
                 setupWgetProxy();
                 setupAptGetProxy();
+            } else {
+                wgetProxy = " ";
+                aptGetProxy = " ";
             }
             updateProgress(1, 1);
             return null;
