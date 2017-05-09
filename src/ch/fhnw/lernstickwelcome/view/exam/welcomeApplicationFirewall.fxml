@@ -30,12 +30,12 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btn_fw_help" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" />
+                  <Button fx:id="btn_fw_help" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15">
                <children>
-                  <ToggleSwitch fx:id="cb_fw_allow_monitoring" textOn="%ToggleSwitch.on" textOff="%ToggleSwitch.off" />
+                  <ToggleSwitch fx:id="cb_fw_allow_monitoring" />
                   <Label fx:id="lbl_fw_allow_monitoring" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
                </children>
             </HBox>

@@ -12,6 +12,22 @@ and open the template in the editor.
     -fx-alignment: CENTER_LEFT;
 }
 
+.btn_help {          
+    -fx-background-image: url("../icon/help.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.btn_open {          
+    -fx-background-image: url("../icon/open.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
 .btn_add {          
     -fx-background-image: url("../icon/add.png");
     -fx-background-image-size: 10;
@@ -29,7 +45,7 @@ and open the template in the editor.
 }
 
 .btn_save {          
-    -fx-background-image: url("../../icon/save.png");
+    -fx-background-image: url("../icon/save.png");
     -fx-background-image-size: 10;
     -fx-background-size: 20;
     -fx-background-repeat: no-repeat;

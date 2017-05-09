@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 
-<AnchorPane id="AnchorPane" minHeight="699.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController">
+<AnchorPane id="AnchorPane" minHeight="699.0" prefWidth="416.0" stylesheets="@default.css" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemController">
    <children>
       <VBox layoutX="10.0" layoutY="10.0" prefWidth="551.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -28,7 +28,7 @@
                   </Label>
                </left>
                <right>
-                  <Button fx:id="btn_sys_help" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" text="?" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btn_sys_help" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
             <GridPane vgap="15.0">
@@ -43,11 +43,11 @@
                </rowConstraints>
                <children>
                   <Label text="%welcomeApplicationSystem.userName" GridPane.rowIndex="2" />
-                  <TextField fx:id="txt_sys_username" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <TextField fx:id="txt_sys_username" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.systemname" />
                   <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
-                  <TextField fx:id="txt_sys_systemversion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="txt_sys_systemname" GridPane.columnIndex="1" />
+                  <TextField fx:id="txt_sys_systemversion" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txt_sys_systemname" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane vgap="15.0">
@@ -67,9 +67,9 @@
                      </font>
                   </Label>
                   <Label text="%welcomeApplicationSystem.newPassword1" GridPane.rowIndex="1" />
-                  <PasswordField fx:id="txt_sys_password" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="txt_sys_password" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.newPassword2" GridPane.rowIndex="2" />
-                  <PasswordField fx:id="txt_sys_password_repeat" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <PasswordField fx:id="txt_sys_password_repeat" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <GridPane vgap="15.0">
@@ -140,7 +140,7 @@
                      </font>
                   </Label>
                   <Label text="%welcomeApplicationSystem.exchangePartition" GridPane.rowIndex="1" />
-                  <TextField fx:id="txt_sys_exchange_partition" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <TextField fx:id="txt_sys_exchange_partition" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.accessbyUser" GridPane.rowIndex="2" />
                   <ToggleSwitch fx:id="cb_sys_access_user" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.restartNote" textFill="#f20000" GridPane.columnSpan="2" GridPane.rowIndex="3" />
