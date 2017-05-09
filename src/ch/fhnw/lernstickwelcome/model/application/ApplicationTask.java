@@ -154,14 +154,16 @@ public class ApplicationTask implements Processable<String> {
             updateProgress(0, packages.getNumberOfPackages());
             // XXX May nice if there would update the percentage while execute
             int exitValue = PROCESS_EXECUTOR.executeScript(true, true, packages.getInstallCommand(proxy));
-            if (exitValue != 0) {
-                String errorMessage = "apt-get failed with the following "
+            // We check if it is installed (wget exit code is inconsistent)
+            if (exitValue != 0 || !initIsInstalled()) {
+                String errorMessage = "apt-get or wget failed with the following "
                         + "output:\n" + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
-                throw new ProcessingException(errorMessage);
+                throw new ProcessingException("ApplicationTask.installationFailed", getName());
             }
+            // exit code = 0 && installed = true
             Platform.runLater(() -> {
-                installed.set(initIsInstalled());
+                installed.set(true);
                 installing.set(false);
             });
             updateProgress(packages.getNumberOfPackages(), packages.getNumberOfPackages());
