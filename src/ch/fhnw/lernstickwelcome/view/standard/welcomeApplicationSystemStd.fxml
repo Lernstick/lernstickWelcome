@@ -27,7 +27,7 @@
                   </Label>
                </left>
                <right>
-                  <Button fx:id="btn_sys_help" mnemonicParsing="false" text="?" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btn_sys_help" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" mnemonicParsing="false" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
             <GridPane vgap="15.0">
@@ -42,11 +42,11 @@
                </rowConstraints>
                <children>
                   <Label text="%welcomeApplicationSystem.userName" GridPane.rowIndex="2" />
-                  <TextField fx:id="txt_sys_username" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <TextField fx:id="txt_sys_username" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.systemname" />
                   <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
-                  <TextField fx:id="txt_sys_systemversion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="txt_sys_systemname" GridPane.columnIndex="1" />
+                  <TextField fx:id="txt_sys_systemversion" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txt_sys_systemname" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane vgap="15.0">
@@ -67,14 +67,14 @@
                      </font>
                   </Label>
                   <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="1" />
-                  <ChoiceBox fx:id="choice_sysStd_visible_for" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <ChoiceBox fx:id="choice_sysStd_visible_for" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.startWA" GridPane.rowIndex="2" />
                   <ToggleSwitch fx:id="cb_sysStd_start_wa" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="3" />
                   <ToggleSwitch fx:id="cb_sysStd_show_warning" nodeOrientation="RIGHT_TO_LEFT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <GridPane vgap="15.0">
+            <GridPane vgap="20.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" />
@@ -112,7 +112,7 @@
                      </font>
                   </Label>
                   <Label text="%welcomeApplicationSystem.exchangePartition" GridPane.rowIndex="1" />
-                  <TextField fx:id="txt_sys_exchange_partition" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <TextField fx:id="txt_sys_exchange_partition" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane vgap="15.0">
@@ -140,10 +140,10 @@
                   <Label fx:id="lbl_sysStd_port" text="%WelcomeApplicationProxy.port" GridPane.rowIndex="3" />
                   <Label fx:id="lbl_sysStd_user" text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="4" />
                   <Label fx:id="lbl_sysStd_pwd" text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="5" />
-                  <TextField fx:id="txt_sysStd_host" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="txt_sysStd_port" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="txt_sysStd_user" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField fx:id="txt_sysStd_pwd" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="txt_sysStd_host" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txt_sysStd_port" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txt_sysStd_user" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="txt_sysStd_pwd" minHeight="30.0" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
             </GridPane>
          </children>

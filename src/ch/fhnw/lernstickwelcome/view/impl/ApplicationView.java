@@ -30,7 +30,7 @@ public class ApplicationView extends GridPane {
     private final Label title = new Label();
     private final Label description = new Label();
     private final ImageView icon = new ImageView();
-    private final Button help = new Button("?");
+    private final Button help = new Button();
     private final Label installDescription = new Label();
     private final ToggleSwitch install = new ToggleSwitch();
     
@@ -44,6 +44,9 @@ public class ApplicationView extends GridPane {
         setHgap(10);
         
         help.setVisible(false);
+        help.getStyleClass().add("btn_help");
+        help.setMinHeight(30.0);
+        help.setMinWidth(30.0);
         
         title.setAlignment(Pos.CENTER_LEFT);
         title.setFont(Font.font(null, FontWeight.BOLD, 14));

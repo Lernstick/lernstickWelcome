@@ -24,7 +24,7 @@
                   </Label>
                </left>
                <right>
-                  <Button fx:id="btn_sys_help" mnemonicParsing="false" text="?" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btn_sys_help" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" mnemonicParsing="false" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
          </children>
