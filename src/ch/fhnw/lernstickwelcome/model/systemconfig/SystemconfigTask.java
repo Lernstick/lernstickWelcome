@@ -787,7 +787,7 @@ public class SystemconfigTask implements Processable<String> {
             updateMessage("SystemconfigTask.username");
 
             // Set Username
-            if (username.get().equals(oldUsername)) {
+            if (!username.get().equals(oldUsername)) {
                 LOGGER.log(Level.INFO,
                         "updating full user name to \"{0}\"", username.get());
                 PROCESS_EXECUTOR.executeProcess("chfn", "-f", username.get(), "user");
