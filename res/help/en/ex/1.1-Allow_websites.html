@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Allow Websites</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../help.css">
+    </head>
+    <body>
+	<h1>Allow Websites</h1>
+        <p>
+			Define websites and URls, which will be allowed by the System. You have
+			mulitple ways to define a whitelist-pattern.
+        </p>
+        <p>
+            <b>exact</b><br>
+            Define an exact URL which will be allowed.
+        </p>
+        <p>
+            <b>starts with</b><br>
+			Define a String which must match the beginning of an URL in order to allow
+			it.<br>
+            E.g.: www.lernstick.com<br>
+            allowed: www.lernstick.com/download
+        </p>
+        <p>
+            <b>contains</b><br>
+            Define a String whcihe must be contained in the URL in order to allow it.<br>
+            E.g.: lernstick<br>
+            allowed: www.lernstick.com
+            allowed: www.google.com/lernstick/info
+        </p>
+        <p>
+            <b>custom</b><br>
+            Define a regex. If the URL matches the Regex, it gets allowed.
+        </p>
+    </body>
+</html>

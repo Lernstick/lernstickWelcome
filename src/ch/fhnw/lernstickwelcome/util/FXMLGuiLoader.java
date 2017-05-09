@@ -27,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 /**
  *
@@ -75,77 +76,84 @@ public class FXMLGuiLoader {
             String stylesheet = new File(WelcomeConstants.RESOURCE_FILE_PATH + "/css/style.css").toURI().toString();
             
             // load start view
-            FXMLLoader loadStart = new FXMLLoader(getClass().getResource("../view/welcomeApplicationMain.fxml"), rb);
-            welcomeApplicationMain = new Scene(loadStart.load());
-            welcomeApplicationMain.getStylesheets().add(stylesheet);
-            mainController = loadStart.getController();
+            Pair<Scene, WelcomeApplicationMainController> main = 
+                    loadScene("../view/welcomeApplicationMain.fxml", stylesheet, rb);
+            welcomeApplicationMain = main.getKey();
+            mainController = main.getValue();
             
             if(!isExamEnvironment){
-                FXMLLoader loadInfoStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationInformationStd.fxml"), rb);
-                Parent informationStd = loadInfoStd.<Parent>load();
-                informationController = loadInfoStd.getController();
-                        
-                FXMLLoader loadRecomm = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationRecommendedSoftware.fxml"), rb);
-                Parent recommended = loadRecomm.<Parent>load();
-                recommendedSoftwareController = loadRecomm.getController();
-                        
-                FXMLLoader loadAdd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationAdditionalSoftware.fxml"), rb);
-                Parent addSoftware = loadAdd.<Parent>load();
-                additionalSoftwareController = loadAdd.getController();
-                        
-                FXMLLoader loadSystemStd = new FXMLLoader(getClass().getResource("../view/standard/welcomeApplicationSystemStd.fxml"), rb);
-                Parent systemStd = loadSystemStd.<Parent>load();
-                systemStdController = loadSystemStd.getController();
+                // prepare menu for standard env.
+                informationController = loadMenuItemView(
+                        "../view/standard/welcomeApplicationInformationStd.fxml", 
+                        "welcomeApplicationMain.Information", 
+                        "messagebox_info.png", menuPaneItems, rb
+                );
                 
-                //add to pane list for the standard version
-                menuPaneItems.add(new MenuPaneItem(informationStd, rb.getString("welcomeApplicationMain.Information"), WelcomeConstants.ICON_FILE_PATH + "/menu/messagebox_info.png"));
-                menuPaneItems.add(new MenuPaneItem(recommended, rb.getString("welcomeApplicationMain.RecommendedSoftware"), WelcomeConstants.ICON_FILE_PATH + "/menu/copyright.png"));
-                menuPaneItems.add(new MenuPaneItem(addSoftware, rb.getString("welcomeApplicationMain.AdditionalSoftware"), WelcomeConstants.ICON_FILE_PATH + "/menu/list-add.png"));
-                menuPaneItems.add(new MenuPaneItem(systemStd, rb.getString("welcomeApplicationMain.System"), WelcomeConstants.ICON_FILE_PATH + "/menu/system-run.png"));
+                recommendedSoftwareController = loadMenuItemView(
+                        "../view/standard/welcomeApplicationRecommendedSoftware.fxml", 
+                        "welcomeApplicationMain.RecommendedSoftware", 
+                        "copyright.png", menuPaneItems, rb
+                );
+                
+                additionalSoftwareController = loadMenuItemView(
+                        "../view/standard/welcomeApplicationAdditionalSoftware.fxml", 
+                        "welcomeApplicationMain.AdditionalSoftware", 
+                        "list-add.png", menuPaneItems, rb
+                );
+                
+                systemStdController = loadMenuItemView(
+                        "../view/standard/welcomeApplicationSystemStd.fxml", 
+                        "welcomeApplicationMain.System", 
+                        "system-run.png", menuPaneItems, rb
+                );
             } else {
-                FXMLLoader loadPasswordChange = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationPasswordChange.fxml"), rb);
-                Parent passwdChange = loadPasswordChange.<Parent>load();
-                welcomeApplicationPasswordChange = new Scene(passwdChange);
-                welcomeApplicationPasswordChange.getStylesheets().add(stylesheet);
-                passwordChangeController = loadPasswordChange.getController();
+                // Load password change view.
+                Pair<Scene, WelcomeApplicationPasswordChangeController> pc = 
+                        loadScene("../view/exam/welcomeApplicationPasswordChange.fxml", stylesheet, rb);
+                welcomeApplicationPasswordChange = pc.getKey();
+                passwordChangeController = pc.getValue();
                 
-                FXMLLoader loadInfo = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationInformation.fxml"), rb);
-                Parent information = loadInfo.<Parent>load();
-                informationController = loadInfo.getController();
+                // prepare menu for exam env.
+                informationController = loadMenuItemView(
+                        "../view/exam/welcomeApplicationInformation.fxml", 
+                        "welcomeApplicationMain.Information", 
+                        "messagebox_info.png", menuPaneItems, rb
+                );
                 
-                FXMLLoader loadFirewall = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationFirewall.fxml"), rb);
-                Parent firewall = loadFirewall.<Parent>load();
-                firewallController = loadFirewall.getController();
+                firewallController = loadMenuItemView(
+                        "../view/exam/welcomeApplicationFirewall.fxml", 
+                        "welcomeApplicationMain.Firewall", 
+                        "network-server.png", menuPaneItems, rb
+                );
 
-                FXMLLoader loadBackup = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationBackup.fxml"), rb);
-                Parent backup = loadBackup.<Parent>load();
-                backupController = loadBackup.getController();
+                backupController = loadMenuItemView(
+                        "../view/exam/welcomeApplicationBackup.fxml", 
+                        "welcomeApplicationMain.Backup", 
+                        "partitionmanager.png", menuPaneItems, rb
+                );
 
-                FXMLLoader loadSystem = new FXMLLoader(getClass().getResource("../view/exam/welcomeApplicationSystem.fxml"), rb);
-                Parent system = loadSystem.<Parent>load();
-                systemExamController = loadSystem.getController();
-
-                //add to pane list for the exam version
-                menuPaneItems.add(new MenuPaneItem(information, rb.getString("welcomeApplicationMain.Information"), WelcomeConstants.ICON_FILE_PATH + "/menu/messagebox_info.png"));
-                menuPaneItems.add(new MenuPaneItem(firewall, rb.getString("welcomeApplicationMain.Firewall"), WelcomeConstants.ICON_FILE_PATH + "/menu/network-server.png"));
-                menuPaneItems.add(new MenuPaneItem(backup, rb.getString("welcomeApplicationMain.Backup"), WelcomeConstants.ICON_FILE_PATH + "/menu/partitionmanager.png"));
-                menuPaneItems.add(new MenuPaneItem(system, rb.getString("welcomeApplicationMain.System"), WelcomeConstants.ICON_FILE_PATH + "/menu/system-run.png"));
+                systemExamController = loadMenuItemView(
+                        "../view/exam/welcomeApplicationSystem.fxml", 
+                        "welcomeApplicationMain.System", 
+                        "system-run.png", menuPaneItems, rb
+                );
             }
             
-            FXMLLoader loadProgress = new FXMLLoader(getClass().getResource("../view/welcomeApplicationProgress.fxml"), rb);
-            welcomeApplicationProgress = new Scene(loadProgress.load());
-            welcomeApplicationProgress.getStylesheets().add(stylesheet);
-            progressController = loadProgress.getController();
+            // Load additional Scenes
+            Pair<Scene, WelcomeApplicationProgressController> progress = 
+                    loadScene("../view/welcomeApplicationProgress.fxml", stylesheet, rb);
+            welcomeApplicationProgress = progress.getKey();
+            progressController = progress.getValue();
             
-            FXMLLoader loadError = new FXMLLoader(getClass().getResource("../view/welcomeApplicationError.fxml"), rb);
-            welcomeApplicationError = new Scene(loadError.load());
-            welcomeApplicationError.getStylesheets().add(stylesheet);
-            errorController = loadError.getController();
+            Pair<Scene, WelcomeApplicationErrorController> error = 
+                    loadScene("../view/welcomeApplicationError.fxml", stylesheet, rb);
+            welcomeApplicationError = error.getKey();
+            errorController = error.getValue();
             
-            FXMLLoader loadHelp = new FXMLLoader(getClass().getResource("../view/welcomeApplicationHelp.fxml"), rb);
-            welcomeApplicationHelp = new Scene(loadHelp.load());
-            welcomeApplicationHelp.getStylesheets().add(stylesheet);
-            helpController = loadHelp.getController();
+            Pair<Scene, WelcomeApplicationHelpController> help = 
+                    loadScene("../view/welcomeApplicationHelp.fxml", stylesheet, rb);
+            welcomeApplicationHelp = help.getKey();
+            helpController = help.getValue();
             
             
             // add menu buttons to welcome application main window and panes according to exam/std version of the lernstick
@@ -154,6 +162,20 @@ public class FXMLGuiLoader {
         } catch(IOException ex) {
             LOGGER.log(Level.WARNING, "There was an error while loading the scene from the fxml files.", ex);
         }
+    }
+    
+    private <T> T loadMenuItemView(String path, String name, String imgName, ObservableList<MenuPaneItem> menuPaneItems, ResourceBundle rb) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(path), rb);
+        Parent menuItemView = loader.<Parent>load();
+        menuPaneItems.add(new MenuPaneItem(menuItemView, rb.getString(name), WelcomeConstants.ICON_FILE_PATH + "/menu/" + imgName));
+        return loader.getController();
+    }
+    
+    private <T> Pair<Scene, T> loadScene(String path, String stylesheetPath, ResourceBundle rb) throws IOException {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path), rb);
+            Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add(stylesheetPath);
+            return new Pair<>(scene, loader.getController());
     }
    
     /**
