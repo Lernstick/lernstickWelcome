@@ -132,7 +132,8 @@ public class WelcomeApplication extends Application {
                 information.initBindings();
 
                 ApplicationBinder recAppsBinder = new ApplicationBinder(controller, guiLoader.getRecommendedController().getVbApps());
-                recAppsBinder.addApplications(controller.getRecApps(), helpBinder, helpStage);
+                recAppsBinder.addApplicationGroup(controller.getNonfreeApps(), helpBinder, helpStage);
+                recAppsBinder.addApplicationGroup(controller.getUtilityApps(), helpBinder, helpStage);
 
                 ApplicationBinder addAppsBinder = new ApplicationBinder(controller, guiLoader.getAddSoftwareController().getVbApps());
                 addAppsBinder.addApplicationGroup(controller.getTeachApps(), helpBinder, helpStage);

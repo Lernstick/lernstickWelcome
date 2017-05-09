@@ -548,7 +548,7 @@
 		</packages>
 		<tags>
 			<tag>recommended</tag>
-			<tag>utility</tag>
+			<tag>nonfree</tag>
 		</tags>
 	</application>
 	<application name="Skype">
@@ -606,6 +606,7 @@
 		</packages>
 		<tags>
 			<tag>recommended</tag>
+			<tag>nonfree</tag>
 		</tags>
 	</application>
 	<application name="Welcome.fontsLabel.text">
@@ -617,6 +618,7 @@
 		</packages>
 		<tags>
 			<tag>recommended</tag>
+			<tag>nonfree</tag>
 		</tags>
 	</application>
 	<application name="Welcome.multimediaLabel.text">
@@ -630,6 +632,7 @@
 		</packages>
 		<tags>
 			<tag>recommended</tag>
+			<tag>nonfree</tag>
 		</tags>
 	</application>
 	<!--<application name="virtualbox">
