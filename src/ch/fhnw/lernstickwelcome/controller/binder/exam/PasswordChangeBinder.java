@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.controller.binder;
+package ch.fhnw.lernstickwelcome.controller.binder.exam;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.PasswordChangeController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.PasswordChangeController;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  * 
  * @author sschw
  */
-public class ExamPasswordChangeBinder {
+public class PasswordChangeBinder {
 
     private final PasswordChangeController password;
     private final WelcomeController controller;
@@ -28,7 +28,7 @@ public class ExamPasswordChangeBinder {
      * @param controller is needed to provide access to the backend properties
      * @param password   FXML controller which prviedes the view properties
      */
-    public ExamPasswordChangeBinder(WelcomeController controller, PasswordChangeController password) {
+    public PasswordChangeBinder(WelcomeController controller, PasswordChangeController password) {
         this.password = password;
         this.controller = controller;
     }

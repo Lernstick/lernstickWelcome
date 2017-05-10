@@ -1,7 +1,7 @@
-package ch.fhnw.lernstickwelcome.controller.binder;
+package ch.fhnw.lernstickwelcome.controller.binder.standard;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.InformationController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController;
 
 /**
  * Binder class to init binings between view components and backend (model) properties

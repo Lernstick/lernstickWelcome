@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.fxmlcontroller;
+package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
 
 import ch.fhnw.lernstickwelcome.controller.exception.TableCellValidationException;
 import ch.fhnw.lernstickwelcome.controller.exception.ValidationException;

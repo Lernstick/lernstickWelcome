@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.view.impl;
 
-import ch.fhnw.lernstickwelcome.fxmlcontroller.FirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import javafx.scene.control.Button;

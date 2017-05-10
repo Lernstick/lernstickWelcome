@@ -1,18 +1,15 @@
 package ch.fhnw.lernstickwelcome.util;
 
 import ch.fhnw.lernstickwelcome.view.impl.MenuPaneItem;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.AdditionalSoftwareController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.BackupController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.AdditionalSoftwareController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.BackupController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.FirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.HelpController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.InformationController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.MainController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.PasswordChangeController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.PasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ProgressController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.RecommendedSoftwareController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.SystemController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.SystemStdController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.RecommendedSoftwareController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import java.io.File;
 import java.io.IOException;
@@ -54,10 +51,11 @@ public class FXMLGuiLoader {
     private PasswordChangeController passwordChangeController;
     private BackupController backupController;
     private FirewallController firewallController;
-    private InformationController informationController;
+    private ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController informationExamController;
+    private ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController informationStdController;
     private MainController mainController;
-    private SystemController systemExamController;
-    private SystemStdController systemStdController;
+    private ch.fhnw.lernstickwelcome.fxmlcontroller.exam.SystemController systemExamController;
+    private ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController systemStdController;
     private AdditionalSoftwareController additionalSoftwareController;
     private RecommendedSoftwareController recommendedSoftwareController; 
     
@@ -83,8 +81,8 @@ public class FXMLGuiLoader {
             
             if(!isExamEnvironment){
                 // prepare menu for standard env.
-                informationController = loadMenuItemView(
-                        "../view/exam/information.fxml", 
+                informationStdController = loadMenuItemView(
+                        "../view/standard/information.fxml", 
                         "welcomeApplicationMain.Information", 
                         "messagebox_info.png", menuPaneItems, rb
                 );
@@ -102,7 +100,7 @@ public class FXMLGuiLoader {
                 );
                 
                 systemStdController = loadMenuItemView(
-                        "../view/standard/systemStd.fxml", 
+                        "../view/standard/system.fxml", 
                         "welcomeApplicationMain.System", 
                         "system-run.png", menuPaneItems, rb
                 );
@@ -114,7 +112,7 @@ public class FXMLGuiLoader {
                 passwordChangeController = pc.getValue();
                 
                 // prepare menu for exam env.
-                informationController = loadMenuItemView(
+                informationExamController = loadMenuItemView(
                         "../view/exam/information.fxml", 
                         "welcomeApplicationMain.Information", 
                         "messagebox_info.png", menuPaneItems, rb
@@ -236,7 +234,7 @@ public class FXMLGuiLoader {
      * Returns the Controller for this fxml view.
      * @return 
      */
-    public SystemController getSystemExamController() {
+    public ch.fhnw.lernstickwelcome.fxmlcontroller.exam.SystemController getSystemExamController() {
         return systemExamController;
     }
     
@@ -252,8 +250,8 @@ public class FXMLGuiLoader {
      * Returns the Controller for this fxml view.
      * @return 
      */
-    public InformationController getInformationController() {
-        return informationController;
+    public ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController getInformationExamController() {
+        return informationExamController;
     }
 
     /**
@@ -295,6 +293,14 @@ public class FXMLGuiLoader {
     public PasswordChangeController getPasswordChangeController() {
         return passwordChangeController;
     }
+
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController getInformationStdController() {
+        return informationStdController;
+    }
     
     /**
      * Returns the Controller for this fxml view.
@@ -316,7 +322,7 @@ public class FXMLGuiLoader {
      * Returns the Controller for this fxml view.
      * @return 
      */
-    public SystemStdController getSystemStdController() {
+    public ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController getSystemStdController() {
         return systemStdController;
     }
     
