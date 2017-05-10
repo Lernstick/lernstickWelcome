@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
@@ -33,7 +34,7 @@ public class BackupController implements Initializable {
     @FXML
     private ToggleSwitch tsBackup;
     @FXML
-    private ChoiceBox<Number> cbMinutes;
+    private ComboBox<Number> cbMinutes;
     @FXML
     private ToggleSwitch tsScreenshot;
     @FXML
@@ -49,7 +50,7 @@ public class BackupController implements Initializable {
     @FXML
     private ToggleSwitch tsUseRemote;
     @FXML
-    private ChoiceBox<?> cbMedium;
+    private ComboBox<?> cbMedium;
     @FXML
     private TextField tfRemotePath;
     @FXML
@@ -74,8 +75,10 @@ public class BackupController implements Initializable {
         });
         // Currently not supported
         cbMedium.setVisible(false);
+        cbMedium.setEditable(true);
         
         cbMinutes.getItems().addAll(backupFrequency);
+        cbMinutes.setEditable(true);
         
         // Bind options
         tsScreenshot.disableProperty().bind(tsBackup.selectedProperty().not());
@@ -91,9 +94,6 @@ public class BackupController implements Initializable {
         cbMinutes.disableProperty().bind(tsBackup.selectedProperty().not());
     }
 
-    @FXML
-    private void onClickShowHelp(MouseEvent event) {
-    }
 
     @FXML
     private void onClickSetBackupPath(MouseEvent event) {
@@ -172,11 +172,11 @@ public class BackupController implements Initializable {
         return tsUseRemote;
     }
 
-    public ChoiceBox<?> getCbMedium() {
+    public ComboBox<?> getCbMedium() {
         return cbMedium;
     }
 
-    public ChoiceBox<Number> getCbMinutes() {
+    public ComboBox<Number> getCbMinutes() {
         return cbMinutes;
     }
     
