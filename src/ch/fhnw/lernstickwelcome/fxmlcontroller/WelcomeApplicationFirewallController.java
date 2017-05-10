@@ -48,7 +48,7 @@ public class WelcomeApplicationFirewallController implements Initializable {
     @FXML
     private TableColumn<WebsiteFilter, String> tab_fw_search_criteria;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_search_btn_edit_save;
+    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_search_btn_edit;
     @FXML
     private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_search_btn_delete;
     @FXML
@@ -68,7 +68,7 @@ public class WelcomeApplicationFirewallController implements Initializable {
     @FXML
     private TableColumn<IpFilter, String> tab_fw_server_desc;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_server_btn_edit_save;
+    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_server_btn_edit;
     @FXML
     private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_server_btn_delete;
     @FXML
@@ -85,9 +85,14 @@ public class WelcomeApplicationFirewallController implements Initializable {
     private Label lbl_fw_allow_monitoring;
     
     private ResourceBundle rb;
+    
+    private int indexSaveWebsiteFilter;
+    private int indexSaveIpFilter;
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,8 +107,8 @@ public class WelcomeApplicationFirewallController implements Initializable {
         tab_fw_search_criteria.setCellFactory(TextFieldTableCell.forTableColumn());
         tab_fw_search_criteria.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchCriteriaProperty().setValue(e.getNewValue()));
-        tab_fw_search_btn_edit_save.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, c.getTableView()));
-        tab_fw_search_btn_delete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, p.getTableView()));
+        tab_fw_search_btn_edit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
+        tab_fw_search_btn_delete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
         
         // Set TableView IpFilter cell properties and implement edit functionality
         tab_fw_server_protocol.setCellValueFactory(p -> p.getValue().protocolProperty());
@@ -138,17 +143,13 @@ public class WelcomeApplicationFirewallController implements Initializable {
         tab_fw_server_desc.setCellFactory(TextFieldTableCell.forTableColumn());
         tab_fw_server_desc.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .descriptionProperty().setValue(e.getNewValue()));
-        tab_fw_server_btn_edit_save.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, c.getTableView()));
-        tab_fw_server_btn_delete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, p.getTableView()));
+        tab_fw_server_btn_edit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
+        tab_fw_server_btn_delete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
         
         // Load ComboBox data
         choice_fw_search_pattern.setConverter(getSearchPatternStringConverter());
         choice_fw_search_pattern.getItems().addAll(WebsiteFilter.SearchPattern.values());
         choice_fw_protocol.getItems().addAll(IpFilter.Protocol.values());
-        
-        // FIXME Edit/Save button doesn't work - Useful for touch screen
-        tab_fw_search_btn_edit_save.setVisible(false);
-        tab_fw_server_btn_edit_save.setVisible(false);
     }
     
     private StringConverter<SearchPattern> getSearchPatternStringConverter() {
@@ -178,20 +179,53 @@ public class WelcomeApplicationFirewallController implements Initializable {
 
     @FXML
     private void onClickNewWebsiteRule(MouseEvent event) {
-        if (validateSitesFields())
-        tv_fw_allowed_sites.getItems().add(new WebsiteFilter(
-                choice_fw_search_pattern.getValue(),
-                txt_fw_search_criteria.getText()));
+        if (validateSitesFields()) {
+            // Add to table
+            if (btn_fw_new_rule.getStyleClass().contains("btn_add")) {
+                tv_fw_allowed_sites.getItems().add(new WebsiteFilter(
+                    choice_fw_search_pattern.getValue(),
+                    txt_fw_search_criteria.getText()));
+            }
+            // Edit
+            else {
+                WebsiteFilter element = (WebsiteFilter) tv_fw_allowed_sites.getItems().get(indexSaveWebsiteFilter);
+                element.searchPatternProperty().set(choice_fw_search_pattern.getValue());
+                element.searchCriteriaProperty().set(txt_fw_search_criteria.getText());
+                btn_fw_new_rule.getStyleClass().remove("btn_save");
+                btn_fw_new_rule.getStyleClass().add("btn_add");
+            }
+            // Clear fields
+            choice_fw_search_pattern.setValue(null);
+            txt_fw_search_criteria.setText("");
+        }
     }
 
     @FXML
     private void onClickNewServerRule(MouseEvent event) {
         if(validateServerFields()) {
-            tv_fw_allowed_servers.getItems().add(new IpFilter(
-                    choice_fw_protocol.getValue(), 
-                    txt_fw_new_ip.getText(), 
-                    txt_fw_new_port.getText(), 
-                    txt_fw_new_desc.getText()));
+            // Add to table
+            if (btn_fw_add_new_server.getStyleClass().contains("btn_add")) {
+                tv_fw_allowed_servers.getItems().add(new IpFilter(
+                        choice_fw_protocol.getValue(), 
+                        txt_fw_new_ip.getText(), 
+                        txt_fw_new_port.getText(), 
+                        txt_fw_new_desc.getText()));
+            }
+            // Edit
+            else {
+                IpFilter element = (IpFilter) tv_fw_allowed_servers.getItems().get(indexSaveIpFilter);
+                element.protocolProperty().set(choice_fw_protocol.getValue());
+                element.ipAddressProperty().set(txt_fw_new_ip.getText());
+                element.portProperty().set(txt_fw_new_port.getText());
+                element.descriptionProperty().set(txt_fw_new_desc.getText());
+                btn_fw_add_new_server.getStyleClass().remove("btn_save");
+                btn_fw_add_new_server.getStyleClass().add("btn_add");
+            }
+            // Clear fields
+            choice_fw_protocol.setValue(null);
+            txt_fw_new_ip.setText("");
+            txt_fw_new_port.setText("");
+            txt_fw_new_desc.setText("");
         }
     }
 
@@ -289,5 +323,13 @@ public class WelcomeApplicationFirewallController implements Initializable {
     
     public Button getBtnFwHelp() {
         return btn_fw_help;
+    }
+    
+    public void setIndexSaveWebsiteFilter(int i) {
+        indexSaveWebsiteFilter = i;
+    }
+    
+    public void setIndexSaveIpFilter(int i) {
+        indexSaveIpFilter = i;
     }
 }

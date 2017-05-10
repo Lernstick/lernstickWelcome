@@ -5,6 +5,8 @@
  */
 package ch.fhnw.lernstickwelcome.view.impl;
 
+import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
+import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -23,13 +25,12 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
      * The Type of action that this ButtonCell represents.
      */
     public enum Type {
-        EDIT, SAVE, DELETE;
+        EDIT, DELETE;
         
         @Override
         public String toString() {
             switch (this) {
                 case EDIT: return "btn_edit";
-                case SAVE: return "btn_save";
                 case DELETE: return "btn_delete";
                 default: return null;
             }
@@ -42,11 +43,11 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
      * Creates a new ButtonCell for the provided TableView with the given
      * {@link Type}.
      * @param type The type of action that should be run on click.
-     * @param parent The parent that should react on the action.
+     * @param fwc The firewall controller, where in case of an edit the values should be edited
+     * @param table The table which contains this ButtonCell instance and the other Elements to be edited
      */
-    public ButtonCell(Type type, TableView<WebsiteFilter> parent) {
+    public ButtonCell(Type type, WelcomeApplicationFirewallController fwc, TableView table) {
         super();
-        TableView<WebsiteFilter> table = parent;
         
         btn = new Button();
         btn.getStyleClass().add(type.toString());
@@ -54,21 +55,28 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
         btn.setPrefHeight(30);
         btn.setOnAction(e -> {
             Button b = (Button) e.getSource();
-            // Switch to edit mode
+            // Edit item
             if (b.getStyleClass().contains(Type.EDIT.toString())) {
-                // Change icon to save
-                b.getStyleClass().remove(Type.EDIT.toString());
-                b.getStyleClass().add(Type.SAVE.toString());
-                table.edit(this.getIndex(), table.getColumns().get(0));
-            } 
-            else 
-            // Save changes
-            if(b.getStyleClass().contains(Type.SAVE.toString())) {
-                // Change icon to edit
-                b.getStyleClass().remove(Type.SAVE.toString());
-                b.getStyleClass().add(Type.EDIT.toString());
-                table.edit(-1, null);
-            } 
+                if (table == fwc.getTv_fw_allowed_sites()) {
+                    // Prepare view for edit
+                    WebsiteFilter element = (WebsiteFilter) table.getItems().get(this.getIndex());
+                    fwc.getChoice_fw_search_pattern().setValue(element.searchPatternProperty().get());
+                    fwc.getTxt_fw_search_criteria().setText(element.searchCriteriaProperty().get());
+                    fwc.getBtn_fw_new_rule().getStyleClass().remove("btn_add");
+                    fwc.getBtn_fw_new_rule().getStyleClass().add("btn_save");
+                    fwc.setIndexSaveWebsiteFilter(this.getIndex());
+                } else {
+                    // Prepare view for edit
+                    IpFilter element = (IpFilter) table.getItems().get(this.getIndex());
+                    fwc.getChoice_fw_protocol().setValue(element.protocolProperty().get());
+                    fwc.getTxt_fw_new_ip().setText(element.ipAddressProperty().get());
+                    fwc.getTxt_fw_new_port().setText(element.portProperty().get());
+                    fwc.getTxt_fw_new_desc().setText(element.descriptionProperty().get());
+                    fwc.getBtn_fw_add_new_server().getStyleClass().remove("btn_add");
+                    fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_save");
+                    fwc.setIndexSaveIpFilter(this.getIndex());
+                }
+            }
             // Delete item
             else if(b.getStyleClass().contains(Type.DELETE.toString())) {
                 table.getItems().remove(this.getIndex());
