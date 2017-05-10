@@ -47,12 +47,12 @@
                    </font>
                 </Label>
             </HBox>
-            <TableView fx:id="tv_fw_allowed_sites" editable="true" prefHeight="200.0">
+            <TableView fx:id="tv_fw_allowed_sites" prefHeight="200.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="tab_fw_search_pattern" minWidth="131.0" maxWidth="131.0" text="%welcomeApplicationFirewall.searchPattern" />
-                    <TableColumn fx:id="tab_fw_search_criteria" minWidth="317.0" text="%welcomeApplicationFirewall.searchCriteria" />
-                    <TableColumn fx:id="tab_fw_search_btn_edit_save" minWidth="35.0" maxWidth="35.0" />
+                    <TableColumn fx:id="tab_fw_search_criteria" prefWidth="9999" text="%welcomeApplicationFirewall.searchCriteria" />
+                    <TableColumn fx:id="tab_fw_search_btn_edit" minWidth="35.0" maxWidth="35.0" />
                     <TableColumn fx:id="tab_fw_search_btn_delete"  minWidth="35.0" maxWidth="35.0" />
                 </columns>
             </TableView>
@@ -71,14 +71,14 @@
                    </font>
                 </Label>
             </HBox>
-            <TableView fx:id="tv_fw_allowed_servers" editable="true" prefHeight="200.0">
+            <TableView fx:id="tv_fw_allowed_servers" prefHeight="200.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="tab_fw_server_protocol" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.protocol" />
                     <TableColumn fx:id="tab_fw_server_ip" minWidth="130.0" maxWidth="130.0" text="%welcomeApplicationFirewall.ip" />
                     <TableColumn fx:id="tab_fw_server_port" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.port" />
                     <TableColumn fx:id="tab_fw_server_desc" prefWidth="9999" text="%welcomeApplicationFirewall.serverDescription" />
-                    <TableColumn fx:id="tab_fw_server_btn_edit_save" minWidth="35.0" maxWidth="35.0" />
+                    <TableColumn fx:id="tab_fw_server_btn_edit" minWidth="35.0" maxWidth="35.0" />
                     <TableColumn fx:id="tab_fw_server_btn_delete"  minWidth="35.0" maxWidth="35.0" />
                 </columns>
             </TableView>
