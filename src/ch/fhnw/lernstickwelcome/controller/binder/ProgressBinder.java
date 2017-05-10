@@ -47,8 +47,8 @@ public class ProgressBinder {
      * Method to initialize the bidirectional bindings between the view and packend properties
      */
     public void initBindings() {
-        install.getProg_inst_bar().progressProperty().bind(controller.getInstaller().progressProperty());
-        install.getTxt_inst_prc().textProperty().bind(controller.getInstaller().progressProperty().multiply(100).asString("%.0f%%"));
+        install.getPbInstBar().progressProperty().bind(controller.getInstaller().progressProperty());
+        install.getLbInstPrc().textProperty().bind(controller.getInstaller().progressProperty().multiply(100).asString("%.0f%%"));
 
         // Get the text of the title and the message from resource bundle
         StringBinding title = Bindings.createStringBinding(
@@ -86,12 +86,12 @@ public class ProgressBinder {
                         return null;
                 }, controller.getInstaller().valueProperty());
         
-        install.getTxt_inst_installtitle().textProperty().bind(title);
-        install.getTxt_inst_mesage().textProperty().bind(message);
-        install.getImg_value().imageProperty().bind(value);
+        install.getLbInstalltitle().textProperty().bind(title);
+        install.getLbMesage().textProperty().bind(message);
+        install.getIvValue().imageProperty().bind(value);
         // Hide the image if none is available
-        install.getImg_value().managedProperty().bind(install.getImg_value().visibleProperty());
-        install.getImg_value().visibleProperty().bind(controller.getInstaller().valueProperty().isNotNull());
+        install.getIvValue().managedProperty().bind(install.getIvValue().visibleProperty());
+        install.getIvValue().visibleProperty().bind(controller.getInstaller().valueProperty().isNotNull());
     }
 
     /**
@@ -106,7 +106,7 @@ public class ProgressBinder {
             if (controller.getInstaller().finishedProperty().get()) {
                 if(controller.getInstaller().exceptionProperty().getValue() != null) {
                     // Current stage not always on top anymore so error can be shown
-                    Stage currentStage = ((Stage) install.getProg_inst_bar().getScene().getWindow());
+                    Stage currentStage = ((Stage) install.getPbInstBar().getScene().getWindow());
                     currentStage.setAlwaysOnTop(false);
                     // Show error dialog on exception
                     error.initErrorMessage(controller.getInstaller().exceptionProperty().get());
@@ -127,7 +127,7 @@ public class ProgressBinder {
                     }
                     // Close scene if finished after 3 seconds
                     PauseTransition delay = new PauseTransition(Duration.seconds(3));
-                    delay.setOnFinished(event -> ((Stage) install.getProg_inst_bar().getScene().getWindow()).close());
+                    delay.setOnFinished(event -> ((Stage) install.getPbInstBar().getScene().getWindow()).close());
                     delay.play();
                 }
             }

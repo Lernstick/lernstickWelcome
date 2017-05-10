@@ -8,20 +8,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefWidth="594.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.AdditionalSoftwareController">
+<AnchorPane prefWidth="594.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.AdditionalSoftwareController">
    <children>
       <VBox fx:id="vbApps" layoutX="10.0" layoutY="10.0" prefWidth="594.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <BorderPane>
                <left>
-                  <Label id="Description" text="%welcomeApplicationAdditionalSoftware.title" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+                  <Label text="%welcomeApplicationAdditionalSoftware.title" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                </left>
                <right>
-                  <Button fx:id="btn_sys_help" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" mnemonicParsing="false" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btHelp" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" mnemonicParsing="false" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
          </children>

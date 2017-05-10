@@ -84,7 +84,7 @@ public class FXMLGuiLoader {
             if(!isExamEnvironment){
                 // prepare menu for standard env.
                 informationController = loadMenuItemView(
-                        "../view/standard/informationStd.fxml", 
+                        "../view/exam/information.fxml", 
                         "welcomeApplicationMain.Information", 
                         "messagebox_info.png", menuPaneItems, rb
                 );
@@ -324,7 +324,7 @@ public class FXMLGuiLoader {
      * Method to create welcome application dialog (main window)
      * 
      * @param parent parent
-     * @param scene scene that has a {@link Region} as Root
+     * @param scene scene
      * @param title stage title
      * @param modal modal
      * @return 
@@ -338,8 +338,13 @@ public class FXMLGuiLoader {
         }
         stage.setTitle(title);
         stage.setScene(scene);
-        stage.setMinHeight(((Region) scene.getRoot()).getMinHeight());
-        stage.setMinWidth(((Region) scene.getRoot()).getMinWidth());
+        if(scene.getRoot() instanceof Region) {
+            Region rootElement = (Region) scene.getRoot();
+            if(rootElement.getMinHeight() != 0)
+                stage.setMinHeight(rootElement.getMinHeight());
+            if(rootElement.getMinWidth() != 0)
+                stage.setMinWidth(((Region) scene.getRoot()).getMinWidth());
+        }
         return stage;
     }
 }

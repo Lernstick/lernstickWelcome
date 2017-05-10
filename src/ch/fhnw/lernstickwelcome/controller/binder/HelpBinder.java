@@ -43,8 +43,8 @@ public class HelpBinder {
     public void initBindings() {
         TreeItem<HelpEntry> root = new TreeItem<>(null);
         root.getChildren().addAll(getTreeItemsFromList(controller.getHelpLoader().getHelpEntries()));
-        help.getTvHelpList().setRoot(root);
-        help.getTvHelpList().setShowRoot(false);
+        help.getTvList().setRoot(root);
+        help.getTvList().setShowRoot(false);
     }
 
     /**
@@ -72,13 +72,13 @@ public class HelpBinder {
      * Method to initialize the handlers for this class.
      */
     public void initHandlers() {
-        help.getTvHelpList().getSelectionModel().selectedItemProperty().addListener(evt
-                -> help.getWvHelpView().getEngine().load(
-                        help.getTvHelpList().getSelectionModel().getSelectedItem().getValue().getPath()
+        help.getTvList().getSelectionModel().selectedItemProperty().addListener(evt
+                -> help.getWvView().getEngine().load(
+                        help.getTvList().getSelectionModel().getSelectedItem().getValue().getPath()
                 )
         );
 
-        help.getBtnOk().setOnAction(evt
+        help.getBtOk().setOnAction(evt
                 -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close());
     }
 
@@ -93,13 +93,13 @@ public class HelpBinder {
      */
     public void setHelpEntryByChapter(String chapter) {
         String[] chapters = chapter.split("\\.");
-        TreeItem<HelpEntry> entry = help.getTvHelpList().getRoot();
+        TreeItem<HelpEntry> entry = help.getTvList().getRoot();
         for (String c : chapters) {
             entry = entry.getChildren().stream().
                     filter(t -> t.getValue().getIndex() == Integer.parseInt(c)).
                     findFirst().
                     get();
         }
-        help.getTvHelpList().getSelectionModel().select(entry);
+        help.getTvList().getSelectionModel().select(entry);
     }
 }

@@ -24,26 +24,26 @@ public class InformationController implements Initializable {
 
 
     @FXML
-    private Label label_info_os;
+    private Label lbOs;
     @FXML
-    private Label label_info_version;
+    private Label lbVersion;
     @FXML
-    private ImageView img;
+    private ImageView ivInfo;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        img.setImage(new Image(new File(WelcomeConstants.ICON_FILE_PATH + "/lernstick_usb.png").toURI().toString()));
+        ivInfo.setImage(new Image(new File(WelcomeConstants.ICON_FILE_PATH + "/lernstick_usb.png").toURI().toString()));
     }
     
-    public Label getLabel_info_os() {
-        return label_info_os;
+    public Label getLbOs() {
+        return lbOs;
     }
 
-    public Label getLabel_info_version() {
-        return label_info_version;
+    public Label getLbVersion() {
+        return lbVersion;
     }
 
     

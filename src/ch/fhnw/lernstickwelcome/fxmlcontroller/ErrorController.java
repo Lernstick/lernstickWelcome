@@ -27,9 +27,9 @@ public class ErrorController implements Initializable {
     private static final Logger LOGGER = Logger.getLogger(ErrorController.class.getName());
     
     @FXML
-    private Label lblErrorTitle;
+    private Label lbTitle;
     @FXML
-    private Label lblErrorMessage;
+    private Label lblMessage;
 
     private ResourceBundle rb;
     
@@ -43,18 +43,18 @@ public class ErrorController implements Initializable {
     
     public void initErrorMessage(Exception ex) {
         if(ex instanceof ProcessingException) {
-            lblErrorTitle.setText(rb.getString("welcomeApplicationError.saveStopped"));
-            lblErrorMessage.setText(MessageFormat.format(rb.getString(ex.getMessage()), ((ProcessingException) ex).getMessageDetails()));
+            lbTitle.setText(rb.getString("welcomeApplicationError.saveStopped"));
+            lblMessage.setText(MessageFormat.format(rb.getString(ex.getMessage()), ((ProcessingException) ex).getMessageDetails()));
             LOGGER.log(Level.INFO, "Error Dialog shown for ProcessingException", ex);
         } else {
-            lblErrorTitle.setText(rb.getString("welcomeApplicationError.unknownException"));
-            lblErrorMessage.setText(rb.getString("welcomeApplicationError.unknownExceptionMessage"));
+            lbTitle.setText(rb.getString("welcomeApplicationError.unknownException"));
+            lblMessage.setText(rb.getString("welcomeApplicationError.unknownExceptionMessage"));
             LOGGER.log(Level.SEVERE, "Error Dialog shown for unexpected Exception", ex);
         }
     }
 
     @FXML
-    private void btnOkOnAction(ActionEvent event) {
+    private void btOkOnAction(ActionEvent event) {
         ((Stage)((Node) event.getSource()).getScene().getWindow()).close(); 
     }
     

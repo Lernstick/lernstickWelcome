@@ -32,50 +32,50 @@ public class SystemStdController implements Initializable {
 
     
     @FXML
-    private Button btn_sys_help;
+    private Button btHelp;
     @FXML
-    private ChoiceBox<Number> choice_sysStd_visible_for;
+    private ChoiceBox<Number> cbVisibleFor;
     @FXML
-    private ToggleSwitch cb_sysStd_start_wa;
+    private ToggleSwitch tsStartWa;
     @FXML
-    private ToggleSwitch cb_sysStd_show_warning;
+    private ToggleSwitch tsShowWarning;
     @FXML
-    private ToggleSwitch cb_sysStd_direct_sound;
+    private ToggleSwitch tsDirectSound;
     @FXML
-    private ToggleSwitch cb_sysStd_block_kde;
+    private ToggleSwitch tsBlockKde;
     @FXML
-    private TextField txt_sys_exchange_partition;
+    private TextField tfExchangePartition;
     @FXML
-    private ToggleSwitch cb_sysStd_proxy;
+    private ToggleSwitch tsProxy;
     @FXML
-    private TextField txt_sysStd_host;
+    private TextField tfHost;
     @FXML
-    private TextField txt_sysStd_port;
+    private TextField tfPort;
     @FXML
-    private TextField txt_sysStd_user;
+    private TextField tfUser;
     @FXML
-    private TextField txt_sysStd_pwd;
+    private TextField tfPwd;
     @FXML
-    private Label lbl_sysStd_host;
+    private Label lbHost;
     @FXML
-    private Label lbl_sysStd_port;
+    private Label lbPort;
     @FXML
-    private Label lbl_sysStd_user;
+    private Label lbUser;
     @FXML
-    private Label lbl_sysStd_pwd;
+    private Label lbPwd;
     @FXML
-    private TextField txt_sys_username;
+    private TextField tfUsername;
     @FXML
-    private TextField txt_sys_systemversion;
+    private TextField tfSystemversion;
     @FXML
-    private TextField txt_sys_systemname;
+    private TextField tfSystemname;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choice_sysStd_visible_for.setConverter(new StringConverter<Number>() {
+        cbVisibleFor.setConverter(new StringConverter<Number>() {
             @Override
             public String toString(Number t) {
                 return t.intValue() + " " + (t.intValue() == 1 ? rb.getString("welcomeApplicationSystem.second") : rb.getString("welcomeApplicationSystem.seconds"));
@@ -86,13 +86,13 @@ public class SystemStdController implements Initializable {
                 return Integer.valueOf(string.split(" ")[0]);
             }
         });
-        choice_sysStd_visible_for.getItems().addAll(visibleForValues);
+        cbVisibleFor.getItems().addAll(visibleForValues);
         
-        txt_sys_username.textProperty().addListener(new ChangeListener<String>() {
+        tfUsername.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!isAllowed(newValue)) {
-                    txt_sys_username.setText(oldValue);
+                    tfUsername.setText(oldValue);
                 }
             }
             
@@ -110,7 +110,7 @@ public class SystemStdController implements Initializable {
             }
         });
         
-        txt_sys_exchange_partition.textProperty().addListener(new ChangeListener<String>() {
+        tfExchangePartition.textProperty().addListener(new ChangeListener<String>() {
             private final static int MAX_CHARS = 11;
             
             @Override
@@ -118,14 +118,14 @@ public class SystemStdController implements Initializable {
                 if(newValue == null) return;
                 // only allow ASCII input
                 if (!isASCII(newValue)) {
-                    txt_sys_exchange_partition.setText(oldValue);
+                    tfExchangePartition.setText(oldValue);
                     return;
                 }
 
                 if (getSpecialLength(newValue) <= MAX_CHARS) {
-                    txt_sys_exchange_partition.setText(newValue);
+                    tfExchangePartition.setText(newValue);
                 } else {
-                    txt_sys_exchange_partition.setText(oldValue);
+                    tfExchangePartition.setText(oldValue);
                     Toolkit.getDefaultToolkit().beep();
                 }
             }
@@ -164,79 +164,79 @@ public class SystemStdController implements Initializable {
         });
         
         if (!WelcomeUtil.isImageWritable()) {
-            choice_sysStd_visible_for.setVisible(false);
-            txt_sys_systemname.setDisable(true);
-            txt_sys_systemversion.setDisable(true);
+            cbVisibleFor.setVisible(false);
+            tfSystemname.setDisable(true);
+            tfSystemversion.setDisable(true);
         }
         
-        txt_sysStd_host.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());
-        txt_sysStd_port.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());
-        txt_sysStd_pwd.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());
-        txt_sysStd_user.disableProperty().bind(cb_sysStd_proxy.selectedProperty().not());  
+        tfHost.disableProperty().bind(tsProxy.selectedProperty().not());
+        tfPort.disableProperty().bind(tsProxy.selectedProperty().not());
+        tfPwd.disableProperty().bind(tsProxy.selectedProperty().not());
+        tfUser.disableProperty().bind(tsProxy.selectedProperty().not());  
     }    
 
     public Integer[] getVisibleForValues() {
         return visibleForValues;
     }
 
-    public Button getBtn_sys_help() {
-        return btn_sys_help;
+    public Button getBtHelp() {
+        return btHelp;
     }
 
-    public TextField getTxt_sys_username() {
-        return txt_sys_username;
+    public TextField getTfUsername() {
+        return tfUsername;
     }
 
-    public TextField getTxt_sys_systemname() {
-        return txt_sys_systemname;
+    public TextField getTfSystemname() {
+        return tfSystemname;
     }
 
-    public TextField getTxt_sys_systemversion() {
-        return txt_sys_systemversion;
+    public TextField getTfSystemversion() {
+        return tfSystemversion;
     }
 
-    public ChoiceBox<Number> getChoice_sysStd_visible_for() {
-        return choice_sysStd_visible_for;
+    public ChoiceBox<Number> getCbVisibleFor() {
+        return cbVisibleFor;
     }
 
-    public ToggleSwitch getCb_sysStd_start_wa() {
-        return cb_sysStd_start_wa;
+    public ToggleSwitch getTsStartWa() {
+        return tsStartWa;
     }
 
-    public ToggleSwitch getCb_sysStd_show_warning() {
-        return cb_sysStd_show_warning;
+    public ToggleSwitch getTsShowWarning() {
+        return tsShowWarning;
     }
 
-    public ToggleSwitch getCb_sysStd_direct_sound() {
-        return cb_sysStd_direct_sound;
+    public ToggleSwitch getTsDirectSound() {
+        return tsDirectSound;
     }
 
-    public ToggleSwitch getCb_sysStd_block_kde() {
-        return cb_sysStd_block_kde;
+    public ToggleSwitch getTsBlockKde() {
+        return tsBlockKde;
     }
 
-    public TextField getTxt_sys_exchange_partition() {
-        return txt_sys_exchange_partition;
+    public TextField getTfExchangePartition() {
+        return tfExchangePartition;
     }
 
-    public ToggleSwitch getCb_sysStd_proxy() {
-        return cb_sysStd_proxy;
+    public ToggleSwitch getTsProxy() {
+        return tsProxy;
     }
 
-    public TextField getTxt_sysStd_host() {
-        return txt_sysStd_host;
+    public TextField getTfHost() {
+        return tfHost;
     }
 
-    public TextField getTxt_sysStd_port() {
-        return txt_sysStd_port;
+    public TextField getTfPort() {
+        return tfPort;
     }
 
-    public TextField getTxt_sysStd_user() {
-        return txt_sysStd_user;
+    public TextField getTfUser() {
+        return tfUser;
     }
 
-    public TextField getTxt_sysStd_pwd() {
-        return txt_sysStd_pwd;
+    public TextField getTfPwd() {
+        return tfPwd;
     }    
     
     

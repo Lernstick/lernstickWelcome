@@ -137,7 +137,7 @@ public class WelcomeApplication extends Application {
                 ApplicationBinder recAppsBinder = new ApplicationBinder(
                         controller, 
                         guiLoader.getRecommendedController().getVbApps(),
-                        guiLoader.getRecommendedController().getBtn_sys_help()
+                        guiLoader.getRecommendedController().getBtHelp()
                 );
                 recAppsBinder.addApplicationGroup(controller.getNonfreeApps(), helpBinder, helpStage);
                 recAppsBinder.addApplicationGroup(controller.getUtilityApps(), helpBinder, helpStage);
@@ -146,7 +146,7 @@ public class WelcomeApplication extends Application {
                 ApplicationBinder addAppsBinder = new ApplicationBinder(
                         controller, 
                         guiLoader.getAddSoftwareController().getVbApps(),
-                        guiLoader.getAddSoftwareController().getBtn_sys_help()
+                        guiLoader.getAddSoftwareController().getBtHelp()
                 );
                 addAppsBinder.addApplicationGroup(controller.getTeachApps(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(controller.getSoftwApps(), helpBinder, helpStage);
@@ -177,7 +177,7 @@ public class WelcomeApplication extends Application {
             primaryStage.show();
             primaryStage.setMinHeight(primaryStage.getHeight());
             primaryStage.setMinWidth(primaryStage.getWidth());
-        } catch (IOException | ParserConfigurationException | SAXException ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
         }
