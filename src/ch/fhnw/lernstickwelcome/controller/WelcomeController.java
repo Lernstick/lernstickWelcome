@@ -75,7 +75,7 @@ public class WelcomeController {
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
         firewall = WelcomeModelFactory.getFirewallTask();
-        backup = WelcomeModelFactory.getBackupTask(properties, BUNDLE.getString("Backup_Directory"));
+        backup = WelcomeModelFactory.getBackupTask(properties, BUNDLE.getString("BackupTask.Backup_Directory"));
         sysconf = WelcomeModelFactory.getSystemTask(true, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);
 

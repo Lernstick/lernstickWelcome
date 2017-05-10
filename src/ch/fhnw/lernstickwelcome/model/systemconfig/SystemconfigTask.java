@@ -543,7 +543,7 @@ public class SystemconfigTask implements Processable<String> {
         String password1 = password.get();
         String password2 = passwordRepeat.get();
         if (!password1.equals(password2)) {
-            throw new ProcessingException("Password_Mismatch");
+            throw new ProcessingException("SystemconfigTask.Password_Mismatch");
         }
 
         // ok, passwords match, change password
@@ -556,7 +556,7 @@ public class SystemconfigTask implements Processable<String> {
             if (returnValue == 0) {
                 passwordEnabled();
             } else {
-                throw new ProcessingException("Password_Change_Error");
+                throw new ProcessingException("SystemconfigTask.Password_Change_Error");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);

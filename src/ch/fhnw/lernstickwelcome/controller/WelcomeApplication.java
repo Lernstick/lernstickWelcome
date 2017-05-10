@@ -177,7 +177,7 @@ public class WelcomeApplication extends Application {
             primaryStage.show();
             primaryStage.setMinHeight(primaryStage.getHeight());
             primaryStage.setMinWidth(primaryStage.getWidth());
-        } catch (IOException | ParserConfigurationException | SAXException ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
         }

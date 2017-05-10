@@ -181,7 +181,7 @@ public class WelcomeUtil {
 
             default:
                 // invalid syntax
-                throw new TableCellValidationException("Error_PortRange", index, 2);
+                throw new TableCellValidationException("WelcomeUtil.Error_PortRange", index, 2);
         }
     }
 
@@ -199,10 +199,10 @@ public class WelcomeUtil {
         try {
             int portNumber = Integer.parseInt(portString);
             if ((portNumber < 0) || (portNumber > 65535)) {
-                throw new TableCellValidationException("Error_PortRange", index, 2);
+                throw new TableCellValidationException("WelcomeUtil.Error_PortRange", index, 2);
             }
         } catch (NumberFormatException ex) {
-            throw new TableCellValidationException("Error_PortRange", index, 2);
+            throw new TableCellValidationException("WelcomeUtil.Error_PortRange", index, 2);
         }
     }
 
@@ -228,7 +228,7 @@ public class WelcomeUtil {
             try {
                 int prefixLength = Integer.parseInt(prefixLengthString);
                 if (prefixLength < 0 || prefixLength > 32) {
-                    throw new TableCellValidationException("Error_PrefixLength", index, 1, prefixLengthString);
+                    throw new TableCellValidationException("WelcomeUtil.Error_PrefixLength", index, 1, prefixLengthString);
                 }
             } catch (NumberFormatException ex) {
                 LOGGER.log(Level.WARNING,
@@ -268,17 +268,17 @@ public class WelcomeUtil {
         // through '9', and the hyphen ('-').
 
         if (string.isEmpty()) {
-            throw new TableCellValidationException("Error_No_Hostname", index, 1);
+            throw new TableCellValidationException("WelcomeUtil.Error_No_Hostname", index, 1);
         }
 
         if (string.length() > 255) {
-            throw new TableCellValidationException("Error_HostnameLength", index, 1, string);
+            throw new TableCellValidationException("WelcomeUtil.Error_HostnameLength", index, 1, string);
         }
 
         String[] labels = string.split("\\.");
         for (String label : labels) {
             if (label.length() > 63) {
-                throw new TableCellValidationException("Error_LabelLength", index, 1, label);
+                throw new TableCellValidationException("WelcomeUtil.Error_LabelLength", index, 1, label);
             }
             for (int i = 0, length = label.length(); i < length; i++) {
                 char c = label.charAt(i);
@@ -286,7 +286,7 @@ public class WelcomeUtil {
                         && ((c < '0') || (c > '9'))
                         && ((c < 'A') || (c > 'Z'))
                         && ((c < 'a') || (c > 'z'))) {
-                    throw new TableCellValidationException("Error_Invalid_Hostname_Character", index, 1, c);
+                    throw new TableCellValidationException("WelcomeUtil.Error_Invalid_Hostname_Character", index, 1, c);
                 }
             }
         }
@@ -308,10 +308,10 @@ public class WelcomeUtil {
             try {
                 int octet = Integer.parseInt(octetString);
                 if (octet < 0 || octet > 255) {
-                    throw new TableCellValidationException("Error_Octet", index, 1, string, octetString);
+                    throw new TableCellValidationException("WelcomeUtil.Error_Octet", index, 1, string, octetString);
                 }
             } catch (NumberFormatException ex) {
-                throw new TableCellValidationException("Error_Octet", index, 1, string, octetString);
+                throw new TableCellValidationException("WelcomeUtil.Error_Octet", index, 1, string, octetString);
             }
         }
     }

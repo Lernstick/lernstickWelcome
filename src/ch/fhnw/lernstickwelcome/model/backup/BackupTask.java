@@ -106,13 +106,13 @@ public class BackupTask implements Processable<String> {
         }
 
         if (destinationPath.get().isEmpty()) {
-            throw new ProcessingException("Error_No_Backup_Directory");
+            throw new ProcessingException("BackupTask.Error_No_Backup_Directory");
         }
 
         File dirFile = new File(destinationPath.get());
         if (dirFile.exists()) {
             if (!dirFile.isDirectory()) {
-                throw new ProcessingException("Error_Backup_Directory_No_Directory", destinationPath.get());
+                throw new ProcessingException("BackupTask.Error_Backup_Directory_No_Directory", destinationPath.get());
             }
 
             String[] files = dirFile.list();
@@ -120,7 +120,7 @@ public class BackupTask implements Processable<String> {
                 int returnValue = PROCESS_EXECUTOR.executeProcess(
                         "rdiff-backup", "-l", dirFile.getAbsolutePath());
                 if (returnValue != 0) {
-                    throw new ProcessingException("Error_Backup_Directory_Invalid", destinationPath.get());
+                    throw new ProcessingException("BackupTask.Error_Backup_Directory_Invalid", destinationPath.get());
                 }
             }
         }
@@ -150,7 +150,7 @@ public class BackupTask implements Processable<String> {
             String idType = partition.getIdType();
             if (idType.equals("exfat")) {
                 // rdiff-backup does not work (yet) on exfat partitions!
-                throw new ProcessingException("Error_Backup_on_exFAT", destinationPath.get());
+                throw new ProcessingException("BackupTask.Error_Backup_on_exFAT", destinationPath.get());
             }
         } catch (DBusException ex) {
             LOGGER.log(Level.WARNING, "", ex);

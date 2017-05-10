@@ -102,8 +102,8 @@ public class FirewallTask implements Processable<String> {
                         PROCESS_EXECUTOR.getStdErr()
                     });
             String messageId = firewallRunning.get()
-                    ? "Stop_firewall_error"
-                    : "Start_firewall_error";
+                    ? "FirewallTask.Stop_firewall_error"
+                    : "FirewallTask.Start_firewall_error";
             throw new ProcessingException(messageId);
         }
     }
