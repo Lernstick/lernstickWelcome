@@ -84,27 +84,33 @@ public class ApplicationBinder {
             } catch(Exception ex) {
                 appView.setTitle(app.getName());
             }
-            try {
-                appView.setDescription(rb.getString(app.getDescription()));
-            } catch(Exception ex) {
-                LOGGER.log(Level.WARNING, "Description has key but key couldnt be load from bundle for app {0}", app.getName());
+            if(app.getDescription() != null && !app.getDescription().isEmpty()) {
+                try {
+                    appView.setDescription(rb.getString(app.getDescription()));
+                } catch(Exception ex) {
+                    LOGGER.log(Level.WARNING, "Description has key but key couldnt be load from bundle for app {0}", app.getName());
+                }
             }
             
             if(app.getHelpPath() != null && !app.getHelpPath().isEmpty()) {
-                if(app.getHelpPath().matches("([0-9].?)+")) {
+                String helpPath;
+                try {
+                    helpPath = rb.getString(app.getHelpPath());
+                } catch(Exception ex) {
+                    helpPath = app.getHelpPath();
+                    LOGGER.log(Level.WARNING, "Help Path couldn't be found in bundle for app {0}", app.getName());
+                    LOGGER.log(Level.WARNING, "The help path itself is taken for validation. "
+                            + "(Language support isn't guaranteed)");
+                }
+                if(helpPath.startsWith("HelpChapter:")) {
+                    String helpChapter = helpPath.substring(12);
                     appView.setHelpAction(evt -> {
-                        binder.setHelpEntryByChapter(app.getHelpPath());
+                        binder.setHelpEntryByChapter(helpChapter);
                         help.show();
                     });
                 } else {
-                    try {
-                        String s = rb.getString(app.getHelpPath());
-                        appView.setHelpAction(evt -> {
-                            WelcomeUtil.openLinkInBrowser(s);
-                        });
-                    } catch(Exception ex) {
-                        LOGGER.log(Level.WARNING, "Help Path not local nor key for url in bundle for app {0}", app.getName());
-                    }
+                    String helpUrl = helpPath;
+                    appView.setHelpAction(evt -> WelcomeUtil.openLinkInBrowser(helpUrl));
                 }
             }
             if(app.getIcon() != null && !app.getIcon().isEmpty()) {

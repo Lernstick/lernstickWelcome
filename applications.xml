@@ -28,9 +28,9 @@
 		</tags>
 	</application>
 	<application name="TuxPaint">
-		<description>Welcome.tuxpaintPanel.description</description>
+		<description>Welcome.tuxPaintPanel.description</description>
 		<icon>tuxpaint</icon>
-		<help-path>Welcome.tuxpaintPanel.website</help-path>
+		<help-path>Welcome.tuxPaintPanel.website</help-path>
 		<packages>
 			<package type="aptget">lernstick-tuxpaint</package>
 		</packages>
@@ -320,9 +320,9 @@
 		</tags>
 	</application>
 	<application name="Minetest">
-		<description>Welcome.minetestPanel.description</description>
+		<description>Welcome.minetestGamePanel.description</description>
 		<icon>minetest</icon>
-		<help-path>Welcome.minetestPanel.website</help-path>
+		<help-path>Welcome.minetestGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">lernstick-minetest-game-bfd</package>
 			<package type="aptget">lernstick-minetest-game-carbone-ng</package>
@@ -334,9 +334,9 @@
 		</tags>
 	</application>
 	<application name="Colobot">
-		<description>Welcome.colobotPanel.description</description>
+		<description>Welcome.colobotGamePanel.description</description>
 		<icon>colobot</icon>
-		<help-path>Welcome.colobotPanel.website</help-path>
+		<help-path>Welcome.colobotGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">colobot</package>
 		</packages>
@@ -345,9 +345,9 @@
 		</tags>
 	</application>
 	<application name="Ri-li">
-		<description>Welcome.riPanel.description</description>
+		<description>Welcome.riliGamePanel.description</description>
 		<icon>ri-li</icon>
-		<help-path>Welcome.riPanel.website</help-path>
+		<help-path>Welcome.riliGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">ri-li</package>
 		</packages>
@@ -356,9 +356,9 @@
 		</tags>
 	</application>
 	<application name="Fish Fillets NG">
-		<description>Welcome.filletsPanel.description</description>
+		<description>Welcome.filletsGamePanel.description</description>
 		<icon>fillets</icon>
-		<help-path>Welcome.filletsPanel.website</help-path>
+		<help-path>Welcome.filletsGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">lernstick-fillets-ng</package>
 			<package type="aptget">fillets-ng-data-cs</package>
@@ -368,9 +368,9 @@
 		</tags>
 	</application>
 	<application name="Neverball">
-		<description>Welcome.neverballPanel.description</description>
+		<description>Welcome.neverballGamePanel.description</description>
 		<icon>neverball</icon>
-		<help-path>Welcome.neverballPanel.website</help-path>
+		<help-path>Welcome.neverballGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">live-neverball</package>
 		</packages>
@@ -379,9 +379,9 @@
 		</tags>
 	</application>
 	<application name="Neverputt">
-		<description>Welcome.neverputtPanel.description</description>
+		<description>Welcome.neverputtGamePanel.description</description>
 		<icon>neverputt</icon>
-		<help-path>Welcome.neverputtPanel.website</help-path>
+		<help-path>Welcome.neverputtGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">live-neverputt</package>
 		</packages>
@@ -390,9 +390,9 @@
 		</tags>
 	</application>
 	<application name="FreeCol">
-		<description>Welcome.freecolPanel.description</description>
+		<description>Welcome.freecolGamePanel.description</description>
 		<icon>freecol</icon>
-		<help-path>Welcome.freecolPanel.website</help-path>
+		<help-path>Welcome.freecolGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">freecol</package>
 		</packages>
@@ -401,9 +401,9 @@
 		</tags>
 	</application>
 	<application name="Frogatto &amp; Friends">
-		<description>Welcome.frogattoPanel.description</description>
+		<description>Welcome.frogattoGamePanel.description</description>
 		<icon>frogatto</icon>
-		<help-path>Welcome.frogattoPanel.website</help-path>
+		<help-path>Welcome.frogattoGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">lernstick-frogatto</package>
 		</packages>
@@ -412,9 +412,9 @@
 		</tags>
 	</application>
 	<application name="SuperTux">
-		<description>Welcome.supertuxPanel.description</description>
+		<description>Welcome.supertuxGamePanel.description</description>
 		<icon>supertux</icon>
-		<help-path>Welcome.supertuxPanel.website</help-path>
+		<help-path>Welcome.supertuxGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">live-supertux</package>
 		</packages>
@@ -423,9 +423,9 @@
 		</tags>
 	</application>
 	<application name="SuperTuxKart">
-		<description>Welcome.supertuxkartPanel.description</description>
+		<description>Welcome.supertuxkartGamePanel.description</description>
 		<icon>supertuxkart</icon>
-		<help-path>Welcome.supertuxkartPanel.website</help-path>
+		<help-path>Welcome.supertuxkartGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">live-supertuxkart</package>
 		</packages>
@@ -434,9 +434,9 @@
 		</tags>
 	</application>
 	<application name="XMoto">
-		<description>Welcome.xmotoPanel.description</description>
+		<description>Welcome.xmotoGamePanel.description</description>
 		<icon>xmoto</icon>
-		<help-path>Welcome.xmotoPanel.website</help-path>
+		<help-path>Welcome.xmotoGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">live-xmoto</package>
 		</packages>
@@ -445,9 +445,9 @@
 		</tags>
 	</application>
 	<application name="Trigger Rally">
-		<description>Welcome.triggerPanel.description</description>
+		<description>Welcome.triggerGamePanel.description</description>
 		<icon>trigger</icon>
-		<help-path>Welcome.triggerPanel.website</help-path>
+		<help-path>Welcome.triggerGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">live-trigger-rally</package>
 		</packages>
@@ -467,9 +467,9 @@
 		</tags>
 	</application>
 	<application name="The Battle for Wesnoth">
-		<description>Welcome.wesnothPanel.description</description>
+		<description>Welcome.wesnothGamePanel.description</description>
 		<icon>wesnoth</icon>
-		<help-path>Welcome.wesnothPanel.website</help-path>
+		<help-path>Welcome.wesnothGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">wesnoth-1.12</package>
 			<package type="aptget">wesnoth-1.12-music</package>
@@ -479,9 +479,9 @@
 		</tags>
 	</application>
 	<application name="FLARE">
-		<description>Welcome.flarePanel.description</description>
+		<description>Welcome.flareGamePanel.description</description>
 		<icon>flare</icon>
-		<help-path>Welcome.flarePanel.website</help-path>
+		<help-path>Welcome.flareGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">flare-game</package>
 		</packages>
@@ -490,9 +490,9 @@
 		</tags>
 	</application>
 	<application name="Hedgewars">
-		<description>Welcome.hedgewarsPanel.description</description>
+		<description>Welcome.hedgewarsGamePanel.description</description>
 		<icon>hedgewars</icon>
-		<help-path>Welcome.hedgewarsPanel.website</help-path>
+		<help-path>Welcome.hedgewarsGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">hedgewars</package>
 		</packages>
@@ -501,9 +501,9 @@
 		</tags>
 	</application>
 	<application name="MegaGlest">
-		<description>Welcome.megaglestPanel.description</description>
+		<description>Welcome.megaglestGamePanel.description</description>
 		<icon>megaglest</icon>
-		<help-path>Welcome.megaglestPanel.website</help-path>
+		<help-path>Welcome.megaglestGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">megaglest</package>
 		</packages>
@@ -512,9 +512,9 @@
 		</tags>
 	</application>
 	<application name="UFO: Alien Invasion">
-		<description>Welcome.ufoaiPanel.description</description>
+		<description>Welcome.ufoaiGamePanel.description</description>
 		<icon>ufoai</icon>
-		<help-path>Welcome.ufoaiPanel.website</help-path>
+		<help-path>Welcome.ufoaiGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">ufoai</package>
 			<package type="aptget">ufoai-music</package>
@@ -524,9 +524,9 @@
 		</tags>
 	</application>
 	<application name="Astromenace">
-		<description>Welcome.astromenacePanel.description</description>
+		<description>Welcome.astromenaceGamePanel.description</description>
 		<icon>astromenace</icon>
-		<help-path>Welcome.astromenacePanel.website</help-path>
+		<help-path>Welcome.astromenaceGamePanel.website</help-path>
 		<packages>
 			<package type="aptget">lernstick-astromenace</package>
 		</packages>
@@ -536,10 +536,10 @@
 	</application>
 	<!-- SPECIAL APPS -->
 	<application name="Adobe Reader">
-		<description>Welcome.Adobe_Reader_8_iconPanel.description</description>
+		<description></description>
 		<icon>Adobe_Reader_8_icon</icon>
-		<help-path>Welcome.Adobe_Reader_8_iconPanel.website</help-path>
-                <installed-names>
+		<help-path></help-path>
+		<installed-names>
                     <installed-name>adobereader-enu</installed-name>
                 </installed-names>
 		<packages>
@@ -554,8 +554,8 @@
 	<application name="Skype">
 		<description>Welcome.skypePanel.description</description>
 		<icon>skype</icon>
-		<help-path>Welcome.skypePanel.website</help-path>
-                <installed-names>
+		<help-path></help-path>
+		<installed-names>
                     <installed-name>skype</installed-name>
                 </installed-names>
 		<packages>
@@ -567,10 +567,10 @@
 		</tags>
 	</application>
 	<application name="Google Earth">
-		<description>Welcome.googleearthPanel.description</description>
+		<description></description>
 		<icon>googleearth</icon>
-		<help-path>Welcome.googleearthPanel.website</help-path>
-                <installed-names>
+		<help-path></help-path>
+		<installed-names>
                     <installed-name>google-earth-stable</installed-name>
                 </installed-names>
 		<packages>
@@ -599,7 +599,7 @@
 	<application name="Adobe Flash Player">
 		<description>Welcome.flashPanel.description</description>
 		<icon>flash</icon>
-		<help-path>Welcome.flashPanel.website</help-path>
+		<help-path></help-path>
 		<packages>
 			<package type="aptget">flashplugin-nonfree</package>
 			<package type="aptget">libhal1-flash</package>
@@ -610,9 +610,9 @@
 		</tags>
 	</application>
 	<application name="Welcome.fontsLabel.text">
-		<description>Welcome.fontsPanel.description</description>
+		<description></description>
 		<icon>fonts</icon>
-		<help-path>Welcome.fontsPanel.website</help-path>
+		<help-path></help-path>
 		<packages>
 			<package type="aptget">ttf-mscorefonts-installer</package>
 		</packages>
@@ -624,7 +624,7 @@
 	<application name="Welcome.multimediaLabel.text">
 		<description>Welcome.multimediaPanel.description</description>
 		<icon>multimedia</icon>
-		<help-path>Welcome.multimediaPanel.website</help-path>
+		<help-path></help-path>
 		<packages>
 			<package type="aptget">libdvdcss2</package>
 			<package type="aptget">libmp3lame0</package>
@@ -677,9 +677,9 @@
 		</tags>
 	</application>
 	<application name="tigerjython">
-		<description>Welcome.gcomprisPanel.description</description>
+		<description>Welcome.tigerjythonPanel.description</description>
 		<icon>gcompris</icon>
-		<help-path>http://jython.tobiaskohn.ch</help-path>
+		<help-path>Welcome.tigerjythonPanel.website</help-path>
 		<packages>
 			<package type="aptget">tigerjython</package>
 		</packages>
@@ -687,10 +687,10 @@
 			<tag>misc</tag>
 		</tags>
 	</application>
-	<application name="widelands">
+	<application name="Widelands">
 		<description>Welcome.widelandsPanel.description</description>
 		<icon>gcompris</icon>
-		<help-path>https://wl.widelands.org</help-path>
+		<help-path>Welcome.widelandsPanel.website</help-path>
 		<packages>
 			<package type="aptget">widelands</package>
 		</packages>
