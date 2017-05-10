@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
@@ -34,7 +35,7 @@ public class SystemController implements Initializable {
     @FXML
     private Button btHelp;
     @FXML
-    private ChoiceBox<Number> cbVisibleFor;
+    private ComboBox<Number> cbVisibleFor;
     @FXML
     private ToggleSwitch tsStartWa;
     @FXML
@@ -87,6 +88,7 @@ public class SystemController implements Initializable {
             }
         });
         cbVisibleFor.getItems().addAll(visibleForValues);
+        cbVisibleFor.setEditable(true);
         
         tfUsername.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -195,7 +197,7 @@ public class SystemController implements Initializable {
         return tfSystemversion;
     }
 
-    public ChoiceBox<Number> getCbVisibleFor() {
+    public ComboBox<Number> getCbVisibleFor() {
         return cbVisibleFor;
     }
 
