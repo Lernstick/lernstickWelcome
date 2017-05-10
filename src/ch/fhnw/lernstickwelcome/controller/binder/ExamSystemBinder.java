@@ -33,8 +33,8 @@ public class ExamSystemBinder {
         system.getCb_sys_allow_file_systems().selectedProperty().bindBidirectional(controller.getSysconf().allowAccessToOtherFilesystemsProperty());
         system.getCb_sys_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().blockKdeDesktopAppletsProperty());
         system.getCb_sys_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().directSoundOutputProperty());
-        system.getCb_sys_show_warning().selectedProperty().bindBidirectional(controller.getPartition().showReadWriteWelcomeProperty());
-        system.getCb_sys_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
+        system.getCb_sys_show_warning().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
+        system.getCb_sys_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadWriteWelcomeProperty());
         system.getChoice_sys_visible_for().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
         system.getTxt_sys_systemname().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
         system.getTxt_sys_systemversion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
