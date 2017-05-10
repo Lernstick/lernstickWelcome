@@ -5,10 +5,11 @@
  */
 package ch.fhnw.lernstickwelcome.view.impl;
 
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.FirewallController;
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
@@ -46,7 +47,7 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
      * @param fwc The firewall controller, where in case of an edit the values should be edited
      * @param table The table which contains this ButtonCell instance and the other Elements to be edited
      */
-    public ButtonCell(Type type, WelcomeApplicationFirewallController fwc, TableView table) {
+    public ButtonCell(Type type, FirewallController fwc, TableView table) {
         super();
         
         btn = new Button();
@@ -65,6 +66,10 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.getBtn_fw_new_rule().getStyleClass().remove("btn_add");
                     fwc.getBtn_fw_new_rule().getStyleClass().add("btn_save");
                     fwc.setIndexSaveWebsiteFilter(this.getIndex());
+                    fwc.getChoice_fw_search_pattern().requestFocus();
+                    // Scroll to edit fields
+                    ScrollPane sp = (ScrollPane) fwc.getBtn_fw_add_new_server().getScene().lookup("#MainPane");
+                    sp.setVvalue(0.0);
                 } else {
                     // Prepare view for edit
                     IpFilter element = (IpFilter) table.getItems().get(this.getIndex());
@@ -75,10 +80,28 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.getBtn_fw_add_new_server().getStyleClass().remove("btn_add");
                     fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_save");
                     fwc.setIndexSaveIpFilter(this.getIndex());
+                    fwc.getChoice_fw_protocol().requestFocus();
+                    // Scroll to edit fields
+                    ScrollPane sp = (ScrollPane) fwc.getBtn_fw_add_new_server().getScene().lookup("#MainPane");
+                    sp.setVvalue(Double.MAX_VALUE);
                 }
             }
             // Delete item
             else if(b.getStyleClass().contains(Type.DELETE.toString())) {
+                // Exit edit mode if deleting entry
+                if (table == fwc.getTv_fw_allowed_sites() && fwc.getIndexSaveWebsiteFilter() == this.getIndex()) {
+                    fwc.getChoice_fw_search_pattern().setValue(null);
+                    fwc.getTxt_fw_search_criteria().setText("");
+                    fwc.getBtn_fw_new_rule().getStyleClass().remove("btn_save");
+                    fwc.getBtn_fw_new_rule().getStyleClass().add("btn_add");
+                } else if (table == fwc.getTv_fw_allowed_servers() && fwc.getIndexSaveIpFilter() == this.getIndex()) {
+                    fwc.getChoice_fw_protocol().setValue(null);
+                    fwc.getTxt_fw_new_ip().setText("");
+                    fwc.getTxt_fw_new_port().setText("");
+                    fwc.getTxt_fw_new_desc().setText("");
+                    fwc.getBtn_fw_add_new_server().getStyleClass().remove("btn_save");
+                    fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_add");
+                }
                 table.getItems().remove(this.getIndex());
             }
         });
@@ -99,6 +122,4 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
             setGraphic(null);
         }
     }
-    
-    
 }

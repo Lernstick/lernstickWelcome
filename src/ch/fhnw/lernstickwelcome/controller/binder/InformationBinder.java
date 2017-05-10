@@ -1,7 +1,7 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.InformationController;
 
 /**
  * Binder class to init binings between view components and backend (model) properties
@@ -10,7 +10,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationInformationCont
  */
 public class InformationBinder {
     private final WelcomeController controller;
-    private final WelcomeApplicationInformationController information;
+    private final InformationController information;
 
     /**
      * Constructor of InformationBinder class
@@ -18,7 +18,7 @@ public class InformationBinder {
      * @param controller        is needed to provide access to the backend properties
      * @param information       FXML controller which prviedes the view properties
      */
-    public InformationBinder(WelcomeController controller, WelcomeApplicationInformationController information){
+    public InformationBinder(WelcomeController controller, InformationController information){
         this.controller = controller;
         this.information = information;
     }
@@ -28,7 +28,7 @@ public class InformationBinder {
      * (gets debian version)
      */
     public void initBindings(){
-        information.getLabel_info_os().textProperty().bind(controller.getSysconf().systemnameProperty());
-        information.getLabel_info_version().textProperty().bind(controller.getSysconf().systemversionProperty());
+        information.getLbOs().textProperty().bind(controller.getSysconf().systemnameProperty());
+        information.getLbVersion().textProperty().bind(controller.getSysconf().systemversionProperty());
     }
 }

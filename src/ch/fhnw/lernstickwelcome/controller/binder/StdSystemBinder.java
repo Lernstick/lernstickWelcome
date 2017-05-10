@@ -1,7 +1,7 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationSystemStdController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.SystemStdController;
 import javafx.stage.Stage;
 
 /**
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class StdSystemBinder {
 
     private WelcomeController controller;
-    private WelcomeApplicationSystemStdController system;
+    private SystemStdController system;
     
    /**
      * Constructor of ExamInformationBinder class
@@ -20,7 +20,7 @@ public class StdSystemBinder {
      * @param controller        is needed to provide access to the backend properties
      * @param system            FXML controller which prviedes the view properties
      */
-    public StdSystemBinder(WelcomeController controller, WelcomeApplicationSystemStdController system){
+    public StdSystemBinder(WelcomeController controller, SystemStdController system){
         this.controller = controller;
         this.system = system;
     }
@@ -29,23 +29,23 @@ public class StdSystemBinder {
      * Method to initialize the bidirectional bindings between the view and packend properties
      */
     public void initBindings(){
-        system.getCb_sysStd_block_kde().selectedProperty().bindBidirectional(controller.getSysconf().blockKdeDesktopAppletsProperty());
-        system.getCb_sysStd_direct_sound().selectedProperty().bindBidirectional(controller.getSysconf().directSoundOutputProperty());
-        system.getCb_sysStd_show_warning().selectedProperty().bindBidirectional(controller.getPartition().showReadWriteWelcomeProperty());
-        system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
-        system.getChoice_sysStd_visible_for().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
-        system.getTxt_sys_exchange_partition().textProperty().bindBidirectional(controller.getPartition().exchangePartitionLabelProperty());
-        system.getTxt_sys_username().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
-        system.getTxt_sys_systemname().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
-        system.getTxt_sys_systemversion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
-        system.getCb_sysStd_start_wa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
-        system.getCb_sysStd_proxy().selectedProperty().bindBidirectional(controller.getProxy().proxyActiveProperty());
-        system.getTxt_sysStd_host().textProperty().bindBidirectional(controller.getProxy().hostnameProperty());
-        system.getTxt_sysStd_port().textProperty().bindBidirectional(controller.getProxy().portProperty());
-        system.getTxt_sysStd_pwd().textProperty().bindBidirectional(controller.getProxy().passwordProperty());
-        system.getTxt_sysStd_user().textProperty().bindBidirectional(controller.getProxy().usernameProperty());
+        system.getTsBlockKde().selectedProperty().bindBidirectional(controller.getSysconf().blockKdeDesktopAppletsProperty());
+        system.getTsDirectSound().selectedProperty().bindBidirectional(controller.getSysconf().directSoundOutputProperty());
+        system.getTsShowWarning().selectedProperty().bindBidirectional(controller.getPartition().showReadWriteWelcomeProperty());
+        system.getTsStartWa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
+        system.getCbVisibleFor().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
+        system.getTfExchangePartition().textProperty().bindBidirectional(controller.getPartition().exchangePartitionLabelProperty());
+        system.getTfUsername().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
+        system.getTfSystemname().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
+        system.getTfSystemversion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
+        system.getTsStartWa().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
+        system.getTsProxy().selectedProperty().bindBidirectional(controller.getProxy().proxyActiveProperty());
+        system.getTfHost().textProperty().bindBidirectional(controller.getProxy().hostnameProperty());
+        system.getTfPort().textProperty().bindBidirectional(controller.getProxy().portProperty());
+        system.getTfPwd().textProperty().bindBidirectional(controller.getProxy().passwordProperty());
+        system.getTfUser().textProperty().bindBidirectional(controller.getProxy().usernameProperty());
         
-        system.getTxt_sys_exchange_partition().setDisable(!controller.getPartition().hasExchangePartition());
+        system.getTfExchangePartition().setDisable(!controller.getPartition().hasExchangePartition());
        
     }
 
@@ -56,7 +56,7 @@ public class StdSystemBinder {
      * @param help links to online user guide
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
-        system.getBtn_sys_help().setOnAction(evt -> {
+        system.getBtHelp().setOnAction(evt -> {
             help.setHelpEntryByChapter("3");
             helpStage.show();
         });

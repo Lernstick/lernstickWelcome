@@ -2,7 +2,7 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.BackupController;
 import javafx.stage.Stage;
 
 /**
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class ExamBackupBinder {
 
     private final WelcomeController controller;
-    private final WelcomeApplicationBackupController backup;
+    private final BackupController backup;
     
     /**
      * Constructor of ExamBackupBinder class
@@ -21,7 +21,7 @@ public class ExamBackupBinder {
      * @param controller        is needed to provide access to the backend properties
      * @param backup            FXML controller which prviedes the view properties
      */
-    public ExamBackupBinder(WelcomeController controller, WelcomeApplicationBackupController backup){
+    public ExamBackupBinder(WelcomeController controller, BackupController backup){
         this.controller = controller;
         this.backup = backup;
     }
