@@ -67,6 +67,9 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.getBtn_fw_new_rule().getStyleClass().add("btn_save");
                     fwc.setIndexSaveWebsiteFilter(this.getIndex());
                     fwc.getChoice_fw_search_pattern().requestFocus();
+                    // Scroll to edit fields
+                    ScrollPane sp = (ScrollPane) fwc.getAp_fw().getScene().lookup("#MainPane");
+                    sp.setVvalue(0.0);
                 } else {
                     // Prepare view for edit
                     IpFilter element = (IpFilter) table.getItems().get(this.getIndex());
@@ -78,6 +81,9 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_save");
                     fwc.setIndexSaveIpFilter(this.getIndex());
                     fwc.getChoice_fw_protocol().requestFocus();
+                    // Scroll to edit fields
+                    ScrollPane sp = (ScrollPane) fwc.getAp_fw().getScene().lookup("#MainPane");
+                    sp.setVvalue(Double.MAX_VALUE);
                 }
             }
             // Delete item
