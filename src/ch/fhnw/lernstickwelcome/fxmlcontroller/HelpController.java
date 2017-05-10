@@ -22,11 +22,11 @@ import javafx.scene.web.WebView;
 public class HelpController implements Initializable {
 
     @FXML
-    private TreeView<HelpEntry> tvHelpList;
+    private TreeView<HelpEntry> tvList;
     @FXML
-    private WebView wvHelpView;
+    private WebView wvView;
     @FXML
-    private Button btnOk;
+    private Button btOk;
 
     /**
      * Initializes the controller class.
@@ -35,15 +35,15 @@ public class HelpController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }    
     
-    public TreeView<HelpEntry> getTvHelpList() {
-        return tvHelpList;
+    public TreeView<HelpEntry> getTvList() {
+        return tvList;
     }
     
-    public WebView getWvHelpView() {
-        return wvHelpView;
+    public WebView getWvView() {
+        return wvView;
     }
     
-    public Button getBtnOk() {
-        return btnOk;
+    public Button getBtOk() {
+        return btOk;
     }
 }

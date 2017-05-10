@@ -1,20 +1,11 @@
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
-import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 /**
  * FXML Controller class
@@ -24,7 +15,7 @@ import javafx.scene.text.Font;
 public class RecommendedSoftwareController implements Initializable {
 
     @FXML
-    private Button btn_sys_help;
+    private Button btHelp;
     @FXML
     private VBox vbApps;
     
@@ -35,8 +26,8 @@ public class RecommendedSoftwareController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
     
-    public Button getBtn_sys_help() {
-        return btn_sys_help;
+    public Button getBtHelp() {
+        return btHelp;
     }
     
     public VBox getVbApps() {

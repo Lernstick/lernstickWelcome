@@ -40,7 +40,7 @@ public class FirewallController implements Initializable {
     @FXML
     private Button btn_fw_help;
     @FXML
-    private ToggleSwitch cb_fw_allow_monitoring;
+    private ToggleSwitch tsAllowMonitoring;
     @FXML
     private TableView<WebsiteFilter> tv_fw_allowed_sites;
     @FXML
@@ -238,7 +238,7 @@ public class FirewallController implements Initializable {
     }
 
     public ToggleSwitch getCb_fw_allow_monitoring() {
-        return cb_fw_allow_monitoring;
+        return tsAllowMonitoring;
     }
 
     public ComboBox<WebsiteFilter.SearchPattern> getChoice_fw_search_pattern() {

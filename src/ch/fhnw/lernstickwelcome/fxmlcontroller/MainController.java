@@ -31,16 +31,16 @@ import javafx.stage.Stage;
 public class MainController implements Initializable {
 
     @FXML
-    private Button FinishButton;
+    private Button btFinishButton;
     @FXML
-    private Button SaveButton;
+    private Button btSaveButton;
     @FXML
-    private ListView<MenuPaneItem> MenuPane;
+    private ListView<MenuPaneItem> lvMenuPane;
     @FXML
-    private ScrollPane MainPane;
+    private ScrollPane spMainPane;
 
     public void initializeMenu(ObservableList<MenuPaneItem> list) {
-        MenuPane.setCellFactory(lv -> new ListCell<MenuPaneItem>() {
+        lvMenuPane.setCellFactory(lv -> new ListCell<MenuPaneItem>() {
             
             @Override
             protected void updateItem(MenuPaneItem item, boolean empty) { 
@@ -52,22 +52,22 @@ public class MainController implements Initializable {
                 }
             }
         });
-        MenuPane.setItems(list);
-        MenuPane.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        lvMenuPane.setItems(list);
+        lvMenuPane.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         
         // Change and resize the content
-        MenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> { 
-            MainPane.setContent(MenuPane.getSelectionModel().getSelectedItem().getParentScene());
-            MainPane.setVvalue(0);
-            ((Region)(MainPane.getContent())).setPrefWidth(MainPane.getWidth());
-            ((Region)(MainPane.getContent())).setPrefHeight(MainPane.getHeight());
+        lvMenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> { 
+            spMainPane.setContent(lvMenuPane.getSelectionModel().getSelectedItem().getParentScene());
+            spMainPane.setVvalue(0);
+            ((Region)(spMainPane.getContent())).setPrefWidth(spMainPane.getWidth());
+            ((Region)(spMainPane.getContent())).setPrefHeight(spMainPane.getHeight());
         });
         // Resize the content
-        MainPane.widthProperty().addListener(cl -> ((Region)(MainPane.getContent())).setPrefWidth(MainPane.getWidth()));
-        MainPane.heightProperty().addListener(cl -> ((Region)(MainPane.getContent())).setPrefHeight(MainPane.getHeight()));
+        spMainPane.widthProperty().addListener(cl -> ((Region)(spMainPane.getContent())).setPrefWidth(spMainPane.getWidth()));
+        spMainPane.heightProperty().addListener(cl -> ((Region)(spMainPane.getContent())).setPrefHeight(spMainPane.getHeight()));
         
         // Select first node as start screen
-        MenuPane.getSelectionModel().selectFirst();
+        lvMenuPane.getSelectionModel().selectFirst();
     }
     
     /**
@@ -89,12 +89,12 @@ public class MainController implements Initializable {
         ((Stage)((Node)(event.getSource())).getScene().getWindow()).close();
     }
 
-    public Button getFinishButton() {
-        return FinishButton;
+    public Button getBtFinishButton() {
+        return btFinishButton;
     }
 
-    public Button getSaveButton() {
-        return SaveButton;
+    public Button getBtSaveButton() {
+        return btSaveButton;
     }
     
     

@@ -39,11 +39,11 @@ public class MainBinder {
      * clicking on save.
      */
     public void initHandlers(Stage progressDialog) {
-        welcomeApplicationStart.getSaveButton().setOnAction(evt -> {
+        welcomeApplicationStart.getBtSaveButton().setOnAction(evt -> {
             controller.startProcessingTasks();
             progressDialog.showAndWait();
         });
-        welcomeApplicationStart.getFinishButton().setOnAction(evt -> {
+        welcomeApplicationStart.getBtFinishButton().setOnAction(evt -> {
 //            controller.startProcessingTasks();
 //            progressDialog.showAndWait();
             ((Stage) progressDialog.getOwner()).close();
