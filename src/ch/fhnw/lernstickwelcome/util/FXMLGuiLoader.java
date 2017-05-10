@@ -84,7 +84,7 @@ public class FXMLGuiLoader {
             if(!isExamEnvironment){
                 // prepare menu for standard env.
                 informationController = loadMenuItemView(
-                        "../view/standard/informationStd.fxml", 
+                        "../view/exam/information.fxml", 
                         "welcomeApplicationMain.Information", 
                         "messagebox_info.png", menuPaneItems, rb
                 );
