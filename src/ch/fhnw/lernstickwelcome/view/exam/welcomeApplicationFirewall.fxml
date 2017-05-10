@@ -16,7 +16,7 @@
 
 <?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 
-<AnchorPane id="AnchorPane" minHeight="612.0" prefHeight="612.0" minWidth="489.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController">
+<AnchorPane id="ap_fw" minHeight="612.0" prefHeight="612.0" minWidth="489.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController">
    <children>
       <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

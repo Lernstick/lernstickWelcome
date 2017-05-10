@@ -9,6 +9,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallControl
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
@@ -65,6 +66,7 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.getBtn_fw_new_rule().getStyleClass().remove("btn_add");
                     fwc.getBtn_fw_new_rule().getStyleClass().add("btn_save");
                     fwc.setIndexSaveWebsiteFilter(this.getIndex());
+                    fwc.getChoice_fw_search_pattern().requestFocus();
                 } else {
                     // Prepare view for edit
                     IpFilter element = (IpFilter) table.getItems().get(this.getIndex());
@@ -75,10 +77,25 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.getBtn_fw_add_new_server().getStyleClass().remove("btn_add");
                     fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_save");
                     fwc.setIndexSaveIpFilter(this.getIndex());
+                    fwc.getChoice_fw_protocol().requestFocus();
                 }
             }
             // Delete item
             else if(b.getStyleClass().contains(Type.DELETE.toString())) {
+                // Exit edit mode if deleting entry
+                if (table == fwc.getTv_fw_allowed_sites() && fwc.getIndexSaveWebsiteFilter() == this.getIndex()) {
+                    fwc.getChoice_fw_search_pattern().setValue(null);
+                    fwc.getTxt_fw_search_criteria().setText("");
+                    fwc.getBtn_fw_new_rule().getStyleClass().remove("btn_save");
+                    fwc.getBtn_fw_new_rule().getStyleClass().add("btn_add");
+                } else if (table == fwc.getTv_fw_allowed_servers() && fwc.getIndexSaveIpFilter() == this.getIndex()) {
+                    fwc.getChoice_fw_protocol().setValue(null);
+                    fwc.getTxt_fw_new_ip().setText("");
+                    fwc.getTxt_fw_new_port().setText("");
+                    fwc.getTxt_fw_new_desc().setText("");
+                    fwc.getBtn_fw_add_new_server().getStyleClass().remove("btn_save");
+                    fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_add");
+                }
                 table.getItems().remove(this.getIndex());
             }
         });

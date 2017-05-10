@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 /**
@@ -36,6 +37,9 @@ import javafx.util.StringConverter;
  * @author user
  */
 public class WelcomeApplicationFirewallController implements Initializable {
+
+    @FXML
+    private AnchorPane ap_fw;
 
     @FXML
     private Button btn_fw_help;
@@ -228,6 +232,10 @@ public class WelcomeApplicationFirewallController implements Initializable {
             txt_fw_new_desc.setText("");
         }
     }
+    
+    public AnchorPane getAp_fw() {
+        return ap_fw;
+    }
 
     public TableView getTv_fw_allowed_sites() {
         return tv_fw_allowed_sites;
@@ -324,6 +332,10 @@ public class WelcomeApplicationFirewallController implements Initializable {
     public Button getBtnFwHelp() {
         return btn_fw_help;
     }
+    
+    
+    public int getIndexSaveWebsiteFilter() { return indexSaveWebsiteFilter; }
+    public int getIndexSaveIpFilter() { return indexSaveIpFilter; }
     
     public void setIndexSaveWebsiteFilter(int i) {
         indexSaveWebsiteFilter = i;
