@@ -6,8 +6,8 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationProgressController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.ProgressController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import java.io.File;
 import java.util.logging.Level;
@@ -30,7 +30,7 @@ import javafx.util.Duration;
 public class ProgressBinder {
     private final static Logger LOGGER = Logger.getLogger(ProgressBinder.class.getName());
     private final WelcomeController controller;
-    private final WelcomeApplicationProgressController install;
+    private final ProgressController install;
 
     /**
      * Constructor of HelpBinder class
@@ -38,7 +38,7 @@ public class ProgressBinder {
      * @param controller is needed to provide access to the backend properties
      * @param install FXML controller which proviedes the view properties
      */
-    public ProgressBinder(WelcomeController controller, WelcomeApplicationProgressController install) {
+    public ProgressBinder(WelcomeController controller, ProgressController install) {
         this.controller = controller;
         this.install = install;
     }
@@ -100,7 +100,7 @@ public class ProgressBinder {
      * @param errorDialog the dialog that should be shown on error.
      * @param error the controller which the error message can be provided.
      */
-    public void initHandlers(Stage errorDialog, WelcomeApplicationErrorController error) {
+    public void initHandlers(Stage errorDialog, ErrorController error) {
         // Listen on task processor finished
         controller.getInstaller().finishedProperty().addListener(cl -> {
             if (controller.getInstaller().finishedProperty().get()) {

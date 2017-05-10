@@ -24,7 +24,7 @@ import javafx.util.StringConverter;
  *
  * @author user
  */
-public class WelcomeApplicationBackupController implements Initializable {
+public class BackupController implements Initializable {
 
     private final static Integer[] backupFrequency = new Integer[] { 1, 2, 3, 4, 5, 10, 15, 30, 60 };
 

@@ -19,7 +19,7 @@ import javafx.scene.web.WebView;
  *
  * @author user
  */
-public class WelcomeApplicationHelpController implements Initializable {
+public class HelpController implements Initializable {
 
     @FXML
     private TreeView<HelpEntry> tvHelpList;

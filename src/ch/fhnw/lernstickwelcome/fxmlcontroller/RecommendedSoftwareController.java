@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -20,13 +19,12 @@ import javafx.scene.text.Font;
 /**
  * FXML Controller class
  *
- * @author LineStettler
+ * @author Line Stettler
  */
-public class WelcomeApplicationAdditionalSoftwareController implements Initializable {
+public class RecommendedSoftwareController implements Initializable {
 
     @FXML
     private Button btn_sys_help;
-
     @FXML
     private VBox vbApps;
     
@@ -36,7 +34,7 @@ public class WelcomeApplicationAdditionalSoftwareController implements Initializ
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
-
+    
     public Button getBtn_sys_help() {
         return btn_sys_help;
     }

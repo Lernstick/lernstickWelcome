@@ -5,7 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.view.impl;
 
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.FirewallController;
 import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import javafx.scene.control.Button;
@@ -47,7 +47,7 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
      * @param fwc The firewall controller, where in case of an edit the values should be edited
      * @param table The table which contains this ButtonCell instance and the other Elements to be edited
      */
-    public ButtonCell(Type type, WelcomeApplicationFirewallController fwc, TableView table) {
+    public ButtonCell(Type type, FirewallController fwc, TableView table) {
         super();
         
         btn = new Button();
@@ -68,7 +68,7 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.setIndexSaveWebsiteFilter(this.getIndex());
                     fwc.getChoice_fw_search_pattern().requestFocus();
                     // Scroll to edit fields
-                    ScrollPane sp = (ScrollPane) fwc.getAp_fw().getScene().lookup("#MainPane");
+                    ScrollPane sp = (ScrollPane) fwc.getBtn_fw_add_new_server().getScene().lookup("#MainPane");
                     sp.setVvalue(0.0);
                 } else {
                     // Prepare view for edit
@@ -82,7 +82,7 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
                     fwc.setIndexSaveIpFilter(this.getIndex());
                     fwc.getChoice_fw_protocol().requestFocus();
                     // Scroll to edit fields
-                    ScrollPane sp = (ScrollPane) fwc.getAp_fw().getScene().lookup("#MainPane");
+                    ScrollPane sp = (ScrollPane) fwc.getBtn_fw_add_new_server().getScene().lookup("#MainPane");
                     sp.setVvalue(Double.MAX_VALUE);
                 }
             }
@@ -122,6 +122,4 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
             setGraphic(null);
         }
     }
-    
-    
 }

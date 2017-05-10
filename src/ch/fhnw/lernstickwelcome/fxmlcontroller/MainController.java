@@ -5,6 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
+import ch.fhnw.lernstickwelcome.view.impl.MenuPaneItem;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -27,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author user
  */
-public class WelcomeApplicationMainController implements Initializable {
+public class MainController implements Initializable {
 
     @FXML
     private Button FinishButton;

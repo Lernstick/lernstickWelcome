@@ -26,7 +26,7 @@ import javafx.util.StringConverter;
  *
  * @author user
  */
-public class WelcomeApplicationSystemStdController implements Initializable {
+public class SystemStdController implements Initializable {
 
     private final Integer[] visibleForValues = new Integer[] { 5, 10, 15, 20, 25, 30, 40, 50, 60 };
 

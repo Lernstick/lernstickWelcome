@@ -23,8 +23,8 @@ import javafx.stage.Stage;
  *
  * @author root
  */
-public class WelcomeApplicationErrorController implements Initializable {
-    private static final Logger LOGGER = Logger.getLogger(WelcomeApplicationErrorController.class.getName());
+public class ErrorController implements Initializable {
+    private static final Logger LOGGER = Logger.getLogger(ErrorController.class.getName());
     
     @FXML
     private Label lblErrorTitle;

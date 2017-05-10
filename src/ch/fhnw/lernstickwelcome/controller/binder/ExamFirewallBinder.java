@@ -2,8 +2,8 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationErrorController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationFirewallController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.FirewallController;
 import java.util.ResourceBundle;
 import javafx.stage.Stage;
 
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class ExamFirewallBinder {
 
     private final WelcomeController controller;
-    private final WelcomeApplicationFirewallController firewall;
+    private final FirewallController firewall;
 
     /**
      * Constructor of ExamBackupBinder class
@@ -24,7 +24,7 @@ public class ExamFirewallBinder {
      * @param controller is needed to provide access to the backend properties
      * @param firewall FXML controller which prviedes the view properties
      */
-    public ExamFirewallBinder(WelcomeController controller, WelcomeApplicationFirewallController firewall) {
+    public ExamFirewallBinder(WelcomeController controller, FirewallController firewall) {
         this.controller = controller;
         this.firewall = firewall;
     }
@@ -49,7 +49,7 @@ public class ExamFirewallBinder {
      * @param errorDialog the dialog that should be shown on error.
      * @param error the controller which the error message can be provided.
      */
-    public void initHandlers(Stage errorDialog, WelcomeApplicationErrorController error) {
+    public void initHandlers(Stage errorDialog, ErrorController error) {
         ResourceBundle rb = controller.getBundle();
         firewall.getCb_fw_allow_monitoring().selectedProperty().addListener(cl -> {
             try {

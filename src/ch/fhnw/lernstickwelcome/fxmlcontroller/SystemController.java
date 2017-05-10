@@ -25,7 +25,7 @@ import javafx.util.StringConverter;
  *
  * @author user
  */
-public class WelcomeApplicationSystemController implements Initializable {
+public class SystemController implements Initializable {
 
     @FXML
     private Button btn_sys_help;

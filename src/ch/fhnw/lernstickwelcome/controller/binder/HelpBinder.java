@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationHelpController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.HelpController;
 import ch.fhnw.lernstickwelcome.model.help.HelpEntry;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class HelpBinder {
 
     private final WelcomeController controller;
-    private final WelcomeApplicationHelpController help;
+    private final HelpController help;
 
     /**
      * Constructor of HelpBinder class
@@ -31,7 +31,7 @@ public class HelpBinder {
      * @param controller is needed to provide access to the backend properties
      * @param help FXML controller which proviedes the view properties
      */
-    public HelpBinder(WelcomeController controller, WelcomeApplicationHelpController help) {
+    public HelpBinder(WelcomeController controller, HelpController help) {
         this.controller = controller;
         this.help = help;
     }

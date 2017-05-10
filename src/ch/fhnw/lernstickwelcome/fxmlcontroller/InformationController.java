@@ -20,7 +20,7 @@ import javafx.scene.image.ImageView;
  *
  * @author user
  */
-public class WelcomeApplicationInformationController implements Initializable {
+public class InformationController implements Initializable {
 
 
     @FXML

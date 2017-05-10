@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 
-<AnchorPane id="AnchorPane" prefWidth="506.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationBackupController">
+<AnchorPane id="AnchorPane" prefWidth="506.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.BackupController">
    <children>
       <VBox minHeight="434.0" prefWidth="551.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

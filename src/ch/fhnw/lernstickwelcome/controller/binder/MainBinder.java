@@ -6,7 +6,7 @@
 package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.WelcomeApplicationMainController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.MainController;
 import javafx.stage.Stage;
 
 /**
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class MainBinder {
 
     private final WelcomeController controller;
-    private final WelcomeApplicationMainController welcomeApplicationStart;
+    private final MainController welcomeApplicationStart;
 
     /**
      * Constructor of MainBinder class
@@ -27,7 +27,7 @@ public class MainBinder {
      * @param welcomeApplicationStart FXML controller which proviedes the view
      * properties
      */
-    public MainBinder(WelcomeController controller, WelcomeApplicationMainController welcomeApplicationStart) {
+    public MainBinder(WelcomeController controller, MainController welcomeApplicationStart) {
         this.controller = controller;
         this.welcomeApplicationStart = welcomeApplicationStart;
     }

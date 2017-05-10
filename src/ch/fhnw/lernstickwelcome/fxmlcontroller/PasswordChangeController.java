@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
  *
  * @author root
  */
-public class WelcomeApplicationPasswordChangeController implements Initializable {
+public class PasswordChangeController implements Initializable {
 
     @FXML
     private Button btnCancel;

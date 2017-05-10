@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
  *
  * @author user
  */
-public class WelcomeApplicationProgressController implements Initializable {
+public class ProgressController implements Initializable {
 
     @FXML
     private ProgressBar prog_inst_bar;
