@@ -40,7 +40,7 @@ public class ExamPasswordChangeBinder {
      * @param error the controller which the error message can be provided.
      */
     public void initHandlers(Stage errorStage, ErrorController error) {
-        password.getBtnOk().setOnAction(evt -> {
+        password.getBtOk().setOnAction(evt -> {
             controller.getSysconf().passwordProperty().setValue(password.getTxtPassword().getText());
             controller.getSysconf().passwordRepeatProperty().setValue(password.getTxtPasswordRepeat().getText());
             try {
@@ -53,7 +53,7 @@ public class ExamPasswordChangeBinder {
             }
         });
         // If user clicks on ignore remove the already tried passwords.
-        password.getBtnCancel().setOnAction(evt -> 
+        password.getBtCancel().setOnAction(evt -> 
         {
             controller.getSysconf().passwordProperty().setValue(null);
             controller.getSysconf().passwordRepeatProperty().setValue(null);

@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
@@ -28,33 +29,33 @@ import javafx.util.StringConverter;
 public class SystemController implements Initializable {
 
     @FXML
-    private Button btn_sys_help;
+    private Button btHelp;
     @FXML
-    private TextField txt_sys_systemname;
+    private TextField tfUsername;
     @FXML
-    private TextField txt_sys_systemversion;
+    private TextField tfSystemVersion;
     @FXML
-    private TextField txt_sys_username;
+    private TextField tfSystemName;
     @FXML
-    private TextField txt_sys_password;
+    private PasswordField pfPassword;
     @FXML
-    private TextField txt_sys_password_repeat;
+    private PasswordField pfPasswordRepeat;
     @FXML
-    private ChoiceBox<Number> choice_sys_visible_for;
+    private ChoiceBox<Number> cbVisibleFor;
     @FXML
-    private ToggleSwitch cb_sys_start_wa;
+    private ToggleSwitch tsStartWa;
     @FXML
-    private ToggleSwitch cb_sys_direct_sound;
+    private ToggleSwitch tsDirectSound;
     @FXML
-    private ToggleSwitch cb_sys_block_kde;
+    private ToggleSwitch tsBlockKde;
     @FXML
-    private ToggleSwitch cb_sys_allow_file_systems;
+    private ToggleSwitch tsAllowFileSystems;
     @FXML
-    private TextField txt_sys_exchange_partition;
+    private TextField tfExchangePartition;
     @FXML
-    private ToggleSwitch cb_sys_access_user;
+    private ToggleSwitch tsAccessUser;
     @FXML
-    private ToggleSwitch cb_sys_show_warning;
+    private ToggleSwitch tsShowWarning;
     
     private final Integer[] visibleForValues = new Integer[] { 5, 10, 15, 20, 25, 30, 40, 50, 60 };
     
@@ -63,7 +64,7 @@ public class SystemController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choice_sys_visible_for.setConverter(new StringConverter<Number>() {
+        cbVisibleFor.setConverter(new StringConverter<Number>() {
             @Override
             public String toString(Number t) {
                 return t.intValue() + " " + (t.intValue() == 1 ? rb.getString("welcomeApplicationSystem.second") : rb.getString("welcomeApplicationSystem.seconds"));
@@ -75,11 +76,11 @@ public class SystemController implements Initializable {
             }
         });
         
-        txt_sys_username.textProperty().addListener(new ChangeListener<String>() {
+        tfUsername.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!isAllowed(newValue)) {
-                    txt_sys_username.setText(oldValue);
+                    tfUsername.setText(oldValue);
                 }
             }
             
@@ -97,7 +98,7 @@ public class SystemController implements Initializable {
             }
         });
 
-        txt_sys_exchange_partition.textProperty().addListener(new ChangeListener<String>() {
+        tfExchangePartition.textProperty().addListener(new ChangeListener<String>() {
             private final static int MAX_CHARS = 11;
             
             @Override
@@ -105,14 +106,14 @@ public class SystemController implements Initializable {
                 if(newValue == null) return;
                 // only allow ASCII input
                 if (!isASCII(newValue)) {
-                    txt_sys_exchange_partition.setText(oldValue);
+                    tfExchangePartition.setText(oldValue);
                     return;
                 }
 
                 if (getSpecialLength(newValue) <= MAX_CHARS) {
-                    txt_sys_exchange_partition.setText(newValue);
+                    tfExchangePartition.setText(newValue);
                 } else {
-                    txt_sys_exchange_partition.setText(oldValue);
+                    tfExchangePartition.setText(oldValue);
                     Toolkit.getDefaultToolkit().beep();
                 }
             }
@@ -150,12 +151,12 @@ public class SystemController implements Initializable {
             }
         });
         
-        choice_sys_visible_for.getItems().addAll(visibleForValues);
+        cbVisibleFor.getItems().addAll(visibleForValues);
         
         if (!WelcomeUtil.isImageWritable()) {
-            choice_sys_visible_for.setVisible(false);
-            txt_sys_systemname.setDisable(true);
-            txt_sys_systemversion.setDisable(true);
+            cbVisibleFor.setVisible(false);
+            tfSystemName.setDisable(true);
+            tfSystemVersion.setDisable(true);
         }
     }
 
@@ -165,59 +166,59 @@ public class SystemController implements Initializable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public TextField getTxt_sys_systemname() {
-        return txt_sys_systemname;
+    public TextField getTfSystemName() {
+        return tfSystemName;
     }
     
-    public TextField getTxt_sys_systemversion() {
-        return txt_sys_systemversion;
+    public TextField getTfSystemVersion() {
+        return tfSystemVersion;
     }
 
-    public TextField getTxt_sys_username() {
-        return txt_sys_username;
+    public TextField getTfUsername() {
+        return tfUsername;
     }
 
     public TextField getTxt_sys_password() {
-        return txt_sys_password;
+        return pfPassword;
     }
 
     public TextField getTxt_sys_password_repeat() {
-        return txt_sys_password_repeat;
+        return pfPasswordRepeat;
     }
 
-    public ChoiceBox<Number> getChoice_sys_visible_for() {
-        return choice_sys_visible_for;
+    public ChoiceBox<Number> getCbVisibleFor() {
+        return cbVisibleFor;
     }
 
-    public ToggleSwitch getCb_sys_start_wa() {
-        return cb_sys_start_wa;
+    public ToggleSwitch getTsStartWa() {
+        return tsStartWa;
     }
 
-    public ToggleSwitch getCb_sys_direct_sound() {
-        return cb_sys_direct_sound;
+    public ToggleSwitch getTsDirectSound() {
+        return tsDirectSound;
     }
 
-    public ToggleSwitch getCb_sys_block_kde() {
-        return cb_sys_block_kde;
+    public ToggleSwitch getTsBlockKde() {
+        return tsBlockKde;
     }
 
-    public ToggleSwitch getCb_sys_allow_file_systems() {
-        return cb_sys_allow_file_systems;
+    public ToggleSwitch getTsAllowFileSystems() {
+        return tsAllowFileSystems;
     }
 
-    public TextField getTxt_sys_exchange_partition() {
-        return txt_sys_exchange_partition;
+    public TextField getTfExchangePartition() {
+        return tfExchangePartition;
     }
 
-    public ToggleSwitch getCb_sys_access_user() {
-        return cb_sys_access_user;
+    public ToggleSwitch getTsAccessUser() {
+        return tsAccessUser;
     }
 
-    public ToggleSwitch getCb_sys_show_warning() {
-        return cb_sys_show_warning;
+    public ToggleSwitch getTsShowWarning() {
+        return tsShowWarning;
     }
     
     public Button getBtnSysHelp() {
-        return btn_sys_help;
+        return btHelp;
     }
 }
