@@ -21,35 +21,37 @@ import javafx.scene.control.TextField;
 public class PasswordChangeController implements Initializable {
 
     @FXML
-    private Button btnCancel;
+    private Button btCancel;
     @FXML
-    private Button btnOk;
+    private Button btOk;
     @FXML
-    private PasswordField txtPassword;
+    private PasswordField pfPassword;
     @FXML
-    private PasswordField txtPasswordRepeat;
+    private PasswordField pfPasswordRepeat;
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnOk.disableProperty().bind(txtPassword.textProperty().isEmpty().or(txtPasswordRepeat.textProperty().isEmpty()));
+        btOk.disableProperty().bind(pfPassword.textProperty().isEmpty().or(pfPasswordRepeat.textProperty().isEmpty()));
     }    
     
-    public Button getBtnOk() {
-        return btnOk;
+    public Button getBtOk() {
+        return btOk;
     }
     
-    public Button getBtnCancel() {
-        return btnCancel;
+    public Button getBtCancel() {
+        return btCancel;
     }
     
     public TextField getTxtPassword() {
-        return txtPassword;
+        return pfPassword;
     }
     
     public TextField getTxtPasswordRepeat() {
-        return txtPasswordRepeat;
+        return pfPasswordRepeat;
     }
 }

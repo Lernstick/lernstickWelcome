@@ -58,49 +58,49 @@ public class ButtonCell extends TableCell<WebsiteFilter, WebsiteFilter> {
             Button b = (Button) e.getSource();
             // Edit item
             if (b.getStyleClass().contains(Type.EDIT.toString())) {
-                if (table == fwc.getTv_fw_allowed_sites()) {
+                if (table == fwc.getTvAllowedSites()) {
                     // Prepare view for edit
                     WebsiteFilter element = (WebsiteFilter) table.getItems().get(this.getIndex());
-                    fwc.getChoice_fw_search_pattern().setValue(element.searchPatternProperty().get());
-                    fwc.getTxt_fw_search_criteria().setText(element.searchCriteriaProperty().get());
-                    fwc.getBtn_fw_new_rule().getStyleClass().remove("btn_add");
-                    fwc.getBtn_fw_new_rule().getStyleClass().add("btn_save");
+                    fwc.getCbAddEditPattern().setValue(element.searchPatternProperty().get());
+                    fwc.getTfAddEditCriteria().setText(element.searchCriteriaProperty().get());
+                    fwc.getBtAddEditSite().getStyleClass().remove("btn_add");
+                    fwc.getBtAddEditSite().getStyleClass().add("btn_save");
                     fwc.setIndexSaveWebsiteFilter(this.getIndex());
-                    fwc.getChoice_fw_search_pattern().requestFocus();
+                    fwc.getCbAddEditPattern().requestFocus();
                     // Scroll to edit fields
-                    ScrollPane sp = (ScrollPane) fwc.getBtn_fw_add_new_server().getScene().lookup("#MainPane");
+                    ScrollPane sp = (ScrollPane) fwc.getBtAddEditServer().getScene().lookup("#MainPane");
                     sp.setVvalue(0.0);
                 } else {
                     // Prepare view for edit
                     IpFilter element = (IpFilter) table.getItems().get(this.getIndex());
-                    fwc.getChoice_fw_protocol().setValue(element.protocolProperty().get());
-                    fwc.getTxt_fw_new_ip().setText(element.ipAddressProperty().get());
-                    fwc.getTxt_fw_new_port().setText(element.portProperty().get());
-                    fwc.getTxt_fw_new_desc().setText(element.descriptionProperty().get());
-                    fwc.getBtn_fw_add_new_server().getStyleClass().remove("btn_add");
-                    fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_save");
+                    fwc.getCbAddEditProtocol().setValue(element.protocolProperty().get());
+                    fwc.getTfAddEditIp().setText(element.ipAddressProperty().get());
+                    fwc.getTfAddEditPort().setText(element.portProperty().get());
+                    fwc.getTfAddEditDesc().setText(element.descriptionProperty().get());
+                    fwc.getBtAddEditServer().getStyleClass().remove("btn_add");
+                    fwc.getBtAddEditServer().getStyleClass().add("btn_save");
                     fwc.setIndexSaveIpFilter(this.getIndex());
-                    fwc.getChoice_fw_protocol().requestFocus();
+                    fwc.getCbAddEditProtocol().requestFocus();
                     // Scroll to edit fields
-                    ScrollPane sp = (ScrollPane) fwc.getBtn_fw_add_new_server().getScene().lookup("#MainPane");
+                    ScrollPane sp = (ScrollPane) fwc.getBtAddEditServer().getScene().lookup("#MainPane");
                     sp.setVvalue(Double.MAX_VALUE);
                 }
             }
             // Delete item
             else if(b.getStyleClass().contains(Type.DELETE.toString())) {
                 // Exit edit mode if deleting entry
-                if (table == fwc.getTv_fw_allowed_sites() && fwc.getIndexSaveWebsiteFilter() == this.getIndex()) {
-                    fwc.getChoice_fw_search_pattern().setValue(null);
-                    fwc.getTxt_fw_search_criteria().setText("");
-                    fwc.getBtn_fw_new_rule().getStyleClass().remove("btn_save");
-                    fwc.getBtn_fw_new_rule().getStyleClass().add("btn_add");
-                } else if (table == fwc.getTv_fw_allowed_servers() && fwc.getIndexSaveIpFilter() == this.getIndex()) {
-                    fwc.getChoice_fw_protocol().setValue(null);
-                    fwc.getTxt_fw_new_ip().setText("");
-                    fwc.getTxt_fw_new_port().setText("");
-                    fwc.getTxt_fw_new_desc().setText("");
-                    fwc.getBtn_fw_add_new_server().getStyleClass().remove("btn_save");
-                    fwc.getBtn_fw_add_new_server().getStyleClass().add("btn_add");
+                if (table == fwc.getTvAllowedSites() && fwc.getIndexSaveWebsiteFilter() == this.getIndex()) {
+                    fwc.getCbAddEditPattern().setValue(null);
+                    fwc.getTfAddEditCriteria().setText("");
+                    fwc.getBtAddEditSite().getStyleClass().remove("btn_save");
+                    fwc.getBtAddEditSite().getStyleClass().add("btn_add");
+                } else if (table == fwc.getTvAllowedServers() && fwc.getIndexSaveIpFilter() == this.getIndex()) {
+                    fwc.getCbAddEditProtocol().setValue(null);
+                    fwc.getTfAddEditIp().setText("");
+                    fwc.getTfAddEditPort().setText("");
+                    fwc.getTfAddEditDesc().setText("");
+                    fwc.getBtAddEditServer().getStyleClass().remove("btn_save");
+                    fwc.getBtAddEditServer().getStyleClass().add("btn_add");
                 }
                 table.getItems().remove(this.getIndex());
             }

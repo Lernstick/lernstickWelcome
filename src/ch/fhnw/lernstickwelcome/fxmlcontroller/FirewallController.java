@@ -38,51 +38,51 @@ import javafx.util.StringConverter;
 public class FirewallController implements Initializable {
 
     @FXML
-    private Button btn_fw_help;
+    private Button btHelp;
     @FXML
-    private ToggleSwitch cb_fw_allow_monitoring;
+    private ToggleSwitch tsAllowMonitoring;
     @FXML
-    private TableView<WebsiteFilter> tv_fw_allowed_sites;
+    private Label lbAllowMonitoring;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter.SearchPattern> tab_fw_search_pattern;
+    private TableView<WebsiteFilter> tvAllowedSites;
     @FXML
-    private TableColumn<WebsiteFilter, String> tab_fw_search_criteria;
+    private TableColumn<WebsiteFilter, WebsiteFilter.SearchPattern> tcSitesPattern;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_search_btn_edit;
+    private TableColumn<WebsiteFilter, String> tcSitesCriteria;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_search_btn_delete;
+    private TableColumn<WebsiteFilter, WebsiteFilter> tcSitesEdit;
     @FXML
-    private ComboBox<WebsiteFilter.SearchPattern> choice_fw_search_pattern;
+    private TableColumn<WebsiteFilter, WebsiteFilter> tcSitesDelete;
     @FXML
-    private TextField txt_fw_search_criteria;
+    private ComboBox<WebsiteFilter.SearchPattern> cbAddEditPattern;
     @FXML
-    private Button btn_fw_new_rule;
+    private TextField tfAddEditCriteria;
     @FXML
-    private TableView<IpFilter> tv_fw_allowed_servers;
+    private Button btAddEditSite;
     @FXML
-    private TableColumn<IpFilter, IpFilter.Protocol> tab_fw_server_protocol;
+    private TableView<IpFilter> tvAllowedServers;
     @FXML
-    private TableColumn<IpFilter, String> tab_fw_server_ip;
+    private TableColumn<IpFilter, IpFilter.Protocol> tcServerProtocol;
     @FXML
-    private TableColumn<IpFilter, String> tab_fw_server_port;
+    private TableColumn<IpFilter, String> tcServerIp;
     @FXML
-    private TableColumn<IpFilter, String> tab_fw_server_desc;
+    private TableColumn<IpFilter, String> tcServerPort;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_server_btn_edit;
+    private TableColumn<IpFilter, String> tcServerDesc;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tab_fw_server_btn_delete;
+    private TableColumn<WebsiteFilter, WebsiteFilter> tcServerEdit;
     @FXML
-    private Button btn_fw_add_new_server;
+    private TableColumn<WebsiteFilter, WebsiteFilter> tcServerDelete;
     @FXML
-    private TextField txt_fw_new_desc;
+    private ComboBox<IpFilter.Protocol> cbAddEditProtocol;
     @FXML
-    private TextField txt_fw_new_port;
+    private TextField tfAddEditIp;
     @FXML
-    private TextField txt_fw_new_ip;
+    private TextField tfAddEditPort;
     @FXML
-    private ComboBox<IpFilter.Protocol> choice_fw_protocol;
+    private TextField tfAddEditDesc;
     @FXML
-    private Label lbl_fw_allow_monitoring;
+    private Button btAddEditServer;
     
     private ResourceBundle rb;
     
@@ -99,23 +99,23 @@ public class FirewallController implements Initializable {
         this.rb = rb;
         
         // Set TableView WebsiteFilter cell properties and implement edit functionality
-        tab_fw_search_pattern.setCellValueFactory(p -> p.getValue().searchPatternProperty());
-        tab_fw_search_pattern.setCellFactory(ComboBoxTableCell.forTableColumn(getSearchPatternStringConverter(), WebsiteFilter.SearchPattern.values()));
-        tab_fw_search_pattern.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tcSitesPattern.setCellValueFactory(p -> p.getValue().searchPatternProperty());
+        tcSitesPattern.setCellFactory(ComboBoxTableCell.forTableColumn(getSearchPatternStringConverter(), WebsiteFilter.SearchPattern.values()));
+        tcSitesPattern.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchPatternProperty().setValue(e.getNewValue()));
-        tab_fw_search_criteria.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
-        tab_fw_search_criteria.setCellFactory(TextFieldTableCell.forTableColumn());
-        tab_fw_search_criteria.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tcSitesCriteria.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
+        tcSitesCriteria.setCellFactory(TextFieldTableCell.forTableColumn());
+        tcSitesCriteria.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchCriteriaProperty().setValue(e.getNewValue()));
-        tab_fw_search_btn_edit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
-        tab_fw_search_btn_delete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
+        tcSitesEdit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
+        tcSitesDelete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
         
         // Set TableView IpFilter cell properties and implement edit functionality
-        tab_fw_server_protocol.setCellValueFactory(p -> p.getValue().protocolProperty());
-        tab_fw_server_protocol.setCellFactory(ComboBoxTableCell.forTableColumn(IpFilter.Protocol.values()));
-        tab_fw_server_protocol.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tcServerProtocol.setCellValueFactory(p -> p.getValue().protocolProperty());
+        tcServerProtocol.setCellFactory(ComboBoxTableCell.forTableColumn(IpFilter.Protocol.values()));
+        tcServerProtocol.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .protocolProperty().setValue(e.getNewValue()));
-        tab_fw_server_ip.setCellFactory(ValidatableTextFieldCell.forTableColumn((s, i) -> {
+        tcServerIp.setCellFactory(ValidatableTextFieldCell.forTableColumn((s, i) -> {
             try {
                 WelcomeUtil.checkTarget((String) s, i);
                 return null;
@@ -123,11 +123,11 @@ public class FirewallController implements Initializable {
                 return ex;
             }
         }, rb));
-        tab_fw_server_ip.setOnEditCommit(e -> 
+        tcServerIp.setOnEditCommit(e -> 
                 e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .ipAddressProperty().setValue(e.getNewValue()));
-        tab_fw_server_ip.setCellValueFactory(p -> p.getValue().ipAddressProperty());
-        tab_fw_server_port.setCellFactory(ValidatableTextFieldCell.forTableColumn((s, i) -> {
+        tcServerIp.setCellValueFactory(p -> p.getValue().ipAddressProperty());
+        tcServerPort.setCellFactory(ValidatableTextFieldCell.forTableColumn((s, i) -> {
             try {
                 WelcomeUtil.checkPortRange((String) s, i);
                 return null;
@@ -135,21 +135,21 @@ public class FirewallController implements Initializable {
                 return ex;
             }
         }, rb));
-        tab_fw_server_port.setCellValueFactory(p -> p.getValue().portProperty());
-        tab_fw_server_port.setOnEditCommit(e -> 
+        tcServerPort.setCellValueFactory(p -> p.getValue().portProperty());
+        tcServerPort.setOnEditCommit(e -> 
                 e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .portProperty().setValue(e.getNewValue()));
-        tab_fw_server_desc.setCellValueFactory(p -> p.getValue().descriptionProperty());
-        tab_fw_server_desc.setCellFactory(TextFieldTableCell.forTableColumn());
-        tab_fw_server_desc.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tcServerDesc.setCellValueFactory(p -> p.getValue().descriptionProperty());
+        tcServerDesc.setCellFactory(TextFieldTableCell.forTableColumn());
+        tcServerDesc.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .descriptionProperty().setValue(e.getNewValue()));
-        tab_fw_server_btn_edit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
-        tab_fw_server_btn_delete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
+        tcServerEdit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
+        tcServerDelete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
         
         // Load ComboBox data
-        choice_fw_search_pattern.setConverter(getSearchPatternStringConverter());
-        choice_fw_search_pattern.getItems().addAll(WebsiteFilter.SearchPattern.values());
-        choice_fw_protocol.getItems().addAll(IpFilter.Protocol.values());
+        cbAddEditPattern.setConverter(getSearchPatternStringConverter());
+        cbAddEditPattern.getItems().addAll(WebsiteFilter.SearchPattern.values());
+        cbAddEditProtocol.getItems().addAll(IpFilter.Protocol.values());
     }
     
     private StringConverter<SearchPattern> getSearchPatternStringConverter() {
@@ -181,22 +181,22 @@ public class FirewallController implements Initializable {
     private void onClickNewWebsiteRule(MouseEvent event) {
         if (validateSitesFields()) {
             // Add to table
-            if (btn_fw_new_rule.getStyleClass().contains("btn_add")) {
-                tv_fw_allowed_sites.getItems().add(new WebsiteFilter(
-                    choice_fw_search_pattern.getValue(),
-                    txt_fw_search_criteria.getText()));
+            if (btAddEditSite.getStyleClass().contains("btn_add")) {
+                tvAllowedSites.getItems().add(new WebsiteFilter(
+                    cbAddEditPattern.getValue(),
+                    tfAddEditCriteria.getText()));
             }
             // Edit
             else {
-                WebsiteFilter element = (WebsiteFilter) tv_fw_allowed_sites.getItems().get(indexSaveWebsiteFilter);
-                element.searchPatternProperty().set(choice_fw_search_pattern.getValue());
-                element.searchCriteriaProperty().set(txt_fw_search_criteria.getText());
-                btn_fw_new_rule.getStyleClass().remove("btn_save");
-                btn_fw_new_rule.getStyleClass().add("btn_add");
+                WebsiteFilter element = (WebsiteFilter) tvAllowedSites.getItems().get(indexSaveWebsiteFilter);
+                element.searchPatternProperty().set(cbAddEditPattern.getValue());
+                element.searchCriteriaProperty().set(tfAddEditCriteria.getText());
+                btAddEditSite.getStyleClass().remove("btn_save");
+                btAddEditSite.getStyleClass().add("btn_add");
             }
             // Clear fields
-            choice_fw_search_pattern.setValue(null);
-            txt_fw_search_criteria.setText("");
+            cbAddEditPattern.setValue(null);
+            tfAddEditCriteria.setText("");
         }
     }
 
@@ -204,91 +204,91 @@ public class FirewallController implements Initializable {
     private void onClickNewServerRule(MouseEvent event) {
         if(validateServerFields()) {
             // Add to table
-            if (btn_fw_add_new_server.getStyleClass().contains("btn_add")) {
-                tv_fw_allowed_servers.getItems().add(new IpFilter(
-                        choice_fw_protocol.getValue(), 
-                        txt_fw_new_ip.getText(), 
-                        txt_fw_new_port.getText(), 
-                        txt_fw_new_desc.getText()));
+            if (btAddEditServer.getStyleClass().contains("btn_add")) {
+                tvAllowedServers.getItems().add(new IpFilter(
+                        cbAddEditProtocol.getValue(), 
+                        tfAddEditIp.getText(), 
+                        tfAddEditPort.getText(), 
+                        tfAddEditDesc.getText()));
             }
             // Edit
             else {
-                IpFilter element = (IpFilter) tv_fw_allowed_servers.getItems().get(indexSaveIpFilter);
-                element.protocolProperty().set(choice_fw_protocol.getValue());
-                element.ipAddressProperty().set(txt_fw_new_ip.getText());
-                element.portProperty().set(txt_fw_new_port.getText());
-                element.descriptionProperty().set(txt_fw_new_desc.getText());
-                btn_fw_add_new_server.getStyleClass().remove("btn_save");
-                btn_fw_add_new_server.getStyleClass().add("btn_add");
+                IpFilter element = (IpFilter) tvAllowedServers.getItems().get(indexSaveIpFilter);
+                element.protocolProperty().set(cbAddEditProtocol.getValue());
+                element.ipAddressProperty().set(tfAddEditIp.getText());
+                element.portProperty().set(tfAddEditPort.getText());
+                element.descriptionProperty().set(tfAddEditDesc.getText());
+                btAddEditServer.getStyleClass().remove("btn_save");
+                btAddEditServer.getStyleClass().add("btn_add");
             }
             // Clear fields
-            choice_fw_protocol.setValue(null);
-            txt_fw_new_ip.setText("");
-            txt_fw_new_port.setText("");
-            txt_fw_new_desc.setText("");
+            cbAddEditProtocol.setValue(null);
+            tfAddEditIp.setText("");
+            tfAddEditPort.setText("");
+            tfAddEditDesc.setText("");
         }
     }
 
-    public TableView getTv_fw_allowed_sites() {
-        return tv_fw_allowed_sites;
+    public TableView<WebsiteFilter> getTvAllowedSites() {
+        return tvAllowedSites;
     }
 
-    public TableView getTv_fw_allowed_servers() {
-        return tv_fw_allowed_servers;
+    public TableView<IpFilter> getTvAllowedServers() {
+        return tvAllowedServers;
     }
 
-    public ToggleSwitch getCb_fw_allow_monitoring() {
-        return cb_fw_allow_monitoring;
+    public ToggleSwitch getTsAllowMonitoring() {
+        return tsAllowMonitoring;
     }
 
-    public ComboBox<WebsiteFilter.SearchPattern> getChoice_fw_search_pattern() {
-        return choice_fw_search_pattern;
+    public ComboBox<WebsiteFilter.SearchPattern> getCbAddEditPattern() {
+        return cbAddEditPattern;
     }
 
-    public TextField getTxt_fw_search_criteria() {
-        return txt_fw_search_criteria;
+    public TextField getTfAddEditCriteria() {
+        return tfAddEditCriteria;
     }
 
-    public Button getBtn_fw_new_rule() {
-        return btn_fw_new_rule;
+    public Button getBtAddEditSite() {
+        return btAddEditSite;
     }
 
-    public Button getBtn_fw_add_new_server() {
-        return btn_fw_add_new_server;
+    public Button getBtAddEditServer() {
+        return btAddEditServer;
     }
 
-    public TextField getTxt_fw_new_desc() {
-        return txt_fw_new_desc;
+    public TextField getTfAddEditDesc() {
+        return tfAddEditDesc;
     }
 
-    public TextField getTxt_fw_new_port() {
-        return txt_fw_new_port;
+    public TextField getTfAddEditPort() {
+        return tfAddEditPort;
     }
 
-    public TextField getTxt_fw_new_ip() {
-        return txt_fw_new_ip;
+    public TextField getTfAddEditIp() {
+        return tfAddEditIp;
     }
 
-    public ComboBox<IpFilter.Protocol> getChoice_fw_protocol() {
-        return choice_fw_protocol;
+    public ComboBox<IpFilter.Protocol> getCbAddEditProtocol() {
+        return cbAddEditProtocol;
     }
     
-    public Label getLbl_fw_allow_monitoring() {
-        return lbl_fw_allow_monitoring;
+    public Label getLbAllowMonitoring() {
+        return lbAllowMonitoring;
     }
     
     private boolean validateSitesFields() {
         boolean result = true;
-        if (!choice_fw_search_pattern.getSelectionModel().isEmpty()) {
-            choice_fw_search_pattern.getStyleClass().remove("error");
+        if (!cbAddEditPattern.getSelectionModel().isEmpty()) {
+            cbAddEditPattern.getStyleClass().remove("error");
         } else {
-            choice_fw_search_pattern.getStyleClass().add("error");
+            cbAddEditPattern.getStyleClass().add("error");
             result = false;
         }
-        if (txt_fw_search_criteria.getText().length() > 0) {
-            txt_fw_search_criteria.getStyleClass().remove("error");
+        if (tfAddEditCriteria.getText().length() > 0) {
+            tfAddEditCriteria.getStyleClass().remove("error");
         } else {
-            txt_fw_search_criteria.getStyleClass().add("error");
+            tfAddEditCriteria.getStyleClass().add("error");
             result = false;
         }
         return result;
@@ -296,33 +296,33 @@ public class FirewallController implements Initializable {
 
     private boolean validateServerFields() {
         boolean result = true;
-        if (!choice_fw_protocol.getSelectionModel().isEmpty()) {
-            choice_fw_protocol.getStyleClass().remove("error");
+        if (!cbAddEditProtocol.getSelectionModel().isEmpty()) {
+            cbAddEditProtocol.getStyleClass().remove("error");
         } else {
-            choice_fw_protocol.getStyleClass().add("error");
+            cbAddEditProtocol.getStyleClass().add("error");
             result = false;
         }
         try {
-            WelcomeUtil.checkTarget(txt_fw_new_ip.getText(), -1);
-            txt_fw_new_ip.getStyleClass().remove("error");
+            WelcomeUtil.checkTarget(tfAddEditIp.getText(), -1);
+            tfAddEditIp.getStyleClass().remove("error");
         } catch(ValidationException ex) {
-            txt_fw_new_ip.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
-            txt_fw_new_ip.getStyleClass().add("error");
+            tfAddEditIp.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
+            tfAddEditIp.getStyleClass().add("error");
             result = false;
         }
         try {
-            WelcomeUtil.checkPortRange(txt_fw_new_port.getText(), -1);
-            txt_fw_new_port.getStyleClass().remove("error");
+            WelcomeUtil.checkPortRange(tfAddEditPort.getText(), -1);
+            tfAddEditPort.getStyleClass().remove("error");
         } catch(ValidationException ex) {
-            txt_fw_new_port.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
-            txt_fw_new_port.getStyleClass().add("error");
+            tfAddEditPort.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
+            tfAddEditPort.getStyleClass().add("error");
             result = false;
         }
         return result;
     }
     
-    public Button getBtnFwHelp() {
-        return btn_fw_help;
+    public Button getBtHelp() {
+        return btHelp;
     }
     
     

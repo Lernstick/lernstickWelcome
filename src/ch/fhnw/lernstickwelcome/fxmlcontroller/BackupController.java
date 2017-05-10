@@ -29,38 +29,38 @@ public class BackupController implements Initializable {
     private final static Integer[] backupFrequency = new Integer[] { 1, 2, 3, 4, 5, 10, 15, 30, 60 };
 
     @FXML
-    private Button btn_bu_help;
+    private Button btHelp;
     @FXML
-    private ToggleSwitch cb_bu_backup;
+    private ToggleSwitch tsBackup;
     @FXML
-    private ToggleSwitch cb_bu_screenshot;
+    private ChoiceBox<Number> cbMinutes;
     @FXML
-    private TextField txt_bu_src_path;
+    private ToggleSwitch tsScreenshot;
     @FXML
-    private Button btn_bu_src_path;
+    private TextField tfSrcPath;
     @FXML
-    private TextField txt_bu_dest_path;
+    private Button btSrcPath;
     @FXML
-    private Button btn_bu_dest_path;
+    private ToggleSwitch tsUseLocal;
     @FXML
-    private ToggleSwitch cb_bu_use_local;
+    private TextField tfDestPath;
     @FXML
-    private TextField txt_bu_remote_path;
+    private Button btDestPath;
     @FXML
-    private Button btn_bu_remote_path;
+    private ToggleSwitch tsUseRemote;
     @FXML
-    private ToggleSwitch cb_bu_use_remote;
+    private ChoiceBox<?> cbMedium;
     @FXML
-    private ChoiceBox<?> choice_bu_medium;
+    private TextField tfRemotePath;
     @FXML
-    private ChoiceBox<Number> choice_bu_backup;
+    private Button btRemotePath;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choice_bu_backup.setConverter(new StringConverter<Number>() {
+        cbMinutes.setConverter(new StringConverter<Number>() {
             
             @Override
             public String toString(Number v) {
@@ -73,22 +73,22 @@ public class BackupController implements Initializable {
             }
         });
         // Currently not supported
-        choice_bu_medium.setVisible(false);
+        cbMedium.setVisible(false);
         
-        choice_bu_backup.getItems().addAll(backupFrequency);
+        cbMinutes.getItems().addAll(backupFrequency);
         
         // Bind options
-        cb_bu_screenshot.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        txt_bu_src_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        btn_bu_src_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        txt_bu_dest_path.disableProperty().bind(cb_bu_backup.selectedProperty().not().or(cb_bu_use_local.selectedProperty().not()));
-        btn_bu_dest_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        cb_bu_use_local.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        txt_bu_remote_path.disableProperty().bind(cb_bu_backup.selectedProperty().not().or(cb_bu_use_remote.selectedProperty().not()));
-        btn_bu_remote_path.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        cb_bu_use_remote.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        choice_bu_medium.disableProperty().bind(cb_bu_backup.selectedProperty().not());
-        choice_bu_backup.disableProperty().bind(cb_bu_backup.selectedProperty().not());
+        tsScreenshot.disableProperty().bind(tsBackup.selectedProperty().not());
+        tfSrcPath.disableProperty().bind(tsBackup.selectedProperty().not());
+        btSrcPath.disableProperty().bind(tsBackup.selectedProperty().not());
+        tfDestPath.disableProperty().bind(tsBackup.selectedProperty().not().or(tsUseLocal.selectedProperty().not()));
+        btDestPath.disableProperty().bind(tsBackup.selectedProperty().not());
+        tsUseLocal.disableProperty().bind(tsBackup.selectedProperty().not());
+        tfRemotePath.disableProperty().bind(tsBackup.selectedProperty().not().or(tsUseRemote.selectedProperty().not()));
+        btRemotePath.disableProperty().bind(tsBackup.selectedProperty().not());
+        tsUseRemote.disableProperty().bind(tsBackup.selectedProperty().not());
+        cbMedium.disableProperty().bind(tsBackup.selectedProperty().not());
+        cbMinutes.disableProperty().bind(tsBackup.selectedProperty().not());
     }
 
     @FXML
@@ -102,7 +102,7 @@ public class BackupController implements Initializable {
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             txt_bu_src_path.textProperty().set(file.getPath());
+             tfSrcPath.textProperty().set(file.getPath());
         }
     }
     
@@ -113,7 +113,7 @@ public class BackupController implements Initializable {
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             txt_bu_remote_path.setText(file.getPath());
+             tfRemotePath.setText(file.getPath());
         }
     }
 
@@ -124,64 +124,64 @@ public class BackupController implements Initializable {
         File file = chooser.showDialog(new Stage());
 
         if(file!=null){
-             txt_bu_dest_path.setText(file.getPath());
+             tfDestPath.setText(file.getPath());
         }
     }
 
-    public Button getBtn_bu_help() {
-        return btn_bu_help;
+    public Button getBtHelp() {
+        return btHelp;
     }
 
-    public ToggleSwitch getCb_bu_backup() {
-        return cb_bu_backup;
+    public ToggleSwitch getTsBackup() {
+        return tsBackup;
     }
 
-    public ToggleSwitch getCb_bu_screenshot() {
-        return cb_bu_screenshot;
+    public ToggleSwitch getTsScreenshot() {
+        return tsScreenshot;
     }
 
-    public TextField getTxt_bu_src_path() {
-        return txt_bu_src_path;
+    public TextField getTfSrcPath() {
+        return tfSrcPath;
     }
 
-    public Button getBtn_bu_src_path() {
-        return btn_bu_src_path;
+    public Button getBtSrcPath() {
+        return btSrcPath;
     }
 
-    public TextField getTxt_bu_dest_path() {
-        return txt_bu_dest_path;
+    public TextField getTfDestPath() {
+        return tfDestPath;
     }
 
-    public Button getBtn_bu_dest_path() {
-        return btn_bu_dest_path;
+    public Button getBtDestPath() {
+        return btDestPath;
     }
 
-    public ToggleSwitch getCb_bu_use_local() {
-        return cb_bu_use_local;
+    public ToggleSwitch getTsUseLocal() {
+        return tsUseLocal;
     }
 
-    public TextField getTxt_bu_remote_path() {
-        return txt_bu_remote_path;
+    public TextField getTfRemotePath() {
+        return tfRemotePath;
     }
 
-    public Button getBtn_bu_remote_path() {
-        return btn_bu_remote_path;
+    public Button getBtRemotePath() {
+        return btRemotePath;
     }
 
-    public ToggleSwitch getCb_bu_use_remote() {
-        return cb_bu_use_remote;
+    public ToggleSwitch getTsUseRemote() {
+        return tsUseRemote;
     }
 
-    public ChoiceBox<?> getChoice_bu_medium() {
-        return choice_bu_medium;
+    public ChoiceBox<?> getCbMedium() {
+        return cbMedium;
     }
 
-    public ChoiceBox<Number> getChoice_bu_backup() {
-        return choice_bu_backup;
+    public ChoiceBox<Number> getCbMinutes() {
+        return cbMinutes;
     }
     
     public Button getBtnBuHelp() {
-        return btn_bu_help;
+        return btHelp;
     }
     
 }

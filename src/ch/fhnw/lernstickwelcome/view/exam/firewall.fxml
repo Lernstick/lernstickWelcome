@@ -22,7 +22,7 @@
          <children>
             <HBox prefHeight="28.0">
                <children>
-                  <Label id="lb_fw_title" prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationFirewall.title" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+                  <Label prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationFirewall.title" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets right="10.0" />
                      </padding>
@@ -30,13 +30,13 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btn_fw_help" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#onClickShowHelp" />
+                  <Button fx:id="btHelp" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" alignment="CENTER_RIGHT" mnemonicParsing="false" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="15">
                <children>
-                  <ToggleSwitch fx:id="cb_fw_allow_monitoring" />
-                  <Label fx:id="lbl_fw_allow_monitoring" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
+                  <ToggleSwitch fx:id="tsAllowMonitoring" />
+                  <Label fx:id="lbAllowMonitoring" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
                </children>
             </HBox>
             <HBox>
@@ -47,20 +47,20 @@
                    </font>
                 </Label>
             </HBox>
-            <TableView fx:id="tv_fw_allowed_sites" prefHeight="200.0">
+            <TableView fx:id="tvAllowedSites" prefHeight="200.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="tab_fw_search_pattern" minWidth="131.0" maxWidth="131.0" text="%welcomeApplicationFirewall.searchPattern" />
-                    <TableColumn fx:id="tab_fw_search_criteria" prefWidth="9999" text="%welcomeApplicationFirewall.searchCriteria" />
-                    <TableColumn fx:id="tab_fw_search_btn_edit" minWidth="35.0" maxWidth="35.0" />
-                    <TableColumn fx:id="tab_fw_search_btn_delete"  minWidth="35.0" maxWidth="35.0" />
+                    <TableColumn fx:id="tcSitesPattern" minWidth="131.0" maxWidth="131.0" text="%welcomeApplicationFirewall.searchPattern" />
+                    <TableColumn fx:id="tcSitesCriteria" prefWidth="9999" text="%welcomeApplicationFirewall.searchCriteria" />
+                    <TableColumn fx:id="tcSitesEdit" minWidth="35.0" maxWidth="35.0" sortable="false" />
+                    <TableColumn fx:id="tcSitesDelete"  minWidth="35.0" maxWidth="35.0" sortable="false" />
                 </columns>
             </TableView>
             <HBox prefHeight="69.0" spacing="5.0">
                <children>
-                  <ComboBox fx:id="choice_fw_search_pattern" prefHeight="30.0" minWidth="142.0" promptText="%welcomeApplicationFirewall.searchPattern" />
-                  <TextField fx:id="txt_fw_search_criteria" prefHeight="30.0" prefWidth="9999" HBox.hgrow="ALWAYS" promptText="%welcomeApplicationFirewall.searchCriteria" />
-                  <Button fx:id="btn_fw_new_rule" styleClass="btn_add" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" />
+                  <ComboBox fx:id="cbAddEditPattern" prefHeight="30.0" minWidth="142.0" promptText="%welcomeApplicationFirewall.searchPattern" />
+                  <TextField fx:id="tfAddEditCriteria" prefHeight="30.0" prefWidth="9999" HBox.hgrow="ALWAYS" promptText="%welcomeApplicationFirewall.searchCriteria" />
+                  <Button fx:id="btAddEditSite" styleClass="btn_add" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" />
                </children>
             </HBox>
             <HBox>
@@ -71,24 +71,24 @@
                    </font>
                 </Label>
             </HBox>
-            <TableView fx:id="tv_fw_allowed_servers" prefHeight="200.0">
+            <TableView fx:id="tvAllowedServers" prefHeight="200.0">
                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
                 <columns>
-                    <TableColumn fx:id="tab_fw_server_protocol" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.protocol" />
-                    <TableColumn fx:id="tab_fw_server_ip" minWidth="130.0" maxWidth="130.0" text="%welcomeApplicationFirewall.ip" />
-                    <TableColumn fx:id="tab_fw_server_port" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.port" />
-                    <TableColumn fx:id="tab_fw_server_desc" prefWidth="9999" text="%welcomeApplicationFirewall.serverDescription" />
-                    <TableColumn fx:id="tab_fw_server_btn_edit" minWidth="35.0" maxWidth="35.0" />
-                    <TableColumn fx:id="tab_fw_server_btn_delete"  minWidth="35.0" maxWidth="35.0" />
+                    <TableColumn fx:id="tcServerProtocol" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.protocol" />
+                    <TableColumn fx:id="tcServerIp" minWidth="130.0" maxWidth="130.0" text="%welcomeApplicationFirewall.ip" />
+                    <TableColumn fx:id="tcServerPort" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.port" />
+                    <TableColumn fx:id="tcServerDesc" prefWidth="9999" text="%welcomeApplicationFirewall.serverDescription" />
+                    <TableColumn fx:id="tcServerEdit" minWidth="35.0" maxWidth="35.0" />
+                    <TableColumn fx:id="tcServerDelete"  minWidth="35.0" maxWidth="35.0" />
                 </columns>
             </TableView>
             <HBox prefHeight="73.0" spacing="5.0">
                <children>
-                  <ComboBox fx:id="choice_fw_protocol" prefHeight="30.0" minWidth="110.0" promptText="%welcomeApplicationFirewall.protocol" />
-                  <TextField fx:id="txt_fw_new_ip" prefHeight="30.0" minWidth="130.0" promptText="%welcomeApplicationFirewall.ip" />
-                  <TextField fx:id="txt_fw_new_port" prefHeight="30.0" minWidth="110.0" promptText="%welcomeApplicationFirewall.port" />
-                  <TextField fx:id="txt_fw_new_desc" prefHeight="30.0" prefWidth="9999" HBox.hgrow="ALWAYS" promptText="%welcomeApplicationFirewall.description1" />
-                  <Button fx:id="btn_fw_add_new_server" styleClass="btn_add" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" />
+                  <ComboBox fx:id="cbAddEditProtocol" prefHeight="30.0" minWidth="110.0" promptText="%welcomeApplicationFirewall.protocol" />
+                  <TextField fx:id="tfAddEditIp" prefHeight="30.0" minWidth="130.0" promptText="%welcomeApplicationFirewall.ip" />
+                  <TextField fx:id="tfAddEditPort" prefHeight="30.0" minWidth="110.0" promptText="%welcomeApplicationFirewall.port" />
+                  <TextField fx:id="tfAddEditDesc" prefHeight="30.0" prefWidth="9999" HBox.hgrow="ALWAYS" promptText="%welcomeApplicationFirewall.description1" />
+                  <Button fx:id="btAddEditServer" styleClass="btn_add" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" />
                </children>
             </HBox>
          </children>

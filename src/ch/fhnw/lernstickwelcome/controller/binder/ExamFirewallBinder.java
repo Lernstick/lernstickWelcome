@@ -35,12 +35,12 @@ public class ExamFirewallBinder {
      */
     public void initBindings() {
         // Bind url_whitelist view data to model data
-        firewall.getTv_fw_allowed_sites().itemsProperty().bindBidirectional(controller.getFirewall().getWebsiteListProperty());
+        firewall.getTvAllowedSites().itemsProperty().bindBidirectional(controller.getFirewall().getWebsiteListProperty());
 
         // Bind net_whitelist view data to model data
-        firewall.getTv_fw_allowed_servers().itemsProperty().bindBidirectional(controller.getFirewall().getIpListProperty());
+        firewall.getTvAllowedServers().itemsProperty().bindBidirectional(controller.getFirewall().getIpListProperty());
 
-        firewall.getCb_fw_allow_monitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
+        firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
     }
 
     /**
@@ -51,19 +51,19 @@ public class ExamFirewallBinder {
      */
     public void initHandlers(Stage errorDialog, ErrorController error) {
         ResourceBundle rb = controller.getBundle();
-        firewall.getCb_fw_allow_monitoring().selectedProperty().addListener(cl -> {
+        firewall.getTsAllowMonitoring().selectedProperty().addListener(cl -> {
             try {
                 if (firewallStateChanged()) {
                     controller.getFirewall().toggleFirewallState();
 
                     if (controller.getFirewall().firewallRunningProperty().get()) {
-                        firewall.getLbl_fw_allow_monitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
-                        firewall.getLbl_fw_allow_monitoring().getStyleClass().remove("lbl_off");
-                        firewall.getLbl_fw_allow_monitoring().getStyleClass().add("lbl_on");
+                        firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
+                        firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
+                        firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
                     } else {
-                        firewall.getLbl_fw_allow_monitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
-                        firewall.getLbl_fw_allow_monitoring().getStyleClass().remove("lbl_on");
-                        firewall.getLbl_fw_allow_monitoring().getStyleClass().add("lbl_off");
+                        firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
+                        firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_on");
+                        firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
                     }
                 }
             } catch (ProcessingException ex) {
@@ -74,19 +74,19 @@ public class ExamFirewallBinder {
 
         controller.getFirewall().firewallRunningProperty().addListener(cl -> {
             if (firewallStateChanged()) {
-                firewall.getCb_fw_allow_monitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
+                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
             }
         });
 
         // Init default value because handler isn't fired the first time.
         if (controller.getFirewall().firewallRunningProperty().get()) {
-            firewall.getLbl_fw_allow_monitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
-            firewall.getLbl_fw_allow_monitoring().getStyleClass().remove("lbl_off");
-            firewall.getLbl_fw_allow_monitoring().getStyleClass().add("lbl_on");
+            firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
+            firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
+            firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
         } else {
-            firewall.getLbl_fw_allow_monitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
-            firewall.getLbl_fw_allow_monitoring().getStyleClass().remove("lbl_on");
-            firewall.getLbl_fw_allow_monitoring().getStyleClass().add("lbl_off");
+            firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
+            firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_on");
+            firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
         }
     }
 
@@ -97,7 +97,7 @@ public class ExamFirewallBinder {
      * @return
      */
     private boolean firewallStateChanged() {
-        return controller.getFirewall().firewallRunningProperty().get() != firewall.getCb_fw_allow_monitoring().selectedProperty().get();
+        return controller.getFirewall().firewallRunningProperty().get() != firewall.getTsAllowMonitoring().selectedProperty().get();
     }
 
     /**
@@ -107,7 +107,7 @@ public class ExamFirewallBinder {
      * @param help links to online user guide
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
-        firewall.getBtnFwHelp().setOnAction(evt -> {
+        firewall.getBtHelp().setOnAction(evt -> {
             help.setHelpEntryByChapter("1");
             helpStage.show();
         });
