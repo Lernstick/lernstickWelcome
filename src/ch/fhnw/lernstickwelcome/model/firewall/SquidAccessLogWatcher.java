@@ -6,6 +6,7 @@
 package ch.fhnw.lernstickwelcome.model.firewall;
 
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
+import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter.SearchPattern;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -80,7 +81,7 @@ public class SquidAccessLogWatcher implements Runnable {
         // check for 403 Forbidden
         if (params[3].matches("TCP_DENIED/403")) {
             // add exact pattern to list
-            WebsiteFilter newElement = new WebsiteFilter('^' + params[6] + '$');
+            WebsiteFilter newElement = new WebsiteFilter(SearchPattern.Exact, params[6]);
             for (WebsiteFilter currElement : websiteList) {
                 if (currElement.getSearchPattern().equals(newElement.getSearchPattern())) {
                     return;

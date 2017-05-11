@@ -12,6 +12,7 @@ import ch.fhnw.lernstickwelcome.controller.binder.exam.PasswordChangeBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.MainBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ProgressBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallDependenciesWarningBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallPatternValidatorBinder;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
 import java.util.logging.Level;
@@ -104,12 +105,24 @@ public class WelcomeApplication extends Application {
                     primaryStage,
                     guiLoader.getPatternValidatorScene(),
                     controller.getBundle().getString("welcomeApplicationFirewallPatternValidator.title"),
-                    false
+                    true
                 );
                 
                 FirewallPatternValidatorBinder firewallPatternValidatorBinder = new FirewallPatternValidatorBinder(controller, guiLoader.getFirewallPatternValidatorController());
                 firewallPatternValidatorBinder.initBindings();
+                firewallPatternValidatorBinder.initHandlers();
 
+                Stage firewallDependenciesWarningStage = FXMLGuiLoader.createDialog(
+                    primaryStage,
+                    guiLoader.getFirewallDependenciesWarning(),
+                    controller.getBundle().getString("welcomeApplicationFirewallPatternValidator.title"),
+                    true
+                );
+                
+                FirewallDependenciesWarningBinder fdwBinder = 
+                        new FirewallDependenciesWarningBinder(controller, guiLoader.getFirewallDependenciesWarningController());
+                fdwBinder.initHandlers(firewallPatternValidatorStage, guiLoader.getErrorController(), errorStage);
+                
                 HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelpController());
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
@@ -120,7 +133,7 @@ public class WelcomeApplication extends Application {
 
                 FirewallBinder examFirewallBinder = new FirewallBinder(controller, guiLoader.getFirewallController());
                 examFirewallBinder.initBindings();
-                examFirewallBinder.initHandlers(errorStage, guiLoader.getErrorController());
+                examFirewallBinder.initHandlers(firewallDependenciesWarningStage, errorStage, guiLoader.getErrorController());
                 examFirewallBinder.initHelp(helpStage, helpBinder);
 
                 BackupBinder examBackupBinder = new BackupBinder(controller, guiLoader.getBackupController());
@@ -180,8 +193,7 @@ public class WelcomeApplication extends Application {
             MainBinder mainBinder = new MainBinder(controller, guiLoader.getMainController());
             mainBinder.initHandlers(progressStage);
 
-            //Scene scene = guiLoader.getMainStage();
-            Scene scene = guiLoader.getPatternValidatorScene();
+            Scene scene = guiLoader.getMainStage();
             primaryStage.setTitle(controller.getBundle().getString("Welcome.title"));
             primaryStage.setScene(scene);
             primaryStage.show();

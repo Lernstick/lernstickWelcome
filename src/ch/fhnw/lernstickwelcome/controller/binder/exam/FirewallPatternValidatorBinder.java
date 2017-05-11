@@ -3,6 +3,10 @@ package ch.fhnw.lernstickwelcome.controller.binder.exam;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.model.firewall.SquidAccessLogWatcher;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallPatternValidatorController;
+import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
+import ch.fhnw.lernstickwelcome.view.impl.ButtonCell;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 
 /**
  * Binder class to init binings and between view components and backend (model)
@@ -36,9 +40,23 @@ public class FirewallPatternValidatorBinder {
             Thread t = new Thread(watcher);
             t.start();
         } catch(Exception e) {
-            
         }
         // Bind url_whitelist view data to model data
         firewall.getTvPatternDependencies().itemsProperty().bind(watcher.getWebsiteList());
+    }
+    
+    public void initHandlers() {
+        firewall.getBtOk().setOnAction(evt -> {
+           watcher.stop();
+           ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
+        });
+        
+        firewall.getTvPatternDependencies_add().setCellFactory(w -> new ButtonCell<>("btn_add", (c, evt) -> {
+            WebsiteFilter website = (WebsiteFilter) c.getTableView().getItems().get(c.getTableRow().getIndex());
+            controller.getFirewall().getWebsiteListProperty().add(website);
+            watcher.getWebsiteList().remove(website);
+            // We update the firewall directly to see the effect of the change
+            new Thread(controller.getFirewall().newTask()).start();
+        }));
     }
 }

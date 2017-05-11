@@ -9,6 +9,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.HelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.MainController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.PasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ProgressController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallDependenciesWarningController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallPatternValidatorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.RecommendedSoftwareController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
@@ -42,6 +43,7 @@ public class FXMLGuiLoader {
     
     /* exam */
     private Scene welcomeApplicationPasswordChange;
+    private Scene welcomeApplicationFirewallDependenciesWarning;
     private Scene welcomeApplicationFirewallPatternValidator;
     
     // FXMLController
@@ -60,6 +62,7 @@ public class FXMLGuiLoader {
     private AdditionalSoftwareController additionalSoftwareController;
     private RecommendedSoftwareController recommendedSoftwareController; 
     private FirewallPatternValidatorController firewallPatternValidatorController; 
+    private FirewallDependenciesWarningController firewallDependenciesWarningController;
     
     /**
      * This class loads the FXML files, creates the menu and saves the fxml 
@@ -112,6 +115,12 @@ public class FXMLGuiLoader {
                         loadScene("../view/exam/passwordChange.fxml", stylesheet, rb);
                 welcomeApplicationPasswordChange = pc.getKey();
                 passwordChangeController = pc.getValue();
+                
+                // Load firewall pattern validator view.
+                Pair<Scene, FirewallDependenciesWarningController> fdw = 
+                        loadScene("../view/exam/firewallDependenciesWarning.fxml", stylesheet, rb);
+                welcomeApplicationFirewallDependenciesWarning = fdw.getKey();
+                firewallDependenciesWarningController = fdw.getValue();
                 
                 // Load firewall pattern validator view.
                 Pair<Scene, FirewallPatternValidatorController> fpvc = 
@@ -229,10 +238,17 @@ public class FXMLGuiLoader {
         return welcomeApplicationPasswordChange;
     }
     
-    
+    /**
+     * Returns the firewall dependencies warning dialog scene.
+     * @return the view, which is shown when a user wants to open the pattern
+     * validator scene.
+     */
+    public Scene getFirewallDependenciesWarning() {
+        return welcomeApplicationFirewallDependenciesWarning;
+    }
     
     /**
-     * Returns the firewall pattern validator change dialog scene.
+     * Returns the firewall pattern validator dialog scene.
      * @return the view, which is shown while checking for dependencies for 
      * firewall patterns blocked by squid.
      */
@@ -318,6 +334,14 @@ public class FXMLGuiLoader {
      */
     public FirewallPatternValidatorController getFirewallPatternValidatorController() {
         return firewallPatternValidatorController;
+    }
+    
+    /**
+     * Returns the Controller for this fxml view.
+     * @return 
+     */
+    public FirewallDependenciesWarningController getFirewallDependenciesWarningController() {
+        return firewallDependenciesWarningController;
     }
 
     /**

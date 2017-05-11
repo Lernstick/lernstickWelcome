@@ -17,7 +17,7 @@
          <bottom>
             <ButtonBar BorderPane.alignment="CENTER_RIGHT">
               <buttons>
-                <Button fx:id="btnOk" defaultButton="true" mnemonicParsing="false" text="%welcomeApplicationFirewallPatternValidator.ok" ButtonBar.buttonData="RIGHT" />
+                <Button fx:id="btOk" defaultButton="true" mnemonicParsing="false" text="%welcomeApplicationFirewallPatternValidator.ok" ButtonBar.buttonData="RIGHT" />
               </buttons>
             </ButtonBar>
          </bottom>

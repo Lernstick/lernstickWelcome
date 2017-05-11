@@ -62,6 +62,8 @@ public class FirewallController implements Initializable {
     @FXML
     private Button btAddEditSite;
     @FXML
+    private Button btCheckForDep;
+    @FXML
     private TableView<IpFilter> tvAllowedServers;
     @FXML
     private TableColumn<IpFilter, IpFilter.Protocol> tcServerProtocol;
@@ -269,6 +271,10 @@ public class FirewallController implements Initializable {
 
     public TextField getTfAddEditIp() {
         return tfAddEditIp;
+    }
+    
+    public Button getBtCheckForDep() {
+        return btCheckForDep;
     }
 
     public ComboBox<IpFilter.Protocol> getCbAddEditProtocol() {

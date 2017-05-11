@@ -28,32 +28,30 @@ public class FirewallEditButtonCell extends ButtonCell<WebsiteFilter, WebsiteFil
      * other Elements to be edited
      */
     public FirewallEditButtonCell(FirewallController fwc, TableView table) {
-        super("btn_edit");
-
-        super.btn.setOnAction(e -> {
+        super("btn_edit", (c, e) -> {
             Button b = (Button) e.getSource();
             if (table == fwc.getTvAllowedSites()) {
                 // Prepare view for edit
-                WebsiteFilter element = (WebsiteFilter) table.getItems().get(this.getIndex());
+                WebsiteFilter element = (WebsiteFilter) table.getItems().get(c.getIndex());
                 fwc.getCbAddEditPattern().setValue(element.searchPatternProperty().get());
                 fwc.getTfAddEditCriteria().setText(element.searchCriteriaProperty().get());
                 fwc.getBtAddEditSite().getStyleClass().remove("btn_add");
                 fwc.getBtAddEditSite().getStyleClass().add("btn_save");
-                fwc.setIndexSaveWebsiteFilter(this.getIndex());
+                fwc.setIndexSaveWebsiteFilter(c.getIndex());
                 fwc.getCbAddEditPattern().requestFocus();
                 // Scroll to edit fields
                 ScrollPane sp = (ScrollPane) fwc.getBtAddEditServer().getScene().lookup("#MainPane");
                 sp.setVvalue(0.0);
             } else {
                 // Prepare view for edit
-                IpFilter element = (IpFilter) table.getItems().get(this.getIndex());
+                IpFilter element = (IpFilter) table.getItems().get(c.getIndex());
                 fwc.getCbAddEditProtocol().setValue(element.protocolProperty().get());
                 fwc.getTfAddEditIp().setText(element.ipAddressProperty().get());
                 fwc.getTfAddEditPort().setText(element.portProperty().get());
                 fwc.getTfAddEditDesc().setText(element.descriptionProperty().get());
                 fwc.getBtAddEditServer().getStyleClass().remove("btn_add");
                 fwc.getBtAddEditServer().getStyleClass().add("btn_save");
-                fwc.setIndexSaveIpFilter(this.getIndex());
+                fwc.setIndexSaveIpFilter(c.getIndex());
                 fwc.getCbAddEditProtocol().requestFocus();
                 // Scroll to edit fields
                 ScrollPane sp = (ScrollPane) fwc.getBtAddEditServer().getScene().lookup("#MainPane");

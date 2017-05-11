@@ -7,8 +7,6 @@ package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
  */
 
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
-import ch.fhnw.lernstickwelcome.view.impl.ButtonCell;
-import ch.fhnw.lernstickwelcome.view.impl.FirewallAddButtonCell;
 import ch.fhnw.lernstickwelcome.view.impl.FirewallOpenButtonCell;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,9 +24,9 @@ import javafx.scene.control.TableView;
 public class FirewallPatternValidatorController implements Initializable {
 
     @FXML
-    private Button btnCancel;
+    private Button btCancel;
     @FXML
-    private Button btnOk;
+    private Button btOk;
     @FXML
     private TableView<WebsiteFilter> tvPatternDependencies;
     @FXML
@@ -49,7 +47,13 @@ public class FirewallPatternValidatorController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         tvPatternDependencies_pattern.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
         tvPatternDependencies_open.setCellFactory(c -> new FirewallOpenButtonCell(c.getTableView()));
-        tvPatternDependencies_add.setCellFactory(c -> new FirewallAddButtonCell(c.getTableView()));
     }    
     
+    public Button getBtOk() {
+        return btOk;
+    }
+    
+    public TableColumn<WebsiteFilter, WebsiteFilter> getTvPatternDependencies_add() {
+        return tvPatternDependencies_add;
+    }
 }

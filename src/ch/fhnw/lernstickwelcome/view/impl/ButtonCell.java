@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ch.fhnw.lernstickwelcome.view.impl;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 
@@ -15,21 +16,28 @@ import javafx.scene.control.TableCell;
  * solution to this issue is currently not found.</small>
  * @author tiagosantosb
  */
-public abstract class ButtonCell<T, U> extends TableCell<T, U> {
+public class ButtonCell<T, U> extends TableCell<T, U> {
     
     protected Button btn;
+    
+    @FunctionalInterface
+    public static interface ButtonCellEventHandler {
+        void handle(ButtonCell cell, ActionEvent evt);
+    }
 
     /**
      * Creates a new ButtonCell for the provided TableView with the given
      * @param type name of the style class
+     * @param evt the event for this button cell
      */
-    public ButtonCell(String type) {
+    public ButtonCell(String type, ButtonCellEventHandler evt) {
         super();
         
         btn = new Button();
         btn.getStyleClass().add(type);
         btn.setPrefWidth(40);
         btn.setPrefHeight(30);
+        btn.setOnAction(e -> evt.handle(this, e));
     }
 
     /**
