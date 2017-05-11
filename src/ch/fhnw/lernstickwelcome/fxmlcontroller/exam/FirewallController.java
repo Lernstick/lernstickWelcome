@@ -12,6 +12,8 @@ import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter.SearchPattern;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.lernstickwelcome.view.impl.ButtonCell;
+import ch.fhnw.lernstickwelcome.view.impl.FirewallDeleteButtonCell;
+import ch.fhnw.lernstickwelcome.view.impl.FirewallEditButtonCell;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import ch.fhnw.lernstickwelcome.view.impl.ValidatableTextFieldCell;
 import java.net.URL;
@@ -60,6 +62,8 @@ public class FirewallController implements Initializable {
     @FXML
     private Button btAddEditSite;
     @FXML
+    private Button btCheckForDep;
+    @FXML
     private TableView<IpFilter> tvAllowedServers;
     @FXML
     private TableColumn<IpFilter, IpFilter.Protocol> tcServerProtocol;
@@ -107,8 +111,8 @@ public class FirewallController implements Initializable {
         tcSitesCriteria.setCellFactory(TextFieldTableCell.forTableColumn());
         tcSitesCriteria.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .searchCriteriaProperty().setValue(e.getNewValue()));
-        tcSitesEdit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
-        tcSitesDelete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
+        tcSitesEdit.setCellFactory(c -> new FirewallEditButtonCell(this, c.getTableView()));
+        tcSitesDelete.setCellFactory(p -> new FirewallDeleteButtonCell(this, p.getTableView()));
         
         // Set TableView IpFilter cell properties and implement edit functionality
         tcServerProtocol.setCellValueFactory(p -> p.getValue().protocolProperty());
@@ -143,8 +147,8 @@ public class FirewallController implements Initializable {
         tcServerDesc.setCellFactory(TextFieldTableCell.forTableColumn());
         tcServerDesc.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .descriptionProperty().setValue(e.getNewValue()));
-        tcServerEdit.setCellFactory(c -> new ButtonCell(ButtonCell.Type.EDIT, this, c.getTableView()));
-        tcServerDelete.setCellFactory(p -> new ButtonCell(ButtonCell.Type.DELETE, this, p.getTableView()));
+        tcServerEdit.setCellFactory(c -> new FirewallEditButtonCell(this, c.getTableView()));
+        tcServerDelete.setCellFactory(p -> new FirewallDeleteButtonCell(this, p.getTableView()));
         
         // Load ComboBox data
         cbAddEditPattern.setConverter(getSearchPatternStringConverter());
@@ -267,6 +271,10 @@ public class FirewallController implements Initializable {
 
     public TextField getTfAddEditIp() {
         return tfAddEditIp;
+    }
+    
+    public Button getBtCheckForDep() {
+        return btCheckForDep;
     }
 
     public ComboBox<IpFilter.Protocol> getCbAddEditProtocol() {
