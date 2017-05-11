@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -63,6 +64,13 @@
                   <Button fx:id="btAddEditSite" styleClass="btn_add" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" />
                </children>
             </HBox>
+            <VBox spacing="5.0" alignment="CENTER_RIGHT">
+                <Button fx:id="btCheckForDep" text="%welcomeApplicationFirewall.checkForDependencies">
+                    <tooltip>
+                        <Tooltip text="%welcomeApplicationFirewall.checkForDependenciesTooltip" />
+                    </tooltip>
+                </Button>
+            </VBox>
             <HBox>
                 <padding><Insets top="20.0"/></padding>
                 <Label text="%welcomeApplicationFirewall.allowedServers">

@@ -16,7 +16,7 @@
             <SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <items>
                   <ListView fx:id="lvMenuPane" fixedCellSize="60.0" SplitPane.resizableWithParent="false" />
-                  <ScrollPane fx:id="spMainPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" />
+                  <ScrollPane fx:id="spMainPane" id="MainPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" />
                </items>
             </SplitPane>
          </center>
