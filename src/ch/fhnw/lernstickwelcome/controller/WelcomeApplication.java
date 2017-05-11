@@ -12,6 +12,7 @@ import ch.fhnw.lernstickwelcome.controller.binder.exam.PasswordChangeBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.MainBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ProgressBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallPatternValidatorBinder;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -98,6 +99,16 @@ public class WelcomeApplication extends Application {
                     );
                     passwordChangeStage.showAndWait();
                 }
+                
+                Stage firewallPatternValidatorStage = FXMLGuiLoader.createDialog(
+                    primaryStage,
+                    guiLoader.getPatternValidatorScene(),
+                    controller.getBundle().getString("welcomeApplicationFirewallPatternValidator.title"),
+                    false
+                );
+                
+                FirewallPatternValidatorBinder firewallPatternValidatorBinder = new FirewallPatternValidatorBinder(controller, guiLoader.getFirewallPatternValidatorController());
+                firewallPatternValidatorBinder.initBindings();
 
                 HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelpController());
                 helpBinder.initBindings();
@@ -169,7 +180,8 @@ public class WelcomeApplication extends Application {
             MainBinder mainBinder = new MainBinder(controller, guiLoader.getMainController());
             mainBinder.initHandlers(progressStage);
 
-            Scene scene = guiLoader.getMainStage();
+            //Scene scene = guiLoader.getMainStage();
+            Scene scene = guiLoader.getPatternValidatorScene();
             primaryStage.setTitle(controller.getBundle().getString("Welcome.title"));
             primaryStage.setScene(scene);
             primaryStage.show();

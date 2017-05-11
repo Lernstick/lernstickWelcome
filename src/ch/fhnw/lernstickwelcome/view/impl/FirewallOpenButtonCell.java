@@ -7,6 +7,7 @@ package ch.fhnw.lernstickwelcome.view.impl;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 
@@ -14,29 +15,15 @@ import javafx.scene.control.TableView;
  *
  * @author root
  */
-public class FirewallDeleteButtonCell extends ButtonCell<WebsiteFilter, WebsiteFilter> {
+public class FirewallOpenButtonCell extends ButtonCell<WebsiteFilter, WebsiteFilter> {
 
-    public FirewallDeleteButtonCell(FirewallController fwc, TableView table) {
-        super("btn_delete");
+    public FirewallOpenButtonCell(TableView<WebsiteFilter> table) {
+        super("btn_open_url");
 
         btn.setOnAction(e -> {
             Button b = (Button) e.getSource();
-
-            // Exit edit mode if deleting entry
-            if (table == fwc.getTvAllowedSites() && fwc.getIndexSaveWebsiteFilter() == this.getIndex()) {
-                fwc.getCbAddEditPattern().setValue(null);
-                fwc.getTfAddEditCriteria().setText("");
-                fwc.getBtAddEditSite().getStyleClass().remove("btn_save");
-                fwc.getBtAddEditSite().getStyleClass().add("btn_add");
-            } else if (table == fwc.getTvAllowedServers() && fwc.getIndexSaveIpFilter() == this.getIndex()) {
-                fwc.getCbAddEditProtocol().setValue(null);
-                fwc.getTfAddEditIp().setText("");
-                fwc.getTfAddEditPort().setText("");
-                fwc.getTfAddEditDesc().setText("");
-                fwc.getBtAddEditServer().getStyleClass().remove("btn_save");
-                fwc.getBtAddEditServer().getStyleClass().add("btn_add");
-            }
-            table.getItems().remove(this.getIndex());
+            WebsiteFilter pattern = table.getItems().get(getTableRow().getIndex());
+            WelcomeUtil.openLinkInBrowser(pattern.searchCriteriaProperty().get());
         });
     }
 }
