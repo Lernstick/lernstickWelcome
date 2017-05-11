@@ -1,7 +1,8 @@
-package ch.fhnw.lernstickwelcome.controller.binder;
+package ch.fhnw.lernstickwelcome.controller.binder.standard;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.SystemStdController;
+import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController;
 import javafx.stage.Stage;
 
 /**
@@ -9,10 +10,10 @@ import javafx.stage.Stage;
  * 
  * @author Line Stettler
  */
-public class StdSystemBinder {
+public class SystemBinder {
 
     private WelcomeController controller;
-    private SystemStdController system;
+    private SystemController system;
     
    /**
      * Constructor of ExamInformationBinder class
@@ -20,7 +21,7 @@ public class StdSystemBinder {
      * @param controller        is needed to provide access to the backend properties
      * @param system            FXML controller which prviedes the view properties
      */
-    public StdSystemBinder(WelcomeController controller, SystemStdController system){
+    public SystemBinder(WelcomeController controller, SystemController system){
         this.controller = controller;
         this.system = system;
     }

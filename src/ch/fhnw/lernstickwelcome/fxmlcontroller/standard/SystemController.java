@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.fxmlcontroller;
+package ch.fhnw.lernstickwelcome.fxmlcontroller.standard;
 
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
@@ -26,7 +27,7 @@ import javafx.util.StringConverter;
  *
  * @author user
  */
-public class SystemStdController implements Initializable {
+public class SystemController implements Initializable {
 
     private final Integer[] visibleForValues = new Integer[] { 5, 10, 15, 20, 25, 30, 40, 50, 60 };
 
@@ -34,7 +35,7 @@ public class SystemStdController implements Initializable {
     @FXML
     private Button btHelp;
     @FXML
-    private ChoiceBox<Number> cbVisibleFor;
+    private ComboBox<Number> cbVisibleFor;
     @FXML
     private ToggleSwitch tsStartWa;
     @FXML
@@ -87,6 +88,7 @@ public class SystemStdController implements Initializable {
             }
         });
         cbVisibleFor.getItems().addAll(visibleForValues);
+        cbVisibleFor.setEditable(true);
         
         tfUsername.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -195,7 +197,7 @@ public class SystemStdController implements Initializable {
         return tfSystemversion;
     }
 
-    public ChoiceBox<Number> getCbVisibleFor() {
+    public ComboBox<Number> getCbVisibleFor() {
         return cbVisibleFor;
     }
 

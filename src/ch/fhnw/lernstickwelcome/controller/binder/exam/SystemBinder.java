@@ -1,7 +1,8 @@
-package ch.fhnw.lernstickwelcome.controller.binder;
+package ch.fhnw.lernstickwelcome.controller.binder.exam;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.SystemController;
+import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.SystemController;
 import javafx.stage.Stage;
 
 /**
@@ -9,7 +10,7 @@ import javafx.stage.Stage;
  * 
  * @author Line Stettler
  */
-public class ExamSystemBinder {
+public class SystemBinder {
 
     private WelcomeController controller;
     private SystemController system;
@@ -20,7 +21,7 @@ public class ExamSystemBinder {
      * @param controller is needed to provide access to the backend properties
      * @param system FXML controller which proviedes the view properties
      */
-    public ExamSystemBinder(WelcomeController controller, SystemController system){
+    public SystemBinder(WelcomeController controller, SystemController system){
         this.controller = controller;
         this.system = system;
     }

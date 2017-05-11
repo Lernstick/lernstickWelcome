@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.fhnw.lernstickwelcome.fxmlcontroller;
+package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
 
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -41,7 +42,7 @@ public class SystemController implements Initializable {
     @FXML
     private PasswordField pfPasswordRepeat;
     @FXML
-    private ChoiceBox<Number> cbVisibleFor;
+    private ComboBox<Number> cbVisibleFor;
     @FXML
     private ToggleSwitch tsStartWa;
     @FXML
@@ -75,6 +76,7 @@ public class SystemController implements Initializable {
                 return Integer.valueOf(string.split(" ")[0]);
             }
         });
+        cbVisibleFor.setEditable(true);
         
         tfUsername.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -160,7 +162,6 @@ public class SystemController implements Initializable {
         }
     }
 
-    @FXML
     private void onClickShowHelp(MouseEvent event) {
         // TODO: popupwindow with Help Text
         throw new UnsupportedOperationException("Not supported yet.");
@@ -186,7 +187,7 @@ public class SystemController implements Initializable {
         return pfPasswordRepeat;
     }
 
-    public ChoiceBox<Number> getCbVisibleFor() {
+    public ComboBox<Number> getCbVisibleFor() {
         return cbVisibleFor;
     }
 

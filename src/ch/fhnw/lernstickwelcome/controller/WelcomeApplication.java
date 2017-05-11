@@ -6,24 +6,18 @@
 package ch.fhnw.lernstickwelcome.controller;
 
 import ch.fhnw.lernstickwelcome.controller.binder.ApplicationBinder;
-import ch.fhnw.lernstickwelcome.controller.binder.ExamBackupBinder;
-import ch.fhnw.lernstickwelcome.controller.binder.ExamFirewallBinder;
-import ch.fhnw.lernstickwelcome.controller.binder.InformationBinder;
-import ch.fhnw.lernstickwelcome.controller.binder.ExamPasswordChangeBinder;
-import ch.fhnw.lernstickwelcome.controller.binder.ExamSystemBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.exam.BackupBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.exam.PasswordChangeBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.MainBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ProgressBinder;
-import ch.fhnw.lernstickwelcome.controller.binder.StdSystemBinder;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  * The JavaFX Application.
@@ -94,7 +88,7 @@ public class WelcomeApplication extends Application {
                 controller.loadExamEnvironment();
 
                 if (!controller.getSysconf().isPasswordChanged()) {
-                    ExamPasswordChangeBinder examPasswordChangeBinder = new ExamPasswordChangeBinder(controller, guiLoader.getPasswordChangeController());
+                    PasswordChangeBinder examPasswordChangeBinder = new PasswordChangeBinder(controller, guiLoader.getPasswordChangeController());
                     examPasswordChangeBinder.initHandlers(errorStage, guiLoader.getErrorController());
                     Stage passwordChangeStage = FXMLGuiLoader.createDialog(
                             primaryStage,
@@ -109,19 +103,21 @@ public class WelcomeApplication extends Application {
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
 
-                InformationBinder examInformationBinder = new InformationBinder(controller, guiLoader.getInformationController());
+                ch.fhnw.lernstickwelcome.controller.binder.exam.InformationBinder examInformationBinder = 
+                        new ch.fhnw.lernstickwelcome.controller.binder.exam.InformationBinder(controller, guiLoader.getInformationExamController());
                 examInformationBinder.initBindings();
 
-                ExamFirewallBinder examFirewallBinder = new ExamFirewallBinder(controller, guiLoader.getFirewallController());
+                FirewallBinder examFirewallBinder = new FirewallBinder(controller, guiLoader.getFirewallController());
                 examFirewallBinder.initBindings();
                 examFirewallBinder.initHandlers(errorStage, guiLoader.getErrorController());
                 examFirewallBinder.initHelp(helpStage, helpBinder);
 
-                ExamBackupBinder examBackupBinder = new ExamBackupBinder(controller, guiLoader.getBackupController());
+                BackupBinder examBackupBinder = new BackupBinder(controller, guiLoader.getBackupController());
                 examBackupBinder.initBindings();
                 examBackupBinder.initHelp(helpStage, helpBinder);
 
-                ExamSystemBinder examSystemBinder = new ExamSystemBinder(controller, guiLoader.getSystemExamController());
+                ch.fhnw.lernstickwelcome.controller.binder.exam.SystemBinder examSystemBinder = 
+                        new ch.fhnw.lernstickwelcome.controller.binder.exam.SystemBinder(controller, guiLoader.getSystemExamController());
                 examSystemBinder.initBindings();
                 examSystemBinder.initHelp(helpStage, helpBinder);
             } else {
@@ -131,7 +127,8 @@ public class WelcomeApplication extends Application {
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
 
-                InformationBinder information = new InformationBinder(controller, guiLoader.getInformationController());
+                ch.fhnw.lernstickwelcome.controller.binder.standard.InformationBinder information = 
+                        new ch.fhnw.lernstickwelcome.controller.binder.standard.InformationBinder(controller, guiLoader.getInformationStdController());
                 information.initBindings();
 
                 ApplicationBinder recAppsBinder = new ApplicationBinder(
@@ -153,7 +150,8 @@ public class WelcomeApplication extends Application {
                 addAppsBinder.addApplicationGroup(controller.getGamesApps(), helpBinder, helpStage);
                 addAppsBinder.initHelp("2", helpStage, helpBinder);
 
-                StdSystemBinder stdSystemBinder = new StdSystemBinder(controller, guiLoader.getSystemStdController());
+                ch.fhnw.lernstickwelcome.controller.binder.standard.SystemBinder stdSystemBinder =  
+                        new ch.fhnw.lernstickwelcome.controller.binder.standard.SystemBinder(controller, guiLoader.getSystemStdController());
                 stdSystemBinder.initBindings();
                 stdSystemBinder.initHelp(helpStage, helpBinder);
             }

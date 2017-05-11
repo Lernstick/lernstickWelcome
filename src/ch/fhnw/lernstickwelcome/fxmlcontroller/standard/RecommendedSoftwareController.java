@@ -1,4 +1,4 @@
-package ch.fhnw.lernstickwelcome.fxmlcontroller;
+package ch.fhnw.lernstickwelcome.fxmlcontroller.standard;
 
 import java.net.URL;
 import java.util.ResourceBundle;

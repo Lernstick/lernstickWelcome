@@ -657,7 +657,7 @@
 			<tag>teaching</tag>
 		</tags>
 	</application>
-	<application name="gcompris">
+	<application name="GCompris">
 		<description>Welcome.gcomprisPanel.description</description>
 		<icon>gcompris</icon>
 		<help-path>Welcome.gcomprisPanel.website</help-path>
@@ -676,7 +676,7 @@
 			<tag>misc</tag>
 		</tags>
 	</application>
-	<application name="tigerjython">
+	<application name="TigerJython">
 		<description>Welcome.tigerjythonPanel.description</description>
 		<icon>gcompris</icon>
 		<help-path>Welcome.tigerjythonPanel.website</help-path>
