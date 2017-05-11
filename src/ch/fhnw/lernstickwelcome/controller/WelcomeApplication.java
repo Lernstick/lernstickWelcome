@@ -115,7 +115,7 @@ public class WelcomeApplication extends Application {
                 Stage firewallDependenciesWarningStage = FXMLGuiLoader.createDialog(
                     primaryStage,
                     guiLoader.getFirewallDependenciesWarning(),
-                    controller.getBundle().getString("welcomeApplicationFirewallPatternValidator.title"),
+                    controller.getBundle().getString("welcomeApplicationFirewallDependenciesWarning.title"),
                     true
                 );
                 
