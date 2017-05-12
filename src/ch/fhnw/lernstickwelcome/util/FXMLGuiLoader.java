@@ -6,6 +6,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.BackupController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.HelpController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.InfodialogController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.MainController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.PasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ProgressController;
@@ -20,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,24 +36,28 @@ import javafx.util.Pair;
  * @author sschw
  */
 public class FXMLGuiLoader {
+
     private static final Logger LOGGER = Logger.getLogger(FXMLGuiLoader.class.getName());
-    
+
+    private String stylesheet = new File(WelcomeConstants.RESOURCE_FILE_PATH + "/css/style.css").toURI().toString();
+    private ResourceBundle rb;
+
     private Scene welcomeApplicationMain;
-    
+
     private Scene welcomeApplicationProgress;
     private Scene welcomeApplicationError;
     private Scene welcomeApplicationHelp;
-    
+
     /* exam */
     private Scene welcomeApplicationPasswordChange;
     private Scene welcomeApplicationFirewallDependenciesWarning;
     private Scene welcomeApplicationFirewallPatternValidator;
-    
+
     // FXMLController
     private ProgressController progressController;
     private ErrorController errorController;
     private HelpController helpController;
-    
+
     private PasswordChangeController passwordChangeController;
     private BackupController backupController;
     private FirewallController firewallController;
@@ -60,160 +67,162 @@ public class FXMLGuiLoader {
     private ch.fhnw.lernstickwelcome.fxmlcontroller.exam.SystemController systemExamController;
     private ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController systemStdController;
     private AdditionalSoftwareController additionalSoftwareController;
-    private RecommendedSoftwareController recommendedSoftwareController; 
-    private FirewallPatternValidatorController firewallPatternValidatorController; 
+    private RecommendedSoftwareController recommendedSoftwareController;
+    private FirewallPatternValidatorController firewallPatternValidatorController;
     private FirewallDependenciesWarningController firewallDependenciesWarningController;
-    
+
     /**
-     * This class loads the FXML files, creates the menu and saves the fxml 
+     * This class loads the FXML files, creates the menu and saves the fxml
      * controller to provide them to backend binders.
-     * 
+     *
      * @param isExamEnvironment Describes which files should be loaded and added
      * to the menu.
-     * @param rb The ResourceBundle for loading the language into the GUI. 
+     * @param rb The ResourceBundle for loading the language into the GUI.
      */
     public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb) {
+        this.rb = rb;
         // Create all instances with their controllers   
         try {
             ObservableList<MenuPaneItem> menuPaneItems = FXCollections.observableArrayList();
-            String stylesheet = new File(WelcomeConstants.RESOURCE_FILE_PATH + "/css/style.css").toURI().toString();
-            
+
             // load start view
-            Pair<Scene, MainController> main = 
-                    loadScene("../view/main.fxml", stylesheet, rb);
+            Pair<Scene, MainController> main
+                    = loadScene("../view/main.fxml", stylesheet, rb);
             welcomeApplicationMain = main.getKey();
             mainController = main.getValue();
-            
-            if(!isExamEnvironment){
+
+            if (!isExamEnvironment) {
                 // prepare menu for standard env.
                 informationStdController = loadMenuItemView(
-                        "../view/standard/information.fxml", 
-                        "welcomeApplicationMain.Information", 
+                        "../view/standard/information.fxml",
+                        "welcomeApplicationMain.Information",
                         "messagebox_info.png", menuPaneItems, rb
                 );
-                
+
                 recommendedSoftwareController = loadMenuItemView(
-                        "../view/standard/recommendedSoftware.fxml", 
-                        "welcomeApplicationMain.RecommendedSoftware", 
+                        "../view/standard/recommendedSoftware.fxml",
+                        "welcomeApplicationMain.RecommendedSoftware",
                         "copyright.png", menuPaneItems, rb
                 );
-                
+
                 additionalSoftwareController = loadMenuItemView(
-                        "../view/standard/additionalSoftware.fxml", 
-                        "welcomeApplicationMain.AdditionalSoftware", 
+                        "../view/standard/additionalSoftware.fxml",
+                        "welcomeApplicationMain.AdditionalSoftware",
                         "list-add.png", menuPaneItems, rb
                 );
-                
+
                 systemStdController = loadMenuItemView(
-                        "../view/standard/system.fxml", 
-                        "welcomeApplicationMain.System", 
+                        "../view/standard/system.fxml",
+                        "welcomeApplicationMain.System",
                         "system-run.png", menuPaneItems, rb
                 );
             } else {
                 // Load password change view.
-                Pair<Scene, PasswordChangeController> pc = 
-                        loadScene("../view/exam/passwordChange.fxml", stylesheet, rb);
+                Pair<Scene, PasswordChangeController> pc
+                        = loadScene("../view/exam/passwordChange.fxml", stylesheet, rb);
                 welcomeApplicationPasswordChange = pc.getKey();
                 passwordChangeController = pc.getValue();
-                
+
                 // Load firewall pattern validator view.
-                Pair<Scene, FirewallDependenciesWarningController> fdw = 
-                        loadScene("../view/exam/firewallDependenciesWarning.fxml", stylesheet, rb);
+                Pair<Scene, FirewallDependenciesWarningController> fdw
+                        = loadScene("../view/exam/firewallDependenciesWarning.fxml", stylesheet, rb);
                 welcomeApplicationFirewallDependenciesWarning = fdw.getKey();
                 firewallDependenciesWarningController = fdw.getValue();
-                
+
                 // Load firewall pattern validator view.
-                Pair<Scene, FirewallPatternValidatorController> fpvc = 
-                        loadScene("../view/exam/firewallPatternValidator.fxml", stylesheet, rb);
+                Pair<Scene, FirewallPatternValidatorController> fpvc
+                        = loadScene("../view/exam/firewallPatternValidator.fxml", stylesheet, rb);
                 welcomeApplicationFirewallPatternValidator = fpvc.getKey();
                 firewallPatternValidatorController = fpvc.getValue();
-                
+
                 // prepare menu for exam env.
                 informationExamController = loadMenuItemView(
-                        "../view/exam/information.fxml", 
-                        "welcomeApplicationMain.Information", 
+                        "../view/exam/information.fxml",
+                        "welcomeApplicationMain.Information",
                         "messagebox_info.png", menuPaneItems, rb
                 );
-                
+
                 firewallController = loadMenuItemView(
-                        "../view/exam/firewall.fxml", 
-                        "welcomeApplicationMain.Firewall", 
+                        "../view/exam/firewall.fxml",
+                        "welcomeApplicationMain.Firewall",
                         "network-server.png", menuPaneItems, rb
                 );
 
                 backupController = loadMenuItemView(
-                        "../view/exam/backup.fxml", 
-                        "welcomeApplicationMain.Backup", 
+                        "../view/exam/backup.fxml",
+                        "welcomeApplicationMain.Backup",
                         "partitionmanager.png", menuPaneItems, rb
                 );
 
                 systemExamController = loadMenuItemView(
-                        "../view/exam/system.fxml", 
-                        "welcomeApplicationMain.System", 
+                        "../view/exam/system.fxml",
+                        "welcomeApplicationMain.System",
                         "system-run.png", menuPaneItems, rb
                 );
             }
-            
+
             // Load additional Scenes
-            Pair<Scene, ProgressController> progress = 
-                    loadScene("../view/progress.fxml", stylesheet, rb);
+            Pair<Scene, ProgressController> progress
+                    = loadScene("../view/progress.fxml", stylesheet, rb);
             welcomeApplicationProgress = progress.getKey();
             progressController = progress.getValue();
-            
-            Pair<Scene, ErrorController> error = 
-                    loadScene("../view/error.fxml", stylesheet, rb);
+
+            Pair<Scene, ErrorController> error
+                    = loadScene("../view/error.fxml", stylesheet, rb);
             welcomeApplicationError = error.getKey();
             errorController = error.getValue();
-            
-            Pair<Scene, HelpController> help = 
-                    loadScene("../view/help.fxml", stylesheet, rb);
+
+            Pair<Scene, HelpController> help
+                    = loadScene("../view/help.fxml", stylesheet, rb);
             welcomeApplicationHelp = help.getKey();
             helpController = help.getValue();
-            
+
             // add menu buttons to welcome application main window and panes according to exam/std version of the lernstick
             mainController.initializeMenu(menuPaneItems);
-            
-        } catch(IOException ex) {
+
+        } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "There was an error while loading the scene from the fxml files.", ex);
         }
     }
-    
+
     private <T> T loadMenuItemView(String path, String name, String imgName, ObservableList<MenuPaneItem> menuPaneItems, ResourceBundle rb) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(path), rb);
         Parent menuItemView = loader.<Parent>load();
         menuPaneItems.add(new MenuPaneItem(menuItemView, rb.getString(name), WelcomeConstants.ICON_FILE_PATH + "/menu/" + imgName));
         return loader.getController();
     }
-    
+
     private <T> Pair<Scene, T> loadScene(String path, String stylesheetPath, ResourceBundle rb) throws IOException {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(path), rb);
-            Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(stylesheetPath);
-            return new Pair<>(scene, loader.getController());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(path), rb);
+        Scene scene = new Scene(loader.load());
+        scene.getStylesheets().add(stylesheetPath);
+        return new Pair<>(scene, loader.getController());
     }
-   
+
     /**
      * Returns the main view.
-     * @return the view, which contains the menu on the left and the content on 
+     *
+     * @return the view, which contains the menu on the left and the content on
      * the right.
      */
-    public Scene getMainStage()
-    {
+    public Scene getMainStage() {
         return welcomeApplicationMain;
     }
-    
+
     /**
      * Returns the installation/configuration view.
-     * @return the view, which contains the progress bar, which is shown on
-     * save and exit.
+     *
+     * @return the view, which contains the progress bar, which is shown on save
+     * and exit.
      */
     public Scene getProgressScene() {
         return welcomeApplicationProgress;
     }
-    
+
     /**
      * Returns the error dialog scene.
-     * @return the view, which can be shown to the user when an Exception 
+     *
+     * @return the view, which can be shown to the user when an Exception
      * occures.
      */
     public Scene getErrorScene() {
@@ -222,59 +231,66 @@ public class FXMLGuiLoader {
 
     /**
      * Returns the help dialog scene.
-     * @return the view, which is shown to the user when he wants to see the 
+     *
+     * @return the view, which is shown to the user when he wants to see the
      * help.
      */
     public Scene getHelpScene() {
         return welcomeApplicationHelp;
     }
-    
+
     /**
      * Returns the password change dialog scene.
+     *
      * @return the view, which is shown at the start of the exam version which
      * recommends to change the password.
      */
     public Scene getPasswordChangeScene() {
         return welcomeApplicationPasswordChange;
     }
-    
+
     /**
      * Returns the firewall dependencies warning dialog scene.
+     *
      * @return the view, which is shown when a user wants to open the pattern
      * validator scene.
      */
     public Scene getFirewallDependenciesWarning() {
         return welcomeApplicationFirewallDependenciesWarning;
     }
-    
+
     /**
      * Returns the firewall pattern validator dialog scene.
-     * @return the view, which is shown while checking for dependencies for 
+     *
+     * @return the view, which is shown while checking for dependencies for
      * firewall patterns blocked by squid.
      */
     public Scene getPatternValidatorScene() {
         return welcomeApplicationFirewallPatternValidator;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public MainController getMainController() {
         return mainController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public ch.fhnw.lernstickwelcome.fxmlcontroller.exam.SystemController getSystemExamController() {
         return systemExamController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public FirewallController getFirewallController() {
         return firewallController;
@@ -282,7 +298,8 @@ public class FXMLGuiLoader {
 
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController getInformationExamController() {
         return informationExamController;
@@ -290,7 +307,8 @@ public class FXMLGuiLoader {
 
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public BackupController getBackupController() {
         return backupController;
@@ -298,47 +316,53 @@ public class FXMLGuiLoader {
 
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public ProgressController getProgressController() {
         return progressController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public ErrorController getErrorController() {
         return errorController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public HelpController getHelpController() {
         return helpController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public PasswordChangeController getPasswordChangeController() {
         return passwordChangeController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public FirewallPatternValidatorController getFirewallPatternValidatorController() {
         return firewallPatternValidatorController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public FirewallDependenciesWarningController getFirewallDependenciesWarningController() {
         return firewallDependenciesWarningController;
@@ -346,60 +370,83 @@ public class FXMLGuiLoader {
 
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController getInformationStdController() {
         return informationStdController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public RecommendedSoftwareController getRecommendedController() {
         return recommendedSoftwareController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public AdditionalSoftwareController getAddSoftwareController() {
         return additionalSoftwareController;
     }
-    
+
     /**
      * Returns the Controller for this fxml view.
-     * @return 
+     *
+     * @return
      */
     public ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController getSystemStdController() {
         return systemStdController;
     }
-    
+
+    /**
+     * Loads an info text dialog with a specific action.
+     * @param parent the parent stage
+     * @param textid the id of the text for this dialog
+     * @param e the action on ok
+     * @return a modal info stage
+     * @throws IOException 
+     */
+    public Stage getInfotextdialog(Stage parent, String textid, 
+            EventHandler<ActionEvent> e) throws IOException {
+        Pair<Scene, InfodialogController> p
+                = loadScene("../view/infodialog.fxml", stylesheet, rb);
+        p.getValue().initDialog(textid, e);
+        return createDialog(parent, p.getKey(), 
+                rb.getString("welcomeApplicationInfodialog.title"), true);
+    }
+
     /**
      * Method to create welcome application dialog (main window)
-     * 
+     *
      * @param parent parent
      * @param scene scene
      * @param title stage title
      * @param modal modal
-     * @return 
+     * @return
      */
     public static Stage createDialog(Stage parent, Scene scene, String title, boolean modal) {
         Stage stage = new Stage();
         stage.initOwner(parent);
-        if(modal) {
+        if (modal) {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setAlwaysOnTop(modal);
         }
         stage.setTitle(title);
         stage.setScene(scene);
-        if(scene.getRoot() instanceof Region) {
+        if (scene.getRoot() instanceof Region) {
             Region rootElement = (Region) scene.getRoot();
-            if(rootElement.getMinHeight() != 0)
+            if (rootElement.getMinHeight() != 0) {
                 stage.setMinHeight(rootElement.getMinHeight());
-            if(rootElement.getMinWidth() != 0)
+            }
+            if (rootElement.getMinWidth() != 0) {
                 stage.setMinWidth(((Region) scene.getRoot()).getMinWidth());
+            }
         }
         return stage;
     }

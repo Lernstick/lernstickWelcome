@@ -116,7 +116,7 @@ public class SystemconfigTask implements Processable<String> {
      * Uses the {@link #allowAccessToOtherFilesystems} Property to check how the
      * option has to be adjusted.
      */
-    private void updateAllowFilesystemMount() {
+    private void updateAllowFilesystemMount() throws ProcessingException {
         try {
             if (allowAccessToOtherFilesystems.get()) {
                 //LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=auth_.*"), "=yes");

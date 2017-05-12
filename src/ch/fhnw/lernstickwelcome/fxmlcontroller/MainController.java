@@ -70,23 +70,15 @@ public class MainController implements Initializable {
         lvMenuPane.getSelectionModel().selectFirst();
     }
     
+    public void setView(int i) {
+        lvMenuPane.getSelectionModel().select(i);
+    }
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    } 
-    
-    @FXML
-     private void onFinishClickedAction(MouseEvent event) {
-        ((Stage)((Node)(event.getSource())).getScene().getWindow()).close();
-        //create progress bar
-    }
-     
-    @FXML
-     private void onSaveClickedAction(MouseEvent event) {
-        //save all
-        ((Stage)((Node)(event.getSource())).getScene().getWindow()).close();
     }
 
     public Button getBtFinishButton() {

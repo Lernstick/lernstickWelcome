@@ -7,7 +7,9 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.MainController;
+import javafx.scene.Node;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * Binder class to init binings between view components and backend (model)
@@ -44,9 +46,13 @@ public class MainBinder {
             progressDialog.showAndWait();
         });
         welcomeApplicationStart.getBtFinishButton().setOnAction(evt -> {
-//            controller.startProcessingTasks();
-//            progressDialog.showAndWait();
-            ((Stage) progressDialog.getOwner()).close();
+            Stage s =((Stage) ((Node) evt.getSource()).getScene().getWindow());
+            s.fireEvent(
+                new WindowEvent(
+                    s,
+                    WindowEvent.WINDOW_CLOSE_REQUEST
+                )
+            );
         });
     }
 }

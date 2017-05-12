@@ -23,8 +23,8 @@
          <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
-                <Button fx:id="btSaveButton" mnemonicParsing="false" onMouseClicked="#onSaveClickedAction" text="%welcomeApplicationStart.saveButton" />
-                <Button fx:id="btFinishButton" mnemonicParsing="false" onMouseClicked="#onFinishClickedAction" text="%welcomeApplicationStart.finishButton" />
+                <Button fx:id="btSaveButton" mnemonicParsing="false" text="%welcomeApplicationStart.saveButton" />
+                <Button fx:id="btFinishButton" mnemonicParsing="false" text="%welcomeApplicationStart.finishButton" />
               </buttons>
                <BorderPane.margin>
                   <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />

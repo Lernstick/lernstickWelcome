@@ -15,9 +15,12 @@ import ch.fhnw.lernstickwelcome.controller.binder.ProgressBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallDependenciesWarningBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallPatternValidatorBinder;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -46,6 +49,7 @@ public class WelcomeApplication extends Application {
     private static final Logger LOGGER = Logger.getLogger(WelcomeApplication.class.getName());
     private WelcomeController controller;
     private FXMLGuiLoader guiLoader;
+    private Stage passwordChangeStage;
 
     /**
      * Initializes the stage.
@@ -60,6 +64,7 @@ public class WelcomeApplication extends Application {
      * <li>Create the Progress Dialog</li>
      * <li>Create the scene for the Welcome Application</li>
      * <li>Initialize the stage with the main scene</li>
+     * <li>Register a close event for the primaryStage which shows warnings</li>
      * </ol>
      *
      * @param primaryStage
@@ -92,7 +97,7 @@ public class WelcomeApplication extends Application {
                 if (!controller.getSysconf().isPasswordChanged()) {
                     PasswordChangeBinder examPasswordChangeBinder = new PasswordChangeBinder(controller, guiLoader.getPasswordChangeController());
                     examPasswordChangeBinder.initHandlers(errorStage, guiLoader.getErrorController());
-                    Stage passwordChangeStage = FXMLGuiLoader.createDialog(
+                    passwordChangeStage = FXMLGuiLoader.createDialog(
                             primaryStage,
                             guiLoader.getPasswordChangeScene(),
                             controller.getBundle().getString("welcomeApplicationPasswordChange.title"),
@@ -199,6 +204,36 @@ public class WelcomeApplication extends Application {
             primaryStage.show();
             primaryStage.setMinHeight(primaryStage.getHeight());
             primaryStage.setMinWidth(primaryStage.getWidth());
+            
+            // Set close warnings
+            primaryStage.setOnCloseRequest(evt -> {
+                try {
+                    if(isExamEnvironment()) {
+                        if(!controller.getSysconf().isPasswordChanged()) {
+                            passwordChangeStage.showAndWait();
+                        }
+                        if(controller.getBackup().hasExchangePartition() &&
+                                !controller.getBackup().isBackupConfigured()) {
+                            guiLoader.getInfotextdialog(primaryStage, 
+                                    "WelcomeApplication.Warning_No_Backup_Configured", e -> {
+                                guiLoader.getMainController().setView(2);
+                                ((Stage) ((Node)e.getSource()).getScene().getWindow()).close();
+                                evt.consume();
+                            }).showAndWait();
+                        }
+                        if(WelcomeUtil.isFileSystemMountAllowed() && !evt.isConsumed()) {
+                            guiLoader.getInfotextdialog(primaryStage, 
+                                    "WelcomeApplication.Warning_Mount_Allowed", e -> {
+                                guiLoader.getMainController().setView(3);
+                                ((Stage) ((Node)e.getSource()).getScene().getWindow()).close();
+                                evt.consume();
+                            }).showAndWait();
+                        }
+                    }
+                } catch(IOException ex) {
+                    LOGGER.log(Level.SEVERE, "Couldn't show dialogs", ex);
+                }
+            });
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);

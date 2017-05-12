@@ -51,6 +51,8 @@ public class BackupTask implements Processable<String> {
 
     private Partition exchangePartition;
     private Properties properties;
+    
+    private boolean backupConfigured;
 
     private BooleanProperty active = new SimpleBooleanProperty();
     private StringProperty sourcePath = new SimpleStringProperty();
@@ -70,7 +72,8 @@ public class BackupTask implements Processable<String> {
     public BackupTask(Properties properties, String backupDirectoryName) {
         this.properties = properties;
 
-        active.set("true".equals(properties.getProperty(WelcomeConstants.BACKUP)));
+        backupConfigured = "true".equals(properties.getProperty(WelcomeConstants.BACKUP));
+        active.set(backupConfigured);
         sourcePath.set(properties.getProperty(WelcomeConstants.BACKUP_SOURCE, "/home/user/"));
         local.set("true".equals(
                 properties.getProperty(WelcomeConstants.BACKUP_DIRECTORY_ENABLED, "true")));
@@ -266,6 +269,14 @@ public class BackupTask implements Processable<String> {
             }
         }
     }
+    
+    public boolean isBackupConfigured() {
+        return backupConfigured;
+    }
+    
+    public boolean hasExchangePartition() {
+        return exchangePartition != null;
+    }
 
     public BooleanProperty activeProperty() {
         return active;
@@ -327,6 +338,7 @@ public class BackupTask implements Processable<String> {
                 } else {
                     updateJBackpackProperties(sourcePath.get(), destinationPath.get());
                 }
+                backupConfigured = true;
             }
             updateProgress(1, 2);
             updateMessage("BackupTask.saveConfig");

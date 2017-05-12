@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -92,20 +93,8 @@ public class WelcomeUtil {
      * @return
      */
     public static boolean isFileSystemMountAllowed() {
-        try {
-            if(Files.exists(WelcomeConstants.UDISKS_PKLA_PATH)) {
-                List<String> pklaRules
-                        = LernstickFileTools.readFile(WelcomeConstants.UDISKS_PKLA_PATH.toFile());
-                for (String pklaRule : pklaRules) {
-                    if (pklaRule.equals("ResultAny=yes")) {
-                        return true;
-                    }
-                }
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.INFO, "", ex);
-        }
-        return false;
+        return !Files.exists(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
+               "10-udisks2_strict.pkla"));
     }
 
     /**
