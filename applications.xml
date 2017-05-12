@@ -697,5 +697,17 @@
 		<tags>
 			<tag>game</tag>
 		</tags>
+	</application>
+	<application name="Gdevelop">
+		<description>Welcome.gdevelopPanel.description</description>
+		<icon>gdevelop</icon>
+		<help-path>Welcome.gdevelopPanel.website</help-path>
+		<packages>
+			<package type="aptget">gdevelop</package>
+		</packages>
+		<tags>
+			<tag>development</tag>
+			<tag>misc</tag>
+		</tags>
 	</application>	
 </applications>

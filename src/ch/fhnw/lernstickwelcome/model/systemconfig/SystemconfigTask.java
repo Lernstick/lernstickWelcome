@@ -119,9 +119,11 @@ public class SystemconfigTask implements Processable<String> {
     private void updateAllowFilesystemMount() {
         try {
             if (allowAccessToOtherFilesystems.get()) {
-                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=auth_.*"), "=yes");
+                //LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=auth_.*"), "=yes");
+                Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH, "10-udisks2_strict.pkla"));
             } else {
-                LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self_keep");
+                //LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self_keep");
+            	hardenPKLAs("udisks2");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -612,7 +614,7 @@ public class SystemconfigTask implements Processable<String> {
                 "ch.lernstick.dlcopy");
 
         // harden our custom rules for third party applications
-        hardenPKLAs("jbackpack", "gnome-system-log", "packagekit", "synaptic", "udisks2");
+        hardenPKLAs("jbackpack", "gnome-system-log", "packagekit", "synaptic");
     }
 
     /**
@@ -648,7 +650,7 @@ public class SystemconfigTask implements Processable<String> {
      */
     private void hardenPKLAs(String... pklas) throws ProcessingException {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
-        Path strictPoliciesDir = Paths.get("/etc/polkit-1/localauthority/55-lernstick-exam.d");
+        Path strictPoliciesDir = Paths.get(WelcomeConstants.EXAM_POLKIT_PATH);
         if (!Files.isDirectory(strictPoliciesDir)) {
             try {
                 Files.createDirectories(strictPoliciesDir);

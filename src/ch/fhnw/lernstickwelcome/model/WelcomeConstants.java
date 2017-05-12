@@ -43,12 +43,14 @@ public final class WelcomeConstants {
             = "/etc/lernstick-firewall/url_whitelist";
     public static final String LOCAL_POLKIT_PATH
             = "/etc/polkit-1/localauthority/50-local.d";
+    public static final String EXAM_POLKIT_PATH
+            = "/etc/polkit-1/localauthority/55-lernstick-exam.d";
     public static final Path APPLETS_CONFIG_FILE = Paths.get(
             "/home/user/.kde/share/config/plasma-desktop-appletsrc");
     public static final Path ALSA_PULSE_CONFIG_FILE = Paths.get(
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
     public static final Path UDISKS_PKLA_PATH = Paths.get(
-"/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
+    		"/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
     public static final String SQUID_ACCESS_LOG_FILE_PATH = "/var/log/squid/access.log";
     
     public static final String USER_HOME = System.getProperty("user.home");
