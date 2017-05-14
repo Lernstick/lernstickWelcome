@@ -80,7 +80,7 @@
                 <archive>
                     <index>true</index>
                     <manifest>
-                        <mainClass>src.ch.fhnw.lernstickwelcome.Welcome</mainClass>
+                        <mainClass>src.ch.fhnw.lernstickwelcome.controller.WelcomeApplication</mainClass>
                     </manifest>
                 </archive>
             </configuration>

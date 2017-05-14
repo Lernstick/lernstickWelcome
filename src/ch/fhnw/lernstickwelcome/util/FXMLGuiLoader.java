@@ -87,75 +87,75 @@ public class FXMLGuiLoader {
 
             // load start view
             Pair<Scene, MainController> main
-                    = loadScene("../view/main.fxml", stylesheet, rb);
+                    = loadScene("/ch/fhnw/lernstickwelcome/view/main.fxml", stylesheet, rb);
             welcomeApplicationMain = main.getKey();
             mainController = main.getValue();
 
             if (!isExamEnvironment) {
                 // prepare menu for standard env.
                 informationStdController = loadMenuItemView(
-                        "../view/standard/information.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/standard/information.fxml",
                         "welcomeApplicationMain.Information",
                         "messagebox_info.png", menuPaneItems, rb
                 );
 
                 recommendedSoftwareController = loadMenuItemView(
-                        "../view/standard/recommendedSoftware.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/standard/recommendedSoftware.fxml",
                         "welcomeApplicationMain.RecommendedSoftware",
                         "copyright.png", menuPaneItems, rb
                 );
 
                 additionalSoftwareController = loadMenuItemView(
-                        "../view/standard/additionalSoftware.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/standard/additionalSoftware.fxml",
                         "welcomeApplicationMain.AdditionalSoftware",
                         "list-add.png", menuPaneItems, rb
                 );
 
                 systemStdController = loadMenuItemView(
-                        "../view/standard/system.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/standard/system.fxml",
                         "welcomeApplicationMain.System",
                         "system-run.png", menuPaneItems, rb
                 );
             } else {
                 // Load password change view.
                 Pair<Scene, PasswordChangeController> pc
-                        = loadScene("../view/exam/passwordChange.fxml", stylesheet, rb);
+                        = loadScene("/ch/fhnw/lernstickwelcome/view/exam/passwordChange.fxml", stylesheet, rb);
                 welcomeApplicationPasswordChange = pc.getKey();
                 passwordChangeController = pc.getValue();
 
                 // Load firewall pattern validator view.
                 Pair<Scene, FirewallDependenciesWarningController> fdw
-                        = loadScene("../view/exam/firewallDependenciesWarning.fxml", stylesheet, rb);
+                        = loadScene("/ch/fhnw/lernstickwelcome/view/exam/firewallDependenciesWarning.fxml", stylesheet, rb);
                 welcomeApplicationFirewallDependenciesWarning = fdw.getKey();
                 firewallDependenciesWarningController = fdw.getValue();
 
                 // Load firewall pattern validator view.
                 Pair<Scene, FirewallPatternValidatorController> fpvc
-                        = loadScene("../view/exam/firewallPatternValidator.fxml", stylesheet, rb);
+                        = loadScene("/ch/fhnw/lernstickwelcome/view/exam/firewallPatternValidator.fxml", stylesheet, rb);
                 welcomeApplicationFirewallPatternValidator = fpvc.getKey();
                 firewallPatternValidatorController = fpvc.getValue();
 
                 // prepare menu for exam env.
                 informationExamController = loadMenuItemView(
-                        "../view/exam/information.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/exam/information.fxml",
                         "welcomeApplicationMain.Information",
                         "messagebox_info.png", menuPaneItems, rb
                 );
 
                 firewallController = loadMenuItemView(
-                        "../view/exam/firewall.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/exam/firewall.fxml",
                         "welcomeApplicationMain.Firewall",
                         "network-server.png", menuPaneItems, rb
                 );
 
                 backupController = loadMenuItemView(
-                        "../view/exam/backup.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/exam/backup.fxml",
                         "welcomeApplicationMain.Backup",
                         "partitionmanager.png", menuPaneItems, rb
                 );
 
                 systemExamController = loadMenuItemView(
-                        "../view/exam/system.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/exam/system.fxml",
                         "welcomeApplicationMain.System",
                         "system-run.png", menuPaneItems, rb
                 );
@@ -163,17 +163,17 @@ public class FXMLGuiLoader {
 
             // Load additional Scenes
             Pair<Scene, ProgressController> progress
-                    = loadScene("../view/progress.fxml", stylesheet, rb);
+                    = loadScene("/ch/fhnw/lernstickwelcome/view/progress.fxml", stylesheet, rb);
             welcomeApplicationProgress = progress.getKey();
             progressController = progress.getValue();
 
             Pair<Scene, ErrorController> error
-                    = loadScene("../view/error.fxml", stylesheet, rb);
+                    = loadScene("/ch/fhnw/lernstickwelcome/view/error.fxml", stylesheet, rb);
             welcomeApplicationError = error.getKey();
             errorController = error.getValue();
 
             Pair<Scene, HelpController> help
-                    = loadScene("../view/help.fxml", stylesheet, rb);
+                    = loadScene("/ch/fhnw/lernstickwelcome/view/help.fxml", stylesheet, rb);
             welcomeApplicationHelp = help.getKey();
             helpController = help.getValue();
 
@@ -415,7 +415,7 @@ public class FXMLGuiLoader {
     public Stage getInfotextdialog(Stage parent, String textid, 
             EventHandler<ActionEvent> e) throws IOException {
         Pair<Scene, InfodialogController> p
-                = loadScene("../view/infodialog.fxml", stylesheet, rb);
+                = loadScene("/ch/fhnw/lernstickwelcome/view/infodialog.fxml", stylesheet, rb);
         p.getValue().initDialog(textid, e);
         return createDialog(parent, p.getKey(), 
                 rb.getString("welcomeApplicationInfodialog.title"), true);
