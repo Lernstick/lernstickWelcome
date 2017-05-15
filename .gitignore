@@ -1,8 +1,9 @@
-/dist/
-/build/
+dist/
+build/
 
 # Netbeans private files
-/nbproject/private/
+nbproject/private/
 
 # build id file
 /src/ch/fhnw/lernstickwelcome/build
+target/
