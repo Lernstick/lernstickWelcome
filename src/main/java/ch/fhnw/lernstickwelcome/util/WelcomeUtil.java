@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -64,6 +65,30 @@ public class WelcomeUtil {
         factory.setIgnoringElementContentWhitespace(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(file);
+    }
+    
+    /**
+     * Parses a inputStream as a xml file
+     *
+     * @param is The inputStream that should be converted to a xml document
+     * @return the xml document
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static Document parseXmlFile(InputStream is)
+            throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // External DTD loading will most probably fail because of the local
+        // firewall rules. Therefore we must disable this feature, otherwise
+        // the call to parse() below will just throw an IOException.
+        factory.setFeature(
+                "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+                false);
+        factory.setIgnoringComments(true);
+        factory.setIgnoringElementContentWhitespace(true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(is);
     }
 
     /**

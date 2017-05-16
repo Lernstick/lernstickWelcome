@@ -24,6 +24,7 @@ import ch.fhnw.util.StorageDevice;
 import ch.fhnw.util.StorageTools;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -194,8 +195,10 @@ public class WelcomeModelFactory {
      */
     public static List<ApplicationTask> getApplicationTasks(String tag) throws ParserConfigurationException, SAXException, IOException {
         ArrayList<ApplicationTask> apps = new ArrayList<>();
-        File xmlFile = new File("applications.xml");
-        Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
+        InputStream is = WelcomeModelFactory.class.getResourceAsStream("applications.xml");
+        //File xmlFile = new File("applications.xml");
+        Document xmlDoc = WelcomeUtil.parseXmlFile(is);
+        
         NodeList applications = xmlDoc.getElementsByTagName("application");
         for (int i = 0; i < applications.getLength(); i++) {
             Node application = applications.item(i);
@@ -224,8 +227,9 @@ public class WelcomeModelFactory {
      * @throws ParserConfigurationException
      */
     public static ApplicationTask getApplicationTask(String name) throws ParserConfigurationException, SAXException, IOException {
-        File xmlFile = new File("applications.xml");
-        Document xmlDoc = WelcomeUtil.parseXmlFile(xmlFile);
+        InputStream is = WelcomeModelFactory.class.getResourceAsStream("applications.xml");
+        //File xmlFile = new File("applications.xml");
+        Document xmlDoc = WelcomeUtil.parseXmlFile(is);
         /*DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     	Document xmlDoc = builder.parse(xmlFile);*/
         NodeList applications = xmlDoc.getElementsByTagName("application");
