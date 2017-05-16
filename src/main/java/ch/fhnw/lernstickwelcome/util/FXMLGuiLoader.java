@@ -39,7 +39,7 @@ public class FXMLGuiLoader {
 
     private static final Logger LOGGER = Logger.getLogger(FXMLGuiLoader.class.getName());
 
-    private String stylesheet = new File(WelcomeConstants.RESOURCE_FILE_PATH + "/css/style.css").toURI().toString();
+    private String stylesheet = FXMLGuiLoader.class.getResource("/css/style.css").toExternalForm();
     private ResourceBundle rb;
 
     private Scene welcomeApplicationMain;

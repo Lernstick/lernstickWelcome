@@ -41,10 +41,10 @@ public class HelpBinder {
      * packend properties
      */
     public void initBindings() {
-        TreeItem<HelpEntry> root = new TreeItem<>(null);
-        root.getChildren().addAll(getTreeItemsFromList(controller.getHelpLoader().getHelpEntries()));
-        help.getTvList().setRoot(root);
-        help.getTvList().setShowRoot(false);
+//        TreeItem<HelpEntry> root = new TreeItem<>(null);
+//        root.getChildren().addAll(getTreeItemsFromList(controller.getHelpLoader().getHelpEntries()));
+//        help.getTvList().setRoot(root);
+//        help.getTvList().setShowRoot(false);
     }
 
     /**

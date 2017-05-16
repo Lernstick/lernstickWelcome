@@ -5,9 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller.standard;
 
-import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.*;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -36,7 +34,11 @@ public class InformationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ivInfo.setImage(new Image(new File(WelcomeConstants.ICON_FILE_PATH + "/lernstick_usb.png").toURI().toString()));
+        ivInfo.setImage(new Image(
+                ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController.class.getResource(
+                        WelcomeConstants.ICON_FILE_PATH + "/lernstick_usb.png"
+                ).toExternalForm())
+        );
     }
     
     public Label getLbOs() {

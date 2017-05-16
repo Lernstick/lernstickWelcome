@@ -195,7 +195,7 @@ public class WelcomeModelFactory {
      */
     public static List<ApplicationTask> getApplicationTasks(String tag) throws ParserConfigurationException, SAXException, IOException {
         ArrayList<ApplicationTask> apps = new ArrayList<>();
-        InputStream is = WelcomeModelFactory.class.getResourceAsStream("applications.xml");
+        InputStream is = WelcomeModelFactory.class.getResourceAsStream("/applications.xml");
         //File xmlFile = new File("applications.xml");
         Document xmlDoc = WelcomeUtil.parseXmlFile(is);
         
@@ -227,7 +227,7 @@ public class WelcomeModelFactory {
      * @throws ParserConfigurationException
      */
     public static ApplicationTask getApplicationTask(String name) throws ParserConfigurationException, SAXException, IOException {
-        InputStream is = WelcomeModelFactory.class.getResourceAsStream("applications.xml");
+        InputStream is = WelcomeModelFactory.class.getResourceAsStream("/applications.xml");
         //File xmlFile = new File("applications.xml");
         Document xmlDoc = WelcomeUtil.parseXmlFile(is);
         /*DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

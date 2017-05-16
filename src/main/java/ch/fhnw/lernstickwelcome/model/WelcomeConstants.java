@@ -55,7 +55,7 @@ public final class WelcomeConstants {
     
     public static final String USER_HOME = System.getProperty("user.home");
     
-    public static final String RESOURCE_FILE_PATH = "res";
+    public static final String RESOURCE_FILE_PATH = "";
     public static final String HELP_FILE_PATH = RESOURCE_FILE_PATH + "/help";
     public static final String ICON_FILE_PATH = RESOURCE_FILE_PATH + "/icon";
     public static final String ICON_APPLICATION_FOLDER = "apps";

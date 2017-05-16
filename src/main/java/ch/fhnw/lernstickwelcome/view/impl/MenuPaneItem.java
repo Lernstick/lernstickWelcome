@@ -5,10 +5,7 @@
  */
 package ch.fhnw.lernstickwelcome.view.impl;
 
-import java.io.File;
 import javafx.scene.Parent;
-import javafx.scene.control.ListCell;
-import javafx.scene.image.ImageView;
 
 /**
  *
@@ -23,10 +20,7 @@ public class MenuPaneItem {
         this.parentScene = parentScene;
         this.displayText = displayText;
         if (imagePath != null) {
-            File f = new File(imagePath);
-            if (f.exists()) {
-                this.imagePath = f.toURI().toString();
-            }
+            this.imagePath = MenuPaneItem.class.getResource(imagePath).toExternalForm();
         }
     }
 

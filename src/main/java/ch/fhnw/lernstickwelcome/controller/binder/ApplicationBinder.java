@@ -115,9 +115,10 @@ public class ApplicationBinder {
             }
             if(app.getIcon() != null && !app.getIcon().isEmpty()) {
                 String path = WelcomeConstants.ICON_APPLICATION_FILE_PATH + "/" + app.getIcon() + ".png";
-                File f = new File(path);
-                if(f.exists()) {
-                    appView.setIcon(new Image(f.toURI().toString()));
+                try {
+                    appView.setIcon(new Image(ApplicationBinder.class.getResource(path).toExternalForm()));
+                } catch(Exception e) {
+                    LOGGER.log(Level.WARNING, "Couldn't load icon {0}", app.getIcon());
                 }
             }
             appView.disableProperty().bind(app.installedProperty());

@@ -35,7 +35,11 @@ public class InformationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ivInfo.setImage(new Image(new File(WelcomeConstants.ICON_FILE_PATH + "/lernstick_usb.png").toURI().toString()));
+        ivInfo.setImage(new Image(
+                InformationController.class.getResource(
+                        WelcomeConstants.ICON_FILE_PATH + "/lernstick_usb.png"
+                ).toExternalForm())
+        );
     }
     
     public Label getLbOs() {
