@@ -12,7 +12,6 @@ import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.lernstickwelcome.view.impl.ApplicationGroupView;
 import ch.fhnw.lernstickwelcome.view.impl.ApplicationView;
-import java.io.File;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;

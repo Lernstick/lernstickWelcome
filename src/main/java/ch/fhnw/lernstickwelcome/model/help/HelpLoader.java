@@ -47,7 +47,8 @@ public class HelpLoader {
      */
     private void loadHelpEntries(String language, boolean isExamEnvironment) {
         // Look for path under HelpFilePath/Language/std or ex
-        File rootDir = new File(getHelpPath(language, isExamEnvironment));
+        
+        File rootDir = new File(HelpLoader.class.getResource(getHelpPath(language, isExamEnvironment)).getFile());
         
         // If language isn't supported use English as default
         if(!rootDir.exists())
