@@ -1,3 +1,9 @@
+lernstickwelcome (201705191310-1) lernstick-8; urgency=medium
+
+  * [481fc4] removed lernstick-wxmaxima (no longer needed)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 19 May 2017 13:10:10 +0200
+
 lernstickwelcome (201705081742-1) lernstick-8; urgency=medium
 
   * [ef516f] fixed udisks pkla handling, added some warnings when exiting the exam version unconfigured
