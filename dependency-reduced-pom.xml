@@ -26,7 +26,10 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>ch.fhnw.lernstickwelcome.controller.WelcomeApplication</mainClass>
+                  <manifestEntries>
+                    <Main-Class>ch.fhnw.lernstickwelcome.controller.WelcomeApplication</Main-Class>
+                    <Class-Path>/usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar</Class-Path>
+                  </manifestEntries>
                 </transformer>
               </transformers>
             </configuration>
@@ -42,6 +45,36 @@
     </repository>
   </repositories>
   <dependencies>
+    <dependency>
+      <groupId>com.github.bdeneuter</groupId>
+      <artifactId>dbus-java</artifactId>
+      <version>2.7</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>cx.ath.matthew</artifactId>
+          <groupId>com.github.bdeneuter</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.abstractj.libmatthew</groupId>
+      <artifactId>hexdump</artifactId>
+      <version>0.2.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.abstractj.libmatthew</groupId>
+      <artifactId>unix</artifactId>
+      <version>0.5.1</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>debug</artifactId>
+          <groupId>org.abstractj.libmatthew</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

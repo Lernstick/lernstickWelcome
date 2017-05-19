@@ -21,6 +21,7 @@
                 </configuration>
             </plugin>
             <!-- Package all the dependencies into the JAR -->
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -34,7 +35,10 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ch.fhnw.lernstickwelcome.controller.WelcomeApplication</mainClass>
+                                    <manifestEntries>
+                                        <Main-Class>ch.fhnw.lernstickwelcome.controller.WelcomeApplication</Main-Class>
+                                        <Class-Path>/usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar</Class-Path>
+                                    </manifestEntries>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -53,16 +57,19 @@
         <dependency>
             <groupId>com.github.bdeneuter</groupId>
             <artifactId>dbus-java</artifactId>
+            <scope>provided</scope>
             <version>2.7</version>
         </dependency>
         <dependency>
             <groupId>org.abstractj.libmatthew</groupId>
             <artifactId>hexdump</artifactId>
+            <scope>provided</scope>
             <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.abstractj.libmatthew</groupId>
             <artifactId>unix</artifactId>
+            <scope>provided</scope>
             <version>0.5.1</version>
         </dependency>
         <dependency>

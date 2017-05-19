@@ -8,6 +8,7 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.HelpController;
 import ch.fhnw.lernstickwelcome.model.help.HelpEntry;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
@@ -55,7 +56,7 @@ public class HelpBinder {
      */
     private List<TreeItem<HelpEntry>> getTreeItemsFromList(List<HelpEntry> entries) {
         if (entries.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
 
         List<TreeItem<HelpEntry>> list = entries.stream().map(he -> new TreeItem<>(he)).collect(Collectors.toList());
