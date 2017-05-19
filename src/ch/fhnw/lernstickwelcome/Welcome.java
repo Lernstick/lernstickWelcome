@@ -3812,7 +3812,7 @@ public class Welcome extends javax.swing.JFrame {
         checkAppInstall(gdevelopPanel, "gdevelop");
         checkAppInstall(tigerjythonPanel, "tigerjython");
         checkAppInstall(etoysPanel, "lernstick-etoys");
-        checkAppInstall(wxMaximaPanel, "lernstick-wxmaxima");
+        checkAppInstall(wxMaximaPanel, "wxmaxima");
         checkAppInstall(tuxPaintPanel, "lernstick-tuxpaint");
         checkAppInstall(netbeansPanel, "lernstick-netbeans");
         checkAppInstall(processingPanel, "processing");
@@ -4026,7 +4026,7 @@ public class Welcome extends javax.swing.JFrame {
                     "lernstick-etoys", "lernstick-squeak-vm");
             installApplication(wxMaximaPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/wxmaxima.png",
-                    "lernstick-wxmaxima");
+                    "wxmaxima");
             installApplication(tuxPaintPanel,
                     "/ch/fhnw/lernstickwelcome/icons/48x48/tuxpaint.png",
                     "lernstick-tuxpaint");
