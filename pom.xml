@@ -37,7 +37,7 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>ch.fhnw.lernstickwelcome.controller.WelcomeApplication</Main-Class>
-                                        <Class-Path>/usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar</Class-Path>
+                                        <Class-Path>libs/java_file_copy_library-0.9.7.jar /usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar</Class-Path>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
@@ -45,6 +45,59 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution>
+                        <id>Create deb file</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>dpkg-buildpackage</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Clear unused files</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>fakeroot</executable>
+                            <arguments>
+                                <argument>debian/rules</argument>
+                                <argument>clean</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Something like that should it be but we don't exactly know the build process.
+            <plugin>
+                <artifactId>jdeb</artifactId>
+                <groupId>org.vafer</groupId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jdeb</goal>
+                        </goals>
+                        <configuration>
+                            <controlDir>debian</controlDir>
+                            <dataSet>
+                                <data>
+                                    <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                                    <type>file</type>
+                                </data>
+                            </dataSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> -->
         </plugins>
     </build>
     <repositories>

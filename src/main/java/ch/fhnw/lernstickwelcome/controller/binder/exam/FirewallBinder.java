@@ -50,7 +50,7 @@ public class FirewallBinder {
      * @param errorDialog the dialog that should be shown on error.
      * @param error the controller which the error message can be provided.
      */
-    public void initHandlers(Stage depWarningDialog, Stage errorDialog, ErrorController error) {
+    public void initHandlers(Stage depWarningDialog, Stage depValidStage, Stage errorDialog, ErrorController error) {
         ResourceBundle rb = controller.getBundle();
         firewall.getTsAllowMonitoring().selectedProperty().addListener(cl -> {
             try {
@@ -79,7 +79,12 @@ public class FirewallBinder {
             }
         });
 
-        firewall.getBtCheckForDep().setOnAction(evt -> depWarningDialog.show());
+        firewall.getBtCheckForDep().setOnAction(evt -> {
+            if(controller.getFirewall().hasUnsavedUrls())
+                depWarningDialog.show();
+            else
+                depValidStage.show();
+            });
         
         // Init default value because handler isn't fired the first time.
         if (controller.getFirewall().firewallRunningProperty().get()) {
