@@ -46,19 +46,58 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>net.sf.debian-maven</groupId>
-                <artifactId>debian-maven-plugin</artifactId>
-                <version>1.0.6</version>
-                <configuration>
-                    <!--
-                    <packageName>my-package</packageName>
-                    <packageVersion>1.0.0</packageVersion>
-                    ...
-                    -->
-                    <packageTitle>LernstickWelcome</packageTitle>
-                    <packageDescription></packageDescription>
-                </configuration>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution>
+                        <id>Create deb file</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>dpkg-buildpackage</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Clear unused files</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>fakeroot</executable>
+                            <arguments>
+                                <argument>debian/rules</argument>
+                                <argument>clean</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+            <!-- Something like that should it be but we don't exactly know the build process.
+            <plugin>
+                <artifactId>jdeb</artifactId>
+                <groupId>org.vafer</groupId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jdeb</goal>
+                        </goals>
+                        <configuration>
+                            <controlDir>debian</controlDir>
+                            <dataSet>
+                                <data>
+                                    <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                                    <type>file</type>
+                                </data>
+                            </dataSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> -->
         </plugins>
     </build>
     <repositories>

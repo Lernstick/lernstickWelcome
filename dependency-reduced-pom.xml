@@ -37,13 +37,34 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>net.sf.debian-maven</groupId>
-        <artifactId>debian-maven-plugin</artifactId>
-        <version>1.0.6</version>
-        <configuration>
-          <packageTitle>LernstickWelcome</packageTitle>
-          <packageDescription />
-        </configuration>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>Create deb file</id>
+            <phase>install</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>dpkg-buildpackage</executable>
+            </configuration>
+          </execution>
+          <execution>
+            <id>Clear unused files</id>
+            <phase>install</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>fakeroot</executable>
+              <arguments>
+                <argument>debian/rules</argument>
+                <argument>clean</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
