@@ -15,6 +15,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -40,6 +44,7 @@ public class FirewallTask implements Processable<String> {
     private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
     private ListProperty<IpFilter> ipList = new SimpleListProperty<>(FXCollections.observableArrayList());
     private ListProperty<WebsiteFilter> websiteList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private List<WebsiteFilter> savedWebsiteList = new ArrayList<>();
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
     private Timer timer;
 
@@ -57,6 +62,7 @@ public class FirewallTask implements Processable<String> {
 
         try {
             parseURLWhiteList();
+            savedWebsiteList.addAll(websiteList);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
@@ -226,6 +232,11 @@ public class FirewallTask implements Processable<String> {
     public BooleanProperty firewallRunningProperty() {
         return firewallRunning;
     }
+    
+    public boolean hasUnsavedUrls() {
+        return savedWebsiteList.size() != websiteList.size() || 
+                !savedWebsiteList.containsAll(websiteList);
+    }
 
     @Override
     public Task<String> newTask() {
@@ -252,6 +263,8 @@ public class FirewallTask implements Processable<String> {
             updateMessage("FirewallTask.saveWebsites");
 
             saveUrlWhitelist();
+            savedWebsiteList.clear();
+            savedWebsiteList.addAll(websiteList);
 
             updateProgress(2, 3);
             updateMessage("FirewallTask.restartFirewall");

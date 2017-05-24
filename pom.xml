@@ -37,13 +37,27 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>ch.fhnw.lernstickwelcome.controller.WelcomeApplication</Main-Class>
-                                        <Class-Path>/usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar</Class-Path>
+                                        <Class-Path>libs/java_file_copy_library-0.9.7.jar /usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar</Class-Path>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.sf.debian-maven</groupId>
+                <artifactId>debian-maven-plugin</artifactId>
+                <version>1.0.6</version>
+                <configuration>
+                    <!--
+                    <packageName>my-package</packageName>
+                    <packageVersion>1.0.0</packageVersion>
+                    ...
+                    -->
+                    <packageTitle>LernstickWelcome</packageTitle>
+                    <packageDescription></packageDescription>
+                </configuration>
             </plugin>
         </plugins>
     </build>

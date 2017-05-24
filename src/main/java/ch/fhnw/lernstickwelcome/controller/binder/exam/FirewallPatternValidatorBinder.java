@@ -18,7 +18,7 @@ public class FirewallPatternValidatorBinder {
 
     private final WelcomeController controller;
     private final FirewallPatternValidatorController firewall;
-    private final SquidAccessLogWatcher watcher = new SquidAccessLogWatcher(); 
+    private final SquidAccessLogWatcher watcher = new SquidAccessLogWatcher();
 
     /**
      * Constructor of ExamBackupBinder class
@@ -36,21 +36,23 @@ public class FirewallPatternValidatorBinder {
      * packend properties
      */
     public void initBindings() {
-        try {
-            Thread t = new Thread(watcher);
-            t.start();
-        } catch(Exception e) {
-        }
         // Bind url_whitelist view data to model data
         firewall.getTvPatternDependencies().itemsProperty().bind(watcher.getWebsiteList());
     }
-    
-    public void initHandlers() {
-        firewall.getBtOk().setOnAction(evt -> {
-           watcher.stop();
-           ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
+
+    public void initHandlers(Stage stage) {
+        stage.setOnShowing(evt -> {
+            try {
+                Thread t = new Thread(watcher);
+                t.start();
+            } catch (Exception e) {
+            }
         });
-        
+        stage.setOnHiding(evt -> watcher.stop());
+        firewall.getBtOk().setOnAction(evt -> {
+            ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
+        });
+
         firewall.getTvPatternDependencies_add().setCellFactory(w -> new ButtonCell<>("btn_add", (c, evt) -> {
             WebsiteFilter website = (WebsiteFilter) c.getTableView().getItems().get(c.getTableRow().getIndex());
             controller.getFirewall().getWebsiteListProperty().add(website);

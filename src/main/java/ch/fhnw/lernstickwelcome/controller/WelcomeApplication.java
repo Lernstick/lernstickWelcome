@@ -115,8 +115,8 @@ public class WelcomeApplication extends Application {
                 
                 FirewallPatternValidatorBinder firewallPatternValidatorBinder = new FirewallPatternValidatorBinder(controller, guiLoader.getFirewallPatternValidatorController());
                 firewallPatternValidatorBinder.initBindings();
-                firewallPatternValidatorBinder.initHandlers();
-
+                firewallPatternValidatorBinder.initHandlers(firewallPatternValidatorStage);
+                
                 Stage firewallDependenciesWarningStage = FXMLGuiLoader.createDialog(
                     primaryStage,
                     guiLoader.getFirewallDependenciesWarning(),
@@ -138,7 +138,7 @@ public class WelcomeApplication extends Application {
 
                 FirewallBinder examFirewallBinder = new FirewallBinder(controller, guiLoader.getFirewallController());
                 examFirewallBinder.initBindings();
-                examFirewallBinder.initHandlers(firewallDependenciesWarningStage, errorStage, guiLoader.getErrorController());
+                examFirewallBinder.initHandlers(firewallDependenciesWarningStage, firewallPatternValidatorStage, errorStage, guiLoader.getErrorController());
                 examFirewallBinder.initHelp(helpStage, helpBinder);
 
                 BackupBinder examBackupBinder = new BackupBinder(controller, guiLoader.getBackupController());
