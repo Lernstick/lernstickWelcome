@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.fhnw.lernstickwelcome.model.backup;
 
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
@@ -12,6 +7,7 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
+import ch.fhnw.util.StorageDevice;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,15 +39,19 @@ import org.xml.sax.SAXException;
 
 /**
  * This class handles configurations for the backup process.
+ *
  * @author sschw
  */
 public class BackupTask implements Processable<String> {
-    private final static Logger LOGGER = Logger.getLogger(BackupTask.class.getName());
-    private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
+
+    private final static Logger LOGGER
+            = Logger.getLogger(BackupTask.class.getName());
+    private final static ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
 
     private Partition exchangePartition;
     private Properties properties;
-    
+
     private boolean backupConfigured;
 
     private BooleanProperty active = new SimpleBooleanProperty();
@@ -66,37 +66,45 @@ public class BackupTask implements Processable<String> {
     /**
      * Loads the backup configuration from the property file and the exchange
      * partition to preconfigure the destination path.
+     *
      * @param properties Property File of the Welcome Application
      * @param backupDirectoryName the name for the backup folder
      */
     public BackupTask(Properties properties, String backupDirectoryName) {
         this.properties = properties;
 
-        backupConfigured = "true".equals(properties.getProperty(WelcomeConstants.BACKUP));
+        backupConfigured = "true".equals(properties.getProperty(
+                WelcomeConstants.BACKUP));
         active.set(backupConfigured);
-        sourcePath.set(properties.getProperty(WelcomeConstants.BACKUP_SOURCE, "/home/user/"));
-        local.set("true".equals(
-                properties.getProperty(WelcomeConstants.BACKUP_DIRECTORY_ENABLED, "true")));
-        partition.set("true".equals(
-                properties.getProperty(WelcomeConstants.BACKUP_PARTITION_ENABLED)));
-        partitionPath.set(
-                properties.getProperty(WelcomeConstants.BACKUP_PARTITION));
-        screenshot.set("true".equals(
-                properties.getProperty(WelcomeConstants.BACKUP_SCREENSHOT)));
-        frequency.set(new Integer(properties.getProperty(WelcomeConstants.BACKUP_FREQUENCY, "5")));
+        sourcePath.set(properties.getProperty(
+                WelcomeConstants.BACKUP_SOURCE, "/home/user/"));
+        local.set("true".equals(properties.getProperty(
+                WelcomeConstants.BACKUP_DIRECTORY_ENABLED, "true")));
+        partition.set("true".equals(properties.getProperty(
+                WelcomeConstants.BACKUP_PARTITION_ENABLED)));
+        partitionPath.set(properties.getProperty(
+                WelcomeConstants.BACKUP_PARTITION));
+        screenshot.set("true".equals(properties.getProperty(
+                WelcomeConstants.BACKUP_SCREENSHOT)));
+        frequency.set(new Integer(properties.getProperty(
+                WelcomeConstants.BACKUP_FREQUENCY, "5")));
 
-        exchangePartition = WelcomeModelFactory.getSystemStorageDevice().getExchangePartition();
+        StorageDevice systemStorageDevice
+                = WelcomeModelFactory.getSystemStorageDevice();
+        if (systemStorageDevice != null) {
+            exchangePartition = systemStorageDevice.getExchangePartition();
 
-        if (exchangePartition != null) {
-            try {
-                String exchangeMountPath = exchangePartition.getMountPath();
-                LOGGER.log(Level.INFO,
-                        "exchangeMountPath: {0}", exchangeMountPath);
-                destinationPath.set(properties.getProperty(
-                        WelcomeConstants.BACKUP_DIRECTORY, exchangeMountPath + '/'
-                        + backupDirectoryName));
-            } catch (DBusException ex) {
-                LOGGER.log(Level.SEVERE, "", ex);
+            if (exchangePartition != null) {
+                try {
+                    String exchangeMountPath = exchangePartition.getMountPath();
+                    LOGGER.log(Level.INFO,
+                            "exchangeMountPath: {0}", exchangeMountPath);
+                    destinationPath.set(properties.getProperty(
+                            WelcomeConstants.BACKUP_DIRECTORY,
+                            exchangeMountPath + '/' + backupDirectoryName));
+                } catch (DBusException ex) {
+                    LOGGER.log(Level.SEVERE, "", ex);
+                }
             }
         }
     }
@@ -109,13 +117,16 @@ public class BackupTask implements Processable<String> {
         }
 
         if (destinationPath.get().isEmpty()) {
-            throw new ProcessingException("BackupTask.Error_No_Backup_Directory");
+            throw new ProcessingException(
+                    "BackupTask.Error_No_Backup_Directory");
         }
 
         File dirFile = new File(destinationPath.get());
         if (dirFile.exists()) {
             if (!dirFile.isDirectory()) {
-                throw new ProcessingException("BackupTask.Error_Backup_Directory_No_Directory", destinationPath.get());
+                throw new ProcessingException(
+                        "BackupTask.Error_Backup_Directory_No_Directory",
+                        destinationPath.get());
             }
 
             String[] files = dirFile.list();
@@ -123,14 +134,17 @@ public class BackupTask implements Processable<String> {
                 int returnValue = PROCESS_EXECUTOR.executeProcess(
                         "rdiff-backup", "-l", dirFile.getAbsolutePath());
                 if (returnValue != 0) {
-                    throw new ProcessingException("BackupTask.Error_Backup_Directory_Invalid", destinationPath.get());
+                    throw new ProcessingException(
+                            "BackupTask.Error_Backup_Directory_Invalid",
+                            destinationPath.get());
                 }
             }
         }
 
         // determine device where the directory is located
         // (df takes care for symlinks etc.)
-        PROCESS_EXECUTOR.executeProcess(true, true, "df", destinationPath.get());
+        PROCESS_EXECUTOR.executeProcess(
+                true, true, "df", destinationPath.get());
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         String device = null;
         for (String line : stdOut) {
@@ -148,12 +162,15 @@ public class BackupTask implements Processable<String> {
 
         // check, if device is exFAT
         try {
-            Partition partition = Partition.getPartitionFromDeviceAndNumber(
-                    device.substring(5));
-            String idType = partition.getIdType();
+            Partition destinationPartition
+                    = Partition.getPartitionFromDeviceAndNumber(
+                            device.substring(5));
+            String idType = destinationPartition.getIdType();
             if (idType.equals("exfat")) {
                 // rdiff-backup does not work (yet) on exfat partitions!
-                throw new ProcessingException("BackupTask.Error_Backup_on_exFAT", destinationPath.get());
+                throw new ProcessingException(
+                        "BackupTask.Error_Backup_on_exFAT",
+                        destinationPath.get());
             }
         } catch (DBusException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -163,13 +180,18 @@ public class BackupTask implements Processable<String> {
     }
 
     /**
-     * Configures the backup by calling {@link #updateJBackpackProperties(java.io.File, boolean) }
-     * for the userPrefs directory of the user and the root.
+     * Configures the backup by calling
+     * {@link #updateJBackpackProperties(java.io.File, boolean)} for the
+     * userPrefs directory of the user and the root.
+     *
      * @param backupSource
-     * @param backupDestination 
+     * @param backupDestination
      */
     private void updateJBackpackProperties(
             String backupSource, String backupDestination) {
+        
+        // TODO: parameters are unused!?
+        
         // update JBackpack preferences of the default user
         File prefsDirectory = new File(
                 "/home/user/.java/.userPrefs/ch/fhnw/jbackpack/");
@@ -189,8 +211,9 @@ public class BackupTask implements Processable<String> {
      * <li>source</li>
      * </ul>
      * If the xml couldn't be found it will be created by this function.
+     *
      * @param prefsDirectory
-     * @param chown 
+     * @param chown
      */
     private void updateJBackpackProperties(File prefsDirectory, boolean chown) {
         File prefsFile = new File(prefsDirectory, "prefs.xml");
@@ -269,11 +292,11 @@ public class BackupTask implements Processable<String> {
             }
         }
     }
-    
+
     public boolean isBackupConfigured() {
         return backupConfigured;
     }
-    
+
     public boolean hasExchangePartition() {
         return exchangePartition != null;
     }
@@ -317,6 +340,7 @@ public class BackupTask implements Processable<String> {
 
     /**
      * Task for {@link #newTask() }
+     *
      * @see Processable
      */
     private class InternalTask extends Task<String> {
