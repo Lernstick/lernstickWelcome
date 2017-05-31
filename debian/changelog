@@ -1,3 +1,9 @@
+lernstickwelcome (201705312207-1) lernstick-8; urgency=medium
+
+  * new version based on JavaFX
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 31 May 2017 22:07:33 +0200
+
 lernstickwelcome (201705081742-1) lernstick-8; urgency=medium
 
   * [ef516f] fixed udisks pkla handling, added some warnings when exiting the exam version unconfigured
