@@ -56,7 +56,7 @@ public class WelcomeController {
     // Standard Environment
     private ProxyTask proxy;
     private InstallPreparationTask prepare;
-    private ApplicationGroupTask nonfreeApps;
+    private ApplicationGroupTask recommendedApps;
     private ApplicationGroupTask utilityApps;
     private ApplicationGroupTask teachApps;
     private ApplicationGroupTask softwApps;
@@ -117,14 +117,14 @@ public class WelcomeController {
         properties = WelcomeModelFactory.getPropertiesTask();
         proxy = WelcomeModelFactory.getProxyTask();
 
-        nonfreeApps = WelcomeModelFactory.getApplicationGroupTask("nonfree", "NonfreeApplication.title", proxy);
+        recommendedApps = WelcomeModelFactory.getApplicationGroupTask("recommended", "RecommendedApplication.title", proxy);
         utilityApps = WelcomeModelFactory.getApplicationGroupTask("utility", "UtiltyApplication.title", proxy);
         teachApps = WelcomeModelFactory.getApplicationGroupTask("teaching", "TeachingApplication.title", proxy);
         softwApps = WelcomeModelFactory.getApplicationGroupTask("misc", "MiscApplication.title", proxy);
         gamesApps = WelcomeModelFactory.getApplicationGroupTask("game", "GameApplication.title", proxy);
 
-        prepare = WelcomeModelFactory.getInstallPreparationTask(proxy, nonfreeApps, utilityApps, teachApps, softwApps, gamesApps);
-        post = WelcomeModelFactory.getInstallPostprocessingTask(proxy, nonfreeApps, utilityApps, teachApps, softwApps, gamesApps);
+        prepare = WelcomeModelFactory.getInstallPreparationTask(proxy, recommendedApps, utilityApps, teachApps, softwApps, gamesApps);
+        post = WelcomeModelFactory.getInstallPostprocessingTask(proxy, recommendedApps, utilityApps, teachApps, softwApps, gamesApps);
 
         sysconf = WelcomeModelFactory.getSystemTask(false, properties);
         partition = WelcomeModelFactory.getPartitionTask(properties);
@@ -133,7 +133,7 @@ public class WelcomeController {
         List<Processable> processingList = new ArrayList<>();
         processingList.add(proxy);
         processingList.add(prepare);
-        processingList.add(nonfreeApps);
+        processingList.add(recommendedApps);
         processingList.add(utilityApps);
         processingList.add(teachApps);
         processingList.add(softwApps);
@@ -209,8 +209,8 @@ public class WelcomeController {
         return proxy;
     }
 
-    public ApplicationGroupTask getNonfreeApps() {
-        return nonfreeApps;
+    public ApplicationGroupTask getRecommendedApps() {
+        return recommendedApps;
     }
 
     public ApplicationGroupTask getUtilityApps() {

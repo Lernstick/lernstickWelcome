@@ -31,7 +31,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
-
 /**
  * FXML Controller class
  *
@@ -39,9 +38,8 @@ import javafx.util.StringConverter;
  */
 public class SystemController implements Initializable {
 
-    private final Integer[] visibleForValues = new Integer[] { 5, 10, 15, 20, 25, 30, 40, 50, 60 };
+    private final Integer[] visibleForValues = new Integer[]{5, 10, 15, 20, 25, 30, 40, 50, 60};
 
-    
     @FXML
     private Button btHelp;
     @FXML
@@ -99,7 +97,7 @@ public class SystemController implements Initializable {
         });
         cbVisibleFor.getItems().addAll(visibleForValues);
         cbVisibleFor.setEditable(true);
-        
+
         tfUsername.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -107,27 +105,25 @@ public class SystemController implements Initializable {
                     tfUsername.setText(oldValue);
                 }
             }
-            
+
             private boolean isAllowed(String string) {
-                for (int i = 0, length = string.length(); i < length; i++) {
-                    char character = string.charAt(i);
-                    if ((character == ':')
-                            || (character == ',')
-                            || (character == '=')) {
-                        Toolkit.getDefaultToolkit().beep();
-                        return false;
-                    }
+                if ((string != null) && string.chars().anyMatch(
+                        c -> (c == ':') || (c == ',') || (c == '='))) {
+                    Toolkit.getDefaultToolkit().beep();
+                    return false;
                 }
                 return true;
             }
         });
-        
+
         tfExchangePartition.textProperty().addListener(new ChangeListener<String>() {
             private final static int MAX_CHARS = 11;
-            
+
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(newValue == null) return;
+                if (newValue == null) {
+                    return;
+                }
                 // only allow ASCII input
                 if (!isASCII(newValue)) {
                     tfExchangePartition.setText(oldValue);
@@ -141,8 +137,8 @@ public class SystemController implements Initializable {
                     Toolkit.getDefaultToolkit().beep();
                 }
             }
-            
-             private boolean isASCII(String string) {
+
+            private boolean isASCII(String string) {
                 for (int i = 0, length = string.length(); i < length; i++) {
                     char character = string.charAt(i);
                     if ((character < 0) || (character > 127)) {
@@ -174,18 +170,18 @@ public class SystemController implements Initializable {
                 return count;
             }
         });
-        
+
         if (!WelcomeUtil.isImageWritable()) {
             cbVisibleFor.setVisible(false);
             tfSystemname.setDisable(true);
             tfSystemversion.setDisable(true);
         }
-        
+
         tfHost.disableProperty().bind(tsProxy.selectedProperty().not());
         tfPort.disableProperty().bind(tsProxy.selectedProperty().not());
         tfPwd.disableProperty().bind(tsProxy.selectedProperty().not());
-        tfUser.disableProperty().bind(tsProxy.selectedProperty().not());  
-    }    
+        tfUser.disableProperty().bind(tsProxy.selectedProperty().not());
+    }
 
     public Integer[] getVisibleForValues() {
         return visibleForValues;
@@ -249,7 +245,6 @@ public class SystemController implements Initializable {
 
     public TextField getTfPwd() {
         return tfPwd;
-    }    
-    
-    
+    }
+
 }

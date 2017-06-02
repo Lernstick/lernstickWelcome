@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <applications>
+
     <application name="example">
         <description>Welcome.examplePanel.description</description>
         <icon>example</icon>
@@ -16,6 +17,23 @@
             <tag>example2</tag>
         </tags>
     </application>
+
+    <!-- teaching apps -->
+
+    <application name="Linux Advanced Teaching-System">
+        <description>Welcome.LinuxAdvancedPanel.description</description>
+        <icon>LinuxAdvanced</icon>
+        <help-path>Welcome.LinuxAdvancedPanel.website</help-path>
+        <packages>
+            <package type="aptget">lateaching</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <!-- misc programs -->
+
     <application name="GCompris">
         <description>Welcome.gcomprisPanel.description</description>
         <icon>gcompris</icon>
@@ -361,6 +379,9 @@
             <tag>misc</tag>
         </tags>
     </application>
+
+    <!-- games -->
+
     <application name="Minetest">
         <description>Welcome.minetestGamePanel.description</description>
         <icon>minetest</icon>
@@ -587,7 +608,21 @@
             <tag>game</tag>
         </tags>
     </application>
-    <!-- SPECIAL APPS -->
+
+    <!-- nonfree (recommended) apps -->
+
+    <application name="Adobe Flash Player">
+        <description>Welcome.flashPanel.description</description>
+        <icon>flash</icon>
+        <help-path></help-path>
+        <packages>
+            <package type="aptget">flashplugin-nonfree</package>
+            <package type="aptget">libhal1-flash</package>
+        </packages>
+        <tags>
+            <tag>recommended</tag>
+        </tags>
+    </application>
     <application name="Adobe Reader">
         <description></description>
         <icon>Adobe_Reader_8_icon</icon>
@@ -601,9 +636,35 @@
         </packages>
         <tags>
             <tag>recommended</tag>
-            <tag>nonfree</tag>
         </tags>
     </application>
+    <application name="Welcome.fontsLabel.text">
+        <description></description>
+        <icon>fonts</icon>
+        <help-path></help-path>
+        <packages>
+            <package type="aptget">ttf-mscorefonts-installer</package>
+        </packages>
+        <tags>
+            <tag>recommended</tag>
+        </tags>
+    </application>
+    <application name="Welcome.multimediaLabel.text">
+        <description>Welcome.multimediaPanel.description</description>
+        <icon>multimedia</icon>
+        <help-path></help-path>
+        <packages>
+            <package type="aptget">libdvdcss2</package>
+            <package type="aptget">libmp3lame0</package>
+            <package type="aptget">lame</package>
+        </packages>
+        <tags>
+            <tag>recommended</tag>
+        </tags>
+    </application>
+
+    <!-- nonfree (utility) apps -->
+
     <application name="Skype">
         <description>Welcome.skypePanel.description</description>
         <icon>skype</icon>
@@ -615,7 +676,6 @@
             <package type="wget" fetchUrl="https://www.skype.com/go/getskype-linux-deb" saveDir="USER_HOME">skype-install.deb</package>
         </packages>
         <tags>
-            <tag>recommended</tag>
             <tag>utility</tag>
         </tags>
     </application>
@@ -631,7 +691,6 @@
             <package type="wget" fetchUrl="http://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-stable_current_i386.deb</package>
         </packages>
         <tags>
-            <tag>recommended</tag>
             <tag>utility</tag>
         </tags>
     </application>
@@ -648,46 +707,6 @@
                     <tag>utility</tag>
             </tags>
     </application>-->
-    <!-- NONFREE FRM HERE -->
-    <application name="Adobe Flash Player">
-        <description>Welcome.flashPanel.description</description>
-        <icon>flash</icon>
-        <help-path></help-path>
-        <packages>
-            <package type="aptget">flashplugin-nonfree</package>
-            <package type="aptget">libhal1-flash</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-            <tag>nonfree</tag>
-        </tags>
-    </application>
-    <application name="Welcome.fontsLabel.text">
-        <description></description>
-        <icon>fonts</icon>
-        <help-path></help-path>
-        <packages>
-            <package type="aptget">ttf-mscorefonts-installer</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-            <tag>nonfree</tag>
-        </tags>
-    </application>
-    <application name="Welcome.multimediaLabel.text">
-        <description>Welcome.multimediaPanel.description</description>
-        <icon>multimedia</icon>
-        <help-path></help-path>
-        <packages>
-            <package type="aptget">libdvdcss2</package>
-            <package type="aptget">libmp3lame0</package>
-            <package type="aptget">lame</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-            <tag>nonfree</tag>
-        </tags>
-    </application>
     <!--<application name="virtualbox">
             <description>Welcome.virtualboxPanel.description</description>
             <icon>virtualbox</icon>
@@ -699,15 +718,4 @@
                     <tag>recommended</tag>
             </tags>
     </application>-->
-    <application name="Linux Advanced Teaching-System">
-        <description>Welcome.LinuxAdvancedPanel.description</description>
-        <icon>LinuxAdvanced</icon>
-        <help-path>Welcome.LinuxAdvancedPanel.website</help-path>
-        <packages>
-            <package type="aptget">lateaching</package>
-        </packages>
-        <tags>
-            <tag>teaching</tag>
-        </tags>
-    </application>
 </applications>

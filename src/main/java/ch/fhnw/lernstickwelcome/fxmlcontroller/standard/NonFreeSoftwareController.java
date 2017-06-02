@@ -28,7 +28,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Line Stettler
  */
-public class RecommendedSoftwareController implements Initializable {
+public class NonFreeSoftwareController implements Initializable {
 
     @FXML
     private Button btHelp;

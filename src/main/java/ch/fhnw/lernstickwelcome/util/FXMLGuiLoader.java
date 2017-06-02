@@ -28,7 +28,7 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.PasswordChangeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ProgressController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallDependenciesWarningController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallPatternValidatorController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.RecommendedSoftwareController;
+import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.NonFreeSoftwareController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -82,7 +82,7 @@ public class FXMLGuiLoader {
     private ch.fhnw.lernstickwelcome.fxmlcontroller.exam.SystemController systemExamController;
     private ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController systemStdController;
     private AdditionalSoftwareController additionalSoftwareController;
-    private RecommendedSoftwareController recommendedSoftwareController;
+    private NonFreeSoftwareController nonFreeSoftwareController;
     private FirewallPatternValidatorController firewallPatternValidatorController;
     private FirewallDependenciesWarningController firewallDependenciesWarningController;
 
@@ -114,9 +114,9 @@ public class FXMLGuiLoader {
                         "messagebox_info.png", menuPaneItems, rb
                 );
 
-                recommendedSoftwareController = loadMenuItemView(
-                        "/ch/fhnw/lernstickwelcome/view/standard/recommendedSoftware.fxml",
-                        "welcomeApplicationMain.RecommendedSoftware",
+                nonFreeSoftwareController = loadMenuItemView(
+                        "/ch/fhnw/lernstickwelcome/view/standard/nonFreeSoftware.fxml",
+                        "NonfreeApplication.title",
                         "copyright.png", menuPaneItems, rb
                 );
 
@@ -397,8 +397,8 @@ public class FXMLGuiLoader {
      *
      * @return
      */
-    public RecommendedSoftwareController getRecommendedController() {
-        return recommendedSoftwareController;
+    public NonFreeSoftwareController getNonFreeController() {
+        return nonFreeSoftwareController;
     }
 
     /**

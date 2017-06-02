@@ -171,14 +171,14 @@ public class WelcomeApplication extends Application {
                         new ch.fhnw.lernstickwelcome.controller.binder.standard.InformationBinder(controller, guiLoader.getInformationStdController());
                 information.initBindings();
 
-                ApplicationBinder recAppsBinder = new ApplicationBinder(
+                ApplicationBinder nonFreeAppsBinder = new ApplicationBinder(
                         controller, 
-                        guiLoader.getRecommendedController().getVbApps(),
-                        guiLoader.getRecommendedController().getBtHelp()
+                        guiLoader.getNonFreeController().getVbApps(),
+                        guiLoader.getNonFreeController().getBtHelp()
                 );
-                recAppsBinder.addApplicationGroup(controller.getNonfreeApps(), helpBinder, helpStage);
-                recAppsBinder.addApplicationGroup(controller.getUtilityApps(), helpBinder, helpStage);
-                recAppsBinder.initHelp("1", helpStage, helpBinder);
+                nonFreeAppsBinder.addApplicationGroup(controller.getRecommendedApps(), helpBinder, helpStage);
+                nonFreeAppsBinder.addApplicationGroup(controller.getUtilityApps(), helpBinder, helpStage);
+                nonFreeAppsBinder.initHelp("1", helpStage, helpBinder);
 
                 ApplicationBinder addAppsBinder = new ApplicationBinder(
                         controller, 

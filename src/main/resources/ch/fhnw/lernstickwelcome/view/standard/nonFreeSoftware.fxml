@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefWidth="644.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.RecommendedSoftwareController">
+<AnchorPane prefWidth="644.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.NonFreeSoftwareController">
    <children>
       <VBox fx:id="vbApps" layoutX="10.0" layoutY="10.0" prefWidth="644.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <BorderPane>
                <left>
-                  <Label text="%welcomeApplicationRecommendedSoftware.title" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+                  <Label text="%NonfreeApplication.title" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
