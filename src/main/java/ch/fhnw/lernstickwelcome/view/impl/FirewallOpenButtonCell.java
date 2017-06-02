@@ -16,7 +16,6 @@
  */
 package ch.fhnw.lernstickwelcome.view.impl;
 
-import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import javafx.scene.control.Button;

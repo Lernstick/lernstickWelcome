@@ -22,7 +22,6 @@ import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter.SearchPattern;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
-import ch.fhnw.lernstickwelcome.view.impl.ButtonCell;
 import ch.fhnw.lernstickwelcome.view.impl.FirewallDeleteButtonCell;
 import ch.fhnw.lernstickwelcome.view.impl.FirewallEditButtonCell;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;

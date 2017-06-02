@@ -19,7 +19,6 @@ package ch.fhnw.lernstickwelcome.util;
 import ch.fhnw.lernstickwelcome.controller.exception.TableCellValidationException;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
-import ch.fhnw.util.LernstickFileTools;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
 import java.io.File;

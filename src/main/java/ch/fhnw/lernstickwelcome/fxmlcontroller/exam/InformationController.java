@@ -17,7 +17,6 @@
 package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
 
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;

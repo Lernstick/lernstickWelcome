@@ -30,7 +30,6 @@ import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallDependenciesWarningC
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallPatternValidatorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.RecommendedSoftwareController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
