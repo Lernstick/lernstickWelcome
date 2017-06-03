@@ -55,7 +55,8 @@ public class HelpBinder {
      */
     public void initBindings() {
         TreeItem<HelpEntry> root = new TreeItem<>(null);
-        root.getChildren().addAll(getTreeItemsFromList(controller.getHelpLoader().getHelpEntries()));
+        root.getChildren().addAll(getTreeItemsFromList(
+                controller.getHelpLoader().getHelpEntries()));
         help.getTvList().setRoot(root);
         help.getTvList().setShowRoot(false);
     }
@@ -66,15 +67,20 @@ public class HelpBinder {
      * @param entries the backend items that should be loaded.
      * @return
      */
-    private List<TreeItem<HelpEntry>> getTreeItemsFromList(List<HelpEntry> entries) {
+    private List<TreeItem<HelpEntry>> getTreeItemsFromList(
+            List<HelpEntry> entries) {
+
         if (entries.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<TreeItem<HelpEntry>> list = entries.stream().map(he -> new TreeItem<>(he)).collect(Collectors.toList());
+        List<TreeItem<HelpEntry>> list = entries.stream()
+                .map(he -> new TreeItem<>(he))
+                .collect(Collectors.toList());
         list.forEach(he -> {
             if (!he.getValue().getSubEntries().isEmpty()) {
-                he.getChildren().addAll(getTreeItemsFromList(he.getValue().getSubEntries()));
+                he.getChildren().addAll(getTreeItemsFromList(
+                        he.getValue().getSubEntries()));
             }
             he.setExpanded(true);
         });
@@ -98,17 +104,18 @@ public class HelpBinder {
             }
         });
 
-        help.getBtOk().setOnAction(evt
-                -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close());
+        help.getBtOk().setOnAction(evt -> {
+            ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
+        });
     }
 
     /**
      * Method to set the chapter that should be shown. <br>
      * In order to be able to be independant of the used language, only the
      * chapter has to be given. <br>
-     * e.g.: 1.1_Information can be opened by give {@code 1.1} as string to the 
+     * e.g.: 1.1_Information can be opened by give {@code 1.1} as string to the
      * application.
-     * 
+     *
      * @param chapter the chapter that should be shown.
      */
     public void setHelpEntryByChapter(String chapter) {
