@@ -1,3 +1,37 @@
+lernstickwelcome (201706032207-1) lernstick-8; urgency=medium
+
+  * added NetBeans configuration for easily switching between standard and exam version
+  * added version tag to exec-maven-plugin to ensure reproducible builds
+  * updated version of exec-maven-plugin
+  * update version of exec-maven-plugin also for exam environment actions
+  * added license
+  * updated/added license headers
+  * removed unused imports
+  * reordered and fixed applications XML file
+  * updated help files
+  * fixed mixup of nonfree and recommended apps
+  * updated and added NetBeans configurations
+  * added/updated license headers of help files
+  * added workaroud for ugly JavaFX font rendering (see https://bugs.openjdk.java.net/browse/JDK-8139662)
+  * removed resource bundles from nonstandard location
+  * fixed code formatting
+  * multicatch instead of generic exception
+  * allow unicode characters in help file names
+  * replaced digraph with correct umlaut in help file name
+  * prevented some exceptions
+  * fixed code formatting
+  * improved lernstick icon (transparency fixes)
+  * set stage icon
+  * fixed locale handling
+  * prevented NPE and simplified code
+  * removed unused icons
+  * moved todo file from java sources to resources directory
+  * removed unnecessary translations in de_CH
+  * added hyperlink to lernstick webpage on standard info page
+  * fixed German spelling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 03 Jun 2017 22:08:31 +0200
+
 lernstickwelcome (201705312207-1) lernstick-8; urgency=medium
 
   * new version based on JavaFX
