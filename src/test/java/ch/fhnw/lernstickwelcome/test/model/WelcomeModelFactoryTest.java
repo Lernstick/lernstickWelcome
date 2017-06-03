@@ -67,7 +67,6 @@ public class WelcomeModelFactoryTest {
 		List<ApplicationTask> ts = WelcomeModelFactory.getApplicationTasks("recommended");
 		ts.forEach(t -> System.out.println(t.getName()));
 		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Adobe Reader")));
-		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Skype")));
 		assertTrue(ts.stream().anyMatch(t -> t.getName().equals("Adobe Flash Player")));
 	}
 
