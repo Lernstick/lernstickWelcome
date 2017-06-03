@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -215,6 +216,7 @@ public class WelcomeApplication extends Application {
             primaryStage.show();
             primaryStage.setMinHeight(primaryStage.getHeight());
             primaryStage.setMinWidth(primaryStage.getWidth());
+            primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/lernstick_usb.png")));
             
             // Set close warnings
             primaryStage.setOnCloseRequest(evt -> {
