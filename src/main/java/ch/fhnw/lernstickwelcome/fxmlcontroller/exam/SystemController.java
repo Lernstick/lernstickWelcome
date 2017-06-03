@@ -97,14 +97,10 @@ public class SystemController implements Initializable {
             }
             
             private boolean isAllowed(String string) {
-                for (int i = 0, length = string.length(); i < length; i++) {
-                    char character = string.charAt(i);
-                    if ((character == ':')
-                            || (character == ',')
-                            || (character == '=')) {
-                        Toolkit.getDefaultToolkit().beep();
-                        return false;
-                    }
+                if ((string != null) && string.chars().anyMatch(c
+                        -> (c == ':') || (c == ',') || (c == '='))) {
+                    Toolkit.getDefaultToolkit().beep();
+                    return false;
                 }
                 return true;
             }
