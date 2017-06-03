@@ -32,6 +32,7 @@ import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -81,7 +82,7 @@ public class WelcomeController {
 
         isExamEnvironment = true;
 
-        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0], isExamEnvironment);
+        help = new HelpLoader(Locale.getDefault().getLanguage().split("[_-]+")[0], isExamEnvironment);
 
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
@@ -111,7 +112,7 @@ public class WelcomeController {
 
         isExamEnvironment = false;
 
-        help = new HelpLoader(BUNDLE.getLocale().getLanguage().split("[_-]+")[0], isExamEnvironment);
+        help = new HelpLoader(Locale.getDefault().getLanguage().split("[_-]+")[0], isExamEnvironment);
 
         // Init Model
         properties = WelcomeModelFactory.getPropertiesTask();
