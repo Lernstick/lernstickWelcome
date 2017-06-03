@@ -268,6 +268,7 @@ public class WelcomeApplication extends Application {
     }
 
     public static void main(String[] args) {
+        System.setProperty("prism.lcdtext", "false");
         WelcomeApplication.launch(args);
     }
 }
