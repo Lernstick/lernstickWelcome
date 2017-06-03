@@ -22,6 +22,7 @@ import ch.fhnw.lernstickwelcome.model.help.HelpEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.beans.Observable;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.stage.Stage;
@@ -84,11 +85,18 @@ public class HelpBinder {
      * Method to initialize the handlers for this class.
      */
     public void initHandlers() {
-        help.getTvList().getSelectionModel().selectedItemProperty().addListener(evt
-                -> help.getWvView().getEngine().load(
-                        help.getTvList().getSelectionModel().getSelectedItem().getValue().getPath()
-                )
-        );
+        Observable selectedItemProperty
+                = help.getTvList().getSelectionModel().selectedItemProperty();
+        selectedItemProperty.addListener(evt -> {
+            TreeItem<HelpEntry> selectedItem
+                    = help.getTvList().getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                HelpEntry helpEntry = selectedItem.getValue();
+                if (helpEntry != null) {
+                    help.getWvView().getEngine().load(helpEntry.getPath());
+                }
+            }
+        });
 
         help.getBtOk().setOnAction(evt
                 -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close());
@@ -110,7 +118,7 @@ public class HelpBinder {
             entry = entry.getChildren().stream().
                     filter(t -> t.getValue().getIndex() == Integer.parseInt(c)).
                     findFirst().
-                    get();
+                    orElse(entry);
         }
         help.getTvList().getSelectionModel().select(entry);
     }
