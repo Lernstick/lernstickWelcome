@@ -51,8 +51,10 @@ import java.util.stream.Collectors;
  * @author sschw
  */
 public class HelpLoader {
-    private final static Logger LOGGER = Logger.getLogger(HelpLoader.class.getName());
-    private List<HelpEntry> entries = new ArrayList<>();
+
+    private final static Logger LOGGER
+            = Logger.getLogger(HelpLoader.class.getName());
+    private final List<HelpEntry> entries = new ArrayList<>();
 
     /**
      * Loads the Help Files from the folder
@@ -72,8 +74,9 @@ public class HelpLoader {
      */
     private void loadHelpEntries(String language, boolean isExamEnvironment) {
         // Look for path under HelpFilePath/Language/std or ex
-        List<Path> files = getHelpFiles(getHelpPath(language, isExamEnvironment));
-        
+        List<Path> files = getHelpFiles(getHelpPath(
+                language, isExamEnvironment));
+
         // If language isn't supported use English as default
         if (files == null) {
             files = getHelpFiles(getHelpPath("en", isExamEnvironment));
@@ -97,8 +100,10 @@ public class HelpLoader {
      * @param prefixString gives the prefix String of the HelpFiles
      * @param parent the list in which the help entries should be saved.
      */
-    private void fillFoundEntriesIntoList(List<Path> subfiles, String prefixString, List<HelpEntry> parent) {
-        String regexPattern = "^" + prefixString + "([0-9]+)-([A-Za-z_0-9]+).html";
+    private void fillFoundEntriesIntoList(List<Path> subfiles,
+            String prefixString, List<HelpEntry> parent) {
+        String regexPattern = "^" + prefixString
+                + "([0-9]+)-([A-Za-z_0-9]+).html";
         for (Path path : subfiles) {
             Pattern pattern = Pattern.compile(regexPattern);
             Matcher matcher = pattern.matcher(path.getFileName().toString());
@@ -111,7 +116,8 @@ public class HelpLoader {
                 entry.setIndex(index);
                 parent.add(entry);
 
-                fillFoundEntriesIntoList(subfiles, prefixString + index + "\\.", entry.getSubEntries());
+                fillFoundEntriesIntoList(subfiles,
+                        prefixString + index + "\\.", entry.getSubEntries());
             }
         }
         Collections.sort(parent);
@@ -139,27 +145,32 @@ public class HelpLoader {
     }
 
     /**
-     * This method reads out the files. 
+     * This method reads out the files.
      * <br>
      * As the files might be packed into a jar we have to use 
      * {@link Class#getResourceAsStream(java.lang.String) }
+     *
      * @param path The relative help file path
-     * @return list of url's which refer to the containing files of the given 
+     * @return list of url's which refer to the containing files of the given
      * path
      */
     public List<Path> getHelpFiles(String path) {
         // Path to file repository - might be jar file
         try {
             URI uri = HelpLoader.class.getResource(path).toURI();
-            String[] split = uri.toString().split("!"); // If jar ! means jarfile.
-            if(split.length == 1)
+            // If jar ! means jarfile.
+            String[] split = uri.toString().split("!");
+            if (split.length == 1) {
                 return Files.list(Paths.get(uri)).collect(Collectors.toList());
-            else {
-                FileSystem fs = FileSystems.newFileSystem(URI.create(split[0]), new HashMap<>());
-                return Files.list(fs.getPath(split[1])).collect(Collectors.toList());
+            } else {
+                FileSystem fs = FileSystems.newFileSystem(
+                        URI.create(split[0]), new HashMap<>());
+                return Files.list(fs.getPath(split[1])).collect(
+                        Collectors.toList());
             }
-        } catch(Exception ex) {
-            LOGGER.log(Level.WARNING, "Help files not found with path: " + path, ex);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING,
+                    "Help files not found with path: " + path, ex);
         }
         return null;
     }
