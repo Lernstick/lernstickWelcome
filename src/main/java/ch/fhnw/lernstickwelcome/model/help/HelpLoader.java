@@ -18,7 +18,9 @@ package ch.fhnw.lernstickwelcome.model.help;
 
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -147,7 +149,7 @@ public class HelpLoader {
     /**
      * This method reads out the files.
      * <br>
-     * As the files might be packed into a jar we have to use 
+     * As the files might be packed into a jar we have to use
      * {@link Class#getResourceAsStream(java.lang.String) }
      *
      * @param path The relative help file path
@@ -168,7 +170,7 @@ public class HelpLoader {
                 return Files.list(fs.getPath(split[1])).collect(
                         Collectors.toList());
             }
-        } catch (Exception ex) {
+        } catch (IOException | URISyntaxException ex) {
             LOGGER.log(Level.WARNING,
                     "Help files not found with path: " + path, ex);
         }
