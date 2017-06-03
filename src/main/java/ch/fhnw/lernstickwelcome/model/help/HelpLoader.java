@@ -105,9 +105,10 @@ public class HelpLoader {
     private void fillFoundEntriesIntoList(List<Path> subfiles,
             String prefixString, List<HelpEntry> parent) {
         String regexPattern = "^" + prefixString
-                + "([0-9]+)-([A-Za-z_0-9]+).html";
+                + "([\\p{Digit}]+)-([\\p{Alnum}_]+).html";
+        Pattern pattern = Pattern.compile(regexPattern,
+                Pattern.UNICODE_CHARACTER_CLASS);
         for (Path path : subfiles) {
-            Pattern pattern = Pattern.compile(regexPattern);
             Matcher matcher = pattern.matcher(path.getFileName().toString());
 
             if (matcher.matches()) {
