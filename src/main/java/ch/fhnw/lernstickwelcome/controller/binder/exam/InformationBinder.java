@@ -20,31 +20,41 @@ import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController;
 
 /**
- * Binder class to init binings between view components and backend (model) properties
- * 
+ * Binder class to init binings between view components and backend (model)
+ * properties
+ *
  * @author Line Stettler
  */
 public class InformationBinder {
-    private final WelcomeController controller;
-    private final InformationController information;
+
+    private final WelcomeController welcomeController;
+    private final InformationController informationController;
 
     /**
      * Constructor of InformationBinder class
-     * 
-     * @param controller        is needed to provide access to the backend properties
-     * @param information       FXML controller which prviedes the view properties
+     *
+     * @param welcomeController is needed to provide access to the backend
+     * properties
+     * @param informationController FXML controller which prviedes the view
+     * properties
      */
-    public InformationBinder(WelcomeController controller, InformationController information){
-        this.controller = controller;
-        this.information = information;
+    public InformationBinder(WelcomeController welcomeController,
+            InformationController informationController) {
+
+        this.welcomeController = welcomeController;
+        this.informationController = informationController;
     }
-    
+
     /**
-     * Method to initialize the bidirectional bindings between the view and packend properties
-     * (gets debian version)
+     * Method to initialize the bidirectional bindings between the view and
+     * backend properties (gets debian version)
      */
-    public void initBindings(){
-        information.getLbOs().textProperty().bind(controller.getSysconf().systemnameProperty());
-        information.getLbVersion().textProperty().bind(controller.getSysconf().systemversionProperty());
+    public void initBindings() {
+
+        informationController.operatingSystemProperty().bind(
+                welcomeController.getSysconf().systemnameProperty());
+
+        informationController.versionProperty().bind(
+                welcomeController.getSysconf().systemversionProperty());
     }
 }

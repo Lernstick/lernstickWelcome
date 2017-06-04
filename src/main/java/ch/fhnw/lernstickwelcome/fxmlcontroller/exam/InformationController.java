@@ -16,49 +16,50 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
 
-import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
- * FXML Controller class
+ * FXML Controller class for the exam info panel
  *
- * @author user
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class InformationController implements Initializable {
 
+    @FXML
+    private Label operatingSystemLabel;
+    @FXML
+    private Label versionLabel;
+    @FXML
+    private Hyperlink hyperlink;
 
-    @FXML
-    private Label lbOs;
-    @FXML
-    private Label lbVersion;
-    @FXML
-    private ImageView ivInfo;
-    
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ivInfo.setImage(new Image(
-                InformationController.class.getResource(
-                        WelcomeConstants.ICON_FILE_PATH + "/lernstick_usb.png"
-                ).toExternalForm())
-        );
-    }
-    
-    public Label getLbOs() {
-        return lbOs;
+        hyperlink.setOnAction(e
+                -> WelcomeUtil.openLinkInBrowser("https://www.lernstick.ch"));
     }
 
-    public Label getLbVersion() {
-        return lbVersion;
+    /**
+     * returns the operating system property
+     *
+     * @return the operating system property
+     */
+    public StringProperty operatingSystemProperty() {
+        return operatingSystemLabel.textProperty();
     }
 
-    
+    /**
+     * returns the version property
+     *
+     * @return the version property
+     */
+    public StringProperty versionProperty() {
+        return versionLabel.textProperty();
+    }
 }

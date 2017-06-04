@@ -15,7 +15,7 @@
 
 <VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController">
    <children>
-      <Label id="titleLabel" text="%welcomeApplicationInformation.welcome">
+      <Label id="titleLabel" text="%welcomeApplicationInformation.welcome" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>
@@ -27,9 +27,9 @@
       </ImageView>
       <TextFlow>
          <children>
-            <Text id="infoText1" strokeType="OUTSIDE" strokeWidth="0.0" text="%welcomeApplicationInformation.welcomeText1" />
+            <Text id="infoText1" text="%welcomeApplicationInformation.welcomeText1" />
             <Hyperlink fx:id="hyperlink" text="https://www.lernstick.ch" />
-            <Text id="infoText2" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%welcomeApplicationInformation.welcomeText2" />
+            <Text id="infoText2" text="%welcomeApplicationInformation.welcomeText2" />
          </children>
       </TextFlow>
       <GridPane hgap="10.0" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
