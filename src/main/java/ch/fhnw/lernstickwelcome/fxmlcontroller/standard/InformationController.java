@@ -16,7 +16,7 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller.standard;
 
-import ch.fhnw.util.ProcessExecutor;
+import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
@@ -41,23 +41,8 @@ public class InformationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        // hostServices.showDocument() doesn't work with OpenJDK/OpenJFX
-        // getHostServices() just throws the following exception:
-        // java.lang.ClassNotFoundException:
-        //   com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory
-        
-        hyperlink.setOnAction(e -> {
-            Thread browserThread = new Thread() {
-                @Override
-                public void run() {
-                    ProcessExecutor processExecutor = new ProcessExecutor();
-                    processExecutor.executeProcess("firefox",
-                            "https://www.lernstick.ch");
-                }
-            };
-            browserThread.start();
-        });
+        hyperlink.setOnAction(e
+                -> WelcomeUtil.openLinkInBrowser("https://www.lernstick.ch"));
     }
 
     /**
