@@ -351,9 +351,14 @@ public class WelcomeUtil {
      * @param url the corresponding url
      */
     public static void openLinkInBrowser(String url) {
-// as long as Konqueror sucks so bad, we enforce firefox
-// (this is a quick and dirty solution, if konqueror starts to be
-// usable, switch back to the code above)
+        // hostServices.showDocument() doesn't work with OpenJDK/OpenJFX
+        // getHostServices() just throws the following exception:
+        // java.lang.ClassNotFoundException:
+        //   com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory
+
+        // as long as Konqueror sucks so bad, we enforce firefox
+        // (this is a quick and dirty solution, if konqueror starts to be
+        // usable, switch back to the code above)
         try {
             final URL finalUrl = new URL(url);
             Thread browserThread = new Thread() {
