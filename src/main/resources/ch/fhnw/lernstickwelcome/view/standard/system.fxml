@@ -44,7 +44,7 @@
                   <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
                   <TextField fx:id="tfSystemversion" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="2" />
-                  <ComboBox fx:id="cbVisibleFor" maxHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="cbVisibleFor" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </content>
