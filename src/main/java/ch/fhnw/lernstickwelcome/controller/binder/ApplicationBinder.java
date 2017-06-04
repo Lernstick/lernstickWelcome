@@ -131,7 +131,7 @@ public class ApplicationBinder {
                     LOGGER.log(Level.WARNING, "Couldn't load icon {0}", app.getIcon());
                 }
             }
-            appView.disableProperty().bind(app.installedProperty());
+            appView.installedProperty().bind(app.installedProperty());
             appView.installingProperty().bindBidirectional(app.installingProperty());
             appView.setPrefWidth(container.getWidth());
             if(even)
