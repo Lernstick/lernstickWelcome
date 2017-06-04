@@ -3,15 +3,13 @@ Section: misc
 Priority: extra
 Maintainer: Lernstick Team <lernstick.ph@fhnw.ch>
 Uploaders: Ronny Standtke <ronny.standtke@fhnw.ch>, Gaudenz Steinlin <gaudenz.steinlin@cirrax.com>
-Build-Depends: debhelper (>= 7), ant-optional, junit, java-sdk
+Build-Depends: debhelper, maven, java-sdk, openjfx
 Standards-Version: 3.8.0
 Homepage: http://www.imedias.ch/lernstick
 
 Package: lernstickwelcome
 Architecture: all
-Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
-Replaces: lernstickwelcome-squeeze
-Breaks: lernstickwelcome-squeeze
+Depends: java-runtime, openjfx, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Conflicts: lernstickwelcome-exam
 Description: a welcome application for the Lernstick personal learning environment
  This is the "Welcome" application for the Lernstick personal learning environment
@@ -19,9 +17,7 @@ Description: a welcome application for the Lernstick personal learning environme
 
 Package: lernstickwelcome-exam
 Architecture: all
-Depends: java-runtime, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
-Replaces: lernstickwelcome-squeeze
-Breaks: lernstickwelcome-squeeze
+Depends: java-runtime, openjfx, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
 Conflicts: lernstickwelcome
 Description: a welcome application for the Lernstick exam environment
  This is the "Welcome" application for the Lernstick exam environment and allows
