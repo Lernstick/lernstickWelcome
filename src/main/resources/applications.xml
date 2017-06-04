@@ -611,28 +611,14 @@
 
     <!-- nonfree (recommended) apps -->
 
-    <application name="Adobe Flash Player">
-        <description>Welcome.flashPanel.description</description>
-        <icon>flash</icon>
+    <application name="Welcome.multimediaLabel.text">
+        <description>Welcome.multimediaPanel.description</description>
+        <icon>multimedia</icon>
         <help-path></help-path>
         <packages>
-            <package type="aptget">flashplugin-nonfree</package>
-            <package type="aptget">libhal1-flash</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-        </tags>
-    </application>
-    <application name="Adobe Reader">
-        <description></description>
-        <icon>Adobe_Reader_8_icon</icon>
-        <help-path></help-path>
-        <installed-names>
-            <installed-name>adobereader-enu</installed-name>
-        </installed-names>
-        <packages>
-            <package type="aptget">lernstick-adobereader-enu</package>
-            <package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
+            <package type="aptget">libdvdcss2</package>
+            <package type="aptget">libmp3lame0</package>
+            <package type="aptget">lame</package>
         </packages>
         <tags>
             <tag>recommended</tag>
@@ -649,14 +635,28 @@
             <tag>recommended</tag>
         </tags>
     </application>
-    <application name="Welcome.multimediaLabel.text">
-        <description>Welcome.multimediaPanel.description</description>
-        <icon>multimedia</icon>
-        <help-path></help-path>
+    <application name="Adobe Flash Player">
+        <description>Welcome.flashPanel.description</description>
+        <icon>flash</icon>
+        <help-path>Adobe_Flash_Player_Website</help-path>
         <packages>
-            <package type="aptget">libdvdcss2</package>
-            <package type="aptget">libmp3lame0</package>
-            <package type="aptget">lame</package>
+            <package type="aptget">flashplugin-nonfree</package>
+            <package type="aptget">libhal1-flash</package>
+        </packages>
+        <tags>
+            <tag>recommended</tag>
+        </tags>
+    </application>
+    <application name="Adobe Reader">
+        <description>Adobe_Reader_Description</description>
+        <icon>Adobe_Reader_8_icon</icon>
+        <help-path>Adobe_Reader_Website</help-path>
+        <installed-names>
+            <installed-name>adobereader-enu</installed-name>
+        </installed-names>
+        <packages>
+            <package type="aptget">lernstick-adobereader-enu</package>
+            <package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
         </packages>
         <tags>
             <tag>recommended</tag>
@@ -668,7 +668,7 @@
     <application name="Skype">
         <description>Welcome.skypePanel.description</description>
         <icon>skype</icon>
-        <help-path></help-path>
+        <help-path>Skype_Website</help-path>
         <installed-names>
             <installed-name>skype</installed-name>
         </installed-names>
@@ -680,9 +680,9 @@
         </tags>
     </application>
     <application name="Google Earth">
-        <description></description>
+        <description>Google_Earth_Description</description>
         <icon>googleearth</icon>
-        <help-path></help-path>
+        <help-path>Google_Earth_Website</help-path>
         <installed-names>
             <installed-name>google-earth-stable</installed-name>
         </installed-names>
