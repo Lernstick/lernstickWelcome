@@ -122,13 +122,13 @@ public class FXMLGuiLoader {
 
                 additionalSoftwareController = loadMenuItemView(
                         "/ch/fhnw/lernstickwelcome/view/standard/additionalSoftware.fxml",
-                        "welcomeApplicationMain.AdditionalSoftware",
+                        "Additional_Software",
                         "list-add.png", menuPaneItems, rb
                 );
 
                 systemStdController = loadMenuItemView(
                         "/ch/fhnw/lernstickwelcome/view/standard/system.fxml",
-                        "welcomeApplicationMain.System",
+                        "Additional_Settings",
                         "system-run.png", menuPaneItems, rb
                 );
             } else {
@@ -171,7 +171,7 @@ public class FXMLGuiLoader {
 
                 systemExamController = loadMenuItemView(
                         "/ch/fhnw/lernstickwelcome/view/exam/system.fxml",
-                        "welcomeApplicationMain.System",
+                        "Additional_Settings",
                         "system-run.png", menuPaneItems, rb
                 );
             }

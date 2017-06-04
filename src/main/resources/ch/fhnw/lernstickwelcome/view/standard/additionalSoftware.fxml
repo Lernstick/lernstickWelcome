@@ -14,7 +14,7 @@
          <children>
             <BorderPane>
                <left>
-                  <Label text="%welcomeApplicationAdditionalSoftware.title" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+                  <Label text="%Additional_Software" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

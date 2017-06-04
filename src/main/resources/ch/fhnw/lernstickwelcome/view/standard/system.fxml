@@ -20,7 +20,7 @@
          <children>
             <BorderPane>
                <left>
-                  <Label text="%welcomeApplicationSystem.systemTitle" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+                  <Label text="%Additional_Settings" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
