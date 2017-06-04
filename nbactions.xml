@@ -54,4 +54,15 @@
                 <exec.executable>bash</exec.executable>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-check-strings</actionName>
+            <displayName>check-strings</displayName>
+            <goals>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.6.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>./check_strings.sh</exec.args>
+                <exec.executable>bash</exec.executable>
+            </properties>
+        </action>
     </actions>
