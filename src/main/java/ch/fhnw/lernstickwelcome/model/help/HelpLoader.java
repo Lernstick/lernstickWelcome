@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -159,21 +160,25 @@ public class HelpLoader {
      */
     public List<Path> getHelpFiles(String path) {
         // Path to file repository - might be jar file
-        try {
-            URI uri = HelpLoader.class.getResource(path).toURI();
-            // If jar ! means jarfile.
-            String[] split = uri.toString().split("!");
-            if (split.length == 1) {
-                return Files.list(Paths.get(uri)).collect(Collectors.toList());
-            } else {
-                FileSystem fs = FileSystems.newFileSystem(
-                        URI.create(split[0]), new HashMap<>());
-                return Files.list(fs.getPath(split[1])).collect(
-                        Collectors.toList());
+        URL url = HelpLoader.class.getResource(path);
+        if (url != null) {
+            try {
+                URI uri = url.toURI();
+                // If jar ! means jarfile.
+                String[] split = uri.toString().split("!");
+                if (split.length == 1) {
+                    return Files.list(Paths.get(uri)).collect(
+                            Collectors.toList());
+                } else {
+                    FileSystem fs = FileSystems.newFileSystem(
+                            URI.create(split[0]), new HashMap<>());
+                    return Files.list(fs.getPath(split[1])).collect(
+                            Collectors.toList());
+                }
+            } catch (IOException | URISyntaxException ex) {
+                LOGGER.log(Level.WARNING,
+                        "Help files not found with path: " + path, ex);
             }
-        } catch (IOException | URISyntaxException ex) {
-            LOGGER.log(Level.WARNING,
-                    "Help files not found with path: " + path, ex);
         }
         return null;
     }
