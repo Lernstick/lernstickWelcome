@@ -1,3 +1,38 @@
+lernstickwelcome (201706051822-1) lernstick-8; urgency=medium
+
+  * [b18817] adapted unit test to new application tags
+  * [ca7488] use util class to open link
+  * [d95ff8] added comment about problem with HostServices in OpenJDK/OpenJFX
+  * [3de2a4] reordered and completed application list
+  * [fc695a] updated translations
+  * [c4b454] disable only toggle switch of installed apps so that weblink still works
+  * [f39ac5] added German GDevelop description
+  * [142c26] updated desktop file
+  * [6ae694] fixed German translation of Stellarium description
+  * [78458f] added localized Skype websites
+  * [009b61] added NetBeans action to sort strings
+  * [848fec] sorted resource bundles
+  * [cb3146] added NetBeans action for checking resource bundles for deprecated keys
+  * [b73c7c] allow dashes in help file names
+  * [daa177] updated translations
+  * [6ebbd0] redesigned standard system panel
+  * [aa3fa0] updated debian control file
+  * [75fbc5] fixed buggy bindings in SystemBinder
+  * [8e4500] updated German translation
+  * [e2c5c5] left-align timeout combobox
+  * [1a6fbe] customized info screen of exam environment
+  * [369532] simplified standard system layout
+  * [fe8321] synced exam system layout with standard version
+  * [0c36d4] fixed system related descriptions and translations
+  * [99a071] updated German help texts
+  * [fa370e] use tabbed interface for firewall config
+  * [047e6b] fixed L10n of application URLs
+  * [6ae817] prevent NPE
+  * [2601c4] fixed some resource bundle key errors
+  * [2544e7] added NetBeans actions for starting the standard version in French, Italian and Portugese
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 05 Jun 2017 18:22:11 +0200
+
 lernstickwelcome (201706032207-1) lernstick-8; urgency=medium
 
   * added NetBeans configuration for easily switching between standard and exam version
