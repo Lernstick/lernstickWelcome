@@ -131,7 +131,7 @@ public class FirewallBinder {
      * @param help links to online user guide
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
-        firewall.getBtHelp().setOnAction(evt -> {
+        firewall.getHelpButton().setOnAction(evt -> {
             help.setHelpEntryByChapter("1");
             helpStage.show();
         });

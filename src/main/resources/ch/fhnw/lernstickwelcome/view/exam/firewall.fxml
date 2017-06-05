@@ -1,108 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.net.URL?>
 
-<?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
-
-<AnchorPane minHeight="612.0" prefHeight="612.0" minWidth="489.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController">
+<VBox maxHeight="1.7976931348623157E308" spacing="20.0" stylesheets="@../../../../../css/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController">
    <children>
-      <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox>
          <children>
-            <HBox prefHeight="28.0">
-               <children>
-                  <Label prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationFirewall.title" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="btHelp" styleClass="btn_help" minWidth="30.0" maxWidth="30.0" minHeight="30.0" maxHeight="30.0" alignment="CENTER_RIGHT" mnemonicParsing="false" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" spacing="15">
-               <children>
-                  <ToggleSwitch fx:id="tsAllowMonitoring" />
-                  <Label fx:id="lbAllowMonitoring" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
-               </children>
-            </HBox>
-            <HBox>
-                <padding><Insets top="20.0"/></padding>
-                <Label text="%welcomeApplicationFirewall.allowedWebsites">
-                   <font>
-                      <Font name="System Bold" size="13.0" />
-                   </font>
-                </Label>
-            </HBox>
-            <TableView fx:id="tvAllowedSites" prefHeight="200.0">
-                <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
-                <columns>
-                    <TableColumn fx:id="tcSitesPattern" minWidth="131.0" maxWidth="131.0" text="%welcomeApplicationFirewall.searchPattern" />
-                    <TableColumn fx:id="tcSitesCriteria" prefWidth="9999" text="%welcomeApplicationFirewall.searchCriteria" />
-                    <TableColumn fx:id="tcSitesEdit" minWidth="35.0" maxWidth="35.0" sortable="false" />
-                    <TableColumn fx:id="tcSitesDelete"  minWidth="35.0" maxWidth="35.0" sortable="false" />
-                </columns>
-            </TableView>
-            <HBox prefHeight="69.0" spacing="5.0">
-               <children>
-                  <ComboBox fx:id="cbAddEditPattern" prefHeight="30.0" minWidth="142.0" promptText="%welcomeApplicationFirewall.searchPattern" />
-                  <TextField fx:id="tfAddEditCriteria" prefHeight="30.0" prefWidth="9999" HBox.hgrow="ALWAYS" promptText="%welcomeApplicationFirewall.searchCriteria" />
-                  <Button fx:id="btAddEditSite" styleClass="btn_add" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" />
-               </children>
-            </HBox>
-            <VBox spacing="5.0" alignment="CENTER_RIGHT">
-                <Button fx:id="btCheckForDep" text="%welcomeApplicationFirewall.checkForDependencies">
-                    <tooltip>
-                        <Tooltip text="%welcomeApplicationFirewall.checkForDependenciesTooltip" />
-                    </tooltip>
-                </Button>
-            </VBox>
-            <HBox>
-                <padding><Insets top="20.0"/></padding>
-                <Label text="%welcomeApplicationFirewall.allowedServers">
-                   <font>
-                      <Font name="System Bold" size="13.0" />
-                   </font>
-                </Label>
-            </HBox>
-            <TableView fx:id="tvAllowedServers" prefHeight="200.0">
-                <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
-                <columns>
-                    <TableColumn fx:id="tcServerProtocol" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.protocol" />
-                    <TableColumn fx:id="tcServerIp" minWidth="130.0" maxWidth="130.0" text="%welcomeApplicationFirewall.ip" />
-                    <TableColumn fx:id="tcServerPort" minWidth="110.0" maxWidth="110.0" text="%welcomeApplicationFirewall.port" />
-                    <TableColumn fx:id="tcServerDesc" prefWidth="9999" text="%welcomeApplicationFirewall.serverDescription" />
-                    <TableColumn fx:id="tcServerEdit" minWidth="35.0" maxWidth="35.0" />
-                    <TableColumn fx:id="tcServerDelete"  minWidth="35.0" maxWidth="35.0" />
-                </columns>
-            </TableView>
-            <HBox prefHeight="73.0" spacing="5.0">
-               <children>
-                  <ComboBox fx:id="cbAddEditProtocol" prefHeight="30.0" minWidth="110.0" promptText="%welcomeApplicationFirewall.protocol" />
-                  <TextField fx:id="tfAddEditIp" prefHeight="30.0" minWidth="130.0" promptText="%welcomeApplicationFirewall.ip" />
-                  <TextField fx:id="tfAddEditPort" prefHeight="30.0" minWidth="110.0" promptText="%welcomeApplicationFirewall.port" />
-                  <TextField fx:id="tfAddEditDesc" prefHeight="30.0" prefWidth="9999" HBox.hgrow="ALWAYS" promptText="%welcomeApplicationFirewall.description1" />
-                  <Button fx:id="btAddEditServer" styleClass="btn_add" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" />
-               </children>
-            </HBox>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationFirewall.title" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="helpButton" alignment="CENTER_RIGHT" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" />
          </children>
-         <padding>
-            <Insets bottom="15.0" left="20.0" right="30.0" top="15.0" />
-         </padding>
-      </VBox>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="15">
+         <children>
+            <ToggleSwitch fx:id="monitoringToggleSwitch" />
+            <Label fx:id="monitoringLabel" text="%welcomeApplicationFirewall.monitoringInternetAccess" />
+         </children>
+      </HBox>
+      <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+          <Tab text="%welcomeApplicationFirewall.allowedWebsites">
+               <content>
+                  <VBox spacing="10.0">
+                     <children>
+                        <TableView fx:id="tvAllowedSites" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="tcSitesPattern" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="%welcomeApplicationFirewall.searchPattern" />
+                                <TableColumn fx:id="tcSitesCriteria" maxWidth="1.7976931348623157E308" prefWidth="500.0" text="%welcomeApplicationFirewall.searchCriteria" />
+                                <TableColumn fx:id="tcSitesEdit" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" />
+                                <TableColumn fx:id="tcSitesDelete" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" />
+                            </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <HBox spacing="5.0">
+                           <children>
+                              <ComboBox fx:id="cbAddEditPattern" promptText="%welcomeApplicationFirewall.searchPattern" />
+                              <TextField fx:id="tfAddEditCriteria" promptText="%welcomeApplicationFirewall.searchCriteria" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btAddEditSite" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewWebsiteRule" styleClass="btn_add" />
+                           </children>
+                        </HBox>
+                         <Button fx:id="btCheckForDep" text="%welcomeApplicationFirewall.checkForDependencies">
+                             <tooltip>
+                                 <Tooltip text="%welcomeApplicationFirewall.checkForDependenciesTooltip" />
+                             </tooltip>
+                         </Button>
+                     </children>
+                  </VBox>
+               </content>
+          </Tab>
+          <Tab text="%welcomeApplicationFirewall.allowedServers">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <TableView fx:id="tvAllowedServers" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="tcServerProtocol" resizable="false" text="%welcomeApplicationFirewall.protocol" />
+                                <TableColumn fx:id="tcServerIp" text="%welcomeApplicationFirewall.ip" />
+                                <TableColumn fx:id="tcServerPort" text="%welcomeApplicationFirewall.port" />
+                                <TableColumn fx:id="tcServerDesc" prefWidth="200.0" text="%welcomeApplicationFirewall.serverDescription" />
+                                <TableColumn fx:id="tcServerEdit" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" />
+                                <TableColumn fx:id="tcServerDelete" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" />
+                            </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <HBox spacing="5.0">
+                           <children>
+                              <ComboBox fx:id="cbAddEditProtocol" promptText="%welcomeApplicationFirewall.protocol" />
+                              <TextField fx:id="tfAddEditIp" promptText="%welcomeApplicationFirewall.ip" />
+                              <TextField fx:id="tfAddEditPort" promptText="%welcomeApplicationFirewall.port" />
+                              <TextField fx:id="tfAddEditDesc" promptText="%welcomeApplicationFirewall.description1" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btAddEditServer" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickNewServerRule" styleClass="btn_add" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="15.0" left="20.0" right="30.0" top="15.0" />
+   </padding>
+</VBox>
