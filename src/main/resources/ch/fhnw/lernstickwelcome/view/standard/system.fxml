@@ -95,10 +95,10 @@
                   </TitledPane>
                   <TitledPane collapsible="false" text="%Data_Partition">
                      <content>
-                        <GridPane vgap="15.0">
+                        <GridPane hgap="10.0" vgap="10.0">
                            <columnConstraints>
-                              <ColumnConstraints />
                               <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints />
@@ -106,9 +106,9 @@
                            </rowConstraints>
                            <children>
                               <Label text="%welcomeApplicationSystem.startWA" />
-                              <ToggleSwitch fx:id="tsStartWa" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                              <ToggleSwitch fx:id="tsStartWa" GridPane.columnIndex="1" />
                               <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="1" />
-                              <ToggleSwitch fx:id="tsShowWarning" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <ToggleSwitch fx:id="tsShowWarning" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </content>
