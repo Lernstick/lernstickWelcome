@@ -12,6 +12,9 @@ Without this configuration present, some functionality in the IDE may be limited
             <configuration id="Prüfungsumgebung (Deutsch)" profiles=""/>
             <configuration id="Standard (Deutsch)" profiles=""/>
             <configuration id="Standard (English)" profiles=""/>
+            <configuration id="Standard (français)" profiles=""/>
+            <configuration id="Standard (italiano)" profiles=""/>
+            <configuration id="Padrão (português)" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>
