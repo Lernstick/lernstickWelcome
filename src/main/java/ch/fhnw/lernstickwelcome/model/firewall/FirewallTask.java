@@ -23,9 +23,14 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -58,7 +63,7 @@ public class FirewallTask implements Processable<String> {
     private Timer timer;
 
     /**
-     * Creates a FirewallTask by loading the      {@link #parseNetWhiteList() Server Whitelist}, 
+     * Creates a FirewallTask by loading the null     {@link #parseNetWhiteList() Server Whitelist}, 
      * {@link #parseURLWhiteList()  Website Whitelist} and starting a
      * {@link Timer} to load the firewall state every 3 seconds.
      */
@@ -137,7 +142,13 @@ public class FirewallTask implements Processable<String> {
      * @throws IOException
      */
     private void parseURLWhiteList() throws IOException {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(WelcomeConstants.URL_WHITELIST_FILENAME))) {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                WelcomeConstants.URL_WHITELIST_FILENAME
+                        ), Charset.defaultCharset()
+                )
+        )) {
             String line = bufferedReader.readLine();
             while (line != null) {
                 websiteList.add(new WebsiteFilter(line));
@@ -152,36 +163,42 @@ public class FirewallTask implements Processable<String> {
      * @throws IOException
      */
     private void parseNetWhiteList() throws IOException {
-        FileReader fileReader = new FileReader(WelcomeConstants.IP_TABLES_FILENAME);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String lastComment = "";
-        for (String line = bufferedReader.readLine(); line != null;) {
-            if (line.startsWith("#")) {
-                lastComment = line.substring(1).trim();
-            } else {
-                // try parsing "protocol target port"
-                String[] tokens = line.split(" ");
-                if (tokens.length == 3) {
-                    IpFilter.Protocol protocol;
-                    if (tokens[0].equalsIgnoreCase("TCP")) {
-                        protocol = IpFilter.Protocol.TCP;
-                    } else if (tokens[0].equalsIgnoreCase("UDP")) {
-                        protocol = IpFilter.Protocol.UDP;
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(
+                                WelcomeConstants.IP_TABLES_FILENAME
+                        ), Charset.defaultCharset()
+                )
+        )) {
+            String lastComment = "";
+            for (String line = bufferedReader.readLine(); line != null;) {
+                if (line.startsWith("#")) {
+                    lastComment = line.substring(1).trim();
+                } else {
+                    // try parsing "protocol target port"
+                    String[] tokens = line.split(" ");
+                    if (tokens.length == 3) {
+                        IpFilter.Protocol protocol;
+                        if (tokens[0].equalsIgnoreCase("TCP")) {
+                            protocol = IpFilter.Protocol.TCP;
+                        } else if (tokens[0].equalsIgnoreCase("UDP")) {
+                            protocol = IpFilter.Protocol.UDP;
+                        } else {
+                            LOGGER.log(Level.WARNING,
+                                    "could not parse protocol \"{0}\"", tokens[0]);
+                            continue;
+                        }
+                        String target = tokens[1];
+                        String portRange = tokens[2];
+                        ipList.add(new IpFilter(protocol, target, portRange, lastComment));
                     } else {
                         LOGGER.log(Level.WARNING,
-                                "could not parse protocol \"{0}\"", tokens[0]);
-                        continue;
+                                "unsupported net whitelist:\n{0}", line);
                     }
-                    String target = tokens[1];
-                    String portRange = tokens[2];
-                    ipList.add(new IpFilter(protocol, target, portRange, lastComment));
-                } else {
-                    LOGGER.log(Level.WARNING,
-                            "unsupported net whitelist:\n{0}", line);
                 }
-            }
 
-            line = bufferedReader.readLine();
+                line = bufferedReader.readLine();
+            }
         }
     }
 
@@ -189,7 +206,13 @@ public class FirewallTask implements Processable<String> {
      * Saves the ip whitelist entries into the config file.
      */
     private void saveIpTables() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.IP_TABLES_FILENAME))) {
+        try (BufferedWriter bw = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                WelcomeConstants.IP_TABLES_FILENAME
+                        ), Charset.defaultCharset()
+                )
+        )) {
             for (IpFilter ip : ipList) {
                 StringBuilder sb = new StringBuilder();
                 // comment
@@ -218,7 +241,13 @@ public class FirewallTask implements Processable<String> {
      */
     public void saveUrlWhitelist() {
         // save URL whitelist
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(WelcomeConstants.URL_WHITELIST_FILENAME))) {
+        try (BufferedWriter bw = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(
+                                WelcomeConstants.URL_WHITELIST_FILENAME
+                        ), Charset.defaultCharset()
+                )
+        )) {
             for (WebsiteFilter website : websiteList) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(website.getSearchPattern());
@@ -241,10 +270,10 @@ public class FirewallTask implements Processable<String> {
     public BooleanProperty firewallRunningProperty() {
         return firewallRunning;
     }
-    
+
     public boolean hasUnsavedUrls() {
-        return savedWebsiteList.size() != websiteList.size() || 
-                !savedWebsiteList.containsAll(websiteList);
+        return savedWebsiteList.size() != websiteList.size()
+                || !savedWebsiteList.containsAll(websiteList);
     }
 
     @Override

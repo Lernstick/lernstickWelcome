@@ -29,7 +29,7 @@ public class HelpEntry implements Comparable<HelpEntry> {
     private String title;
     private String path;
     private int index;
-    private List<HelpEntry> entries = new ArrayList<>();
+    private final List<HelpEntry> entries = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -62,6 +62,22 @@ public class HelpEntry implements Comparable<HelpEntry> {
     
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    @Override
+    public int hashCode() {
+        // Could be changed to path != null ? path.hashCode() : super.hashCode()
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof HelpEntry) {
+            // If the help entry has same path, the help entries are the same.
+            // If path is null the help entries can't be compared.
+            return path != null && path.equals(((HelpEntry) obj).getPath());
+        }
+        return false;
     }
 
     @Override

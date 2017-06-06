@@ -71,18 +71,7 @@ public class BackupController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbMinutes.setConverter(new StringConverter<Number>() {
-            
-            @Override
-            public String toString(Number v) {
-                return v.intValue() + " " +  rb.getString("welcomeApplicationBackup.minutes");
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Integer.valueOf(string.split(" ")[0]);
-            }
-        });
+        cbMinutes.setConverter(new MinutesStringConverter(rb));
         // Currently not supported
         cbMedium.setVisible(false);
         cbMedium.setEditable(true);
@@ -102,6 +91,27 @@ public class BackupController implements Initializable {
         tsUseRemote.disableProperty().bind(tsBackup.selectedProperty().not());
         cbMedium.disableProperty().bind(tsBackup.selectedProperty().not());
         cbMinutes.disableProperty().bind(tsBackup.selectedProperty().not());
+    }
+    
+    private static class MinutesStringConverter extends StringConverter<Number> {
+        String minutes;
+        
+        private MinutesStringConverter(ResourceBundle rb) {
+            if(rb != null)
+                minutes = rb.getString("welcomeApplicationBackup.minutes");
+            else
+                minutes = "";
+        }
+            
+        @Override
+        public String toString(Number v) {
+            return v.intValue() + " " + minutes;
+        }
+
+        @Override
+        public Number fromString(String string) {
+            return Integer.valueOf(string.split(" ")[0]);
+        }
     }
 
 

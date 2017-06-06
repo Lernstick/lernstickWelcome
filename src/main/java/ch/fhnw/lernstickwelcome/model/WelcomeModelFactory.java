@@ -58,7 +58,7 @@ public class WelcomeModelFactory {
 
     private final static ProcessExecutor PROCESS_EXECUTOR = new ProcessExecutor();
     private final static Logger LOGGER = Logger.getLogger(WelcomeModelFactory.class.getName());
-    private static StorageDevice SYSTEM_STORAGE_DEVICE;
+    private static volatile StorageDevice SYSTEM_STORAGE_DEVICE;
 
     // used to store ApplicationTasks, so there is only 1 instance of each task
     private static HashMap<String, ApplicationTask> applicationTasks = new HashMap<>();
@@ -270,7 +270,6 @@ public class WelcomeModelFactory {
         if (applicationTasks.containsKey(name)) {
             return applicationTasks.get(name);
         }
-        Node l = app.getElementsByTagName("description").item(0);
         String description = app.getElementsByTagName("description").item(0).getTextContent();
         String icon = app.getElementsByTagName("icon").item(0).getTextContent();
         String helpPath = app.getElementsByTagName("help-path").item(0).getTextContent();

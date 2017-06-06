@@ -22,11 +22,14 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -53,7 +56,7 @@ public class WelcomeUtil {
     /**
      * see {@link #isImageWritable()} *
      */
-    private static Boolean isImageWritable;
+    private static volatile Boolean isImageWritable;
 
     private WelcomeUtil() {
     }
@@ -81,7 +84,7 @@ public class WelcomeUtil {
         DocumentBuilder builder = factory.newDocumentBuilder();
         return builder.parse(file);
     }
-    
+
     /**
      * Parses a inputStream as a xml file
      *
@@ -115,7 +118,10 @@ public class WelcomeUtil {
      */
     public static List<String> readFile(File file) throws IOException {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(file), Charset.defaultCharset())
+        )) {
             for (String line = reader.readLine(); line != null;
                     line = reader.readLine()) {
                 lines.add(line);
@@ -134,7 +140,7 @@ public class WelcomeUtil {
      */
     public static boolean isFileSystemMountAllowed() {
         return !Files.exists(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
-               "10-udisks2_strict.pkla"));
+                "10-udisks2_strict.pkla"));
     }
 
     /**

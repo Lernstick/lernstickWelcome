@@ -25,8 +25,11 @@ import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -102,7 +105,7 @@ public class BackupTask implements Processable<String> {
                 WelcomeConstants.BACKUP_PARTITION));
         screenshot.set("true".equals(properties.getProperty(
                 WelcomeConstants.BACKUP_SCREENSHOT)));
-        frequency.set(new Integer(properties.getProperty(
+        frequency.set(Integer.parseInt(properties.getProperty(
                 WelcomeConstants.BACKUP_FREQUENCY, "5")));
 
         StorageDevice systemStorageDevice
@@ -206,17 +209,16 @@ public class BackupTask implements Processable<String> {
     private void updateJBackpackProperties(
             String backupSource, String backupDestination) {
         
-        // TODO: parameters are unused!?
-        
         // update JBackpack preferences of the default user
         File prefsDirectory = new File(
-                "/home/user/.java/.userPrefs/ch/fhnw/jbackpack/");
-        updateJBackpackProperties(prefsDirectory, true);
+                WelcomeConstants.USER_JBACKPACK_PREFERENCES);
+        updateJBackpackProperties(prefsDirectory, backupSource, 
+                backupDestination, true);
 
         // update JBackpack preferences of the root user
-        prefsDirectory = new File(
-                "/root/.java/.userPrefs/ch/fhnw/jbackpack/");
-        updateJBackpackProperties(prefsDirectory, false);
+        prefsDirectory = new File(WelcomeConstants.ROOT_JBACKPACK_PREFERENCES);
+        updateJBackpackProperties(prefsDirectory, backupSource, 
+                backupDestination, false);
     }
 
     /**
@@ -229,9 +231,12 @@ public class BackupTask implements Processable<String> {
      * If the xml couldn't be found it will be created by this function.
      *
      * @param prefsDirectory
+     * @param backupSource
+     * @param backupDestination
      * @param chown
      */
-    private void updateJBackpackProperties(File prefsDirectory, boolean chown) {
+    private void updateJBackpackProperties(File prefsDirectory, 
+            String backupSource, String backupDestination, boolean chown) {
         File prefsFile = new File(prefsDirectory, "prefs.xml");
         String prefsFilePath = prefsFile.getPath();
         if (prefsFile.exists()) {
@@ -250,10 +255,12 @@ public class BackupTask implements Processable<String> {
                             entry.setAttribute("value", "local");
                             break;
                         case "local_destination_directory":
-                            entry.setAttribute("value", destinationPath.get());
+                            entry.setAttribute("value", backupDestination);
                             break;
                         case "source":
-                            entry.setAttribute("value", sourcePath.get());
+                            entry.setAttribute("value", backupSource);
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -296,9 +303,10 @@ public class BackupTask implements Processable<String> {
                     + "  <entry key=\"source\" value=\"" + sourcePath.get() + "\"/>\n"
                     + "</map>\n";
 
-            try (FileWriter fileWriter = new FileWriter(prefsFile)) {
-                fileWriter.write(preferences);
-                fileWriter.flush();
+            try (OutputStreamWriter osw = new OutputStreamWriter(
+                    new FileOutputStream(prefsFile), Charset.defaultCharset())) {
+                osw.write(preferences);
+                osw.flush();
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
             }

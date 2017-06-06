@@ -30,7 +30,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 
-
 /**
  * FXML Controller class
  *
@@ -48,40 +47,43 @@ public class MainController implements Initializable {
     private ScrollPane spMainPane;
 
     public void initializeMenu(ObservableList<MenuPaneItem> list) {
-        lvMenuPane.setCellFactory(lv -> new ListCell<MenuPaneItem>() {
-            
-            @Override
-            protected void updateItem(MenuPaneItem item, boolean empty) { 
-                super.updateItem(item, empty);
-                if(!empty) {
-                    setText(item.getDisplayText());
-                    if(item.getImagePath() != null)
-                        setGraphic(new ImageView(item.getImagePath()));
-                }
-            }
-        });
+        lvMenuPane.setCellFactory(lv -> new MenuListCell());
         lvMenuPane.setItems(list);
         lvMenuPane.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        
+
         // Change and resize the content
-        lvMenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> { 
+        lvMenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> {
             spMainPane.setContent(lvMenuPane.getSelectionModel().getSelectedItem().getParentScene());
             spMainPane.setVvalue(0);
-            ((Region)(spMainPane.getContent())).setPrefWidth(spMainPane.getWidth());
-            ((Region)(spMainPane.getContent())).setPrefHeight(spMainPane.getHeight());
+            ((Region) (spMainPane.getContent())).setPrefWidth(spMainPane.getWidth());
+            ((Region) (spMainPane.getContent())).setPrefHeight(spMainPane.getHeight());
         });
         // Resize the content
-        spMainPane.widthProperty().addListener(cl -> ((Region)(spMainPane.getContent())).setPrefWidth(spMainPane.getWidth()));
-        spMainPane.heightProperty().addListener(cl -> ((Region)(spMainPane.getContent())).setPrefHeight(spMainPane.getHeight()));
-        
+        spMainPane.widthProperty().addListener(cl -> ((Region) (spMainPane.getContent())).setPrefWidth(spMainPane.getWidth()));
+        spMainPane.heightProperty().addListener(cl -> ((Region) (spMainPane.getContent())).setPrefHeight(spMainPane.getHeight()));
+
         // Select first node as start screen
         lvMenuPane.getSelectionModel().selectFirst();
     }
-    
+
+    private static class MenuListCell extends ListCell<MenuPaneItem> {
+
+        @Override
+        protected void updateItem(MenuPaneItem item, boolean empty) {
+            super.updateItem(item, empty);
+            if (!empty) {
+                setText(item.getDisplayText());
+                if (item.getImagePath() != null) {
+                    setGraphic(new ImageView(item.getImagePath()));
+                }
+            }
+        }
+    }
+
     public void setView(int i) {
         lvMenuPane.getSelectionModel().select(i);
     }
-    
+
     /**
      * Initializes the controller class.
      */
@@ -96,6 +98,5 @@ public class MainController implements Initializable {
     public Button getBtSaveButton() {
         return btSaveButton;
     }
-    
-    
+
 }

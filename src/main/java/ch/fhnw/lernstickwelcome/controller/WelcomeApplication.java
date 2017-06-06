@@ -35,6 +35,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  * The JavaFX Application.
@@ -56,7 +58,7 @@ import javafx.stage.Stage;
  *
  * @author sschw
  */
-public class WelcomeApplication extends Application {
+public final class WelcomeApplication extends Application {
 
     private static final Logger LOGGER = Logger.getLogger(WelcomeApplication.class.getName());
     private WelcomeController controller;
@@ -247,7 +249,7 @@ public class WelcomeApplication extends Application {
                     LOGGER.log(Level.SEVERE, "Couldn't show dialogs", ex);
                 }
             });
-        } catch (Exception ex) {
+        } catch (IOException | ParserConfigurationException | SAXException ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
         }

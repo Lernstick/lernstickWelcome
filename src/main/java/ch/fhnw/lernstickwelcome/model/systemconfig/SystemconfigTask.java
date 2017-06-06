@@ -26,8 +26,11 @@ import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -70,9 +73,9 @@ import org.xml.sax.SAXException;
  * This class handles system changes for the Lernstick.
  * <br>
  * In order to process a backend task multiple times it extends Processable
- * 
+ *
  * @see Processable
- * 
+ *
  * @author sschw
  */
 public class SystemconfigTask implements Processable<String> {
@@ -102,8 +105,9 @@ public class SystemconfigTask implements Processable<String> {
     private Properties properties;
 
     /**
-     * Creates a SystemconfigTask by loading the values from the properties or bootconfig.
-     * 
+     * Creates a SystemconfigTask by loading the values from the properties or
+     * bootconfig.
+     *
      * @param isExamEnv Some functions won't be load in Std. Version
      * @param properties Property File of the Welcome Application
      */
@@ -138,7 +142,7 @@ public class SystemconfigTask implements Processable<String> {
                 Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH, "10-udisks2_strict.pkla"));
             } else {
                 //LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self_keep");
-            	hardenPKLAs("udisks2");
+                hardenPKLAs("udisks2");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -146,7 +150,8 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Loads the bootconfig info by reading out values from the xmlBootConfig and the syslinuxConfigFile.
+     * Loads the bootconfig info by reading out values from the xmlBootConfig
+     * and the syslinuxConfigFile.
      */
     private void getBootConfigInfos() {
         // Read out the bootloader timeout in seconds
@@ -185,7 +190,8 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Read out the full username by running {@code getent passwd user} with the {@link ProcessExecutor}
+     * Read out the full username by running {@code getent passwd user} with the
+     * {@link ProcessExecutor}
      */
     private void getFullUserName() {
         PROCESS_EXECUTOR.executeProcess(true, true, "getent", "passwd", "user");
@@ -211,7 +217,8 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Loads the partitions by using {@link WelcomeModelFactory#getSystemStorageDevice() }.
+     * Loads the partitions by using {@link WelcomeModelFactory#getSystemStorageDevice()
+     * }.
      * <br>
      * Loads the bootConfigParition and the exchangePartition.
      */
@@ -245,10 +252,13 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Updates the BootLoaders of the exchangePartition and the bootConfigPartition.
+     * Updates the BootLoaders of the exchangePartition and the
+     * bootConfigPartition.
      * <br>
-     * If boot config isn't seperated, it will do the action onto the running system.
-     * @throws DBusException 
+     * If boot config isn't seperated, it will do the action onto the running
+     * system.
+     *
+     * @throws DBusException
      */
     private void updateBootloaders() throws DBusException {
         final int timeout = timeoutSeconds.get();
@@ -296,12 +306,12 @@ public class SystemconfigTask implements Processable<String> {
 
     /**
      * Updates the bootloader of the given partition.
-     * 
+     *
      * @param directory root directory of the partition
      * @param timeout the timeout that has to be set
      * @param systemName the systemName that has to be set
      * @param systemVersion the systemVersion that has to be set
-     * @throws DBusException 
+     * @throws DBusException
      */
     private void updateBootloaders(File directory, int timeout,
             String systemName, String systemVersion) throws DBusException {
@@ -336,7 +346,6 @@ public class SystemconfigTask implements Processable<String> {
                 }
 
                 // write changes back to config file
-                
                 // Create a temp file.
                 File tmpFile = File.createTempFile("lernstickWelcome", "tmp");
                 TransformerFactory transformerFactory
@@ -395,6 +404,7 @@ public class SystemconfigTask implements Processable<String> {
      * <li>{@code directory/syslinux/boot_486.cfg}</li>
      * <li>{@code directory/syslinux/boot_686.cfg}</li>
      * </ul>
+     *
      * @param directory root dir of the partition
      * @return config files in the syslinux folder
      */
@@ -440,10 +450,11 @@ public class SystemconfigTask implements Processable<String> {
     /**
      * Load the xmlBootConfigFile of the bootConfigPartition.
      * <br>
-     * If the variable bootConfigPartition is null, the function will use the 
+     * If the variable bootConfigPartition is null, the function will use the
      * running system as bootConfigPartition.
+     *
      * @return the bootConfigFile or null if it doesn't exist
-     * @throws DBusException 
+     * @throws DBusException
      */
     private File getXmlBootConfigFile() throws DBusException {
 
@@ -481,6 +492,7 @@ public class SystemconfigTask implements Processable<String> {
      * <li>{@code directory/syslinux/xmlboot.config}</li>
      * <li>{@code directory/syslinux/bootlogo.dir/xmlboot.config}</li>
      * </ul>
+     *
      * @param directory
      * @return the bootConfigFile or null if it doesn't exist
      */
@@ -505,9 +517,10 @@ public class SystemconfigTask implements Processable<String> {
     /**
      * Loads the timeout out of the syslinuxConfigFile using a regex to match
      * the timout value in the files.
+     *
      * @return first occurence of the timeout or -1 if it couldn't be found.
      * @throws IOException
-     * @throws DBusException 
+     * @throws DBusException
      */
     private int getTimeout() throws IOException, DBusException {
         // use syslinux configuration as reference for the timeout setting
@@ -547,9 +560,10 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Changes the password of the user by running {@code chpasswd} with the 
+     * Changes the password of the user by running {@code chpasswd} with the
      * {@link ProcessExecutor} and calling {@link #passwordEnabled() }.
-     * @throws ProcessingException 
+     *
+     * @throws ProcessingException
      */
     public void changePassword() throws ProcessingException {
         // Check if password should be changed
@@ -582,19 +596,21 @@ public class SystemconfigTask implements Processable<String> {
 
     /**
      * Enables the password by updating the empty_passwd_info and
-     * @throws ProcessingException 
+     *
+     * @throws ProcessingException
      */
     private void passwordEnabled() throws ProcessingException {
         // TODO: the password hint is deprecated
         // remove this code block somewhen in the future...
 
         // disable password hint
-        File configFile = new File(
-                "/home/user/.kde/share/config/empty_passwd_info");
+        File configFile = new File(WelcomeConstants.EMPTY_PASSWORD_HINT_FILE);
         if (!configFile.exists()) {
-            try (FileWriter fileWriter = new FileWriter(configFile)) {
+            try (OutputStreamWriter osw = new OutputStreamWriter(
+                    new FileOutputStream(configFile), Charset.defaultCharset()
+            )) {
                 // write kdialog config file
-                fileWriter.write("[Notification Messages]\n"
+                osw.write("[Notification Messages]\n"
                         + "show=false");
 
                 // fix ownership of kdialog config file:
@@ -613,7 +629,7 @@ public class SystemconfigTask implements Processable<String> {
                 LOGGER.log(Level.SEVERE, "", ex);
             }
         }
-        
+
         // set password in properties as changed
         passwordChanged = true;
         properties.setProperty(WelcomeConstants.PASSWORD_CHANGED,
@@ -636,6 +652,7 @@ public class SystemconfigTask implements Processable<String> {
      * Adds an action with a description to the given pkla-file.<br>
      * This new rule for the PolicyKit Local Authority results into a password
      * request when trying to run this action.
+     *
      * @param fileName the pkla file in which the action should be saved
      * @param description description of the action
      * @param action the action that should be run
@@ -650,8 +667,10 @@ public class SystemconfigTask implements Processable<String> {
                 + "ResultAny=auth_self_keep\n"
                 + "ResultInactive=auth_self_keep\n"
                 + "ResultActive=auth_self_keep\n";
-        try (FileWriter fileWriter = new FileWriter(strictPKLA)) {
-            fileWriter.write(strictWelcomeRule);
+        try (OutputStreamWriter osw = new OutputStreamWriter(
+                new FileOutputStream(strictPKLA), Charset.defaultCharset()
+        )) {
+            osw.write(strictWelcomeRule);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "", ex);
         }
@@ -660,8 +679,9 @@ public class SystemconfigTask implements Processable<String> {
     /**
      * Hardens the rule in an pkla-files to restrict access to the action by the
      * PolicyKit Local Authority.
+     *
      * @param pklas The actions that should be restricted.
-     * @throws ProcessingException 
+     * @throws ProcessingException
      */
     private void hardenPKLAs(String... pklas) throws ProcessingException {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
@@ -678,7 +698,7 @@ public class SystemconfigTask implements Processable<String> {
                 Path lenientPath = Paths.get(
                         WelcomeConstants.LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
                 List<String> lenientLines = Files.readAllLines(
-                		lenientPath, StandardCharsets.UTF_8);
+                        lenientPath, StandardCharsets.UTF_8);
                 List<String> strictLines = new ArrayList<>();
                 for (String lenientLine : lenientLines) {
                     Matcher matcher = yesPattern.matcher(lenientLine);
@@ -687,8 +707,8 @@ public class SystemconfigTask implements Processable<String> {
                     }
                     strictLines.add(lenientLine);
                 }
-            Path strictPath = strictPoliciesDir.resolve("10-" + pkla + "_strict.pkla");
-           	Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
+                Path strictPath = strictPoliciesDir.resolve("10-" + pkla + "_strict.pkla");
+                Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
                 throw new ProcessingException("SystemconfigTask.cantWritePasswordPolicy", pkla);
@@ -711,7 +731,7 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Updates the permission of the File 
+     * Updates the permission of the File
      * {@link WelcomeConstants#APPLETS_CONFIG_FILE} according to the value of
      * the {@link #blockKdeDesktopApplets} Property
      */
@@ -780,7 +800,7 @@ public class SystemconfigTask implements Processable<String> {
     public BooleanProperty allowAccessToOtherFilesystemsProperty() {
         return allowAccessToOtherFilesystems;
     }
-    
+
     public boolean isPasswordChanged() {
         return passwordChanged;
     }
@@ -792,6 +812,7 @@ public class SystemconfigTask implements Processable<String> {
 
     /**
      * Task for {@link #newTask() }
+     *
      * @see Processable
      */
     private class InternalTask extends Task<String> {

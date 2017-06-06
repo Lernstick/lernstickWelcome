@@ -64,7 +64,7 @@ public class WebsiteFilter {
                 case Contains: return "welcomeApplicationFirewall.filterContains";
                 case StartsWith: return "welcomeApplicationFirewall.filterStartsWith";
                 case Custom: return "welcomeApplicationFirewall.filterCustom";
-                default: return null;
+                default: return "";
             }
         }
     }

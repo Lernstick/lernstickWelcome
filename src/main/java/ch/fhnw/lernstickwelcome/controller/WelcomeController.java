@@ -153,17 +153,18 @@ public class WelcomeController {
      * Starts the TaskProcessor.
      */
     public void startProcessingTasks() {
-        taskProcessor.run();
+        if(taskProcessor != null)
+            taskProcessor.run();
     }
 
     /**
      * Stops backend tasks when the application should be closed.
      */
     public void closeApplication() {
-        if (isExamEnvironment) {
+        if (firewall != null)
             firewall.stopFirewallStateChecking();
-        }
-        sysconf.umountBootConfig();
+        if(sysconf != null)
+            sysconf.umountBootConfig();
     }
 
     /**

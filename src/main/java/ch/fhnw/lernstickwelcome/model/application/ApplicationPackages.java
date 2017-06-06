@@ -17,6 +17,7 @@
 package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
+import java.util.Arrays;
 
 /**
  * Subclasses of this class defines a strategy how packages should be installed.
@@ -24,10 +25,10 @@ import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
  * @author sschw
  */
 public abstract class ApplicationPackages {
-    private String[] packageNames;
+    private final String[] packageNames;
     
     public ApplicationPackages(String[] packageNames) {
-        this.packageNames = packageNames;
+        this.packageNames = Arrays.copyOf(packageNames, packageNames.length);
     }
     
     /**
@@ -35,7 +36,7 @@ public abstract class ApplicationPackages {
      * @return 
      */
     public String[] getPackageNames() {
-        return packageNames;
+        return Arrays.copyOf(packageNames, packageNames.length);
     }
     
     /**

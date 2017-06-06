@@ -40,8 +40,8 @@ public class PropertiesTask implements Processable<String> {
     public PropertiesTask() {
         properties = new Properties();
         propertiesFile = new File(WelcomeConstants.PROPERTIES_PATH);
-        try {
-            properties.load(new FileInputStream(propertiesFile));
+        try(FileInputStream fis = new FileInputStream(propertiesFile)) {
+            properties.load(fis);
         } catch (IOException ex) {
             LOGGER.log(Level.INFO,
                     "can not load properties from " + propertiesFile, ex);
@@ -69,8 +69,8 @@ public class PropertiesTask implements Processable<String> {
             updateProgress(0, 1);
             updateTitle("PropertiesTask.title");
             updateMessage("PropertiesTask.message");
-            try {
-                properties.store(new FileOutputStream(propertiesFile),
+            try(FileOutputStream fos = new FileOutputStream(propertiesFile)) {
+                properties.store(fos,
                         "lernstick Welcome properties");
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);

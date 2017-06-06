@@ -96,7 +96,11 @@ public class ApplicationGroupTask implements Processable<String> {
                             appTask.get();
                             previouslyDone += app.getNoPackages();
                         } catch(ExecutionException ex) {
-                            throw (Exception) ex.getCause();
+                            Throwable t = ex.getCause();
+                            if(t instanceof Exception)
+                                throw (Exception) t;
+                            else
+                                throw ex;
                         }
                     }
                 }

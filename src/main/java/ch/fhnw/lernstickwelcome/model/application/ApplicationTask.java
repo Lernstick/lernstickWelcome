@@ -21,6 +21,7 @@ import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,7 +71,8 @@ public class ApplicationTask implements Processable<String> {
         this.packages = packages;
         this.helpPath = helpPath;
         if(installedNames != null && installedNames.length > 0)
-            this.installedNames = installedNames;
+            this.installedNames = Arrays.copyOf(installedNames, 
+                    installedNames.length);
         else
             this.installedNames = packages.getPackageNames();
         this.installed.set(initIsInstalled());

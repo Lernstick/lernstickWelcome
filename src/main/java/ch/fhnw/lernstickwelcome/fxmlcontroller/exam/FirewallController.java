@@ -188,10 +188,6 @@ public class FirewallController implements Initializable {
     }
 
     @FXML
-    private void onClickShowHelp(MouseEvent event) {
-    }
-
-    @FXML
     private void onClickNewWebsiteRule(MouseEvent event) {
         if (validateSitesFields()) {
             // Add to table

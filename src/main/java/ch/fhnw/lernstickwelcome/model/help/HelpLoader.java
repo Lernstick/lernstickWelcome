@@ -113,7 +113,7 @@ public class HelpLoader {
             Matcher matcher = pattern.matcher(path.getFileName().toString());
 
             if (matcher.matches()) {
-                int index = Integer.valueOf(matcher.group(1));
+                int index = Integer.parseInt(matcher.group(1));
                 HelpEntry entry = new HelpEntry();
                 entry.setTitle(matcher.group(2).replaceAll("_", " "));
                 entry.setPath(path.toUri().toString());

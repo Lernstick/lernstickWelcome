@@ -16,6 +16,8 @@
  */
 package ch.fhnw.lernstickwelcome.controller.exception;
 
+import java.util.Arrays;
+
 /**
  * Thrown if a backend process fails.
  *
@@ -34,6 +36,6 @@ public class ProcessingException extends Exception {
     }
     
     public Object[] getMessageDetails() {
-        return details;
+        return Arrays.copyOf(details, details.length);
     }
 }

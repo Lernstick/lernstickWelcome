@@ -27,7 +27,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
@@ -65,36 +64,18 @@ public class SystemController implements Initializable {
     @FXML
     private TextField tfPwd;
     @FXML
-    private Label lbHost;
-    @FXML
-    private Label lbPort;
-    @FXML
-    private Label lbUser;
-    @FXML
-    private Label lbPwd;
-    @FXML
     private TextField tfUsername;
     @FXML
-    private TextField tfSystemversion;
+    private TextField tfSystemVersion;
     @FXML
-    private TextField tfSystemname;
+    private TextField tfSystemName;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbVisibleFor.setConverter(new StringConverter<Number>() {
-            @Override
-            public String toString(Number t) {
-                return t.intValue() + " " + (t.intValue() == 1 ? rb.getString("welcomeApplicationSystem.second") : rb.getString("welcomeApplicationSystem.seconds"));
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Integer.valueOf(string.split(" ")[0]);
-            }
-        });
+        cbVisibleFor.setConverter(new SecondStringConverter(rb));
         cbVisibleFor.getItems().addAll(visibleForValues);
         cbVisibleFor.setEditable(true);
 
@@ -173,8 +154,8 @@ public class SystemController implements Initializable {
 
         if (!WelcomeUtil.isImageWritable()) {
             cbVisibleFor.setVisible(false);
-            tfSystemname.setDisable(true);
-            tfSystemversion.setDisable(true);
+            tfSystemName.setDisable(true);
+            tfSystemVersion.setDisable(true);
         }
 
         tfHost.disableProperty().bind(tsProxy.selectedProperty().not());
@@ -183,8 +164,29 @@ public class SystemController implements Initializable {
         tfUser.disableProperty().bind(tsProxy.selectedProperty().not());
     }
 
-    public Integer[] getVisibleForValues() {
-        return visibleForValues;
+    private static class SecondStringConverter extends StringConverter<Number> {
+        String seconds;
+        String second;
+
+        public SecondStringConverter(ResourceBundle rb) {
+            if(rb != null) {
+                seconds = rb.getString("welcomeApplicationSystem.seconds");
+                second = rb.getString("welcomeApplicationSystem.second");
+            } else {
+                seconds = "";
+                second = "";
+            }
+        }
+
+        @Override
+        public String toString(Number t) {
+            return t.intValue() + " " + (t.intValue() == 1 ? second : seconds);
+        }
+
+        @Override
+        public Number fromString(String string) {
+            return Integer.valueOf(string.split(" ")[0]);
+        }
     }
 
     public Button getBtHelp() {
@@ -195,12 +197,12 @@ public class SystemController implements Initializable {
         return tfUsername;
     }
 
-    public TextField getTfSystemname() {
-        return tfSystemname;
+    public TextField getTfSystemName() {
+        return tfSystemName;
     }
 
-    public TextField getTfSystemversion() {
-        return tfSystemversion;
+    public TextField getTfSystemVersion() {
+        return tfSystemVersion;
     }
 
     public ComboBox<Number> getCbVisibleFor() {

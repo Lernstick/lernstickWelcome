@@ -40,9 +40,9 @@
                </rowConstraints>
                <children>
                   <Label text="%welcomeApplicationSystem.systemname" />
-                  <TextField fx:id="tfSystemname" maxHeight="30.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfSystemName" maxHeight="30.0" GridPane.columnIndex="1" />
                   <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
-                  <TextField fx:id="tfSystemversion" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfSystemVersion" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="2" />
                   <ComboBox fx:id="cbVisibleFor" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
@@ -140,10 +140,10 @@
                         <RowConstraints />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="lbHost" text="%WelcomeApplicationProxy.host" GridPane.rowIndex="1" />
-                        <Label fx:id="lbPort" text="%WelcomeApplicationProxy.port" GridPane.rowIndex="2" />
-                        <Label fx:id="lbUser" text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="3" />
-                        <Label fx:id="lbPwd" text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="4" />
+                        <Label text="%WelcomeApplicationProxy.host" GridPane.rowIndex="1" />
+                        <Label text="%WelcomeApplicationProxy.port" GridPane.rowIndex="2" />
+                        <Label text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="3" />
+                        <Label text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="4" />
                         <TextField fx:id="tfHost" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="tfPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="tfUser" GridPane.columnIndex="1" GridPane.rowIndex="3" />

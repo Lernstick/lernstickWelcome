@@ -67,27 +67,17 @@ public class SystemController implements Initializable {
     private ToggleSwitch tsAccessUser;
     @FXML
     private ToggleSwitch tsShowWarning;
-    
-    private final Integer[] visibleForValues = new Integer[] { 5, 10, 15, 20, 25, 30, 40, 50, 60 };
-    
+
+    private final Integer[] visibleForValues = new Integer[]{5, 10, 15, 20, 25, 30, 40, 50, 60};
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbVisibleFor.setConverter(new StringConverter<Number>() {
-            @Override
-            public String toString(Number t) {
-                return t.intValue() + " " + (t.intValue() == 1 ? rb.getString("welcomeApplicationSystem.second") : rb.getString("welcomeApplicationSystem.seconds"));
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Integer.valueOf(string.split(" ")[0]);
-            }
-        });
+        cbVisibleFor.setConverter(new SecondStringConverter(rb));
         cbVisibleFor.setEditable(true);
-        
+
         tfUsername.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -95,7 +85,7 @@ public class SystemController implements Initializable {
                     tfUsername.setText(oldValue);
                 }
             }
-            
+
             private boolean isAllowed(String string) {
                 if ((string != null) && string.chars().anyMatch(c
                         -> (c == ':') || (c == ',') || (c == '='))) {
@@ -108,10 +98,12 @@ public class SystemController implements Initializable {
 
         tfExchangePartition.textProperty().addListener(new ChangeListener<String>() {
             private final static int MAX_CHARS = 11;
-            
+
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(newValue == null) return;
+                if (newValue == null) {
+                    return;
+                }
                 // only allow ASCII input
                 if (!isASCII(newValue)) {
                     tfExchangePartition.setText(oldValue);
@@ -125,7 +117,7 @@ public class SystemController implements Initializable {
                     Toolkit.getDefaultToolkit().beep();
                 }
             }
-            
+
             private boolean isASCII(String string) {
                 for (int i = 0, length = string.length(); i < length; i++) {
                     char character = string.charAt(i);
@@ -158,9 +150,9 @@ public class SystemController implements Initializable {
                 return count;
             }
         });
-        
+
         cbVisibleFor.getItems().addAll(visibleForValues);
-        
+
         if (!WelcomeUtil.isImageWritable()) {
             cbVisibleFor.setVisible(false);
             tfSystemName.setDisable(true);
@@ -168,15 +160,35 @@ public class SystemController implements Initializable {
         }
     }
 
-    private void onClickShowHelp(MouseEvent event) {
-        // TODO: popupwindow with Help Text
-        throw new UnsupportedOperationException("Not supported yet.");
+    private static class SecondStringConverter extends StringConverter<Number> {
+        String seconds;
+        String second;
+
+        public SecondStringConverter(ResourceBundle rb) {
+            if(rb != null) {
+                seconds = rb.getString("welcomeApplicationSystem.seconds");
+                second = rb.getString("welcomeApplicationSystem.second");
+            } else {
+                seconds = "";
+                second = "";
+            }
+        }
+
+        @Override
+        public String toString(Number t) {
+            return t.intValue() + " " + (t.intValue() == 1 ? second : seconds);
+        }
+
+        @Override
+        public Number fromString(String string) {
+            return Integer.valueOf(string.split(" ")[0]);
+        }
     }
-    
+
     public TextField getTfSystemName() {
         return tfSystemName;
     }
-    
+
     public TextField getTfSystemVersion() {
         return tfSystemVersion;
     }
@@ -224,7 +236,7 @@ public class SystemController implements Initializable {
     public ToggleSwitch getTsShowWarning() {
         return tsShowWarning;
     }
-    
+
     public Button getBtnSysHelp() {
         return btHelp;
     }

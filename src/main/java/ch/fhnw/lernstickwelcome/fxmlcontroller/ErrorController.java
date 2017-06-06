@@ -66,7 +66,7 @@ public class ErrorController implements Initializable {
 
     @FXML
     private void btOkOnAction(ActionEvent event) {
-        ((Stage)((Node) event.getSource()).getScene().getWindow()).close(); 
+        ((Node) event.getSource()).getScene().getWindow().hide();
     }
     
 }

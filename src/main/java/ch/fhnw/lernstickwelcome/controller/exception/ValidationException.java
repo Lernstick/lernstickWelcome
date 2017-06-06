@@ -16,6 +16,8 @@
  */
 package ch.fhnw.lernstickwelcome.controller.exception;
 
+import java.util.Arrays;
+
 /**
  * Thrown if a field on a GUI has an invalid value.
  * 
@@ -34,6 +36,6 @@ public class ValidationException extends Exception {
     }
     
     public Object[] getMessageDetails() {
-        return details;
+        return Arrays.copyOf(details, details.length);
     }
 }

@@ -53,8 +53,8 @@ public class SystemBinder {
         system.getCbVisibleFor().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
         system.getTfExchangePartition().textProperty().bindBidirectional(controller.getPartition().exchangePartitionLabelProperty());
         system.getTfUsername().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
-        system.getTfSystemname().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
-        system.getTfSystemversion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
+        system.getTfSystemName().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
+        system.getTfSystemVersion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
         system.getTsProxy().selectedProperty().bindBidirectional(controller.getProxy().proxyActiveProperty());
         system.getTfHost().textProperty().bindBidirectional(controller.getProxy().hostnameProperty());
         system.getTfPort().textProperty().bindBidirectional(controller.getProxy().portProperty());

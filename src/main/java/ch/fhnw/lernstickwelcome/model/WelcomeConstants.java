@@ -48,6 +48,11 @@ public final class WelcomeConstants {
     // !!! NO trailing slash at the end (would break comparison later) !!!
     public static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
     
+    public static final String USER_JBACKPACK_PREFERENCES 
+            = "/home/user/.java/.userPrefs/ch/fhnw/jbackpack/";
+    public static final String ROOT_JBACKPACK_PREFERENCES 
+            = "/root/.java/.userPrefs/ch/fhnw/jbackpack/";
+    
     public static final String IP_TABLES_FILENAME
             = "/etc/lernstick-firewall/net_whitelist";
     public static final String URL_WHITELIST_FILENAME
@@ -62,6 +67,8 @@ public final class WelcomeConstants {
             "/usr/share/alsa/alsa.conf.d/pulse.conf");
     public static final Path UDISKS_PKLA_PATH = Paths.get(
     		"/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
+    public static final String EMPTY_PASSWORD_HINT_FILE = 
+            "/home/user/.kde/share/config/empty_passwd_info";
     public static final String SQUID_ACCESS_LOG_FILE_PATH = "/var/log/squid/access.log";
     
     public static final String USER_HOME = System.getProperty("user.home");

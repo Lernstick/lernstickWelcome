@@ -50,7 +50,7 @@ import javafx.util.Pair;
  *
  * @author sschw
  */
-public class FXMLGuiLoader {
+public final class FXMLGuiLoader {
 
     private static final Logger LOGGER = Logger.getLogger(FXMLGuiLoader.class.getName());
 
