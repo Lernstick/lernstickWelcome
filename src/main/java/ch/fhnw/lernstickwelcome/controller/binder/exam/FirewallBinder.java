@@ -63,6 +63,9 @@ public class FirewallBinder {
     /**
      * Method to initialize the handlers for this class.
      *
+     * @param depWarningDialog the dialog if we want to open the dependency
+     * validator dialog but have changes in the table.
+     * @param depValidStage the dependency validator dialog.
      * @param errorDialog the dialog that should be shown on error.
      * @param error the controller which the error message can be provided.
      */
@@ -72,16 +75,15 @@ public class FirewallBinder {
             try {
                 if (firewallStateChanged()) {
                     controller.getFirewall().toggleFirewallState();
-
-                    if (controller.getFirewall().firewallRunningProperty().get()) {
-                        firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
-                        firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
-                        firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
-                    } else {
-                        firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
-                        firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_on");
-                        firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
-                    }
+                }
+                if (controller.getFirewall().firewallRunningProperty().get()) {
+                    firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
+                    firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
+                    firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
+                } else {
+                    firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
+                    firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_on");
+                    firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
                 }
             } catch (ProcessingException ex) {
                 error.initErrorMessage(ex);
@@ -96,12 +98,13 @@ public class FirewallBinder {
         });
 
         firewall.getBtCheckForDep().setOnAction(evt -> {
-            if(controller.getFirewall().hasUnsavedUrls())
+            if (controller.getFirewall().hasUnsavedUrls()) {
                 depWarningDialog.show();
-            else
+            } else {
                 depValidStage.show();
-            });
-        
+            }
+        });
+
         // Init default value because handler isn't fired the first time.
         if (controller.getFirewall().firewallRunningProperty().get()) {
             firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));

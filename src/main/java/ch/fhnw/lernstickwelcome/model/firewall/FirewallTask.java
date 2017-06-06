@@ -37,6 +37,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -133,7 +134,8 @@ public class FirewallTask implements Processable<String> {
      * firewall.
      */
     private void updateFirewallState() {
-        firewallRunning.set(PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0);
+        boolean running = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0;
+        Platform.runLater(() -> firewallRunning.set(running));
     }
 
     /**
