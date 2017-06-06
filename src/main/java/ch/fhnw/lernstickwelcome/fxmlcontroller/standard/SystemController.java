@@ -79,78 +79,31 @@ public class SystemController implements Initializable {
         cbVisibleFor.getItems().addAll(visibleForValues);
         cbVisibleFor.setEditable(true);
 
-        tfUsername.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!isAllowed(newValue)) {
-                    tfUsername.setText(oldValue);
-                }
-            }
-
-            private boolean isAllowed(String string) {
-                if ((string != null) && string.chars().anyMatch(
-                        c -> (c == ':') || (c == ',') || (c == '='))) {
-                    Toolkit.getDefaultToolkit().beep();
-                    return false;
-                }
-                return true;
-            }
-        });
-
-        tfExchangePartition.textProperty().addListener(new ChangeListener<String>() {
-            private final static int MAX_CHARS = 11;
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue == null) {
-                    return;
-                }
-                // only allow ASCII input
-                if (!isASCII(newValue)) {
-                    tfExchangePartition.setText(oldValue);
-                    return;
-                }
-
-                if (getSpecialLength(newValue) <= MAX_CHARS) {
-                    tfExchangePartition.setText(newValue);
-                } else {
-                    tfExchangePartition.setText(oldValue);
-                    Toolkit.getDefaultToolkit().beep();
-                }
-            }
-
-            private boolean isASCII(String string) {
-                for (int i = 0, length = string.length(); i < length; i++) {
-                    char character = string.charAt(i);
-                    if ((character < 0) || (character > 127)) {
-                        return false;
+        tfUsername.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (!isChangeUsernameAllowed(newValue)) {
+                        tfUsername.setText(oldValue);
                     }
-                }
-                return true;
-            }
+                });
 
-            private int getSpecialLength(String string) {
-                // follow special rules for VFAT labels
-                int count = 0;
-                for (int i = 0, length = string.length(); i < length; i++) {
-                    char character = string.charAt(i);
-                    if ((character >= 0) && (character <= 127)) {
-                        // ASCII
-                        if ((character == 39) || (character == 96)) {
-                            // I have no idea why those both characters take up 3 bytes
-                            // but they really do...
-                            count += 3;
-                        } else {
-                            count++;
-                        }
+        tfExchangePartition.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue == null) {
+                        return;
+                    }
+                    // only allow ASCII input
+                    if (!isASCII(newValue)) {
+                        tfExchangePartition.setText(oldValue);
+                        return;
+                    }
+
+                    if (getSpecialLength(newValue) <= 11) {
+                        tfExchangePartition.setText(newValue);
                     } else {
-                        // non ASCII
-                        count += 2;
+                        tfExchangePartition.setText(oldValue);
+                        Toolkit.getDefaultToolkit().beep();
                     }
-                }
-                return count;
-            }
-        });
+                });
 
         if (!WelcomeUtil.isImageWritable()) {
             cbVisibleFor.setVisible(false);
@@ -162,6 +115,47 @@ public class SystemController implements Initializable {
         tfPort.disableProperty().bind(tsProxy.selectedProperty().not());
         tfPwd.disableProperty().bind(tsProxy.selectedProperty().not());
         tfUser.disableProperty().bind(tsProxy.selectedProperty().not());
+    }
+
+    private boolean isChangeUsernameAllowed(String string) {
+        if ((string != null) && string.chars().anyMatch(c
+                -> (c == ':') || (c == ',') || (c == '='))) {
+            Toolkit.getDefaultToolkit().beep();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isASCII(String string) {
+        for (int i = 0, length = string.length(); i < length; i++) {
+            char character = string.charAt(i);
+            if ((character < 0) || (character > 127)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int getSpecialLength(String string) {
+        // follow special rules for VFAT labels
+        int count = 0;
+        for (int i = 0, length = string.length(); i < length; i++) {
+            char character = string.charAt(i);
+            if ((character >= 0) && (character <= 127)) {
+                // ASCII
+                if ((character == 39) || (character == 96)) {
+                    // I have no idea why those both characters take up 3 bytes
+                    // but they really do...
+                    count += 3;
+                } else {
+                    count++;
+                }
+            } else {
+                // non ASCII
+                count += 2;
+            }
+        }
+        return count;
     }
 
     private static class SecondStringConverter extends StringConverter<Number> {

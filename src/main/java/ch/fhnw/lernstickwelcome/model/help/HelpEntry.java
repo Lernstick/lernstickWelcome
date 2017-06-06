@@ -66,8 +66,7 @@ public class HelpEntry implements Comparable<HelpEntry> {
 
     @Override
     public int hashCode() {
-        // Could be changed to path != null ? path.hashCode() : super.hashCode()
-        return super.hashCode();
+        return path != null ? path.hashCode() : super.hashCode();
     }
 
     @Override

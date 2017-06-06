@@ -105,6 +105,7 @@ public class FirewallController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -114,7 +115,7 @@ public class FirewallController implements Initializable {
 
         // Set TableView WebsiteFilter cell properties and implement edit functionality
         tcSitesPattern.setCellValueFactory(p -> p.getValue().searchPatternProperty());
-        tcSitesPattern.setCellFactory(ComboBoxTableCell.forTableColumn(getSearchPatternStringConverter(), WebsiteFilter.SearchPattern.values()));
+        tcSitesPattern.setCellFactory(ComboBoxTableCell.forTableColumn(new SearchPatternStringConverter(rb), WebsiteFilter.SearchPattern.values()));
         tcSitesPattern.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                 .searchPatternProperty().setValue(e.getNewValue()));
         tcSitesCriteria.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
@@ -133,25 +134,25 @@ public class FirewallController implements Initializable {
             try {
                 WelcomeUtil.checkTarget((String) s, i);
                 return null;
-            } catch(TableCellValidationException ex) {
+            } catch (TableCellValidationException ex) {
                 return ex;
             }
         }, rb));
-        tcServerIp.setOnEditCommit(e -> 
-                e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tcServerIp.setOnEditCommit(e
+                -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .ipAddressProperty().setValue(e.getNewValue()));
         tcServerIp.setCellValueFactory(p -> p.getValue().ipAddressProperty());
         tcServerPort.setCellFactory(ValidatableTextFieldCell.forTableColumn((s, i) -> {
             try {
                 WelcomeUtil.checkPortRange((String) s, i);
                 return null;
-            } catch(TableCellValidationException ex) {
+            } catch (TableCellValidationException ex) {
                 return ex;
             }
         }, rb));
         tcServerPort.setCellValueFactory(p -> p.getValue().portProperty());
-        tcServerPort.setOnEditCommit(e -> 
-                e.getTableView().getItems().get(e.getTablePosition().getRow())
+        tcServerPort.setOnEditCommit(e
+                -> e.getTableView().getItems().get(e.getTablePosition().getRow())
                         .portProperty().setValue(e.getNewValue()));
         tcServerDesc.setCellValueFactory(p -> p.getValue().descriptionProperty());
         tcServerDesc.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -161,30 +162,38 @@ public class FirewallController implements Initializable {
         tcServerDelete.setCellFactory(p -> new FirewallDeleteButtonCell(this, p.getTableView()));
 
         // Load ComboBox data
-        cbAddEditPattern.setConverter(getSearchPatternStringConverter());
+        cbAddEditPattern.setConverter(new SearchPatternStringConverter(rb));
         cbAddEditPattern.getItems().addAll(WebsiteFilter.SearchPattern.values());
         cbAddEditProtocol.getItems().addAll(IpFilter.Protocol.values());
     }
 
-    private StringConverter<SearchPattern> getSearchPatternStringConverter() {
-        return new StringConverter<SearchPattern>() {
-            @Override
-            public String toString(SearchPattern t) {
-                return rb.getString(t.toString());
-            }
+    private static class SearchPatternStringConverter extends StringConverter<SearchPattern> {
 
-            @Override
-            public SearchPattern fromString(String string) {
-                if(rb.getString(SearchPattern.Exact.toString()).equals(string))
-                    return SearchPattern.Exact;
-                if(rb.getString(SearchPattern.StartsWith.toString()).equals(string))
-                    return SearchPattern.StartsWith;
-                if(rb.getString(SearchPattern.Contains.toString()).equals(string))
-                    return SearchPattern.Contains;
-                return SearchPattern.Custom;
-            }
+        private ResourceBundle rb;
 
-        };
+        private SearchPatternStringConverter(ResourceBundle rb) {
+            this.rb = rb;
+        }
+
+        @Override
+        public String toString(SearchPattern t) {
+            return rb.getString(t.toString());
+        }
+
+        @Override
+        public SearchPattern fromString(String string) {
+            if (rb.getString(SearchPattern.Exact.toString()).equals(string)) {
+                return SearchPattern.Exact;
+            }
+            if (rb.getString(SearchPattern.StartsWith.toString()).equals(string)) {
+                return SearchPattern.StartsWith;
+            }
+            if (rb.getString(SearchPattern.Contains.toString()).equals(string)) {
+                return SearchPattern.Contains;
+            }
+            return SearchPattern.Custom;
+        }
+
     }
 
     @FXML
@@ -195,8 +204,7 @@ public class FirewallController implements Initializable {
                 tvAllowedSites.getItems().add(new WebsiteFilter(
                         cbAddEditPattern.getValue(),
                         tfAddEditCriteria.getText()));
-            }
-            // Edit
+            } // Edit
             else {
                 WebsiteFilter element = (WebsiteFilter) tvAllowedSites.getItems().get(indexSaveWebsiteFilter);
                 element.searchPatternProperty().set(cbAddEditPattern.getValue());
@@ -212,7 +220,7 @@ public class FirewallController implements Initializable {
 
     @FXML
     private void onClickNewServerRule(MouseEvent event) {
-        if(validateServerFields()) {
+        if (validateServerFields()) {
             // Add to table
             if (btAddEditServer.getStyleClass().contains("btn_add")) {
                 tvAllowedServers.getItems().add(new IpFilter(
@@ -220,8 +228,7 @@ public class FirewallController implements Initializable {
                         tfAddEditIp.getText(),
                         tfAddEditPort.getText(),
                         tfAddEditDesc.getText()));
-            }
-            // Edit
+            } // Edit
             else {
                 IpFilter element = (IpFilter) tvAllowedServers.getItems().get(indexSaveIpFilter);
                 element.protocolProperty().set(cbAddEditProtocol.getValue());
@@ -319,7 +326,7 @@ public class FirewallController implements Initializable {
         try {
             WelcomeUtil.checkTarget(tfAddEditIp.getText(), -1);
             tfAddEditIp.getStyleClass().remove("error");
-        } catch(ValidationException ex) {
+        } catch (ValidationException ex) {
             tfAddEditIp.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
             tfAddEditIp.getStyleClass().add("error");
             result = false;
@@ -327,7 +334,7 @@ public class FirewallController implements Initializable {
         try {
             WelcomeUtil.checkPortRange(tfAddEditPort.getText(), -1);
             tfAddEditPort.getStyleClass().remove("error");
-        } catch(ValidationException ex) {
+        } catch (ValidationException ex) {
             tfAddEditPort.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
             tfAddEditPort.getStyleClass().add("error");
             result = false;
@@ -339,9 +346,13 @@ public class FirewallController implements Initializable {
         return helpButton;
     }
 
+    public int getIndexSaveWebsiteFilter() {
+        return indexSaveWebsiteFilter;
+    }
 
-    public int getIndexSaveWebsiteFilter() { return indexSaveWebsiteFilter; }
-    public int getIndexSaveIpFilter() { return indexSaveIpFilter; }
+    public int getIndexSaveIpFilter() {
+        return indexSaveIpFilter;
+    }
 
     public void setIndexSaveWebsiteFilter(int i) {
         indexSaveWebsiteFilter = i;
