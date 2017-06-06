@@ -96,7 +96,6 @@ public class InstallPreparationTask implements Processable<String> {
             String logMessage = "apt-get failed with the following "
                     + "output:\n" + aptGetOutput;
             LOGGER.severe(logMessage);
-            // TODO Find good solution for this 
             // We dont want to throw an exception because he couldn't update
             // throw new ProcessingException("InstallPreparationTask.aptGetFailed", aptGetOutput); 
         }

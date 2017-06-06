@@ -29,7 +29,6 @@ public class FirewallDeleteButtonCell extends ButtonCell<WebsiteFilter, WebsiteF
 
     public FirewallDeleteButtonCell(FirewallController fwc, TableView table) {
         super("btn_delete", (c, e) -> {
-            Button b = (Button) e.getSource();
 
             // Exit edit mode if deleting entry
             if (table == fwc.getTvAllowedSites() && fwc.getIndexSaveWebsiteFilter() == c.getIndex()) {

@@ -40,7 +40,6 @@ public class FirewallEditButtonCell extends ButtonCell<WebsiteFilter, WebsiteFil
      */
     public FirewallEditButtonCell(FirewallController fwc, TableView table) {
         super("btn_edit", (c, e) -> {
-            Button b = (Button) e.getSource();
             if (table == fwc.getTvAllowedSites()) {
                 // Prepare view for edit
                 WebsiteFilter element = (WebsiteFilter) table.getItems().get(c.getIndex());

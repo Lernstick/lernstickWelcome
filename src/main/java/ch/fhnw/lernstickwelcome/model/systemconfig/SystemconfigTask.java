@@ -869,10 +869,13 @@ public class SystemconfigTask implements Processable<String> {
                     blockKdeDesktopApplets.get() ? "true" : "false");
 
             updateProgress(5, 6);
-            updateMessage("SystemconfigTask.password");
+            // Change password should only be run in exam env.
+            if(isExamEnv) {
+                updateMessage("SystemconfigTask.password");
 
-            // Update password
-            changePassword();
+                // Update password
+                changePassword();
+            }
 
             updateProgress(6, 6);
 

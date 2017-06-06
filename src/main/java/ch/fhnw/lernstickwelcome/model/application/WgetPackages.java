@@ -31,7 +31,6 @@ import java.util.logging.Logger;
  * @author sschw
  */
 public class WgetPackages extends ApplicationPackages {
-    private final static Logger LOGGER = Logger.getLogger(WgetPackages.class.getName());
     private String fetchUrl;
     private String saveDir;
     
@@ -43,8 +42,8 @@ public class WgetPackages extends ApplicationPackages {
     
     public WgetPackages(String packageName[], String fetchUrl, String saveDir) {
         this(packageName, fetchUrl);
-        // XXX The XML provides variable USER_HOME as string.
-        // XXX We replace it here
+        // The XML provides variable USER_HOME as string.
+        // We replace it here
         if("USER_HOME".equals(saveDir))
             this.saveDir = WelcomeConstants.USER_HOME;
         else

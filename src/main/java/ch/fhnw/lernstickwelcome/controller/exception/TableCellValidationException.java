@@ -34,6 +34,8 @@ public class TableCellValidationException extends ValidationException {
     
     public TableCellValidationException(String message, int row, int col, Object... details) {
         super(message, details);
+        this.row = row;
+        this.col = col;
     }
     
     public int getRow() {

@@ -31,5 +31,5 @@ public interface Processable<T> {
      * Return a new instance of a task representing the {@link Processable}.
      * @return new Instance of the Task representing the {@link Processable}
      */
-    public abstract Task<T> newTask();
+    Task<T> newTask();
 }

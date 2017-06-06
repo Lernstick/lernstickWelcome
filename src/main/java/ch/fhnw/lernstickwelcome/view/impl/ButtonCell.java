@@ -32,7 +32,7 @@ public class ButtonCell<T, U> extends TableCell<T, U> {
     protected Button btn;
     
     @FunctionalInterface
-    public static interface ButtonCellEventHandler {
+    public interface ButtonCellEventHandler {
         void handle(ButtonCell cell, ActionEvent evt);
     }
 

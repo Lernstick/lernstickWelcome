@@ -29,7 +29,6 @@ public class FirewallOpenButtonCell extends ButtonCell<WebsiteFilter, WebsiteFil
 
     public FirewallOpenButtonCell(TableView<WebsiteFilter> table) {
         super("btn_browse", (c, e) -> {
-            Button b = (Button) e.getSource();
             WebsiteFilter pattern = table.getItems().get(c.getTableRow().getIndex());
             WelcomeUtil.openLinkInBrowser(pattern.searchCriteriaProperty().get());
         });

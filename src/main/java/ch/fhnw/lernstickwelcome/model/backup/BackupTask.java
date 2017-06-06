@@ -374,7 +374,8 @@ public class BackupTask implements Processable<String> {
             updateProgress(0, 2);
             updateTitle("BackupTask.title");
             updateMessage("BackupTask.setupMessage");
-            if (checkBackupDirectory()) { // XXX move validation to controller
+            // XXX Move validation to controller/util to check it in GUI.
+            if (checkBackupDirectory()) { 
                 if (!local.get()
                         || destinationPath.get() == null
                         || destinationPath.get().isEmpty()) {
