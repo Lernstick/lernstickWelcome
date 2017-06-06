@@ -108,7 +108,7 @@ public class FirewallTask implements Processable<String> {
     public void toggleFirewallState() throws ProcessingException {
         String action = firewallRunning.get() ? "stop" : "start";
         int ret = PROCESS_EXECUTOR.executeProcess(true, true, "lernstick-firewall", action);
-
+        
         if (ret == 0) {
             firewallRunning.set(!firewallRunning.get());
             // check firewall state

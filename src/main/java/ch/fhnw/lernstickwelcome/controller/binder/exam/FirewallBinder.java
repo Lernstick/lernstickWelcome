@@ -86,6 +86,7 @@ public class FirewallBinder {
                     firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
                 }
             } catch (ProcessingException ex) {
+                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
                 error.initErrorMessage(ex);
                 errorDialog.show();
             }
