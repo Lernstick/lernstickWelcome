@@ -36,6 +36,8 @@ public class ProcessingException extends Exception {
     }
     
     public Object[] getMessageDetails() {
-        return Arrays.copyOf(details, details.length);
+        if(details != null)
+            return Arrays.copyOf(details, details.length);
+        return new Object[0];
     }
 }
