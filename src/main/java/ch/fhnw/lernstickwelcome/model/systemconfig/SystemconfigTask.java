@@ -117,7 +117,8 @@ public class SystemconfigTask implements Processable<String> {
 
         // Load properties
         blockKdeDesktopApplets.set("true".equals(properties.getProperty(WelcomeConstants.KDE_LOCK)));
-        passwordChanged = "true".equals(properties.getProperty(WelcomeConstants.PASSWORD_CHANGED));
+        if(isExamEnv)
+            passwordChanged = "true".equals(properties.getProperty(WelcomeConstants.PASSWORD_CHANGED));
         allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
         // Load Sound Output
         directSoundOutput.set(!Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE));
