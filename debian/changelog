@@ -1,3 +1,27 @@
+lernstickwelcome (201706171022-1) lernstick-8; urgency=medium
+
+  [ Sandro Schwager ]
+  * Fixed jbackpack update and refactored findbugs errors.
+  * Refactored suggestions of pmd.
+  * Load password specific data only in exam env.
+  * Some refactoring with stricter findbugs rules.
+  * Fixed update of firewall state if it's changed outside of application
+  * Fixed small bug caused by changes for FindBugs.
+  * Removed unused imports.
+  * Added that the firewall state is changed back, if an exception happened in the backend.
+  * Removed unused imports.
+
+  [ valendinosaurus ]
+  * typofixes italian bundle
+
+  [ Ronny Standtke ]
+  * updated todo
+  * simplified layout
+  * use same insets in system panel as in all other panels
+  * updated backup panel
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 17 Jun 2017 10:21:56 +0200
+
 lernstickwelcome (201706051822-1) lernstick-8; urgency=medium
 
   * [b18817] adapted unit test to new application tags
