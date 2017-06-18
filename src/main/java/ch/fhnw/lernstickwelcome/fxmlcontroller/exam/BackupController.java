@@ -22,9 +22,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -37,72 +40,179 @@ import javafx.util.StringConverter;
  */
 public class BackupController implements Initializable {
 
-    private final static Integer[] backupFrequency = new Integer[] { 1, 2, 3, 4, 5, 10, 15, 30, 60 };
+    private final static Integer[] BACKUP_FREQUENCIES
+            = new Integer[]{1, 2, 3, 4, 5, 10, 15, 30, 60};
 
     @FXML
-    private Button btHelp;
+    private Button helpButton;
     @FXML
-    private ToggleSwitch tsBackup;
+    private ToggleSwitch backupToggleSwitch;
     @FXML
-    private ComboBox<Number> cbMinutes;
+    private Label frequencyLabel;
     @FXML
-    private ToggleSwitch tsScreenshot;
+    private ComboBox<Number> frequencyComboBox;
     @FXML
-    private TextField tfSrcPath;
+    private Label screenshotsLabel;
     @FXML
-    private Button btSrcPath;
+    private ToggleSwitch screenshotsToggleSwitch;
     @FXML
-    private ToggleSwitch tsUseLocal;
+    private TitledPane sourceTitledPane;
     @FXML
-    private TextField tfDestPath;
+    private TextField sourceTextField;
     @FXML
-    private Button btDestPath;
+    private Button sourceButton;
     @FXML
-    private ToggleSwitch tsUseRemote;
+    private TitledPane destinationsTitledPane;
     @FXML
-    private ComboBox<?> cbMedium;
+    private ToggleSwitch localToggleSwitch;
     @FXML
-    private TextField tfRemotePath;
+    private Label destinationFolderLabel;
     @FXML
-    private Button btRemotePath;
-    
-    /**
-     * Initializes the controller class.
-     */
+    private TextField destinationFolderTextField;
+    @FXML
+    private Button destinationFolderButton;
+    @FXML
+    private ToggleSwitch externalPartitionToggleSwitch;
+    @FXML
+    private Label externalPartitionLabel;
+    @FXML
+    private TextField externalPartitionTextField;
+    @FXML
+    private Button externalPartitionButton;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbMinutes.setConverter(new MinutesStringConverter(rb));
-        // Currently not supported
-        cbMedium.setVisible(false);
-        cbMedium.setEditable(true);
-        
-        cbMinutes.getItems().addAll(backupFrequency);
-        cbMinutes.setEditable(true);
-        
-        // Bind options
-        tsScreenshot.disableProperty().bind(tsBackup.selectedProperty().not());
-        tfSrcPath.disableProperty().bind(tsBackup.selectedProperty().not());
-        btSrcPath.disableProperty().bind(tsBackup.selectedProperty().not());
-        tfDestPath.disableProperty().bind(tsBackup.selectedProperty().not().or(tsUseLocal.selectedProperty().not()));
-        btDestPath.disableProperty().bind(tsBackup.selectedProperty().not());
-        tsUseLocal.disableProperty().bind(tsBackup.selectedProperty().not());
-        tfRemotePath.disableProperty().bind(tsBackup.selectedProperty().not().or(tsUseRemote.selectedProperty().not()));
-        btRemotePath.disableProperty().bind(tsBackup.selectedProperty().not());
-        tsUseRemote.disableProperty().bind(tsBackup.selectedProperty().not());
-        cbMedium.disableProperty().bind(tsBackup.selectedProperty().not());
-        cbMinutes.disableProperty().bind(tsBackup.selectedProperty().not());
+
+        frequencyComboBox.setConverter(new MinutesStringConverter(rb));
+        frequencyComboBox.getItems().addAll(BACKUP_FREQUENCIES);
+
+        bindDisabledPropertyToBackupToggleSwitch(frequencyLabel);
+        bindDisabledPropertyToBackupToggleSwitch(frequencyComboBox);
+        bindDisabledPropertyToBackupToggleSwitch(screenshotsLabel);
+        bindDisabledPropertyToBackupToggleSwitch(screenshotsToggleSwitch);
+        bindDisabledPropertyToBackupToggleSwitch(sourceTitledPane);
+        bindDisabledPropertyToBackupToggleSwitch(destinationsTitledPane);
+
+        bindDisabledPropertyToLocalToggleSwitch(destinationFolderLabel);
+        bindDisabledPropertyToLocalToggleSwitch(destinationFolderTextField);
+        bindDisabledPropertyToLocalToggleSwitch(destinationFolderButton);
+
+        bindDisabledPropertyToExternalToggleSwitch(externalPartitionLabel);
+        bindDisabledPropertyToExternalToggleSwitch(externalPartitionTextField);
+        bindDisabledPropertyToExternalToggleSwitch(externalPartitionButton);
     }
-    
-    private static class MinutesStringConverter extends StringConverter<Number> {
-        String minutes;
-        
-        private MinutesStringConverter(ResourceBundle rb) {
-            if(rb != null)
-                minutes = rb.getString("welcomeApplicationBackup.minutes");
-            else
-                minutes = "";
+
+    @FXML
+    private void onClickSetBackupPath(MouseEvent event) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose Backup Path");
+        File file = chooser.showDialog(new Stage());
+
+        if (file != null) {
+            sourceTextField.textProperty().set(file.getPath());
         }
-            
+    }
+
+    @FXML
+    private void onClickSetRemotePartition(MouseEvent event) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Choose Remote Partition");
+        File file = chooser.showDialog(new Stage());
+
+        if (file != null) {
+            externalPartitionTextField.setText(file.getPath());
+        }
+    }
+
+    @FXML
+    private void onClickSetLocalFolder(MouseEvent event) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Set Local Folder");
+        File file = chooser.showDialog(new Stage());
+
+        if (file != null) {
+            destinationFolderTextField.setText(file.getPath());
+        }
+    }
+
+    public Button getHelpButton() {
+        return helpButton;
+    }
+
+    public ToggleSwitch getBackupToggleSwitch() {
+        return backupToggleSwitch;
+    }
+
+    public ToggleSwitch getScreenshotsToggleSwitch() {
+        return screenshotsToggleSwitch;
+    }
+
+    public TextField getSourceTextField() {
+        return sourceTextField;
+    }
+
+    public Button getSourceButton() {
+        return sourceButton;
+    }
+
+    public TextField getDestinationFolderTextField() {
+        return destinationFolderTextField;
+    }
+
+    public Button getDestinationFolderButton() {
+        return destinationFolderButton;
+    }
+
+    public ToggleSwitch getLocalToggleSwitch() {
+        return localToggleSwitch;
+    }
+
+    public TextField getExternalPartitionTextField() {
+        return externalPartitionTextField;
+    }
+
+    public Button getExternalPartitionButton() {
+        return externalPartitionButton;
+    }
+
+    public ToggleSwitch getExternalPartitionToggleSwitch() {
+        return externalPartitionToggleSwitch;
+    }
+
+    public ComboBox<Number> getFrequencyCombobox() {
+        return frequencyComboBox;
+    }
+
+    private void bindDisabledPropertyToBackupToggleSwitch(Node node) {
+        bindDisabledPropertyToToggleSwitch(node, backupToggleSwitch);
+    }
+
+    private void bindDisabledPropertyToLocalToggleSwitch(Node node) {
+        bindDisabledPropertyToToggleSwitch(node, localToggleSwitch);
+    }
+
+    private void bindDisabledPropertyToExternalToggleSwitch(Node node) {
+        bindDisabledPropertyToToggleSwitch(node, externalPartitionToggleSwitch);
+    }
+
+    private void bindDisabledPropertyToToggleSwitch(
+            Node node, ToggleSwitch toggleSwitch) {
+        node.disableProperty().bind(toggleSwitch.selectedProperty().not());
+    }
+
+    private static class MinutesStringConverter
+            extends StringConverter<Number> {
+
+        String minutes;
+
+        private MinutesStringConverter(ResourceBundle rb) {
+            if (rb != null) {
+                minutes = rb.getString("welcomeApplicationBackup.minutes");
+            } else {
+                minutes = "";
+            }
+        }
+
         @Override
         public String toString(Number v) {
             return v.intValue() + " " + minutes;
@@ -113,95 +223,4 @@ public class BackupController implements Initializable {
             return Integer.valueOf(string.split(" ")[0]);
         }
     }
-
-
-    @FXML
-    private void onClickSetBackupPath(MouseEvent event) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Choose Backup Path");
-        File file = chooser.showDialog(new Stage());
-
-        if(file!=null){
-             tfSrcPath.textProperty().set(file.getPath());
-        }
-    }
-    
-    @FXML
-    private void onClickSetRemotePartition(MouseEvent event) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Choose Remote Partition");
-        File file = chooser.showDialog(new Stage());
-
-        if(file!=null){
-             tfRemotePath.setText(file.getPath());
-        }
-    }
-
-    @FXML
-    private void onClickSetLocalFolder(MouseEvent event) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Set Local Folder");
-        File file = chooser.showDialog(new Stage());
-
-        if(file!=null){
-             tfDestPath.setText(file.getPath());
-        }
-    }
-
-    public Button getBtHelp() {
-        return btHelp;
-    }
-
-    public ToggleSwitch getTsBackup() {
-        return tsBackup;
-    }
-
-    public ToggleSwitch getTsScreenshot() {
-        return tsScreenshot;
-    }
-
-    public TextField getTfSrcPath() {
-        return tfSrcPath;
-    }
-
-    public Button getBtSrcPath() {
-        return btSrcPath;
-    }
-
-    public TextField getTfDestPath() {
-        return tfDestPath;
-    }
-
-    public Button getBtDestPath() {
-        return btDestPath;
-    }
-
-    public ToggleSwitch getTsUseLocal() {
-        return tsUseLocal;
-    }
-
-    public TextField getTfRemotePath() {
-        return tfRemotePath;
-    }
-
-    public Button getBtRemotePath() {
-        return btRemotePath;
-    }
-
-    public ToggleSwitch getTsUseRemote() {
-        return tsUseRemote;
-    }
-
-    public ComboBox<?> getCbMedium() {
-        return cbMedium;
-    }
-
-    public ComboBox<Number> getCbMinutes() {
-        return cbMinutes;
-    }
-    
-    public Button getBtnBuHelp() {
-        return btHelp;
-    }
-    
 }

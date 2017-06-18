@@ -26,7 +26,7 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="btHelp" alignment="CENTER_RIGHT" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" />
+            <Button fx:id="helpButton" alignment="CENTER_RIGHT" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" />
          </children>
       </HBox>
       <GridPane hgap="10.0" vgap="10.0">
@@ -45,25 +45,25 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ToggleSwitch fx:id="tsBackup" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
-            <Label text="%Every" GridPane.rowIndex="1" />
-            <ComboBox fx:id="cbMinutes" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <Label text="%welcomeApplicationBackup.saveScreenshot" GridPane.rowIndex="2" />
-            <ToggleSwitch fx:id="tsScreenshot" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <ToggleSwitch fx:id="backupToggleSwitch" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+            <Label fx:id="frequencyLabel" text="%Every" GridPane.rowIndex="1" />
+            <ComboBox fx:id="frequencyComboBox" editable="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label fx:id="screenshotsLabel" text="%welcomeApplicationBackup.saveScreenshot" GridPane.rowIndex="2" />
+            <ToggleSwitch fx:id="screenshotsToggleSwitch" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <TitledPane animated="false" collapsible="false" text="%Source">
+      <TitledPane fx:id="sourceTitledPane" animated="false" collapsible="false" text="%Source">
          <content>
             <HBox spacing="10.0">
                <children>
                   <Label maxHeight="1.7976931348623157E308" text="%welcomeApplicationBackup.path" />
-                  <TextField fx:id="tfSrcPath" maxHeight="30.0" minHeight="30.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btSrcPath" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetBackupPath" styleClass="btn_open" />
+                  <TextField fx:id="sourceTextField" maxHeight="30.0" minHeight="30.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="sourceButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetBackupPath" styleClass="btn_open" />
                </children>
             </HBox>
          </content>
       </TitledPane>
-      <TitledPane animated="false" collapsible="false" text="%Destination">
+      <TitledPane fx:id="destinationsTitledPane" animated="false" collapsible="false" text="%Destinations">
          <content>
             <GridPane hgap="10.0" vgap="10.0">
                <columnConstraints>
@@ -80,19 +80,18 @@
                <children>
                   <HBox GridPane.columnSpan="2147483647">
                       <Label prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationBackup.useLocalFolder" />
-                      <ToggleSwitch fx:id="tsUseLocal" />
+                      <ToggleSwitch fx:id="localToggleSwitch" />
                   </HBox>
-                  <Label text="%welcomeApplicationBackup.path" GridPane.rowIndex="1" />
-                  <TextField fx:id="tfDestPath" maxHeight="30.0" minHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                  <Button fx:id="btDestPath" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetLocalFolder" styleClass="btn_open" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label fx:id="destinationFolderLabel" text="%welcomeApplicationBackup.path" GridPane.rowIndex="1" />
+                  <TextField fx:id="destinationFolderTextField" maxHeight="30.0" minHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <Button fx:id="destinationFolderButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetLocalFolder" styleClass="btn_open" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
-                      <Label prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationBackup.useRemotePartition" />
-                      <ToggleSwitch fx:id="tsUseRemote" />
+                      <Label prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationBackup.useExternalPartition" />
+                      <ToggleSwitch fx:id="externalPartitionToggleSwitch" />
                   </HBox>
-                  <Label text="%welcomeApplicationBackup.path" GridPane.rowIndex="3" />
-                  <ComboBox fx:id="cbMedium" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="tfRemotePath" maxHeight="30.0" minHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-                  <Button fx:id="btRemotePath" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetRemotePartition" styleClass="btn_open" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Label fx:id="externalPartitionLabel" text="%Label" GridPane.rowIndex="3" />
+                  <TextField fx:id="externalPartitionTextField" maxHeight="30.0" minHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <Button fx:id="externalPartitionButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetRemotePartition" styleClass="btn_open" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </content>
