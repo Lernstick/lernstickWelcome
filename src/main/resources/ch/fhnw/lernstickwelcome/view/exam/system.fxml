@@ -24,10 +24,10 @@
                         <Font name="System Bold" size="20.0" />
                     </font>
                 </Label>
-                <Button fx:id="btHelp" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" stylesheets="@../../../../../css/style.css" />
+                <Button fx:id="helpButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" stylesheets="@../../../../../css/style.css" />
             </children>
         </HBox>
-        <TitledPane expanded="false" text="%Boot_Menu">
+        <TitledPane fx:id="bootMenuTitledPane" expanded="false" text="%Boot_Menu">
             <content>
                 <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
@@ -41,16 +41,16 @@
                     </rowConstraints>
                     <children>
                         <Label text="%welcomeApplicationSystem.systemname" />
-                        <TextField fx:id="tfSystemName" maxHeight="30.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="systemNameTextField" maxHeight="30.0" GridPane.columnIndex="1" />
                         <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
-                        <TextField fx:id="tfSystemVersion" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="systemVersionTextField" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="cbVisibleFor" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="timeoutComboBox" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
             </content>
         </TitledPane>
-        <TitledPane expanded="false" text="%User">
+        <TitledPane fx:id="userTitledPane" expanded="false" text="%User">
             <content>
                 <VBox spacing="10.0">
                     <children>
@@ -66,11 +66,11 @@
                             </rowConstraints>
                             <children>
                                 <Label text="%welcomeApplicationSystem.userName" />
-                                <TextField fx:id="tfUsername" GridPane.columnIndex="1" />
+                                <TextField fx:id="userNameTextField" GridPane.columnIndex="1" />
                                 <Label text="%welcomeApplicationSystem.newPassword1" GridPane.rowIndex="1" />
-                                <PasswordField fx:id="pfPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <PasswordField fx:id="newPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="%welcomeApplicationSystem.newPassword2" GridPane.rowIndex="2" />
-                                <PasswordField fx:id="pfPasswordRepeat" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <PasswordField fx:id="repeatPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                             </children>
                         </GridPane>
                         <GridPane hgap="10.0" vgap="10.0">
@@ -84,26 +84,26 @@
                             </rowConstraints>
                             <children>
                                 <Label text="%welcomeApplicationSystem.PlasmaDesktopApplets" GridPane.rowIndex="1" />
-                                <ToggleSwitch fx:id="tsBlockKde" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <ToggleSwitch fx:id="blockKdeToggleSwitch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="%welcomeApplicationSystem.accessFileSystem" />
-                                <ToggleSwitch fx:id="tsAllowFileSystems" GridPane.columnIndex="1" />
+                                <ToggleSwitch fx:id="allowFileSystemsToggleSwitch" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
                     </children>
                 </VBox>
             </content>
         </TitledPane>
-        <TitledPane expanded="false" text="%System">
+        <TitledPane fx:id="systemTitledPane" expanded="false" text="%System">
             <content>
                 <HBox>
                     <children>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationSystem.soundOutput" HBox.hgrow="ALWAYS" />
-                        <ToggleSwitch fx:id="tsDirectSound" />
+                        <ToggleSwitch fx:id="directSoundToggleSwitch" />
                     </children>
                 </HBox>
             </content>
         </TitledPane>
-        <TitledPane expanded="false" text="%Partitions">
+        <TitledPane fx:id="partitionsTitledPane" expanded="false" text="%Partitions">
             <content>
                 <VBox spacing="10.0">
                     <children>
@@ -114,13 +114,13 @@
                                         <HBox spacing="10.0">
                                             <children>
                                                 <Label maxHeight="1.7976931348623157E308" text="%Name" />
-                                                <TextField fx:id="tfExchangePartition" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                                <TextField fx:id="exchangePartitionTextField" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
                                         <HBox spacing="10.0">
                                             <children>
                                                 <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationSystem.accessbyUser" HBox.hgrow="ALWAYS" />
-                                                <ToggleSwitch fx:id="tsAccessUser" />
+                                                <ToggleSwitch fx:id="userExchangeAccessToggleSwitch" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -140,9 +140,9 @@
                                     </rowConstraints>
                                     <children>
                                         <Label text="%welcomeApplicationSystem.startWA" />
-                                        <ToggleSwitch fx:id="tsStartWa" GridPane.columnIndex="1" />
+                                        <ToggleSwitch fx:id="startWelcomeApplicationToggleSwitch" GridPane.columnIndex="1" />
                                         <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="1" />
-                                        <ToggleSwitch fx:id="tsShowWarning" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <ToggleSwitch fx:id="readOnlyWarningToggleSwitch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     </children>
                                 </GridPane>
                             </content>

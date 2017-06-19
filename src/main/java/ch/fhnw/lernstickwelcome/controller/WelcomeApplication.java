@@ -240,6 +240,7 @@ public final class WelcomeApplication extends Application {
                             guiLoader.getInfotextdialog(primaryStage, 
                                     "WelcomeApplication.Warning_Mount_Allowed", e -> {
                                 guiLoader.getMainController().setView(3);
+                                guiLoader.getSystemExamController().showMediaAccessConfig();
                                 ((Stage) ((Node)e.getSource()).getScene().getWindow()).close();
                                 evt.consume();
                             }).showAndWait();

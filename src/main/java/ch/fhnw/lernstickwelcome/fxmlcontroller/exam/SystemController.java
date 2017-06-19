@@ -21,14 +21,17 @@ import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
 /**
@@ -39,77 +42,179 @@ import javafx.util.StringConverter;
 public class SystemController implements Initializable {
 
     @FXML
-    private Button btHelp;
+    private Button helpButton;
     @FXML
-    private TextField tfUsername;
+    private TitledPane bootMenuTitledPane;
     @FXML
-    private TextField tfSystemVersion;
+    private TextField systemNameTextField;
     @FXML
-    private TextField tfSystemName;
+    private TextField systemVersionTextField;
     @FXML
-    private PasswordField pfPassword;
+    private ComboBox<Number> timeoutComboBox;
     @FXML
-    private PasswordField pfPasswordRepeat;
+    private TitledPane userTitledPane;
     @FXML
-    private ComboBox<Number> cbVisibleFor;
+    private TextField userNameTextField;
     @FXML
-    private ToggleSwitch tsStartWa;
+    private PasswordField newPasswordField;
     @FXML
-    private ToggleSwitch tsDirectSound;
+    private PasswordField repeatPasswordField;
     @FXML
-    private ToggleSwitch tsBlockKde;
+    private ToggleSwitch allowFileSystemsToggleSwitch;
     @FXML
-    private ToggleSwitch tsAllowFileSystems;
+    private ToggleSwitch blockKdeToggleSwitch;
     @FXML
-    private TextField tfExchangePartition;
+    private TitledPane systemTitledPane;
     @FXML
-    private ToggleSwitch tsAccessUser;
+    private ToggleSwitch directSoundToggleSwitch;
     @FXML
-    private ToggleSwitch tsShowWarning;
+    private TitledPane partitionsTitledPane;
+    @FXML
+    private TextField exchangePartitionTextField;
+    @FXML
+    private ToggleSwitch userExchangeAccessToggleSwitch;
+    @FXML
+    private ToggleSwitch startWelcomeApplicationToggleSwitch;
+    @FXML
+    private ToggleSwitch readOnlyWarningToggleSwitch;
 
-    private final Integer[] visibleForValues = new Integer[]{5, 10, 15, 20, 25, 30, 40, 50, 60};
+    private final Integer[] visibleForValues
+            = new Integer[]{5, 10, 15, 20, 25, 30, 40, 50, 60};
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbVisibleFor.setConverter(new SecondStringConverter(rb));
-        cbVisibleFor.setEditable(true);
+        timeoutComboBox.setConverter(new SecondStringConverter(rb));
+        timeoutComboBox.setEditable(true);
 
-        tfUsername.textProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    if (!isChangeUsernameAllowed(newValue)) {
-                        tfUsername.setText(oldValue);
-                    }
-                });
+        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isChangeUsernameAllowed(newValue)) {
+                userNameTextField.setText(oldValue);
+            }
+        });
 
-        tfExchangePartition.textProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    if (newValue == null) {
-                        return;
-                    }
-                    // only allow ASCII input
-                    if (!isASCII(newValue)) {
-                        tfExchangePartition.setText(oldValue);
-                        return;
-                    }
+        exchangePartitionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                return;
+            }
+            // only allow ASCII input
+            if (!isASCII(newValue)) {
+                exchangePartitionTextField.setText(oldValue);
+                return;
+            }
 
-                    if (getSpecialLength(newValue) <= 11) {
-                        tfExchangePartition.setText(newValue);
-                    } else {
-                        tfExchangePartition.setText(oldValue);
-                        Toolkit.getDefaultToolkit().beep();
-                    }
-                });
+            if (getSpecialLength(newValue) <= 11) {
+                exchangePartitionTextField.setText(newValue);
+            } else {
+                exchangePartitionTextField.setText(oldValue);
+                Toolkit.getDefaultToolkit().beep();
+            }
+        });
 
-        cbVisibleFor.getItems().addAll(visibleForValues);
+        timeoutComboBox.getItems().addAll(visibleForValues);
 
         if (!WelcomeUtil.isImageWritable()) {
-            cbVisibleFor.setVisible(false);
-            tfSystemName.setDisable(true);
-            tfSystemVersion.setDisable(true);
+            timeoutComboBox.setVisible(false);
+            systemNameTextField.setDisable(true);
+            systemVersionTextField.setDisable(true);
         }
+    }
+
+    public TextField getSystemNameTextField() {
+        return systemNameTextField;
+    }
+
+    public TextField getSystemVersionTextField() {
+        return systemVersionTextField;
+    }
+
+    public TextField getUserNameTextField() {
+        return userNameTextField;
+    }
+
+    public TextField getNewPasswordField() {
+        return newPasswordField;
+    }
+
+    public TextField getRepeatPasswordField() {
+        return repeatPasswordField;
+    }
+
+    public ComboBox<Number> getTimeoutComboBox() {
+        return timeoutComboBox;
+    }
+
+    public ToggleSwitch getStartWelcomeApplicationToggleSwitch() {
+        return startWelcomeApplicationToggleSwitch;
+    }
+
+    public ToggleSwitch getDirectSoundToggleSwitch() {
+        return directSoundToggleSwitch;
+    }
+
+    public ToggleSwitch getBlockKdeToggleSwitch() {
+        return blockKdeToggleSwitch;
+    }
+
+    public ToggleSwitch getAllowFileSystemsToggleSwitch() {
+        return allowFileSystemsToggleSwitch;
+    }
+
+    public TextField getExchangePartitionTextField() {
+        return exchangePartitionTextField;
+    }
+
+    public ToggleSwitch getUserExchangeAccessToggleSwitch() {
+        return userExchangeAccessToggleSwitch;
+    }
+
+    public ToggleSwitch getReadOnlyWarningToggleSwitch() {
+        return readOnlyWarningToggleSwitch;
+    }
+
+    public Button getHelpButton() {
+        return helpButton;
+    }
+
+    public void showMediaAccessConfig() {
+        bootMenuTitledPane.expandedProperty().set(false);
+        userTitledPane.expandedProperty().set(true);
+        systemTitledPane.expandedProperty().set(false);
+        partitionsTitledPane.expandedProperty().set(false);
+
+        new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 5; i++) {
+                    highlight();
+                }
+            }
+
+            private void highlight() {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(150);
+
+                    Platform.runLater(() -> {
+                        int depth = 70;
+                        DropShadow borderGlow = new DropShadow();
+                        borderGlow.setOffsetY(0f);
+                        borderGlow.setOffsetX(0f);
+                        borderGlow.setColor(Color.RED);
+                        borderGlow.setWidth(depth);
+                        borderGlow.setHeight(depth);
+                        allowFileSystemsToggleSwitch.setEffect(borderGlow);
+                    });
+
+                    TimeUnit.MILLISECONDS.sleep(150);
+
+                    Platform.runLater(() -> {
+                        allowFileSystemsToggleSwitch.setEffect(null);
+                    });
+                } catch (InterruptedException ex) {
+                    // ignored...
+                }
+            }
+
+        }.start();
     }
 
     private boolean isChangeUsernameAllowed(String string) {
@@ -177,61 +282,5 @@ public class SystemController implements Initializable {
         public Number fromString(String string) {
             return Integer.valueOf(string.split(" ")[0]);
         }
-    }
-
-    public TextField getTfSystemName() {
-        return tfSystemName;
-    }
-
-    public TextField getTfSystemVersion() {
-        return tfSystemVersion;
-    }
-
-    public TextField getTfUsername() {
-        return tfUsername;
-    }
-
-    public TextField getTxt_sys_password() {
-        return pfPassword;
-    }
-
-    public TextField getTxt_sys_password_repeat() {
-        return pfPasswordRepeat;
-    }
-
-    public ComboBox<Number> getCbVisibleFor() {
-        return cbVisibleFor;
-    }
-
-    public ToggleSwitch getTsStartWa() {
-        return tsStartWa;
-    }
-
-    public ToggleSwitch getTsDirectSound() {
-        return tsDirectSound;
-    }
-
-    public ToggleSwitch getTsBlockKde() {
-        return tsBlockKde;
-    }
-
-    public ToggleSwitch getTsAllowFileSystems() {
-        return tsAllowFileSystems;
-    }
-
-    public TextField getTfExchangePartition() {
-        return tfExchangePartition;
-    }
-
-    public ToggleSwitch getTsAccessUser() {
-        return tsAccessUser;
-    }
-
-    public ToggleSwitch getTsShowWarning() {
-        return tsShowWarning;
-    }
-
-    public Button getBtnSysHelp() {
-        return btHelp;
     }
 }
