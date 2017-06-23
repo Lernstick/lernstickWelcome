@@ -1,10 +1,10 @@
-lernstickwelcome (201706232322-1) lernstick-8; urgency=medium
+lernstickwelcome (201706240111-1) lernstick-8; urgency=medium
 
   * [13edf0] improved enabling/disabling of nodes in backup panel, updated translations, code cleanup
   * [6715bf] code cleanup, highlighting media access button on exit warning
   * [f60ec2] updated todo
 
- -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 23 Jun 2017 23:22:27 +0200
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 24 Jun 2017 01:11:27 +0200
 
 lernstickwelcome (201706171022-1) lernstick-8; urgency=medium
 
