@@ -250,7 +250,8 @@ public final class WelcomeApplication extends Application {
                     LOGGER.log(Level.SEVERE, "Couldn't show dialogs", ex);
                 }
             });
-        } catch (IOException | ParserConfigurationException | SAXException ex) {
+        } catch (IllegalArgumentException | IOException 
+                | ParserConfigurationException | SAXException ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
         }

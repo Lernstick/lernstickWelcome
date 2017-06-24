@@ -18,6 +18,8 @@ package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -26,43 +28,48 @@ import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
- *
- * @author root
  */
 public class PasswordChangeController implements Initializable {
 
     @FXML
-    private Button btCancel;
+    private Button cancelButton;
     @FXML
-    private Button btOk;
+    private Button okButton;
     @FXML
-    private PasswordField pfPassword;
+    private PasswordField newPasswordField;
     @FXML
-    private PasswordField pfPasswordRepeat;
+    private PasswordField repeatPasswordField;
 
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btOk.disableProperty().bind(pfPassword.textProperty().isEmpty().or(pfPasswordRepeat.textProperty().isEmpty()));
-    }    
-    
-    public Button getBtOk() {
-        return btOk;
+
+        okButton.disableProperty().bind(
+                newPasswordField.textProperty().isEmpty().or(
+                        repeatPasswordField.textProperty().isEmpty()));
+
+        Platform.runLater(() -> {
+            newPasswordField.requestFocus();
+        });
     }
-    
-    public Button getBtCancel() {
-        return btCancel;
+
+    @FXML
+    void newPasswordFieldAction(ActionEvent event) {
+        repeatPasswordField.requestFocus();
     }
-    
-    public TextField getTxtPassword() {
-        return pfPassword;
+
+    public Button getOkButton() {
+        return okButton;
     }
-    
-    public TextField getTxtPasswordRepeat() {
-        return pfPasswordRepeat;
+
+    public Button getCancelButton() {
+        return cancelButton;
+    }
+
+    public TextField getNewPasswordField() {
+        return newPasswordField;
+    }
+
+    public TextField getRepeatPasswordField() {
+        return repeatPasswordField;
     }
 }
