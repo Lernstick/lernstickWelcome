@@ -1,6 +1,6 @@
 [Desktop Entry]
 Categories=X-lernstick;
-Exec=pkexec lernstickWelcome
+Exec=sh -c "pkexec /usr/bin/lernstickWelcome && true"
 Icon=dialog-information
 Name=Welcome to Lernstick
 Name[de]=Willkommen zum Lernstick
