@@ -1,3 +1,11 @@
+lernstickwelcome (201707031323-1) lernstick-8; urgency=medium
+
+  * resource bundle cleanup
+  * NetBeans project file update
+  * adapted desktop file for Debian 9
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 03 Jul 2017 13:23:44 +0200
+
 lernstickwelcome (201705191310-1) lernstick-8; urgency=medium
 
   * [481fc4] removed lernstick-wxmaxima (no longer needed)
