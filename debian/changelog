@@ -1,3 +1,9 @@
+lernstickwelcome (201708131348-1) lernstick-8; urgency=medium
+
+  * [461b64] added itch.io
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 13 Aug 2017 13:48:32 +0200
+
 lernstickwelcome (201708131126-1) lernstick-8; urgency=medium
 
   * [8754d0] replaced lernstick-wxmaxima (no longer needed, all changes applied
