@@ -631,6 +631,17 @@
             <tag>game</tag>
         </tags>
     </application>
+    <application name="itch.io">
+        <description>Itch_description</description>
+        <icon>itch</icon>
+        <help-path>Itch_description</help-path>
+        <packages>
+            <package type="aptget">itch</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
 
     <!-- nonfree (recommended) apps -->
 
