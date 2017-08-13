@@ -1,3 +1,13 @@
+lernstickwelcome (201708131116-1) lernstick-8; urgency=medium
+
+  [ Lode Vandevenne ]
+  * [1a84a9] fix a small typo in English
+
+  [ Ronny Standtke ]
+  * [cc76be] added GIMP to applications list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 13 Aug 2017 11:16:43 +0200
+
 lernstickwelcome (201706240953-1) lernstick-8; urgency=medium
 
   * [aaf65a] improved password change dialog (FXML, names of variables and methods, focus handling, info text)
