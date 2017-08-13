@@ -75,6 +75,29 @@
             <tag>misc</tag>
         </tags>
     </application>
+    <application name="GIMP">
+        <description>GIMP_description</description>
+        <icon>gimp</icon>
+        <help-path>GIMP_website</help-path>
+        <packages>
+            <package type="aptget">gimp</package>
+            <package type="aptget">gimp-data</package>
+            <package type="aptget">gimp-data-extras</package>
+            <package type="aptget">gimp-gap</package>
+            <package type="aptget">gimp-help-de</package>
+            <package type="aptget">gimp-help-en</package>
+            <package type="aptget">gimp-help-es</package>
+            <package type="aptget">gimp-help-fr</package>
+            <package type="aptget">gimp-help-it</package>
+            <package type="aptget">gimp-help-ru</package>
+            <package type="aptget">gimp-plugin-registry</package>
+            <package type="aptget">gimp-texturize</package>
+            <package type="aptget">lernstick-gimp</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
     <application name="Stellarium">
         <description>Welcome.stellariumPanel.description</description>
         <icon>stellarium</icon>
