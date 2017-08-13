@@ -163,7 +163,7 @@
         <icon>wxmaxima</icon>
         <help-path>Welcome.wxmaximaPanel.website</help-path>
         <packages>
-            <package type="aptget">lernstick-wxmaxima</package>
+            <package type="aptget">wxmaxima</package>
         </packages>
         <tags>
             <tag>misc</tag>
