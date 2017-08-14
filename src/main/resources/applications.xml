@@ -497,6 +497,17 @@
             <tag>game</tag>
         </tags>
     </application>
+    <application name="Unknown Horizons">
+        <description>Unknown_Horizons_description</description>
+        <icon>unknown-horizons</icon>
+        <help-path>Unknown_Horizons_website</help-path>
+        <packages>
+            <package type="aptget">unknown-horizons</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
     <application name="Frogatto &amp; Friends">
         <description>Welcome.frogattoGamePanel.description</description>
         <icon>frogatto</icon>
