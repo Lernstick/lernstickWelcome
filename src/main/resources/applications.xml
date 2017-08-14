@@ -631,10 +631,10 @@
             <tag>game</tag>
         </tags>
     </application>
-    <application name="itch.io">
+    <application name="itch">
         <description>Itch_description</description>
         <icon>itch</icon>
-        <help-path>Itch_description</help-path>
+        <help-path>Itch_website</help-path>
         <packages>
             <package type="aptget">itch</package>
         </packages>
