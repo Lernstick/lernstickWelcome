@@ -724,16 +724,16 @@
             <tag>utility</tag>
         </tags>
     </application>
-    <application name="Google Earth">
+    <application name="Google Earth Pro">
         <description>Google_Earth_Description</description>
         <icon>googleearth</icon>
         <help-path>Google_Earth_Website</help-path>
         <installed-names>
-            <installed-name>google-earth-stable</installed-name>
+            <installed-name>google-earth-pro-stable</installed-name>
         </installed-names>
         <packages>
             <package type="aptget">lsb-core</package>
-            <package type="wget" fetchUrl="http://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-stable_current_i386.deb</package>
+            <package type="wget" fetchUrl="https://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-pro-stable_current_i386.deb</package>
         </packages>
         <tags>
             <tag>utility</tag>
