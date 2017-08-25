@@ -1,3 +1,9 @@
+lernstickwelcome (201708251424-1) lernstick-8; urgency=medium
+
+  * [74bf43] updated help texts for website whitelist
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 25 Aug 2017 14:24:12 +0200
+
 lernstickwelcome (201708181711-1) lernstick-8; urgency=medium
 
   * [5f9203] updated links to Google Earth Website
