@@ -1,3 +1,9 @@
+lernstickwelcome (201708251433-1) lernstick-8; urgency=medium
+
+  * [273fdc] added missing line breaks in help texts
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 25 Aug 2017 14:33:33 +0200
+
 lernstickwelcome (201708251424-1) lernstick-8; urgency=medium
 
   * [74bf43] updated help texts for website whitelist
