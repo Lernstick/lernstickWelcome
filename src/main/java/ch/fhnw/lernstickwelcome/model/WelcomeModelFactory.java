@@ -302,11 +302,18 @@ public class WelcomeModelFactory {
             }
         }
         List<ApplicationPackages> params = new ArrayList<>();
-        if (aptgetPackages.size() > 0) {
-            params.add(new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])));
-        }
+        // Install wgetPackages first because if they have dependencies on
+        // aptgetPackages they can be resolved automatically.
+        // This is not possible the other way around, e.g. our own package
+        // lernstick-adobereader-enu depends on adobereader-enu that is only
+        // available as an external downloadable package.
+        // lernstick-adobereader-enu can not be installed until adobereader-enu
+        // is downloaded and completely installed...
         if (wgetPackages.size() > 0) {
             params.add(new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir));
+        }
+        if (aptgetPackages.size() > 0) {
+            params.add(new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])));
         }
         CombinedPackages pkgs = new CombinedPackages(
                 params.toArray(new ApplicationPackages[params.size()])

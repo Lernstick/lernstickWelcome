@@ -56,7 +56,7 @@ public class WelcomeModelFactoryTest {
 		t = WelcomeModelFactory.getApplicationTask("Adobe Reader");
 		assertTrue(t.getName().equals("Adobe Reader"));
 		assertTrue(t.getNoPackages() == 2);
-		String[] expectedPackages2 = {"lernstick-adobereader-enu", "AdbeRdr9.5.5-1_i386linux_enu.deb"};
+		String[] expectedPackages2 = {"AdbeRdr9.5.5-1_i386linux_enu.deb", "lernstick-adobereader-enu"};
 		assertArrayEquals(t.getPackages().getPackageNames(), expectedPackages2);
 		// checking the fetchurl
 		assertTrue(t.getPackages().getInstallCommand(pt).contains("ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/"));
