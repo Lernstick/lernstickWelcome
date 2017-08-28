@@ -1,3 +1,10 @@
+lernstickwelcome (201708281726-1) lernstick-8; urgency=medium
+
+  * [8f9c35] updated todo
+  * [632d0c] fixed order of wget/aptget package installations
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 28 Aug 2017 17:26:25 +0200
+
 lernstickwelcome (201708251433-1) lernstick-8; urgency=medium
 
   * [273fdc] added missing line breaks in help texts
