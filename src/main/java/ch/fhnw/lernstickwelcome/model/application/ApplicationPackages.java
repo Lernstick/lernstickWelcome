@@ -21,37 +21,46 @@ import java.util.Arrays;
 
 /**
  * Subclasses of this class defines a strategy how packages should be installed.
- * 
+ *
  * @author sschw
  */
 public abstract class ApplicationPackages {
+
     private final String[] packageNames;
-    
+
+    /**
+     * creates a new ApplicationPackages instance
+     *
+     * @param packageNames the package names
+     */
     public ApplicationPackages(String[] packageNames) {
         this.packageNames = Arrays.copyOf(packageNames, packageNames.length);
     }
-    
+
     /**
-     * The packages which are installed by this command.
-     * @return 
+     * returns the package names which are installed by this command.
+     *
+     * @return the package names which are installed by this command
      */
     public String[] getPackageNames() {
         return Arrays.copyOf(packageNames, packageNames.length);
     }
-    
+
     /**
-     * The number of packages which are installed by this command.
-     * @return 
+     * returns the number of packages which are installed by this command.
+     *
+     * @return the number of packages which are installed by this command
      */
     public int getNumberOfPackages() {
         return packageNames.length;
     }
-    
+
     /**
-     * Creates the installation command for the installation strategy.
-     * @param proxy The proxy task which provides the proxy string for the 
+     * returns the installation command for the installation strategy.
+     *
+     * @param proxy The proxy task which provides the proxy string for the
      * command.
-     * @return 
+     * @return the installation command for the installation strategy
      */
     public abstract String getInstallCommand(ProxyTask proxy);
 }
