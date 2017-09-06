@@ -1,4 +1,10 @@
-lernstickwelcome (201709061232-1) lernstick-8; urgency=medium
+lernstickwelcome (201709061343-1) lernstick-8; urgency=medium
+
+  * [293929] made apt-get install call non-interactive
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 06 Sep 2017 13:43:05 +0200
+
+lernstickwelcome (201709061332-1) lernstick-8; urgency=medium
 
   * [882062] code cleanup
   * [4687b4] more code cleanup
