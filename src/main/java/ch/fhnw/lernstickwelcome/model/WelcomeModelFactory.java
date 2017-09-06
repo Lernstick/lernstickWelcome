@@ -56,12 +56,15 @@ import org.xml.sax.SAXException;
  */
 public class WelcomeModelFactory {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR = new ProcessExecutor();
-    private final static Logger LOGGER = Logger.getLogger(WelcomeModelFactory.class.getName());
+    private final static ProcessExecutor PROCESS_EXECUTOR
+            = new ProcessExecutor();
+    private final static Logger LOGGER
+            = Logger.getLogger(WelcomeModelFactory.class.getName());
     private static volatile StorageDevice SYSTEM_STORAGE_DEVICE;
 
     // used to store ApplicationTasks, so there is only 1 instance of each task
-    private static HashMap<String, ApplicationTask> applicationTasks = new HashMap<>();
+    private static HashMap<String, ApplicationTask> applicationTasks
+            = new HashMap<>();
 
     /**
      * Returns the general {@link ProcessExecutor} which is used to run
@@ -102,7 +105,10 @@ public class WelcomeModelFactory {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public static ApplicationGroupTask getApplicationGroupTask(String tag, String title, ProxyTask proxy) throws ParserConfigurationException, SAXException, IOException {
+    public static ApplicationGroupTask getApplicationGroupTask(
+            String tag, String title, ProxyTask proxy)
+            throws ParserConfigurationException, SAXException, IOException {
+
         List<ApplicationTask> apps = getApplicationTasks(tag);
         ApplicationGroupTask task = new ApplicationGroupTask(
                 title,
@@ -146,7 +152,9 @@ public class WelcomeModelFactory {
      * @param backupDirectoryName the name for the backup folder
      * @return {@link BackupTask}
      */
-    public static BackupTask getBackupTask(PropertiesTask properties, String backupDirectoryName) {
+    public static BackupTask getBackupTask(
+            PropertiesTask properties, String backupDirectoryName) {
+
         return new BackupTask(properties.getProperties(), backupDirectoryName);
     }
 
@@ -157,9 +165,10 @@ public class WelcomeModelFactory {
      * @param properties Property File of the Welcome Application
      * @return {@link SystemconfigTask}
      */
-    public static SystemconfigTask getSystemTask(boolean isExam, PropertiesTask properties) {
-        return new SystemconfigTask(isExam, properties.getProperties());
+    public static SystemconfigTask getSystemTask(
+            boolean isExam, PropertiesTask properties) {
 
+        return new SystemconfigTask(isExam, properties.getProperties());
     }
 
     /**
@@ -179,7 +188,9 @@ public class WelcomeModelFactory {
      * @param groups The application groups that will be installed.
      * @return {@link InstallPreparationTask}
      */
-    public static InstallPreparationTask getInstallPreparationTask(ProxyTask proxy, ApplicationGroupTask... groups) {
+    public static InstallPreparationTask getInstallPreparationTask(
+            ProxyTask proxy, ApplicationGroupTask... groups) {
+
         return new InstallPreparationTask(proxy, groups);
     }
 
@@ -190,7 +201,9 @@ public class WelcomeModelFactory {
      * @param groups The application groups that will be installed.
      * @return {@link InstallPostprocessingTask}
      */
-    public static InstallPostprocessingTask getInstallPostprocessingTask(ProxyTask proxy, ApplicationGroupTask... groups) {
+    public static InstallPostprocessingTask getInstallPostprocessingTask(
+            ProxyTask proxy, ApplicationGroupTask... groups) {
+
         return new InstallPostprocessingTask(proxy, groups);
     }
 
@@ -203,12 +216,15 @@ public class WelcomeModelFactory {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public static List<ApplicationTask> getApplicationTasks(String tag) throws ParserConfigurationException, SAXException, IOException {
+    public static List<ApplicationTask> getApplicationTasks(String tag)
+            throws ParserConfigurationException, SAXException, IOException {
+
         ArrayList<ApplicationTask> apps = new ArrayList<>();
-        InputStream is = WelcomeModelFactory.class.getResourceAsStream("/applications.xml");
+        InputStream is = WelcomeModelFactory.class.getResourceAsStream(
+                "/applications.xml");
         //File xmlFile = new File("applications.xml");
         Document xmlDoc = WelcomeUtil.parseXmlFile(is);
-        
+
         NodeList applications = xmlDoc.getElementsByTagName("application");
         for (int i = 0; i < applications.getLength(); i++) {
             Node application = applications.item(i);
@@ -236,18 +252,18 @@ public class WelcomeModelFactory {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public static ApplicationTask getApplicationTask(String name) throws ParserConfigurationException, SAXException, IOException {
-        InputStream is = WelcomeModelFactory.class.getResourceAsStream("/applications.xml");
-        //File xmlFile = new File("applications.xml");
+    public static ApplicationTask getApplicationTask(String name)
+            throws ParserConfigurationException, SAXException, IOException {
+        InputStream is = WelcomeModelFactory.class.getResourceAsStream(
+                "/applications.xml");
         Document xmlDoc = WelcomeUtil.parseXmlFile(is);
-        /*DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-    	Document xmlDoc = builder.parse(xmlFile);*/
         NodeList applications = xmlDoc.getElementsByTagName("application");
         for (int i = 0; i < applications.getLength(); i++) {
             Node application = applications.item(i);
             if (application.getNodeType() == Node.ELEMENT_NODE) {
                 Element app = (Element) application;
-                if (app.getAttribute("name").equals(name)) { // found application
+                if (app.getAttribute("name").equals(name)) {
+                    // application found
                     return getApplicationTask(app);
                 }
             }
@@ -270,11 +286,15 @@ public class WelcomeModelFactory {
         if (applicationTasks.containsKey(name)) {
             return applicationTasks.get(name);
         }
-        String description = app.getElementsByTagName("description").item(0).getTextContent();
-        String icon = app.getElementsByTagName("icon").item(0).getTextContent();
-        String helpPath = app.getElementsByTagName("help-path").item(0).getTextContent();
+        String description = app.getElementsByTagName("description")
+                .item(0).getTextContent();
+        String icon = app.getElementsByTagName("icon")
+                .item(0).getTextContent();
+        String helpPath = app.getElementsByTagName("help-path")
+                .item(0).getTextContent();
 
-        NodeList installedNamesNode = app.getElementsByTagName("installed-name");
+        NodeList installedNamesNode
+                = app.getElementsByTagName("installed-name");
         String[] installedNames = new String[installedNamesNode.getLength()];
         for (int i = 0; i < installedNames.length; i++) {
             installedNames[i] = installedNamesNode.item(i).getTextContent();
@@ -310,15 +330,19 @@ public class WelcomeModelFactory {
         // lernstick-adobereader-enu can not be installed until adobereader-enu
         // is downloaded and completely installed...
         if (wgetPackages.size() > 0) {
-            params.add(new WgetPackages(wgetPackages.toArray(new String[wgetPackages.size()]), wgetFetchUrl, wgetSaveDir));
+            params.add(new WgetPackages(wgetPackages.toArray(
+                    new String[wgetPackages.size()]),
+                    wgetFetchUrl, wgetSaveDir));
         }
         if (aptgetPackages.size() > 0) {
-            params.add(new AptGetPackages(aptgetPackages.toArray(new String[aptgetPackages.size()])));
+            params.add(new AptGetPackages(aptgetPackages.toArray(
+                    new String[aptgetPackages.size()])));
         }
         CombinedPackages pkgs = new CombinedPackages(
                 params.toArray(new ApplicationPackages[params.size()])
         );
-        ApplicationTask task = new ApplicationTask(name, description, icon, helpPath, pkgs, installedNames);
+        ApplicationTask task = new ApplicationTask(
+                name, description, icon, helpPath, pkgs, installedNames);
         applicationTasks.put(name, task);
         return task;
     }
