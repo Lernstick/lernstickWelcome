@@ -81,6 +81,10 @@ public class WgetPackages extends ApplicationPackages {
             builder.append(MessageFormat.format(fetchUrl, packageName));
             builder.append('\n');
             builder.append("dpkg -i ").append(packageName).append('\n');
+            // the next call is necessary to automatically install all missing
+            // dependencies of the downloaded package (needed by e.g. Google
+            // Earth Pro that depends on the package "lsb-core")
+            builder.append("apt-get -f install\n");
             builder.append("rm ").append(packageName).append('\n');
         }
 
