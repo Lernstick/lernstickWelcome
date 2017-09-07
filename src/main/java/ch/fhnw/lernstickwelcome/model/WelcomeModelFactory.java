@@ -36,6 +36,7 @@ import ch.fhnw.util.StorageTools;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -274,76 +275,67 @@ public class WelcomeModelFactory {
     /**
      * Helper function to create an ApplicationTask out of xml data.
      *
-     * @param app
-     * @return ApplicationTask TODO: at the moment, only 1 single fetchUrl and
-     * savedir is considered and used for all wgetpackages. this should be
-     * adjusted. Possible solution: make it possible in xml to add multiple
-     * packages to a single fetchurl and saveDir and adjust the code below
-     * accordingly.
+     * @param applicationElement the DOM element of the application
+     * @return ApplicationTask the task that installs the application
      */
-    private static ApplicationTask getApplicationTask(Element app) {
-        String name = app.getAttribute("name");
-        if (applicationTasks.containsKey(name)) {
-            return applicationTasks.get(name);
+    private static ApplicationTask getApplicationTask(
+            Element applicationElement) {
+
+        String applicationName = applicationElement.getAttribute("name");
+        if (applicationTasks.containsKey(applicationName)) {
+            return applicationTasks.get(applicationName);
         }
-        String description = app.getElementsByTagName("description")
-                .item(0).getTextContent();
-        String icon = app.getElementsByTagName("icon")
-                .item(0).getTextContent();
-        String helpPath = app.getElementsByTagName("help-path")
-                .item(0).getTextContent();
+        String description = applicationElement.
+                getElementsByTagName("description").item(0).getTextContent();
+        String icon = applicationElement.
+                getElementsByTagName("icon").item(0).getTextContent();
+        String helpPath = applicationElement.
+                getElementsByTagName("help-path").item(0).getTextContent();
 
         NodeList installedNamesNode
-                = app.getElementsByTagName("installed-name");
-        String[] installedNames = new String[installedNamesNode.getLength()];
-        for (int i = 0; i < installedNames.length; i++) {
-            installedNames[i] = installedNamesNode.item(i).getTextContent();
+                = applicationElement.getElementsByTagName("installed-name");
+        List<String> installedNames = new ArrayList();
+        for (int i = 0; i < installedNamesNode.getLength(); i++) {
+            installedNames.add(installedNamesNode.item(i).getTextContent());
         }
-        List<String> aptgetPackages = new ArrayList<>();
-        List<String> wgetPackages = new ArrayList<>();
-        String wgetFetchUrl = null;
-        String wgetSaveDir = null;
-        NodeList packages = app.getElementsByTagName("package");
-        for (int j = 0; j < packages.getLength(); j++) {
-            Element pkg = ((Element) packages.item(j));
-            String type = pkg.getAttribute("type");
-            String pkgName = pkg.getTextContent();
+
+        // We need to keep the order of installations as given in the
+        // applications.xml file.
+        // This is important for e.g. Adobe Acrobat Reader:
+        // 1) Install its dependencies (e.g. libgtk2.0-0:i386), otherwise
+        //    installing the downloaded deb will fail
+        // 2) Download and install the deb.
+        // 3) Install package "lernstick-adobereader-enu" (which needs Adobe
+        //    Acrobat Reader to be fully installed)
+        List<ApplicationPackages> packages = new ArrayList<>();
+        NodeList packageNodeList
+                = applicationElement.getElementsByTagName("package");
+        for (int j = 0; j < packageNodeList.getLength(); j++) {
+            Element element = ((Element) packageNodeList.item(j));
+            String type = element.getAttribute("type");
+            String packageName = element.getTextContent();
             switch (type) {
                 case "aptget":
-                    aptgetPackages.add(pkgName);
+                    packages.add(new AptGetPackages(
+                            Arrays.asList(packageName)));
                     break;
+                    
                 case "wget":
-                    wgetPackages.add(pkgName);
-                    wgetFetchUrl = pkg.getAttribute("fetchUrl");
-                    wgetSaveDir = pkg.getAttribute("saveDir");
+                    String wgetFetchUrl = element.getAttribute("fetchUrl");
+                    String wgetSaveDir = element.getAttribute("saveDir");
+                    packages.add(new WgetPackages(Arrays.asList(packageName),
+                            wgetFetchUrl, wgetSaveDir));
                     break;
+                    
                 default:
+                    LOGGER.log(Level.WARNING, "Unsupported type \"{0}\"", type);
                     break;
             }
         }
-        List<ApplicationPackages> params = new ArrayList<>();
-        // Install wgetPackages first because if they have dependencies on
-        // aptgetPackages they can be resolved automatically.
-        // This is not possible the other way around, e.g. our own package
-        // lernstick-adobereader-enu depends on adobereader-enu that is only
-        // available as an external downloadable package.
-        // lernstick-adobereader-enu can not be installed until adobereader-enu
-        // is downloaded and completely installed...
-        if (wgetPackages.size() > 0) {
-            params.add(new WgetPackages(wgetPackages.toArray(
-                    new String[wgetPackages.size()]),
-                    wgetFetchUrl, wgetSaveDir));
-        }
-        if (aptgetPackages.size() > 0) {
-            params.add(new AptGetPackages(aptgetPackages.toArray(
-                    new String[aptgetPackages.size()])));
-        }
-        CombinedPackages pkgs = new CombinedPackages(
-                params.toArray(new ApplicationPackages[params.size()])
-        );
-        ApplicationTask task = new ApplicationTask(
-                name, description, icon, helpPath, pkgs, installedNames);
-        applicationTasks.put(name, task);
+        CombinedPackages pkgs = new CombinedPackages(packages);
+        ApplicationTask task = new ApplicationTask(applicationName,
+                description, icon, helpPath, pkgs, installedNames);
+        applicationTasks.put(applicationName, task);
         return task;
     }
 }

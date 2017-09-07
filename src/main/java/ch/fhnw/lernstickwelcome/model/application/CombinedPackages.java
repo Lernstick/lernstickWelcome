@@ -17,7 +17,8 @@
 package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * If a package is installed by multiple aptGet and Wget packages, use this
@@ -27,27 +28,28 @@ import java.util.Arrays;
  */
 public class CombinedPackages extends ApplicationPackages {
 
-    private final ApplicationPackages[] packageList;
+    private final List<ApplicationPackages> applicationPackages;
 
     /**
      * creates a new CombinedPackages instance
      *
-     * @param packages the packages to install
+     * @param applicationPackages the application packages to install
      */
-    public CombinedPackages(ApplicationPackages... packages) {
-        super(Arrays.stream(packages)
-                .flatMap(p -> Arrays.stream(p.getPackageNames()))
-                .toArray(String[]::new));
-        this.packageList = packages;
+    public CombinedPackages(List<ApplicationPackages> applicationPackages) {
+        super(applicationPackages.stream()
+                .flatMap(p -> p.getPackageNames().stream())
+                .collect(Collectors.toList()));
+        this.applicationPackages = applicationPackages;
     }
 
     @Override
-    public String getInstallCommand(ProxyTask proxy) {
+    public String getInstallCommand(ProxyTask proxyTask) {
+
         StringBuilder stringBuilder = new StringBuilder();
-        for (ApplicationPackages packages : packageList) {
-            stringBuilder.append(packages.getInstallCommand(proxy));
-            stringBuilder.append('\n');
-        }
+        applicationPackages.forEach(p -> {
+            stringBuilder.append(p.getInstallCommand(proxyTask)).append('\n');
+        });
+
         return stringBuilder.toString();
     }
 }

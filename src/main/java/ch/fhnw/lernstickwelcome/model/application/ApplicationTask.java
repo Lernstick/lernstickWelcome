@@ -21,7 +21,7 @@ import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,40 +41,46 @@ import javafx.concurrent.Task;
  */
 public class ApplicationTask implements Processable<String> {
 
-    private final static Logger LOGGER = Logger.getLogger(ApplicationTask.class.getName());
-    private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
+    private final static Logger LOGGER
+            = Logger.getLogger(ApplicationTask.class.getName());
+    private final static ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
 
-    private String name;
-    private String description;
-    private String icon;
-    private ApplicationPackages packages;
-    private String helpPath;
-    private BooleanProperty installing = new SimpleBooleanProperty();
-    private BooleanProperty installed = new SimpleBooleanProperty();
+    private final String name;
+    private final String description;
+    private final String icon;
+    private final ApplicationPackages packages;
+    private final String helpPath;
+    private final BooleanProperty installing = new SimpleBooleanProperty();
+    private final BooleanProperty installed = new SimpleBooleanProperty();
+    private final List<String> installedNames;
     private ProxyTask proxy;
-    private String[] installedNames;
 
     /**
      * Creates a application
+     *
      * @param name the name of the application or a key for a resource bundle
      * @param description the description or a key for a resource bundle
      * @param icon the name of the icon (without extension and folder)
      * @param helpPath the url or local help chapter.
      * @param packages the packages that the application needs to be installed
-     * @param installedNames if not null, these names will be checked to ensure 
+     * @param installedNames if not null, these names will be checked to ensure
      * installation.
      */
-    public ApplicationTask(String name, String description, String icon, String helpPath, ApplicationPackages packages, String[] installedNames) {
+    public ApplicationTask(String name, String description, String icon,
+            String helpPath, ApplicationPackages packages,
+            List<String> installedNames) {
+
         this.name = name;
         this.description = description;
         this.icon = icon;
         this.packages = packages;
         this.helpPath = helpPath;
-        if(installedNames != null && installedNames.length > 0)
-            this.installedNames = Arrays.copyOf(installedNames, 
-                    installedNames.length);
-        else
+        if (installedNames == null || installedNames.isEmpty()) {
             this.installedNames = packages.getPackageNames();
+        } else {
+            this.installedNames = installedNames;
+        }
         this.installed.set(initIsInstalled());
     }
 
@@ -117,16 +123,19 @@ public class ApplicationTask implements Processable<String> {
 
     /**
      * Checks if the installation is installed.
+     *
      * @return true if {@code dpkg -l installedNames}
      */
     private boolean initIsInstalled() {
-        int length = installedNames.length;
-        String[] commandArray = new String[length + 2];
-        commandArray[0] = "dpkg";
-        commandArray[1] = "-l";
 
-        System.arraycopy(installedNames, 0, commandArray, 2, length);
-        PROCESS_EXECUTOR.executeProcess(true, true, commandArray);
+        List<String> dpkgListCommand = new ArrayList<>();
+        dpkgListCommand.add("dpkg");
+        dpkgListCommand.add("-l");
+        dpkgListCommand.addAll(installedNames);
+
+        PROCESS_EXECUTOR.executeProcess(true, true,
+                dpkgListCommand.toArray(new String[dpkgListCommand.size()]));
+
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         for (String packageName : installedNames) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
@@ -166,22 +175,25 @@ public class ApplicationTask implements Processable<String> {
         protected String call() throws Exception {
             updateProgress(0, packages.getNumberOfPackages());
             // XXX May nice if there would update the percentage while execute
-            int exitValue = PROCESS_EXECUTOR.executeScript(true, true, packages.getInstallCommand(proxy));
+            int exitValue = PROCESS_EXECUTOR.executeScript(true, true,
+                    packages.getInstallCommand(proxy));
             // We check if it is installed (wget exit code is inconsistent)
             if (exitValue != 0 || !initIsInstalled()) {
-                String errorMessage = "apt-get or wget failed with the following "
-                        + "output:\n" + PROCESS_EXECUTOR.getOutput();
+                String errorMessage
+                        = "apt-get or wget failed with the following output:\n"
+                        + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
-                throw new ProcessingException("ApplicationTask.installationFailed", getName());
+                throw new ProcessingException(
+                        "ApplicationTask.installationFailed", getName());
             }
             // exit code = 0 && installed = true
             Platform.runLater(() -> {
                 installed.set(true);
                 installing.set(false);
             });
-            updateProgress(packages.getNumberOfPackages(), packages.getNumberOfPackages());
+            updateProgress(packages.getNumberOfPackages(),
+                    packages.getNumberOfPackages());
             return null;
         }
     }
-
 }

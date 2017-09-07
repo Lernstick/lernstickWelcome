@@ -19,6 +19,7 @@ package ch.fhnw.lernstickwelcome.model.application;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * This class creates an apt-get command out of packages which should be
@@ -41,7 +42,7 @@ public class WgetPackages extends ApplicationPackages {
      * @param packageNames the names of the packages to install
      * @param fetchUrl the URL where to fetch the Debian package from
      */
-    public WgetPackages(String[] packageNames, String fetchUrl) {
+    public WgetPackages(List<String> packageNames, String fetchUrl) {
 
         super(packageNames);
         this.fetchUrl = fetchUrl;
@@ -56,7 +57,7 @@ public class WgetPackages extends ApplicationPackages {
      * @param saveDir the directory where to temporarily save the downloaded
      * package
      */
-    public WgetPackages(String[] packageNames,
+    public WgetPackages(List<String> packageNames,
             String fetchUrl, String saveDir) {
 
         this(packageNames, fetchUrl);

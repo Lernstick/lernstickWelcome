@@ -17,6 +17,7 @@
 package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +31,7 @@ import java.util.logging.Logger;
 public class AptGetPackages extends ApplicationPackages {
     private final static Logger LOGGER = Logger.getLogger(AptGetPackages.class.getName());
     
-    public AptGetPackages(String[] packageNames) {
+    public AptGetPackages(List<String> packageNames) {
         super(packageNames);
     }
 
