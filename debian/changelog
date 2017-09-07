@@ -1,3 +1,9 @@
+lernstickwelcome (201709071945-1) lernstick-8; urgency=medium
+
+  * [f84a03] fixed package installation
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 Sep 2017 19:45:30 +0200
+
 lernstickwelcome (201709061343-1) lernstick-8; urgency=medium
 
   * [293929] made apt-get install call non-interactive
