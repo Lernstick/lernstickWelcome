@@ -1,16 +1,191 @@
-lernstickwelcome (201707031323-1) lernstick-8; urgency=medium
+lernstickwelcome (201709061343-1) lernstick-8; urgency=medium
 
-  * resource bundle cleanup
-  * NetBeans project file update
-  * adapted desktop file for Debian 9
+  * [293929] made apt-get install call non-interactive
 
- -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 03 Jul 2017 13:23:44 +0200
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 06 Sep 2017 13:43:05 +0200
 
-lernstickwelcome (201705191310-1) lernstick-8; urgency=medium
+lernstickwelcome (201709061332-1) lernstick-8; urgency=medium
 
-  * [481fc4] removed lernstick-wxmaxima (no longer needed)
+  * [882062] code cleanup
+  * [4687b4] more code cleanup
+  * [93e167] automatically install missing dependencies of downloaded packages
 
- -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 19 May 2017 13:10:10 +0200
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 06 Sep 2017 13:32:26 +0200
+
+lernstickwelcome (201708281726-1) lernstick-8; urgency=medium
+
+  * [8f9c35] updated todo
+  * [632d0c] fixed order of wget/aptget package installations
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 28 Aug 2017 17:26:25 +0200
+
+lernstickwelcome (201708251433-1) lernstick-8; urgency=medium
+
+  * [273fdc] added missing line breaks in help texts
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 25 Aug 2017 14:33:33 +0200
+
+lernstickwelcome (201708251424-1) lernstick-8; urgency=medium
+
+  * [74bf43] updated help texts for website whitelist
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 25 Aug 2017 14:24:12 +0200
+
+lernstickwelcome (201708181711-1) lernstick-8; urgency=medium
+
+  * [5f9203] updated links to Google Earth Website
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 18 Aug 2017 17:11:42 +0200
+
+lernstickwelcome (201708181700-1) lernstick-8; urgency=medium
+
+  * [90f463] updated to Google Earth Pro
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 18 Aug 2017 17:00:52 +0200
+
+lernstickwelcome (201708140941-1) lernstick-8; urgency=medium
+
+  * [19d549] fixed entry for itch
+  * [34c815] adapted desktop file for Debian9
+  * [ad138b] added "Unknown Horizons" to app list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 14 Aug 2017 09:41:53 +0200
+
+lernstickwelcome (201708131348-1) lernstick-8; urgency=medium
+
+  * [461b64] added itch.io
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 13 Aug 2017 13:48:32 +0200
+
+lernstickwelcome (201708131126-1) lernstick-8; urgency=medium
+
+  * [8754d0] replaced lernstick-wxmaxima (no longer needed, all changes applied
+    upstream) with wxmaxima
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 13 Aug 2017 11:26:55 +0200
+
+lernstickwelcome (201708131116-1) lernstick-8; urgency=medium
+
+  [ Lode Vandevenne ]
+  * [1a84a9] fix a small typo in English
+
+  [ Ronny Standtke ]
+  * [cc76be] added GIMP to applications list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 13 Aug 2017 11:16:43 +0200
+
+lernstickwelcome (201706240953-1) lernstick-8; urgency=medium
+
+  * [aaf65a] improved password change dialog (FXML, names of variables and methods, focus handling, info text)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 24 Jun 2017 09:52:50 +0200
+
+lernstickwelcome (201706240111-1) lernstick-8; urgency=medium
+
+  * [13edf0] improved enabling/disabling of nodes in backup panel, updated translations, code cleanup
+  * [6715bf] code cleanup, highlighting media access button on exit warning
+  * [f60ec2] updated todo
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 24 Jun 2017 01:11:27 +0200
+
+lernstickwelcome (201706171022-1) lernstick-8; urgency=medium
+
+  [ Sandro Schwager ]
+  * Fixed jbackpack update and refactored findbugs errors.
+  * Refactored suggestions of pmd.
+  * Load password specific data only in exam env.
+  * Some refactoring with stricter findbugs rules.
+  * Fixed update of firewall state if it's changed outside of application
+  * Fixed small bug caused by changes for FindBugs.
+  * Removed unused imports.
+  * Added that the firewall state is changed back, if an exception happened in the backend.
+  * Removed unused imports.
+
+  [ valendinosaurus ]
+  * typofixes italian bundle
+
+  [ Ronny Standtke ]
+  * updated todo
+  * simplified layout
+  * use same insets in system panel as in all other panels
+  * updated backup panel
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 17 Jun 2017 10:21:56 +0200
+
+lernstickwelcome (201706051822-1) lernstick-8; urgency=medium
+
+  * [b18817] adapted unit test to new application tags
+  * [ca7488] use util class to open link
+  * [d95ff8] added comment about problem with HostServices in OpenJDK/OpenJFX
+  * [3de2a4] reordered and completed application list
+  * [fc695a] updated translations
+  * [c4b454] disable only toggle switch of installed apps so that weblink still works
+  * [f39ac5] added German GDevelop description
+  * [142c26] updated desktop file
+  * [6ae694] fixed German translation of Stellarium description
+  * [78458f] added localized Skype websites
+  * [009b61] added NetBeans action to sort strings
+  * [848fec] sorted resource bundles
+  * [cb3146] added NetBeans action for checking resource bundles for deprecated keys
+  * [b73c7c] allow dashes in help file names
+  * [daa177] updated translations
+  * [6ebbd0] redesigned standard system panel
+  * [aa3fa0] updated debian control file
+  * [75fbc5] fixed buggy bindings in SystemBinder
+  * [8e4500] updated German translation
+  * [e2c5c5] left-align timeout combobox
+  * [1a6fbe] customized info screen of exam environment
+  * [369532] simplified standard system layout
+  * [fe8321] synced exam system layout with standard version
+  * [0c36d4] fixed system related descriptions and translations
+  * [99a071] updated German help texts
+  * [fa370e] use tabbed interface for firewall config
+  * [047e6b] fixed L10n of application URLs
+  * [6ae817] prevent NPE
+  * [2601c4] fixed some resource bundle key errors
+  * [2544e7] added NetBeans actions for starting the standard version in French, Italian and Portugese
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 05 Jun 2017 18:22:11 +0200
+
+lernstickwelcome (201706032207-1) lernstick-8; urgency=medium
+
+  * added NetBeans configuration for easily switching between standard and exam version
+  * added version tag to exec-maven-plugin to ensure reproducible builds
+  * updated version of exec-maven-plugin
+  * update version of exec-maven-plugin also for exam environment actions
+  * added license
+  * updated/added license headers
+  * removed unused imports
+  * reordered and fixed applications XML file
+  * updated help files
+  * fixed mixup of nonfree and recommended apps
+  * updated and added NetBeans configurations
+  * added/updated license headers of help files
+  * added workaroud for ugly JavaFX font rendering (see https://bugs.openjdk.java.net/browse/JDK-8139662)
+  * removed resource bundles from nonstandard location
+  * fixed code formatting
+  * multicatch instead of generic exception
+  * allow unicode characters in help file names
+  * replaced digraph with correct umlaut in help file name
+  * prevented some exceptions
+  * fixed code formatting
+  * improved lernstick icon (transparency fixes)
+  * set stage icon
+  * fixed locale handling
+  * prevented NPE and simplified code
+  * removed unused icons
+  * moved todo file from java sources to resources directory
+  * removed unnecessary translations in de_CH
+  * added hyperlink to lernstick webpage on standard info page
+  * fixed German spelling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 03 Jun 2017 22:08:31 +0200
+
+lernstickwelcome (201705312207-1) lernstick-8; urgency=medium
+
+  * new version based on JavaFX
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 31 May 2017 22:07:33 +0200
 
 lernstickwelcome (201705081742-1) lernstick-8; urgency=medium
 

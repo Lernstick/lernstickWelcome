@@ -1,0 +1,36 @@
+Google Earth Pro for 64 Bit:
+https://dl.google.com/dl/earth/client/current/google-earth-pro-stable_current_amd64.deb
+
+Wenn Starten der Firewall fehlschlägt, muss Knopf wieder auf "Aus" gestellt werden
+Scrolling bei "Unfreie Software" ist sehr langsam
+App-Icons haben oben und links einen komischen Störrand (maxima, RStudio, Fillets, ...)
+viele Strings sind doppelt (mit anderem Key)
+editierbare Tabellen in Netzwerk-Sicherheit
+Hilfe in andere Sprachen übersetzen
+Disable Exchange Partition in settings if no exchange partition found
+
+Französische Übersetzung aktualisieren
+
+Proxy-Support
+    wget
+        Kommandozeilenoptionen:
+            --proxy-user=USER
+            --proxy-password=PASSWORD
+
+        Umgebungsvariablen:
+            -e “http_proxy = http://127.0.0.1:8008″
+            ftp_proxy
+            http_proxy
+            https_proxy
+
+    apt-get
+        Umgebungsvariablen
+            export http_proxy=http://user:passwort@proxyserver.domain:port/
+            export ftp_proxy=http://user:passwort@proxyserver.domain:port/
+
+        sudo apt-get -o Acquire::http::proxy=http://george:asdft432@cache.campus.com:8080 install package-name
+
+        /etc/apt/apt.conf.d/80proxy
+            Acquire::http::proxy “http://george:asdft432@cache.campus.com:8080/”;
+            Acquire::ftp::proxy “ftp://george:asdft432@cache.campus.com:8080/”;
+            Acquire::https::proxy “https://george:asdft432@cache.campus.com:8080/”;

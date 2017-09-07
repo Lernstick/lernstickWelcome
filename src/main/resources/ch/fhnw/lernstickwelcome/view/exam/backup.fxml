@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="434.0" prefWidth="551.0" spacing="10.0" stylesheets="@../../../../../css/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.exam.BackupController">
+   <children>
+      <HBox>
+         <children>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationBackup.title" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="helpButton" alignment="CENTER_RIGHT" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" />
+         </children>
+      </HBox>
+      <GridPane hgap="10.0" vgap="10.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" />
+          <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints />
+          <RowConstraints />
+          <RowConstraints />
+        </rowConstraints>
+         <children>
+            <Label text="%welcomeApplicationBackup.doBackup">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <ToggleSwitch fx:id="backupToggleSwitch" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+            <Label fx:id="frequencyLabel" text="%Every" GridPane.rowIndex="1" />
+            <ComboBox fx:id="frequencyComboBox" editable="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label fx:id="screenshotsLabel" text="%welcomeApplicationBackup.saveScreenshot" GridPane.rowIndex="2" />
+            <ToggleSwitch fx:id="screenshotsToggleSwitch" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <TitledPane fx:id="sourceTitledPane" animated="false" collapsible="false" text="%Source">
+         <content>
+            <HBox spacing="10.0">
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" text="%welcomeApplicationBackup.path" />
+                  <TextField fx:id="sourceTextField" maxHeight="30.0" minHeight="30.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="sourceButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetBackupPath" styleClass="btn_open" />
+               </children>
+            </HBox>
+         </content>
+      </TitledPane>
+      <TitledPane fx:id="destinationsTitledPane" animated="false" collapsible="false" text="%Destinations">
+         <content>
+            <GridPane hgap="10.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+               <children>
+                  <HBox GridPane.columnSpan="2147483647">
+                      <Label prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationBackup.useLocalFolder" />
+                      <ToggleSwitch fx:id="localToggleSwitch" />
+                  </HBox>
+                  <Label fx:id="destinationFolderLabel" text="%welcomeApplicationBackup.path" GridPane.rowIndex="1" />
+                  <TextField fx:id="destinationFolderTextField" maxHeight="30.0" minHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <Button fx:id="destinationFolderButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetLocalFolder" styleClass="btn_open" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                      <Label prefHeight="25.0" prefWidth="9999" text="%welcomeApplicationBackup.useExternalPartition" />
+                      <ToggleSwitch fx:id="externalPartitionToggleSwitch" />
+                  </HBox>
+                  <Label fx:id="externalPartitionLabel" text="%Label" GridPane.rowIndex="3" />
+                  <TextField fx:id="externalPartitionTextField" maxHeight="30.0" minHeight="30.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <Button fx:id="externalPartitionButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onClickSetRemotePartition" styleClass="btn_open" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="20.0" right="30.0" top="15.0" />
+   </padding>
+</VBox>

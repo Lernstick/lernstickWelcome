@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController">
+   <children>
+      <HBox>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" text="%Additional_Settings" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="btHelp" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" stylesheets="@../../../../../css/style.css" />
+         </children>
+      </HBox>
+      <TitledPane expanded="false" text="%Boot_Menu">
+         <content>
+            <GridPane hgap="10.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints hgrow="ALWAYS" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+               <children>
+                  <Label text="%welcomeApplicationSystem.systemname" />
+                  <TextField fx:id="tfSystemName" maxHeight="30.0" GridPane.columnIndex="1" />
+                  <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfSystemVersion" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="cbVisibleFor" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+      <TitledPane expanded="false" text="%User">
+         <content>
+            <VBox spacing="10.0">
+               <children>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" text="%welcomeApplicationSystem.userName" />
+                        <TextField fx:id="tfUsername" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox maxWidth="1.7976931348623157E308" spacing="10.0">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationSystem.PlasmaDesktopApplets" HBox.hgrow="ALWAYS" />
+                        <ToggleSwitch fx:id="tsBlockKde" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </TitledPane>
+      <TitledPane expanded="false" text="%System">
+         <content>
+            <HBox>
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationSystem.soundOutput" HBox.hgrow="ALWAYS" />
+                  <ToggleSwitch fx:id="tsDirectSound" />
+               </children>
+            </HBox>
+         </content>
+      </TitledPane>
+      <TitledPane expanded="false" text="%Partitions">
+         <content>
+            <VBox spacing="10.0">
+               <children>
+                  <TitledPane collapsible="false" text="%Exchange_Partition">
+                     <content>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" text="%Name" />
+                              <TextField fx:id="tfExchangePartition" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                     </content>
+                  </TitledPane>
+                  <TitledPane collapsible="false" text="%Data_Partition">
+                     <content>
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                           <children>
+                              <Label text="%welcomeApplicationSystem.startWA" />
+                              <ToggleSwitch fx:id="tsStartWa" GridPane.columnIndex="1" />
+                              <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="1" />
+                              <ToggleSwitch fx:id="tsShowWarning" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </VBox>
+         </content>
+      </TitledPane>
+      <TitledPane expanded="false" text="%Proxy_Settings">
+         <content>
+            <VBox>
+               <children>
+                  <HBox>
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%WelcomeApplicationProxy.use" HBox.hgrow="ALWAYS" />
+                        <ToggleSwitch fx:id="tsProxy" />
+                     </children>
+                  </HBox>
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+                     <children>
+                        <Label text="%WelcomeApplicationProxy.host" GridPane.rowIndex="1" />
+                        <Label text="%WelcomeApplicationProxy.port" GridPane.rowIndex="2" />
+                        <Label text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="3" />
+                        <Label text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="4" />
+                        <TextField fx:id="tfHost" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="tfPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="tfUser" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="tfPwd" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </content>
+      </TitledPane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="30.0" top="20.0" />
+   </padding>
+</VBox>
