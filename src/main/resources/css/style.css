@@ -1,0 +1,81 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28.03.2017, 23:47:39
+    Author     : tiagosantosb
+*/
+
+.table-column {
+    -fx-alignment: CENTER_LEFT;
+}
+
+.btn_help {          
+    -fx-background-image: url("../icon/help.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.btn_open {          
+    -fx-background-image: url("../icon/open.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.btn_add {          
+    -fx-background-image: url("../icon/add.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 25;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.btn_edit {          
+    -fx-background-image: url("../icon/edit.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.btn_save {          
+    -fx-background-image: url("../icon/save.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.btn_delete {          
+    -fx-background-image: url("../icon/delete.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.btn_browse {          
+    -fx-background-image: url("../icon/internet.png");
+    -fx-background-image-size: 10;
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;   
+}
+
+.lbl_on {
+    -fx-text-fill: green;
+}
+.lbl_off {
+    -fx-text-fill: red;
+}
+.error {
+    -fx-border-color: red ;
+    -fx-border-width: 1px ;
+    -fx-border-radius: 3px;
+}

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=X-lernstick;
+Exec=sh -c "pkexec /usr/bin/lernstickWelcome && true"
+Icon=dialog-information
+Name=Welcome to Lernstick
+Name[de]=Willkommen beim Lernstick
+Name[fr]=Bienvenue. Lernstick!
+StartupNotify=true
+StartupWMClass=ch.fhnw.lernstickwelcome.controller.WelcomeApplication
+Terminal=false
+Type=Application

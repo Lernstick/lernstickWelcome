@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController">
+   <children>
+      <Label id="titleLabel" text="%welcomeApplicationInformation.welcome" wrapText="true">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ImageView id="lernstickImageView" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../icon/lernstick_usb.png" />
+         </image>
+      </ImageView>
+      <TextFlow>
+         <children>
+            <Text id="infoText1" text="%welcomeApplicationInformation.welcomeText1" />
+            <Hyperlink fx:id="hyperlink" text="https://www.lernstick.ch" />
+            <Text id="infoText2" text="%welcomeApplicationInformation.welcomeText2" />
+         </children>
+      </TextFlow>
+      <GridPane hgap="10.0" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <children>
+            <Label id="systemTextLabel" text="%welcomeApplicationInformation.systemName" GridPane.halignment="RIGHT">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label id="systemLabel" fx:id="operatingSystemLabel" text="Debian 9" GridPane.columnIndex="1">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label id="versionTextLabel" text="%welcomeApplicationInformation.systemVersion" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <Label id="versionLabel" fx:id="versionLabel" text="3.4.5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints valignment="BOTTOM" vgrow="ALWAYS" />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

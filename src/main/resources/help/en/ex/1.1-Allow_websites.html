@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 FHNW
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+    <head>
+        <title>Allow Websites</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../help.css">
+    </head>
+    <body>
+        <h1>Allow Websites</h1>
+        <p>
+            Define websites and URLs, which will be allowed by the system. You
+            have mulitple ways to define a whitelist pattern.
+        </p>
+        <p>
+            <b>exact</b><br>
+            Define an exact URL which will be allowed.
+        </p>
+        <p>
+            <b>starts with</b><br>
+            Define a string which must match the beginning of an URL in order to
+            allow it.<br>
+            e.g.: https://www.lernstick.com<br>
+            allowed: https://www.lernstick.com/download
+        </p>
+        <p>
+            <b>contains</b><br>
+            Define a string which must be contained in the URL in order to allow
+            it.<br>
+            e.g.: lernstick<br>
+            allowed: https://www.lernstick.com<br>
+            allowed: https://www.google.com/lernstick/info
+        </p>
+        <p>
+            <b>custom</b><br>
+            Define a regular expression. If the URL matches the regular
+            expression, it is allowed.
+        </p>
+    </body>
+</html>

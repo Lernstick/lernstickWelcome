@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane minHeight="200.0" minWidth="420.0" prefHeight="200.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.InfodialogController">
+   <children>
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <ButtonBar BorderPane.alignment="CENTER_RIGHT">
+              <buttons>
+                <Button fx:id="btCancel" cancelButton="true" mnemonicParsing="false" text="%welcomeApplicationInfodialog.cancel" ButtonBar.buttonData="RIGHT" />
+                <Button fx:id="btOk" defaultButton="true" mnemonicParsing="false" text="%welcomeApplicationInfodialog.ok" ButtonBar.buttonData="RIGHT" />
+              </buttons>
+            </ButtonBar>
+         </bottom>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <center>
+            <BorderPane BorderPane.alignment="CENTER">
+               <center>
+                  <Label fx:id="lbInfotext" alignment="CENTER" text="Infotext" wrapText="true" BorderPane.alignment="CENTER_LEFT">
+                     <padding>
+                        <Insets bottom="15.0" />
+                     </padding>
+                  </Label>
+               </center>
+            </BorderPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

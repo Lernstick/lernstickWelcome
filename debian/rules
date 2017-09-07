@@ -24,7 +24,6 @@ build: build-stamp
 
 build-stamp: configure-stamp
 	dh_testdir
-	ant
 	touch $@
 
 clean:
@@ -32,7 +31,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 
-	ant clean
+#	mvn clean
 	dh_clean
 
 install: build
@@ -40,20 +39,21 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
+#	mvn install
 
 	mkdir -p $(BINDIR)
 	cp lernstickWelcome $(BINDIR)
-	cp dist/lernstickWelcome.jar $(BINDIR)
+	cp target/lernstickWelcome-1.0-SNAPSHOT.jar $(BINDIR)/lernstickWelcome.jar
 	cp -r usr $(DESTDIR)
 
 	mkdir -p $(BINDIR_EXAM)
 	cp lernstickWelcome_exam $(BINDIR_EXAM)/lernstickWelcome
-	cp dist/lernstickWelcome.jar $(BINDIR_EXAM)
+	cp target/lernstickWelcome-1.0-SNAPSHOT.jar $(BINDIR_EXAM)/lernstickWelcome.jar
 	cp -r usr $(DESTDIR_EXAM)
 
 # Build architecture-independent files here.
 binary-indep: build install
-	ant
+#	mvn install
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs

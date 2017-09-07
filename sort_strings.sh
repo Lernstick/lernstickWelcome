@@ -1,5 +1,6 @@
 #!/bin/sh
-for i in src/ch/fhnw/lernstickwelcome/Bundle*
+echo "sorting strings..."
+for i in src/main/resources/ch/fhnw/lernstickwelcome/Bundle*
 do
 	sort $i>tmp
 	mv tmp $i

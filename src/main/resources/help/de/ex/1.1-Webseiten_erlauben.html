@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 FHNW
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+    <head>
+        <title>Webseiten erlauben</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../help.css">
+    </head>
+    <body>
+        <h1>Webseiten erlauben</h1>
+        <p>
+            Definieren Sie URL's, welche vom System erlaubt werden. Sie haben
+            dabei verschiedene Möglichkeiten, die URL zu definieren.
+        </p>
+        <p>
+            <b>Exakt</b><br>
+            Definieren Sie eine exakte URL, welche zugelassen wird. Dabei wird
+            nur genau die definierte URL berücksichtigt.
+        </p>
+        <p>
+            <b>Beginnt mit</b><br>
+            Definieren Sie einen beliebigen Text. Fängt eine URL mit diesem Text
+            an, wird sie zugelassen.<br>
+            Beispiel: https://www.lernstick.com<br>
+            Wird zugelassen: https://www.lernstick.com/download
+        </p>
+        <p>
+            <b>Enthält</b><br>
+            Definieren Sie einen beliebigen Text. Enthält eine URL diesen Text,
+            wird sie zugelassen.<br>
+            Beispiel: lernstick<br>
+            Wird zugelassen: https://www.lernstick.com<br>
+            Wird zugelassen: https://www.google.com/lernstick/info
+        </p>
+        <p>
+            <b>Erweitert</b><br>
+            Definieren Sie einen regulären Ausdruck. Matcht eine URL diesen
+            regulären Ausdruck, wird sie zugelassen.
+        </p>
+    </body>
+</html>
