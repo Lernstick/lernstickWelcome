@@ -1,3 +1,10 @@
+lernstickwelcome (201709271605-1) lernstick-9; urgency=medium
+
+  * [358c7a] updated pkla hardening
+  * [e0c1a8] code cleanup
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 27 Sep 2017 16:05:30 +0200
+
 lernstickwelcome (201709270925-1) lernstick-9; urgency=medium
 
   * [bf0114] no longer install lernstick-minetest-game-bfd for minetest
