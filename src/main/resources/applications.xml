@@ -410,7 +410,6 @@
         <icon>minetest</icon>
         <help-path>Welcome.minetestGamePanel.website</help-path>
         <packages>
-            <package type="aptget">lernstick-minetest-game-bfd</package>
             <package type="aptget">lernstick-minetest-game-carbone-ng</package>
             <package type="aptget">lernstick-minetest-game-tutorial</package>
             <package type="aptget">lernstick-minetest-mod-dreambuilder</package>
