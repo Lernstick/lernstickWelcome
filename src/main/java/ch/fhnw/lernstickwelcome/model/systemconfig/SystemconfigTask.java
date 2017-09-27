@@ -637,15 +637,18 @@ public class SystemconfigTask implements Processable<String> {
 
         // add polkit rules to enforce authentication
         // rules for our own applications
-        addStrictPKLA("10-welcome.pkla", "enforce authentication before "
+        addStrictPKLA("10-welcome_strict.pkla", "enforce authentication before "
                 + "running the Lernstick Welcome application",
                 "ch.lernstick.welcome");
-        addStrictPKLA("10-dlcopy.pkla", "enforce authentication before "
+        addStrictPKLA("10-dlcopy_strict.pkla", "enforce authentication before "
                 + "running the Lernstick storage media management application",
                 "ch.lernstick.dlcopy");
+        addStrictPKLA("10-wrapper-synaptic_strict.pkla", "enforce "
+                + "authentication before running the synaptic wrapper script",
+                "ch.lernstick.wrapper-synaptic");
 
         // harden our custom rules for third party applications
-        hardenPKLAs("jbackpack", "gnome-system-log", "packagekit", "synaptic");
+        hardenPKLAs("jbackpack", "gnome-system-log", "packagekit");
     }
 
     /**
@@ -657,9 +660,11 @@ public class SystemconfigTask implements Processable<String> {
      * @param description description of the action
      * @param action the action that should be run
      */
-    private void addStrictPKLA(
-            String fileName, String description, String action) {
-        File strictPKLA = new File(WelcomeConstants.LOCAL_POLKIT_PATH, fileName);
+    private void addStrictPKLA(String fileName, String description,
+            String action) throws ProcessingException {
+
+        Path strictPoliciesDir = getStrictPoliciesDir();
+        Path strictPath = strictPoliciesDir.resolve(fileName);
         String strictWelcomeRule
                 = "[" + description + "]\n"
                 + "Identity=unix-user:*\n"
@@ -667,12 +672,12 @@ public class SystemconfigTask implements Processable<String> {
                 + "ResultAny=auth_self_keep\n"
                 + "ResultInactive=auth_self_keep\n"
                 + "ResultActive=auth_self_keep\n";
-        try (OutputStreamWriter osw = new OutputStreamWriter(
-                new FileOutputStream(strictPKLA), Charset.defaultCharset()
-        )) {
-            osw.write(strictWelcomeRule);
+        try {
+            Files.write(strictPath, strictWelcomeRule.getBytes());
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "", ex);
+            LOGGER.log(Level.WARNING, "", ex);
+            throw new ProcessingException(
+                    "SystemconfigTask.cantWritePasswordPolicy", fileName);
         }
     }
 
@@ -685,14 +690,7 @@ public class SystemconfigTask implements Processable<String> {
      */
     private void hardenPKLAs(String... pklas) throws ProcessingException {
         Pattern yesPattern = Pattern.compile("(.*)=yes");
-        Path strictPoliciesDir = Paths.get(WelcomeConstants.EXAM_POLKIT_PATH);
-        if (!Files.isDirectory(strictPoliciesDir)) {
-            try {
-                Files.createDirectories(strictPoliciesDir);
-            } catch (IOException ex) {
-                Logger.getLogger(SystemconfigTask.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        Path strictPoliciesDir = getStrictPoliciesDir();
         for (String pkla : pklas) {
             try {
                 Path lenientPath = Paths.get(
@@ -714,6 +712,18 @@ public class SystemconfigTask implements Processable<String> {
                 throw new ProcessingException("SystemconfigTask.cantWritePasswordPolicy", pkla);
             }
         }
+    }
+
+    private Path getStrictPoliciesDir() {
+        Path strictPoliciesDir = Paths.get(WelcomeConstants.EXAM_POLKIT_PATH);
+        if (!Files.isDirectory(strictPoliciesDir)) {
+            try {
+                Files.createDirectories(strictPoliciesDir);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
+        return strictPoliciesDir;
     }
 
     /**
