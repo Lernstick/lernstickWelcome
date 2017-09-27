@@ -79,8 +79,10 @@ import org.xml.sax.SAXException;
  */
 public class SystemconfigTask implements Processable<String> {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    private final static Logger LOGGER = Logger.getLogger(SystemconfigTask.class.getName());
+    private final static ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
+    private final static Logger LOGGER
+            = Logger.getLogger(SystemconfigTask.class.getName());
 
     // Some functions are only required in exam env.
     private boolean isExamEnv; // TODO Block functions for Std. Version
@@ -97,9 +99,11 @@ public class SystemconfigTask implements Processable<String> {
 
     private String oldUsername;
     private StringProperty username = new SimpleStringProperty();
-    private BooleanProperty blockKdeDesktopApplets = new SimpleBooleanProperty();
+    private BooleanProperty blockKdeDesktopApplets
+            = new SimpleBooleanProperty();
     private BooleanProperty directSoundOutput = new SimpleBooleanProperty();
-    private BooleanProperty allowAccessToOtherFilesystems = new SimpleBooleanProperty();
+    private BooleanProperty allowAccessToOtherFilesystems
+            = new SimpleBooleanProperty();
     private MountInfo bootConfigMountInfo;
     private Properties properties;
 
@@ -115,12 +119,17 @@ public class SystemconfigTask implements Processable<String> {
         this.properties = properties;
 
         // Load properties
-        blockKdeDesktopApplets.set("true".equals(properties.getProperty(WelcomeConstants.KDE_LOCK)));
-        if(isExamEnv)
-            passwordChanged = "true".equals(properties.getProperty(WelcomeConstants.PASSWORD_CHANGED));
-        allowAccessToOtherFilesystems.set(WelcomeUtil.isFileSystemMountAllowed());
+        blockKdeDesktopApplets.set("true".equals(
+                properties.getProperty(WelcomeConstants.KDE_LOCK)));
+        if (isExamEnv) {
+            passwordChanged = "true".equals(
+                    properties.getProperty(WelcomeConstants.PASSWORD_CHANGED));
+        }
+        allowAccessToOtherFilesystems.set(
+                WelcomeUtil.isFileSystemMountAllowed());
         // Load Sound Output
-        directSoundOutput.set(!Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE));
+        directSoundOutput.set(!Files.exists(
+                WelcomeConstants.ALSA_PULSE_CONFIG_FILE));
         // Load partitions
         getPartitions();
         // Load BootConfigInfos from the BootPartition
@@ -138,10 +147,9 @@ public class SystemconfigTask implements Processable<String> {
     private void updateAllowFilesystemMount() throws ProcessingException {
         try {
             if (allowAccessToOtherFilesystems.get()) {
-                //LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=auth_.*"), "=yes");
-                Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH, "10-udisks2_strict.pkla"));
+                Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
+                        "10-udisks2_strict.pkla"));
             } else {
-                //LernstickFileTools.replaceText(WelcomeConstants.UDISKS_PKLA_PATH.toString(), Pattern.compile("=yes"), "=auth_self_keep");
                 hardenPKLAs("udisks2");
             }
         } catch (IOException ex) {
@@ -166,7 +174,8 @@ public class SystemconfigTask implements Processable<String> {
             File xmlBootConfigFile = getXmlBootConfigFile();
             if (xmlBootConfigFile != null) {
                 // Convert the boot config to a xml
-                Document xmlBootDocument = WelcomeUtil.parseXmlFile(xmlBootConfigFile);
+                Document xmlBootDocument = WelcomeUtil.parseXmlFile(
+                        xmlBootConfigFile);
                 xmlBootDocument.getDocumentElement().normalize();
                 // Search for the system tag
                 Node systemNode = xmlBootDocument.getElementsByTagName(
@@ -217,8 +226,8 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Loads the partitions by using {@link WelcomeModelFactory#getSystemStorageDevice()
-     * }.
+     * Loads the partitions by using
+     * {@link WelcomeModelFactory#getSystemStorageDevice()}.
      * <br>
      * Loads the bootConfigParition and the exchangePartition.
      */
@@ -228,7 +237,8 @@ public class SystemconfigTask implements Processable<String> {
             exchangePartition = systemStorageDevice.getExchangePartition();
 
             Partition efiPartition = systemStorageDevice.getEfiPartition();
-            if (efiPartition != null && efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
+            if ((efiPartition != null)
+                    && efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
                 // current partitioning scheme, the boot config is on the
                 // *system* partition!
                 bootConfigPartition = systemStorageDevice.getSystemPartition();
@@ -280,21 +290,23 @@ public class SystemconfigTask implements Processable<String> {
             }
         };
 
-        if (bootConfigPartition == null || systemStorageDevice.getEfiPartition().getIdLabel().equals(Partition.EFI_LABEL)) {
+        if (bootConfigPartition == null
+                || systemStorageDevice.getEfiPartition().getIdLabel().equals(
+                        Partition.EFI_LABEL)) {
             // legacy system without separate boot partition or
             // post 2016-02 partition schema where the boot config files are
             // located again on the system partition
 
             // make image temporarily writable
-            PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,rw", WelcomeConstants.IMAGE_DIRECTORY);
+            PROCESS_EXECUTOR.executeProcess("mount", "-o", "remount,rw",
+                    WelcomeConstants.IMAGE_DIRECTORY);
 
             updateBootloaders(new File(WelcomeConstants.IMAGE_DIRECTORY),
                     timeout, systemName, systemVersion);
 
             // remount image read-only
-            PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,ro", WelcomeConstants.IMAGE_DIRECTORY);
+            PROCESS_EXECUTOR.executeProcess("mount", "-o", "remount,ro",
+                    WelcomeConstants.IMAGE_DIRECTORY);
         } else {
             // system with a separate boot partition
             bootConfigPartition.executeMounted(updateBootloaderAction);
@@ -328,7 +340,8 @@ public class SystemconfigTask implements Processable<String> {
         if (xmlBootConfigFile != null) {
             try {
                 // Convert the boot config to a xml
-                Document xmlBootDocument = WelcomeUtil.parseXmlFile(xmlBootConfigFile);
+                Document xmlBootDocument = WelcomeUtil.parseXmlFile(
+                        xmlBootConfigFile);
                 xmlBootDocument.getDocumentElement().normalize();
                 // Search for the system tag
                 Node systemNode = xmlBootDocument.
@@ -460,7 +473,8 @@ public class SystemconfigTask implements Processable<String> {
 
         if (bootConfigPartition == null) {
             // legacy system
-            File configFile = getXmlBootConfigFile(new File(WelcomeConstants.IMAGE_DIRECTORY));
+            File configFile = getXmlBootConfigFile(new File(
+                    WelcomeConstants.IMAGE_DIRECTORY));
             if (configFile != null) {
                 return configFile;
             }
@@ -527,7 +541,8 @@ public class SystemconfigTask implements Processable<String> {
         List<File> syslinuxConfigFiles;
         if (bootConfigPartition == null) {
             // legacy system
-            syslinuxConfigFiles = getSyslinuxConfigFiles(new File(WelcomeConstants.IMAGE_DIRECTORY));
+            syslinuxConfigFiles = getSyslinuxConfigFiles(
+                    new File(WelcomeConstants.IMAGE_DIRECTORY));
         } else {
             // system with a separate boot partition
             syslinuxConfigFiles = bootConfigPartition.executeMounted(
@@ -541,7 +556,8 @@ public class SystemconfigTask implements Processable<String> {
 
         Pattern timeoutPattern = Pattern.compile("timeout (.*)");
         for (File syslinuxConfigFile : syslinuxConfigFiles) {
-            List<String> configFileLines = WelcomeUtil.readFile(syslinuxConfigFile);
+            List<String> configFileLines
+                    = WelcomeUtil.readFile(syslinuxConfigFile);
             for (String configFileLine : configFileLines) {
                 Matcher matcher = timeoutPattern.matcher(configFileLine);
                 if (matcher.matches()) {
@@ -567,7 +583,8 @@ public class SystemconfigTask implements Processable<String> {
      */
     public void changePassword() throws ProcessingException {
         // Check if password should be changed
-        if (password.get() == null || passwordRepeat.get() == null || password.get().isEmpty() || passwordRepeat.get().isEmpty()) {
+        if ((password.get() == null) || (passwordRepeat.get() == null)
+                || password.get().isEmpty() || passwordRepeat.get().isEmpty()) {
             return;
         }
         // check, if both passwords are the same
@@ -587,7 +604,8 @@ public class SystemconfigTask implements Processable<String> {
             if (returnValue == 0) {
                 passwordEnabled();
             } else {
-                throw new ProcessingException("SystemconfigTask.Password_Change_Error");
+                throw new ProcessingException(
+                        "SystemconfigTask.Password_Change_Error");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -618,7 +636,8 @@ public class SystemconfigTask implements Processable<String> {
                 UserPrincipalLookupService lookupService
                         = FileSystems.getDefault().getUserPrincipalLookupService();
                 // set user
-                Files.setOwner(path, lookupService.lookupPrincipalByName("user"));
+                Files.setOwner(path,
+                        lookupService.lookupPrincipalByName("user"));
                 // set group            
                 PosixFileAttributeView fileAttributeView
                         = Files.getFileAttributeView(path,
@@ -693,8 +712,8 @@ public class SystemconfigTask implements Processable<String> {
         Path strictPoliciesDir = getStrictPoliciesDir();
         for (String pkla : pklas) {
             try {
-                Path lenientPath = Paths.get(
-                        WelcomeConstants.LOCAL_POLKIT_PATH, "10-" + pkla + ".pkla");
+                Path lenientPath = Paths.get(WelcomeConstants.LOCAL_POLKIT_PATH,
+                        "10-" + pkla + ".pkla");
                 List<String> lenientLines = Files.readAllLines(
                         lenientPath, StandardCharsets.UTF_8);
                 List<String> strictLines = new ArrayList<>();
@@ -705,11 +724,13 @@ public class SystemconfigTask implements Processable<String> {
                     }
                     strictLines.add(lenientLine);
                 }
-                Path strictPath = strictPoliciesDir.resolve("10-" + pkla + "_strict.pkla");
+                Path strictPath = strictPoliciesDir.resolve(
+                        "10-" + pkla + "_strict.pkla");
                 Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
-                throw new ProcessingException("SystemconfigTask.cantWritePasswordPolicy", pkla);
+                throw new ProcessingException(
+                        "SystemconfigTask.cantWritePasswordPolicy", pkla);
             }
         }
     }
@@ -731,7 +752,8 @@ public class SystemconfigTask implements Processable<String> {
      * function has to be called to umount it after use.
      */
     public void umountBootConfig() {
-        if ((bootConfigMountInfo != null) && (!bootConfigMountInfo.alreadyMounted())) {
+        if ((bootConfigMountInfo != null)
+                && (!bootConfigMountInfo.alreadyMounted())) {
             try {
                 bootConfigPartition.umount();
             } catch (DBusException ex) {
@@ -749,26 +771,30 @@ public class SystemconfigTask implements Processable<String> {
         if (!blockKdeDesktopApplets.get()) {
             try {
                 PosixFileAttributes attributes = Files.readAttributes(
-                        WelcomeConstants.APPLETS_CONFIG_FILE, PosixFileAttributes.class
+                        WelcomeConstants.APPLETS_CONFIG_FILE,
+                        PosixFileAttributes.class
                 );
                 Set<PosixFilePermission> permissions = attributes.permissions();
 
                 permissions.add(PosixFilePermission.OWNER_WRITE);
 
-                Files.setPosixFilePermissions(WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
+                Files.setPosixFilePermissions(
+                        WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
             } catch (IOException iOException) {
                 LOGGER.log(Level.WARNING, "", iOException);
             }
         } else {
             try {
                 PosixFileAttributes attributes = Files.readAttributes(
-                        WelcomeConstants.APPLETS_CONFIG_FILE, PosixFileAttributes.class
+                        WelcomeConstants.APPLETS_CONFIG_FILE,
+                        PosixFileAttributes.class
                 );
                 Set<PosixFilePermission> permissions = attributes.permissions();
 
                 permissions.remove(PosixFilePermission.OWNER_WRITE);
 
-                Files.setPosixFilePermissions(WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
+                Files.setPosixFilePermissions(
+                        WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
             } catch (IOException iOException) {
                 LOGGER.log(Level.WARNING, "", iOException);
             }
@@ -838,7 +864,8 @@ public class SystemconfigTask implements Processable<String> {
             if (!username.get().equals(oldUsername)) {
                 LOGGER.log(Level.INFO,
                         "updating full user name to \"{0}\"", username.get());
-                PROCESS_EXECUTOR.executeProcess("chfn", "-f", username.get(), "user");
+                PROCESS_EXECUTOR.executeProcess(
+                        "chfn", "-f", username.get(), "user");
             }
 
             updateProgress(1, 6);
@@ -861,13 +888,14 @@ public class SystemconfigTask implements Processable<String> {
             if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
                 if (directSoundOutput.get()) {
                     // divert alsa pulse config file
-                    PROCESS_EXECUTOR.executeProcess("dpkg-divert",
-                            "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
+                    PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--rename",
+                            WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
                 }
             } else if (!directSoundOutput.get()) {
                 // restore original alsa pulse config file
-                PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--remove",
-                        "--rename", WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
+                PROCESS_EXECUTOR.executeProcess(
+                        "dpkg-divert", "--remove", "--rename",
+                        WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
             }
 
             updateProgress(4, 6);
@@ -880,7 +908,7 @@ public class SystemconfigTask implements Processable<String> {
 
             updateProgress(5, 6);
             // Change password should only be run in exam env.
-            if(isExamEnv) {
+            if (isExamEnv) {
                 updateMessage("SystemconfigTask.password");
 
                 // Update password
@@ -892,5 +920,4 @@ public class SystemconfigTask implements Processable<String> {
             return null;
         }
     }
-
 }
