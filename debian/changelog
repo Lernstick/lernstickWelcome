@@ -1,3 +1,10 @@
+lernstickwelcome (201710251418-1) lernstick-9; urgency=medium
+
+  * [761a7e] removed WebWeaver Desktop (no longer supported)
+  * [5e7a77] updated lazarus package list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 25 Oct 2017 14:18:21 +0200
+
 lernstickwelcome (201709271605-1) lernstick-9; urgency=medium
 
   * [358c7a] updated pkla hardening
