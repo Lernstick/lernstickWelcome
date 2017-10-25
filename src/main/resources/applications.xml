@@ -358,17 +358,6 @@
             <tag>misc</tag>
         </tags>
     </application>
-    <application name="WebWeaver Desktop">
-        <description>Welcome.webweaverdesktopPanel.description</description>
-        <icon>webweaverdesktop</icon>
-        <help-path>Welcome.webweaverdesktopPanel.website</help-path>
-        <packages>
-            <package type="aptget">webweaverdesktop</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
     <application name="LehrerOffice">
         <description>Welcome.lehrerofficePanel.description</description>
         <icon>lehreroffice</icon>
