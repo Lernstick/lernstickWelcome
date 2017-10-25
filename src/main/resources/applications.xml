@@ -351,7 +351,7 @@
             <package type="aptget">fpc-source</package>
             <package type="aptget">lcl</package>
             <package type="aptget">fp-units-gfx</package>
-            <package type="aptget">fp-units-gtk</package>
+            <package type="aptget">fp-units-gtk2</package>
             <package type="aptget">fp-units-misc</package>
         </packages>
         <tags>
