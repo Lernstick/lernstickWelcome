@@ -507,6 +507,17 @@
             <tag>game</tag>
         </tags>
     </application>
+    <application name="Extreme Tux Racer">
+        <description>ExtremeTuxRacer.description</description>
+        <icon>extremetuxracer</icon>
+        <help-path>ExtremeTuxRacer.website</help-path>
+        <packages>
+            <package type="aptget">extremetuxracer</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
     <application name="SuperTux">
         <description>Welcome.supertuxGamePanel.description</description>
         <icon>supertux</icon>
