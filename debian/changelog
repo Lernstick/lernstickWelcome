@@ -1,3 +1,9 @@
+lernstickwelcome (201710272053-1) lernstick-9; urgency=medium
+
+  * [2acea9] added extremetuxracer
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 27 Oct 2017 20:53:55 +0200
+
 lernstickwelcome (201710251418-1) lernstick-9; urgency=medium
 
   * [761a7e] removed WebWeaver Desktop (no longer supported)
