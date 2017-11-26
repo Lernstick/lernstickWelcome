@@ -1,3 +1,9 @@
+lernstickwelcome (201711261752-1) lernstick-9; urgency=medium
+
+  * [41725b] changed dependency from unversioned "java-runtime" to versioned "java8-runtime"
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 26 Nov 2017 17:52:19 +0100
+
 lernstickwelcome (201710281436-1) lernstick-9; urgency=medium
 
   * [cb6000] new processing icon
