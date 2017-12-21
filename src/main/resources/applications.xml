@@ -31,6 +31,7 @@
             <tag>teaching</tag>
         </tags>
     </application>
+
     <application name="GeoGebra">
         <description>GeoGebra_description</description>
         <icon>geogebra</icon>
@@ -67,6 +68,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Omnitux">
         <description>Welcome.omnituxPanel.description</description>
         <icon>omnitux</icon>
@@ -78,6 +80,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="TuxPaint">
         <description>Welcome.tuxPaintPanel.description</description>
         <icon>tuxpaint</icon>
@@ -89,6 +92,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="GIMP">
         <description>GIMP_description</description>
         <icon>gimp</icon>
@@ -112,6 +116,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="digiKam">
         <description>digiKam_description</description>
         <icon>digikam</icon>
@@ -125,6 +130,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Stellarium">
         <description>Welcome.stellariumPanel.description</description>
         <icon>stellarium</icon>
@@ -136,6 +142,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Kstars">
         <description>Welcome.kstarsPanel.description</description>
         <icon>kstars</icon>
@@ -150,6 +157,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Gdevelop">
         <description>Welcome.gdevelopPanel.description</description>
         <icon>gdevelop</icon>
@@ -162,6 +170,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="TigerJython">
         <description>Welcome.tigerjythonPanel.description</description>
         <icon>tigerjython</icon>
@@ -173,6 +182,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Etoys">
         <description>Welcome.etoysPanel.description</description>
         <icon>etoys</icon>
@@ -185,6 +195,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="wxMaxima">
         <description>Welcome.wxmaximaPanel.description</description>
         <icon>wxmaxima</icon>
@@ -196,6 +207,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Rosegarden">
         <description>Welcome.rosegardenPanel.description</description>
         <icon>rosegarden</icon>
@@ -210,6 +222,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Hydrogen">
         <description>Welcome.hydrogenPanel.description</description>
         <icon>hydrogen</icon>
@@ -223,6 +236,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Sweet Home 3D">
         <description>Welcome.sweethome3dPanel.description</description>
         <icon>sweethome3d</icon>
@@ -236,6 +250,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Openclipart">
         <description>Welcome.openclipartPanel.description</description>
         <icon>openclipart</icon>
@@ -247,6 +262,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="LyX">
         <description>Welcome.lyxPanel.description</description>
         <icon>lyx</icon>
@@ -270,6 +286,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Scribus">
         <description>Welcome.scribusPanel.description</description>
         <icon>scribus</icon>
@@ -284,6 +301,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Gespeaker">
         <description>Welcome.gespeakerPanel.description</description>
         <icon>gespeaker</icon>
@@ -314,6 +332,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="GnuCash">
         <description>Welcome.gnucashPanel.description</description>
         <icon>gnucash</icon>
@@ -326,6 +345,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="NetBeans">
         <description>Welcome.netbeansPanel.description</description>
         <icon>netbeans</icon>
@@ -345,6 +365,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Processing">
         <description>Welcome.processingPanel.description</description>
         <icon>processing</icon>
@@ -356,6 +377,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="RStudio">
         <description>Welcome.rstudioPanel.description</description>
         <icon>rstudio</icon>
@@ -369,6 +391,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Lazarus">
         <description>Welcome.lazarusPanel.description</description>
         <icon>lazarus</icon>
@@ -385,6 +408,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="LehrerOffice">
         <description>Welcome.lehrerofficePanel.description</description>
         <icon>lehreroffice</icon>
@@ -396,6 +420,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Wizbee">
         <description>Welcome.wizbeePanel.description</description>
         <icon>wizbee</icon>
@@ -407,6 +432,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+
     <application name="Dybuster Calcularis">
         <description>Welcome.calcularisPanel.description</description>
         <icon>calcularis</icon>
@@ -434,6 +460,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Colobot">
         <description>Welcome.colobotGamePanel.description</description>
         <icon>colobot</icon>
@@ -445,6 +472,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Widelands">
         <description>Welcome.widelandsPanel.description</description>
         <icon>widelands</icon>
@@ -456,6 +484,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Ri-li">
         <description>Welcome.riliGamePanel.description</description>
         <icon>ri-li</icon>
@@ -467,6 +496,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Fish Fillets NG">
         <description>Welcome.filletsGamePanel.description</description>
         <icon>fillets</icon>
@@ -479,6 +509,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Neverball">
         <description>Welcome.neverballGamePanel.description</description>
         <icon>neverball</icon>
@@ -490,6 +521,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Neverputt">
         <description>Welcome.neverputtGamePanel.description</description>
         <icon>neverputt</icon>
@@ -501,6 +533,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="FreeCol">
         <description>Welcome.freecolGamePanel.description</description>
         <icon>freecol</icon>
@@ -512,6 +545,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Unknown Horizons">
         <description>Unknown_Horizons_description</description>
         <icon>unknown-horizons</icon>
@@ -523,6 +557,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Frogatto &amp; Friends">
         <description>Welcome.frogattoGamePanel.description</description>
         <icon>frogatto</icon>
@@ -534,6 +569,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Extreme Tux Racer">
         <description>ExtremeTuxRacer.description</description>
         <icon>extremetuxracer</icon>
@@ -545,6 +581,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="SuperTux">
         <description>Welcome.supertuxGamePanel.description</description>
         <icon>supertux</icon>
@@ -556,6 +593,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="SuperTuxKart">
         <description>Welcome.supertuxkartGamePanel.description</description>
         <icon>supertuxkart</icon>
@@ -567,6 +605,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="XMoto">
         <description>Welcome.xmotoGamePanel.description</description>
         <icon>xmoto</icon>
@@ -578,6 +617,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Trigger Rally">
         <description>Welcome.triggerGamePanel.description</description>
         <icon>trigger</icon>
@@ -589,6 +629,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="OpenClonk">
         <description>Welcome.openclonkPanel.description</description>
         <icon>openclonk</icon>
@@ -600,6 +641,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="The Battle for Wesnoth">
         <description>Welcome.wesnothGamePanel.description</description>
         <icon>wesnoth</icon>
@@ -612,6 +654,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="FLARE">
         <description>Welcome.flareGamePanel.description</description>
         <icon>flare</icon>
@@ -623,6 +666,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Hedgewars">
         <description>Welcome.hedgewarsGamePanel.description</description>
         <icon>hedgewars</icon>
@@ -634,6 +678,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="MegaGlest">
         <description>Welcome.megaglestGamePanel.description</description>
         <icon>megaglest</icon>
@@ -645,6 +690,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="UFO: Alien Invasion">
         <description>Welcome.ufoaiGamePanel.description</description>
         <icon>ufoai</icon>
@@ -657,6 +703,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="Astromenace">
         <description>Welcome.astromenaceGamePanel.description</description>
         <icon>astromenace</icon>
@@ -668,6 +715,7 @@
             <tag>game</tag>
         </tags>
     </application>
+
     <application name="itch">
         <description>Itch_description</description>
         <icon>itch</icon>
@@ -695,6 +743,7 @@
             <tag>recommended</tag>
         </tags>
     </application>
+
     <application name="Welcome.fontsLabel.text">
         <description></description>
         <icon>fonts</icon>
@@ -706,6 +755,7 @@
             <tag>recommended</tag>
         </tags>
     </application>
+
     <application name="Adobe Flash Player">
         <description>Welcome.flashPanel.description</description>
         <icon>flash</icon>
@@ -719,6 +769,7 @@
             <tag>recommended</tag>
         </tags>
     </application>
+
     <application name="Adobe Reader">
         <description>Adobe_Reader_Description</description>
         <icon>Adobe_Reader_8_icon</icon>
@@ -756,6 +807,7 @@
             <tag>utility</tag>
         </tags>
     </application>
+
     <application name="Google Earth Pro">
         <description>Google_Earth_Description</description>
         <icon>googleearth</icon>
