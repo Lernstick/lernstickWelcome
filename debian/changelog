@@ -1,3 +1,10 @@
+lernstickwelcome (201712212236-1) lernstick-9; urgency=medium
+
+  * [e82548] added some empty lines to better separate the apps
+  * [54ad10] added openshot
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 21 Dec 2017 22:36:30 +0100
+
 lernstickwelcome (201712212219-1) lernstick-9; urgency=medium
 
   * [b13b8f] added geogebra
