@@ -31,6 +31,20 @@
             <tag>teaching</tag>
         </tags>
     </application>
+    <application name="GeoGebra">
+        <description>GeoGebra_description</description>
+        <icon>geogebra</icon>
+        <help-path>GeoGebra_website</help-path>
+        <packages>
+            <package type="aptget">lernstick-geogebra</package>
+            <package type="aptget">geogebra5</package>
+            <package type="aptget">geogebra-gnome</package>
+            <package type="aptget">geogebra-kde</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
 
     <!-- misc programs -->
 
