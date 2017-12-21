@@ -98,6 +98,19 @@
             <tag>misc</tag>
         </tags>
     </application>
+    <application name="digiKam">
+        <description>digiKam_description</description>
+        <icon>digikam</icon>
+        <help-path>digiKam_website</help-path>
+        <packages>
+            <package type="aptget">digikam</package>
+            <package type="aptget">digikam-doc</package>
+            <package type="aptget">lernstick-digikam</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
     <application name="Stellarium">
         <description>Welcome.stellariumPanel.description</description>
         <icon>stellarium</icon>
