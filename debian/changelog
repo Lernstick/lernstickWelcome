@@ -1,3 +1,9 @@
+lernstickwelcome (201712211642-1) lernstick-9; urgency=medium
+
+  * [97dd60] added pepperflashplugin-nonfree
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 21 Dec 2017 16:42:24 +0100
+
 lernstickwelcome (201712211628-1) lernstick-9; urgency=medium
 
   * [5e9970] added digiKam
