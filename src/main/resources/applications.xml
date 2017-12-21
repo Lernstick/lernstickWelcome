@@ -131,6 +131,18 @@
         </tags>
     </application>
 
+    <application name="OpenShot">
+        <description>OpenShot_description</description>
+        <icon>openshot</icon>
+        <help-path>OpenShot_website</help-path>
+        <packages>
+            <package type="aptget">openshot-qt</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Stellarium">
         <description>Welcome.stellariumPanel.description</description>
         <icon>stellarium</icon>
