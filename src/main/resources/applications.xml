@@ -699,6 +699,7 @@
         <packages>
             <package type="aptget">flashplugin-nonfree</package>
             <package type="aptget">libhal1-flash</package>
+            <package type="aptget">pepperflashplugin-nonfree</package>
         </packages>
         <tags>
             <tag>recommended</tag>
