@@ -1,3 +1,9 @@
+lernstickwelcome (201712211628-1) lernstick-9; urgency=medium
+
+  * [5e9970] added digiKam
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 21 Dec 2017 16:28:17 +0100
+
 lernstickwelcome (201711261752-1) lernstick-9; urgency=medium
 
   * [41725b] changed dependency from unversioned "java-runtime" to versioned "java8-runtime"
