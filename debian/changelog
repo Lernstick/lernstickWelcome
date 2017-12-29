@@ -1,3 +1,9 @@
+lernstickwelcome (201712290952-1) lernstick-9; urgency=medium
+
+  * [ceb330] no longer set stages "always on top" (was a usability nightmare)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 29 Dec 2017 09:52:18 +0100
+
 lernstickwelcome (201712281916-1) lernstick-9; urgency=medium
 
   * [32ae82] added Jitsi
