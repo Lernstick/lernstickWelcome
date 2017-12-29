@@ -118,7 +118,6 @@ public class ProgressBinder {
                 if(controller.getInstaller().exceptionProperty().getValue() != null) {
                     // Current stage not always on top anymore so error can be shown
                     Stage currentStage = ((Stage) install.getPbInstBar().getScene().getWindow());
-                    currentStage.setAlwaysOnTop(false);
                     // Show error dialog on exception
                     error.initErrorMessage(controller.getInstaller().exceptionProperty().get());
                     errorDialog.showAndWait();

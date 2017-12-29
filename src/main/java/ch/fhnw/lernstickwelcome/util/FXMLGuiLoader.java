@@ -450,7 +450,6 @@ public final class FXMLGuiLoader {
         stage.initOwner(parent);
         if (modal) {
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setAlwaysOnTop(modal);
         }
         stage.setTitle(title);
         stage.setScene(scene);
