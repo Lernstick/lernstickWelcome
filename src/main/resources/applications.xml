@@ -534,6 +534,19 @@
         </tags>
     </application>
 
+    <application name="Enigma">
+        <description>Enigma_description</description>
+        <icon>enigma</icon>
+        <help-path>Enigma_website</help-path>
+        <packages>
+            <package type="aptget">enigma</package>
+            <package type="aptget">live-enigma</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
+
     <application name="Neverball">
         <description>Welcome.neverballGamePanel.description</description>
         <icon>neverball</icon>
