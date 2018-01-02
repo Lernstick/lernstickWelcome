@@ -1,3 +1,9 @@
+lernstickwelcome (201801021520-1) lernstick-9; urgency=medium
+
+  * [3da99b] added Enigma (game)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 02 Jan 2018 15:20:22 +0100
+
 lernstickwelcome (201712290952-1) lernstick-9; urgency=medium
 
   * [ceb330] no longer set stages "always on top" (was a usability nightmare)
