@@ -710,6 +710,7 @@
         <help-path>Welcome.hedgewarsGamePanel.website</help-path>
         <packages>
             <package type="aptget">hedgewars</package>
+            <package type="aptget">live-hedgewars</package>
         </packages>
         <tags>
             <tag>game</tag>
