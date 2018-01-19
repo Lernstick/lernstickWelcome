@@ -665,6 +665,9 @@ public class SystemconfigTask implements Processable<String> {
         addStrictPKLA("10-wrapper-synaptic_strict.pkla", "enforce "
                 + "authentication before running the synaptic wrapper script",
                 "ch.lernstick.wrapper-synaptic");
+        addStrictPKLA("10-wrapper-gdebi-gtk_strict.pkla", "enforce "
+                + "authentication before running the gdebi-gtk wrapper script",
+                "ch.lernstick.wrapper-gdebi-gtk");
 
         // harden our custom rules for third party applications
         hardenPKLAs("jbackpack", "gnome-system-log", "packagekit");
