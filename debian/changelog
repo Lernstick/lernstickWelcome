@@ -1,3 +1,10 @@
+lernstickwelcome (201801192122-1) lernstick-9; urgency=medium
+
+  * add strict PKLA variant for package management wrapper for gdebi-gtk when
+    setting password
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 19 Jan 2018 21:22:50 +0100
+
 lernstickwelcome (201801191852-1) lernstick-9; urgency=medium
 
   * also install live-hedgewars when installing hedgewars
