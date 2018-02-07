@@ -490,6 +490,7 @@
         <icon>colobot</icon>
         <help-path>Welcome.colobotGamePanel.website</help-path>
         <packages>
+            <package type="aptget">lernstick-colobot</package>
             <package type="aptget">colobot</package>
         </packages>
         <tags>
