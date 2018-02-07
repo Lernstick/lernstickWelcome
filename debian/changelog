@@ -1,3 +1,9 @@
+lernstickwelcome (201802071806-1) lernstick-9; urgency=medium
+
+  * [256837] added lernstick-colobot to Colobot package list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 07 Feb 2018 18:06:11 +0100
+
 lernstickwelcome (201801192122-1) lernstick-9; urgency=medium
 
   * add strict PKLA variant for package management wrapper for gdebi-gtk when
