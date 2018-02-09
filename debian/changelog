@@ -1,3 +1,9 @@
+lernstickwelcome (201802092226-1) lernstick-9; urgency=medium
+
+  * [a8fc00] added lernstick-openshot-qt to OpenShot package list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 09 Feb 2018 22:26:38 +0100
+
 lernstickwelcome (201802071806-1) lernstick-9; urgency=medium
 
   * [256837] added lernstick-colobot to Colobot package list
