@@ -858,6 +858,7 @@
         <packages>
             <package type="aptget">lsb-core</package>
             <package type="wget" fetchUrl="https://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-pro-stable_current_amd64.deb</package>
+            <package type="aptget">lernstick-google-earth-pro-stable</package>
         </packages>
         <tags>
             <tag>utility</tag>
