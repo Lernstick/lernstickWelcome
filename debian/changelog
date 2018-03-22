@@ -1,3 +1,12 @@
+lernstickwelcome (201803222259-1) lernstick-9; urgency=medium
+
+  * [3b0086] fixed code formatting
+  * [802802] updated translations and help texts
+  * [3733b7] synced with newer lernstick-firewall (switched to systemd)
+  * [225bc4] fixed some code formatting
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 22 Mar 2018 22:59:01 +0100
+
 lernstickwelcome (201802121536-1) lernstick-9; urgency=medium
 
   * [df0057] added lernstick-google-earth-pro-stable to Google Earth Pro package list
