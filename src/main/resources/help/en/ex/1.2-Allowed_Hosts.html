@@ -17,16 +17,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html>
     <head>
-        <title>Firewall</title>
+        <title>Allowed Hosts</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../../help.css">
     </head>
     <body>
-	<h1>Firewall</h1>
+        <h1>Allowed Hosts</h1>
         <p>
-		Here you can define a whitelist of hosts and URLs, on which the access
-		is allowed in the exam environment.
-		</p>
+            You can configure the following options:
+        </p>
+        <p>
+            <b>Protocol</b><br>
+            Choose between UDP and TCP to be used as protocol.
+        </p>
+        <p>
+            <b>Host</b><br>
+            The host name or IP address to be whitelisted.
+        </p>
+        <p>
+            <b>Port or Portrange</b><br>
+            The port or port range of the host to be whitelisted. Port ranges
+            must be separated with a colon:<br>
+            <i>first port</i>:<i>last port</i>, e.g.:<br>
+            8000:8080
+        </p>
+        <p>
+            <b>Description</b><br>
+            A description of the whitelist entry.
+        </p>
     </body>
 </html>

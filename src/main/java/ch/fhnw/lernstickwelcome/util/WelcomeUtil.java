@@ -23,7 +23,6 @@ import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -51,8 +50,10 @@ import org.xml.sax.SAXException;
  */
 public class WelcomeUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(WelcomeUtil.class.getName());
-    private static final ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
+    private static final Logger LOGGER
+            = Logger.getLogger(WelcomeUtil.class.getName());
+    private static final ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
     /**
      * see {@link #isImageWritable()} *
      */
@@ -72,7 +73,9 @@ public class WelcomeUtil {
      */
     public static Document parseXmlFile(File file)
             throws ParserConfigurationException, SAXException, IOException {
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
         // External DTD loading will most probably fail because of the local
         // firewall rules. Therefore we must disable this feature, otherwise
         // the call to parse() below will just throw an IOException.
@@ -96,7 +99,9 @@ public class WelcomeUtil {
      */
     public static Document parseXmlFile(InputStream is)
             throws ParserConfigurationException, SAXException, IOException {
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
         // External DTD loading will most probably fail because of the local
         // firewall rules. Therefore we must disable this feature, otherwise
         // the call to parse() below will just throw an IOException.
@@ -171,9 +176,10 @@ public class WelcomeUtil {
      */
     public static boolean isImageWritable() {
         if (isImageWritable == null) {
-            PROCESS_EXECUTOR.executeProcess(
-                    "mount", "-o", "remount,rw", WelcomeConstants.IMAGE_DIRECTORY);
-            String testPath = WelcomeConstants.IMAGE_DIRECTORY + "/lernstickWelcome.tmp";
+            PROCESS_EXECUTOR.executeProcess("mount", "-o", "remount,rw",
+                    WelcomeConstants.IMAGE_DIRECTORY);
+            String testPath = WelcomeConstants.IMAGE_DIRECTORY
+                    + "/lernstickWelcome.tmp";
             PROCESS_EXECUTOR.executeProcess("touch", testPath);
             File testFile = new File(testPath);
             try {
@@ -186,8 +192,8 @@ public class WelcomeUtil {
                 }
             } finally {
                 PROCESS_EXECUTOR.executeProcess("rm", testPath);
-                PROCESS_EXECUTOR.executeProcess(
-                        "mount", "-o", "remount,ro", WelcomeConstants.IMAGE_DIRECTORY);
+                PROCESS_EXECUTOR.executeProcess("mount", "-o", "remount,ro",
+                        WelcomeConstants.IMAGE_DIRECTORY);
             }
         }
         return isImageWritable;
@@ -201,7 +207,9 @@ public class WelcomeUtil {
      * TableCell index
      * @throws TableCellValidationException
      */
-    public static void checkPortRange(String portRange, int index) throws TableCellValidationException {
+    public static void checkPortRange(String portRange, int index)
+            throws TableCellValidationException {
+
         String[] tokens = portRange.split(":");
         switch (tokens.length) {
             case 1:
@@ -216,7 +224,8 @@ public class WelcomeUtil {
 
             default:
                 // invalid syntax
-                throw new TableCellValidationException("WelcomeUtil.Error_PortRange", index, 2);
+                throw new TableCellValidationException(
+                        "WelcomeUtil.Error_PortRange", index, 2);
         }
     }
 
@@ -230,14 +239,17 @@ public class WelcomeUtil {
      * TableCell index
      * @throws TableCellValidationException
      */
-    private static void checkPortString(String portString, int index) throws TableCellValidationException {
+    private static void checkPortString(String portString, int index)
+            throws TableCellValidationException {
         try {
             int portNumber = Integer.parseInt(portString);
             if ((portNumber < 0) || (portNumber > 65535)) {
-                throw new TableCellValidationException("WelcomeUtil.Error_PortRange", index, 2);
+                throw new TableCellValidationException(
+                        "WelcomeUtil.Error_PortRange", index, 2);
             }
         } catch (NumberFormatException ex) {
-            throw new TableCellValidationException("WelcomeUtil.Error_PortRange", index, 2);
+            throw new TableCellValidationException(
+                    "WelcomeUtil.Error_PortRange", index, 2);
         }
     }
 
@@ -249,7 +261,9 @@ public class WelcomeUtil {
      * TableCell index
      * @throws TableCellValidationException
      */
-    public static void checkTarget(String target, int index) throws TableCellValidationException {
+    public static void checkTarget(String target, int index)
+            throws TableCellValidationException {
+
         // a CIDR block has the syntax: <IP address>\<prefix length>
         String octetP = "\\p{Digit}{1,3}";
         String ipv4P = "(?:" + octetP + "\\.){3}" + octetP;
@@ -263,7 +277,9 @@ public class WelcomeUtil {
             try {
                 int prefixLength = Integer.parseInt(prefixLengthString);
                 if (prefixLength < 0 || prefixLength > 32) {
-                    throw new TableCellValidationException("WelcomeUtil.Error_PrefixLength", index, 1, prefixLengthString);
+                    throw new TableCellValidationException(
+                            "WelcomeUtil.Error_PrefixLength",
+                            index, 1, prefixLengthString);
                 }
             } catch (NumberFormatException ex) {
                 LOGGER.log(Level.WARNING,
@@ -291,7 +307,9 @@ public class WelcomeUtil {
      * TableCell index
      * @throws TableCellValidationException
      */
-    private static void checkHostName(String string, int index) throws TableCellValidationException {
+    private static void checkHostName(String string, int index)
+            throws TableCellValidationException {
+
         // Hostnames are composed of series of labels concatenated with dots, as
         // are all domain names. For example, "en.wikipedia.org" is a hostname.
         // Each label must be between 1 and 63 characters long, and the entire
@@ -301,19 +319,21 @@ public class WelcomeUtil {
         // that component hostname labels may contain only the ASCII letters
         // 'a' through 'z' (in a case-insensitive manner), the digits '0'
         // through '9', and the hyphen ('-').
-
         if (string.isEmpty()) {
-            throw new TableCellValidationException("WelcomeUtil.Error_No_Hostname", index, 1);
+            throw new TableCellValidationException(
+                    "WelcomeUtil.Error_No_Hostname", index, 1);
         }
 
         if (string.length() > 255) {
-            throw new TableCellValidationException("WelcomeUtil.Error_HostnameLength", index, 1, string);
+            throw new TableCellValidationException(
+                    "WelcomeUtil.Error_HostnameLength", index, 1, string);
         }
 
         String[] labels = string.split("\\.");
         for (String label : labels) {
             if (label.length() > 63) {
-                throw new TableCellValidationException("WelcomeUtil.Error_LabelLength", index, 1, label);
+                throw new TableCellValidationException(
+                        "WelcomeUtil.Error_LabelLength", index, 1, label);
             }
             for (int i = 0, length = label.length(); i < length; i++) {
                 char c = label.charAt(i);
@@ -321,7 +341,9 @@ public class WelcomeUtil {
                         && ((c < '0') || (c > '9'))
                         && ((c < 'A') || (c > 'Z'))
                         && ((c < 'a') || (c > 'z'))) {
-                    throw new TableCellValidationException("WelcomeUtil.Error_Invalid_Hostname_Character", index, 1, c);
+                    throw new TableCellValidationException(
+                            "WelcomeUtil.Error_Invalid_Hostname_Character",
+                            index, 1, c);
                 }
             }
         }
@@ -337,16 +359,22 @@ public class WelcomeUtil {
      * TableCell index
      * @throws TableCellValidationException
      */
-    private static void checkIPv4Address(String string, int index) throws TableCellValidationException {
+    private static void checkIPv4Address(String string, int index)
+            throws TableCellValidationException {
+
         String[] octetStrings = string.split("\\.");
         for (String octetString : octetStrings) {
             try {
                 int octet = Integer.parseInt(octetString);
                 if (octet < 0 || octet > 255) {
-                    throw new TableCellValidationException("WelcomeUtil.Error_Octet", index, 1, string, octetString);
+                    throw new TableCellValidationException(
+                            "WelcomeUtil.Error_Octet",
+                            index, 1, string, octetString);
                 }
             } catch (NumberFormatException ex) {
-                throw new TableCellValidationException("WelcomeUtil.Error_Octet", index, 1, string, octetString);
+                throw new TableCellValidationException(
+                        "WelcomeUtil.Error_Octet",
+                        index, 1, string, octetString);
             }
         }
     }

@@ -17,40 +17,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html>
     <head>
-        <title>Allow Websites</title>
+        <title>Hosts erlauben</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../../help.css">
     </head>
     <body>
-        <h1>Allow Websites</h1>
+        <h1>Hosts erlauben</h1>
         <p>
-            Define websites and URLs, which will be allowed by the system. You
-            have mulitple ways to define a whitelist pattern.
+            Sie können folgende Optionen angeben:
         </p>
         <p>
-            <b>exact</b><br>
-            Define an exact URL which will be allowed.
+            <b>Protokoll</b> <br>
+            Hier können Sie konfigurieren, ob UDP oder TCP als Protokoll benutzt 
+            werden soll.
         </p>
         <p>
-            <b>starts with</b><br>
-            Define a string which must match the beginning of an URL in order to
-            allow it.<br>
-            e.g.: https://www.lernstick.com<br>
-            allowed: https://www.lernstick.com/download
+            <b>Host</b><br>
+            Der Hostname oder die IP-Adresse, die nicht blockiert werden soll.
         </p>
         <p>
-            <b>contains</b><br>
-            Define a string which must be contained in the URL in order to allow
-            it.<br>
-            e.g.: lernstick<br>
-            allowed: https://www.lernstick.com<br>
-            allowed: https://www.google.com/lernstick/info
+            <b>Port oder Portbereich</b> <br>
+            Der Port oder ein Portbereich des Hosts, der nicht blockiert werden
+            soll. Portbereiche müssen mit einem Doppelpunkt getrennt werden:<br>
+            <i>erster Port</i>:<i>letzter Port</i>, z.B.:<br>
+            8000:8080
         </p>
         <p>
-            <b>custom</b><br>
-            Define a regular expression. If the URL matches the regular
-            expression, it is allowed.
+            <b>Beschreibung</b> <br>
+            Eine Beschreibung des Whitelist-Eintrags.
         </p>
     </body>
 </html>
