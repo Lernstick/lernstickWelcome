@@ -53,18 +53,22 @@ import javafx.concurrent.Task;
  */
 public class FirewallTask implements Processable<String> {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    private final static Logger LOGGER = Logger.getLogger(FirewallTask.class.getName());
-    private ListProperty<IpFilter> ipList = new SimpleListProperty<>(FXCollections.observableArrayList());
-    private ListProperty<WebsiteFilter> websiteList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final static ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
+    private final static Logger LOGGER
+            = Logger.getLogger(FirewallTask.class.getName());
+    private ListProperty<IpFilter> ipList
+            = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private ListProperty<WebsiteFilter> websiteList
+            = new SimpleListProperty<>(FXCollections.observableArrayList());
     private List<WebsiteFilter> savedWebsiteList = new ArrayList<>();
     private BooleanProperty firewallRunning = new SimpleBooleanProperty();
-    private Timer timer;
+    private final Timer timer;
 
     /**
-     * Creates a FirewallTask by loading the null     {@link #parseNetWhiteList() Server Whitelist}, 
-     * {@link #parseURLWhiteList()  Website Whitelist} and starting a
-     * {@link Timer} to load the firewall state every 3 seconds.
+     * Creates a FirewallTask by loading the {@link #parseNetWhiteList()
+     * Server Whitelist, {@link #parseURLWhiteList()  Website Whitelist and
+     * starting a {@link Timer} to load the firewall state every 3 seconds.
      */
     public FirewallTask() {
         try {
@@ -111,7 +115,8 @@ public class FirewallTask implements Processable<String> {
         if (ret == 0) {
             firewallRunning.set(!firewallRunning.get());
             // check firewall state
-            firewallRunning.set(PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0);
+            firewallRunning.set(PROCESS_EXECUTOR.executeProcess(
+                    "lernstick-firewall", "status") == 0);
         } else {
             LOGGER.log(Level.WARNING,
                     action + "ing lernstick-firewall failed, return code {0} "
@@ -133,7 +138,8 @@ public class FirewallTask implements Processable<String> {
      * firewall.
      */
     private void updateFirewallState() {
-        boolean running = PROCESS_EXECUTOR.executeProcess("lernstick-firewall", "status") == 0;
+        boolean running = PROCESS_EXECUTOR.executeProcess(
+                "lernstick-firewall", "status") == 0;
         Platform.runLater(() -> firewallRunning.set(running));
     }
 
@@ -186,12 +192,14 @@ public class FirewallTask implements Processable<String> {
                             protocol = IpFilter.Protocol.UDP;
                         } else {
                             LOGGER.log(Level.WARNING,
-                                    "could not parse protocol \"{0}\"", tokens[0]);
+                                    "could not parse protocol \"{0}\"",
+                                    tokens[0]);
                             continue;
                         }
                         String target = tokens[1];
                         String portRange = tokens[2];
-                        ipList.add(new IpFilter(protocol, target, portRange, lastComment));
+                        ipList.add(new IpFilter(
+                                protocol, target, portRange, lastComment));
                     } else {
                         LOGGER.log(Level.WARNING,
                                 "unsupported net whitelist:\n{0}", line);
