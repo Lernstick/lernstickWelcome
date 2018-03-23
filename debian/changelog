@@ -1,3 +1,9 @@
+lernstickwelcome (201803232112-1) lernstick-9; urgency=medium
+
+  * [70d273] switched to GeoGebra v6
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 23 Mar 2018 21:12:29 +0100
+
 lernstickwelcome (201803222259-1) lernstick-9; urgency=medium
 
   * [3b0086] fixed code formatting
