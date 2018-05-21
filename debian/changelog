@@ -1,3 +1,9 @@
+lernstickwelcome (201805211105-1) lernstick-9; urgency=medium
+
+  * [9e7bba] install GeoGebra 5 *and* GeoGebra 6 (some users prefer v5, others v6)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 21 May 2018 11:05:41 +0200
+
 lernstickwelcome (201805211030-1) lernstick-9; urgency=medium
 
   * [5f10a4] added Wine and Playonlinux to package list
