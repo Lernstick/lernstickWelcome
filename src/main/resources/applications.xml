@@ -250,6 +250,19 @@
         </tags>
     </application>
 
+    <application name="Solfege">
+        <description>Solfege.description</description>
+        <icon>solfege</icon>
+        <help-path>Solfege.website</help-path>
+        <packages>
+            <package type="aptget">solfege</package>
+            <package type="aptget">solfege-doc</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Gespeaker">
         <description>Welcome.gespeakerPanel.description</description>
         <icon>gespeaker</icon>
