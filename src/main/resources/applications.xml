@@ -250,6 +250,37 @@
         </tags>
     </application>
 
+    <application name="Gespeaker">
+        <description>Welcome.gespeakerPanel.description</description>
+        <icon>gespeaker</icon>
+        <help-path>Welcome.gespeakerPanel.website</help-path>
+        <packages>
+            <package type="aptget">gespeaker</package>
+            <package type="aptget">mbrola-br1</package>
+            <package type="aptget">mbrola-br3</package>
+            <package type="aptget">mbrola-br4</package>
+            <package type="aptget">mbrola-de2</package>
+            <package type="aptget">mbrola-de3</package>
+            <package type="aptget">mbrola-de4</package>
+            <package type="aptget">mbrola-de5</package>
+            <package type="aptget">mbrola-de6</package>
+            <package type="aptget">mbrola-de7</package>
+            <package type="aptget">mbrola-en1</package>
+            <package type="aptget">mbrola-es1</package>
+            <package type="aptget">mbrola-es2</package>
+            <package type="aptget">mbrola-fr1</package>
+            <package type="aptget">mbrola-fr4</package>
+            <package type="aptget">mbrola-it3</package>
+            <package type="aptget">mbrola-it4</package>
+            <package type="aptget">mbrola-us1</package>
+            <package type="aptget">mbrola-us2</package>
+            <package type="aptget">mbrola-us3</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Sweet Home 3D">
         <description>Welcome.sweethome3dPanel.description</description>
         <icon>sweethome3d</icon>
@@ -321,37 +352,6 @@
         <help-path>Jitsi_website</help-path>
         <packages>
             <package type="aptget">jitsi</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="Gespeaker">
-        <description>Welcome.gespeakerPanel.description</description>
-        <icon>gespeaker</icon>
-        <help-path>Welcome.gespeakerPanel.website</help-path>
-        <packages>
-            <package type="aptget">gespeaker</package>
-            <package type="aptget">mbrola-br1</package>
-            <package type="aptget">mbrola-br3</package>
-            <package type="aptget">mbrola-br4</package>
-            <package type="aptget">mbrola-de2</package>
-            <package type="aptget">mbrola-de3</package>
-            <package type="aptget">mbrola-de4</package>
-            <package type="aptget">mbrola-de5</package>
-            <package type="aptget">mbrola-de6</package>
-            <package type="aptget">mbrola-de7</package>
-            <package type="aptget">mbrola-en1</package>
-            <package type="aptget">mbrola-es1</package>
-            <package type="aptget">mbrola-es2</package>
-            <package type="aptget">mbrola-fr1</package>
-            <package type="aptget">mbrola-fr4</package>
-            <package type="aptget">mbrola-it3</package>
-            <package type="aptget">mbrola-it4</package>
-            <package type="aptget">mbrola-us1</package>
-            <package type="aptget">mbrola-us2</package>
-            <package type="aptget">mbrola-us3</package>
         </packages>
         <tags>
             <tag>misc</tag>
