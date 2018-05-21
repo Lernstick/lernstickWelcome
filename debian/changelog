@@ -1,3 +1,11 @@
+lernstickwelcome (201805211030-1) lernstick-9; urgency=medium
+
+  * [5f10a4] added Wine and Playonlinux to package list
+  * [e34224] moved Gespeaker to other sound applications
+  * [1717e0] added Solfege to package list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 21 May 2018 10:30:34 +0200
+
 lernstickwelcome (201803232112-1) lernstick-9; urgency=medium
 
   * [70d273] switched to GeoGebra v6
