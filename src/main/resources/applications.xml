@@ -434,6 +434,21 @@
         </tags>
     </application>
 
+    <application name="Wine">
+        <description>Wine.description</description>
+        <icon>wine</icon>
+        <help-path>Wine.website</help-path>
+        <packages>
+            <package type="aptget">lernstick-wine</package>
+            <package type="aptget">wine-gecko</package>
+            <package type="aptget">lernstick-playonlinux</package>
+            <package type="aptget">playonlinux</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="LehrerOffice">
         <description>Welcome.lehrerofficePanel.description</description>
         <icon>lehreroffice</icon>
