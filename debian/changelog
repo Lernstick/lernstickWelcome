@@ -1,3 +1,9 @@
+lernstickwelcome (201805211255-1) lernstick-9; urgency=medium
+
+  * [7e7bc7] use localized websites for Wine and Solfege
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 21 May 2018 12:55:28 +0200
+
 lernstickwelcome (201805211105-1) lernstick-9; urgency=medium
 
   * [9e7bba] install GeoGebra 5 *and* GeoGebra 6 (some users prefer v5, others v6)
