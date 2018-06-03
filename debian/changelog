@@ -1,3 +1,9 @@
+lernstickwelcome (201806031656-1) lernstick-9; urgency=medium
+
+  * [2161ec] install backported wesnoth-1.14 instead of "stable" wesnoth-1.12
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 03 Jun 2018 16:56:45 +0200
+
 lernstickwelcome (201805211255-1) lernstick-9; urgency=medium
 
   * [7e7bc7] use localized websites for Wine and Solfege
