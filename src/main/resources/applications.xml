@@ -715,8 +715,7 @@
         <icon>wesnoth</icon>
         <help-path>Welcome.wesnothGamePanel.website</help-path>
         <packages>
-            <package type="aptget">wesnoth-1.12</package>
-            <package type="aptget">wesnoth-1.12-music</package>
+            <package type="aptget">wesnoth-1.14</package>
         </packages>
         <tags>
             <tag>game</tag>
