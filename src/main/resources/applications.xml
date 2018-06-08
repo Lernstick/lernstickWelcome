@@ -417,6 +417,19 @@
         </tags>
     </application>
 
+
+    <application name="Jupyter Notebook">
+        <description>Jupyter_description</description>
+        <icon>jupyter</icon>
+        <help-path>Jupyter_website</help-path>
+        <packages>
+            <package type="aptget">lernstick-jupyter-notebook</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="RStudio">
         <description>Welcome.rstudioPanel.description</description>
         <icon>rstudio</icon>
