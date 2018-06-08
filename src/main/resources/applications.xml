@@ -345,6 +345,34 @@
         </tags>
     </application>
 
+    <application name="Gummi">
+        <description>Welcome.gummiPanel.description</description>
+        <icon>gummi</icon>
+        <help-path>Welcome.gummiPanel.website</help-path>
+        <packages>
+            <package type="aptget">gummi</package>
+            <package type="aptget">texlive-lang-all</package>
+            <package type="aptget">texlive-fonts-extra</package>
+            <package type="aptget">texlive-science</package>
+            <package type="aptget">texlive-humanities</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
+    <application name="Retext">
+        <description>Welcome.retextPanel.description</description>
+        <icon>retext</icon>
+        <help-path>Welcome.retextPanel.website</help-path>
+        <packages>
+            <package type="aptget">retext</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Scribus">
         <description>Welcome.scribusPanel.description</description>
         <icon>scribus</icon>
@@ -411,6 +439,19 @@
         <help-path>Welcome.processingPanel.website</help-path>
         <packages>
             <package type="aptget">processing</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
+
+    <application name="Jupyter Notebook">
+        <description>Jupyter_description</description>
+        <icon>jupyter</icon>
+        <help-path>Jupyter_website</help-path>
+        <packages>
+            <package type="aptget">lernstick-jupyter-notebook</package>
         </packages>
         <tags>
             <tag>misc</tag>
