@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 FHNW
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+    <head>
+        <title>Websites permitidos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../help.css">
+    </head>
+    <body>
+        <h1>Websites permitidos</h1>
+        <p>
+            Aqui pode adicionar acessos a websites. Existem várias 
+            maneiras para definir um acesso:"
+        </p>
+        <p>
+            <b>exacto</b><br>
+            Definir o URL exacto que será permitido, por exemplo:<br>
+            https://www.lernstick.com/logo.png
+        </p>
+        <p>
+            <b>começa com</b><br>
+            Definir uma string que deve coincidir com o início de um URL, 
+            a fim de permitir acessos ao mesmo."<br>
+            exemplo: https://www.lernstick.com<br>
+            permitido: https://www.lernstick.com/download
+        </p>
+        <p>
+            <b>contém</b><br>
+            Definir uma string que contenha o URL, a fim de permitir acessos 
+            ao mesmo."<br>
+            exemplo: lernstick<br>
+            permitido: https://www.lernstick.com<br>
+            permitido: https://www.google.com/lernstick/info
+        </p>
+        <p>
+            <b>personalizado</b><br>
+            Definir uma expressão regular. Se o URL corresponder na expressão, 
+            será permitido."
+        </p>
+    </body>
+</html>
