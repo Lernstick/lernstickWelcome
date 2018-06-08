@@ -345,6 +345,18 @@
         </tags>
     </application>
 
+    <application name="Retext">
+        <description>Welcome.retextPanel.description</description>
+        <icon>retext</icon>
+        <help-path>Welcome.retextPanel.website</help-path>
+        <packages>
+            <package type="aptget">retext</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Scribus">
         <description>Welcome.scribusPanel.description</description>
         <icon>scribus</icon>
