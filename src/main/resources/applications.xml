@@ -345,6 +345,22 @@
         </tags>
     </application>
 
+    <application name="Gummi">
+        <description>Welcome.gummiPanel.description</description>
+        <icon>gummi</icon>
+        <help-path>Welcome.gummiPanel.website</help-path>
+        <packages>
+            <package type="aptget">gummi</package>
+            <package type="aptget">texlive-lang-all</package>
+            <package type="aptget">texlive-fonts-extra</package>
+            <package type="aptget">texlive-science</package>
+            <package type="aptget">texlive-humanities</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Retext">
         <description>Welcome.retextPanel.description</description>
         <icon>retext</icon>
