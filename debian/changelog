@@ -1,3 +1,16 @@
+lernstickwelcome (201806101732-1) lernstick-9; urgency=medium
+
+  [ kugelfish42 ]
+  * [55a173] add Jupyter to welcome app
+  * [9f2018] add Retext to welcome app
+  * [e30598] add gummi to welcome application
+
+  [ Debian Live user ]
+  * [63f366] PT localization
+  * [ceb1b2] add missing translations after merge
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 10 Jun 2018 17:32:37 +0200
+
 lernstickwelcome (201806031656-1) lernstick-9; urgency=medium
 
   * [2161ec] install backported wesnoth-1.14 instead of "stable" wesnoth-1.12
