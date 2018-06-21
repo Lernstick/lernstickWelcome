@@ -540,6 +540,20 @@
         </tags>
     </application>
 
+    <application name="QGIS">
+        <description>Welcome.qgisPanel.description</description>
+        <icon>qgis</icon>
+        <help-path>Welcome.qgisPanel.website</help-path>
+        <packages>
+            <package type="aptget">qgis</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+            <tag>gis</tag>
+            <tag>geography</tag>
+        </tags>
+    </application>
+
     <!-- games -->
 
     <application name="Minetest">
