@@ -504,7 +504,7 @@
         </tags>
     </application>
 
-    <application name="LehrerOffice">
+    <application name="LehrerOffice Desktop">
         <description>Welcome.lehrerofficePanel.description</description>
         <icon>lehreroffice</icon>
         <help-path>Welcome.lehrerofficePanel.website</help-path>
