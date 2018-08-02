@@ -510,6 +510,7 @@
             <package type="aptget">wine-gecko</package>
             <package type="aptget">lernstick-playonlinux</package>
             <package type="aptget">playonlinux</package>
+            <package type="aptget">winetricks</package>
         </packages>
         <tags>
             <tag>misc</tag>
