@@ -172,6 +172,18 @@
         </tags>
     </application>
 
+    <application name="QGIS">
+        <description>QGIS.description</description>
+        <icon>qgis</icon>
+        <help-path>QGIS.website</help-path>
+        <packages>
+            <package type="aptget">qgis</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Gdevelop">
         <description>Welcome.gdevelopPanel.description</description>
         <icon>gdevelop</icon>
