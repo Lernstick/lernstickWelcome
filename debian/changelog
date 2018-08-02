@@ -1,3 +1,12 @@
+lernstickwelcome (201808021540-1) lernstick-9; urgency=medium
+
+  * [b42bfc] use HTTPS for LehrerOffice website
+  * [c19922] added QGIS
+  * [3fbd03] sorted properties files
+  * [9cc4ef] added winetricks to list of wine packages
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 02 Aug 2018 15:40:27 +0200
+
 lernstickwelcome (201806271023-1) lernstick-9; urgency=medium
 
   * [bb78f3] updated LehrerOffice name and icon
