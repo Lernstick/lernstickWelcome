@@ -920,10 +920,10 @@
         <icon>skype</icon>
         <help-path>Skype_Website</help-path>
         <installed-names>
-            <installed-name>skype</installed-name>
+            <installed-name>skypeforlinux</installed-name>
         </installed-names>
         <packages>
-            <package type="wget" fetchUrl="https://www.skype.com/go/getskype-linux-deb" saveDir="USER_HOME">skype-install.deb</package>
+            <package type="wget" fetchUrl="https://repo.skype.com/latest/{0}" saveDir="USER_HOME">skypeforlinux-64.deb</package>
         </packages>
         <tags>
             <tag>utility</tag>
