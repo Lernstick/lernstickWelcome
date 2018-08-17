@@ -1,3 +1,9 @@
+lernstickwelcome (201808171658-1) lernstick-9; urgency=medium
+
+  * [5cf514] install 64 Bit version of Skype
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 17 Aug 2018 16:58:10 +0200
+
 lernstickwelcome (201808021540-1) lernstick-9; urgency=medium
 
   * [b42bfc] use HTTPS for LehrerOffice website
