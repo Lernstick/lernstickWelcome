@@ -1,3 +1,9 @@
+lernstickwelcome (201808261017-1) lernstick-9; urgency=medium
+
+  * [d4c3a0] added exe-thumbnailer to list of wine packages
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 26 Aug 2018 10:17:26 +0200
+
 lernstickwelcome (201808171658-1) lernstick-9; urgency=medium
 
   * [5cf514] install 64 Bit version of Skype
