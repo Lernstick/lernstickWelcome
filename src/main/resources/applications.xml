@@ -511,6 +511,7 @@
             <package type="aptget">lernstick-playonlinux</package>
             <package type="aptget">playonlinux</package>
             <package type="aptget">winetricks</package>
+            <package type="aptget">exe-thumbnailer</package>
         </packages>
         <tags>
             <tag>misc</tag>
