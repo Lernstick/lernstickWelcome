@@ -1,3 +1,10 @@
+lernstickwelcome (201810131438-1) lernstick-9; urgency=medium
+
+  * [592274] fixed logic of password dialog in exam version
+  * [8dd8ec] fixed LATS description and website address
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 13 Oct 2018 14:38:25 +0200
+
 lernstickwelcome (201808261017-1) lernstick-9; urgency=medium
 
   * [d4c3a0] added exe-thumbnailer to list of wine packages
