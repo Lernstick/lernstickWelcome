@@ -108,7 +108,7 @@ public final class WelcomeApplication extends Application {
             if (isExamEnvironment()) {
                 controller.loadExamEnvironment();
 
-                if (!controller.getSysconf().isPasswordChanged()) {
+                if (controller.getSysconf().showPasswordDialog()) {
                     PasswordChangeBinder examPasswordChangeBinder = new PasswordChangeBinder(controller, guiLoader.getPasswordChangeController());
                     examPasswordChangeBinder.initHandlers(errorStage, guiLoader.getErrorController());
                     passwordChangeStage = FXMLGuiLoader.createDialog(
@@ -224,7 +224,7 @@ public final class WelcomeApplication extends Application {
             primaryStage.setOnCloseRequest(evt -> {
                 try {
                     if(isExamEnvironment()) {
-                        if(!controller.getSysconf().isPasswordChanged()) {
+                        if(controller.getSysconf().showPasswordDialog()) {
                             passwordChangeStage.showAndWait();
                         }
                         if(controller.getBackup().hasExchangePartition() &&

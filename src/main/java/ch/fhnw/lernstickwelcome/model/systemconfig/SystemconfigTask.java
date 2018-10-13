@@ -86,7 +86,7 @@ public class SystemconfigTask implements Processable<String> {
 
     // Some functions are only required in exam env.
     private boolean isExamEnv; // TODO Block functions for Std. Version
-    private boolean passwordChanged;
+    private boolean showPasswordDialog;
     private Partition bootConfigPartition;
     private Partition exchangePartition;
     private StorageDevice systemStorageDevice;
@@ -122,8 +122,8 @@ public class SystemconfigTask implements Processable<String> {
         blockKdeDesktopApplets.set("true".equals(
                 properties.getProperty(WelcomeConstants.KDE_LOCK)));
         if (isExamEnv) {
-            passwordChanged = "true".equals(
-                    properties.getProperty(WelcomeConstants.PASSWORD_CHANGED));
+            showPasswordDialog = "true".equals(
+                    properties.getProperty(WelcomeConstants.SHOW_PASSWORD_DIALOG));
         }
         allowAccessToOtherFilesystems.set(
                 WelcomeUtil.isFileSystemMountAllowed());
@@ -650,9 +650,9 @@ public class SystemconfigTask implements Processable<String> {
         }
 
         // set password in properties as changed
-        passwordChanged = true;
-        properties.setProperty(WelcomeConstants.PASSWORD_CHANGED,
-                passwordChanged ? "true" : "false");
+        showPasswordDialog = false;
+        properties.setProperty(WelcomeConstants.SHOW_PASSWORD_DIALOG,
+                showPasswordDialog ? "true" : "false");
 
         // add polkit rules to enforce authentication
         // rules for our own applications
@@ -840,8 +840,8 @@ public class SystemconfigTask implements Processable<String> {
         return allowAccessToOtherFilesystems;
     }
 
-    public boolean isPasswordChanged() {
-        return passwordChanged;
+    public boolean showPasswordDialog() {
+        return showPasswordDialog;
     }
 
     @Override
