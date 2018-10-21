@@ -1,3 +1,9 @@
+lernstickwelcome (201810211749-1) lernstick-9; urgency=medium
+
+  * [e0905a] use sudo when opening links in browser
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 21 Oct 2018 17:49:00 +0200
+
 lernstickwelcome (201810211734-1) lernstick-9; urgency=medium
 
   * [e8ef67] added signal-desktop to list of installable applications
