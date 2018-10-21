@@ -399,7 +399,7 @@ public class WelcomeUtil {
                 @Override
                 public void run() {
                     PROCESS_EXECUTOR.executeProcess(new String[]{
-                        "firefox", finalUrl.toString()});
+                        "sudo", "-u", "user", "firefox", finalUrl.toString()});
                 }
             };
             browserThread.start();
