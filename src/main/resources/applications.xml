@@ -400,6 +400,18 @@
         </tags>
     </application>
 
+    <application name="Signal">
+        <description>Signal_description</description>
+        <icon>signal</icon>
+        <help-path>Signal_website</help-path>
+        <packages>
+            <package type="aptget">signal-desktop</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Jitsi">
         <description>Jitsi_description</description>
         <icon>jitsi</icon>
