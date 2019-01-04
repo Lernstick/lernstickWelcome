@@ -234,6 +234,18 @@
         </tags>
     </application>
 
+    <application name="MuseScore">
+        <description>MuseScore.description</description>
+        <icon>musescore</icon>
+        <help-path>MuseScore.website</help-path>
+        <packages>
+            <package type="aptget">lernstick-musescore</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Rosegarden">
         <description>Welcome.rosegardenPanel.description</description>
         <icon>rosegarden</icon>
