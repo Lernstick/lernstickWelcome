@@ -1,3 +1,9 @@
+lernstickwelcome (201901041601-1) lernstick-9; urgency=medium
+
+  * [26c566] added MuseScore to list of installable applications
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 04 Jan 2019 16:01:13 +0100
+
 lernstickwelcome (201810211749-1) lernstick-9; urgency=medium
 
   * [e0905a] use sudo when opening links in browser
