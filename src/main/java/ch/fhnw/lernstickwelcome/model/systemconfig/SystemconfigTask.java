@@ -122,8 +122,8 @@ public class SystemconfigTask implements Processable<String> {
         blockKdeDesktopApplets.set("true".equals(
                 properties.getProperty(WelcomeConstants.KDE_LOCK)));
         if (isExamEnv) {
-            showPasswordDialog = "true".equals(
-                    properties.getProperty(WelcomeConstants.SHOW_PASSWORD_DIALOG));
+            showPasswordDialog = "true".equals(properties.getProperty(
+                    WelcomeConstants.SHOW_PASSWORD_DIALOG, "true"));
         }
         allowAccessToOtherFilesystems.set(
                 WelcomeUtil.isFileSystemMountAllowed());
