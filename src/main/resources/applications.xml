@@ -525,6 +525,18 @@
         </tags>
     </application>
 
+    <application name="Visual Studio Code">
+        <description>VisualStudioCode.description</description>
+        <icon>vscode</icon>
+        <help-path>VisualStudioCode.website</help-path>
+        <packages>
+            <package type="aptget">code</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Wine">
         <description>Wine.description</description>
         <icon>wine</icon>
