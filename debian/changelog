@@ -1,3 +1,9 @@
+lernstickwelcome (201906091659-1) lernstick-9; urgency=medium
+
+  * [b08c4b] added VLC
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 09 Jun 2019 16:59:08 +0200
+
 lernstickwelcome (201906081242-1) lernstick-9; urgency=medium
 
   * [862f04] added Visual Studio Code
