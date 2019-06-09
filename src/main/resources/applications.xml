@@ -234,6 +234,20 @@
         </tags>
     </application>
 
+    <application name="VLC">
+        <description>VLC.description</description>
+        <icon>vlc</icon>
+        <help-path>VLC.website</help-path>
+        <packages>
+            <package type="aptget">vlc</package>
+            <package type="aptget">fluid-soundfont-gm</package>
+            <package type="aptget">vlc-plugin-fluidsynth</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="MuseScore">
         <description>MuseScore.description</description>
         <icon>musescore</icon>
