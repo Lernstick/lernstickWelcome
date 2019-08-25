@@ -1,2 +1,2 @@
 #!/bin/sh
-java --module-path /usr/share/openjfx/lib/ --add-modules ALL-MODULE-PATH -Djava.library.path=/usr/lib/jni -Dawt.useSystemAAFontSettings=on -jar /usr/bin/lernstickWelcome.jar examEnvironment
+java --module-path /usr/share/openjfx/lib/ --add-modules ALL-MODULE-PATH -Dawt.useSystemAAFontSettings=on -jar /usr/bin/lernstickWelcome.jar examEnvironment
