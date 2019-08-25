@@ -1,0 +1,4 @@
+#!/usr/bin/dh-exec
+build/libs/lernstickWelcome.jar => /usr/bin/lernstickWelcome.jar
+lernstickWelcome_exam => /usr/bin/lernstickWelcome
+usr/*	/usr/

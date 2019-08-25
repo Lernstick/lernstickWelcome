@@ -1,0 +1,66 @@
+plugins {
+	id 'java'
+}
+
+dependencies {
+	compile files(
+		'../lernstickTools/build/libs/lernstickTools.jar',
+		'/usr/share/java/dbus.jar',
+		'/usr/share/java/junit4.jar',
+		'/usr/share/openjfx/lib/javafx.base.jar',
+		'/usr/share/openjfx/lib/javafx.controls.jar',
+		'/usr/share/openjfx/lib/javafx.fxml.jar',
+		'/usr/share/openjfx/lib/javafx.graphics.jar',
+		'/usr/share/openjfx/lib/javafx.media.jar',
+		'/usr/share/openjfx/lib/javafx.web.jar'
+	)
+}
+
+jar {
+	manifest {
+		attributes(
+			"Main-Class": "ch.fhnw.lernstickwelcome.controller.WelcomeApplication",
+			"Class-Path": "/usr/share/openjfx/lib/javafx.base.jar /usr/share/openjfx/lib/javafx.controls.jar /usr/share/openjfx/lib/javafx.fxml.jar /usr/share/openjfx/lib/javafx.graphics.jar /usr/share/openjfx/lib/javafx.media.jar /usr/share/openjfx/lib/javafx.web.jar /usr/share/java/dbus.jar /usr/share/java/unix.jar /usr/share/java/hexdump.jar"
+		)
+	}
+	from(zipTree('../lernstickTools/build/libs/lernstickTools.jar'))
+}
+
+task debianPackage(type:Exec) {
+	dependsOn 'jar'
+	group = 'Tools'
+	description = 'Builds the Debian package.'
+	commandLine 'sh', 'build_debian_package.sh'
+}
+
+task sortStrings(type:Exec) {
+	group = 'Tools'
+	description = 'Sorts the strings in the properties files.'
+	commandLine 'sh', 'sort_strings.sh'
+}
+
+void createTask(String languageCode, String countryCode, String languageDescription, boolean exam) {
+   String taskName = "run_" + languageCode + (countryCode.size() == 0 ? "" : "_$countryCode") + (exam ? "_exam" : "");
+   task (taskName, type:Exec) {
+	dependsOn 'jar'
+	group = 'Tools'
+	description = "Executes the " + (exam ? "exam" : "standard") + " version in $languageDescription."
+	commandLine 'java', '-jar', '--module-path', '/usr/share/openjfx/lib/', '--add-modules', 'ALL-MODULE-PATH', "-Duser.language=$languageCode", "-Duser.country=$countryCode", 'build/libs/lernstickWelcome.jar', exam ? "examEnvironment" : ""
+   }
+}
+
+def languages = [
+	['de', '',   'German'],
+	['de', 'AT', 'German (Austria)'],
+	['de', 'CH', 'German (Switzerland)'],
+	['en', '',   'English'],
+	['es', '',   'Spanish'],
+	['fr', '',   'French'],
+	['it', '',   'Italian'],
+	['pt', '',   'Portugese'],
+	['sq', '',   'Albanian']
+]
+languages.each {
+	createTask(it[0], it[1], it[2], true);
+	createTask(it[0], it[1], it[2], false);
+}
