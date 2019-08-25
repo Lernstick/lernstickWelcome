@@ -1,3 +1,11 @@
+lernstickwelcome (201908251750) lernstick-10; urgency=medium
+
+  * [92c9fc] changed from NetBeans ant project to gradle
+  * [ae80eb] correctly renamed install files
+  * [ae66b8] fixed start scripts for Java 11
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 25 Aug 2019 17:50:41 +0200
+
 lernstickwelcome (201906091659-1) lernstick-9; urgency=medium
 
   * [b08c4b] added VLC
