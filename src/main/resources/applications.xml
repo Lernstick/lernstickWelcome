@@ -41,7 +41,6 @@
             <package type="aptget">lernstick-geogebra-classic</package>
             <package type="aptget">geogebra-classic</package>
             <package type="aptget">geogebra-gnome</package>
-            <package type="aptget">geogebra-kde</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -56,14 +55,8 @@
         <help-path>Welcome.gcomprisPanel.website</help-path>
         <packages>
             <package type="aptget">lernstick-gcompris</package>
-            <package type="aptget">gcompris</package>
-            <package type="aptget">gcompris-sound-de</package>
-            <package type="aptget">gcompris-sound-en</package>
-            <package type="aptget">gcompris-sound-es</package>
-            <package type="aptget">gcompris-sound-fr</package>
-            <package type="aptget">gcompris-sound-it</package>
-            <package type="aptget">gcompris-sound-ptbr</package>
-            <package type="aptget">gcompris-sound-ru</package>
+            <package type="aptget">gcompris-qt</package>
+            <package type="aptget">gcompris-qt-data</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -184,6 +177,9 @@
         </tags>
     </application>
 
+    <!-- 
+    webkitgtk (needed by gdevelop) got removed from Debian 10:
+    https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=893863
     <application name="Gdevelop">
         <description>Welcome.gdevelopPanel.description</description>
         <icon>gdevelop</icon>
@@ -196,6 +192,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+    -->
 
     <application name="TigerJython">
         <description>Welcome.tigerjythonPanel.description</description>
