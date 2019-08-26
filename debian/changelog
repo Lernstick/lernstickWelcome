@@ -1,3 +1,9 @@
+lernstickwelcome (201908260810) lernstick-10; urgency=medium
+
+  * [d31ddd] package list update for Debian 10
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 26 Aug 2019 08:10:48 +0200
+
 lernstickwelcome (201908251750) lernstick-10; urgency=medium
 
   * [92c9fc] changed from NetBeans ant project to gradle
