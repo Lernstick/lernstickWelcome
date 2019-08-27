@@ -54,7 +54,6 @@
         <icon>gcompris</icon>
         <help-path>Welcome.gcomprisPanel.website</help-path>
         <packages>
-            <package type="aptget">lernstick-gcompris</package>
             <package type="aptget">gcompris-qt</package>
             <package type="aptget">gcompris-qt-data</package>
         </packages>
