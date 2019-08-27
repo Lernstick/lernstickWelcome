@@ -1,3 +1,9 @@
+lernstickwelcome (201908271456) lernstick-10; urgency=medium
+
+  * [438c05] package updates for Debian 10
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 27 Aug 2019 14:56:03 +0200
+
 lernstickwelcome (201908260810) lernstick-10; urgency=medium
 
   * [d31ddd] package list update for Debian 10
