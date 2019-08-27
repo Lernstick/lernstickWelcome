@@ -39,6 +39,12 @@ task sortStrings(type:Exec) {
 	commandLine 'sh', 'sort_strings.sh'
 }
 
+task updateDebianChangelog(type:Exec) {
+	group = 'Tools'
+	description = 'Updates the Debian changelog.'
+	commandLine 'gbp', 'dch', '--id-length=6'
+}
+
 void createTask(String languageCode, String countryCode, String languageDescription, boolean exam) {
    String taskName = "run_" + languageCode + (countryCode.size() == 0 ? "" : "_$countryCode") + (exam ? "_exam" : "");
    task (taskName, type:Exec) {
