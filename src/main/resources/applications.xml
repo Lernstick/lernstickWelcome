@@ -469,8 +469,8 @@
             <package type="aptget">lernstick-visualvm</package>
             <package type="aptget">lernstick-scenebuilder</package>
             <package type="aptget">scenebuilder</package>
-            <package type="aptget">openjdk-8-source</package>
-            <package type="aptget">openjdk-8-doc</package>
+            <package type="aptget">openjdk-11-source</package>
+            <package type="aptget">openjdk-11-doc</package>
             <package type="aptget">openjfx</package>
             <package type="aptget">openjfx-source</package>
             <package type="aptget">libopenjfx-java-doc</package>
@@ -589,6 +589,8 @@
         </tags>
     </application>
 
+    <!--
+    depends on openjdk-8-jre
     <application name="Dybuster Calcularis">
         <description>Welcome.calcularisPanel.description</description>
         <icon>calcularis</icon>
@@ -600,6 +602,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+    -->
 
     <!-- games -->
 
