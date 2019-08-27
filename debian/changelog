@@ -1,3 +1,11 @@
+lernstickwelcome (201908271748) lernstick-10; urgency=medium
+
+  * [20eee3] no longer install lernstick-gcompris
+             (no longer needed in Debian 10)
+  * [ea2d51] added gradle task for updating Debian changelog
+
+ --  <debian10@debian10>  Tue, 27 Aug 2019 17:48:32 +0200
+
 lernstickwelcome (201908271456) lernstick-10; urgency=medium
 
   * [438c05] package updates for Debian 10
