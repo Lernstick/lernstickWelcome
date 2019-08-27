@@ -1,3 +1,10 @@
+lernstickwelcome (201908271922) lernstick-10; urgency=medium
+
+  * [141fab] more updates for Debian 10
+  * [7e85b0] improved grouping of Gradle tasks
+
+ --  <debian10@debian10>  Tue, 27 Aug 2019 19:22:13 +0200
+
 lernstickwelcome (201908271748) lernstick-10; urgency=medium
 
   * [20eee3] no longer install lernstick-gcompris
