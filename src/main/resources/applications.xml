@@ -583,6 +583,8 @@
         </tags>
     </application>
 
+    <!--
+    no longer works with Debian 10, ask vendor for update?
     <application name="Wizbee">
         <description>Welcome.wizbeePanel.description</description>
         <icon>wizbee</icon>
@@ -594,6 +596,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+    -->
 
     <!--
     depends on openjdk-8-jre
