@@ -29,6 +29,20 @@ jar {
 task debianUpdateChangelog(type:Exec) {
 	group = 'Tools'
 	description = 'Updates the Debian changelog.'
+        
+        // gpb needs some environment variables stored in ~./bashrc
+        def file = new File(System.getProperty("user.home") + '/.bashrc')
+        file.eachLine { line ->
+            def fullNameMatcher = line =~ /export DEBFULLNAME="(.*)"/
+            if (fullNameMatcher.find()) {
+                environment 'DEBFULLNAME', fullNameMatcher[0][1]
+            }
+            def emailMatcher = line =~ /export DEBEMAIL="(.*)"/
+            if (emailMatcher.find()) {
+                environment 'DEBEMAIL', emailMatcher[0][1]
+            }
+        }
+        
 	commandLine 'gbp', 'dch', '--id-length=6'
 }
 
