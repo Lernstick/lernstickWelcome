@@ -1,3 +1,12 @@
+lernstickwelcome (201908281153) lernstick-10; urgency=medium
+
+  * [cc7899] install lernstick-musescore3
+             (musescore3 is available in Debian 10 backports)
+  * [f1f6bd] read environment variables for gbp
+  * [e4840b] set current distribution when calling gbp
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 28 Aug 2019 11:53:54 +0200
+
 lernstickwelcome (201908272206) lernstick-10; urgency=medium
 
   * [b8b370] disabled wizbee (no longer works with Debian 10)
