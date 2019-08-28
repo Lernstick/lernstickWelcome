@@ -252,7 +252,7 @@
         <icon>musescore</icon>
         <help-path>MuseScore.website</help-path>
         <packages>
-            <package type="aptget">lernstick-musescore</package>
+            <package type="aptget">lernstick-musescore3</package>
         </packages>
         <tags>
             <tag>misc</tag>
