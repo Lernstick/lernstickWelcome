@@ -43,7 +43,7 @@ task debianUpdateChangelog(type:Exec) {
             }
         }
         
-	commandLine 'gbp', 'dch', '--id-length=6'
+	commandLine 'gbp', 'dch', '--id-length=6', '--distribution=lernstick-10'
 }
 
 task debianPackage(type:Exec) {
