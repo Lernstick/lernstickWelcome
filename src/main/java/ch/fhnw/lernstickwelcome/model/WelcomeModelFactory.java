@@ -21,14 +21,14 @@ import ch.fhnw.lernstickwelcome.model.application.ApplicationPackages;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
 import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
-import ch.fhnw.lernstickwelcome.model.application.InstallPostprocessingTask;
+import ch.fhnw.lernstickwelcome.model.application.InstallPostProcessingTask;
 import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.application.WgetPackages;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
-import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
+import ch.fhnw.lernstickwelcome.model.systemconfig.SystemConfigTask;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
@@ -164,12 +164,12 @@ public class WelcomeModelFactory {
      *
      * @param isExam Some functions won't be load in Std. Version
      * @param properties Property File of the Welcome Application
-     * @return {@link SystemconfigTask}
+     * @return {@link SystemConfigTask}
      */
-    public static SystemconfigTask getSystemTask(
+    public static SystemConfigTask getSystemTask(
             boolean isExam, PropertiesTask properties) {
 
-        return new SystemconfigTask(isExam, properties.getProperties());
+        return new SystemConfigTask(isExam, properties.getProperties());
     }
 
     /**
@@ -200,12 +200,12 @@ public class WelcomeModelFactory {
      *
      * @param proxy The proxy task which calculates the proxy for the commands
      * @param groups The application groups that will be installed.
-     * @return {@link InstallPostprocessingTask}
+     * @return {@link InstallPostProcessingTask}
      */
-    public static InstallPostprocessingTask getInstallPostprocessingTask(
+    public static InstallPostProcessingTask getInstallPostprocessingTask(
             ProxyTask proxy, ApplicationGroupTask... groups) {
 
-        return new InstallPostprocessingTask(proxy, groups);
+        return new InstallPostProcessingTask(proxy, groups);
     }
 
     /**
@@ -319,14 +319,14 @@ public class WelcomeModelFactory {
                     packages.add(new AptGetPackages(
                             Arrays.asList(packageName)));
                     break;
-                    
+
                 case "wget":
                     String wgetFetchUrl = element.getAttribute("fetchUrl");
                     String wgetSaveDir = element.getAttribute("saveDir");
                     packages.add(new WgetPackages(Arrays.asList(packageName),
                             wgetFetchUrl, wgetSaveDir));
                     break;
-                    
+
                 default:
                     LOGGER.log(Level.WARNING, "Unsupported type \"{0}\"", type);
                     break;

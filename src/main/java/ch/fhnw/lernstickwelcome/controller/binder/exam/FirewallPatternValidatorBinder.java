@@ -71,10 +71,10 @@ public class FirewallPatternValidatorBinder {
 
         firewall.getTvPatternDependencies_add().setCellFactory(w -> new ButtonCell<>("btn_add", (c, evt) -> {
             WebsiteFilter website = (WebsiteFilter) c.getTableView().getItems().get(c.getTableRow().getIndex());
-            controller.getFirewall().getWebsiteListProperty().add(website);
+            controller.getFirewallTask().getWebsiteListProperty().add(website);
             watcher.getWebsiteList().remove(website);
             // We update the firewall directly to see the effect of the change
-            new Thread(controller.getFirewall().newTask()).start();
+            new Thread(controller.getFirewallTask().newTask()).start();
         }));
     }
 }

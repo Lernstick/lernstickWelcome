@@ -53,29 +53,28 @@ public class PasswordChangeBinder {
      * @param error the controller which the error message can be provided.
      */
     public void initHandlers(Stage errorStage, ErrorController error) {
-        
+
         password.getOkButton().setOnAction(evt -> {
-            
-            controller.getSysconf().passwordProperty().setValue(
+
+            controller.getSystemConfigTask().passwordProperty().setValue(
                     password.getNewPasswordField().getText());
-            controller.getSysconf().passwordRepeatProperty().setValue(
+            controller.getSystemConfigTask().passwordRepeatProperty().setValue(
                     password.getRepeatPasswordField().getText());
-            
+
             try {
-                controller.getSysconf().changePassword();
-                controller.getProperties().newTask().run();
+                controller.getSystemConfigTask().changePassword();
+                controller.getPropertiesTask().newTask().run();
                 ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
             } catch (ProcessingException ex) {
                 error.initErrorMessage(ex);
                 errorStage.showAndWait();
             }
         });
-        
+
         // If user clicks on ignore remove the already tried passwords.
-        password.getCancelButton().setOnAction(evt
-                -> {
-            controller.getSysconf().passwordProperty().setValue(null);
-            controller.getSysconf().passwordRepeatProperty().setValue(null);
+        password.getCancelButton().setOnAction(evt -> {
+            controller.getSystemConfigTask().passwordProperty().setValue(null);
+            controller.getSystemConfigTask().passwordRepeatProperty().setValue(null);
             ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
         });
     }

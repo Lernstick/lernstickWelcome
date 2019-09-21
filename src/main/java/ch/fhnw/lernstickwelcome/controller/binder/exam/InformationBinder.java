@@ -52,9 +52,9 @@ public class InformationBinder {
     public void initBindings() {
 
         informationController.operatingSystemProperty().bind(
-                welcomeController.getSysconf().systemnameProperty());
+                welcomeController.getSystemConfigTask().systemNameProperty());
 
         informationController.versionProperty().bind(
-                welcomeController.getSysconf().systemversionProperty());
+                welcomeController.getSystemConfigTask().systemVersionProperty());
     }
 }

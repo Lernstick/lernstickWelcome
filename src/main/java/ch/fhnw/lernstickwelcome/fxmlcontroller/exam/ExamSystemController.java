@@ -18,9 +18,12 @@ package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.AbstractSystemController;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,14 +32,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
+import org.freedesktop.dbus.exceptions.DBusException;
 
 /**
  * FXML Controller class for the exam version
  *
  * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class SystemController
+public class ExamSystemController
         extends AbstractSystemController implements Initializable {
+
+    private static final Logger LOGGER
+            = Logger.getLogger(ExamSystemController.class.getName());
 
     @FXML
     private TitledPane bootloaderTitledPane;
@@ -57,7 +64,11 @@ public class SystemController
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initControls();
+        try {
+            initControls();
+        } catch (DBusException | IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
     }
 
     public TextField getNewPasswordField() {

@@ -25,14 +25,16 @@ import javafx.concurrent.Task;
 /**
  * After Installation of application with {@link ApplicationTask}, this Task is
  * called to fix dependencies using {@code apt-get -f -y --force-yes install}.
- * 
+ *
  * @author sschw
  */
-public class InstallPostprocessingTask implements Processable<String> {
-    private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
+public class InstallPostProcessingTask implements Processable<String> {
+
+    private final static ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
     private final ProxyTask proxy;
     private final ApplicationGroupTask[] groups;
-    
+
     /**
      * Initializes the InstallPostprocessingTask.<br>
      * Needs ApplicationGroupTasks to ensure that there are installations to
@@ -41,7 +43,9 @@ public class InstallPostprocessingTask implements Processable<String> {
      * @param proxy The proxy which should be used to run its tasks.
      * @param groups The application groups that will be installed.
      */
-    public InstallPostprocessingTask(ProxyTask proxy, ApplicationGroupTask... groups) {
+    public InstallPostProcessingTask(
+            ProxyTask proxy, ApplicationGroupTask... groups) {
+
         this.proxy = proxy;
         this.groups = groups;
     }
@@ -57,21 +61,25 @@ public class InstallPostprocessingTask implements Processable<String> {
         protected String call() throws Exception {
             // Check if there are applications to install.
             int appsToInstall = 0;
-            for(ApplicationGroupTask g : groups) 
-                appsToInstall += g.getApps().stream().
-                        filter(a -> !a.installedProperty().get() && a.installingProperty().get()).count();
-            
-            if(appsToInstall > 0) {
+            for (ApplicationGroupTask group : groups) {
+                appsToInstall += group.getApps().stream()
+                        .filter(a -> {
+                            return !a.installedProperty().get()
+                                    && a.installingProperty().get();
+                        })
+                        .count();
+            }
+
+            if (appsToInstall > 0) {
                 updateTitle("InstallPostprocessingTask.title");
                 updateMessage("InstallPostprocessingTask.message");
                 updateProgress(0, 1);
-                String script = "apt-get" + proxy.getAptGetProxy() + "-f -y --force-yes install";
+                String script = "apt-get" + proxy.getAptGetProxy()
+                        + "-f -y --force-yes install";
                 PROCESS_EXECUTOR.executeScript(script);
             }
             updateProgress(1, 1);
             return null;
         }
-
     }
-
 }

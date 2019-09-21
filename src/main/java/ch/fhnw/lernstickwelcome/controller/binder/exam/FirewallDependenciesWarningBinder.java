@@ -44,7 +44,7 @@ public class FirewallDependenciesWarningBinder {
                 -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close()
         );
         firewallWarning.getBtSave().setOnAction(evt -> {
-            Task firewallSaveTask = controller.getFirewall().newTask();
+            Task firewallSaveTask = controller.getFirewallTask().newTask();
             firewallSaveTask.setOnSucceeded(e -> {
                 ((Node) evt.getSource()).getScene().getRoot().setDisable(false);
                 ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();

@@ -108,7 +108,7 @@ public final class WelcomeApplication extends Application {
             if (isExamEnvironment()) {
                 controller.loadExamEnvironment();
 
-                if (controller.getSysconf().showPasswordDialog()) {
+                if (controller.getSystemConfigTask().showPasswordDialog()) {
                     PasswordChangeBinder examPasswordChangeBinder = new PasswordChangeBinder(controller, guiLoader.getPasswordChangeController());
                     examPasswordChangeBinder.initHandlers(errorStage, guiLoader.getErrorController());
                     passwordChangeStage = FXMLGuiLoader.createDialog(
@@ -159,8 +159,8 @@ public final class WelcomeApplication extends Application {
                 examBackupBinder.initBindings();
                 examBackupBinder.initHelp(helpStage, helpBinder);
 
-                ch.fhnw.lernstickwelcome.controller.binder.exam.SystemBinder examSystemBinder = 
-                        new ch.fhnw.lernstickwelcome.controller.binder.exam.SystemBinder(controller, guiLoader.getSystemExamController());
+                ch.fhnw.lernstickwelcome.controller.binder.exam.ExamSystemBinder examSystemBinder = 
+                        new ch.fhnw.lernstickwelcome.controller.binder.exam.ExamSystemBinder(controller, guiLoader.getExamSystemController());
                 examSystemBinder.initBindings();
                 examSystemBinder.initHelp(helpStage, helpBinder);
             } else {
@@ -179,8 +179,8 @@ public final class WelcomeApplication extends Application {
                         guiLoader.getNonFreeController().getVbApps(),
                         guiLoader.getNonFreeController().getBtHelp()
                 );
-                nonFreeAppsBinder.addApplicationGroup(controller.getRecommendedApps(), helpBinder, helpStage);
-                nonFreeAppsBinder.addApplicationGroup(controller.getUtilityApps(), helpBinder, helpStage);
+                nonFreeAppsBinder.addApplicationGroup(controller.getRecommendedAppsTask(), helpBinder, helpStage);
+                nonFreeAppsBinder.addApplicationGroup(controller.getUtilityAppsTask(), helpBinder, helpStage);
                 nonFreeAppsBinder.initHelp("1", helpStage, helpBinder);
 
                 ApplicationBinder addAppsBinder = new ApplicationBinder(
@@ -188,13 +188,13 @@ public final class WelcomeApplication extends Application {
                         guiLoader.getAddSoftwareController().getVbApps(),
                         guiLoader.getAddSoftwareController().getBtHelp()
                 );
-                addAppsBinder.addApplicationGroup(controller.getTeachApps(), helpBinder, helpStage);
-                addAppsBinder.addApplicationGroup(controller.getSoftwApps(), helpBinder, helpStage);
-                addAppsBinder.addApplicationGroup(controller.getGamesApps(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(controller.getTeachAppsTask(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(controller.getSoftwAppsTask(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(controller.getGamesAppsTask(), helpBinder, helpStage);
                 addAppsBinder.initHelp("2", helpStage, helpBinder);
 
-                ch.fhnw.lernstickwelcome.controller.binder.standard.SystemBinder stdSystemBinder =  
-                        new ch.fhnw.lernstickwelcome.controller.binder.standard.SystemBinder(controller, guiLoader.getSystemStdController());
+                ch.fhnw.lernstickwelcome.controller.binder.standard.StandardSystemBinder stdSystemBinder =  
+                        new ch.fhnw.lernstickwelcome.controller.binder.standard.StandardSystemBinder(controller, guiLoader.getStandardSystemController());
                 stdSystemBinder.initBindings();
                 stdSystemBinder.initHelp(helpStage, helpBinder);
             }
@@ -224,11 +224,11 @@ public final class WelcomeApplication extends Application {
             primaryStage.setOnCloseRequest(evt -> {
                 try {
                     if(isExamEnvironment()) {
-                        if(controller.getSysconf().showPasswordDialog()) {
+                        if(controller.getSystemConfigTask().showPasswordDialog()) {
                             passwordChangeStage.showAndWait();
                         }
-                        if(controller.getBackup().hasExchangePartition() &&
-                                !controller.getBackup().isBackupConfigured()) {
+                        if(controller.getBackupTask().hasExchangePartition() &&
+                                !controller.getBackupTask().isBackupConfigured()) {
                             guiLoader.getInfotextdialog(primaryStage, 
                                     "WelcomeApplication.Warning_No_Backup_Configured", e -> {
                                 guiLoader.getMainController().setView(2);
@@ -240,7 +240,7 @@ public final class WelcomeApplication extends Application {
                             guiLoader.getInfotextdialog(primaryStage, 
                                     "WelcomeApplication.Warning_Mount_Allowed", e -> {
                                 guiLoader.getMainController().setView(3);
-                                guiLoader.getSystemExamController().showMediaAccessConfig();
+                                guiLoader.getExamSystemController().showMediaAccessConfig();
                                 ((Stage) ((Node)e.getSource()).getScene().getWindow()).close();
                                 evt.consume();
                             }).showAndWait();

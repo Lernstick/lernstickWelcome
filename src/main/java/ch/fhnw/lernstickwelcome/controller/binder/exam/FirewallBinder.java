@@ -52,12 +52,12 @@ public class FirewallBinder {
      */
     public void initBindings() {
         // Bind url_whitelist view data to model data
-        firewall.getTvAllowedSites().itemsProperty().bindBidirectional(controller.getFirewall().getWebsiteListProperty());
+        firewall.getTvAllowedSites().itemsProperty().bindBidirectional(controller.getFirewallTask().getWebsiteListProperty());
 
         // Bind net_whitelist view data to model data
-        firewall.getTvAllowedServers().itemsProperty().bindBidirectional(controller.getFirewall().getIpListProperty());
+        firewall.getTvAllowedServers().itemsProperty().bindBidirectional(controller.getFirewallTask().getIpListProperty());
 
-        firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
+        firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewallTask().firewallRunningProperty().get());
     }
 
     /**
@@ -74,9 +74,9 @@ public class FirewallBinder {
         firewall.getTsAllowMonitoring().selectedProperty().addListener(cl -> {
             try {
                 if (firewallStateChanged()) {
-                    controller.getFirewall().toggleFirewallState();
+                    controller.getFirewallTask().toggleFirewallState();
                 }
-                if (controller.getFirewall().firewallRunningProperty().get()) {
+                if (controller.getFirewallTask().firewallRunningProperty().get()) {
                     firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
                     firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
                     firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
@@ -86,20 +86,20 @@ public class FirewallBinder {
                     firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
                 }
             } catch (ProcessingException ex) {
-                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
+                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewallTask().firewallRunningProperty().get());
                 error.initErrorMessage(ex);
                 errorDialog.show();
             }
         });
 
-        controller.getFirewall().firewallRunningProperty().addListener(cl -> {
+        controller.getFirewallTask().firewallRunningProperty().addListener(cl -> {
             if (firewallStateChanged()) {
-                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewall().firewallRunningProperty().get());
+                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewallTask().firewallRunningProperty().get());
             }
         });
 
         firewall.getBtCheckForDep().setOnAction(evt -> {
-            if (controller.getFirewall().hasUnsavedUrls()) {
+            if (controller.getFirewallTask().hasUnsavedUrls()) {
                 depWarningDialog.show();
             } else {
                 depValidStage.show();
@@ -107,7 +107,7 @@ public class FirewallBinder {
         });
 
         // Init default value because handler isn't fired the first time.
-        if (controller.getFirewall().firewallRunningProperty().get()) {
+        if (controller.getFirewallTask().firewallRunningProperty().get()) {
             firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
             firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
             firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
@@ -125,7 +125,7 @@ public class FirewallBinder {
      * @return
      */
     private boolean firewallStateChanged() {
-        return controller.getFirewall().firewallRunningProperty().get() != firewall.getTsAllowMonitoring().selectedProperty().get();
+        return controller.getFirewallTask().firewallRunningProperty().get() != firewall.getTsAllowMonitoring().selectedProperty().get();
     }
 
     /**

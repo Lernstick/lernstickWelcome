@@ -21,14 +21,14 @@ import ch.fhnw.lernstickwelcome.model.PropertiesTask;
 import ch.fhnw.lernstickwelcome.model.TaskProcessor;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
-import ch.fhnw.lernstickwelcome.model.application.InstallPostprocessingTask;
+import ch.fhnw.lernstickwelcome.model.application.InstallPostProcessingTask;
 import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
 import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
 import ch.fhnw.lernstickwelcome.model.help.HelpLoader;
 import ch.fhnw.lernstickwelcome.model.partition.PartitionTask;
-import ch.fhnw.lernstickwelcome.model.systemconfig.SystemconfigTask;
+import ch.fhnw.lernstickwelcome.model.systemconfig.SystemConfigTask;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,108 +43,130 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 /**
- * The controller of the WA.
+ * The controller of the Welcome Application.
  *
  * @author sschw
  */
 public class WelcomeController {
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("ch.fhnw.lernstickwelcome.Bundle");
-    private static final Logger LOGGER = Logger.getLogger(WelcomeApplication.class.getName());
+
+    private static final Logger LOGGER
+            = Logger.getLogger(WelcomeApplication.class.getName());
+    private static final ResourceBundle BUNDLE
+            = ResourceBundle.getBundle("ch.fhnw.lernstickwelcome.Bundle");
 
     private TaskProcessor taskProcessor;
     // Backend Tasks
-    private PropertiesTask properties;
+    private PropertiesTask propertiesTask;
     // Standard Environment
-    private ProxyTask proxy;
-    private InstallPreparationTask prepare;
-    private ApplicationGroupTask recommendedApps;
-    private ApplicationGroupTask utilityApps;
-    private ApplicationGroupTask teachApps;
-    private ApplicationGroupTask softwApps;
-    private ApplicationGroupTask gamesApps;
-    private InstallPostprocessingTask post;
+    private ProxyTask proxyTask;
+    private InstallPreparationTask prepareTask;
+    private ApplicationGroupTask recommendedAppsTask;
+    private ApplicationGroupTask utilityAppsTask;
+    private ApplicationGroupTask teachAppsTask;
+    private ApplicationGroupTask softwAppsTask;
+    private ApplicationGroupTask gamesAppsTask;
+    private InstallPostProcessingTask postProcessingTask;
     // Exam Environment
-    private FirewallTask firewall;
-    private BackupTask backup;
+    private FirewallTask firewallTask;
+    private BackupTask backupTask;
     // General
-    private SystemconfigTask sysconf;
-    private PartitionTask partition;
+    private SystemConfigTask systemConfigTask;
+    private PartitionTask partitionTask;
 
-    private HelpLoader help;
+    private HelpLoader helpLoader;
 
     private boolean isExamEnvironment;
 
     /**
-     * Loads the data for the Exam Env.
+     * Loads the data for the exam environment
      */
     public void loadExamEnvironment() {
-        configureLogger();
 
         isExamEnvironment = true;
 
-        help = new HelpLoader(Locale.getDefault().getLanguage().split("[_-]+")[0], isExamEnvironment);
+        configureLogger();
+
+        helpLoader = new HelpLoader(
+                Locale.getDefault().getLanguage().split("[_-]+")[0],
+                isExamEnvironment);
 
         // Init Model
-        properties = WelcomeModelFactory.getPropertiesTask();
-        firewall = WelcomeModelFactory.getFirewallTask();
-        backup = WelcomeModelFactory.getBackupTask(properties, BUNDLE.getString("BackupTask.Backup_Directory"));
-        sysconf = WelcomeModelFactory.getSystemTask(true, properties);
-        partition = WelcomeModelFactory.getPartitionTask(properties);
+        propertiesTask = WelcomeModelFactory.getPropertiesTask();
+        firewallTask = WelcomeModelFactory.getFirewallTask();
+        backupTask = WelcomeModelFactory.getBackupTask(propertiesTask,
+                BUNDLE.getString("BackupTask.Backup_Directory"));
+        systemConfigTask = WelcomeModelFactory.getSystemTask(
+                true, propertiesTask);
+        partitionTask = WelcomeModelFactory.getPartitionTask(propertiesTask);
 
         List<Processable> processingList = new ArrayList<>();
-        processingList.add(firewall);
-        processingList.add(backup);
-        processingList.add(sysconf);
-        processingList.add(partition);
-        processingList.add(properties);
+        processingList.add(firewallTask);
+        processingList.add(backupTask);
+        processingList.add(systemConfigTask);
+        processingList.add(partitionTask);
+        processingList.add(propertiesTask);
         taskProcessor = new TaskProcessor(processingList);
     }
 
     /**
-     * Loads the data for the Standard Env.
+     * Loads the data for the standard environment
      *
      * @throws javax.xml.parsers.ParserConfigurationException
      * @throws org.xml.sax.SAXException
      * @throws java.io.IOException
      */
-    public void loadStandardEnvironment() throws ParserConfigurationException, SAXException, IOException {
-        configureLogger();
+    public void loadStandardEnvironment()
+            throws ParserConfigurationException, SAXException, IOException {
 
         isExamEnvironment = false;
 
-        help = new HelpLoader(Locale.getDefault().getLanguage().split("[_-]+")[0], isExamEnvironment);
+        configureLogger();
+
+        helpLoader = new HelpLoader(
+                Locale.getDefault().getLanguage().split("[_-]+")[0],
+                isExamEnvironment);
 
         // Init Model
-        properties = WelcomeModelFactory.getPropertiesTask();
-        proxy = WelcomeModelFactory.getProxyTask();
+        propertiesTask = WelcomeModelFactory.getPropertiesTask();
+        proxyTask = WelcomeModelFactory.getProxyTask();
 
-        recommendedApps = WelcomeModelFactory.getApplicationGroupTask("recommended", "RecommendedApplication.title", proxy);
-        utilityApps = WelcomeModelFactory.getApplicationGroupTask("utility", "UtiltyApplication.title", proxy);
-        teachApps = WelcomeModelFactory.getApplicationGroupTask("teaching", "TeachingApplication.title", proxy);
-        softwApps = WelcomeModelFactory.getApplicationGroupTask("misc", "MiscApplication.title", proxy);
-        gamesApps = WelcomeModelFactory.getApplicationGroupTask("game", "GameApplication.title", proxy);
+        recommendedAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+                "recommended", "RecommendedApplication.title", proxyTask);
+        utilityAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+                "utility", "UtiltyApplication.title", proxyTask);
+        teachAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+                "teaching", "TeachingApplication.title", proxyTask);
+        softwAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+                "misc", "MiscApplication.title", proxyTask);
+        gamesAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+                "game", "GameApplication.title", proxyTask);
 
-        prepare = WelcomeModelFactory.getInstallPreparationTask(proxy, recommendedApps, utilityApps, teachApps, softwApps, gamesApps);
-        post = WelcomeModelFactory.getInstallPostprocessingTask(proxy, recommendedApps, utilityApps, teachApps, softwApps, gamesApps);
+        prepareTask = WelcomeModelFactory.getInstallPreparationTask(
+                proxyTask, recommendedAppsTask, utilityAppsTask,
+                teachAppsTask, softwAppsTask, gamesAppsTask);
+        postProcessingTask = WelcomeModelFactory.getInstallPostprocessingTask(
+                proxyTask, recommendedAppsTask, utilityAppsTask,
+                teachAppsTask, softwAppsTask, gamesAppsTask);
 
-        sysconf = WelcomeModelFactory.getSystemTask(false, properties);
-        partition = WelcomeModelFactory.getPartitionTask(properties);
+        systemConfigTask = WelcomeModelFactory.getSystemTask(
+                false, propertiesTask);
+        partitionTask = WelcomeModelFactory.getPartitionTask(propertiesTask);
 
         // Init Installer
         List<Processable> processingList = new ArrayList<>();
-        processingList.add(proxy);
-        processingList.add(prepare);
-        processingList.add(recommendedApps);
-        processingList.add(utilityApps);
-        processingList.add(teachApps);
-        processingList.add(softwApps);
-        processingList.add(gamesApps);
-        processingList.add(post);
+        processingList.add(proxyTask);
+        processingList.add(prepareTask);
+        processingList.add(recommendedAppsTask);
+        processingList.add(utilityAppsTask);
+        processingList.add(teachAppsTask);
+        processingList.add(softwAppsTask);
+        processingList.add(gamesAppsTask);
+        processingList.add(postProcessingTask);
 
-        processingList.add(partition);
-        processingList.add(sysconf);
+        processingList.add(partitionTask);
+        processingList.add(systemConfigTask);
 
-        processingList.add(properties);
+        processingList.add(propertiesTask);
 
         taskProcessor = new TaskProcessor(processingList);
     }
@@ -153,18 +175,21 @@ public class WelcomeController {
      * Starts the TaskProcessor.
      */
     public void startProcessingTasks() {
-        if(taskProcessor != null)
+        if (taskProcessor != null) {
             taskProcessor.run();
+        }
     }
 
     /**
      * Stops backend tasks when the application should be closed.
      */
     public void closeApplication() {
-        if (firewall != null)
-            firewall.stopFirewallStateChecking();
-        if(sysconf != null)
-            sysconf.umountBootConfig();
+        if (firewallTask != null) {
+            firewallTask.stopFirewallStateChecking();
+        }
+        if (systemConfigTask != null) {
+            systemConfigTask.umountBootConfig();
+        }
     }
 
     /**
@@ -204,51 +229,50 @@ public class WelcomeController {
     }
 
     public HelpLoader getHelpLoader() {
-        return help;
+        return helpLoader;
     }
 
-    public ProxyTask getProxy() {
-        return proxy;
+    public ProxyTask getProxyTask() {
+        return proxyTask;
     }
 
-    public ApplicationGroupTask getRecommendedApps() {
-        return recommendedApps;
+    public ApplicationGroupTask getRecommendedAppsTask() {
+        return recommendedAppsTask;
     }
 
-    public ApplicationGroupTask getUtilityApps() {
-        return utilityApps;
+    public ApplicationGroupTask getUtilityAppsTask() {
+        return utilityAppsTask;
     }
 
-    public ApplicationGroupTask getTeachApps() {
-        return teachApps;
+    public ApplicationGroupTask getTeachAppsTask() {
+        return teachAppsTask;
     }
 
-    public ApplicationGroupTask getSoftwApps() {
-        return softwApps;
+    public ApplicationGroupTask getSoftwAppsTask() {
+        return softwAppsTask;
     }
 
-    public ApplicationGroupTask getGamesApps() {
-        return gamesApps;
+    public ApplicationGroupTask getGamesAppsTask() {
+        return gamesAppsTask;
     }
 
-    public PartitionTask getPartition() {
-        return partition;
+    public PartitionTask getPartitionTask() {
+        return partitionTask;
     }
 
-    public FirewallTask getFirewall() {
-        return firewall;
+    public FirewallTask getFirewallTask() {
+        return firewallTask;
     }
 
-    public BackupTask getBackup() {
-        return backup;
+    public BackupTask getBackupTask() {
+        return backupTask;
     }
 
-    public SystemconfigTask getSysconf() {
-        return sysconf;
+    public SystemConfigTask getSystemConfigTask() {
+        return systemConfigTask;
     }
 
-    public PropertiesTask getProperties() {
-        return properties;
+    public PropertiesTask getPropertiesTask() {
+        return propertiesTask;
     }
-
 }

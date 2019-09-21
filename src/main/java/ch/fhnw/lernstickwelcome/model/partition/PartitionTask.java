@@ -44,8 +44,10 @@ import org.freedesktop.dbus.exceptions.DBusException;
  */
 public class PartitionTask implements Processable<String> {
 
-    private static final Logger LOGGER = Logger.getLogger(PartitionTask.class.getName());
-    private static final ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
+    private static final Logger LOGGER
+            = Logger.getLogger(PartitionTask.class.getName());
+    private static final ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
     private Partition exchangePartition;
     private Properties properties;
 
@@ -53,7 +55,7 @@ public class PartitionTask implements Processable<String> {
     private StringProperty exchangePartitionLabel = new SimpleStringProperty();
     private BooleanProperty accessExchangePartition = new SimpleBooleanProperty();
     private BooleanProperty showReadOnlyInfo = new SimpleBooleanProperty();
-    private BooleanProperty showReadWriteWelcome = new SimpleBooleanProperty();
+    private BooleanProperty startWelcomeApplication = new SimpleBooleanProperty();
 
     /**
      * Loads the partitions with 
@@ -74,18 +76,19 @@ public class PartitionTask implements Processable<String> {
             }
         }
 
-        accessExchangePartition.set("true".equals(
-                properties.getProperty(WelcomeConstants.EXCHANGE_ACCESS)));
-        showReadWriteWelcome.set("true".equals(
-                properties.getProperty(WelcomeConstants.SHOW_WELCOME)));
-        showReadOnlyInfo.set("true".equals(
-                properties.getProperty(WelcomeConstants.SHOW_READ_ONLY_INFO, "true")));
+        accessExchangePartition.set("true".equals(properties.getProperty(
+                WelcomeConstants.EXCHANGE_ACCESS)));
+        startWelcomeApplication.set("true".equals(properties.getProperty(
+                WelcomeConstants.SHOW_WELCOME)));
+        showReadOnlyInfo.set("true".equals(properties.getProperty(
+                WelcomeConstants.SHOW_READ_ONLY_INFO, "true")));
 
     }
 
     /**
      * Updates the exchange partition label.
-     * @throws DBusException 
+     *
+     * @throws DBusException
      */
     private void updateExchangePartitionLabel() throws DBusException {
         String binary = null;
@@ -147,8 +150,8 @@ public class PartitionTask implements Processable<String> {
         return showReadOnlyInfo;
     }
 
-    public BooleanProperty showReadWriteWelcomeProperty() {
-        return showReadWriteWelcome;
+    public BooleanProperty startWelcomeApplicationProperty() {
+        return startWelcomeApplication;
     }
 
     @Override
@@ -173,8 +176,10 @@ public class PartitionTask implements Processable<String> {
                     exchangePartitionLabel.get());
 
             // If exchange partition label has changed - modify it on call
-            if (exchangePartitionLabel.get() != null && !exchangePartitionLabel.get().isEmpty()
-                    && !exchangePartitionLabel.get().equals(oldExchangePartitionLabel)) {
+            if (exchangePartitionLabel.get() != null
+                    && !exchangePartitionLabel.get().isEmpty()
+                    && !exchangePartitionLabel.get().equals(
+                            oldExchangePartitionLabel)) {
                 updateExchangePartitionLabel();
             }
 
@@ -182,7 +187,7 @@ public class PartitionTask implements Processable<String> {
 
             // Edit the properties
             properties.setProperty(WelcomeConstants.SHOW_WELCOME,
-                    showReadWriteWelcome.get() ? "true" : "false");
+                    startWelcomeApplication.get() ? "true" : "false");
             properties.setProperty(WelcomeConstants.SHOW_READ_ONLY_INFO,
                     showReadOnlyInfo.get() ? "true" : "false");
             properties.setProperty(WelcomeConstants.EXCHANGE_ACCESS,
@@ -192,5 +197,4 @@ public class PartitionTask implements Processable<String> {
             return null;
         }
     }
-
 }

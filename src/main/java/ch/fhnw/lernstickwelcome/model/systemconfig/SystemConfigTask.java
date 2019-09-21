@@ -36,13 +36,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.PosixFileAttributes;
-import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -77,15 +74,15 @@ import org.xml.sax.SAXException;
  *
  * @author sschw
  */
-public class SystemconfigTask implements Processable<String> {
+public class SystemConfigTask implements Processable<String> {
 
     private final static ProcessExecutor PROCESS_EXECUTOR
             = WelcomeModelFactory.getProcessExecutor();
     private final static Logger LOGGER
-            = Logger.getLogger(SystemconfigTask.class.getName());
+            = Logger.getLogger(SystemConfigTask.class.getName());
 
-    // Some functions are only required in exam env.
-    private boolean isExamEnv; // TODO Block functions for Std. Version
+    // Some functions are only required in the exam environment
+    private boolean isExamEnv;
     private boolean showPasswordDialog;
     private Partition bootConfigPartition;
     private Partition exchangePartition;
@@ -111,7 +108,7 @@ public class SystemconfigTask implements Processable<String> {
      * @param isExamEnv Some functions won't be load in Std. Version
      * @param properties Property File of the Welcome Application
      */
-    public SystemconfigTask(boolean isExamEnv, Properties properties) {
+    public SystemConfigTask(boolean isExamEnv, Properties properties) {
         this.isExamEnv = isExamEnv;
         this.properties = properties;
 
@@ -128,6 +125,58 @@ public class SystemconfigTask implements Processable<String> {
         getBootConfigInfos();
         // Load the Username
         getFullUserName();
+    }
+
+    @Override
+    public Task<String> newTask() {
+        return new InternalTask();
+    }
+
+    /**
+     * If the bootConfigPartition was mounted to make configurations on it, this
+     * function has to be called to umount it after use.
+     */
+    public void umountBootConfig() {
+        if ((bootConfigMountInfo != null)
+                && (!bootConfigMountInfo.alreadyMounted())) {
+            try {
+                bootConfigPartition.umount();
+            } catch (DBusException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public StringProperty systemNameProperty() {
+        return systemname;
+    }
+
+    public StringProperty systemVersionProperty() {
+        return systemversion;
+    }
+
+    public IntegerProperty timeoutSecondsProperty() {
+        return timeoutSeconds;
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public StringProperty passwordRepeatProperty() {
+        return passwordRepeat;
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public BooleanProperty allowAccessToOtherFilesystemsProperty() {
+        return allowAccessToOtherFilesystems;
+    }
+
+    public boolean showPasswordDialog() {
+        return showPasswordDialog;
     }
 
     /**
@@ -257,15 +306,14 @@ public class SystemconfigTask implements Processable<String> {
     }
 
     /**
-     * Updates the BootLoaders of the exchangePartition and the
-     * bootConfigPartition.
+     * Updates the boot menus on the EFI and exchange partition.
      * <br>
-     * If boot config isn't seperated, it will do the action onto the running
+     * If boot config isn't separated, it will do the action on the running
      * system.
      *
      * @throws DBusException
      */
-    private void updateBootloaders() throws DBusException {
+    private void updateBootMenus() throws DBusException {
         final int timeout = timeoutSeconds.get();
         final String systemName = systemname.get();
         final String systemVersion = systemversion.get();
@@ -276,7 +324,7 @@ public class SystemconfigTask implements Processable<String> {
             @Override
             public Void execute(File mountPath) {
                 try {
-                    updateBootloaders(mountPath, timeout,
+                    updateBootMenus(mountPath, timeout,
                             systemName, systemVersion);
                 } catch (DBusException ex) {
                     LOGGER.log(Level.SEVERE, "", ex);
@@ -285,34 +333,14 @@ public class SystemconfigTask implements Processable<String> {
             }
         };
 
-        if (bootConfigPartition == null
-                || systemStorageDevice.getEfiPartition().getIdLabel().equals(
-                        Partition.EFI_LABEL)) {
-            // legacy system without separate boot partition or
-            // post 2016-02 partition schema where the boot config files are
-            // located again on the system partition
-
-            // make image temporarily writable
-            PROCESS_EXECUTOR.executeProcess("mount", "-o", "remount,rw",
-                    WelcomeConstants.IMAGE_DIRECTORY);
-
-            updateBootloaders(new File(WelcomeConstants.IMAGE_DIRECTORY),
-                    timeout, systemName, systemVersion);
-
-            // remount image read-only
-            PROCESS_EXECUTOR.executeProcess("mount", "-o", "remount,ro",
-                    WelcomeConstants.IMAGE_DIRECTORY);
-        } else {
-            // system with a separate boot partition
-            bootConfigPartition.executeMounted(updateBootloaderAction);
-        }
+        bootConfigPartition.executeMounted(updateBootloaderAction);
         if (exchangePartition != null) {
             exchangePartition.executeMounted(updateBootloaderAction);
         }
     }
 
     /**
-     * Updates the bootloader of the given partition.
+     * Updates the boot menus on the given partition.
      *
      * @param directory root directory of the partition
      * @param timeout the timeout that has to be set
@@ -320,7 +348,7 @@ public class SystemconfigTask implements Processable<String> {
      * @param systemVersion the systemVersion that has to be set
      * @throws DBusException
      */
-    private void updateBootloaders(File directory, int timeout,
+    private void updateBootMenus(File directory, int timeout,
             String systemName, String systemVersion) throws DBusException {
 
         // syslinux
@@ -745,56 +773,8 @@ public class SystemconfigTask implements Processable<String> {
         return strictPoliciesDir;
     }
 
-    /**
-     * If the bootConfigPartition was mounted to make configurations on it, this
-     * function has to be called to umount it after use.
-     */
-    public void umountBootConfig() {
-        if ((bootConfigMountInfo != null)
-                && (!bootConfigMountInfo.alreadyMounted())) {
-            try {
-                bootConfigPartition.umount();
-            } catch (DBusException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    private void updateBootloader() {
 
-    public StringProperty systemnameProperty() {
-        return systemname;
-    }
-
-    public StringProperty systemversionProperty() {
-        return systemversion;
-    }
-
-    public IntegerProperty timeoutSecondsProperty() {
-        return timeoutSeconds;
-    }
-
-    public StringProperty passwordProperty() {
-        return password;
-    }
-
-    public StringProperty passwordRepeatProperty() {
-        return passwordRepeat;
-    }
-
-    public StringProperty usernameProperty() {
-        return username;
-    }
-
-    public BooleanProperty allowAccessToOtherFilesystemsProperty() {
-        return allowAccessToOtherFilesystems;
-    }
-
-    public boolean showPasswordDialog() {
-        return showPasswordDialog;
-    }
-
-    @Override
-    public Task<String> newTask() {
-        return new InternalTask();
     }
 
     /**
@@ -809,8 +789,18 @@ public class SystemconfigTask implements Processable<String> {
             // Set labels and progress
             updateTitle("SystemconfigTask.title");
 
-            // Set Username
-            updateProgress(0, 4);
+            // update bootloader selection
+            updateProgress(0, 5);
+
+            // update boot menu
+            updateProgress(1, 5);
+            updateMessage("SystemconfigTask.bootmenu");
+            if (WelcomeUtil.isImageWritable()) {
+                updateBootMenus();
+            }
+
+            // update username
+            updateProgress(2, 5);
             updateMessage("SystemconfigTask.username");
             if (!username.get().equals(oldUsername)) {
                 LOGGER.log(Level.INFO,
@@ -819,27 +809,21 @@ public class SystemconfigTask implements Processable<String> {
                         "chfn", "-f", username.get(), "user");
             }
 
-            // Update bootloader
-            updateProgress(1, 4);
-            updateMessage("SystemconfigTask.bootloader");
-            if (WelcomeUtil.isImageWritable()) {
-                updateBootloaders();
-            }
-
-            // Update allow filesystem mount
-            updateProgress(2, 4);
-            updateMessage("SystemconfigTask.setup");
-            updateAllowFilesystemMount();
-
-            // Update password
-            updateProgress(3, 4);
+            // update password
+            updateProgress(3, 5);
             if (isExamEnv) {
-                // Change password should only be run in exam env.
+                // this should only be run in the exam environment
                 updateMessage("SystemconfigTask.password");
                 changePassword();
             }
 
-            updateProgress(4, 4);
+            // update allow filesystem mount
+            updateProgress(4, 5);
+            updateMessage("SystemconfigTask.setup");
+            updateAllowFilesystemMount();
+
+            // done
+            updateProgress(5, 5);
             return null;
         }
     }

@@ -49,28 +49,28 @@ public class BackupBinder {
      */
     public void initBindings() {
         backupController.getBackupToggleSwitch().selectedProperty().
-                bindBidirectional(welcomeController.getBackup().activeProperty());
+                bindBidirectional(welcomeController.getBackupTask().activeProperty());
 
         backupController.getScreenshotsToggleSwitch().selectedProperty().
-                bindBidirectional(welcomeController.getBackup().screenshotProperty());
+                bindBidirectional(welcomeController.getBackupTask().screenshotProperty());
 
         backupController.getLocalToggleSwitch().selectedProperty().
-                bindBidirectional(welcomeController.getBackup().localProperty());
+                bindBidirectional(welcomeController.getBackupTask().localProperty());
 
         backupController.getExternalPartitionToggleSwitch().selectedProperty().
-                bindBidirectional(welcomeController.getBackup().partitionProperty());
+                bindBidirectional(welcomeController.getBackupTask().partitionProperty());
 
         backupController.getFrequencyCombobox().valueProperty().
-                bindBidirectional(welcomeController.getBackup().frequencyProperty());
+                bindBidirectional(welcomeController.getBackupTask().frequencyProperty());
 
         backupController.getDestinationFolderTextField().textProperty().
-                bindBidirectional(welcomeController.getBackup().destinationPathProperty());
+                bindBidirectional(welcomeController.getBackupTask().destinationPathProperty());
 
         backupController.getExternalPartitionTextField().textProperty().
-                bindBidirectional(welcomeController.getBackup().partitionPathProperty());
+                bindBidirectional(welcomeController.getBackupTask().partitionPathProperty());
 
         backupController.getSourceTextField().textProperty().
-                bindBidirectional(welcomeController.getBackup().sourcePathProperty());
+                bindBidirectional(welcomeController.getBackupTask().sourcePathProperty());
     }
 
     /**

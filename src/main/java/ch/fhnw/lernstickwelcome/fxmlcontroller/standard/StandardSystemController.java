@@ -18,21 +18,28 @@ package ch.fhnw.lernstickwelcome.fxmlcontroller.standard;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.AbstractSystemController;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.freedesktop.dbus.exceptions.DBusException;
 
 /**
  * FXML Controller class for the standard version
  *
  * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class SystemController
+public class StandardSystemController
         extends AbstractSystemController implements Initializable {
 
+    private static final Logger LOGGER = 
+            Logger.getLogger(StandardSystemController.class.getName());
+    
     @FXML
     private ToggleSwitch proxyToggleSwitch;
     @FXML
@@ -50,12 +57,20 @@ public class SystemController
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        initControls();
-
-        proxyHostTextField.disableProperty().bind(proxyToggleSwitch.selectedProperty().not());
-        proxyPortTextField.disableProperty().bind(proxyToggleSwitch.selectedProperty().not());
-        proxyPasswordField.disableProperty().bind(proxyToggleSwitch.selectedProperty().not());
-        proxyUserTextField.disableProperty().bind(proxyToggleSwitch.selectedProperty().not());
+        try {
+            initControls();
+            
+            proxyHostTextField.disableProperty().bind(
+                    proxyToggleSwitch.selectedProperty().not());
+            proxyPortTextField.disableProperty().bind(
+                    proxyToggleSwitch.selectedProperty().not());
+            proxyPasswordField.disableProperty().bind(
+                    proxyToggleSwitch.selectedProperty().not());
+            proxyUserTextField.disableProperty().bind(
+                    proxyToggleSwitch.selectedProperty().not());
+        } catch (DBusException | IOException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
     }
 
     public ToggleSwitch getProxyToggleSwitch() {
