@@ -1,3 +1,9 @@
+lernstickwelcome (201909220029) lernstick-10; urgency=medium
+
+  * [90c7b0] support running when booted via Debian 10 ISO
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 22 Sep 2019 00:29:30 +0200
+
 lernstickwelcome (201909211753) lernstick-10; urgency=medium
 
   * [8dfe62] removed deprecated functions
