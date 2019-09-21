@@ -46,20 +46,20 @@ public class SystemBinder {
      * Method to initialize the bidirectional bindings between the view and packend properties
      */
     public void initBindings(){
-        system.getTsShowWarning().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
-        system.getTsStartWa().selectedProperty().bindBidirectional(controller.getPartition().showReadWriteWelcomeProperty());
-        system.getCbVisibleFor().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
-        system.getTfExchangePartition().textProperty().bindBidirectional(controller.getPartition().exchangePartitionLabelProperty());
-        system.getTfUsername().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
-        system.getTfSystemName().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
-        system.getTfSystemVersion().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
-        system.getTsProxy().selectedProperty().bindBidirectional(controller.getProxy().proxyActiveProperty());
-        system.getTfHost().textProperty().bindBidirectional(controller.getProxy().hostnameProperty());
-        system.getTfPort().textProperty().bindBidirectional(controller.getProxy().portProperty());
-        system.getTfPwd().textProperty().bindBidirectional(controller.getProxy().passwordProperty());
-        system.getTfUser().textProperty().bindBidirectional(controller.getProxy().usernameProperty());
+        system.getReadOnlyWarningToggleSwitch().selectedProperty().bindBidirectional(controller.getPartition().showReadOnlyInfoProperty());
+        system.getStartWelcomeApplicationToggleSwitch().selectedProperty().bindBidirectional(controller.getPartition().showReadWriteWelcomeProperty());
+        system.getTimeoutComboBox().valueProperty().bindBidirectional(controller.getSysconf().timeoutSecondsProperty());
+        system.getExchangePartitionTextField().textProperty().bindBidirectional(controller.getPartition().exchangePartitionLabelProperty());
+        system.getUserNameTextField().textProperty().bindBidirectional(controller.getSysconf().usernameProperty());
+        system.getSystemNameTextField().textProperty().bindBidirectional(controller.getSysconf().systemnameProperty());
+        system.getSystemVersionTextField().textProperty().bindBidirectional(controller.getSysconf().systemversionProperty());
+        system.getProxyToggleSwitch().selectedProperty().bindBidirectional(controller.getProxy().proxyActiveProperty());
+        system.getProxyHostTextField().textProperty().bindBidirectional(controller.getProxy().hostnameProperty());
+        system.getProxyPortTextField().textProperty().bindBidirectional(controller.getProxy().portProperty());
+        system.getProxyPasswordField().textProperty().bindBidirectional(controller.getProxy().passwordProperty());
+        system.getProxyUserTextField().textProperty().bindBidirectional(controller.getProxy().usernameProperty());
         
-        system.getTfExchangePartition().setDisable(!controller.getPartition().hasExchangePartition());
+        system.getExchangePartitionTextField().setDisable(!controller.getPartition().hasExchangePartition());
        
     }
 
@@ -70,7 +70,7 @@ public class SystemBinder {
      * @param help links to online user guide
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
-        system.getBtHelp().setOnAction(evt -> {
+        system.getHelpButton().setOnAction(evt -> {
             help.setHelpEntryByChapter("3");
             helpStage.show();
         });

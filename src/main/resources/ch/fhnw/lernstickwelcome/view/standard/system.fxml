@@ -5,16 +5,20 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<VBox spacing="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController">
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.SystemController">
    <children>
       <HBox>
          <children>
@@ -23,9 +27,33 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="btHelp" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" stylesheets="@../../../../../css/style.css" />
+            <Button fx:id="helpButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" stylesheets="@../../../../../css/style.css" />
          </children>
       </HBox>
+      <TitledPane expanded="false" text="%Bootloader">
+        <content>
+            <GridPane hgap="10.0" vgap="20.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" />
+                  <ColumnConstraints hgrow="ALWAYS" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints vgrow="NEVER" />
+                  <RowConstraints vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <RadioButton mnemonicParsing="false" selected="true">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="bootloader" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <TextFlow fx:id="oldVersionTextFlow" GridPane.columnIndex="1" />
+                  <RadioButton mnemonicParsing="false" toggleGroup="$bootloader" GridPane.rowIndex="1" />
+                  <TextFlow fx:id="newVersionTextFlow" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+        </content>
+      </TitledPane>
       <TitledPane expanded="false" text="%Boot_Menu">
          <content>
             <GridPane hgap="10.0" vgap="10.0">
@@ -40,11 +68,11 @@
                </rowConstraints>
                <children>
                   <Label text="%welcomeApplicationSystem.systemname" />
-                  <TextField fx:id="tfSystemName" maxHeight="30.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="systemNameTextField" maxHeight="30.0" GridPane.columnIndex="1" />
                   <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
-                  <TextField fx:id="tfSystemVersion" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="systemVersionTextField" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="2" />
-                  <ComboBox fx:id="cbVisibleFor" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="timeoutComboBox" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </content>
@@ -56,7 +84,7 @@
                   <HBox spacing="10.0">
                      <children>
                         <Label maxHeight="1.7976931348623157E308" text="%welcomeApplicationSystem.userName" />
-                        <TextField fx:id="tfUsername" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="userNameTextField" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
@@ -72,7 +100,7 @@
                         <HBox spacing="10.0">
                            <children>
                               <Label maxHeight="1.7976931348623157E308" text="%Name" />
-                              <TextField fx:id="tfExchangePartition" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="exchangePartitionTextField" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </content>
@@ -90,9 +118,9 @@
                            </rowConstraints>
                            <children>
                               <Label text="%welcomeApplicationSystem.startWA" />
-                              <ToggleSwitch fx:id="tsStartWa" GridPane.columnIndex="1" />
+                              <ToggleSwitch fx:id="startWelcomeApplicationToggleSwitch" GridPane.columnIndex="1" />
                               <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="1" />
-                              <ToggleSwitch fx:id="tsShowWarning" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ToggleSwitch fx:id="readOnlyWarningToggleSwitch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </content>
@@ -108,7 +136,7 @@
                   <HBox>
                      <children>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%WelcomeApplicationProxy.use" HBox.hgrow="ALWAYS" />
-                        <ToggleSwitch fx:id="tsProxy" />
+                        <ToggleSwitch fx:id="proxyToggleSwitch" />
                      </children>
                   </HBox>
                   <GridPane hgap="10.0" vgap="10.0">
@@ -128,10 +156,10 @@
                         <Label text="%WelcomeApplicationProxy.port" GridPane.rowIndex="2" />
                         <Label text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="3" />
                         <Label text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="4" />
-                        <TextField fx:id="tfHost" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="tfPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="tfUser" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="tfPwd" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="proxyHostTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="proxyPortTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="proxyUserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <PasswordField fx:id="proxyPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                </children>

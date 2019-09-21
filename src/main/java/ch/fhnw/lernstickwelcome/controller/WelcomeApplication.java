@@ -254,6 +254,9 @@ public final class WelcomeApplication extends Application {
                 | ParserConfigurationException | SAXException ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.exit(1);
         }
     }
 
