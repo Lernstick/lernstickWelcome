@@ -143,19 +143,26 @@ public class AbstractSystemController {
         if (systemStorageDevice == null) {
             LOGGER.warning("system storage device not found, "
                     + "can't detect which boot loader is selected");
+            disableBootLoaderRadioButtons();
         } else {
             Partition efiPartition = systemStorageDevice.getEfiPartition();
-            String efiMountPath = efiPartition.mount().getMountPath();
-            Path currentShimPath = Paths.get(efiMountPath,
-                    "EFI/boot/bootx64.efi");
-            Path newShimPath = Paths.get(efiMountPath,
-                    "EFI/boot/bootx64.efi.new");
-            if (Files.size(currentShimPath) == Files.size(newShimPath)) {
-                LOGGER.info("new boot loader is active");
-                newBootLoaderRadioButton.selectedProperty().set(true);
+            if (efiPartition == null) {
+                LOGGER.warning("EFI partition not found, "
+                        + "can't detect which boot loader is selected");
+                disableBootLoaderRadioButtons();
             } else {
-                LOGGER.info("old boot loader is active");
-                oldBootLoaderRadioButton.selectedProperty().set(true);
+                String efiMountPath = efiPartition.mount().getMountPath();
+                Path currentShimPath = Paths.get(efiMountPath,
+                        "EFI/boot/bootx64.efi");
+                Path newShimPath = Paths.get(efiMountPath,
+                        "EFI/boot/bootx64.efi.new");
+                if (Files.size(currentShimPath) == Files.size(newShimPath)) {
+                    LOGGER.info("new boot loader is active");
+                    newBootLoaderRadioButton.selectedProperty().set(true);
+                } else {
+                    LOGGER.info("old boot loader is active");
+                    oldBootLoaderRadioButton.selectedProperty().set(true);
+                }
             }
         }
 
@@ -192,6 +199,13 @@ public class AbstractSystemController {
             systemNameTextField.setDisable(true);
             systemVersionTextField.setDisable(true);
         }
+    }
+
+    private void disableBootLoaderRadioButtons() {
+        oldBootLoaderRadioButton.setDisable(true);
+        oldVersionTextFlow.setDisable(true);
+        newBootLoaderRadioButton.setDisable(true);
+        newVersionTextFlow.setDisable(true);
     }
 
     private static int getSpecialLength(String string) {

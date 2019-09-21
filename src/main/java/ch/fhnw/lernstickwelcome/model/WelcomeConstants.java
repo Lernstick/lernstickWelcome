@@ -45,7 +45,7 @@ public final class WelcomeConstants {
     
     // PATHS
     // !!! NO trailing slash at the end (would break comparison later) !!!
-    public static final String IMAGE_DIRECTORY = "/lib/live/mount/medium";
+    public static final String IMAGE_DIRECTORY = "/run/live/medium";
     
     public static final String USER_JBACKPACK_PREFERENCES 
             = "/home/user/.java/.userPrefs/ch/fhnw/jbackpack/";
