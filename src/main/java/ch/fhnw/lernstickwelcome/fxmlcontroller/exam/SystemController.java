@@ -62,11 +62,7 @@ public class SystemController implements Initializable {
     @FXML
     private ToggleSwitch allowFileSystemsToggleSwitch;
     @FXML
-    private ToggleSwitch blockKdeToggleSwitch;
-    @FXML
     private TitledPane systemTitledPane;
-    @FXML
-    private ToggleSwitch directSoundToggleSwitch;
     @FXML
     private TitledPane partitionsTitledPane;
     @FXML
@@ -145,14 +141,6 @@ public class SystemController implements Initializable {
 
     public ToggleSwitch getStartWelcomeApplicationToggleSwitch() {
         return startWelcomeApplicationToggleSwitch;
-    }
-
-    public ToggleSwitch getDirectSoundToggleSwitch() {
-        return directSoundToggleSwitch;
-    }
-
-    public ToggleSwitch getBlockKdeToggleSwitch() {
-        return blockKdeToggleSwitch;
     }
 
     public ToggleSwitch getAllowFileSystemsToggleSwitch() {

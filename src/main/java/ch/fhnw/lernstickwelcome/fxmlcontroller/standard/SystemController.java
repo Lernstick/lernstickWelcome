@@ -21,8 +21,6 @@ import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -47,10 +45,6 @@ public class SystemController implements Initializable {
     private ToggleSwitch tsStartWa;
     @FXML
     private ToggleSwitch tsShowWarning;
-    @FXML
-    private ToggleSwitch tsDirectSound;
-    @FXML
-    private ToggleSwitch tsBlockKde;
     @FXML
     private TextField tfExchangePartition;
     @FXML
@@ -209,14 +203,6 @@ public class SystemController implements Initializable {
 
     public ToggleSwitch getTsShowWarning() {
         return tsShowWarning;
-    }
-
-    public ToggleSwitch getTsDirectSound() {
-        return tsDirectSound;
-    }
-
-    public ToggleSwitch getTsBlockKde() {
-        return tsBlockKde;
     }
 
     public TextField getTfExchangePartition() {

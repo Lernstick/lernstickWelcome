@@ -59,24 +59,8 @@
                         <TextField fx:id="tfUsername" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <HBox maxWidth="1.7976931348623157E308" spacing="10.0">
-                     <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationSystem.PlasmaDesktopApplets" HBox.hgrow="ALWAYS" />
-                        <ToggleSwitch fx:id="tsBlockKde" />
-                     </children>
-                  </HBox>
                </children>
             </VBox>
-         </content>
-      </TitledPane>
-      <TitledPane expanded="false" text="%System">
-         <content>
-            <HBox>
-               <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationSystem.soundOutput" HBox.hgrow="ALWAYS" />
-                  <ToggleSwitch fx:id="tsDirectSound" />
-               </children>
-            </HBox>
          </content>
       </TitledPane>
       <TitledPane expanded="false" text="%Partitions">

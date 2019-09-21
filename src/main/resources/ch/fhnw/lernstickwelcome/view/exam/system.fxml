@@ -83,24 +83,12 @@
                                 <RowConstraints />
                             </rowConstraints>
                             <children>
-                                <Label text="%welcomeApplicationSystem.PlasmaDesktopApplets" GridPane.rowIndex="1" />
-                                <ToggleSwitch fx:id="blockKdeToggleSwitch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="%welcomeApplicationSystem.accessFileSystem" />
                                 <ToggleSwitch fx:id="allowFileSystemsToggleSwitch" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
                     </children>
                 </VBox>
-            </content>
-        </TitledPane>
-        <TitledPane fx:id="systemTitledPane" expanded="false" text="%System">
-            <content>
-                <HBox>
-                    <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%welcomeApplicationSystem.soundOutput" HBox.hgrow="ALWAYS" />
-                        <ToggleSwitch fx:id="directSoundToggleSwitch" />
-                    </children>
-                </HBox>
             </content>
         </TitledPane>
         <TitledPane fx:id="partitionsTitledPane" expanded="false" text="%Partitions">

@@ -99,9 +99,6 @@ public class SystemconfigTask implements Processable<String> {
 
     private String oldUsername;
     private StringProperty username = new SimpleStringProperty();
-    private BooleanProperty blockKdeDesktopApplets
-            = new SimpleBooleanProperty();
-    private BooleanProperty directSoundOutput = new SimpleBooleanProperty();
     private BooleanProperty allowAccessToOtherFilesystems
             = new SimpleBooleanProperty();
     private MountInfo bootConfigMountInfo;
@@ -119,17 +116,12 @@ public class SystemconfigTask implements Processable<String> {
         this.properties = properties;
 
         // Load properties
-        blockKdeDesktopApplets.set("true".equals(
-                properties.getProperty(WelcomeConstants.KDE_LOCK)));
         if (isExamEnv) {
             showPasswordDialog = "true".equals(properties.getProperty(
                     WelcomeConstants.SHOW_PASSWORD_DIALOG, "true"));
         }
         allowAccessToOtherFilesystems.set(
                 WelcomeUtil.isFileSystemMountAllowed());
-        // Load Sound Output
-        directSoundOutput.set(!Files.exists(
-                WelcomeConstants.ALSA_PULSE_CONFIG_FILE));
         // Load partitions
         getPartitions();
         // Load BootConfigInfos from the BootPartition
@@ -229,7 +221,7 @@ public class SystemconfigTask implements Processable<String> {
      * Loads the partitions by using
      * {@link WelcomeModelFactory#getSystemStorageDevice()}.
      * <br>
-     * Loads the bootConfigParition and the exchangePartition.
+     * Loads the bootConfigPartition and the exchangePartition.
      */
     private void getPartitions() {
         systemStorageDevice = WelcomeModelFactory.getSystemStorageDevice();
@@ -237,6 +229,8 @@ public class SystemconfigTask implements Processable<String> {
             exchangePartition = systemStorageDevice.getExchangePartition();
 
             Partition efiPartition = systemStorageDevice.getEfiPartition();
+            bootConfigPartition = efiPartition;
+            /*
             if ((efiPartition != null)
                     && efiPartition.getIdLabel().equals(Partition.EFI_LABEL)) {
                 // current partitioning scheme, the boot config is on the
@@ -247,6 +241,7 @@ public class SystemconfigTask implements Processable<String> {
                 // boot partition
                 bootConfigPartition = efiPartition;
             }
+             */
             if (bootConfigPartition != null) {
                 try {
                     bootConfigMountInfo = bootConfigPartition.mount();
@@ -765,45 +760,6 @@ public class SystemconfigTask implements Processable<String> {
         }
     }
 
-    /**
-     * Updates the permission of the File
-     * {@link WelcomeConstants#APPLETS_CONFIG_FILE} according to the value of
-     * the {@link #blockKdeDesktopApplets} Property
-     */
-    public void updateBlockKdeDesktopApplets() {
-        if (!blockKdeDesktopApplets.get()) {
-            try {
-                PosixFileAttributes attributes = Files.readAttributes(
-                        WelcomeConstants.APPLETS_CONFIG_FILE,
-                        PosixFileAttributes.class
-                );
-                Set<PosixFilePermission> permissions = attributes.permissions();
-
-                permissions.add(PosixFilePermission.OWNER_WRITE);
-
-                Files.setPosixFilePermissions(
-                        WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
-            } catch (IOException iOException) {
-                LOGGER.log(Level.WARNING, "", iOException);
-            }
-        } else {
-            try {
-                PosixFileAttributes attributes = Files.readAttributes(
-                        WelcomeConstants.APPLETS_CONFIG_FILE,
-                        PosixFileAttributes.class
-                );
-                Set<PosixFilePermission> permissions = attributes.permissions();
-
-                permissions.remove(PosixFilePermission.OWNER_WRITE);
-
-                Files.setPosixFilePermissions(
-                        WelcomeConstants.APPLETS_CONFIG_FILE, permissions);
-            } catch (IOException iOException) {
-                LOGGER.log(Level.WARNING, "", iOException);
-            }
-        }
-    }
-
     public StringProperty systemnameProperty() {
         return systemname;
     }
@@ -826,14 +782,6 @@ public class SystemconfigTask implements Processable<String> {
 
     public StringProperty usernameProperty() {
         return username;
-    }
-
-    public BooleanProperty blockKdeDesktopAppletsProperty() {
-        return blockKdeDesktopApplets;
-    }
-
-    public BooleanProperty directSoundOutputProperty() {
-        return directSoundOutput;
     }
 
     public BooleanProperty allowAccessToOtherFilesystemsProperty() {
@@ -859,11 +807,11 @@ public class SystemconfigTask implements Processable<String> {
         @Override
         protected String call() throws Exception {
             // Set labels and progress
-            updateProgress(0, 6);
             updateTitle("SystemconfigTask.title");
-            updateMessage("SystemconfigTask.username");
 
             // Set Username
+            updateProgress(0, 4);
+            updateMessage("SystemconfigTask.username");
             if (!username.get().equals(oldUsername)) {
                 LOGGER.log(Level.INFO,
                         "updating full user name to \"{0}\"", username.get());
@@ -871,55 +819,27 @@ public class SystemconfigTask implements Processable<String> {
                         "chfn", "-f", username.get(), "user");
             }
 
-            updateProgress(1, 6);
-            updateMessage("SystemconfigTask.bootloader");
-
             // Update bootloader
+            updateProgress(1, 4);
+            updateMessage("SystemconfigTask.bootloader");
             if (WelcomeUtil.isImageWritable()) {
                 updateBootloaders();
             }
 
-            updateProgress(2, 6);
-            updateMessage("SystemconfigTask.setup");
-
             // Update allow filesystem mount
+            updateProgress(2, 4);
+            updateMessage("SystemconfigTask.setup");
             updateAllowFilesystemMount();
 
-            updateProgress(3, 6);
-
-            // Update direct sound
-            if (Files.exists(WelcomeConstants.ALSA_PULSE_CONFIG_FILE)) {
-                if (directSoundOutput.get()) {
-                    // divert alsa pulse config file
-                    PROCESS_EXECUTOR.executeProcess("dpkg-divert", "--rename",
-                            WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
-                }
-            } else if (!directSoundOutput.get()) {
-                // restore original alsa pulse config file
-                PROCESS_EXECUTOR.executeProcess(
-                        "dpkg-divert", "--remove", "--rename",
-                        WelcomeConstants.ALSA_PULSE_CONFIG_FILE.toString());
-            }
-
-            updateProgress(4, 6);
-
-            // Update kde applets
-            updateBlockKdeDesktopApplets();
-
-            properties.setProperty(WelcomeConstants.KDE_LOCK,
-                    blockKdeDesktopApplets.get() ? "true" : "false");
-
-            updateProgress(5, 6);
-            // Change password should only be run in exam env.
+            // Update password
+            updateProgress(3, 4);
             if (isExamEnv) {
+                // Change password should only be run in exam env.
                 updateMessage("SystemconfigTask.password");
-
-                // Update password
                 changePassword();
             }
 
-            updateProgress(6, 6);
-
+            updateProgress(4, 4);
             return null;
         }
     }

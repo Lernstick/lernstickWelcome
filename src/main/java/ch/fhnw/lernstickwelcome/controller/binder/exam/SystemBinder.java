@@ -48,7 +48,7 @@ public class SystemBinder {
 
     /**
      * Method to initialize the bidirectional bindings between the view and
-     * packend properties
+     * backend properties
      */
     public void initBindings() {
         systemController.getUserExchangeAccessToggleSwitch().selectedProperty().bindBidirectional(
@@ -56,12 +56,6 @@ public class SystemBinder {
 
         systemController.getAllowFileSystemsToggleSwitch().selectedProperty().bindBidirectional(
                 welcomeController.getSysconf().allowAccessToOtherFilesystemsProperty());
-
-        systemController.getBlockKdeToggleSwitch().selectedProperty().bindBidirectional(
-                welcomeController.getSysconf().blockKdeDesktopAppletsProperty());
-
-        systemController.getDirectSoundToggleSwitch().selectedProperty().bindBidirectional(
-                welcomeController.getSysconf().directSoundOutputProperty());
 
         systemController.getReadOnlyWarningToggleSwitch().selectedProperty().bindBidirectional(
                 welcomeController.getPartition().showReadOnlyInfoProperty());
