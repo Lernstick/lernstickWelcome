@@ -35,6 +35,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
@@ -83,6 +84,9 @@ public class SystemConfigTask implements Processable<String> {
 
     // Some functions are only required in the exam environment
     private boolean isExamEnv;
+
+    private boolean newBootLoaderActive;
+    private BooleanProperty useNewBootLoader = new SimpleBooleanProperty();
     private boolean showPasswordDialog;
     private Partition bootConfigPartition;
     private Partition exchangePartition;
@@ -147,6 +151,20 @@ public class SystemConfigTask implements Processable<String> {
         }
     }
 
+    /**
+     * sets if the new boot loader is active
+     *
+     * @param newBootLoaderActive <tt>true</tt>, if the new boot loader is
+     * active, <tt>false</tt> otherwise
+     */
+    public void setNewBootLoaderActive(boolean newBootLoaderActive) {
+        this.newBootLoaderActive = newBootLoaderActive;
+    }
+
+    public BooleanProperty useNewBootLoaderProperty() {
+        return useNewBootLoader;
+    }
+
     public StringProperty systemNameProperty() {
         return systemname;
     }
@@ -179,6 +197,37 @@ public class SystemConfigTask implements Processable<String> {
         return showPasswordDialog;
     }
 
+    private void updateBootLoader() throws IOException, DBusException {
+        if (newBootLoaderActive && !useNewBootLoader.get()) {
+            LOGGER.info("switching to old boot loader");
+            switchBootLoader(false);
+            newBootLoaderActive = false;
+        } else if (!newBootLoaderActive && useNewBootLoader.get()) {
+            LOGGER.info("switching to new boot loader");
+            switchBootLoader(true);
+            newBootLoaderActive = true;
+        }
+    }
+
+    private void switchBootLoader(boolean useNewBootLoader)
+            throws DBusException, IOException {
+
+        Partition efiPartition = systemStorageDevice.getEfiPartition();
+        String efiMountPath = efiPartition.mount().getMountPath();
+
+        // replace shim
+        Path source = Path.of(efiMountPath, "EFI/boot/bootx64.efi"
+                + (useNewBootLoader ? ".new" : ".old"));
+        Path destination = Path.of(efiMountPath, "EFI/boot/bootx64.efi");
+        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+
+        // replace grub
+        source = Path.of(efiMountPath, "EFI/boot/grubx64.efi"
+                + (useNewBootLoader ? ".new" : ".old"));
+        destination = Path.of(efiMountPath, "EFI/boot/grubx64.efi");
+        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+    }
+
     /**
      * Update the access to other filesystems by editing the PKLA File.
      * <br>
@@ -203,7 +252,7 @@ public class SystemConfigTask implements Processable<String> {
      * and the syslinuxConfigFile.
      */
     private void getBootConfigInfos() {
-        // Read out the bootloader timeout in seconds
+        // Read out the boot loader timeout in seconds
         try {
             timeoutSeconds.set(getTimeout());
         } catch (IOException | DBusException ex) {
@@ -318,7 +367,7 @@ public class SystemConfigTask implements Processable<String> {
         final String systemName = systemname.get();
         final String systemVersion = systemversion.get();
 
-        Partition.Action<Void> updateBootloaderAction
+        Partition.Action<Void> updateBootLoaderAction
                 = new Partition.Action<Void>() {
 
             @Override
@@ -333,9 +382,9 @@ public class SystemConfigTask implements Processable<String> {
             }
         };
 
-        bootConfigPartition.executeMounted(updateBootloaderAction);
+        bootConfigPartition.executeMounted(updateBootLoaderAction);
         if (exchangePartition != null) {
-            exchangePartition.executeMounted(updateBootloaderAction);
+            exchangePartition.executeMounted(updateBootLoaderAction);
         }
     }
 
@@ -773,10 +822,6 @@ public class SystemConfigTask implements Processable<String> {
         return strictPoliciesDir;
     }
 
-    private void updateBootloader() {
-
-    }
-
     /**
      * Task for {@link #newTask() }
      *
@@ -789,8 +834,9 @@ public class SystemConfigTask implements Processable<String> {
             // Set labels and progress
             updateTitle("SystemconfigTask.title");
 
-            // update bootloader selection
+            // update boot loader selection
             updateProgress(0, 5);
+            updateBootLoader();
 
             // update boot menu
             updateProgress(1, 5);
@@ -819,8 +865,10 @@ public class SystemConfigTask implements Processable<String> {
 
             // update allow filesystem mount
             updateProgress(4, 5);
-            updateMessage("SystemconfigTask.setup");
-            updateAllowFilesystemMount();
+            if (isExamEnv) {
+                updateMessage("SystemconfigTask.setup");
+                updateAllowFilesystemMount();
+            }
 
             // done
             updateProgress(5, 5);

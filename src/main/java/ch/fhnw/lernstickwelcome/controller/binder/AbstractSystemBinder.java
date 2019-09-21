@@ -18,6 +18,7 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.AbstractSystemController;
+import javafx.beans.property.BooleanProperty;
 import javafx.stage.Stage;
 
 /**
@@ -25,7 +26,7 @@ import javafx.stage.Stage;
  *
  * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class AbstractSystemBinder {
+public class AbstractSystemBinder implements SystemBinder {
 
     /**
      * the core controller
@@ -55,6 +56,16 @@ public class AbstractSystemBinder {
      * backend properties
      */
     public void initBindings() {
+
+        BooleanProperty newBootLoaderRadioButtonSelectedProperty
+                = systemController.getNewBootLoaderRadioButton().selectedProperty();
+        boolean newBootLoader = newBootLoaderRadioButtonSelectedProperty.get();
+        welcomeController.getSystemConfigTask().setNewBootLoaderActive(newBootLoader);
+        // make sure initial value is synced before bidirectional binding
+        welcomeController.getSystemConfigTask().useNewBootLoaderProperty().set(newBootLoader);
+        newBootLoaderRadioButtonSelectedProperty.bindBidirectional(
+                welcomeController.getSystemConfigTask().useNewBootLoaderProperty());
+
         systemController.getSystemNameTextField().textProperty().bindBidirectional(
                 welcomeController.getSystemConfigTask().systemNameProperty());
 
@@ -84,11 +95,11 @@ public class AbstractSystemBinder {
      * Open other view by clicking on help button
      *
      * @param helpStage additional window showing help
-     * @param help links to online user guide
+     * @param helpBinder links to online user guide
      */
-    public void initHelp(Stage helpStage, HelpBinder help) {
+    public void initHelp(Stage helpStage, HelpBinder helpBinder) {
         systemController.getHelpButton().setOnAction(evt -> {
-            help.setHelpEntryByChapter("3");
+            helpBinder.setHelpEntryByChapter("3");
             helpStage.show();
         });
     }

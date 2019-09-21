@@ -30,7 +30,7 @@
                 <Button fx:id="helpButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" stylesheets="@../../../../../css/style.css" />
             </children>
         </HBox>
-      <TitledPane fx:id="bootloaderTitledPane" expanded="false" text="%Bootloader">
+      <TitledPane fx:id="bootLoaderTitledPane" expanded="false" text="%BootLoader">
         <content>
             <GridPane hgap="10.0" vgap="20.0">
                <columnConstraints>
@@ -42,13 +42,13 @@
                   <RowConstraints vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <RadioButton fx:id="oldBootloaderRadioButton" mnemonicParsing="false" selected="true">
+                  <RadioButton fx:id="oldBootLoaderRadioButton" mnemonicParsing="false" selected="true">
                      <toggleGroup>
-                        <ToggleGroup fx:id="bootloader" />
+                        <ToggleGroup fx:id="bootLoader" />
                      </toggleGroup>
                   </RadioButton>
                   <TextFlow fx:id="oldVersionTextFlow" GridPane.columnIndex="1" />
-                  <RadioButton fx:id="newBootloaderRadioButton" mnemonicParsing="false" toggleGroup="$bootloader" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="newBootLoaderRadioButton" mnemonicParsing="false" toggleGroup="$bootLoader" GridPane.rowIndex="1" />
                   <TextFlow fx:id="newVersionTextFlow" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>

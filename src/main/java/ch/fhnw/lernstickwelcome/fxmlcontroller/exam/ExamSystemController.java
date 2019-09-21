@@ -46,7 +46,7 @@ public class ExamSystemController
             = Logger.getLogger(ExamSystemController.class.getName());
 
     @FXML
-    private TitledPane bootloaderTitledPane;
+    private TitledPane bootLoaderTitledPane;
     @FXML
     private TitledPane bootMenuTitledPane;
     @FXML
@@ -88,7 +88,7 @@ public class ExamSystemController
     }
 
     public void showMediaAccessConfig() {
-        bootloaderTitledPane.expandedProperty().set(false);
+        bootLoaderTitledPane.expandedProperty().set(false);
         bootMenuTitledPane.expandedProperty().set(false);
         userTitledPane.expandedProperty().set(true);
         partitionsTitledPane.expandedProperty().set(false);

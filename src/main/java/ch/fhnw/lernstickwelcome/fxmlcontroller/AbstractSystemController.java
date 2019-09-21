@@ -56,9 +56,9 @@ public class AbstractSystemController {
     @FXML
     protected Button helpButton;
     @FXML
-    protected RadioButton oldBootloaderRadioButton;
+    protected RadioButton oldBootLoaderRadioButton;
     @FXML
-    protected RadioButton newBootloaderRadioButton;
+    protected RadioButton newBootLoaderRadioButton;
     @FXML
     protected TextFlow oldVersionTextFlow;
     @FXML
@@ -80,6 +80,10 @@ public class AbstractSystemController {
 
     public Button getHelpButton() {
         return helpButton;
+    }
+
+    public RadioButton getNewBootLoaderRadioButton() {
+        return newBootLoaderRadioButton;
     }
 
     public TextField getSystemNameTextField() {
@@ -110,26 +114,26 @@ public class AbstractSystemController {
         return readOnlyWarningToggleSwitch;
     }
 
-    protected void initControls() throws DBusException, IOException {
+    public void initControls() throws DBusException, IOException {
 
         Text oldText = new Text(
-                BUNDLE.getString("Bootloader_Old_Version") + "\n");
+                BUNDLE.getString("BootLoader_Old_Version") + "\n");
         Text oldAdvantageText = new Text(
-                BUNDLE.getString("Bootloader_Old_Version_Advantage") + "\n");
+                BUNDLE.getString("BootLoader_Old_Version_Advantage") + "\n");
         oldAdvantageText.setFill(Color.GREEN);
         Text oldDisadvantageText = new Text(
-                BUNDLE.getString("Bootloader_Old_Version_Disadvantage"));
+                BUNDLE.getString("BootLoader_Old_Version_Disadvantage"));
         oldDisadvantageText.setFill(Color.RED);
         oldVersionTextFlow.getChildren().addAll(
                 oldText, oldAdvantageText, oldDisadvantageText);
 
         Text newText = new Text(
-                BUNDLE.getString("Bootloader_New_Version") + "\n");
+                BUNDLE.getString("BootLoader_New_Version") + "\n");
         Text newAdvantageText = new Text(
-                BUNDLE.getString("Bootloader_New_Version_Advantage") + "\n");
+                BUNDLE.getString("BootLoader_New_Version_Advantage") + "\n");
         newAdvantageText.setFill(Color.GREEN);
         Text newDisadvantageText = new Text(
-                BUNDLE.getString("Bootloader_New_Version_Disadvantage"));
+                BUNDLE.getString("BootLoader_New_Version_Disadvantage"));
         newDisadvantageText.setFill(Color.RED);
         newVersionTextFlow.getChildren().addAll(
                 newText, newAdvantageText, newDisadvantageText);
@@ -138,7 +142,7 @@ public class AbstractSystemController {
                 = WelcomeModelFactory.getSystemStorageDevice();
         if (systemStorageDevice == null) {
             LOGGER.warning("system storage device not found, "
-                    + "can't detect which bootloader is selected");
+                    + "can't detect which boot loader is selected");
         } else {
             Partition efiPartition = systemStorageDevice.getEfiPartition();
             String efiMountPath = efiPartition.mount().getMountPath();
@@ -147,9 +151,11 @@ public class AbstractSystemController {
             Path newShimPath = Paths.get(efiMountPath,
                     "EFI/boot/bootx64.efi.new");
             if (Files.size(currentShimPath) == Files.size(newShimPath)) {
-                newBootloaderRadioButton.selectedProperty().set(true);
+                LOGGER.info("new boot loader is active");
+                newBootLoaderRadioButton.selectedProperty().set(true);
             } else {
-                oldBootloaderRadioButton.selectedProperty().set(true);
+                LOGGER.info("old boot loader is active");
+                oldBootLoaderRadioButton.selectedProperty().set(true);
             }
         }
 

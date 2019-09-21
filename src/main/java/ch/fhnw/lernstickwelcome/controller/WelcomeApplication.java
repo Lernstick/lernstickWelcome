@@ -16,6 +16,7 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
+import ch.fhnw.lernstickwelcome.controller.binder.AbstractSystemBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ApplicationBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.BackupBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallBinder;
@@ -23,8 +24,11 @@ import ch.fhnw.lernstickwelcome.controller.binder.exam.PasswordChangeBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.MainBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.ProgressBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.SystemBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.exam.ExamSystemBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallDependenciesWarningBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallPatternValidatorBinder;
+import ch.fhnw.lernstickwelcome.controller.binder.standard.StandardSystemBinder;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import java.io.IOException;
@@ -60,7 +64,8 @@ import org.xml.sax.SAXException;
  */
 public final class WelcomeApplication extends Application {
 
-    private static final Logger LOGGER = Logger.getLogger(WelcomeApplication.class.getName());
+    private static final Logger LOGGER
+            = Logger.getLogger(WelcomeApplication.class.getName());
     private WelcomeController controller;
     private FXMLGuiLoader guiLoader;
     private Stage passwordChangeStage;
@@ -89,168 +94,210 @@ public final class WelcomeApplication extends Application {
         try {
             controller = new WelcomeController();
 
-            guiLoader = new FXMLGuiLoader(isExamEnvironment(), controller.getBundle());
+            guiLoader = new FXMLGuiLoader(
+                    isExamEnvironment(), controller.getBundle());
 
             Stage errorStage = FXMLGuiLoader.createDialog(
                     primaryStage,
                     guiLoader.getErrorScene(),
-                    controller.getBundle().getString("welcomeApplicationError.title"),
+                    controller.getBundle().getString(
+                            "welcomeApplicationError.title"),
                     true
             );
 
             Stage helpStage = FXMLGuiLoader.createDialog(
                     primaryStage,
                     guiLoader.getHelpScene(),
-                    controller.getBundle().getString("welcomeApplicationHelp.title"),
+                    controller.getBundle().getString(
+                            "welcomeApplicationHelp.title"),
                     false
             );
 
             if (isExamEnvironment()) {
+
                 controller.loadExamEnvironment();
 
                 if (controller.getSystemConfigTask().showPasswordDialog()) {
-                    PasswordChangeBinder examPasswordChangeBinder = new PasswordChangeBinder(controller, guiLoader.getPasswordChangeController());
-                    examPasswordChangeBinder.initHandlers(errorStage, guiLoader.getErrorController());
+
+                    PasswordChangeBinder examPasswordChangeBinder
+                            = new PasswordChangeBinder(controller,
+                                    guiLoader.getPasswordChangeController());
+
+                    examPasswordChangeBinder.initHandlers(
+                            errorStage, guiLoader.getErrorController());
+
                     passwordChangeStage = FXMLGuiLoader.createDialog(
                             primaryStage,
                             guiLoader.getPasswordChangeScene(),
-                            controller.getBundle().getString("welcomeApplicationPasswordChange.title"),
+                            controller.getBundle().getString(
+                                    "welcomeApplicationPasswordChange.title"),
                             false
                     );
+
                     passwordChangeStage.showAndWait();
                 }
-                
+
                 Stage firewallPatternValidatorStage = FXMLGuiLoader.createDialog(
-                    primaryStage,
-                    guiLoader.getPatternValidatorScene(),
-                    controller.getBundle().getString("welcomeApplicationFirewallPatternValidator.title"),
-                    true
+                        primaryStage,
+                        guiLoader.getPatternValidatorScene(),
+                        controller.getBundle().getString(
+                                "welcomeApplicationFirewallPatternValidator.title"),
+                        true
                 );
-                
-                FirewallPatternValidatorBinder firewallPatternValidatorBinder = new FirewallPatternValidatorBinder(controller, guiLoader.getFirewallPatternValidatorController());
+
+                FirewallPatternValidatorBinder firewallPatternValidatorBinder
+                        = new FirewallPatternValidatorBinder(controller,
+                                guiLoader.getFirewallPatternValidatorController());
                 firewallPatternValidatorBinder.initBindings();
-                firewallPatternValidatorBinder.initHandlers(firewallPatternValidatorStage);
-                
+                firewallPatternValidatorBinder.initHandlers(
+                        firewallPatternValidatorStage);
+
                 Stage firewallDependenciesWarningStage = FXMLGuiLoader.createDialog(
-                    primaryStage,
-                    guiLoader.getFirewallDependenciesWarning(),
-                    controller.getBundle().getString("welcomeApplicationFirewallDependenciesWarning.title"),
-                    true
+                        primaryStage,
+                        guiLoader.getFirewallDependenciesWarning(),
+                        controller.getBundle().getString(
+                                "welcomeApplicationFirewallDependenciesWarning.title"),
+                        true
                 );
-                
-                FirewallDependenciesWarningBinder fdwBinder = 
-                        new FirewallDependenciesWarningBinder(controller, guiLoader.getFirewallDependenciesWarningController());
-                fdwBinder.initHandlers(firewallPatternValidatorStage, guiLoader.getErrorController(), errorStage);
-                
-                HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelpController());
+
+                FirewallDependenciesWarningBinder fdwBinder
+                        = new FirewallDependenciesWarningBinder(controller,
+                                guiLoader.getFirewallDependenciesWarningController());
+                fdwBinder.initHandlers(firewallPatternValidatorStage,
+                        guiLoader.getErrorController(), errorStage);
+
+                HelpBinder helpBinder = new HelpBinder(controller,
+                        guiLoader.getHelpController());
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
 
-                ch.fhnw.lernstickwelcome.controller.binder.exam.InformationBinder examInformationBinder = 
-                        new ch.fhnw.lernstickwelcome.controller.binder.exam.InformationBinder(controller, guiLoader.getInformationExamController());
+                ch.fhnw.lernstickwelcome.controller.binder.exam.InformationBinder examInformationBinder
+                        = new ch.fhnw.lernstickwelcome.controller.binder.exam.InformationBinder(
+                                controller, guiLoader.getInformationExamController());
                 examInformationBinder.initBindings();
 
-                FirewallBinder examFirewallBinder = new FirewallBinder(controller, guiLoader.getFirewallController());
+                FirewallBinder examFirewallBinder = new FirewallBinder(
+                        controller, guiLoader.getFirewallController());
                 examFirewallBinder.initBindings();
-                examFirewallBinder.initHandlers(firewallDependenciesWarningStage, firewallPatternValidatorStage, errorStage, guiLoader.getErrorController());
+                examFirewallBinder.initHandlers(
+                        firewallDependenciesWarningStage,
+                        firewallPatternValidatorStage,
+                        errorStage, guiLoader.getErrorController());
                 examFirewallBinder.initHelp(helpStage, helpBinder);
 
-                BackupBinder examBackupBinder = new BackupBinder(controller, guiLoader.getBackupController());
+                BackupBinder examBackupBinder = new BackupBinder(controller,
+                        guiLoader.getBackupController());
                 examBackupBinder.initBindings();
                 examBackupBinder.initHelp(helpStage, helpBinder);
 
-                ch.fhnw.lernstickwelcome.controller.binder.exam.ExamSystemBinder examSystemBinder = 
-                        new ch.fhnw.lernstickwelcome.controller.binder.exam.ExamSystemBinder(controller, guiLoader.getExamSystemController());
-                examSystemBinder.initBindings();
-                examSystemBinder.initHelp(helpStage, helpBinder);
+                SystemBinder binder = new ExamSystemBinder(
+                        controller, guiLoader.getExamSystemController());
+                binder.initBindings();
+                binder.initHelp(helpStage, helpBinder);
+                
             } else {
                 controller.loadStandardEnvironment();
 
-                HelpBinder helpBinder = new HelpBinder(controller, guiLoader.getHelpController());
+                HelpBinder helpBinder = new HelpBinder(
+                        controller, guiLoader.getHelpController());
                 helpBinder.initBindings();
                 helpBinder.initHandlers();
 
-                ch.fhnw.lernstickwelcome.controller.binder.standard.InformationBinder information = 
-                        new ch.fhnw.lernstickwelcome.controller.binder.standard.InformationBinder(controller, guiLoader.getInformationStdController());
+                ch.fhnw.lernstickwelcome.controller.binder.standard.InformationBinder information
+                        = new ch.fhnw.lernstickwelcome.controller.binder.standard.InformationBinder(
+                                controller, guiLoader.getInformationStdController());
                 information.initBindings();
 
                 ApplicationBinder nonFreeAppsBinder = new ApplicationBinder(
-                        controller, 
+                        controller,
                         guiLoader.getNonFreeController().getVbApps(),
                         guiLoader.getNonFreeController().getBtHelp()
                 );
-                nonFreeAppsBinder.addApplicationGroup(controller.getRecommendedAppsTask(), helpBinder, helpStage);
-                nonFreeAppsBinder.addApplicationGroup(controller.getUtilityAppsTask(), helpBinder, helpStage);
+                nonFreeAppsBinder.addApplicationGroup(
+                        controller.getRecommendedAppsTask(),
+                        helpBinder, helpStage);
+                nonFreeAppsBinder.addApplicationGroup(
+                        controller.getUtilityAppsTask(),
+                        helpBinder, helpStage);
                 nonFreeAppsBinder.initHelp("1", helpStage, helpBinder);
 
                 ApplicationBinder addAppsBinder = new ApplicationBinder(
-                        controller, 
+                        controller,
                         guiLoader.getAddSoftwareController().getVbApps(),
                         guiLoader.getAddSoftwareController().getBtHelp()
                 );
-                addAppsBinder.addApplicationGroup(controller.getTeachAppsTask(), helpBinder, helpStage);
-                addAppsBinder.addApplicationGroup(controller.getSoftwAppsTask(), helpBinder, helpStage);
-                addAppsBinder.addApplicationGroup(controller.getGamesAppsTask(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(
+                        controller.getTeachAppsTask(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(
+                        controller.getSoftwAppsTask(), helpBinder, helpStage);
+                addAppsBinder.addApplicationGroup(
+                        controller.getGamesAppsTask(), helpBinder, helpStage);
                 addAppsBinder.initHelp("2", helpStage, helpBinder);
 
-                ch.fhnw.lernstickwelcome.controller.binder.standard.StandardSystemBinder stdSystemBinder =  
-                        new ch.fhnw.lernstickwelcome.controller.binder.standard.StandardSystemBinder(controller, guiLoader.getStandardSystemController());
-                stdSystemBinder.initBindings();
-                stdSystemBinder.initHelp(helpStage, helpBinder);
+                SystemBinder binder = new StandardSystemBinder(
+                        controller, guiLoader.getStandardSystemController());
+                binder.initBindings();
+                binder.initHelp(helpStage, helpBinder);
             }
 
-            ProgressBinder progressBinder = new ProgressBinder(controller, guiLoader.getProgressController());
+            ProgressBinder progressBinder = new ProgressBinder(
+                    controller, guiLoader.getProgressController());
             progressBinder.initBindings();
-            progressBinder.initHandlers(errorStage, guiLoader.getErrorController());
+            progressBinder.initHandlers(errorStage,
+                    guiLoader.getErrorController());
             Stage progressStage = FXMLGuiLoader.createDialog(
                     primaryStage,
                     guiLoader.getProgressScene(),
-                    controller.getBundle().getString("welcomeApplicationProgress.save"),
+                    controller.getBundle().getString(
+                            "welcomeApplicationProgress.save"),
                     true
             );
 
-            MainBinder mainBinder = new MainBinder(controller, guiLoader.getMainController());
+            MainBinder mainBinder = new MainBinder(
+                    controller, guiLoader.getMainController());
             mainBinder.initHandlers(progressStage);
 
             Scene scene = guiLoader.getMainStage();
-            primaryStage.setTitle(controller.getBundle().getString("Welcome.title"));
+            primaryStage.setTitle(
+                    controller.getBundle().getString("Welcome.title"));
             primaryStage.setScene(scene);
             primaryStage.show();
             primaryStage.setMinHeight(primaryStage.getHeight());
             primaryStage.setMinWidth(primaryStage.getWidth());
-            primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/lernstick_usb.png")));
-            
+            primaryStage.getIcons().add(new Image(
+                    getClass().getResourceAsStream("/icon/lernstick_usb.png")));
+
             // Set close warnings
             primaryStage.setOnCloseRequest(evt -> {
                 try {
-                    if(isExamEnvironment()) {
-                        if(controller.getSystemConfigTask().showPasswordDialog()) {
+                    if (isExamEnvironment()) {
+                        if (controller.getSystemConfigTask().showPasswordDialog()) {
                             passwordChangeStage.showAndWait();
                         }
-                        if(controller.getBackupTask().hasExchangePartition() &&
-                                !controller.getBackupTask().isBackupConfigured()) {
-                            guiLoader.getInfotextdialog(primaryStage, 
+                        if (controller.getBackupTask().hasExchangePartition()
+                                && !controller.getBackupTask().isBackupConfigured()) {
+                            guiLoader.getInfotextdialog(primaryStage,
                                     "WelcomeApplication.Warning_No_Backup_Configured", e -> {
-                                guiLoader.getMainController().setView(2);
-                                ((Stage) ((Node)e.getSource()).getScene().getWindow()).close();
-                                evt.consume();
-                            }).showAndWait();
+                                        guiLoader.getMainController().setView(2);
+                                        ((Stage) ((Node) e.getSource()).getScene().getWindow()).close();
+                                        evt.consume();
+                                    }).showAndWait();
                         }
-                        if(WelcomeUtil.isFileSystemMountAllowed() && !evt.isConsumed()) {
-                            guiLoader.getInfotextdialog(primaryStage, 
+                        if (WelcomeUtil.isFileSystemMountAllowed() && !evt.isConsumed()) {
+                            guiLoader.getInfotextdialog(primaryStage,
                                     "WelcomeApplication.Warning_Mount_Allowed", e -> {
-                                guiLoader.getMainController().setView(3);
-                                guiLoader.getExamSystemController().showMediaAccessConfig();
-                                ((Stage) ((Node)e.getSource()).getScene().getWindow()).close();
-                                evt.consume();
-                            }).showAndWait();
+                                        guiLoader.getMainController().setView(3);
+                                        guiLoader.getExamSystemController().showMediaAccessConfig();
+                                        ((Stage) ((Node) e.getSource()).getScene().getWindow()).close();
+                                        evt.consume();
+                                    }).showAndWait();
                         }
                     }
-                } catch(IOException ex) {
+                } catch (IOException ex) {
                     LOGGER.log(Level.SEVERE, "Couldn't show dialogs", ex);
                 }
             });
-        } catch (IllegalArgumentException | IOException 
+        } catch (IllegalArgumentException | IOException
                 | ParserConfigurationException | SAXException ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
