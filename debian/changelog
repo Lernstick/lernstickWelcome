@@ -1,3 +1,16 @@
+lernstickwelcome (201909211753) lernstick-10; urgency=medium
+
+  * [8dfe62] removed deprecated functions
+             (direct sound output, locking plasma desktop applets)
+  * [636346] simplified system controller implementation (abstract base class)
+             added gui representation for boot loader selection
+             (not yet implemented)
+  * [340195] massive code cleanup
+  * [f7cbaa] another massive code cleanup and bug fixing spree
+             added support for switching boot loaders
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 21 Sep 2019 17:53:09 +0200
+
 lernstickwelcome (201908281153) lernstick-10; urgency=medium
 
   * [cc7899] install lernstick-musescore3
