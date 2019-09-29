@@ -1,3 +1,9 @@
+lernstickwelcome (201909292139) lernstick-10; urgency=medium
+
+  * [5c2561] re-enabled tigerjython (uploaded new package with JRE 8 included)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 29 Sep 2019 21:39:36 +0200
+
 lernstickwelcome (201909220029) lernstick-10; urgency=medium
 
   * [90c7b0] support running when booted via Debian 10 ISO
