@@ -192,9 +192,6 @@
     </application>
     -->
 
-    <!--
-    TigerJython currently doesn't work with Java 9 and newer. Therefore we
-    disable it temporarily until it gets updated.
     <application name="TigerJython">
         <description>Welcome.tigerjythonPanel.description</description>
         <icon>tigerjython</icon>
@@ -206,7 +203,6 @@
             <tag>misc</tag>
         </tags>
     </application>
-    -->
 
     <application name="Etoys">
         <description>Welcome.etoysPanel.description</description>
