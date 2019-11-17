@@ -1,2 +1,6 @@
 #!/bin/sh
-java --module-path /usr/share/openjfx/lib/ --add-modules ALL-MODULE-PATH -Dawt.useSystemAAFontSettings=on -jar /usr/bin/lernstickWelcome.jar
+auto-gdk-scale java \
+	--module-path /usr/share/openjfx/lib/
+	--add-modules ALL-MODULE-PATH
+	-Dawt.useSystemAAFontSettings=on
+	-jar /usr/bin/lernstickWelcome.jar
