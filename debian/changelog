@@ -1,3 +1,9 @@
+lernstickwelcome (201911172146) lernstick-10; urgency=medium
+
+  * [063a9f] use auto-gdk-scale to support hidpi monitors
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 17 Nov 2019 21:46:45 +0100
+
 lernstickwelcome (201909292139) lernstick-10; urgency=medium
 
   * [5c2561] re-enabled tigerjython (uploaded new package with JRE 8 included)
