@@ -956,11 +956,37 @@
             <installed-name>adobereader-enu</installed-name>
         </installed-names>
         <packages>
-            <package type="aptget">libgtk2.0-0:i386</package>
+            <!-- 
+            Dependencies explained:
+
+            libgtk2.0-0:i386:
+            hard dependency of adobereader-enu
+
+            libatk1.0-0:i386:
+            hard dependency of libgtk2.0-0:i386
+
+            libgail-common:i386
+            otherwise acroread throws this error message at startup:
+            Gtk-Message: 16:26:36.258: Failed to load module "gail"
+
+            libatk-adaptor:i386
+            otherwise acroread throws this error message at startup:
+            Gtk-Message: 16:26:36.259: Failed to load module "atk-bridge"
+
+            gtk2-engines-murrine:i386
+            otherwise acroread throws this error message at startup:
+            Unable to locate theme engine in module_path: "murrine"
+
+            gtk2-engines-pixbuf:i386
+            otherwise acroread throws this error message at startup:
+            Unable to locate theme engine in module_path: "pixmap"
+            -->
+            <package type="aptget">gtk2-engines-murrine:i386</package>
+            <package type="aptget">gtk2-engines-pixbuf:i386</package>
+            <package type="aptget">libatk1.0-0:i386</package>
             <package type="aptget">libatk-adaptor:i386</package>
-            <package type="aptget">libcanberra-gtk3-module:i386</package>
-            <package type="aptget">libcanberra-gtk-module:i386</package>
-            <package type="aptget">gnome-themes-standard:i386</package>
+            <package type="aptget">libgail-common:i386</package>
+            <package type="aptget">libgtk2.0-0:i386</package>
             <package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
             <package type="aptget">lernstick-adobereader-enu</package>
         </packages>
