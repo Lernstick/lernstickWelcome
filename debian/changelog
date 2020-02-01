@@ -1,3 +1,9 @@
+lernstickwelcome (202002011701) lernstick-10; urgency=medium
+
+  * [aecb20] Google Earth no longer needs lsb-core
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 01 Feb 2020 17:01:00 +0100
+
 lernstickwelcome (202002011650) lernstick-10; urgency=medium
 
   * [06b675] updated Adobe Reader dependencies to Debian 10
