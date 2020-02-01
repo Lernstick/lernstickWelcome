@@ -1,3 +1,9 @@
+lernstickwelcome (202002011650) lernstick-10; urgency=medium
+
+  * [06b675] updated Adobe Reader dependencies to Debian 10
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 01 Feb 2020 16:50:52 +0100
+
 lernstickwelcome (201911172151) lernstick-10; urgency=medium
 
   * [6564db] fixed start scripts
