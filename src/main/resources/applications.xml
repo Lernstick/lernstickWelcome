@@ -53,8 +53,11 @@
         <description>LibreOffice_description</description>
         <icon>libreoffice</icon>
         <help-path>LibreOffice_website</help-path>
+        <installed-names>
+            <installed-name>libreoffice</installed-name>
+        </installed-names>
         <packages>
-            <package type="aptget">libreoffice</package>
+            <package type="aptget">libreoffice apparmor-</package>
             <package type="aptget">libreoffice-sdbc-hsqldb</package>
             <package type="aptget">libreoffice-gnome</package>
             <package type="aptget">libreoffice-gtk3</package>
