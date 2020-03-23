@@ -49,6 +49,42 @@
 
     <!-- misc programs -->
 
+    <application name="LibreOffice">
+        <description>LibreOffice_description</description>
+        <icon>libreoffice</icon>
+        <help-path>LibreOffice_website</help-path>
+        <packages>
+            <package type="aptget">libreoffice</package>
+            <package type="aptget">libreoffice-gnome</package>
+            <package type="aptget">libreoffice-gtk3</package>
+            <package type="aptget">libreoffice-kf5</package>
+            <package type="aptget">libreoffice-plasma</package>
+            <package type="aptget">libreoffice-style-elementary</package>
+            <package type="aptget">lernstick-libreoffice-base</package>
+            <package type="aptget">lernstick-libreoffice-calc</package>
+            <package type="aptget">lernstick-libreoffice-draw</package>
+            <package type="aptget">lernstick-libreoffice-impress</package>
+            <package type="aptget">lernstick-libreoffice-math</package>
+            <package type="aptget">lernstick-libreoffice-writer</package>
+            <package type="aptget">libreoffice-languagetool</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+    
+    <application name="Google Noto Fonts">
+        <description>Noto_description</description>
+        <icon>noto</icon>
+        <help-path>Noto_website</help-path>
+        <packages>
+            <package type="aptget">fonts-noto</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+    
     <application name="GCompris">
         <description>Welcome.gcomprisPanel.description</description>
         <icon>gcompris</icon>
@@ -108,6 +144,19 @@
             <tag>misc</tag>
         </tags>
     </application>
+    
+    <application name="Krita">
+        <description>Krita_description</description>
+        <icon>krita</icon>
+        <help-path>Krita_website</help-path>
+        <packages>
+            <package type="aptget">krita</package>
+            <package type="aptget">krita-l10n</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
 
     <application name="digiKam">
         <description>digiKam_description</description>
@@ -130,6 +179,18 @@
         <packages>
             <package type="aptget">lernstick-openshot-qt</package>
             <package type="aptget">openshot-qt</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
+    <application name="Blender">
+        <description>Blender_description</description>
+        <icon>blender</icon>
+        <help-path>Blender_website</help-path>
+        <packages>
+            <package type="aptget">blender</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -461,6 +522,18 @@
             <tag>misc</tag>
         </tags>
     </application>
+    
+    <application name="Greenfoot">
+        <description>Greenfoot_description</description>
+        <icon>greenfoot</icon>
+        <help-path>Greenfoot_website</help-path>
+        <packages>
+            <package type="aptget">lernstick-greenfoot</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
 
     <application name="NetBeans">
         <description>Welcome.netbeansPanel.description</description>
@@ -561,6 +634,18 @@
             <package type="aptget">playonlinux</package>
             <package type="aptget">winetricks</package>
             <package type="aptget">exe-thumbnailer</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+    
+    <application name="VirtualBox">
+        <description>VirtualBox_description</description>
+        <icon>virtualbox</icon>
+        <help-path>VirtualBox_website</help-path>
+        <packages>
+            <package type="aptget">lernstick-virtualbox</package>
         </packages>
         <tags>
             <tag>misc</tag>
