@@ -1,3 +1,9 @@
+lernstickwelcome (202003231940) lernstick-10; urgency=medium
+
+  * [a34a4f] prevent installation of apparmor (it breaks LibreOffice in Debian Live)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 23 Mar 2020 19:40:16 +0100
+
 lernstickwelcome (202003231344) lernstick-10; urgency=medium
 
   * [438065] completed LibreOffice package list
