@@ -1,3 +1,9 @@
+lernstickwelcome (202003231344) lernstick-10; urgency=medium
+
+  * [438065] completed LibreOffice package list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 23 Mar 2020 17:24:17 +0100
+
 lernstickwelcome (202003231343) lernstick-10; urgency=medium
 
   * [e3c944] fixed translation
