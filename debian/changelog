@@ -1,3 +1,12 @@
+lernstickwelcome (202003231343) lernstick-10; urgency=medium
+
+  * [e3c944] fixed translation
+  * [4a838b] added support for LibreOffice, Google Noto Fonts, Krita, Blender,
+             Greenfoot and Virtualbox
+             (they no longer fit into the Debian 10 mini version)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 23 Mar 2020 13:43:52 +0100
+
 lernstickwelcome (202002011701) lernstick-10; urgency=medium
 
   * [aecb20] Google Earth no longer needs lsb-core
