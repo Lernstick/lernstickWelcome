@@ -55,11 +55,28 @@
         <help-path>LibreOffice_website</help-path>
         <packages>
             <package type="aptget">libreoffice</package>
+            <package type="aptget">libreoffice-sdbc-hsqldb</package>
             <package type="aptget">libreoffice-gnome</package>
             <package type="aptget">libreoffice-gtk3</package>
             <package type="aptget">libreoffice-kf5</package>
             <package type="aptget">libreoffice-plasma</package>
             <package type="aptget">libreoffice-style-elementary</package>
+            <package type="aptget">libreoffice-style-sifr</package>
+            <package type="aptget">libreoffice-help-de</package>
+            <package type="aptget">libreoffice-help-en-us</package>
+            <package type="aptget">libreoffice-help-es</package>
+            <package type="aptget">libreoffice-help-fr</package>
+            <package type="aptget">libreoffice-help-it</package>
+            <package type="aptget">libreoffice-help-pt-br</package>
+            <package type="aptget">libreoffice-help-ru</package>
+            <package type="aptget">libreoffice-l10n-de</package>
+            <package type="aptget">libreoffice-l10n-es</package>
+            <package type="aptget">libreoffice-l10n-fa</package>
+            <package type="aptget">libreoffice-l10n-fr</package>
+            <package type="aptget">libreoffice-l10n-it</package>
+            <package type="aptget">libreoffice-l10n-kmr</package>
+            <package type="aptget">libreoffice-l10n-pt-br</package>
+            <package type="aptget">libreoffice-l10n-ru</package>
             <package type="aptget">lernstick-libreoffice-base</package>
             <package type="aptget">lernstick-libreoffice-calc</package>
             <package type="aptget">lernstick-libreoffice-draw</package>
@@ -67,12 +84,13 @@
             <package type="aptget">lernstick-libreoffice-math</package>
             <package type="aptget">lernstick-libreoffice-writer</package>
             <package type="aptget">libreoffice-languagetool</package>
+            <package type="aptget">libreoffice-templatepack</package>
         </packages>
         <tags>
             <tag>misc</tag>
         </tags>
     </application>
-    
+
     <application name="Google Noto Fonts">
         <description>Noto_description</description>
         <icon>noto</icon>
@@ -84,7 +102,7 @@
             <tag>misc</tag>
         </tags>
     </application>
-    
+
     <application name="GCompris">
         <description>Welcome.gcomprisPanel.description</description>
         <icon>gcompris</icon>
@@ -144,7 +162,7 @@
             <tag>misc</tag>
         </tags>
     </application>
-    
+
     <application name="Krita">
         <description>Krita_description</description>
         <icon>krita</icon>
@@ -236,7 +254,7 @@
         </tags>
     </application>
 
-    <!-- 
+    <!--
     webkitgtk (needed by gdevelop) got removed from Debian 10:
     https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=893863
     <application name="Gdevelop">
@@ -522,7 +540,7 @@
             <tag>misc</tag>
         </tags>
     </application>
-    
+
     <application name="Greenfoot">
         <description>Greenfoot_description</description>
         <icon>greenfoot</icon>
@@ -639,7 +657,7 @@
             <tag>misc</tag>
         </tags>
     </application>
-    
+
     <application name="VirtualBox">
         <description>VirtualBox_description</description>
         <icon>virtualbox</icon>
@@ -1041,7 +1059,7 @@
             <installed-name>adobereader-enu</installed-name>
         </installed-names>
         <packages>
-            <!-- 
+            <!--
             Dependencies explained:
 
             libgtk2.0-0:i386:
