@@ -1,3 +1,11 @@
+lernstickwelcome (202003261751) lernstick-10; urgency=medium
+
+  * [511896] use HTTP download link for Adobe Reader
+             (some users have problems with FTP connections)
+  * [b05500] install Google Earth from its Debian repository
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 26 Mar 2020 17:51:57 +0100
+
 lernstickwelcome (202003231940) lernstick-10; urgency=medium
 
   * [a34a4f] prevent installation of apparmor (it breaks LibreOffice in Debian Live)
