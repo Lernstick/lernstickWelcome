@@ -1093,7 +1093,7 @@
             <package type="aptget">libatk-adaptor:i386</package>
             <package type="aptget">libgail-common:i386</package>
             <package type="aptget">libgtk2.0-0:i386</package>
-            <package type="wget" fetchUrl="ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
+            <package type="wget" fetchUrl="http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
             <package type="aptget">lernstick-adobereader-enu</package>
         </packages>
         <tags>
