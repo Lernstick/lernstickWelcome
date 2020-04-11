@@ -1,3 +1,10 @@
+lernstickwelcome (202004111150) lernstick-10; urgency=medium
+
+  * [777056] no longer install lernstick-minetest-game-carbone-ng
+             (incompatible with current minetest version)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 11 Apr 2020 11:50:43 +0200
+
 lernstickwelcome (202003261751) lernstick-10; urgency=medium
 
   * [511896] use HTTP download link for Adobe Reader
