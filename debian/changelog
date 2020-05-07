@@ -1,3 +1,10 @@
+lernstickwelcome (202005072209) lernstick-10; urgency=medium
+
+  * [32c17d] commented out thunderbird
+             (still fits on mini version thanks to cleanup fix)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 May 2020 22:09:18 +0200
+
 lernstickwelcome (202005071557) lernstick-10; urgency=medium
 
   * [b45a6f] code cleanup
