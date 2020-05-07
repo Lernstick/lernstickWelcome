@@ -16,6 +16,7 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
+import ch.fhnw.lernstickwelcome.SplashScreenNotification;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationPackages;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
@@ -41,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Application;
 import javax.xml.parsers.ParserConfigurationException;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.w3c.dom.Document;
@@ -107,12 +109,12 @@ public class WelcomeModelFactory {
      * @throws ParserConfigurationException
      */
     public static ApplicationGroupTask getApplicationGroupTask(
-            String tag, String title, ProxyTask proxy)
+            Application application, String tag, String title, ProxyTask proxy)
             throws ParserConfigurationException, SAXException, IOException {
 
-        List<ApplicationTask> apps = getApplicationTasks(tag);
-        ApplicationGroupTask task = 
-                new ApplicationGroupTask(title, proxy, apps);
+        List<ApplicationTask> apps = getApplicationTasks(application, tag);
+        ApplicationGroupTask task
+                = new ApplicationGroupTask(title, proxy, apps);
         return task;
     }
 
@@ -214,7 +216,8 @@ public class WelcomeModelFactory {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public static List<ApplicationTask> getApplicationTasks(String tag)
+    public static List<ApplicationTask> getApplicationTasks(
+            Application application, String tag)
             throws ParserConfigurationException, SAXException, IOException {
 
         ArrayList<ApplicationTask> apps = new ArrayList<>();
@@ -223,15 +226,16 @@ public class WelcomeModelFactory {
         Document xmlDoc = WelcomeUtil.parseXmlFile(is);
 
         NodeList applications = xmlDoc.getElementsByTagName("application");
-        for (int i = 0; i < applications.getLength(); i++) {
-            Node application = applications.item(i);
-            if (application.getNodeType() == Node.ELEMENT_NODE) {
-                Element app = (Element) application;
+        int length = applications.getLength();
+        for (int i = 0; i < length; i++) {
+            Node applicationNode = applications.item(i);
+            if (applicationNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element app = (Element) applicationNode;
                 NodeList tags = app.getElementsByTagName("tag");
                 for (int j = 0; j < tags.getLength(); j++) {
                     Element t = ((Element) tags.item(j));
                     if (t.getTextContent().equals(tag)) {
-                        apps.add(getApplicationTask(app));
+                        apps.add(getApplicationTask(application, app, length));
                     }
                 }
             }
@@ -249,19 +253,22 @@ public class WelcomeModelFactory {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public static ApplicationTask getApplicationTask(String name)
+    public static ApplicationTask getApplicationTask(
+            Application application, String name)
             throws ParserConfigurationException, SAXException, IOException {
+
         InputStream is = WelcomeModelFactory.class.getResourceAsStream(
                 "/applications.xml");
         Document xmlDoc = WelcomeUtil.parseXmlFile(is);
         NodeList applications = xmlDoc.getElementsByTagName("application");
-        for (int i = 0; i < applications.getLength(); i++) {
-            Node application = applications.item(i);
-            if (application.getNodeType() == Node.ELEMENT_NODE) {
-                Element app = (Element) application;
+        int length = applications.getLength();
+        for (int i = 0; i < length; i++) {
+            Node applicationNode = applications.item(i);
+            if (applicationNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element app = (Element) applicationNode;
                 if (app.getAttribute("name").equals(name)) {
                     // application found
-                    return getApplicationTask(app);
+                    return getApplicationTask(application, app, length);
                 }
             }
         }
@@ -275,7 +282,7 @@ public class WelcomeModelFactory {
      * @return ApplicationTask the task that installs the application
      */
     private static ApplicationTask getApplicationTask(
-            Element applicationElement) {
+            Application application, Element applicationElement, int length) {
 
         String applicationName = applicationElement.getAttribute("name");
         if (applicationTasks.containsKey(applicationName)) {
@@ -285,6 +292,13 @@ public class WelcomeModelFactory {
                 getElementsByTagName("description").item(0).getTextContent();
         String icon = applicationElement.
                 getElementsByTagName("icon").item(0).getTextContent();
+
+        if (application != null) {
+            application.notifyPreloader(
+                    new SplashScreenNotification(
+                            applicationName, icon, length));
+        }
+
         String helpPath = applicationElement.
                 getElementsByTagName("help-path").item(0).getTextContent();
 

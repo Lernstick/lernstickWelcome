@@ -39,6 +39,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import javafx.application.Application;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -115,7 +116,7 @@ public class WelcomeController {
      * @throws org.xml.sax.SAXException
      * @throws java.io.IOException
      */
-    public void loadStandardEnvironment()
+    public void loadStandardEnvironment(Application application)
             throws ParserConfigurationException, SAXException, IOException {
 
         isExamEnvironment = false;
@@ -131,14 +132,15 @@ public class WelcomeController {
         proxyTask = WelcomeModelFactory.getProxyTask();
 
         recommendedAppsTask = WelcomeModelFactory.getApplicationGroupTask(
-                "recommended", "RecommendedApplication.title", proxyTask);
+                application, "recommended", "RecommendedApplication.title",
+                proxyTask);
         utilityAppsTask = WelcomeModelFactory.getApplicationGroupTask(
-                "utility", "UtiltyApplication.title", proxyTask);
-        teachAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+                application,  "utility", "UtiltyApplication.title", proxyTask);
+        teachAppsTask = WelcomeModelFactory.getApplicationGroupTask(application, 
                 "teaching", "TeachingApplication.title", proxyTask);
-        softwAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+        softwAppsTask = WelcomeModelFactory.getApplicationGroupTask(application, 
                 "misc", "MiscApplication.title", proxyTask);
-        gamesAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+        gamesAppsTask = WelcomeModelFactory.getApplicationGroupTask(application, 
                 "game", "GameApplication.title", proxyTask);
 
         prepareTask = WelcomeModelFactory.getInstallPreparationTask(

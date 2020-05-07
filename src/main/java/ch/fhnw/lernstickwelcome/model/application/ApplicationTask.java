@@ -127,7 +127,7 @@ public class ApplicationTask implements Processable<String> {
      * @return true if {@code dpkg -l installedNames}
      */
     private boolean initIsInstalled() {
-
+        
         List<String> dpkgListCommand = new ArrayList<>();
         dpkgListCommand.add("dpkg");
         dpkgListCommand.add("-l");

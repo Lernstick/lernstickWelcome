@@ -50,7 +50,8 @@ public class WelcomeModelFactoryTest {
     public void testGetApplicationTask() throws
             ParserConfigurationException, SAXException, IOException {
 
-        ApplicationTask t = WelcomeModelFactory.getApplicationTask("Kstars");
+        ApplicationTask t = 
+                WelcomeModelFactory.getApplicationTask(null, "Kstars");
         assertTrue(t.getName().equals("Kstars"));
         assertTrue(t.getNoPackages() == 4);
         List<String> expectedPackages = new ArrayList<>(Arrays.asList(
@@ -66,7 +67,7 @@ public class WelcomeModelFactoryTest {
                 "install lernstick-kstars"));
 
         //testing a wget application
-        t = WelcomeModelFactory.getApplicationTask("Adobe Reader");
+        t = WelcomeModelFactory.getApplicationTask(null, "Adobe Reader");
         assertTrue(t.getName().equals("Adobe Reader"));
         assertTrue(t.getNoPackages() == 7);
         expectedPackages = new ArrayList<>(Arrays.asList("libgtk2.0-0:i386",
@@ -89,7 +90,7 @@ public class WelcomeModelFactoryTest {
             throws ParserConfigurationException, SAXException, IOException {
 
         List<ApplicationTask> ts
-                = WelcomeModelFactory.getApplicationTasks("recommended");
+                = WelcomeModelFactory.getApplicationTasks(null, "recommended");
         ts.forEach(t -> System.out.println(t.getName()));
         assertTrue(ts.stream().anyMatch(t -> t.getName().equals(
                 "Adobe Reader")));

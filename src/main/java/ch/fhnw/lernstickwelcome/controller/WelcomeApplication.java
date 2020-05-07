@@ -16,7 +16,7 @@
  */
 package ch.fhnw.lernstickwelcome.controller;
 
-import ch.fhnw.lernstickwelcome.controller.binder.AbstractSystemBinder;
+import ch.fhnw.lernstickwelcome.WelcomeSplashScreen;
 import ch.fhnw.lernstickwelcome.controller.binder.ApplicationBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.BackupBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallBinder;
@@ -39,8 +39,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  * The JavaFX Application.
@@ -70,6 +68,19 @@ public final class WelcomeApplication extends Application {
     private FXMLGuiLoader guiLoader;
     private Stage passwordChangeStage;
 
+    @Override
+    public void init() throws Exception {
+        super.init();
+
+        controller = new WelcomeController();
+        
+        if (isExamEnvironment()) {
+            controller.loadExamEnvironment();
+        } else {
+            controller.loadStandardEnvironment(this);
+        }
+    }
+
     /**
      * Initializes the stage.
      * <ol>
@@ -92,7 +103,6 @@ public final class WelcomeApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            controller = new WelcomeController();
 
             guiLoader = new FXMLGuiLoader(
                     isExamEnvironment(), controller.getBundle());
@@ -114,8 +124,6 @@ public final class WelcomeApplication extends Application {
             );
 
             if (isExamEnvironment()) {
-
-                controller.loadExamEnvironment();
 
                 if (controller.getSystemConfigTask().showPasswordDialog()) {
 
@@ -194,9 +202,8 @@ public final class WelcomeApplication extends Application {
                         controller, guiLoader.getExamSystemController());
                 binder.initBindings();
                 binder.initHelp(helpStage, helpBinder);
-                
+
             } else {
-                controller.loadStandardEnvironment();
 
                 HelpBinder helpBinder = new HelpBinder(
                         controller, guiLoader.getHelpController());
@@ -297,8 +304,7 @@ public final class WelcomeApplication extends Application {
                     LOGGER.log(Level.SEVERE, "Couldn't show dialogs", ex);
                 }
             });
-        } catch (IllegalArgumentException | IOException
-                | ParserConfigurationException | SAXException ex) {
+        } catch (IllegalArgumentException ex) {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
         } catch (Exception ex) {
@@ -325,6 +331,7 @@ public final class WelcomeApplication extends Application {
 
     public static void main(String[] args) {
         System.setProperty("prism.lcdtext", "false");
+        System.setProperty("javafx.preloader", WelcomeSplashScreen.class.getName());
         WelcomeApplication.launch(args);
     }
 }
