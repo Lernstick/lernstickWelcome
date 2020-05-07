@@ -111,11 +111,8 @@ public class WelcomeModelFactory {
             throws ParserConfigurationException, SAXException, IOException {
 
         List<ApplicationTask> apps = getApplicationTasks(tag);
-        ApplicationGroupTask task = new ApplicationGroupTask(
-                title,
-                proxy,
-                apps
-        );
+        ApplicationGroupTask task = 
+                new ApplicationGroupTask(title, proxy, apps);
         return task;
     }
 
@@ -223,7 +220,6 @@ public class WelcomeModelFactory {
         ArrayList<ApplicationTask> apps = new ArrayList<>();
         InputStream is = WelcomeModelFactory.class.getResourceAsStream(
                 "/applications.xml");
-        //File xmlFile = new File("applications.xml");
         Document xmlDoc = WelcomeUtil.parseXmlFile(is);
 
         NodeList applications = xmlDoc.getElementsByTagName("application");

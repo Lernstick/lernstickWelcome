@@ -211,7 +211,7 @@ public final class WelcomeApplication extends Application {
                 ApplicationBinder nonFreeAppsBinder = new ApplicationBinder(
                         controller,
                         guiLoader.getNonFreeController().getVbApps(),
-                        guiLoader.getNonFreeController().getBtHelp()
+                        guiLoader.getNonFreeController().getHelpButton()
                 );
                 nonFreeAppsBinder.addApplicationGroup(
                         controller.getRecommendedAppsTask(),
@@ -224,7 +224,7 @@ public final class WelcomeApplication extends Application {
                 ApplicationBinder addAppsBinder = new ApplicationBinder(
                         controller,
                         guiLoader.getAddSoftwareController().getVbApps(),
-                        guiLoader.getAddSoftwareController().getBtHelp()
+                        guiLoader.getAddSoftwareController().getHelpButton()
                 );
                 addAppsBinder.addApplicationGroup(
                         controller.getTeachAppsTask(), helpBinder, helpStage);

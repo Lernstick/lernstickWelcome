@@ -31,7 +31,7 @@ import javafx.scene.layout.VBox;
 public class AdditionalSoftwareController implements Initializable {
 
     @FXML
-    private Button btHelp;
+    private Button helpButton;
 
     @FXML
     private VBox vbApps;
@@ -43,8 +43,8 @@ public class AdditionalSoftwareController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public Button getBtHelp() {
-        return btHelp;
+    public Button getHelpButton() {
+        return helpButton;
     }
     
     public VBox getVbApps() {

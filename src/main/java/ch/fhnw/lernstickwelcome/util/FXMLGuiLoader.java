@@ -166,13 +166,13 @@ public final class FXMLGuiLoader {
                 );
 
                 nonFreeSoftwareController = loadMenuItemView(
-                        "/ch/fhnw/lernstickwelcome/view/standard/nonFreeSoftware.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/standard/NonFreeSoftware.fxml",
                         "NonfreeApplication.title",
                         "copyright.png", menuPaneItems, rb
                 );
 
                 additionalSoftwareController = loadMenuItemView(
-                        "/ch/fhnw/lernstickwelcome/view/standard/additionalSoftware.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/standard/AdditionalSoftware.fxml",
                         "Additional_Software",
                         "list-add.png", menuPaneItems, rb
                 );
