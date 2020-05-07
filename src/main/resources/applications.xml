@@ -324,6 +324,7 @@
 
     <!-- misc programs -->
 
+    <!-- not yet needed...
     <application name="Mozilla Thunderbird">
         <description>Thunderbird_description</description>
         <icon>thunderbird</icon>
@@ -344,6 +345,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+    -->
 
     <application name="Riot.im">
         <description>Riot_im_description</description>
