@@ -1,3 +1,14 @@
+lernstickwelcome (202005071557) lernstick-10; urgency=medium
+
+  * [b45a6f] code cleanup
+  * [e5b5ef] use tabs for software categories
+             cleaned up software categories
+             added Riot.im and Thunderbird
+  * [8ba020] don't show apps that are already installed
+  * [438650] show splash screen
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 May 2020 15:57:11 +0200
+
 lernstickwelcome (202004111150) lernstick-10; urgency=medium
 
   * [777056] no longer install lernstick-minetest-game-carbone-ng
