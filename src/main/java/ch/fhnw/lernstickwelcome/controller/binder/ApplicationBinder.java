@@ -29,6 +29,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -47,7 +50,8 @@ public class ApplicationBinder {
 
     private final static Logger LOGGER = Logger.getLogger(
             ApplicationBinder.class.getName());
-    private final VBox applicationContainer;
+    private final VBox applicationBox;
+    private final TabPane applicationTabPane;
     private final WelcomeController controller;
     private final Button helpButton;
 
@@ -62,7 +66,24 @@ public class ApplicationBinder {
             VBox applicationContainer, Button helpButton) {
 
         this.controller = controller;
-        this.applicationContainer = applicationContainer;
+        this.applicationBox = applicationContainer;
+        this.applicationTabPane = null;
+        this.helpButton = helpButton;
+    }
+
+    /**
+     * Constructor of ApplicationBinder class
+     *
+     * @param controller is needed to provide access to the backend properties
+     * @param applicationContainer the gui container for the applications
+     * @param helpButton the help button
+     */
+    public ApplicationBinder(WelcomeController controller,
+            TabPane applicationTabPane, Button helpButton) {
+
+        this.controller = controller;
+        this.applicationBox = null;
+        this.applicationTabPane = applicationTabPane;
         this.helpButton = helpButton;
     }
 
@@ -77,12 +98,27 @@ public class ApplicationBinder {
     public void addApplicationGroup(
             ApplicationGroupTask appGroup, HelpBinder binder, Stage help) {
 
-        ResourceBundle rb = controller.getBundle();
-        ApplicationGroupView groupView = new ApplicationGroupView();
-        groupView.setTitle(rb.getString(appGroup.getTitle()));
-        addApplicationList(groupView.getAppContainer(),
-                appGroup.getApps(), binder, help);
-        applicationContainer.getChildren().add(groupView);
+        ResourceBundle ressourceBundle = controller.getBundle();
+
+        if (applicationTabPane == null) {
+            // use vbox
+            ApplicationGroupView groupView = new ApplicationGroupView();
+            groupView.setTitle(ressourceBundle.getString(appGroup.getTitle()));
+            addApplicationList(groupView.getAppContainer(),
+                    appGroup.getApps(), binder, help);
+            applicationBox.getChildren().add(groupView);
+
+        } else {
+            // use tab pane
+            Tab tab = new Tab(ressourceBundle.getString(appGroup.getTitle()));
+            VBox vBox = new VBox();
+            ScrollPane scrollPane = new ScrollPane(vBox);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            addApplicationList(vBox, appGroup.getApps(), binder, help);
+            tab.setContent(scrollPane);
+            applicationTabPane.getTabs().add(tab);
+        }
     }
 
     /**
@@ -96,7 +132,7 @@ public class ApplicationBinder {
     public void addApplications(ApplicationGroupTask appGroup,
             HelpBinder binder, Stage help) {
 
-        addApplicationList(applicationContainer,
+        addApplicationList(applicationBox,
                 appGroup.getApps(), binder, help);
     }
 

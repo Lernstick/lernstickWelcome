@@ -18,6 +18,131 @@
         </tags>
     </application>
 
+    <!-- nonfree (recommended) apps -->
+
+    <application name="Welcome.multimediaLabel.text">
+        <description>Welcome.multimediaPanel.description</description>
+        <icon>multimedia</icon>
+        <help-path></help-path>
+        <packages>
+            <package type="aptget">libdvdcss2</package>
+            <package type="aptget">libmp3lame0</package>
+            <package type="aptget">lame</package>
+        </packages>
+        <tags>
+            <tag>recommended</tag>
+        </tags>
+    </application>
+
+    <application name="Welcome.fontsLabel.text">
+        <description></description>
+        <icon>fonts</icon>
+        <help-path></help-path>
+        <packages>
+            <package type="aptget">ttf-mscorefonts-installer</package>
+        </packages>
+        <tags>
+            <tag>recommended</tag>
+        </tags>
+    </application>
+
+    <application name="Google Earth Pro">
+        <description>Google_Earth_Description</description>
+        <icon>googleearth</icon>
+        <help-path>Google_Earth_Website</help-path>
+        <installed-names>
+            <installed-name>google-earth-pro-stable</installed-name>
+        </installed-names>
+        <packages>
+            <!--
+            <package type="wget" fetchUrl="https://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-pro-stable_current_amd64.deb</package>
+            -->
+            <package type="aptget">google-earth-pro-stable</package>
+            <package type="aptget">lernstick-google-earth-pro-stable</package>
+        </packages>
+        <tags>
+            <tag>recommended</tag>
+        </tags>
+    </application>
+
+    <!-- nonfree (utility) apps -->
+
+    <application name="Adobe Flash Player">
+        <description>Welcome.flashPanel.description</description>
+        <icon>flash</icon>
+        <help-path>Adobe_Flash_Player_Website</help-path>
+        <packages>
+            <package type="aptget">flashplugin-nonfree</package>
+            <package type="aptget">libhal1-flash</package>
+            <package type="aptget">pepperflashplugin-nonfree</package>
+        </packages>
+        <tags>
+            <tag>utility</tag>
+        </tags>
+    </application>
+
+    <application name="Adobe Reader">
+        <description>Adobe_Reader_Description</description>
+        <icon>Adobe_Reader_8_icon</icon>
+        <help-path>Adobe_Reader_Website</help-path>
+        <installed-names>
+            <installed-name>adobereader-enu</installed-name>
+        </installed-names>
+        <packages>
+            <!--
+            Dependencies explained:
+
+            libgtk2.0-0:i386:
+            hard dependency of adobereader-enu
+
+            libatk1.0-0:i386:
+            hard dependency of libgtk2.0-0:i386
+
+            libgail-common:i386
+            otherwise acroread throws this error message at startup:
+            Gtk-Message: 16:26:36.258: Failed to load module "gail"
+
+            libatk-adaptor:i386
+            otherwise acroread throws this error message at startup:
+            Gtk-Message: 16:26:36.259: Failed to load module "atk-bridge"
+
+            gtk2-engines-murrine:i386
+            otherwise acroread throws this error message at startup:
+            Unable to locate theme engine in module_path: "murrine"
+
+            gtk2-engines-pixbuf:i386
+            otherwise acroread throws this error message at startup:
+            Unable to locate theme engine in module_path: "pixmap"
+            -->
+            <package type="aptget">gtk2-engines-murrine:i386</package>
+            <package type="aptget">gtk2-engines-pixbuf:i386</package>
+            <package type="aptget">libatk1.0-0:i386</package>
+            <package type="aptget">libatk-adaptor:i386</package>
+            <package type="aptget">libgail-common:i386</package>
+            <package type="aptget">libgtk2.0-0:i386</package>
+            <package type="wget" fetchUrl="http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
+            <package type="aptget">lernstick-adobereader-enu</package>
+        </packages>
+        <tags>
+            <tag>utility</tag>
+        </tags>
+    </application>
+
+    <application name="Skype">
+        <description>Welcome.skypePanel.description</description>
+        <icon>skype</icon>
+        <help-path>Skype_Website</help-path>
+        <installed-names>
+            <installed-name>skypeforlinux</installed-name>
+        </installed-names>
+        <packages>
+            <package type="wget" fetchUrl="https://repo.skype.com/latest/{0}" saveDir="USER_HOME">skypeforlinux-64.deb</package>
+        </packages>
+        <tags>
+            <tag>utility</tag>
+        </tags>
+    </application>
+
     <!-- teaching apps -->
 
     <application name="Linux Advanced Teaching-System">
@@ -26,6 +151,68 @@
         <help-path>Welcome.LinuxAdvancedPanel.website</help-path>
         <packages>
             <package type="aptget">lateaching</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="LehrerOffice Desktop">
+        <description>Welcome.lehrerofficePanel.description</description>
+        <icon>lehreroffice</icon>
+        <help-path>Welcome.lehrerofficePanel.website</help-path>
+        <packages>
+            <package type="aptget">lehreroffice</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="GCompris">
+        <description>Welcome.gcomprisPanel.description</description>
+        <icon>gcompris</icon>
+        <help-path>Welcome.gcomprisPanel.website</help-path>
+        <packages>
+            <package type="aptget">gcompris-qt</package>
+            <package type="aptget">gcompris-qt-data</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="Omnitux">
+        <description>Welcome.omnituxPanel.description</description>
+        <icon>omnitux</icon>
+        <help-path>Welcome.omnituxPanel.website</help-path>
+        <packages>
+            <package type="aptget">omnitux</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="Solfege">
+        <description>Solfege.description</description>
+        <icon>solfege</icon>
+        <help-path>Solfege.website</help-path>
+        <packages>
+            <package type="aptget">solfege</package>
+            <package type="aptget">solfege-doc</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="MuseScore">
+        <description>MuseScore.description</description>
+        <icon>musescore</icon>
+        <help-path>MuseScore.website</help-path>
+        <packages>
+            <package type="aptget">lernstick-musescore3</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -47,7 +234,140 @@
         </tags>
     </application>
 
+    <application name="wxMaxima">
+        <description>Welcome.wxmaximaPanel.description</description>
+        <icon>wxmaxima</icon>
+        <help-path>Welcome.wxmaximaPanel.website</help-path>
+        <packages>
+            <package type="aptget">wxmaxima</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="Etoys">
+        <description>Welcome.etoysPanel.description</description>
+        <icon>etoys</icon>
+        <help-path>Welcome.etoysPanel.website</help-path>
+        <packages>
+            <package type="aptget">lernstick-etoys</package>
+            <package type="aptget">lernstick-squeak-vm</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="TigerJython">
+        <description>Welcome.tigerjythonPanel.description</description>
+        <icon>tigerjython</icon>
+        <help-path>Welcome.tigerjythonPanel.website</help-path>
+        <packages>
+            <package type="aptget">tigerjython</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="Processing">
+        <description>Welcome.processingPanel.description</description>
+        <icon>processing</icon>
+        <help-path>Welcome.processingPanel.website</help-path>
+        <packages>
+            <package type="aptget">processing</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="Greenfoot">
+        <description>Greenfoot_description</description>
+        <icon>greenfoot</icon>
+        <help-path>Greenfoot_website</help-path>
+        <packages>
+            <package type="aptget">lernstick-greenfoot</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="Stellarium">
+        <description>Welcome.stellariumPanel.description</description>
+        <icon>stellarium</icon>
+        <help-path>Welcome.stellariumPanel.website</help-path>
+        <packages>
+            <package type="aptget">lernstick-stellarium</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
+    <application name="Kstars">
+        <description>Welcome.kstarsPanel.description</description>
+        <icon>kstars</icon>
+        <help-path>Welcome.kstarsPanel.website</help-path>
+        <packages>
+            <package type="aptget">lernstick-kstars</package>
+            <package type="aptget">kstars</package>
+            <package type="aptget">kstars-data</package>
+            <package type="aptget">kstars-data-extra-tycho2</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
     <!-- misc programs -->
+
+    <application name="Mozilla Thunderbird">
+        <description>Thunderbird_description</description>
+        <icon>thunderbird</icon>
+        <help-path>Thunderbird_website</help-path>
+        <packages>
+            <package type="aptget">thunderbird</package>
+            <package type="aptget">thunderbird-l10n-de</package>
+            <package type="aptget">thunderbird-l10n-es-ar</package>
+            <package type="aptget">thunderbird-l10n-es-es</package>
+            <package type="aptget">thunderbird-l10n-fr</package>
+            <package type="aptget">thunderbird-l10n-it</package>
+            <package type="aptget">thunderbird-l10n-pt-br</package>
+            <package type="aptget">thunderbird-l10n-ru</package>
+            <package type="aptget">thunderbird-l10n-sq</package>
+            <package type="aptget">lightning</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
+    <application name="Riot.im">
+        <description>Riot_im_description</description>
+        <icon>riot_im</icon>
+        <help-path>Riot_website</help-path>
+        <packages>
+            <package type="aptget">riot-desktop</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
+    <application name="Signal">
+        <description>Signal_description</description>
+        <icon>signal</icon>
+        <help-path>Signal_website</help-path>
+        <packages>
+            <package type="aptget">signal-desktop</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
 
     <application name="LibreOffice">
         <description>LibreOffice_description</description>
@@ -100,31 +420,6 @@
         <help-path>Noto_website</help-path>
         <packages>
             <package type="aptget">fonts-noto</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="GCompris">
-        <description>Welcome.gcomprisPanel.description</description>
-        <icon>gcompris</icon>
-        <help-path>Welcome.gcomprisPanel.website</help-path>
-        <packages>
-            <package type="aptget">gcompris-qt</package>
-            <package type="aptget">gcompris-qt-data</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="Omnitux">
-        <description>Welcome.omnituxPanel.description</description>
-        <icon>omnitux</icon>
-        <help-path>Welcome.omnituxPanel.website</help-path>
-        <packages>
-            <package type="aptget">omnitux</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -218,45 +513,6 @@
         </tags>
     </application>
 
-    <application name="Stellarium">
-        <description>Welcome.stellariumPanel.description</description>
-        <icon>stellarium</icon>
-        <help-path>Welcome.stellariumPanel.website</help-path>
-        <packages>
-            <package type="aptget">lernstick-stellarium</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="Kstars">
-        <description>Welcome.kstarsPanel.description</description>
-        <icon>kstars</icon>
-        <help-path>Welcome.kstarsPanel.website</help-path>
-        <packages>
-            <package type="aptget">lernstick-kstars</package>
-            <package type="aptget">kstars</package>
-            <package type="aptget">kstars-data</package>
-            <package type="aptget">kstars-data-extra-tycho2</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="QGIS">
-        <description>QGIS.description</description>
-        <icon>qgis</icon>
-        <help-path>QGIS.website</help-path>
-        <packages>
-            <package type="aptget">qgis</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
     <!--
     webkitgtk (needed by gdevelop) got removed from Debian 10:
     https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=893863
@@ -274,43 +530,6 @@
     </application>
     -->
 
-    <application name="TigerJython">
-        <description>Welcome.tigerjythonPanel.description</description>
-        <icon>tigerjython</icon>
-        <help-path>Welcome.tigerjythonPanel.website</help-path>
-        <packages>
-            <package type="aptget">tigerjython</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="Etoys">
-        <description>Welcome.etoysPanel.description</description>
-        <icon>etoys</icon>
-        <help-path>Welcome.etoysPanel.website</help-path>
-        <packages>
-            <package type="aptget">lernstick-etoys</package>
-            <package type="aptget">lernstick-squeak-vm</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="wxMaxima">
-        <description>Welcome.wxmaximaPanel.description</description>
-        <icon>wxmaxima</icon>
-        <help-path>Welcome.wxmaximaPanel.website</help-path>
-        <packages>
-            <package type="aptget">wxmaxima</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
     <application name="VLC">
         <description>VLC.description</description>
         <icon>vlc</icon>
@@ -319,18 +538,6 @@
             <package type="aptget">vlc</package>
             <package type="aptget">fluid-soundfont-gm</package>
             <package type="aptget">vlc-plugin-fluidsynth</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="MuseScore">
-        <description>MuseScore.description</description>
-        <icon>musescore</icon>
-        <help-path>MuseScore.website</help-path>
-        <packages>
-            <package type="aptget">lernstick-musescore3</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -366,19 +573,6 @@
         </tags>
     </application>
 
-    <application name="Solfege">
-        <description>Solfege.description</description>
-        <icon>solfege</icon>
-        <help-path>Solfege.website</help-path>
-        <packages>
-            <package type="aptget">solfege</package>
-            <package type="aptget">solfege-doc</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
     <application name="Gespeaker">
         <description>Welcome.gespeakerPanel.description</description>
         <icon>gespeaker</icon>
@@ -404,6 +598,18 @@
             <package type="aptget">mbrola-us1</package>
             <package type="aptget">mbrola-us2</package>
             <package type="aptget">mbrola-us3</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
+    <application name="QGIS">
+        <description>QGIS.description</description>
+        <icon>qgis</icon>
+        <help-path>QGIS.website</help-path>
+        <packages>
+            <package type="aptget">qgis</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -503,18 +709,6 @@
         </tags>
     </application>
 
-    <application name="Signal">
-        <description>Signal_description</description>
-        <icon>signal</icon>
-        <help-path>Signal_website</help-path>
-        <packages>
-            <package type="aptget">signal-desktop</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
     <!--
     Jitsi currently doesn't work with Java 11 (default in Debian 10).
     Keep this commented out until Jitsi gets fixed.
@@ -544,18 +738,6 @@
         </tags>
     </application>
 
-    <application name="Greenfoot">
-        <description>Greenfoot_description</description>
-        <icon>greenfoot</icon>
-        <help-path>Greenfoot_website</help-path>
-        <packages>
-            <package type="aptget">lernstick-greenfoot</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
     <application name="NetBeans">
         <description>Welcome.netbeansPanel.description</description>
         <icon>netbeans</icon>
@@ -575,19 +757,6 @@
             <tag>misc</tag>
         </tags>
     </application>
-
-    <application name="Processing">
-        <description>Welcome.processingPanel.description</description>
-        <icon>processing</icon>
-        <help-path>Welcome.processingPanel.website</help-path>
-        <packages>
-            <package type="aptget">processing</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
 
     <application name="Jupyter Notebook">
         <description>Jupyter_description</description>
@@ -667,18 +836,6 @@
         <help-path>VirtualBox_website</help-path>
         <packages>
             <package type="aptget">lernstick-virtualbox</package>
-        </packages>
-        <tags>
-            <tag>misc</tag>
-        </tags>
-    </application>
-
-    <application name="LehrerOffice Desktop">
-        <description>Welcome.lehrerofficePanel.description</description>
-        <icon>lehreroffice</icon>
-        <help-path>Welcome.lehrerofficePanel.website</help-path>
-        <packages>
-            <package type="aptget">lehreroffice</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -1011,130 +1168,6 @@
         </tags>
     </application>
 
-    <!-- nonfree (recommended) apps -->
-
-    <application name="Welcome.multimediaLabel.text">
-        <description>Welcome.multimediaPanel.description</description>
-        <icon>multimedia</icon>
-        <help-path></help-path>
-        <packages>
-            <package type="aptget">libdvdcss2</package>
-            <package type="aptget">libmp3lame0</package>
-            <package type="aptget">lame</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-        </tags>
-    </application>
-
-    <application name="Welcome.fontsLabel.text">
-        <description></description>
-        <icon>fonts</icon>
-        <help-path></help-path>
-        <packages>
-            <package type="aptget">ttf-mscorefonts-installer</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-        </tags>
-    </application>
-
-    <application name="Adobe Flash Player">
-        <description>Welcome.flashPanel.description</description>
-        <icon>flash</icon>
-        <help-path>Adobe_Flash_Player_Website</help-path>
-        <packages>
-            <package type="aptget">flashplugin-nonfree</package>
-            <package type="aptget">libhal1-flash</package>
-            <package type="aptget">pepperflashplugin-nonfree</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-        </tags>
-    </application>
-
-    <application name="Adobe Reader">
-        <description>Adobe_Reader_Description</description>
-        <icon>Adobe_Reader_8_icon</icon>
-        <help-path>Adobe_Reader_Website</help-path>
-        <installed-names>
-            <installed-name>adobereader-enu</installed-name>
-        </installed-names>
-        <packages>
-            <!--
-            Dependencies explained:
-
-            libgtk2.0-0:i386:
-            hard dependency of adobereader-enu
-
-            libatk1.0-0:i386:
-            hard dependency of libgtk2.0-0:i386
-
-            libgail-common:i386
-            otherwise acroread throws this error message at startup:
-            Gtk-Message: 16:26:36.258: Failed to load module "gail"
-
-            libatk-adaptor:i386
-            otherwise acroread throws this error message at startup:
-            Gtk-Message: 16:26:36.259: Failed to load module "atk-bridge"
-
-            gtk2-engines-murrine:i386
-            otherwise acroread throws this error message at startup:
-            Unable to locate theme engine in module_path: "murrine"
-
-            gtk2-engines-pixbuf:i386
-            otherwise acroread throws this error message at startup:
-            Unable to locate theme engine in module_path: "pixmap"
-            -->
-            <package type="aptget">gtk2-engines-murrine:i386</package>
-            <package type="aptget">gtk2-engines-pixbuf:i386</package>
-            <package type="aptget">libatk1.0-0:i386</package>
-            <package type="aptget">libatk-adaptor:i386</package>
-            <package type="aptget">libgail-common:i386</package>
-            <package type="aptget">libgtk2.0-0:i386</package>
-            <package type="wget" fetchUrl="http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
-            <package type="aptget">lernstick-adobereader-enu</package>
-        </packages>
-        <tags>
-            <tag>recommended</tag>
-        </tags>
-    </application>
-
-    <!-- nonfree (utility) apps -->
-
-    <application name="Skype">
-        <description>Welcome.skypePanel.description</description>
-        <icon>skype</icon>
-        <help-path>Skype_Website</help-path>
-        <installed-names>
-            <installed-name>skypeforlinux</installed-name>
-        </installed-names>
-        <packages>
-            <package type="wget" fetchUrl="https://repo.skype.com/latest/{0}" saveDir="USER_HOME">skypeforlinux-64.deb</package>
-        </packages>
-        <tags>
-            <tag>utility</tag>
-        </tags>
-    </application>
-
-    <application name="Google Earth Pro">
-        <description>Google_Earth_Description</description>
-        <icon>googleearth</icon>
-        <help-path>Google_Earth_Website</help-path>
-        <installed-names>
-            <installed-name>google-earth-pro-stable</installed-name>
-        </installed-names>
-        <packages>
-            <!--
-            <package type="wget" fetchUrl="https://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-pro-stable_current_amd64.deb</package>
-            -->
-            <package type="aptget">google-earth-pro-stable</package>
-            <package type="aptget">lernstick-google-earth-pro-stable</package>
-        </packages>
-        <tags>
-            <tag>utility</tag>
-        </tags>
-    </application>
     <!--<application name="Chrome">
             <description>Welcome.chromePanel.description</description>
             <icon>chrome</icon>
@@ -1148,6 +1181,7 @@
                     <tag>utility</tag>
             </tags>
     </application>-->
+    
     <!--<application name="virtualbox">
             <description>Welcome.virtualboxPanel.description</description>
             <icon>virtualbox</icon>

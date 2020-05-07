@@ -210,7 +210,7 @@ public final class WelcomeApplication extends Application {
 
                 ApplicationBinder nonFreeAppsBinder = new ApplicationBinder(
                         controller,
-                        guiLoader.getNonFreeController().getVbApps(),
+                        guiLoader.getNonFreeController().getTabPane(),
                         guiLoader.getNonFreeController().getHelpButton()
                 );
                 nonFreeAppsBinder.addApplicationGroup(
@@ -223,7 +223,7 @@ public final class WelcomeApplication extends Application {
 
                 ApplicationBinder addAppsBinder = new ApplicationBinder(
                         controller,
-                        guiLoader.getAddSoftwareController().getVbApps(),
+                        guiLoader.getAddSoftwareController().getTabPane(),
                         guiLoader.getAddSoftwareController().getHelpButton()
                 );
                 addAppsBinder.addApplicationGroup(

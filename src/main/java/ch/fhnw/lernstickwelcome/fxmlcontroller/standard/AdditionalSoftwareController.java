@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TabPane;
 
 /**
  * FXML Controller class
@@ -34,8 +34,8 @@ public class AdditionalSoftwareController implements Initializable {
     private Button helpButton;
 
     @FXML
-    private VBox vbApps;
-    
+    private TabPane tabPane;
+
     /**
      * Initializes the controller class.
      */
@@ -46,9 +46,8 @@ public class AdditionalSoftwareController implements Initializable {
     public Button getHelpButton() {
         return helpButton;
     }
-    
-    public VBox getVbApps() {
-        return vbApps;
+
+    public TabPane getTabPane() {
+        return tabPane;
     }
-    
 }
