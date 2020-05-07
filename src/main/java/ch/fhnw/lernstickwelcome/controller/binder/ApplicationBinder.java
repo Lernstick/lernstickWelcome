@@ -142,6 +142,12 @@ public class ApplicationBinder {
         ResourceBundle rb = controller.getBundle();
         boolean even = false;
         for (ApplicationTask app : applications) {
+            
+            // don't show apps that are already installed
+            if (app.installedProperty().get()) {
+                continue;
+            }
+            
             ApplicationView appView = new ApplicationView(rb);
             try {
                 appView.setTitle(rb.getString(app.getName()));
