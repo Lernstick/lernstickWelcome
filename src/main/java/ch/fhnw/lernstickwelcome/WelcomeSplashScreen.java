@@ -17,26 +17,19 @@
 package ch.fhnw.lernstickwelcome;
 
 import static ch.fhnw.lernstickwelcome.model.WelcomeConstants.ICON_APPLICATION_FILE_PATH;
-import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.application.Preloader;
 import javafx.application.Preloader.StateChangeNotification.Type;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -60,12 +53,17 @@ public class WelcomeSplashScreen extends Preloader {
         stage.setScene(createPreloaderScene());
         stage.setTitle(BUNDLE.getString("Welcome.title"));
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.show();
     }
 
     @Override
     public void handleApplicationNotification(PreloaderNotification info) {
+        
         super.handleApplicationNotification(info);
+        
+        if (!stage.isShowing()) {
+            stage.show();
+        }
+        
         if (info instanceof SplashScreenNotification) {
             SplashScreenNotification splashScreenNotification
                     = (SplashScreenNotification) info;
