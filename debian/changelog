@@ -1,3 +1,10 @@
+lernstickwelcome (202005081008) lernstick-10; urgency=medium
+
+  * [7874a9] fixed translation issue in application installation error message
+  * [1faf21] show splash screen only when needed (not in exam environment)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 08 May 2020 10:08:13 +0200
+
 lernstickwelcome (202005072209) lernstick-10; urgency=medium
 
   * [32c17d] commented out thunderbird
