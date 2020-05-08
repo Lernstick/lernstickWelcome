@@ -23,6 +23,8 @@ import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -43,6 +45,8 @@ public class ApplicationTask implements Processable<String> {
 
     private final static Logger LOGGER
             = Logger.getLogger(ApplicationTask.class.getName());
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
+            "ch.fhnw.lernstickwelcome.Bundle");
     private final static ProcessExecutor PROCESS_EXECUTOR
             = WelcomeModelFactory.getProcessExecutor();
 
@@ -127,7 +131,7 @@ public class ApplicationTask implements Processable<String> {
      * @return true if {@code dpkg -l installedNames}
      */
     private boolean initIsInstalled() {
-        
+
         List<String> dpkgListCommand = new ArrayList<>();
         dpkgListCommand.add("dpkg");
         dpkgListCommand.add("-l");
@@ -183,8 +187,15 @@ public class ApplicationTask implements Processable<String> {
                         = "apt-get or wget failed with the following output:\n"
                         + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
+                String name = getName();
+                try {
+                    name = BUNDLE.getString(name);
+                } catch (MissingResourceException e) {
+                    // this is OK, only some applications are localized, like
+                    // "Additional multimedia formats" or "Additional fonts"
+                }
                 throw new ProcessingException(
-                        "ApplicationTask.installationFailed", getName());
+                        "ApplicationTask.installationFailed", name);
             }
             // exit code = 0 && installed = true
             Platform.runLater(() -> {
