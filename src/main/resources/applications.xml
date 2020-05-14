@@ -883,6 +883,18 @@
         <packages>
             <package type="aptget">lernstick-minetest-game-tutorial</package>
             <package type="aptget">lernstick-minetest-mod-dreambuilder</package>
+            <package type="aptget">minetest-mod-3d-armor</package>
+            <package type="aptget">minetest-mod-character-creator</package>
+            <package type="aptget">minetest-mod-craftguide</package>
+            <package type="aptget">minetest-mod-ethereal</package>
+            <package type="aptget">minetest-mod-infinite-chest</package>
+            <package type="aptget">minetest-mod-intllib</package>
+            <package type="aptget">minetest-mod-lucky-block</package>
+            <package type="aptget">minetest-mod-maidroid</package>
+            <package type="aptget">minetest-mod-protector</package>
+            <package type="aptget">minetest-mod-skyblock</package>
+            <package type="aptget">minetest-mod-throwing-arrows</package>
+            <package type="aptget">minetest-mod-xdecor</package>
         </packages>
         <tags>
             <tag>game</tag>
