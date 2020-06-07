@@ -283,6 +283,18 @@
         </tags>
     </application>
 
+    <application name="BlueJ">
+        <description>BlueJ_description</description>
+        <icon>bluej</icon>
+        <help-path>BlueJ_website</help-path>
+        <packages>
+            <package type="aptget">lernstick-bluej</package>
+        </packages>
+        <tags>
+            <tag>teaching</tag>
+        </tags>
+    </application>
+
     <application name="Greenfoot">
         <description>Greenfoot_description</description>
         <icon>greenfoot</icon>
@@ -1212,7 +1224,7 @@
                     <tag>utility</tag>
             </tags>
     </application>-->
-    
+
     <!--<application name="virtualbox">
             <description>Welcome.virtualboxPanel.description</description>
             <icon>virtualbox</icon>
