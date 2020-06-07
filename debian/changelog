@@ -1,3 +1,9 @@
+lernstickwelcome (202006071513) lernstick-10; urgency=medium
+
+  * [bf7e6d] added support for BlueJ
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 07 Jun 2020 15:13:39 +0200
+
 lernstickwelcome (202005161342) lernstick-10; urgency=medium
 
   * [01d18f] updated list of minetest packages
