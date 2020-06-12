@@ -8,18 +8,18 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minWidth="500.0" minHeight="200.0" prefWidth="500.0" prefHeight="200.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController">
+<AnchorPane minHeight="200.0" minWidth="500.0" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController">
    <children>
       <BorderPane maxWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <Label fx:id="lbTitle" text="ErrorTitle" BorderPane.alignment="CENTER">
+            <Label fx:id="titleLabel" text="ErrorTitle" BorderPane.alignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
          </top>
          <center>
-            <Label fx:id="lblMessage" text="ErrorMessage" wrapText="true" BorderPane.alignment="TOP_LEFT">
+            <Label fx:id="messageLabel" text="ErrorMessage" wrapText="true" BorderPane.alignment="TOP_LEFT">
                <BorderPane.margin>
                   <Insets bottom="30.0" top="20.0" />
                </BorderPane.margin>
@@ -28,7 +28,7 @@
          <bottom>
             <ButtonBar BorderPane.alignment="CENTER">
               <buttons>
-                <Button mnemonicParsing="false" onAction="#btOkOnAction" text="OK" />
+                <Button mnemonicParsing="false" onAction="#okButtonAction" text="OK" />
               </buttons>
             </ButtonBar>
          </bottom>

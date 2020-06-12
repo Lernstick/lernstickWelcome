@@ -31,33 +31,41 @@ import javafx.stage.Stage;
  */
 public class FirewallDependenciesWarningBinder {
 
-    private WelcomeController controller;
-    private FirewallDependenciesWarningController firewallWarning;
+    private final WelcomeController controller;
+    private final FirewallDependenciesWarningController firewallWarning;
 
-    public FirewallDependenciesWarningBinder(WelcomeController controller, FirewallDependenciesWarningController firewallWarning) {
+    public FirewallDependenciesWarningBinder(WelcomeController controller,
+            FirewallDependenciesWarningController firewallWarning) {
         this.controller = controller;
         this.firewallWarning = firewallWarning;
     }
 
     public void initHandlers(Stage stage, ErrorController error, Stage errorStage) {
+
         firewallWarning.getBtCancel().setOnAction(evt
                 -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close()
         );
+
         firewallWarning.getBtSave().setOnAction(evt -> {
-            Task firewallSaveTask = controller.getFirewallTask().newTask();
+
+            Task<String> firewallSaveTask = controller.getFirewallTask().newTask();
+
             firewallSaveTask.setOnSucceeded(e -> {
                 ((Node) evt.getSource()).getScene().getRoot().setDisable(false);
                 ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
                 stage.show();
 
             });
+
             firewallSaveTask.setOnFailed(e -> {
                 ((Node) evt.getSource()).getScene().getRoot().setDisable(false);
                 ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
                 error.initErrorMessage((Exception) firewallSaveTask.getException());
                 errorStage.show();
             });
+
             new Thread(firewallSaveTask).start();
+
             ((Node) evt.getSource()).getScene().getRoot().setDisable(true);
         });
     }

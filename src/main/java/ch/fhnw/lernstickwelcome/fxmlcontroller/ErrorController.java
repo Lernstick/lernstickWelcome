@@ -31,41 +31,47 @@ import javafx.scene.control.Label;
 /**
  * FXML Controller class
  *
- * @author root
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class ErrorController implements Initializable {
-    private static final Logger LOGGER = Logger.getLogger(ErrorController.class.getName());
-    
-    @FXML
-    private Label lbTitle;
-    @FXML
-    private Label lblMessage;
 
-    private ResourceBundle rb;
-    
-    /**
-     * Initializes the controller class.
-     */
+    private static final Logger LOGGER
+            = Logger.getLogger(ErrorController.class.getName());
+
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label messageLabel;
+
+    private ResourceBundle resourceBundle;
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        this.rb = rb;
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
     }
-    
-    public void initErrorMessage(Exception ex) {
-        if(ex instanceof ProcessingException) {
-            lbTitle.setText(rb.getString("welcomeApplicationError.saveStopped"));
-            lblMessage.setText(MessageFormat.format(rb.getString(ex.getMessage()), ((ProcessingException) ex).getMessageDetails()));
-            LOGGER.log(Level.INFO, "Error Dialog shown for ProcessingException", ex);
+
+    public void initErrorMessage(Throwable throwable) {
+        
+        if (throwable instanceof ProcessingException) {
+            titleLabel.setText(resourceBundle.getString(
+                    "welcomeApplicationError.saveStopped"));
+            messageLabel.setText(MessageFormat.format(
+                    resourceBundle.getString(throwable.getMessage()),
+                    ((ProcessingException) throwable).getMessageDetails()));
+            LOGGER.log(Level.INFO,
+                    "Error Dialog shown for ProcessingException", throwable);
         } else {
-            lbTitle.setText(rb.getString("welcomeApplicationError.unknownException"));
-            lblMessage.setText(rb.getString("welcomeApplicationError.unknownExceptionMessage"));
-            LOGGER.log(Level.SEVERE, "Error Dialog shown for unexpected Exception", ex);
+            titleLabel.setText(resourceBundle.getString(
+                    "welcomeApplicationError.unknownException"));
+            messageLabel.setText(resourceBundle.getString(
+                    "welcomeApplicationError.unknownExceptionMessage"));
+            LOGGER.log(Level.SEVERE,
+                    "Error Dialog shown for unexpected Exception", throwable);
         }
     }
 
     @FXML
-    private void btOkOnAction(ActionEvent event) {
+    private void okButtonAction(ActionEvent event) {
         ((Node) event.getSource()).getScene().getWindow().hide();
     }
-    
 }

@@ -100,7 +100,7 @@ public class WelcomeController {
                 true, propertiesTask);
         partitionTask = WelcomeModelFactory.getPartitionTask(propertiesTask);
 
-        List<Processable> processingList = new ArrayList<>();
+        List<Processable<String>> processingList = new ArrayList<>();
         processingList.add(firewallTask);
         processingList.add(backupTask);
         processingList.add(systemConfigTask);
@@ -155,7 +155,7 @@ public class WelcomeController {
         partitionTask = WelcomeModelFactory.getPartitionTask(propertiesTask);
 
         // Init Installer
-        List<Processable> processingList = new ArrayList<>();
+        List<Processable<String>> processingList = new ArrayList<>();
         processingList.add(proxyTask);
         processingList.add(prepareTask);
         processingList.add(recommendedAppsTask);

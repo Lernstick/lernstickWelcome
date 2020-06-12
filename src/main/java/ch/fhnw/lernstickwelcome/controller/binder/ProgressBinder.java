@@ -20,7 +20,6 @@ import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.ProgressController;
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
-import java.io.File;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,7 +152,6 @@ public class ProgressBinder {
                         // There might be an exception
                         // http://stackoverflow.com/questions/24090356/javafx-mediaplayer-could-not-create-player-error-in-ubuntu-14-04
                         LOGGER.log(Level.WARNING, "Sound couldn't be played", ex);
-
                     }
 
                     // Close scene if finished after 3 seconds

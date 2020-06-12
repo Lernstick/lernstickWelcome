@@ -304,7 +304,7 @@ public class WelcomeModelFactory {
 
         NodeList installedNamesNode
                 = applicationElement.getElementsByTagName("installed-name");
-        List<String> installedNames = new ArrayList();
+        List<String> installedNames = new ArrayList<>();
         for (int i = 0; i < installedNamesNode.getLength(); i++) {
             installedNames.add(installedNamesNode.item(i).getTextContent());
         }

@@ -36,21 +36,26 @@ import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
 /**
- * This class takes {@link Processable} objects and runs them in a new thread 
+ * This class takes {@link Processable} objects and runs them in a new thread
  * sequentially.
  * <br>
- * The TaskProcessor binds its properties (progress, title, message and exception)
- * to the corrently processing {@link Task} of the {@link Processable}.
+ * The TaskProcessor binds its properties (progress, title, message and
+ * exception) to the corrently processing {@link Task} of the
+ * {@link Processable}.
  * <br>
  * If the TaskProcessor is finished, the finished Property is set to true.
  * <br>
- * If a processable throws an error the whole process stops and finished is set to true.
- * 
+ * If a processable throws an error the whole process stops and finished is set
+ * to true.
+ *
  * @author sschw
  */
 public class TaskProcessor {
-    private final static Logger LOGGER = Logger.getLogger(TaskProcessor.class.getName());
-    private final List<Processable> tasks;
+
+    private final static Logger LOGGER
+            = Logger.getLogger(TaskProcessor.class.getName());
+
+    private final List<Processable<String>> tasks;
     /**
      * Value represents progress by binding it to the values of the tasks.<br>
      * Tasks need to use progress.
@@ -58,16 +63,17 @@ public class TaskProcessor {
     private final DoubleProperty progress = new SimpleDoubleProperty();
 
     private final BooleanProperty finished = new SimpleBooleanProperty();
-    
-    private final ObjectProperty<Exception> exception = new SimpleObjectProperty<>();
+
+    private final ObjectProperty<Throwable> exception
+            = new SimpleObjectProperty<>();
 
     private final StringProperty title = new SimpleStringProperty();
 
     private final StringProperty message = new SimpleStringProperty();
-    
+
     private final StringProperty value = new SimpleStringProperty();
 
-    public TaskProcessor(List<Processable> tasks) {
+    public TaskProcessor(List<Processable<String>> tasks) {
         this.tasks = tasks;
     }
 
@@ -77,26 +83,30 @@ public class TaskProcessor {
     public void run() {
         // Reset all values
         resetTaskProcessor();
-        
+
         // Get Tasks from Processable
-        List<Task> taskList = tasks.stream().map(t -> t.newTask()).collect(Collectors.toList());
-        
+        List<Task<String>> taskList = tasks.stream()
+                .map(t -> t.newTask())
+                .collect(Collectors.toList());
+
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(
                 () -> taskList.stream().mapToDouble(
-                        t -> t.getProgress() > 0 ? t.getProgress() : 0 // Add progress to bind
-                ).sum() / tasks.size(),
-                taskList.stream().map(t -> t.progressProperty()).toArray(s -> new ReadOnlyDoubleProperty[s])));
+                        t -> t.getProgress() > 0 ? t.getProgress() : 0).sum()
+                / tasks.size(),
+                taskList.stream()
+                        .map(t -> t.progressProperty())
+                        .toArray(s -> new ReadOnlyDoubleProperty[s])));
 
         new Thread(() -> {
-            Iterator<Task> iterator = taskList.iterator();
-            
+            Iterator<Task<String>> iterator = taskList.iterator();
+
             // Running a task might throw an exception
             // If an exception is thrown the while has to be interrupted
             try {
                 // As long we have tasks and there is no exception.
-                while(iterator.hasNext() && exception.getValue() == null) {
-                    Task t = iterator.next();
+                while (iterator.hasNext() && exception.getValue() == null) {
+                    Task<String> t = iterator.next();
                     // Bind the values in GUI Thread.
                     Platform.runLater(() -> {
                         title.bind(t.titleProperty());
@@ -123,12 +133,13 @@ public class TaskProcessor {
                     title.set("TaskProcessor.finishedTitle");
                     message.set("TaskProcessor.finishedMessage");
                 });
-            } catch(ExecutionException ex) {
+            } catch (ExecutionException ex) {
                 LOGGER.log(Level.INFO, "Task throwed an exception", ex);
-            } catch(InterruptedException ex) {
+            } catch (InterruptedException ex) {
                 LOGGER.log(Level.WARNING, "Save task got interrupted", ex);
             } finally {
-                // If leaving this method, the task processor has finished its work.
+                // If leaving this method, the task processor has finished its
+                // work.
                 Platform.runLater(() -> finished.set(true));
             }
         }).start();
@@ -149,7 +160,7 @@ public class TaskProcessor {
     public DoubleProperty progressProperty() {
         return progress;
     }
-    
+
     public BooleanProperty finishedProperty() {
         return finished;
     }
@@ -161,12 +172,12 @@ public class TaskProcessor {
     public StringProperty messageProperty() {
         return message;
     }
-    
+
     public StringProperty valueProperty() {
         return value;
     }
 
-    public ObjectProperty<Exception> exceptionProperty() {
+    public ObjectProperty<Throwable> exceptionProperty() {
         return exception;
     }
 }
