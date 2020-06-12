@@ -73,7 +73,7 @@ public final class WelcomeApplication extends Application {
         super.init();
 
         controller = new WelcomeController();
-        
+
         if (isExamEnvironment()) {
             controller.loadExamEnvironment();
         } else {
@@ -290,7 +290,9 @@ public final class WelcomeApplication extends Application {
                                         evt.consume();
                                     }).showAndWait();
                         }
-                        if (WelcomeUtil.isFileSystemMountAllowed() && !evt.isConsumed()) {
+                        if ((WelcomeUtil.isInternalFileSystemMountAllowed()
+                                || WelcomeUtil.isExternalFileSystemMountAllowed())
+                                && !evt.isConsumed()) {
                             guiLoader.getInfotextdialog(primaryStage,
                                     "WelcomeApplication.Warning_Mount_Allowed", e -> {
                                         guiLoader.getMainController().setView(3);

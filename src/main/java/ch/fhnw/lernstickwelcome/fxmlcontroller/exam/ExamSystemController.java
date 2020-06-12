@@ -56,7 +56,9 @@ public class ExamSystemController
     @FXML
     private PasswordField repeatPasswordField;
     @FXML
-    private ToggleSwitch allowFileSystemsToggleSwitch;
+    private ToggleSwitch allowInternalFileSystemsToggleSwitch;
+    @FXML
+    private ToggleSwitch allowExternalFileSystemsToggleSwitch;
     @FXML
     private TitledPane partitionsTitledPane;
     @FXML
@@ -79,8 +81,12 @@ public class ExamSystemController
         return repeatPasswordField;
     }
 
-    public ToggleSwitch getAllowFileSystemsToggleSwitch() {
-        return allowFileSystemsToggleSwitch;
+    public ToggleSwitch getAllowInternalFileSystemsToggleSwitch() {
+        return allowInternalFileSystemsToggleSwitch;
+    }
+
+    public ToggleSwitch getAllowExternalFileSystemsToggleSwitch() {
+        return allowExternalFileSystemsToggleSwitch;
     }
 
     public ToggleSwitch getUserExchangeAccessToggleSwitch() {
@@ -113,13 +119,17 @@ public class ExamSystemController
                         borderGlow.setColor(Color.RED);
                         borderGlow.setWidth(depth);
                         borderGlow.setHeight(depth);
-                        allowFileSystemsToggleSwitch.setEffect(borderGlow);
+                        allowInternalFileSystemsToggleSwitch.setEffect(
+                                borderGlow);
+                        allowExternalFileSystemsToggleSwitch.setEffect(
+                                borderGlow);
                     });
 
                     TimeUnit.MILLISECONDS.sleep(150);
 
                     Platform.runLater(() -> {
-                        allowFileSystemsToggleSwitch.setEffect(null);
+                        allowInternalFileSystemsToggleSwitch.setEffect(null);
+                        allowExternalFileSystemsToggleSwitch.setEffect(null);
                     });
                 } catch (InterruptedException ex) {
                     // ignored...

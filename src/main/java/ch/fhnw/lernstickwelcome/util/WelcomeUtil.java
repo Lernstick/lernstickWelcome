@@ -136,16 +136,29 @@ public class WelcomeUtil {
     }
 
     /**
-     * Checks if the filesystem mount is allowed.
+     * Checks if mounting internal filesystems is allowed.
      * <br>
      * Reads out the {@link WelcomeConstants#PKLA_PATH} File to check if a rule
      * is defined.
      *
      * @return
      */
-    public static boolean isFileSystemMountAllowed() {
+    public static boolean isInternalFileSystemMountAllowed() {
         return !Files.exists(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
-                "10-udisks2_strict.pkla"));
+                "10-udisks2-mount-system_strict.pkla"));
+    }
+
+    /**
+     * Checks if mounting external filesystems is allowed.
+     * <br>
+     * Reads out the {@link WelcomeConstants#PKLA_PATH} File to check if a rule
+     * is defined.
+     *
+     * @return
+     */
+    public static boolean isExternalFileSystemMountAllowed() {
+        return !Files.exists(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
+                "10-udisks2-mount_strict.pkla"));
     }
 
     /**

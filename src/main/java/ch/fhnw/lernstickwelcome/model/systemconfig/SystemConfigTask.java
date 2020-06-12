@@ -100,7 +100,9 @@ public class SystemConfigTask implements Processable<String> {
 
     private String oldUsername;
     private StringProperty username = new SimpleStringProperty();
-    private BooleanProperty allowAccessToOtherFilesystems
+    private BooleanProperty allowAccessToInternalFilesystems
+            = new SimpleBooleanProperty();
+    private BooleanProperty allowAccessToExternalFilesystems
             = new SimpleBooleanProperty();
     private MountInfo bootConfigMountInfo;
     private Properties properties;
@@ -121,8 +123,10 @@ public class SystemConfigTask implements Processable<String> {
             showPasswordDialog = "true".equals(properties.getProperty(
                     WelcomeConstants.SHOW_PASSWORD_DIALOG, "true"));
         }
-        allowAccessToOtherFilesystems.set(
-                WelcomeUtil.isFileSystemMountAllowed());
+        allowAccessToInternalFilesystems.set(
+                WelcomeUtil.isInternalFileSystemMountAllowed());
+        allowAccessToExternalFilesystems.set(
+                WelcomeUtil.isExternalFileSystemMountAllowed());
         // Load partitions
         getPartitions();
         // Load BootConfigInfos from the BootPartition
@@ -189,8 +193,12 @@ public class SystemConfigTask implements Processable<String> {
         return username;
     }
 
-    public BooleanProperty allowAccessToOtherFilesystemsProperty() {
-        return allowAccessToOtherFilesystems;
+    public BooleanProperty allowAccessToInternalFilesystemsProperty() {
+        return allowAccessToInternalFilesystems;
+    }
+
+    public BooleanProperty allowAccessToExternalFilesystemsProperty() {
+        return allowAccessToExternalFilesystems;
     }
 
     public boolean showPasswordDialog() {
@@ -235,12 +243,24 @@ public class SystemConfigTask implements Processable<String> {
      * option has to be adjusted.
      */
     private void updateAllowFilesystemMount() throws ProcessingException {
+
         try {
-            if (allowAccessToOtherFilesystems.get()) {
+            if (allowAccessToInternalFilesystems.get()) {
                 Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
-                        "10-udisks2_strict.pkla"));
+                        "10-udisks2-mount-system_strict.pkla"));
             } else {
-                hardenPKLAs("udisks2");
+                hardenPKLAs("udisks2-mount-system");
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+
+        try {
+            if (allowAccessToExternalFilesystems.get()) {
+                Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
+                        "10-udisks2-mount_strict.pkla"));
+            } else {
+                hardenPKLAs("udisks2-mount");
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -710,7 +730,7 @@ public class SystemConfigTask implements Processable<String> {
                 // set user
                 Files.setOwner(path,
                         lookupService.lookupPrincipalByName("user"));
-                // set group            
+                // set group
                 PosixFileAttributeView fileAttributeView
                         = Files.getFileAttributeView(path,
                                 PosixFileAttributeView.class);

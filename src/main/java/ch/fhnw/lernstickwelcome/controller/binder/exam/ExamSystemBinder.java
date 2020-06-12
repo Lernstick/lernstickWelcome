@@ -60,8 +60,11 @@ public class ExamSystemBinder extends AbstractSystemBinder {
         examSystemController.getRepeatPasswordField().textProperty().bindBidirectional(
                 welcomeController.getSystemConfigTask().passwordRepeatProperty());
 
-        examSystemController.getAllowFileSystemsToggleSwitch().selectedProperty().bindBidirectional(
-                welcomeController.getSystemConfigTask().allowAccessToOtherFilesystemsProperty());
+        examSystemController.getAllowInternalFileSystemsToggleSwitch().selectedProperty().bindBidirectional(
+                welcomeController.getSystemConfigTask().allowAccessToInternalFilesystemsProperty());
+
+        examSystemController.getAllowExternalFileSystemsToggleSwitch().selectedProperty().bindBidirectional(
+                welcomeController.getSystemConfigTask().allowAccessToExternalFilesystemsProperty());
 
         examSystemController.getUserExchangeAccessToggleSwitch().selectedProperty().bindBidirectional(
                 welcomeController.getPartitionTask().accessExchangePartitionProperty());
