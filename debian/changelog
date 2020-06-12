@@ -1,3 +1,10 @@
+lernstickwelcome (202006121406) lernstick-10; urgency=medium
+
+  * [7e0a15] separated settings for allowing internal and external mounting
+  * [1eec59] code cleanup
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 12 Jun 2020 14:06:16 +0200
+
 lernstickwelcome (202006071513) lernstick-10; urgency=medium
 
   * [bf7e6d] added support for BlueJ
