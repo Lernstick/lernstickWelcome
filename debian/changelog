@@ -1,5 +1,6 @@
-lernstickwelcome (202007042044) lernstick-10; urgency=medium
+lernstickwelcome (202007042047) lernstick-10; urgency=medium
 
+  * [ec2e9b] addes missing sync with latest lernstickTools library
   * [3b7363] sync code with latest lernstickTools library
   * [d7e723] no longer install lernstick-openshot-qt (merged upstream)
 
