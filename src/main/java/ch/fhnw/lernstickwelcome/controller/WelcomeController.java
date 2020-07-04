@@ -185,7 +185,7 @@ public class WelcomeController {
     /**
      * Stops backend tasks when the application should be closed.
      */
-    public void closeApplication() {
+    public void closeApplication() throws IOException {
         if (firewallTask != null) {
             firewallTask.stopFirewallStateChecking();
         }
