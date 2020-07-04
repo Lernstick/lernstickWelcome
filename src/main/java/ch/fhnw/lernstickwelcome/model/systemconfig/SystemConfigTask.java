@@ -144,7 +144,7 @@ public class SystemConfigTask implements Processable<String> {
      * If the bootConfigPartition was mounted to make configurations on it, this
      * function has to be called to umount it after use.
      */
-    public void umountBootConfig() {
+    public void umountBootConfig() throws IOException {
         if ((bootConfigMountInfo != null)
                 && (!bootConfigMountInfo.alreadyMounted())) {
             try {
@@ -363,7 +363,7 @@ public class SystemConfigTask implements Processable<String> {
             if (bootConfigPartition != null) {
                 try {
                     bootConfigMountInfo = bootConfigPartition.mount();
-                } catch (DBusException ex) {
+                } catch (DBusException | IOException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
@@ -382,7 +382,7 @@ public class SystemConfigTask implements Processable<String> {
      *
      * @throws DBusException
      */
-    private void updateBootMenus() throws DBusException {
+    private void updateBootMenus() throws DBusException, IOException {
         final int timeout = timeoutSeconds.get();
         final String systemName = systemname.get();
         final String systemVersion = systemversion.get();
@@ -561,7 +561,7 @@ public class SystemConfigTask implements Processable<String> {
      * @return the bootConfigFile or null if it doesn't exist
      * @throws DBusException
      */
-    private File getXmlBootConfigFile() throws DBusException {
+    private File getXmlBootConfigFile() throws DBusException, IOException {
 
         if (bootConfigPartition == null) {
             // legacy system

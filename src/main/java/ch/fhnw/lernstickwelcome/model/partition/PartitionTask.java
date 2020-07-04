@@ -22,6 +22,7 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.Partition;
 import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +59,7 @@ public class PartitionTask implements Processable<String> {
     private BooleanProperty startWelcomeApplication = new SimpleBooleanProperty();
 
     /**
-     * Loads the partitions with 
+     * Loads the partitions with
      * {@link WelcomeModelFactory#getSystemStorageDevice() } and loads data from
      * the properties-file.
      *
@@ -90,7 +91,9 @@ public class PartitionTask implements Processable<String> {
      *
      * @throws DBusException
      */
-    private void updateExchangePartitionLabel() throws DBusException {
+    private void updateExchangePartitionLabel()
+            throws DBusException, IOException {
+
         String binary = null;
         boolean umount = false;
         String idType = exchangePartition.getIdType();

@@ -121,7 +121,7 @@ public class BackupTask implements Processable<String> {
                     destinationPath.set(properties.getProperty(
                             WelcomeConstants.BACKUP_DIRECTORY,
                             exchangeMountPath + '/' + backupDirectoryName));
-                } catch (DBusException ex) {
+                } catch (DBusException | IOException ex) {
                     LOGGER.log(Level.SEVERE, "", ex);
                 }
             }
@@ -208,16 +208,16 @@ public class BackupTask implements Processable<String> {
      */
     private void updateJBackpackProperties(
             String backupSource, String backupDestination) {
-        
+
         // update JBackpack preferences of the default user
         File prefsDirectory = new File(
                 WelcomeConstants.USER_JBACKPACK_PREFERENCES);
-        updateJBackpackProperties(prefsDirectory, backupSource, 
+        updateJBackpackProperties(prefsDirectory, backupSource,
                 backupDestination, true);
 
         // update JBackpack preferences of the root user
         prefsDirectory = new File(WelcomeConstants.ROOT_JBACKPACK_PREFERENCES);
-        updateJBackpackProperties(prefsDirectory, backupSource, 
+        updateJBackpackProperties(prefsDirectory, backupSource,
                 backupDestination, false);
     }
 
@@ -235,7 +235,7 @@ public class BackupTask implements Processable<String> {
      * @param backupDestination
      * @param chown
      */
-    private void updateJBackpackProperties(File prefsDirectory, 
+    private void updateJBackpackProperties(File prefsDirectory,
             String backupSource, String backupDestination, boolean chown) {
         File prefsFile = new File(prefsDirectory, "prefs.xml");
         String prefsFilePath = prefsFile.getPath();
@@ -375,7 +375,7 @@ public class BackupTask implements Processable<String> {
             updateTitle("BackupTask.title");
             updateMessage("BackupTask.setupMessage");
             // XXX Move validation to controller/util to check it in GUI.
-            if (checkBackupDirectory()) { 
+            if (checkBackupDirectory()) {
                 if (!local.get()
                         || destinationPath.get() == null
                         || destinationPath.get().isEmpty()) {
