@@ -507,7 +507,6 @@
         <icon>openshot</icon>
         <help-path>OpenShot_website</help-path>
         <packages>
-            <package type="aptget">lernstick-openshot-qt</package>
             <package type="aptget">openshot-qt</package>
         </packages>
         <tags>
