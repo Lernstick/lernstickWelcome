@@ -1,3 +1,10 @@
+lernstickwelcome (202007042044) lernstick-10; urgency=medium
+
+  * [3b7363] sync code with latest lernstickTools library
+  * [d7e723] no longer install lernstick-openshot-qt (merged upstream)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 04 Jul 2020 20:44:11 +0200
+
 lernstickwelcome (202006121406) lernstick-10; urgency=medium
 
   * [7e0a15] separated settings for allowing internal and external mounting
