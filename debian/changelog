@@ -1,3 +1,11 @@
+lernstickwelcome (202007111105) lernstick-10; urgency=medium
+
+  * [ceb756] code cleanup
+             added support for flatpak
+             added support for Stunt Rally (flatpak version)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 11 Jul 2020 11:05:09 +0200
+
 lernstickwelcome (202007042047) lernstick-10; urgency=medium
 
   * [ec2e9b] addes missing sync with latest lernstickTools library
