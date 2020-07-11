@@ -62,15 +62,22 @@ import org.xml.sax.SAXException;
  */
 public class WelcomeModelFactory {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR
+    private static final ProcessExecutor PROCESS_EXECUTOR
             = new ProcessExecutor();
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(WelcomeModelFactory.class.getName());
     private static volatile StorageDevice SYSTEM_STORAGE_DEVICE;
 
     // used to store ApplicationTasks, so there is only 1 instance of each task
-    private static HashMap<String, ApplicationTask> applicationTasks
+    private static final HashMap<String, ApplicationTask> applicationTasks
             = new HashMap<>();
+
+    private static final boolean flatpakSupported;
+
+    static {
+        flatpakSupported = PROCESS_EXECUTOR.executeProcess(
+                "flatpak", "--version") == 0;
+    }
 
     /**
      * Returns the general {@link ProcessExecutor} which is used to run
@@ -240,7 +247,11 @@ public class WelcomeModelFactory {
                 for (int j = 0; j < tags.getLength(); j++) {
                     Element t = ((Element) tags.item(j));
                     if (t.getTextContent().equals(tag)) {
-                        apps.add(getApplicationTask(application, app, length));
+                        ApplicationTask task = 
+                                getApplicationTask(application, app, length);
+                        if (task != null) {
+                            apps.add(task);
+                        }
                     }
                 }
             }
@@ -251,7 +262,8 @@ public class WelcomeModelFactory {
     /**
      * Searches the application.xml for an application with the given name.
      *
-     * @param name
+     * @param application the main JavaFX application
+     * @param name the name of the application to search for
      * @return a Task for this specific application or null if no application
      * was found.
      * @throws IOException
@@ -358,13 +370,22 @@ public class WelcomeModelFactory {
 
         CombinedPackages pkgs = new CombinedPackages(packages);
 
-        ApplicationTask task = isFlatPak
-                ? new FlatpakApplicationTask(applicationName,
-                        description, icon, helpPath, pkgs, installedDpkgNames)
-                : new DpkgApplicationTask(applicationName,
+        ApplicationTask task = null;
+        if (isFlatPak) {
+            if (flatpakSupported) {
+                task = new FlatpakApplicationTask(applicationName,
                         description, icon, helpPath, pkgs, installedDpkgNames);
+            }
+            // flatpak applications get ignored when on system without flatpak
+            // support (e.g. the Lernstick Mini Version)
+        } else {
+            task = new DpkgApplicationTask(applicationName,
+                    description, icon, helpPath, pkgs, installedDpkgNames);
+        }
 
-        applicationTasks.put(applicationName, task);
+        if (task != null) {
+            applicationTasks.put(applicationName, task);
+        }
 
         return task;
     }
