@@ -34,17 +34,20 @@ import javafx.concurrent.Task;
  */
 public class ApplicationGroupTask implements Processable<String> {
 
-    private List<ApplicationTask> apps;
-    private ProxyTask proxy;
-    private String title;
+    private final List<ApplicationTask> apps;
+    private final ProxyTask proxy;
+    private final String title;
 
     /**
      * Initializes a group of application.
+     *
      * @param title The title of the group.
      * @param proxy The proxy which should be given to the applications.
      * @param apps The applications that are represented by this group.
      */
-    public ApplicationGroupTask(String title, ProxyTask proxy, List<ApplicationTask> apps) {
+    public ApplicationGroupTask(String title, ProxyTask proxy,
+            List<ApplicationTask> apps) {
+
         this.title = title;
         this.proxy = proxy;
         this.apps = apps;
@@ -75,32 +78,40 @@ public class ApplicationGroupTask implements Processable<String> {
             updateTitle(title);
             if (apps != null) {
                 // Calculate total work
-                final List<ApplicationTask> appsToInstall = apps.stream().
-                        filter(a -> !a.installedProperty().get() && a.installingProperty().get()).
-                        collect(Collectors.toList());
-                final int totalWork = appsToInstall.stream().mapToInt(a -> a.getNoPackages()).sum();
-                if(totalWork != 0) {
+                final List<ApplicationTask> appsToInstall = apps.stream()
+                        .filter(a -> {
+                            return !a.installedProperty().get()
+                                    && a.installingProperty().get();
+                        })
+                        .collect(Collectors.toList());
+                final int totalWork = appsToInstall.stream()
+                        .mapToInt(a -> a.getNumberOfPackages()).sum();
+                if (totalWork != 0) {
                     updateProgress(0, totalWork);
                     int previouslyDone = 0;
                     for (ApplicationTask app : appsToInstall) {
                         try {
                             updateMessage(app.getName());
-                            updateValue(WelcomeConstants.ICON_APPLICATION_FOLDER + "/" + app.getIcon());
+                            updateValue(WelcomeConstants.ICON_APPLICATION_FOLDER
+                                    + "/" + app.getIcon());
                             Task<String> appTask = app.newTask();
                             // update this progress on changes of sub-process
                             final int fPreviouslyDone = previouslyDone;
-                            appTask.progressProperty().addListener(cl -> updateProgress(fPreviouslyDone + appTask.getWorkDone(), totalWork));
-
+                            appTask.progressProperty().addListener(cl -> {
+                                updateProgress(fPreviouslyDone + 
+                                        appTask.getWorkDone(), totalWork);
+                            });
                             app.setProxy(proxy);
                             appTask.run();
                             appTask.get();
-                            previouslyDone += app.getNoPackages();
-                        } catch(ExecutionException ex) {
+                            previouslyDone += app.getNumberOfPackages();
+                        } catch (ExecutionException ex) {
                             Throwable t = ex.getCause();
-                            if(t instanceof Exception)
+                            if (t instanceof Exception) {
                                 throw (Exception) t;
-                            else
+                            } else {
                                 throw ex;
+                            }
                         }
                     }
                 }
@@ -109,5 +120,4 @@ public class ApplicationGroupTask implements Processable<String> {
             return null;
         }
     }
-
 }

@@ -53,7 +53,7 @@ public class WelcomeModelFactoryTest {
         ApplicationTask t = 
                 WelcomeModelFactory.getApplicationTask(null, "Kstars");
         assertTrue(t.getName().equals("Kstars"));
-        assertTrue(t.getNoPackages() == 4);
+        assertTrue(t.getNumberOfPackages() == 4);
         List<String> expectedPackages = new ArrayList<>(Arrays.asList(
                 "lernstick-kstars", "kstars", "kstars-data",
                 "kstars-data-extra-tycho2"));
@@ -69,7 +69,7 @@ public class WelcomeModelFactoryTest {
         //testing a wget application
         t = WelcomeModelFactory.getApplicationTask(null, "Adobe Reader");
         assertTrue(t.getName().equals("Adobe Reader"));
-        assertTrue(t.getNoPackages() == 7);
+        assertTrue(t.getNumberOfPackages() == 7);
         expectedPackages = new ArrayList<>(Arrays.asList("libgtk2.0-0:i386",
                 "libatk-adaptor:i386", "libcanberra-gtk3-module:i386",
                 "libcanberra-gtk-module:i386", "gnome-themes-standard:i386",

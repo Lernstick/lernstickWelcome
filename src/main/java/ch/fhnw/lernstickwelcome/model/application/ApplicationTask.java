@@ -21,13 +21,10 @@ import ch.fhnw.lernstickwelcome.model.Processable;
 import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -41,14 +38,17 @@ import javafx.concurrent.Task;
  * @see Processable
  * @author sschw
  */
-public class ApplicationTask implements Processable<String> {
+public abstract class ApplicationTask implements Processable<String> {
 
-    private final static Logger LOGGER
+    protected static final ProcessExecutor PROCESS_EXECUTOR
+            = WelcomeModelFactory.getProcessExecutor();
+
+    protected final List<String> installedNames;
+
+    private static final Logger LOGGER
             = Logger.getLogger(ApplicationTask.class.getName());
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ch.fhnw.lernstickwelcome.Bundle");
-    private final static ProcessExecutor PROCESS_EXECUTOR
-            = WelcomeModelFactory.getProcessExecutor();
 
     private final String name;
     private final String description;
@@ -57,11 +57,10 @@ public class ApplicationTask implements Processable<String> {
     private final String helpPath;
     private final BooleanProperty installing = new SimpleBooleanProperty();
     private final BooleanProperty installed = new SimpleBooleanProperty();
-    private final List<String> installedNames;
     private ProxyTask proxy;
 
     /**
-     * Creates a application
+     * Creates an ApplicationTask
      *
      * @param name the name of the application or a key for a resource bundle
      * @param description the description or a key for a resource bundle
@@ -112,7 +111,7 @@ public class ApplicationTask implements Processable<String> {
         return installed;
     }
 
-    public int getNoPackages() {
+    public int getNumberOfPackages() {
         return packages.getNumberOfPackages();
     }
 
@@ -130,39 +129,8 @@ public class ApplicationTask implements Processable<String> {
      *
      * @return true if {@code dpkg -l installedNames}
      */
-    private boolean initIsInstalled() {
-
-        List<String> dpkgListCommand = new ArrayList<>();
-        dpkgListCommand.add("dpkg");
-        dpkgListCommand.add("-l");
-        dpkgListCommand.addAll(installedNames);
-
-        PROCESS_EXECUTOR.executeProcess(true, true,
-                dpkgListCommand.toArray(new String[dpkgListCommand.size()]));
-
-        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
-        for (String packageName : installedNames) {
-            LOGGER.log(Level.INFO, "checking package {0}", packageName);
-            Pattern pattern = Pattern.compile("^ii  " + packageName + ".*");
-            boolean found = false;
-            for (String line : stdOut) {
-                if (pattern.matcher(line).matches()) {
-                    LOGGER.info("match");
-                    found = true;
-                    break;
-                } else {
-                    LOGGER.info("no match");
-                }
-            }
-            if (!found) {
-                LOGGER.log(Level.INFO,
-                        "package {0} not installed", packageName);
-                return false;
-            }
-        }
-        return true;
-    }
-
+    protected abstract boolean initIsInstalled();
+    
     @Override
     public Task<String> newTask() {
         return new InternalTask();

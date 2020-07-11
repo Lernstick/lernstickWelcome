@@ -22,6 +22,9 @@ import ch.fhnw.lernstickwelcome.model.application.ApplicationPackages;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
 import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
+import ch.fhnw.lernstickwelcome.model.application.DpkgApplicationTask;
+import ch.fhnw.lernstickwelcome.model.application.FlatpakApplicationTask;
+import ch.fhnw.lernstickwelcome.model.application.FlatpakPackages;
 import ch.fhnw.lernstickwelcome.model.application.InstallPostProcessingTask;
 import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
 import ch.fhnw.lernstickwelcome.model.application.WgetPackages;
@@ -100,6 +103,7 @@ public class WelcomeModelFactory {
      * Creates an ApplicationGroupTask containing all the application with given
      * tag.
      *
+     * @param application the main JavaFX application
      * @param tag tag to be searched for
      * @param title a title for the group task, can be anything
      * @param proxy
@@ -210,7 +214,8 @@ public class WelcomeModelFactory {
     /**
      * Searches the application.xml for applications with the given tag.
      *
-     * @param tag
+     * @param application the main JavaFX application
+     * @param tag the tag to search for
      * @return List of ApplicationTasks
      * @throws IOException
      * @throws SAXException
@@ -302,11 +307,12 @@ public class WelcomeModelFactory {
         String helpPath = applicationElement.
                 getElementsByTagName("help-path").item(0).getTextContent();
 
-        NodeList installedNamesNode
-                = applicationElement.getElementsByTagName("installed-name");
-        List<String> installedNames = new ArrayList<>();
-        for (int i = 0; i < installedNamesNode.getLength(); i++) {
-            installedNames.add(installedNamesNode.item(i).getTextContent());
+        List<String> installedDpkgNames = new ArrayList<>();
+        NodeList installedDpkgNamesNode
+                = applicationElement.getElementsByTagName("installed-dpkg-name");
+        for (int i = 0; i < installedDpkgNamesNode.getLength(); i++) {
+            installedDpkgNames.add(
+                    installedDpkgNamesNode.item(i).getTextContent());
         }
 
         // We need to keep the order of installations as given in the
@@ -320,6 +326,7 @@ public class WelcomeModelFactory {
         List<ApplicationPackages> packages = new ArrayList<>();
         NodeList packageNodeList
                 = applicationElement.getElementsByTagName("package");
+        boolean isFlatPak = false;
         for (int j = 0; j < packageNodeList.getLength(); j++) {
             Element element = ((Element) packageNodeList.item(j));
             String type = element.getAttribute("type");
@@ -337,15 +344,28 @@ public class WelcomeModelFactory {
                             wgetFetchUrl, wgetSaveDir));
                     break;
 
+                case "flatpak":
+                    packages.add(new FlatpakPackages(
+                            Arrays.asList(packageName)));
+                    isFlatPak = true;
+                    break;
+
                 default:
                     LOGGER.log(Level.WARNING, "Unsupported type \"{0}\"", type);
                     break;
             }
         }
+
         CombinedPackages pkgs = new CombinedPackages(packages);
-        ApplicationTask task = new ApplicationTask(applicationName,
-                description, icon, helpPath, pkgs, installedNames);
+
+        ApplicationTask task = isFlatPak
+                ? new FlatpakApplicationTask(applicationName,
+                        description, icon, helpPath, pkgs, installedDpkgNames)
+                : new DpkgApplicationTask(applicationName,
+                        description, icon, helpPath, pkgs, installedDpkgNames);
+
         applicationTasks.put(applicationName, task);
+
         return task;
     }
 }

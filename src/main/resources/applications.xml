@@ -6,7 +6,7 @@
         <icon>example</icon>
         <help-path>Welcome.examplePanel.website</help-path>
         <installed-names>
-            <installed-name>packageInstalledUnderThisName</installed-name>
+            <installed-dpkg-name>packageInstalledUnderThisName</installed-dpkg-name>
         </installed-names>
         <packages>
             <package type="aptget">foo</package>
@@ -51,7 +51,7 @@
         <icon>googleearth</icon>
         <help-path>Google_Earth_Website</help-path>
         <installed-names>
-            <installed-name>google-earth-pro-stable</installed-name>
+            <installed-dpkg-name>google-earth-pro-stable</installed-dpkg-name>
         </installed-names>
         <packages>
             <!--
@@ -86,7 +86,7 @@
         <icon>Adobe_Reader_8_icon</icon>
         <help-path>Adobe_Reader_Website</help-path>
         <installed-names>
-            <installed-name>adobereader-enu</installed-name>
+            <installed-dpkg-name>adobereader-enu</installed-dpkg-name>
         </installed-names>
         <packages>
             <!--
@@ -133,7 +133,7 @@
         <icon>skype</icon>
         <help-path>Skype_Website</help-path>
         <installed-names>
-            <installed-name>skypeforlinux</installed-name>
+            <installed-dpkg-name>skypeforlinux</installed-dpkg-name>
         </installed-names>
         <packages>
             <package type="wget" fetchUrl="https://repo.skype.com/latest/{0}" saveDir="USER_HOME">skypeforlinux-64.deb</package>
@@ -388,7 +388,7 @@
         <icon>libreoffice</icon>
         <help-path>LibreOffice_website</help-path>
         <installed-names>
-            <installed-name>libreoffice</installed-name>
+            <installed-dpkg-name>libreoffice</installed-dpkg-name>
         </installed-names>
         <packages>
             <package type="aptget">libreoffice apparmor-</package>
@@ -1106,6 +1106,18 @@
         <help-path>Welcome.triggerGamePanel.website</help-path>
         <packages>
             <package type="aptget">live-trigger-rally</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
+    
+    <application name="Stunt Rally">
+        <description>StuntRally.description</description>
+        <icon>stuntrally</icon>
+        <help-path>StuntRally.website</help-path>
+        <packages>
+            <package type="flatpak">org.tuxfamily.StuntRally</package>
         </packages>
         <tags>
             <tag>game</tag>

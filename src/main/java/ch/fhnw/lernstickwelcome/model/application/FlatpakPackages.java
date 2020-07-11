@@ -22,18 +22,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class creates an apt-get command out of packages which should be
- * installed.
+ * This class creates a flatpak command for packages to be installed.
  *
- * @see ApplicationPackages
- * @author sschw
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class AptGetPackages extends ApplicationPackages {
+public class FlatpakPackages extends ApplicationPackages {
 
     private final static Logger LOGGER
-            = Logger.getLogger(AptGetPackages.class.getName());
+            = Logger.getLogger(FlatpakPackages.class.getName());
 
-    public AptGetPackages(List<String> packageNames) {
+    public FlatpakPackages(List<String> packageNames) {
         super(packageNames);
     }
 
@@ -42,16 +40,16 @@ public class AptGetPackages extends ApplicationPackages {
         getPackageNames().forEach(packageName -> {
             LOGGER.log(Level.INFO, "installing package \"{0}\"", packageName);
         });
+
         StringBuilder builder = new StringBuilder();
-        builder.append("#!/bin/sh\n"
-                + "export DEBIAN_FRONTEND=noninteractive\n");
-        builder.append("apt-get ");
-        builder.append(proxy.getAptGetProxy());
-        builder.append("-y --force-yes install ");
+        builder.append("#!/bin/sh\n");
+        builder.append(proxy.getFlatpakProxy());
+        builder.append("flatpak install -y ");
         getPackageNames().forEach(packageName -> {
             builder.append(packageName);
             builder.append(' ');
         });
+
         return builder.toString();
     }
 }

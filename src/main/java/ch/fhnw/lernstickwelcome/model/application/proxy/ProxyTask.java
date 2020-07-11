@@ -23,28 +23,28 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
-
 /**
- * This class handles the proxy settings which are used for installing the 
+ * This class handles the proxy settings which are used for installing the
  * applications.
  * <br>
  * In order to process a backend task multiple times it extends Processable
- * 
+ *
  * @see Processable
- * 
+ *
  * @author sschw
  */
 public class ProxyTask implements Processable<String> {
 
-    private BooleanProperty proxyActive = new SimpleBooleanProperty();
-    private StringProperty hostname = new SimpleStringProperty();
-    private StringProperty port = new SimpleStringProperty();
-    private StringProperty username = new SimpleStringProperty();
-    private StringProperty password = new SimpleStringProperty();
+    private final BooleanProperty proxyActive = new SimpleBooleanProperty();
+    private final StringProperty hostname = new SimpleStringProperty();
+    private final StringProperty port = new SimpleStringProperty();
+    private final StringProperty username = new SimpleStringProperty();
+    private final StringProperty password = new SimpleStringProperty();
 
     // Init to prevent typos in commands if inactive
     private String wgetProxy;
     private String aptGetProxy;
+    private String flatpakProxy;
 
     /**
      * Settings of previous starts wont be saved.
@@ -60,8 +60,12 @@ public class ProxyTask implements Processable<String> {
         return aptGetProxy;
     }
 
+    public String getFlatpakProxy() {
+        return flatpakProxy;
+    }
+
     /**
-     * Modifies the wgetProxy-String to allow a connection over a proxy when
+     * Modifies the wgetProxy string to allow a connection over a proxy when
      * calling a wget command.
      */
     private void setupWgetProxy() {
@@ -69,7 +73,7 @@ public class ProxyTask implements Processable<String> {
         stringBuilder.append(" -e http_proxy=http://");
         if (hostname.get() != null) {
             stringBuilder.append(hostname.get());
-        }        
+        }
         if (port.get() != null && !port.get().isEmpty()) {
             stringBuilder.append(':');
             stringBuilder.append(port.get());
@@ -87,7 +91,7 @@ public class ProxyTask implements Processable<String> {
     }
 
     /**
-     * Modifies the aptGetProxy-String to allow a connection over a proxy when
+     * Modifies the aptGetProxy string to allow a connection over a proxy when
      * calling a apt-get command.
      */
     private void setupAptGetProxy() {
@@ -108,6 +112,34 @@ public class ProxyTask implements Processable<String> {
         }
         stringBuilder.append(' ');
         aptGetProxy = stringBuilder.toString();
+    }
+
+    /**
+     * Modifies the flathub string to allow a connection over a proxy when
+     * calling a flatpak command.
+     */
+    private void setupFlatpakProxy() {
+
+        String proxyUser = "";
+        if (username.get() != null && !username.get().isEmpty()) {
+            proxyUser = username.get();
+            if (password != null && !password.get().isEmpty()) {
+                proxyUser += ':' + password.get();
+            }
+            proxyUser += '@';
+        }
+
+        String proxyPort = "";
+        if (port.get() != null && !port.get().isEmpty()) {
+            proxyPort = ':' + port.get();
+        }
+
+        if (hostname.get() != null) {
+            String proxyLine = proxyUser + hostname.get() + proxyPort + '/';
+            flatpakProxy
+                    = "export HTTP_PROXY=http://" + proxyLine + "\n"
+                    + "export HTTPS_PROXY=https://" + proxyLine + "\n";
+        }
     }
 
     public BooleanProperty proxyActiveProperty() {
@@ -137,6 +169,7 @@ public class ProxyTask implements Processable<String> {
 
     /**
      * Task for {@link #newTask() }
+     *
      * @see Processable
      */
     private class InternalTask extends Task<String> {
@@ -149,13 +182,14 @@ public class ProxyTask implements Processable<String> {
                 updateMessage("ProxyTask.message");
                 setupWgetProxy();
                 setupAptGetProxy();
+                setupFlatpakProxy();
             } else {
                 wgetProxy = " ";
                 aptGetProxy = " ";
+                flatpakProxy = "";
             }
             updateProgress(1, 1);
             return null;
         }
     }
-
 }

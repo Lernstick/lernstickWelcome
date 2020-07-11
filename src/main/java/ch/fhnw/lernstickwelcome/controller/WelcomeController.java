@@ -112,6 +112,7 @@ public class WelcomeController {
     /**
      * Loads the data for the standard environment
      *
+     * @param application the main JavaFX application
      * @throws javax.xml.parsers.ParserConfigurationException
      * @throws org.xml.sax.SAXException
      * @throws java.io.IOException
