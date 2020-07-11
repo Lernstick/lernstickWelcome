@@ -1,3 +1,9 @@
+lernstickwelcome (202007111205) lernstick-10; urgency=medium
+
+  * [e1e689] ignore flatpak applications on systems without flatpak support
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 11 Jul 2020 12:05:37 +0200
+
 lernstickwelcome (202007111105) lernstick-10; urgency=medium
 
   * [ceb756] code cleanup
