@@ -1,3 +1,9 @@
+lernstickwelcome (202007121751) lernstick-10; urgency=medium
+
+  * [81ed8e] added support for Shattered Pixel Dungeon
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 12 Jul 2020 17:51:06 +0200
+
 lernstickwelcome (202007111205) lernstick-10; urgency=medium
 
   * [e1e689] ignore flatpak applications on systems without flatpak support
