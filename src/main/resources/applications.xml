@@ -1123,6 +1123,18 @@
             <tag>game</tag>
         </tags>
     </application>
+    
+    <application name="Shattered Pixel Dungeon">
+        <description>ShatteredPixelDungeon.description</description>
+        <icon>shatteredpixeldungeon</icon>
+        <help-path>ShatteredPixelDungeon.website</help-path>
+        <packages>
+            <package type="flatpak">com.shatteredpixel.shatteredpixeldungeon</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
 
     <application name="OpenClonk">
         <description>Welcome.openclonkPanel.description</description>
