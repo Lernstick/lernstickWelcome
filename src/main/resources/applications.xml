@@ -360,12 +360,12 @@
     </application>
     -->
 
-    <application name="Riot.im">
-        <description>Riot_im_description</description>
-        <icon>riot_im</icon>
-        <help-path>Riot_website</help-path>
+    <application name="Element">
+        <description>Element_description</description>
+        <icon>element</icon>
+        <help-path>Element_website</help-path>
         <packages>
-            <package type="aptget">riot-desktop</package>
+            <package type="aptget">element-desktop</package>
         </packages>
         <tags>
             <tag>misc</tag>
