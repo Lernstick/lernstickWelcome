@@ -28,6 +28,7 @@
             <package type="aptget">libdvdcss2</package>
             <package type="aptget">libmp3lame0</package>
             <package type="aptget">lame</package>
+            <package type="aptget">aacs-keydb-installer</package>
         </packages>
         <tags>
             <tag>recommended</tag>
