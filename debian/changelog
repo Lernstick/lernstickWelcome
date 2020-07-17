@@ -1,3 +1,9 @@
+lernstickwelcome (202007172238) lernstick-10; urgency=medium
+
+  * [276870] updated list of minetest-mods for minetest v5.3
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 17 Jul 2020 22:38:00 +0200
+
 lernstickwelcome (202007162116) lernstick-10; urgency=medium
 
   * [1b5aea] switched from rebranded Riot.im to Element
