@@ -900,7 +900,9 @@
             <package type="aptget">minetest-mod-basic-materials</package>
             <package type="aptget">minetest-mod-character-creator</package>
             <package type="aptget">minetest-mod-craftguide</package>
+            <!-- currently (2020-07-17) broken
             <package type="aptget">minetest-mod-currency</package>
+            -->
             <package type="aptget">minetest-mod-ethereal</package>
             <package type="aptget">minetest-mod-homedecor</package>
             <package type="aptget">minetest-mod-infinite-chest</package>
@@ -910,10 +912,7 @@
             <package type="aptget">minetest-mod-mesecons</package>
             <package type="aptget">minetest-mod-moreblocks</package>
             <package type="aptget">minetest-mod-moreores</package>
-            <!-- currently (2020-05-16) broken, see
-            https://github.com/minetest/minetest/issues/9632
             <package type="aptget">minetest-mod-nether</package>
-            -->
             <package type="aptget">minetest-mod-pipeworks</package>
             <package type="aptget">minetest-mod-player-3d-armor</package>
             <package type="aptget">minetest-mod-protector</package>
@@ -923,7 +922,9 @@
             <package type="aptget">minetest-mod-unifieddyes</package>
             <package type="aptget">minetest-mod-unified-inventory</package>
             <package type="aptget">minetest-mod-worldedit</package>
+            <!-- currently (2020-07-17) broken
             <package type="aptget">minetest-mod-xdecor</package>
+            -->
         </packages>
         <tags>
             <tag>game</tag>
