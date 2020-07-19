@@ -900,9 +900,6 @@
             <package type="aptget">minetest-mod-basic-materials</package>
             <package type="aptget">minetest-mod-character-creator</package>
             <package type="aptget">minetest-mod-craftguide</package>
-            <!-- currently (2020-07-17) broken
-            <package type="aptget">minetest-mod-currency</package>
-            -->
             <package type="aptget">minetest-mod-ethereal</package>
             <package type="aptget">minetest-mod-homedecor</package>
             <package type="aptget">minetest-mod-infinite-chest</package>
@@ -975,6 +972,18 @@
         <packages>
             <package type="aptget">lernstick-fillets-ng</package>
             <package type="aptget">fillets-ng-data-cs</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
+
+    <application name="Berusky II">
+        <description>Berusky2.description</description>
+        <icon>berusky2</icon>
+        <help-path>Berusky2.website</help-path>
+        <packages>
+            <package type="aptget">berusky2</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1113,7 +1122,7 @@
             <tag>game</tag>
         </tags>
     </application>
-    
+
     <application name="Stunt Rally">
         <description>StuntRally.description</description>
         <icon>stuntrally</icon>
@@ -1125,13 +1134,25 @@
             <tag>game</tag>
         </tags>
     </application>
-    
+
     <application name="Shattered Pixel Dungeon">
         <description>ShatteredPixelDungeon.description</description>
         <icon>shatteredpixeldungeon</icon>
         <help-path>ShatteredPixelDungeon.website</help-path>
         <packages>
             <package type="flatpak">com.shatteredpixel.shatteredpixeldungeon</package>
+        </packages>
+        <tags>
+            <tag>game</tag>
+        </tags>
+    </application>
+
+    <application name="Mindustry">
+        <description>Mindustry.description</description>
+        <icon>mindustry</icon>
+        <help-path>Mindustry.website</help-path>
+        <packages>
+            <package type="flatpak">com.github.Anuken.Mindustry</package>
         </packages>
         <tags>
             <tag>game</tag>
