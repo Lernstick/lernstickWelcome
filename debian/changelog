@@ -1,3 +1,9 @@
+lernstickwelcome (202007191942) lernstick-10; urgency=medium
+
+  * [0ccf30] added Berusky II and Mindustry
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 19 Jul 2020 19:42:47 +0200
+
 lernstickwelcome (202007172238) lernstick-10; urgency=medium
 
   * [276870] updated list of minetest-mods for minetest v5.3
