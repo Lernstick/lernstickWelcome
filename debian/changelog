@@ -1,3 +1,10 @@
+lernstickwelcome (202008031750) lernstick-10; urgency=medium
+
+  * [7a9219] initial support for LUKS password handling (still incomplete)
+  * [eb8695] completed LUKS support
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 03 Aug 2020 17:50:37 +0200
+
 lernstickwelcome (202007191942) lernstick-10; urgency=medium
 
   * [0ccf30] added Berusky II and Mindustry
