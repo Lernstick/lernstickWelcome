@@ -72,11 +72,9 @@ public class AbstractSystemController {
     @FXML
     protected TextField userNameTextField;
     @FXML
-    protected TextField exchangePartitionLabelTextField;
+    protected TextField exchangePartitionLabelTextField;    
     @FXML
-    protected ToggleSwitch startWelcomeApplicationToggleSwitch;
-    @FXML
-    protected ToggleSwitch readOnlyWarningToggleSwitch;
+    private DataPartitionController dataPartitionController;
 
     public Button getHelpButton() {
         return helpButton;
@@ -107,11 +105,11 @@ public class AbstractSystemController {
     }
 
     public ToggleSwitch getStartWelcomeApplicationToggleSwitch() {
-        return startWelcomeApplicationToggleSwitch;
+        return dataPartitionController.getStartWelcomeApplicationToggleSwitch();
     }
 
     public ToggleSwitch getReadOnlyWarningToggleSwitch() {
-        return readOnlyWarningToggleSwitch;
+        return dataPartitionController.getReadOnlyWarningToggleSwitch();
     }
 
     public void initControls() throws DBusException, IOException {

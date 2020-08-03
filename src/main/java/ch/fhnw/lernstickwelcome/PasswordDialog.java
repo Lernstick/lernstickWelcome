@@ -40,7 +40,7 @@ import javafx.scene.layout.Priority;
  *
  * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class PasswordChangeDialog extends Alert {
+public class PasswordDialog extends Alert {
 
     private static final ResourceBundle BUNDLE
             = ResourceBundle.getBundle("ch.fhnw.lernstickwelcome.Bundle");
@@ -49,7 +49,8 @@ public class PasswordChangeDialog extends Alert {
     private final TextField oldPasswordTextField;
     private final PasswordField newPasswordField;
 
-    public PasswordChangeDialog(String titleKey) {
+    public PasswordDialog(String titleKey, 
+            String oldPasswordKey, String newPasswordKey) {
         
         super(AlertType.NONE);
 
@@ -68,7 +69,7 @@ public class PasswordChangeDialog extends Alert {
         grid.setHgap(10);
         grid.setVgap(10);
 
-        grid.add(new Label(BUNDLE.getString("Old_Password")), 0, 0);
+        grid.add(new Label(BUNDLE.getString(oldPasswordKey)), 0, 0);
         oldPasswordField = new PasswordField();
         oldPasswordField.setMaxWidth(Double.MAX_VALUE);
         grid.add(oldPasswordField, 1, 0);
@@ -102,7 +103,7 @@ public class PasswordChangeDialog extends Alert {
         });
         grid.add(showOldPasswordButton, 2, 0);
 
-        grid.add(new Label(BUNDLE.getString("New_Password")), 0, 1);
+        grid.add(new Label(BUNDLE.getString(newPasswordKey)), 0, 1);
         newPasswordField = new PasswordField();
         newPasswordField.setMaxWidth(Double.MAX_VALUE);
         grid.add(newPasswordField, 1, 1);

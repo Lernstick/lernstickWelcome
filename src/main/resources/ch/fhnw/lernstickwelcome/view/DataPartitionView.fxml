@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root collapsible="false" text="%Data_Partition" type="TitledPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <content>
+        <VBox fx:id="dataPartitionVBox" spacing="10.0">
+            <children>
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                    <children>
+                        <Label text="%welcomeApplicationSystem.startWA" />
+                        <ToggleSwitch fx:id="startWelcomeApplicationToggleSwitch" GridPane.columnIndex="1" />
+                        <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="1" />
+                        <ToggleSwitch fx:id="readOnlyWarningToggleSwitch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    </children>
+                </GridPane>
+                <GridPane fx:id="encryptionGridPane" hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                    <children>
+                        <Label text="%Personal_Password" />
+                        <Button mnemonicParsing="false" onAction="#changePersonalPassword" text="%Change" GridPane.columnIndex="1" />
+                        <Label text="%Secondary_Password" GridPane.rowIndex="1" />
+                        <Button fx:id="changeSecondaryPasswordButton" mnemonicParsing="false" onAction="#changeSecondaryPassword" text="%Change" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="deleteSecondaryPasswordButton" mnemonicParsing="false" onAction="#deleteSecondaryPassword" text="%Delete" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </content>
+</fx:root>

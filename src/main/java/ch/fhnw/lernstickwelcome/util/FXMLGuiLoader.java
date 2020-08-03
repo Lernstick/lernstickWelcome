@@ -106,8 +106,8 @@ public final class FXMLGuiLoader {
                     = FXCollections.observableArrayList();
 
             // load start view
-            Pair<Scene, MainController> main
-                    = loadScene("/ch/fhnw/lernstickwelcome/view/main.fxml", stylesheet, rb);
+            Pair<Scene, MainController> main = loadScene(
+                    "/ch/fhnw/lernstickwelcome/view/main.fxml", stylesheet, rb);
             welcomeApplicationMain = main.getKey();
             mainController = main.getValue();
 

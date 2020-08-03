@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import ch.fhnw.lernstickwelcome.fxmlcontroller.DataPartitionController?>
 <?import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -156,26 +157,7 @@
                                 </VBox>
                             </content>
                         </TitledPane>
-                        <TitledPane collapsible="false" text="%Data_Partition">
-                            <content>
-                                <GridPane hgap="10.0" vgap="10.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="ALWAYS" />
-                                        <ColumnConstraints />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints />
-                                        <RowConstraints />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label text="%welcomeApplicationSystem.startWA" />
-                                        <ToggleSwitch fx:id="startWelcomeApplicationToggleSwitch" GridPane.columnIndex="1" />
-                                        <Label text="%welcomeApplicationSystem.showWarning" GridPane.rowIndex="1" />
-                                        <ToggleSwitch fx:id="readOnlyWarningToggleSwitch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    </children>
-                                </GridPane>
-                            </content>
-                        </TitledPane>
+                  <DataPartitionController fx:id="dataPartitionController" />
                     </children>
                 </VBox>
             </content>
