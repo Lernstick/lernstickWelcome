@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# remember original configuration
+# GNOME
+GNOME_IDLE_DELAY=$(gsettings get org.gnome.desktop.session idle-delay)
+GNOME_IDLE_DIM=$(gsettings get org.gnome.settings-daemon.plugins.power idle-dim)
+GNOME_SLEEP_INACTIVE_AC=$(gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type)
+GNOME_SLEEP_INACTIVE_BATTERY=$(gsettings get org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type)
+# Cinnamon
+CINNAMON_IDLE_DELAY=$(gsettings get org.cinnamon.desktop.session idle-delay)
+CINNAMON_IDLE_DIM_BATTERY=$(gsettings get org.cinnamon.settings-daemon.plugins.power idle-dim-battery)
+CINNAMON_SLEEP_DISPLAY_AC=$(gsettings get org.cinnamon.settings-daemon.plugins.power sleep-display-ac)
+CINNAMON_SLEEP_DISPLAY_BATTERY=$(gsettings get org.cinnamon.settings-daemon.plugins.power sleep-display-battery)
+CINNAMON_SLEEP_INACTIVE_AC=$(gsettings get org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout)
+CINNAMON_SLEEP_INACTIVE_BATTERY=$(gsettings get org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout)
+
+# change states for lernstickWelcome
+# GNOME
+gsettings set org.gnome.desktop.session idle-delay "uint32 0"
+gsettings set org.gnome.settings-daemon.plugins.power idle-dim "false"
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type "nothing"
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type "nothing"
+# Cinnamon
+gsettings set org.cinnamon.desktop.session idle-delay 0
+gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-battery "false"
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac 0
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 0
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout 0
+
+# run lernstickWelcome with root rights
+pkexec /usr/bin/lernstickWelcome $@
+
+# restore original configuration
+# GNOME
+gsettings set org.gnome.desktop.session idle-delay "${GNOME_IDLE_DELAY}"
+gsettings set org.gnome.settings-daemon.plugins.power idle-dim "${GNOME_IDLE_DIM}"
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type "${GNOME_SLEEP_INACTIVE_AC}"
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type "${GNOME_SLEEP_INACTIVE_BATTERY}"
+# Cinnamon
+gsettings set org.cinnamon.desktop.session idle-delay "${CINNAMON_IDLE_DELAY}"
+gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-battery "${CINNAMON_IDLE_DIM_BATTERY}"
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac "${CINNAMON_SLEEP_DISPLAY_AC}"
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery "${CINNAMON_SLEEP_DISPLAY_BATTERY}"
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout "${CINNAMON_SLEEP_INACTIVE_AC}"
+gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout "${CINNAMON_SLEEP_INACTIVE_BATTERY}"
