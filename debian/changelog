@@ -1,3 +1,10 @@
+lernstickwelcome (202008041431) lernstick-10; urgency=medium
+
+  * [6b7d1b] temporarily disable power-savings
+             (installations might take too long)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 04 Aug 2020 14:31:48 +0200
+
 lernstickwelcome (202008031750) lernstick-10; urgency=medium
 
   * [7a9219] initial support for LUKS password handling (still incomplete)
