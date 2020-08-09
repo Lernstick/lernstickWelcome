@@ -20,7 +20,7 @@ import ch.fhnw.lernstickwelcome.SplashScreenNotification;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationGroupTask;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationPackages;
 import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
-import ch.fhnw.lernstickwelcome.model.application.AptGetPackages;
+import ch.fhnw.lernstickwelcome.model.application.AptPackages;
 import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
 import ch.fhnw.lernstickwelcome.model.application.DpkgApplicationTask;
 import ch.fhnw.lernstickwelcome.model.application.FlatpakApplicationTask;
@@ -344,8 +344,8 @@ public class WelcomeModelFactory {
             String type = element.getAttribute("type");
             String packageName = element.getTextContent();
             switch (type) {
-                case "aptget":
-                    packages.add(new AptGetPackages(
+                case "apt":
+                    packages.add(new AptPackages(
                             Arrays.asList(packageName)));
                     break;
 

@@ -22,8 +22,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 /**
- * This class creates an apt-get command out of packages which should be
- * installed.
+ * This class creates a wget command out of packages which should be installed.
  * <br>
  * Requires the packages which should be get from the fetchUrl. The packages
  * temporarely saved to the saveDir.
@@ -85,7 +84,7 @@ public class WgetPackages extends ApplicationPackages {
             // the next call is necessary to automatically install all missing
             // dependencies of the downloaded package (needed by e.g. Google
             // Earth Pro that depends on the package "lsb-core")
-            builder.append("apt-get install -f -y\n");
+            builder.append("apt install -f -y\n");
             builder.append("rm ").append(packageName).append('\n');
         }
 

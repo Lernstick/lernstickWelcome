@@ -43,25 +43,44 @@ public class ProxyTask implements Processable<String> {
 
     // Init to prevent typos in commands if inactive
     private String wgetProxy;
-    private String aptGetProxy;
+    private String aptProxy;
     private String flatpakProxy;
-
-    /**
-     * Settings of previous starts wont be saved.
-     */
-    public ProxyTask() {
-    }
 
     public String getWgetProxy() {
         return wgetProxy;
     }
 
-    public String getAptGetProxy() {
-        return aptGetProxy;
+    public String getAptProxy() {
+        return aptProxy;
     }
 
     public String getFlatpakProxy() {
         return flatpakProxy;
+    }
+
+    public BooleanProperty proxyActiveProperty() {
+        return proxyActive;
+    }
+
+    public StringProperty hostnameProperty() {
+        return hostname;
+    }
+
+    public StringProperty portProperty() {
+        return port;
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    @Override
+    public Task<String> newTask() {
+        return new InternalTask();
     }
 
     /**
@@ -91,27 +110,16 @@ public class ProxyTask implements Processable<String> {
     }
 
     /**
-     * Modifies the aptGetProxy string to allow a connection over a proxy when
-     * calling a apt-get command.
+     * Sets up the apt proxy string to allow a connection over a proxy when
+     * calling an apt command.
      */
-    private void setupAptGetProxy() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(" -o Acquire::http::proxy=http://");
-        if (username.get() != null && !username.get().isEmpty()) {
-            stringBuilder.append(username.get());
-            if (password != null && !password.get().isEmpty()) {
-                stringBuilder.append(':');
-                stringBuilder.append(password.get());
-            }
-            stringBuilder.append('@');
+    private void setupAptProxy() {
+        if (hostname.get() != null) {
+            String proxyLine = getProxyLine();
+            aptProxy
+                    = " -o Acquire::http::proxy=http://" + proxyLine
+                    + " -o Acquire::https::proxy=http://" + proxyLine + " ";
         }
-        stringBuilder.append(hostname.get());
-        if (port.get() != null && !port.get().isEmpty()) {
-            stringBuilder.append(':');
-            stringBuilder.append(port.get());
-        }
-        stringBuilder.append(' ');
-        aptGetProxy = stringBuilder.toString();
     }
 
     /**
@@ -119,6 +127,15 @@ public class ProxyTask implements Processable<String> {
      * calling a flatpak command.
      */
     private void setupFlatpakProxy() {
+        if (hostname.get() != null) {
+            String proxyLine = getProxyLine();
+            flatpakProxy
+                    = "export HTTP_PROXY=http://" + proxyLine + "\n"
+                    + "export HTTPS_PROXY=https://" + proxyLine + "\n";
+        }
+    }
+
+    private String getProxyLine() {
 
         String proxyUser = "";
         if (username.get() != null && !username.get().isEmpty()) {
@@ -134,37 +151,7 @@ public class ProxyTask implements Processable<String> {
             proxyPort = ':' + port.get();
         }
 
-        if (hostname.get() != null) {
-            String proxyLine = proxyUser + hostname.get() + proxyPort + '/';
-            flatpakProxy
-                    = "export HTTP_PROXY=http://" + proxyLine + "\n"
-                    + "export HTTPS_PROXY=https://" + proxyLine + "\n";
-        }
-    }
-
-    public BooleanProperty proxyActiveProperty() {
-        return proxyActive;
-    }
-
-    public StringProperty hostnameProperty() {
-        return hostname;
-    }
-
-    public StringProperty portProperty() {
-        return port;
-    }
-
-    public StringProperty usernameProperty() {
-        return username;
-    }
-
-    public StringProperty passwordProperty() {
-        return password;
-    }
-
-    @Override
-    public Task<String> newTask() {
-        return new InternalTask();
+        return proxyUser + hostname.get() + proxyPort + '/';
     }
 
     /**
@@ -181,11 +168,11 @@ public class ProxyTask implements Processable<String> {
                 updateTitle("ProxyTask.title");
                 updateMessage("ProxyTask.message");
                 setupWgetProxy();
-                setupAptGetProxy();
+                setupAptProxy();
                 setupFlatpakProxy();
             } else {
                 wgetProxy = " ";
-                aptGetProxy = " ";
+                aptProxy = " ";
                 flatpakProxy = "";
             }
             updateProgress(1, 1);

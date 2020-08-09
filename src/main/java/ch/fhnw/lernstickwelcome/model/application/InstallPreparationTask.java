@@ -82,22 +82,19 @@ public class InstallPreparationTask implements Processable<String> {
     }
 
     /**
-     * Update the package list by calling {@code apt-get update}.
+     * Update the package list by calling {@code apt update}.
      * @throws IOException 
      */
     private void updatePackageList() throws IOException {
 
-        String updateScript = "cd " + WelcomeConstants.USER_HOME + '\n'
-                + "apt-get" + proxy.getAptGetProxy() + "update";
+        String updateScript = "apt" + proxy.getAptProxy() + "update";
         int exitValue = PROCESS_EXECUTOR.executeScript(
                 true, true, updateScript);
         if (exitValue != 0) {
-            String aptGetOutput = PROCESS_EXECUTOR.getOutput();
-            String logMessage = "apt-get failed with the following "
-                    + "output:\n" + aptGetOutput;
+            String aptOutput = PROCESS_EXECUTOR.getOutput();
+            String logMessage = "apt failed with the following "
+                    + "output:\n" + aptOutput;
             LOGGER.severe(logMessage);
-            // We dont want to throw an exception because he couldn't update
-            // throw new ProcessingException("InstallPreparationTask.aptGetFailed", aptGetOutput); 
         }
     }
 

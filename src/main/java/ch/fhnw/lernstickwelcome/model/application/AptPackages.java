@@ -22,18 +22,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class creates an apt-get command out of packages which should be
- * installed.
+ * This class creates an apt command out of packages which should be installed.
  *
  * @see ApplicationPackages
  * @author sschw
  */
-public class AptGetPackages extends ApplicationPackages {
+public class AptPackages extends ApplicationPackages {
 
     private final static Logger LOGGER
-            = Logger.getLogger(AptGetPackages.class.getName());
+            = Logger.getLogger(AptPackages.class.getName());
 
-    public AptGetPackages(List<String> packageNames) {
+    public AptPackages(List<String> packageNames) {
         super(packageNames);
     }
 
@@ -45,9 +44,9 @@ public class AptGetPackages extends ApplicationPackages {
         StringBuilder builder = new StringBuilder();
         builder.append("#!/bin/sh\n"
                 + "export DEBIAN_FRONTEND=noninteractive\n");
-        builder.append("apt-get ");
-        builder.append(proxy.getAptGetProxy());
-        builder.append("-y --force-yes install ");
+        builder.append("apt");
+        builder.append(proxy.getAptProxy());
+        builder.append("-y install ");
         getPackageNames().forEach(packageName -> {
             builder.append(packageName);
             builder.append(' ');

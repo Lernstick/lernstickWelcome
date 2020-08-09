@@ -152,7 +152,7 @@ public abstract class ApplicationTask implements Processable<String> {
             // We check if it is installed (wget exit code is inconsistent)
             if (exitValue != 0 || !initIsInstalled()) {
                 String errorMessage
-                        = "apt-get or wget failed with the following output:\n"
+                        = "apt or wget failed with the following output:\n"
                         + PROCESS_EXECUTOR.getOutput();
                 LOGGER.severe(errorMessage);
                 String name = getName();
