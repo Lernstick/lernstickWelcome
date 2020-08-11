@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 FHNW
+ * Copyright (C) 2020 Ronny Standtke <ronny.standtke@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ package ch.fhnw.lernstickwelcome.fxmlcontroller.exam;
 
 import ch.fhnw.lernstickwelcome.controller.exception.TableCellValidationException;
 import ch.fhnw.lernstickwelcome.controller.exception.ValidationException;
-import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
+import ch.fhnw.lernstickwelcome.model.firewall.HostFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter.SearchPattern;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
@@ -43,9 +43,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 
 /**
- * FXML Controller class
+ * Firewall controller class
  *
- * @author user
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class FirewallController implements Initializable {
 
@@ -56,290 +56,214 @@ public class FirewallController implements Initializable {
     @FXML
     private Label monitoringLabel;
     @FXML
-    private TableView<WebsiteFilter> tvAllowedSites;
+    private TableView<WebsiteFilter> allowedSitesTableView;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter.SearchPattern> tcSitesPattern;
+    private TableColumn<WebsiteFilter, WebsiteFilter.SearchPattern> sitesPatternTableColumn;
     @FXML
-    private TableColumn<WebsiteFilter, String> tcSitesCriteria;
+    private TableColumn<WebsiteFilter, String> sitesCriteriaTableColumn;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tcSitesEdit;
+    private TableColumn<WebsiteFilter, WebsiteFilter> editSitesTableColumn;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tcSitesDelete;
+    private TableColumn<WebsiteFilter, WebsiteFilter> deleteSitesTableColumn;
     @FXML
-    private ComboBox<WebsiteFilter.SearchPattern> cbAddEditPattern;
+    private ComboBox<WebsiteFilter.SearchPattern> addEditPatternComboBox;
     @FXML
-    private TextField tfAddEditCriteria;
+    private TextField addEditCriteriaTextField;
     @FXML
-    private Button btAddEditSite;
+    private Button addEditSiteButton;
     @FXML
-    private Button btCheckForDep;
+    private Button checkForDependenciesButton;
     @FXML
-    private TableView<IpFilter> tvAllowedServers;
+    private TableView<HostFilter> allowedServersTableView;
     @FXML
-    private TableColumn<IpFilter, IpFilter.Protocol> tcServerProtocol;
+    private TableColumn<HostFilter, HostFilter.Protocol> serverProtocolTableColumn;
     @FXML
-    private TableColumn<IpFilter, String> tcServerIp;
+    private TableColumn<HostFilter, String> serverHostTableColumn;
     @FXML
-    private TableColumn<IpFilter, String> tcServerPort;
+    private TableColumn<HostFilter, String> serverPortRangeTableColumn;
     @FXML
-    private TableColumn<IpFilter, String> tcServerDesc;
+    private TableColumn<HostFilter, String> serverDescriptionTableColumn;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tcServerEdit;
+    private TableColumn<WebsiteFilter, WebsiteFilter> editServerTableColumn;
     @FXML
-    private TableColumn<WebsiteFilter, WebsiteFilter> tcServerDelete;
+    private TableColumn<WebsiteFilter, WebsiteFilter> deleteServerTableColumn;
     @FXML
-    private ComboBox<IpFilter.Protocol> cbAddEditProtocol;
+    private ComboBox<HostFilter.Protocol> addEditProtocolComboBox;
     @FXML
-    private TextField tfAddEditIp;
+    private TextField addEditHostTextField;
     @FXML
-    private TextField tfAddEditPort;
+    private TextField addEditPortTextField;
     @FXML
-    private TextField tfAddEditDesc;
+    private TextField addEditDescriptionTextField;
     @FXML
-    private Button btAddEditServer;
+    private Button addEditServerButton;
 
-    private ResourceBundle rb;
+    private ResourceBundle resourceBundle;
 
     private int indexSaveWebsiteFilter;
-    private int indexSaveIpFilter;
+    private int indexSaveHostFilter;
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        this.rb = rb;
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // Set TableView WebsiteFilter cell properties and implement edit functionality
-        tcSitesPattern.setCellValueFactory(p -> p.getValue().searchPatternProperty());
-        tcSitesPattern.setCellFactory(ComboBoxTableCell.forTableColumn(new SearchPatternStringConverter(rb), WebsiteFilter.SearchPattern.values()));
-        tcSitesPattern.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
-                .searchPatternProperty().setValue(e.getNewValue()));
-        tcSitesCriteria.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
-        tcSitesCriteria.setCellFactory(TextFieldTableCell.forTableColumn());
-        tcSitesCriteria.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
-                .searchCriteriaProperty().setValue(e.getNewValue()));
-        tcSitesEdit.setCellFactory(c -> new FirewallEditButtonCell(this, c.getTableView()));
-        tcSitesDelete.setCellFactory(p -> new FirewallDeleteButtonCell(this, p.getTableView()));
+        this.resourceBundle = resourceBundle;
 
-        // Set TableView IpFilter cell properties and implement edit functionality
-        tcServerProtocol.setCellValueFactory(p -> p.getValue().protocolProperty());
-        tcServerProtocol.setCellFactory(ComboBoxTableCell.forTableColumn(IpFilter.Protocol.values()));
-        tcServerProtocol.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
-                .protocolProperty().setValue(e.getNewValue()));
-        tcServerIp.setCellFactory(ValidatableTextFieldCell.forTableColumn((s, i) -> {
-            try {
-                WelcomeUtil.checkTarget((String) s, i);
-                return null;
-            } catch (TableCellValidationException ex) {
-                return ex;
-            }
-        }, rb));
-        tcServerIp.setOnEditCommit(e
-                -> e.getTableView().getItems().get(e.getTablePosition().getRow())
-                        .ipAddressProperty().setValue(e.getNewValue()));
-        tcServerIp.setCellValueFactory(p -> p.getValue().ipAddressProperty());
-        tcServerPort.setCellFactory(ValidatableTextFieldCell.forTableColumn((s, i) -> {
-            try {
-                WelcomeUtil.checkPortRange((String) s, i);
-                return null;
-            } catch (TableCellValidationException ex) {
-                return ex;
-            }
-        }, rb));
-        tcServerPort.setCellValueFactory(p -> p.getValue().portProperty());
-        tcServerPort.setOnEditCommit(e
-                -> e.getTableView().getItems().get(e.getTablePosition().getRow())
-                        .portProperty().setValue(e.getNewValue()));
-        tcServerDesc.setCellValueFactory(p -> p.getValue().descriptionProperty());
-        tcServerDesc.setCellFactory(TextFieldTableCell.forTableColumn());
-        tcServerDesc.setOnEditCommit(e -> e.getTableView().getItems().get(e.getTablePosition().getRow())
-                .descriptionProperty().setValue(e.getNewValue()));
-        tcServerEdit.setCellFactory(c -> new FirewallEditButtonCell(this, c.getTableView()));
-        tcServerDelete.setCellFactory(p -> new FirewallDeleteButtonCell(this, p.getTableView()));
+        sitesPatternTableColumn.setCellValueFactory(
+                p -> p.getValue().searchPatternProperty());
 
-        // Load ComboBox data
-        cbAddEditPattern.setConverter(new SearchPatternStringConverter(rb));
-        cbAddEditPattern.getItems().addAll(WebsiteFilter.SearchPattern.values());
-        cbAddEditProtocol.getItems().addAll(IpFilter.Protocol.values());
+        sitesPatternTableColumn.setCellFactory(ComboBoxTableCell.forTableColumn(
+                new SearchPatternStringConverter(resourceBundle),
+                WebsiteFilter.SearchPattern.values()));
+
+        sitesPatternTableColumn.setOnEditCommit(e -> {
+            int row = e.getTablePosition().getRow();
+            WebsiteFilter websiteFilter = e.getTableView().getItems().get(row);
+            websiteFilter.searchPatternProperty().setValue(e.getNewValue());
+        });
+
+        sitesCriteriaTableColumn.setCellValueFactory(
+                p -> p.getValue().searchCriteriaProperty());
+
+        sitesCriteriaTableColumn.setCellFactory(
+                TextFieldTableCell.forTableColumn());
+
+        sitesCriteriaTableColumn.setOnEditCommit(e -> {
+            int row = e.getTablePosition().getRow();
+            WebsiteFilter websiteFilter = e.getTableView().getItems().get(row);
+            websiteFilter.searchCriteriaProperty().setValue(e.getNewValue());
+        });
+
+        editSitesTableColumn.setCellFactory(
+                c -> new FirewallEditButtonCell(this, c.getTableView()));
+        deleteSitesTableColumn.setCellFactory(
+                p -> new FirewallDeleteButtonCell(this, p.getTableView()));
+
+        serverProtocolTableColumn.setCellValueFactory(
+                p -> p.getValue().protocolProperty());
+
+        serverProtocolTableColumn.setCellFactory(
+                ComboBoxTableCell.forTableColumn(HostFilter.Protocol.values()));
+
+        serverProtocolTableColumn.setOnEditCommit(e -> {
+            int row = e.getTablePosition().getRow();
+            HostFilter hostFilter = e.getTableView().getItems().get(row);
+            hostFilter.protocolProperty().setValue(e.getNewValue());
+        });
+
+        serverHostTableColumn.setCellFactory(
+                ValidatableTextFieldCell.forTableColumn((s, i) -> {
+                    try {
+                        WelcomeUtil.checkTarget((String) s, i);
+                        return null;
+                    } catch (TableCellValidationException ex) {
+                        return ex;
+                    }
+                }, resourceBundle));
+
+        serverHostTableColumn.setOnEditCommit(e -> {
+            int row = e.getTablePosition().getRow();
+            HostFilter hostFilter = e.getTableView().getItems().get(row);
+            hostFilter.hostProperty().setValue(e.getNewValue());
+        });
+
+        serverHostTableColumn.setCellValueFactory(
+                p -> p.getValue().hostProperty());
+
+        serverPortRangeTableColumn.setCellFactory(
+                ValidatableTextFieldCell.forTableColumn((s, i) -> {
+                    try {
+                        WelcomeUtil.checkPortRange((String) s, i);
+                        return null;
+                    } catch (TableCellValidationException ex) {
+                        return ex;
+                    }
+                }, resourceBundle));
+
+        serverPortRangeTableColumn.setCellValueFactory(
+                p -> p.getValue().portRangeProperty());
+
+        serverPortRangeTableColumn.setOnEditCommit(e -> {
+            int row = e.getTablePosition().getRow();
+            HostFilter hostFilter = e.getTableView().getItems().get(row);
+            hostFilter.portRangeProperty().setValue(e.getNewValue());
+        });
+
+        serverDescriptionTableColumn.setCellValueFactory(
+                p -> p.getValue().descriptionProperty());
+
+        serverDescriptionTableColumn.setCellFactory(
+                TextFieldTableCell.forTableColumn());
+
+        serverDescriptionTableColumn.setOnEditCommit(e -> {
+            int row = e.getTablePosition().getRow();
+            HostFilter hostFilter = e.getTableView().getItems().get(row);
+            hostFilter.descriptionProperty().setValue(e.getNewValue());
+        });
+
+        editServerTableColumn.setCellFactory(
+                c -> new FirewallEditButtonCell(this, c.getTableView()));
+        deleteServerTableColumn.setCellFactory(
+                p -> new FirewallDeleteButtonCell(this, p.getTableView()));
+
+        // load ComboBox data
+        addEditPatternComboBox.setConverter(
+                new SearchPatternStringConverter(resourceBundle));
+        addEditPatternComboBox.getItems().addAll(
+                WebsiteFilter.SearchPattern.values());
+        
+        addEditProtocolComboBox.getItems().addAll(HostFilter.Protocol.values());
     }
 
-    private static class SearchPatternStringConverter extends StringConverter<SearchPattern> {
-
-        private ResourceBundle rb;
-
-        private SearchPatternStringConverter(ResourceBundle rb) {
-            this.rb = rb;
-        }
-
-        @Override
-        public String toString(SearchPattern t) {
-            return rb.getString(t.toString());
-        }
-
-        @Override
-        public SearchPattern fromString(String string) {
-            if (rb.getString(SearchPattern.Exact.toString()).equals(string)) {
-                return SearchPattern.Exact;
-            }
-            if (rb.getString(SearchPattern.StartsWith.toString()).equals(string)) {
-                return SearchPattern.StartsWith;
-            }
-            if (rb.getString(SearchPattern.Contains.toString()).equals(string)) {
-                return SearchPattern.Contains;
-            }
-            return SearchPattern.Custom;
-        }
-
+    public TableView<WebsiteFilter> getAllowedSitesTableView() {
+        return allowedSitesTableView;
     }
 
-    @FXML
-    private void onClickNewWebsiteRule(MouseEvent event) {
-        if (validateSitesFields()) {
-            // Add to table
-            if (btAddEditSite.getStyleClass().contains("btn_add")) {
-                tvAllowedSites.getItems().add(new WebsiteFilter(
-                        cbAddEditPattern.getValue(),
-                        tfAddEditCriteria.getText()));
-            } // Edit
-            else {
-                WebsiteFilter element = (WebsiteFilter) tvAllowedSites.getItems().get(indexSaveWebsiteFilter);
-                element.searchPatternProperty().set(cbAddEditPattern.getValue());
-                element.searchCriteriaProperty().set(tfAddEditCriteria.getText());
-                btAddEditSite.getStyleClass().remove("btn_save");
-                btAddEditSite.getStyleClass().add("btn_add");
-            }
-            // Clear fields
-            cbAddEditPattern.setValue(null);
-            tfAddEditCriteria.setText("");
-        }
+    public TableView<HostFilter> getAllowedServersTableView() {
+        return allowedServersTableView;
     }
 
-    @FXML
-    private void onClickNewServerRule(MouseEvent event) {
-        if (validateServerFields()) {
-            // Add to table
-            if (btAddEditServer.getStyleClass().contains("btn_add")) {
-                tvAllowedServers.getItems().add(new IpFilter(
-                        cbAddEditProtocol.getValue(),
-                        tfAddEditIp.getText(),
-                        tfAddEditPort.getText(),
-                        tfAddEditDesc.getText()));
-            } // Edit
-            else {
-                IpFilter element = (IpFilter) tvAllowedServers.getItems().get(indexSaveIpFilter);
-                element.protocolProperty().set(cbAddEditProtocol.getValue());
-                element.ipAddressProperty().set(tfAddEditIp.getText());
-                element.portProperty().set(tfAddEditPort.getText());
-                element.descriptionProperty().set(tfAddEditDesc.getText());
-                btAddEditServer.getStyleClass().remove("btn_save");
-                btAddEditServer.getStyleClass().add("btn_add");
-            }
-            // Clear fields
-            cbAddEditProtocol.setValue(null);
-            tfAddEditIp.setText("");
-            tfAddEditPort.setText("");
-            tfAddEditDesc.setText("");
-        }
-    }
-
-    public TableView<WebsiteFilter> getTvAllowedSites() {
-        return tvAllowedSites;
-    }
-
-    public TableView<IpFilter> getTvAllowedServers() {
-        return tvAllowedServers;
-    }
-
-    public ToggleSwitch getTsAllowMonitoring() {
+    public ToggleSwitch getAllowMonitoringToggleSwitch() {
         return monitoringToggleSwitch;
     }
 
-    public ComboBox<WebsiteFilter.SearchPattern> getCbAddEditPattern() {
-        return cbAddEditPattern;
+    public ComboBox<WebsiteFilter.SearchPattern> getAddEditPatternComboBox() {
+        return addEditPatternComboBox;
     }
 
-    public TextField getTfAddEditCriteria() {
-        return tfAddEditCriteria;
+    public TextField getAddEditCriteriaTextField() {
+        return addEditCriteriaTextField;
     }
 
-    public Button getBtAddEditSite() {
-        return btAddEditSite;
+    public Button getAddEditSiteButton() {
+        return addEditSiteButton;
     }
 
-    public Button getBtAddEditServer() {
-        return btAddEditServer;
+    public Button getAddEditServerButton() {
+        return addEditServerButton;
     }
 
-    public TextField getTfAddEditDesc() {
-        return tfAddEditDesc;
+    public TextField getAddEditDescriptionTextField() {
+        return addEditDescriptionTextField;
     }
 
-    public TextField getTfAddEditPort() {
-        return tfAddEditPort;
+    public TextField getAddEditPortTextField() {
+        return addEditPortTextField;
     }
 
-    public TextField getTfAddEditIp() {
-        return tfAddEditIp;
+    public TextField getAddEditHostTextField() {
+        return addEditHostTextField;
     }
 
-    public Button getBtCheckForDep() {
-        return btCheckForDep;
+    public Button getCheckForDependenciesButton() {
+        return checkForDependenciesButton;
     }
 
-    public ComboBox<IpFilter.Protocol> getCbAddEditProtocol() {
-        return cbAddEditProtocol;
+    public ComboBox<HostFilter.Protocol> getAddEditProtocolComboBox() {
+        return addEditProtocolComboBox;
     }
 
-    public Label getLbAllowMonitoring() {
+    public Label getMonitoringLabel() {
         return monitoringLabel;
-    }
-
-    private boolean validateSitesFields() {
-        boolean result = true;
-        if (!cbAddEditPattern.getSelectionModel().isEmpty()) {
-            cbAddEditPattern.getStyleClass().remove("error");
-        } else {
-            cbAddEditPattern.getStyleClass().add("error");
-            result = false;
-        }
-        if (tfAddEditCriteria.getText().length() > 0) {
-            tfAddEditCriteria.getStyleClass().remove("error");
-        } else {
-            tfAddEditCriteria.getStyleClass().add("error");
-            result = false;
-        }
-        return result;
-    }
-
-    private boolean validateServerFields() {
-        boolean result = true;
-        if (!cbAddEditProtocol.getSelectionModel().isEmpty()) {
-            cbAddEditProtocol.getStyleClass().remove("error");
-        } else {
-            cbAddEditProtocol.getStyleClass().add("error");
-            result = false;
-        }
-        try {
-            WelcomeUtil.checkTarget(tfAddEditIp.getText(), -1);
-            tfAddEditIp.getStyleClass().remove("error");
-        } catch (ValidationException ex) {
-            tfAddEditIp.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
-            tfAddEditIp.getStyleClass().add("error");
-            result = false;
-        }
-        try {
-            WelcomeUtil.checkPortRange(tfAddEditPort.getText(), -1);
-            tfAddEditPort.getStyleClass().remove("error");
-        } catch (ValidationException ex) {
-            tfAddEditPort.setPromptText(MessageFormat.format(rb.getString(ex.getMessage()), ex.getMessageDetails()));
-            tfAddEditPort.getStyleClass().add("error");
-            result = false;
-        }
-        return result;
     }
 
     public Button getHelpButton() {
@@ -351,14 +275,163 @@ public class FirewallController implements Initializable {
     }
 
     public int getIndexSaveIpFilter() {
-        return indexSaveIpFilter;
+        return indexSaveHostFilter;
     }
 
     public void setIndexSaveWebsiteFilter(int i) {
         indexSaveWebsiteFilter = i;
     }
 
-    public void setIndexSaveIpFilter(int i) {
-        indexSaveIpFilter = i;
+    public void setIndexSaveHostFilter(int i) {
+        indexSaveHostFilter = i;
+    }
+
+    @FXML
+    private void onClickNewWebsiteRule(MouseEvent event) {
+        if (validateSitesFields()) {
+            // Add to table
+            if (addEditSiteButton.getStyleClass().contains("btn_add")) {
+                allowedSitesTableView.getItems().add(new WebsiteFilter(
+                        addEditPatternComboBox.getValue(),
+                        addEditCriteriaTextField.getText()));
+            } // Edit
+            else {
+                WebsiteFilter element = 
+                        (WebsiteFilter) allowedSitesTableView.getItems().get(
+                                indexSaveWebsiteFilter);
+                
+                element.searchPatternProperty().set(
+                        addEditPatternComboBox.getValue());
+                
+                element.searchCriteriaProperty().set(
+                        addEditCriteriaTextField.getText());
+                
+                addEditSiteButton.getStyleClass().remove("btn_save");
+                addEditSiteButton.getStyleClass().add("btn_add");
+            }
+            // Clear fields
+            addEditPatternComboBox.setValue(null);
+            addEditCriteriaTextField.setText("");
+        }
+    }
+
+    @FXML
+    private void onClickNewServerRule(MouseEvent event) {
+        if (validateServerFields()) {
+            // Add to table
+            if (addEditServerButton.getStyleClass().contains("btn_add")) {
+                allowedServersTableView.getItems().add(new HostFilter(
+                        addEditProtocolComboBox.getValue(),
+                        addEditHostTextField.getText(),
+                        addEditPortTextField.getText(),
+                        addEditDescriptionTextField.getText()));
+            } // Edit
+            else {
+                HostFilter element = 
+                        (HostFilter) allowedServersTableView.getItems().get(
+                                indexSaveHostFilter);
+                
+                element.protocolProperty().set(
+                        addEditProtocolComboBox.getValue());
+                
+                element.hostProperty().set(addEditHostTextField.getText());
+                element.portRangeProperty().set(addEditPortTextField.getText());
+                
+                element.descriptionProperty().set(
+                        addEditDescriptionTextField.getText());
+                
+                addEditServerButton.getStyleClass().remove("btn_save");
+                addEditServerButton.getStyleClass().add("btn_add");
+            }
+            // Clear fields
+            addEditProtocolComboBox.setValue(null);
+            addEditHostTextField.setText("");
+            addEditPortTextField.setText("");
+            addEditDescriptionTextField.setText("");
+        }
+    }
+
+    private boolean validateSitesFields() {
+        boolean result = true;
+        if (!addEditPatternComboBox.getSelectionModel().isEmpty()) {
+            addEditPatternComboBox.getStyleClass().remove("error");
+        } else {
+            addEditPatternComboBox.getStyleClass().add("error");
+            result = false;
+        }
+        if (addEditCriteriaTextField.getText().length() > 0) {
+            addEditCriteriaTextField.getStyleClass().remove("error");
+        } else {
+            addEditCriteriaTextField.getStyleClass().add("error");
+            result = false;
+        }
+        return result;
+    }
+
+    private boolean validateServerFields() {
+        boolean result = true;
+        if (!addEditProtocolComboBox.getSelectionModel().isEmpty()) {
+            addEditProtocolComboBox.getStyleClass().remove("error");
+        } else {
+            addEditProtocolComboBox.getStyleClass().add("error");
+            result = false;
+        }
+        try {
+            WelcomeUtil.checkTarget(addEditHostTextField.getText(), -1);
+            addEditHostTextField.getStyleClass().remove("error");
+        } catch (ValidationException ex) {
+            addEditHostTextField.setPromptText(MessageFormat.format(
+                    resourceBundle.getString(ex.getMessage()),
+                    ex.getMessageDetails()));
+            addEditHostTextField.getStyleClass().add("error");
+            result = false;
+        }
+        try {
+            WelcomeUtil.checkPortRange(addEditPortTextField.getText(), -1);
+            addEditPortTextField.getStyleClass().remove("error");
+        } catch (ValidationException ex) {
+            addEditPortTextField.setPromptText(MessageFormat.format(
+                    resourceBundle.getString(ex.getMessage()),
+                    ex.getMessageDetails()));
+            addEditPortTextField.getStyleClass().add("error");
+            result = false;
+        }
+        return result;
+    }
+
+    private static class SearchPatternStringConverter
+            extends StringConverter<SearchPattern> {
+
+        private final ResourceBundle resourceBundle;
+
+        private SearchPatternStringConverter(ResourceBundle resourceBundle) {
+            this.resourceBundle = resourceBundle;
+        }
+
+        @Override
+        public String toString(SearchPattern searchPattern) {
+            return resourceBundle.getString(searchPattern.toString());
+        }
+
+        @Override
+        public SearchPattern fromString(String string) {
+
+            if (string.equals(resourceBundle.getString(
+                    SearchPattern.Exact.toString()))) {
+                return SearchPattern.Exact;
+            }
+
+            if (string.equals(resourceBundle.getString(
+                    SearchPattern.StartsWith.toString()))) {
+                return SearchPattern.StartsWith;
+            }
+
+            if (string.equals(resourceBundle.getString(
+                    SearchPattern.Contains.toString()))) {
+                return SearchPattern.Contains;
+            }
+
+            return SearchPattern.Custom;
+        }
     }
 }

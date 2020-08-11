@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 FHNW
+ * Copyright (C) 2020 Ronny Standtke <ronny.standtke@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +18,10 @@ package ch.fhnw.lernstickwelcome.model.firewall;
 
 import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter.SearchPattern;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.nio.charset.Charset;
+import java.io.RandomAccessFile;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -34,17 +30,22 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 
 /**
+ * Watches the squid log file and adds denied entries to the filter list
  *
- * @author root
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class SquidAccessLogWatcher implements Runnable {
 
-    private final static Logger LOGGER = Logger.getLogger(SquidAccessLogWatcher.class.getName());
-    private final static String SQUID_FILE
+    private static final Logger LOGGER = Logger.getLogger(
+            SquidAccessLogWatcher.class.getName());
+
+    private static final String SQUID_FILE
             = WelcomeConstants.SQUID_ACCESS_LOG_FILE_PATH;
-    private boolean running = false;
+
     private final ListProperty<WebsiteFilter> websiteList
             = new SimpleListProperty<>(FXCollections.observableArrayList());
+
+    private boolean running = false;
 
     public ListProperty<WebsiteFilter> getWebsiteList() {
         return websiteList;
@@ -52,45 +53,38 @@ public class SquidAccessLogWatcher implements Runnable {
 
     @Override
     public void run() {
+
         if (running == true) {
             throw new IllegalStateException();
         }
         running = true;
+
         File file = new File(SQUID_FILE);
-        long lastModified = file.lastModified();
-        int lineNumber = 0;
+        long lastLength = file.length();
 
-        try (LineNumberReader lnr = new LineNumberReader(
-                new InputStreamReader(
-                        new FileInputStream(file), Charset.defaultCharset()
-                ))) {
-            lnr.skip(Long.MAX_VALUE);
-            lineNumber = lnr.getLineNumber() + 1;
-
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Reading Squid Log failed", ex);
-        }
-
-        String currentLine;
         try {
             while (running) {
-                if (lastModified < file.lastModified()) {
-                    lastModified = file.lastModified();
 
-                    try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                            new FileInputStream(file), Charset.defaultCharset()
-                    ))) {
-                        for (int i = 0; i < lineNumber; i++) {
-                            br.readLine();
+                TimeUnit.MILLISECONDS.sleep(500);
+                long length = file.length();
+
+                if (length < lastLength) {
+                    LOGGER.info("Squid log file was reset, restarting.");
+                    lastLength = length;
+
+                } else if (length > lastLength) {
+                    try (RandomAccessFile randomAccessFile
+                            = new RandomAccessFile(file, "r")) {
+
+                        randomAccessFile.seek(lastLength);
+                        for (String line = randomAccessFile.readLine();
+                                line != null;
+                                line = randomAccessFile.readLine()) {
+                            parseLine(line);
                         }
-                        while ((currentLine = br.readLine()) != null) {
-                            parseLine(currentLine);
-                            lineNumber++;
-                        }
+                        lastLength = randomAccessFile.getFilePointer();
                     }
                 }
-
-                Thread.sleep(500);
             }
         } catch (IOException | InterruptedException ex) {
             LOGGER.log(Level.SEVERE, "Watcher crashed", ex);
@@ -112,9 +106,12 @@ public class SquidAccessLogWatcher implements Runnable {
         // check for 403 Forbidden
         if (params[3].matches("TCP_DENIED/403")) {
             // add exact pattern to list
-            WebsiteFilter newElement = new WebsiteFilter(SearchPattern.Exact, params[6]);
+            WebsiteFilter newElement
+                    = new WebsiteFilter(SearchPattern.Exact, params[6]);
+
             for (WebsiteFilter currElement : websiteList) {
-                if (currElement.getSearchPattern().equals(newElement.getSearchPattern())) {
+                if (currElement.getSearchPattern().equals(
+                        newElement.getSearchPattern())) {
                     return;
                 }
             }

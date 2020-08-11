@@ -69,7 +69,6 @@ public class ApplicationView extends GridPane {
         description.setFont(Font.font(null, FontWeight.NORMAL, 13));
         description.setPadding(new Insets(0, 0, 0, 10));
         installDescription.setMinWidth(80);
-        installDescription.setMaxWidth(80);
         installDescription.setAlignment(Pos.BOTTOM_CENTER);
 
         add(icon, 0, 0, 1, 2);

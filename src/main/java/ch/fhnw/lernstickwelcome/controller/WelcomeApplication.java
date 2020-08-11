@@ -29,15 +29,27 @@ import ch.fhnw.lernstickwelcome.controller.binder.exam.ExamSystemBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallDependenciesWarningBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.exam.FirewallPatternValidatorBinder;
 import ch.fhnw.lernstickwelcome.controller.binder.standard.StandardSystemBinder;
+import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import java.io.IOException;
+import java.net.URL;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -64,9 +76,19 @@ public final class WelcomeApplication extends Application {
 
     private static final Logger LOGGER
             = Logger.getLogger(WelcomeApplication.class.getName());
+    private static final ResourceBundle BUNDLE
+            = ResourceBundle.getBundle("ch.fhnw.lernstickwelcome.Bundle");
+
     private WelcomeController controller;
     private FXMLGuiLoader guiLoader;
     private Stage passwordChangeStage;
+
+    public static void main(String[] args) {
+        System.setProperty("prism.lcdtext", "false");
+        System.setProperty("javafx.preloader",
+                WelcomeSplashScreen.class.getName());
+        WelcomeApplication.launch(args);
+    }
 
     @Override
     public void init() throws Exception {
@@ -107,14 +129,6 @@ public final class WelcomeApplication extends Application {
             guiLoader = new FXMLGuiLoader(
                     isExamEnvironment(), controller.getBundle());
 
-            Stage errorStage = FXMLGuiLoader.createDialog(
-                    primaryStage,
-                    guiLoader.getErrorScene(),
-                    controller.getBundle().getString(
-                            "welcomeApplicationError.title"),
-                    true
-            );
-
             Stage helpStage = FXMLGuiLoader.createDialog(
                     primaryStage,
                     guiLoader.getHelpScene(),
@@ -131,8 +145,7 @@ public final class WelcomeApplication extends Application {
                             = new PasswordChangeBinder(controller,
                                     guiLoader.getPasswordChangeController());
 
-                    examPasswordChangeBinder.initHandlers(
-                            errorStage, guiLoader.getErrorController());
+                    examPasswordChangeBinder.initHandlers();
 
                     passwordChangeStage = FXMLGuiLoader.createDialog(
                             primaryStage,
@@ -168,11 +181,11 @@ public final class WelcomeApplication extends Application {
                         true
                 );
 
-                FirewallDependenciesWarningBinder fdwBinder
+                FirewallDependenciesWarningBinder firewallDependenciesWarningBinder
                         = new FirewallDependenciesWarningBinder(controller,
                                 guiLoader.getFirewallDependenciesWarningController());
-                fdwBinder.initHandlers(firewallPatternValidatorStage,
-                        guiLoader.getErrorController(), errorStage);
+                firewallDependenciesWarningBinder.initHandlers(
+                        firewallPatternValidatorStage);
 
                 HelpBinder helpBinder = new HelpBinder(controller,
                         guiLoader.getHelpController());
@@ -189,8 +202,7 @@ public final class WelcomeApplication extends Application {
                 examFirewallBinder.initBindings();
                 examFirewallBinder.initHandlers(
                         firewallDependenciesWarningStage,
-                        firewallPatternValidatorStage,
-                        errorStage, guiLoader.getErrorController());
+                        firewallPatternValidatorStage);
                 examFirewallBinder.initHelp(helpStage, helpBinder);
 
                 BackupBinder examBackupBinder = new BackupBinder(controller,
@@ -234,9 +246,9 @@ public final class WelcomeApplication extends Application {
                         guiLoader.getAddSoftwareController().getHelpButton()
                 );
                 addAppsBinder.addApplicationGroup(
-                        controller.getTeachAppsTask(), helpBinder, helpStage);
+                        controller.getTeachingAppsTask(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(
-                        controller.getSoftwAppsTask(), helpBinder, helpStage);
+                        controller.getMiscAppsTask(), helpBinder, helpStage);
                 addAppsBinder.addApplicationGroup(
                         controller.getGamesAppsTask(), helpBinder, helpStage);
                 addAppsBinder.initHelp("2", helpStage, helpBinder);
@@ -247,18 +259,17 @@ public final class WelcomeApplication extends Application {
                 binder.initHelp(helpStage, helpBinder);
             }
 
-            ProgressBinder progressBinder = new ProgressBinder(
-                    controller, guiLoader.getProgressController());
-            progressBinder.initBindings();
-            progressBinder.initHandlers(errorStage,
-                    guiLoader.getErrorController());
-            Stage progressStage = FXMLGuiLoader.createDialog(
-                    primaryStage,
+            Stage progressStage = FXMLGuiLoader.createDialog(primaryStage,
                     guiLoader.getProgressScene(),
                     controller.getBundle().getString(
-                            "welcomeApplicationProgress.save"),
-                    true
-            );
+                            "welcomeApplicationProgress.save"), true);
+
+            controller.getTaskProcessor().setProgressStage(progressStage);
+
+            ProgressBinder progressBinder = new ProgressBinder(
+                    controller.getTaskProcessor(),
+                    guiLoader.getProgressController());
+            progressBinder.initBindings();
 
             MainBinder mainBinder = new MainBinder(
                     controller, guiLoader.getMainController());
@@ -269,8 +280,6 @@ public final class WelcomeApplication extends Application {
                     controller.getBundle().getString("Welcome.title"));
             primaryStage.setScene(scene);
             primaryStage.show();
-            primaryStage.setMinHeight(primaryStage.getHeight());
-            primaryStage.setMinWidth(primaryStage.getWidth());
             primaryStage.getIcons().add(new Image(
                     getClass().getResourceAsStream("/icon/lernstick_usb.png")));
 
@@ -283,7 +292,7 @@ public final class WelcomeApplication extends Application {
                         }
                         if (controller.getBackupTask().hasExchangePartition()
                                 && !controller.getBackupTask().isBackupConfigured()) {
-                            guiLoader.getInfotextdialog(primaryStage,
+                            guiLoader.getInfotextDialog(primaryStage,
                                     "WelcomeApplication.Warning_No_Backup_Configured", e -> {
                                         guiLoader.getMainController().setView(2);
                                         ((Stage) ((Node) e.getSource()).getScene().getWindow()).close();
@@ -293,7 +302,7 @@ public final class WelcomeApplication extends Application {
                         if ((WelcomeUtil.isInternalFileSystemMountAllowed()
                                 || WelcomeUtil.isExternalFileSystemMountAllowed())
                                 && !evt.isConsumed()) {
-                            guiLoader.getInfotextdialog(primaryStage,
+                            guiLoader.getInfotextDialog(primaryStage,
                                     "WelcomeApplication.Warning_Mount_Allowed", e -> {
                                         guiLoader.getMainController().setView(3);
                                         guiLoader.getExamSystemController().showMediaAccessConfig();
@@ -310,7 +319,7 @@ public final class WelcomeApplication extends Application {
             LOGGER.log(Level.SEVERE, "Couldn't initialize GUI", ex);
             System.exit(1);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.log(Level.SEVERE, "", ex);
             System.exit(1);
         }
     }
@@ -327,13 +336,63 @@ public final class WelcomeApplication extends Application {
         System.exit(0);
     }
 
-    private boolean isExamEnvironment() {
-        return getParameters().getRaw().contains("examEnvironment");
+    public static void playNotifySound() {
+        try {
+            URL url = WelcomeApplication.class.getResource(
+                    "/sound/KDE_Notify.wav");
+            Media sound = new Media(url.toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
+        } catch (Exception ex) {
+            // There might be an exception
+            // http://stackoverflow.com/questions/24090356/javafx-mediaplayer-could-not-create-player-error-in-ubuntu-14-04
+            LOGGER.log(Level.WARNING, "Sound couldn't be played", ex);
+        }
     }
 
-    public static void main(String[] args) {
-        System.setProperty("prism.lcdtext", "false");
-        System.setProperty("javafx.preloader", WelcomeSplashScreen.class.getName());
-        WelcomeApplication.launch(args);
+    public static void showThrowable(Throwable exception) {
+        LOGGER.log(Level.SEVERE, "", exception);
+        if (exception instanceof ProcessingException) {
+            showProcessingException((ProcessingException) exception);
+        } else {
+            if (exception != null) {
+                Throwable cause = exception.getCause();
+                if (cause instanceof ProcessingException) {
+                    showProcessingException((ProcessingException) cause);
+                } else {
+                    showErrorMessage(null, exception.getMessage());
+                }
+            }
+        }
+    }
+
+    public static void showErrorMessage(String headerText, String errorMessage) {
+        FutureTask<Void> showErrorTask = new FutureTask<>(() -> {
+            Alert warning = new Alert(
+                    Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+            warning.setHeaderText(headerText);
+            warning.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            warning.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
+            warning.showAndWait();
+            return null;
+        });
+
+        Platform.runLater(showErrorTask);
+
+        try {
+            showErrorTask.get();
+        } catch (InterruptedException | ExecutionException ex) {
+            LOGGER.log(Level.SEVERE, "", ex);
+        }
+    }
+
+    private static void showProcessingException(ProcessingException exception) {
+        showErrorMessage(BUNDLE.getString(exception.getTitleKey()),
+                MessageFormat.format(BUNDLE.getString(exception.getMessage()),
+                        exception.getMessageDetails()));
+    }
+
+    private boolean isExamEnvironment() {
+        return getParameters().getRaw().contains("examEnvironment");
     }
 }

@@ -32,15 +32,15 @@ import javafx.scene.image.ImageView;
 public class ProgressController implements Initializable {
 
     @FXML
-    private ProgressBar pbInstBar;
+    private ProgressBar progressBar;
     @FXML
-    private Label lbInstalltitle;
+    private Label titleLabel;
     @FXML
-    private Label lbInstPrc;
+    private Label progressLabel;
     @FXML
-    private Label lbMesage;
+    private Label messageLabel;
     @FXML
-    private ImageView ivValue;
+    private ImageView imageView;
     
 
     /**
@@ -50,23 +50,23 @@ public class ProgressController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }   
 
-    public ProgressBar getPbInstBar() {
-        return pbInstBar;
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 
-    public Label getLbInstalltitle() {
-        return lbInstalltitle;
+    public Label getTitleLabel() {
+        return titleLabel;
     }
 
-    public Label getLbInstPrc() {
-        return lbInstPrc;
+    public Label getProgressLabel() {
+        return progressLabel;
     }
 
-    public Label getLbMesage() {
-        return lbMesage;
+    public Label getMessageLabel() {
+        return messageLabel;
     }
 
-    public ImageView getIvValue() {
-        return ivValue;
+    public ImageView getImageView() {
+        return imageView;
     }
 }

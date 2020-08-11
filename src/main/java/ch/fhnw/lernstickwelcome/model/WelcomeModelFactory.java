@@ -185,11 +185,13 @@ public class WelcomeModelFactory {
     /**
      * Returns a new instance of this class.
      *
-     * @param properties Property File of the Welcome Application
+     * @param propertiesTask the task that loads and saves our properties
      * @return {@link PartitionTask}
      */
-    public static PartitionTask getPartitionTask(PropertiesTask properties) {
-        return new PartitionTask(properties.getProperties());
+    public static PartitionTask getPartitionTask(
+            PropertiesTask propertiesTask) {
+        
+        return new PartitionTask(propertiesTask.getProperties());
     }
 
     /**
@@ -247,8 +249,8 @@ public class WelcomeModelFactory {
                 for (int j = 0; j < tags.getLength(); j++) {
                     Element t = ((Element) tags.item(j));
                     if (t.getTextContent().equals(tag)) {
-                        ApplicationTask task = 
-                                getApplicationTask(application, app, length);
+                        ApplicationTask task
+                                = getApplicationTask(application, app, length);
                         if (task != null) {
                             apps.add(task);
                         }

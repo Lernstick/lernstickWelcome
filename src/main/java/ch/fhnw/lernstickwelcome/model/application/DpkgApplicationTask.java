@@ -16,6 +16,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
+import ch.fhnw.util.ProcessExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,7 +30,7 @@ import java.util.regex.Pattern;
  */
 public class DpkgApplicationTask extends ApplicationTask {
 
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(DpkgApplicationTask.class.getName());
 
     /**
@@ -57,10 +58,11 @@ public class DpkgApplicationTask extends ApplicationTask {
         dpkgListCommand.add("-l");
         dpkgListCommand.addAll(installedNames);
 
-        PROCESS_EXECUTOR.executeProcess(true, true,
+        ProcessExecutor processExecutor = new ProcessExecutor(true);
+        processExecutor.executeProcess(true, true,
                 dpkgListCommand.toArray(new String[dpkgListCommand.size()]));
 
-        List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
+        List<String> stdOut = processExecutor.getStdOutList();
         for (String packageName : installedNames) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
             Pattern pattern = Pattern.compile("^ii  " + packageName + ".*");

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 FHNW
+ * Copyright (C) 2020 Ronny Standtke <ronny.standtke@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@ package ch.fhnw.lernstickwelcome.model;
 import javafx.concurrent.Task;
 
 /**
- * Interface for a class that can be described by a Task.
- * <p>
- Subclasses of this class have to implement newTask which return a task, which
- are responsible to schedule the process of the processable class.
- * 
- * @author sschw
+ * Interface for classes that can be described by a Task.
+ *
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
+ * @param <T> the result type returned by this Processable's Task
  */
 public interface Processable<T> {
+
     /**
-     * Return a new instance of a task representing the {@link Processable}.
+     * Returns a new instance of a task representing the {@link Processable}.
+     *
      * @return new Instance of the Task representing the {@link Processable}
      */
     Task<T> newTask();

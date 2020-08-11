@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 public class FlatpakPackages extends ApplicationPackages {
 
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(FlatpakPackages.class.getName());
 
     public FlatpakPackages(List<String> packageNames) {

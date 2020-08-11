@@ -48,9 +48,9 @@ import javafx.stage.Stage;
  */
 public class ApplicationBinder {
 
-    private final static Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = Logger.getLogger(
             ApplicationBinder.class.getName());
-    private final VBox applicationBox;
+    private final VBox applicationVBox;
     private final TabPane applicationTabPane;
     private final WelcomeController controller;
     private final Button helpButton;
@@ -66,7 +66,7 @@ public class ApplicationBinder {
             VBox applicationContainer, Button helpButton) {
 
         this.controller = controller;
-        this.applicationBox = applicationContainer;
+        this.applicationVBox = applicationContainer;
         this.applicationTabPane = null;
         this.helpButton = helpButton;
     }
@@ -75,14 +75,14 @@ public class ApplicationBinder {
      * Constructor of ApplicationBinder class
      *
      * @param controller is needed to provide access to the backend properties
-     * @param applicationContainer the gui container for the applications
+     * @param applicationTabPane the gui container for the applications
      * @param helpButton the help button
      */
     public ApplicationBinder(WelcomeController controller,
             TabPane applicationTabPane, Button helpButton) {
 
         this.controller = controller;
-        this.applicationBox = null;
+        this.applicationVBox = null;
         this.applicationTabPane = applicationTabPane;
         this.helpButton = helpButton;
     }
@@ -106,7 +106,7 @@ public class ApplicationBinder {
             groupView.setTitle(ressourceBundle.getString(appGroup.getTitle()));
             addApplicationList(groupView.getAppContainer(),
                     appGroup.getApps(), binder, help);
-            applicationBox.getChildren().add(groupView);
+            applicationVBox.getChildren().add(groupView);
 
         } else {
             // use tab pane
@@ -132,7 +132,7 @@ public class ApplicationBinder {
     public void addApplications(ApplicationGroupTask appGroup,
             HelpBinder binder, Stage help) {
 
-        addApplicationList(applicationBox,
+        addApplicationList(applicationVBox,
                 appGroup.getApps(), binder, help);
     }
 
@@ -142,12 +142,12 @@ public class ApplicationBinder {
         ResourceBundle rb = controller.getBundle();
         boolean even = false;
         for (ApplicationTask app : applications) {
-            
+
             // don't show apps that are already installed
             if (app.installedProperty().get()) {
                 continue;
             }
-            
+
             ApplicationView appView = new ApplicationView(rb);
             try {
                 appView.setTitle(rb.getString(app.getName()));
@@ -204,7 +204,6 @@ public class ApplicationBinder {
             appView.installedProperty().bind(app.installedProperty());
             appView.installingProperty().bindBidirectional(
                     app.installingProperty());
-            appView.setPrefWidth(container.getWidth());
             if (even) {
                 appView.setBackground(new Background(new BackgroundFill(
                         Paint.valueOf("#00000011"),

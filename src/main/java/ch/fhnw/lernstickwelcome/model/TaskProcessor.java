@@ -16,9 +16,11 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeApplication;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -34,6 +36,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 /**
  * This class takes {@link Processable} objects and runs them in a new thread
@@ -52,7 +57,7 @@ import javafx.concurrent.Task;
  */
 public class TaskProcessor {
 
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(TaskProcessor.class.getName());
 
     private final List<Processable<String>> tasks;
@@ -71,7 +76,9 @@ public class TaskProcessor {
 
     private final StringProperty message = new SimpleStringProperty();
 
-    private final StringProperty value = new SimpleStringProperty();
+    private final StringProperty image = new SimpleStringProperty();
+
+    private Stage progressStage;
 
     public TaskProcessor(List<Processable<String>> tasks) {
         this.tasks = tasks;
@@ -91,9 +98,9 @@ public class TaskProcessor {
 
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(
-                () -> taskList.stream().mapToDouble(
-                        t -> t.getProgress() > 0 ? t.getProgress() : 0).sum()
-                / tasks.size(),
+                () -> taskList.stream()
+                        .mapToDouble(t -> t.getProgress() > 0 ? t.getProgress() : 0)
+                        .sum() / tasks.size(),
                 taskList.stream()
                         .map(t -> t.progressProperty())
                         .toArray(s -> new ReadOnlyDoubleProperty[s])));
@@ -101,60 +108,61 @@ public class TaskProcessor {
         new Thread(() -> {
             Iterator<Task<String>> iterator = taskList.iterator();
 
-            // Running a task might throw an exception
-            // If an exception is thrown the while has to be interrupted
+            // Running a task might throw an exception.
+            // If an exception is thrown the while loop has to be interrupted.
             try {
                 // As long we have tasks and there is no exception.
                 while (iterator.hasNext() && exception.getValue() == null) {
-                    Task<String> t = iterator.next();
+                    Task<String> task = iterator.next();
                     // Bind the values in GUI Thread.
                     Platform.runLater(() -> {
-                        title.bind(t.titleProperty());
-                        message.bind(t.messageProperty());
-                        value.bind(t.valueProperty());
-                        exception.bind(t.exceptionProperty());
+                        title.bind(task.titleProperty());
+                        message.bind(task.messageProperty());
+                        image.bind(task.valueProperty());
+                        exception.bind(task.exceptionProperty());
                     });
                     // Run the task
-                    t.run();
+                    task.run();
                     // Ensure the task is finished
                     // If the task had an exception, throw it.
-                    t.get();
+                    task.get();
                     // Unbind the values in GUI Thread.
                     Platform.runLater(() -> {
                         title.unbind();
                         message.unbind();
-                        value.unbind();
-                        value.set(null);
+                        image.unbind();
+                        image.set(null);
                         exception.unbind();
                     });
                 }
+
+                WelcomeApplication.playNotifySound();
+                
                 Platform.runLater(() -> {
-                    value.set(null);
+                    image.set(null);
                     title.set("TaskProcessor.finishedTitle");
                     message.set("TaskProcessor.finishedMessage");
                 });
-            } catch (ExecutionException ex) {
-                LOGGER.log(Level.INFO, "Task throwed an exception", ex);
-            } catch (InterruptedException ex) {
-                LOGGER.log(Level.WARNING, "Save task got interrupted", ex);
+                
+                // show the finished message for a short while
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                } catch (InterruptedException ex) {
+                    LOGGER.log(Level.SEVERE, "", ex);
+                }
+
+            } catch (Exception ex) {
+                WelcomeApplication.showThrowable(ex);
+
             } finally {
-                // If leaving this method, the task processor has finished its
-                // work.
-                Platform.runLater(() -> finished.set(true));
+                Platform.runLater(() -> progressStage.close());
             }
+
         }).start();
     }
 
-    /**
-     * Resets the TaskProcessor Properties.
-     */
-    private void resetTaskProcessor() {
-        finished.set(false);
-        title.unbind();
-        message.unbind();
-        value.unbind();
-        exception.unbind();
-        exception.set(null);
+    public void setProgressStage(Stage progressStage) {
+        this.progressStage = progressStage;
     }
 
     public DoubleProperty progressProperty() {
@@ -173,11 +181,20 @@ public class TaskProcessor {
         return message;
     }
 
-    public StringProperty valueProperty() {
-        return value;
+    public StringProperty imageProperty() {
+        return image;
     }
 
     public ObjectProperty<Throwable> exceptionProperty() {
         return exception;
+    }
+
+    private void resetTaskProcessor() {
+        finished.set(false);
+        title.unbind();
+        message.unbind();
+        image.unbind();
+        exception.unbind();
+        exception.set(null);
     }
 }

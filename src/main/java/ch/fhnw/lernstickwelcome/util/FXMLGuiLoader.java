@@ -16,10 +16,9 @@
  */
 package ch.fhnw.lernstickwelcome.util;
 
-import ch.fhnw.lernstickwelcome.view.impl.MenuPaneItem;
+import ch.fhnw.lernstickwelcome.view.impl.MainMenuItem;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.standard.AdditionalSoftwareController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.BackupController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.HelpController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.InfodialogController;
@@ -41,6 +40,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
@@ -59,24 +59,22 @@ public final class FXMLGuiLoader {
 
     private String stylesheet = FXMLGuiLoader.class.getResource(
             "/css/style.css").toExternalForm();
-    private ResourceBundle rb;
+    private ResourceBundle resourceBundle;
 
-    private Scene welcomeApplicationMain;
+    // common scenes
+    private Scene mainScene;
+    private Scene progressScene;
+    private Scene errorScene;
+    private Scene helpScene;
 
-    private Scene welcomeApplicationProgress;
-    private Scene welcomeApplicationError;
-    private Scene welcomeApplicationHelp;
-
-    /* exam */
-    private Scene welcomeApplicationPasswordChange;
-    private Scene welcomeApplicationFirewallDependenciesWarning;
-    private Scene welcomeApplicationFirewallPatternValidator;
+    // exam scenes
+    private Scene passwordChangeScene;
+    private Scene firewallDependenciesWarningScene;
+    private Scene firewallPatternValidatorScene;
 
     // FXMLController
     private ProgressController progressController;
-    private ErrorController errorController;
     private HelpController helpController;
-
     private PasswordChangeController passwordChangeController;
     private BackupController backupController;
     private FirewallController firewallController;
@@ -96,111 +94,111 @@ public final class FXMLGuiLoader {
      *
      * @param isExamEnvironment Describes which files should be loaded and added
      * to the menu.
-     * @param rb The ResourceBundle for loading the language into the GUI.
+     * @param resourceBundle The ResourceBundle for loading the language into
+     * the GUI.
      */
-    public FXMLGuiLoader(boolean isExamEnvironment, ResourceBundle rb) {
-        this.rb = rb;
+    public FXMLGuiLoader(boolean isExamEnvironment,
+            ResourceBundle resourceBundle) {
+
+        this.resourceBundle = resourceBundle;
+
         // Create all instances with their controllers   
         try {
-            ObservableList<MenuPaneItem> menuPaneItems
+            ObservableList<MainMenuItem> menuPaneItems
                     = FXCollections.observableArrayList();
 
-            // load start view
-            Pair<Scene, MainController> main = loadScene(
-                    "/ch/fhnw/lernstickwelcome/view/main.fxml", stylesheet, rb);
-            welcomeApplicationMain = main.getKey();
-            mainController = main.getValue();
+            // load main view
+            Pair<Scene, MainController> mainPair = loadScene(
+                    "/ch/fhnw/lernstickwelcome/view/MainView.fxml",
+                    stylesheet, resourceBundle);
+            mainScene = mainPair.getKey();
+            mainController = mainPair.getValue();
 
             if (isExamEnvironment) {
-                // Load password change view.
-                Pair<Scene, PasswordChangeController> pc = loadScene(
-                        "/ch/fhnw/lernstickwelcome/view/exam/passwordChange.fxml",
-                        stylesheet, rb);
-                welcomeApplicationPasswordChange = pc.getKey();
-                passwordChangeController = pc.getValue();
+                // load password change view
+                Pair<Scene, PasswordChangeController> passwordChangePair
+                        = loadScene(
+                                "/ch/fhnw/lernstickwelcome/view/exam/passwordChange.fxml",
+                                stylesheet, resourceBundle);
+                passwordChangeScene = passwordChangePair.getKey();
+                passwordChangeController = passwordChangePair.getValue();
 
-                // Load firewall pattern validator view.
-                Pair<Scene, FirewallDependenciesWarningController> fdw
+                // load firewall dependencies warning view
+                Pair<Scene, FirewallDependenciesWarningController> firewallDependenciesWarningPair
                         = loadScene("/ch/fhnw/lernstickwelcome/view/exam/firewallDependenciesWarning.fxml",
-                                stylesheet, rb);
-                welcomeApplicationFirewallDependenciesWarning = fdw.getKey();
-                firewallDependenciesWarningController = fdw.getValue();
+                                stylesheet, resourceBundle);
+                firewallDependenciesWarningScene
+                        = firewallDependenciesWarningPair.getKey();
+                firewallDependenciesWarningController
+                        = firewallDependenciesWarningPair.getValue();
 
-                // Load firewall pattern validator view.
-                Pair<Scene, FirewallPatternValidatorController> fpvc
+                // load firewall pattern validator view
+                Pair<Scene, FirewallPatternValidatorController> firewallPatternValidatorPair
                         = loadScene("/ch/fhnw/lernstickwelcome/view/exam/firewallPatternValidator.fxml",
-                                stylesheet, rb);
-                welcomeApplicationFirewallPatternValidator = fpvc.getKey();
-                firewallPatternValidatorController = fpvc.getValue();
+                                stylesheet, resourceBundle);
+                firewallPatternValidatorScene
+                        = firewallPatternValidatorPair.getKey();
+                firewallPatternValidatorController
+                        = firewallPatternValidatorPair.getValue();
 
-                // prepare menu for exam env.
+                // load menu items for exam environment
                 informationExamController = loadMenuItemView(
-                        "/ch/fhnw/lernstickwelcome/view/exam/information.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/exam/InformationView.fxml",
                         "welcomeApplicationMain.Information",
-                        "messagebox_info.png", menuPaneItems, rb
+                        "messagebox_info.png", menuPaneItems, resourceBundle
                 );
-
                 firewallController = loadMenuItemView(
-                        "/ch/fhnw/lernstickwelcome/view/exam/firewall.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/exam/FirewallView.fxml",
                         "welcomeApplicationMain.Firewall",
-                        "network-server.png", menuPaneItems, rb
+                        "network-server.png", menuPaneItems, resourceBundle
                 );
-
                 backupController = loadMenuItemView(
-                        "/ch/fhnw/lernstickwelcome/view/exam/backup.fxml",
+                        "/ch/fhnw/lernstickwelcome/view/exam/BackupView.fxml",
                         "welcomeApplicationMain.Backup",
-                        "partitionmanager.png", menuPaneItems, rb
+                        "partitionmanager.png", menuPaneItems, resourceBundle
                 );
-
                 examSystemController = loadMenuItemView(
                         "/ch/fhnw/lernstickwelcome/view/exam/ExamSystemView.fxml",
                         "Additional_Settings",
-                        "system-run.png", menuPaneItems, rb
-                );
-            } else {
-                // prepare menu for standard env.
-                informationStdController = loadMenuItemView(
-                        "/ch/fhnw/lernstickwelcome/view/standard/information.fxml",
-                        "welcomeApplicationMain.Information",
-                        "messagebox_info.png", menuPaneItems, rb
+                        "system-run.png", menuPaneItems, resourceBundle
                 );
 
+            } else {
+                // load menu items for exam environment
+                informationStdController = loadMenuItemView(
+                        "/ch/fhnw/lernstickwelcome/view/standard/InformationView.fxml",
+                        "welcomeApplicationMain.Information",
+                        "messagebox_info.png", menuPaneItems, resourceBundle
+                );
                 nonFreeSoftwareController = loadMenuItemView(
                         "/ch/fhnw/lernstickwelcome/view/standard/NonFreeSoftware.fxml",
                         "NonfreeApplication.title",
-                        "copyright.png", menuPaneItems, rb
+                        "copyright.png", menuPaneItems, resourceBundle
                 );
-
                 additionalSoftwareController = loadMenuItemView(
                         "/ch/fhnw/lernstickwelcome/view/standard/AdditionalSoftware.fxml",
                         "Additional_Software",
-                        "list-add.png", menuPaneItems, rb
+                        "list-add.png", menuPaneItems, resourceBundle
                 );
-
                 standardSystemController = loadMenuItemView(
                         "/ch/fhnw/lernstickwelcome/view/standard/StandardSystemView.fxml",
                         "Additional_Settings",
-                        "system-run.png", menuPaneItems, rb
+                        "system-run.png", menuPaneItems, resourceBundle
                 );
             }
 
-            // Load additional Scenes
-            Pair<Scene, ProgressController> progress = loadScene(
-                    "/ch/fhnw/lernstickwelcome/view/progress.fxml",
-                    stylesheet, rb);
-            welcomeApplicationProgress = progress.getKey();
-            progressController = progress.getValue();
+            // load additional scenes
+            Pair<Scene, ProgressController> progressPair = loadScene(
+                    "/ch/fhnw/lernstickwelcome/view/ProgressView.fxml",
+                    stylesheet, resourceBundle);
+            progressScene = progressPair.getKey();
+            progressController = progressPair.getValue();
 
-            Pair<Scene, ErrorController> error = loadScene(
-                    "/ch/fhnw/lernstickwelcome/view/error.fxml",
-                    stylesheet, rb);
-            welcomeApplicationError = error.getKey();
-            errorController = error.getValue();
-
-            Pair<Scene, HelpController> help = loadScene(
-                    "/ch/fhnw/lernstickwelcome/view/help.fxml", stylesheet, rb);
-            welcomeApplicationHelp = help.getKey();
-            helpController = help.getValue();
+            Pair<Scene, HelpController> helpPair = loadScene(
+                    "/ch/fhnw/lernstickwelcome/view/help.fxml",
+                    stylesheet, resourceBundle);
+            helpScene = helpPair.getKey();
+            helpController = helpPair.getValue();
 
             // add menu buttons to welcome application main window and panes
             // according to exam/std version of the lernstick
@@ -212,23 +210,31 @@ public final class FXMLGuiLoader {
         }
     }
 
-    private <T> T loadMenuItemView(String path, String name, String imgName,
-            ObservableList<MenuPaneItem> menuPaneItems, ResourceBundle rb)
-            throws IOException {
+    private <T> T loadMenuItemView(String path, String name, String imageName,
+            ObservableList<MainMenuItem> mainMenuItems,
+            ResourceBundle resourceBundle) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(path), rb);
-        Parent menuItemView = loader.<Parent>load();
-        menuPaneItems.add(new MenuPaneItem(menuItemView, rb.getString(name),
-                WelcomeConstants.ICON_FILE_PATH + "/menu/" + imgName));
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(path), resourceBundle);
+
+        Node menuItemView = loader.load();
+
+        mainMenuItems.add(new MainMenuItem(
+                WelcomeConstants.ICON_FILE_PATH + "/menu/" + imageName,
+                resourceBundle.getString(name), menuItemView));
+
         return loader.getController();
     }
 
     private <T> Pair<Scene, T> loadScene(String path, String stylesheetPath,
-            ResourceBundle rb) throws IOException {
+            ResourceBundle resourceBundle) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(path), rb);
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(path), resourceBundle);
+
         Scene scene = new Scene(loader.load());
         scene.getStylesheets().add(stylesheetPath);
+
         return new Pair<>(scene, loader.getController());
     }
 
@@ -239,17 +245,16 @@ public final class FXMLGuiLoader {
      * the right.
      */
     public Scene getMainStage() {
-        return welcomeApplicationMain;
+        return mainScene;
     }
 
     /**
-     * Returns the installation/configuration view.
+     * Returns the progress scene
      *
-     * @return the view, which contains the progress bar, which is shown on save
-     * and exit.
+     * @return the progress scene
      */
     public Scene getProgressScene() {
-        return welcomeApplicationProgress;
+        return progressScene;
     }
 
     /**
@@ -259,7 +264,7 @@ public final class FXMLGuiLoader {
      * occures.
      */
     public Scene getErrorScene() {
-        return welcomeApplicationError;
+        return errorScene;
     }
 
     /**
@@ -269,7 +274,7 @@ public final class FXMLGuiLoader {
      * help.
      */
     public Scene getHelpScene() {
-        return welcomeApplicationHelp;
+        return helpScene;
     }
 
     /**
@@ -279,7 +284,7 @@ public final class FXMLGuiLoader {
      * recommends to change the password.
      */
     public Scene getPasswordChangeScene() {
-        return welcomeApplicationPasswordChange;
+        return passwordChangeScene;
     }
 
     /**
@@ -289,7 +294,7 @@ public final class FXMLGuiLoader {
      * validator scene.
      */
     public Scene getFirewallDependenciesWarning() {
-        return welcomeApplicationFirewallDependenciesWarning;
+        return firewallDependenciesWarningScene;
     }
 
     /**
@@ -299,7 +304,7 @@ public final class FXMLGuiLoader {
      * firewall patterns blocked by squid.
      */
     public Scene getPatternValidatorScene() {
-        return welcomeApplicationFirewallPatternValidator;
+        return firewallPatternValidatorScene;
     }
 
     /**
@@ -354,15 +359,6 @@ public final class FXMLGuiLoader {
      */
     public ProgressController getProgressController() {
         return progressController;
-    }
-
-    /**
-     * Returns the Controller for this fxml view.
-     *
-     * @return
-     */
-    public ErrorController getErrorController() {
-        return errorController;
     }
 
     /**
@@ -446,24 +442,28 @@ public final class FXMLGuiLoader {
      * @return a modal info stage
      * @throws IOException
      */
-    public Stage getInfotextdialog(Stage parent, String textid,
+    public Stage getInfotextDialog(Stage parent, String textid,
             EventHandler<ActionEvent> e) throws IOException {
-        Pair<Scene, InfodialogController> p = loadScene(
+
+        Pair<Scene, InfodialogController> pair = loadScene(
                 "/ch/fhnw/lernstickwelcome/view/infodialog.fxml",
-                stylesheet, rb);
-        p.getValue().initDialog(textid, e);
-        return createDialog(parent, p.getKey(),
-                rb.getString("welcomeApplicationInfodialog.title"), true);
+                stylesheet, resourceBundle);
+
+        pair.getValue().initDialog(textid, e);
+
+        return createDialog(parent, pair.getKey(),
+                resourceBundle.getString("welcomeApplicationInfodialog.title"),
+                true);
     }
 
     /**
-     * Method to create welcome application dialog (main window)
+     * creates a dialog
      *
-     * @param parent parent
-     * @param scene scene
-     * @param title stage title
-     * @param modal modal
-     * @return
+     * @param parent parent the parent of the dialog
+     * @param scene scene the scene to show in the dialog
+     * @param title stage title the stage title
+     * @param modal modal if the dialog should be modal
+     * @return the dialog
      */
     public static Stage createDialog(
             Stage parent, Scene scene, String title, boolean modal) {
@@ -475,15 +475,6 @@ public final class FXMLGuiLoader {
         }
         stage.setTitle(title);
         stage.setScene(scene);
-        if (scene.getRoot() instanceof Region) {
-            Region rootElement = (Region) scene.getRoot();
-            if (rootElement.getMinHeight() != 0) {
-                stage.setMinHeight(rootElement.getMinHeight());
-            }
-            if (rootElement.getMinWidth() != 0) {
-                stage.setMinWidth(((Region) scene.getRoot()).getMinWidth());
-            }
-        }
         return stage;
     }
 }

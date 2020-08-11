@@ -26,7 +26,6 @@ import ch.fhnw.util.ProcessExecutor;
 import ch.fhnw.util.StorageDevice;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -63,9 +62,9 @@ import org.xml.sax.SAXException;
  */
 public class BackupTask implements Processable<String> {
 
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(BackupTask.class.getName());
-    private final static ProcessExecutor PROCESS_EXECUTOR
+    private static final ProcessExecutor PROCESS_EXECUTOR
             = WelcomeModelFactory.getProcessExecutor();
 
     private Partition exchangePartition;
@@ -136,7 +135,7 @@ public class BackupTask implements Processable<String> {
         }
 
         if (destinationPath.get().isEmpty()) {
-            throw new ProcessingException(
+            throw new ProcessingException("Error_Title_Backup_Configuration",
                     "BackupTask.Error_No_Backup_Directory");
         }
 

@@ -17,14 +17,20 @@
 package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.model.Processable;
-import ch.fhnw.lernstickwelcome.model.WelcomeConstants;
-import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.IOException;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Region;
 
 /**
  * This class handles changes to the tasks with prepare an installation.
@@ -36,8 +42,11 @@ import javafx.concurrent.Task;
  */
 public class InstallPreparationTask implements Processable<String> {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR = WelcomeModelFactory.getProcessExecutor();
-    private final static Logger LOGGER = Logger.getLogger(InstallPreparationTask.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(
+            InstallPreparationTask.class.getName());
+    private static final ResourceBundle BUNDLE
+            = ResourceBundle.getBundle("ch.fhnw.lernstickwelcome.Bundle");
+
     private final ProxyTask proxy;
     private final ApplicationGroupTask[] groups;
 
@@ -49,50 +58,60 @@ public class InstallPreparationTask implements Processable<String> {
      * @param proxy The proxy which should be used to run its tasks.
      * @param groups The application groups that will be installed.
      */
-    public InstallPreparationTask(ProxyTask proxy, ApplicationGroupTask... groups) {
+    public InstallPreparationTask(ProxyTask proxy,
+            ApplicationGroupTask... groups) {
+
         this.proxy = proxy;
         this.groups = groups;
     }
 
     /**
-     * Stops the update-notifier because this could block the update and install
-     * commands.
-     */
-    private void killBlockingProcesses() {
-        String script = "#!/bin/sh\n"
-                + "mykill() {\n"
-                + "   ID=`ps -u 0 | grep \"${1}\" | awk '{ print $1 }'`\n"
-                + "   if [ -n \"${ID}\" ]\n"
-                + "   then\n"
-                + "       kill -9 ${ID}\n"
-                + "   fi\n"
-                + "}\n"
-                + "mykill /usr/lib/update-notifier/apt-check\n"
-                + "mykill update-notifier";
-
-        try {
-            int exitValue = PROCESS_EXECUTOR.executeScript(script);
-            if (exitValue != 0) {
-                LOGGER.log(Level.WARNING, "Could not kill update-notifier: {0}",
-                        PROCESS_EXECUTOR.getOutput());
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Update the package list by calling {@code apt update}.
-     * @throws IOException 
+     * Update the package list by calling {@code apt-get update}.
+     *
+     * @throws IOException
      */
     private void updatePackageList() throws IOException {
 
-        String updateScript = "apt" + proxy.getAptProxy() + "update";
-        int exitValue = PROCESS_EXECUTOR.executeScript(
-                true, true, updateScript);
-        if (exitValue != 0) {
-            String aptOutput = PROCESS_EXECUTOR.getOutput();
-            String logMessage = "apt failed with the following "
+        ProcessExecutor processExecutor = new ProcessExecutor(true);
+        int exitValue = processExecutor.executeScript(true, true,
+                "apt-get" + proxy.getAptProxy() + "update");
+
+        if (exitValue == 0) {
+            // check, if there were any warnings
+            List<String> stdErrList = processExecutor.getStdErrList();
+            if (!stdErrList.isEmpty()) {
+                StringBuilder errorMessage = new StringBuilder();
+                int index = BUNDLE.getString("Apt_Warning_Prefix").length();
+                for (int i = 0, size = stdErrList.size(); i < size; i++) {
+                    String warning = stdErrList.get(i);
+                    LOGGER.log(Level.INFO, "Warning: \"{0}\"", warning);
+                    errorMessage.append(warning.substring(index));
+                    if (i < size - 1) {
+                        errorMessage.append('\n');
+                    }
+                }
+                LOGGER.log(Level.INFO, "warning dialog message: {0}",
+                        errorMessage.toString());
+                FutureTask<Void> showWarningTask = new FutureTask<>(() -> {
+                    Alert warning = new Alert(Alert.AlertType.WARNING,
+                            errorMessage.toString(), ButtonType.CLOSE);
+                    warning.setHeaderText(BUNDLE.getString(
+                            "Apt_Update_Warning"));
+                    warning.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    warning.showAndWait();
+                    return null;
+                });
+                Platform.runLater(showWarningTask);
+                try {
+                    showWarningTask.get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    LOGGER.log(Level.SEVERE, "", ex);
+                }
+            }
+
+        } else {
+            String aptOutput = processExecutor.getOutput();
+            String logMessage = "apt-get failed with the following "
                     + "output:\n" + aptOutput;
             LOGGER.severe(logMessage);
         }
@@ -114,23 +133,19 @@ public class InstallPreparationTask implements Processable<String> {
         protected String call() throws Exception {
             // Check if there are applications to install.
             int appsToInstall = 0;
-            for(ApplicationGroupTask g : groups) 
+            for (ApplicationGroupTask g : groups) {
                 appsToInstall += g.getApps().stream().
-                        filter(a -> !a.installedProperty().get() && a.installingProperty().get()).count();
-            
-            if(appsToInstall > 0) {
+                        filter(a -> !a.installedProperty().get()
+                        && a.installingProperty().get()).count();
+            }
+
+            if (appsToInstall > 0) {
                 updateTitle("InstallPreparationTask.title");
-                updateMessage("InstallPreparationTask.prepareUpdate");
-                updateProgress(0, 2);
-                // make sure that update-notifier does not get into our way
-                killBlockingProcesses();
-
-                updateProgress(1, 2);
                 updateMessage("InstallPreparationTask.update");
-
+                updateProgress(0, 1);
                 updatePackageList();
             }
-            updateProgress(2, 2);
+            updateProgress(1, 1);
             return null;
         }
 

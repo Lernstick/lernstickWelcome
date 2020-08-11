@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  */
 public class HelpLoader {
 
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(HelpLoader.class.getName());
     private final List<HelpEntry> entries = new ArrayList<>();
 

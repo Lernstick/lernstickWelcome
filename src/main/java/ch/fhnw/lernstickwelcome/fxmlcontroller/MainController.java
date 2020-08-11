@@ -16,72 +16,60 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.view.impl.MenuPaneItem;
+import ch.fhnw.lernstickwelcome.view.impl.MainMenuItem;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
  *
- * @author user
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class MainController implements Initializable {
 
     @FXML
-    private Button btFinishButton;
+    private ListView<MainMenuItem> menuListView;
     @FXML
-    private Button btSaveButton;
+    private StackPane stackPane;
     @FXML
-    private ListView<MenuPaneItem> lvMenuPane;
+    private Button saveButton;
     @FXML
-    private ScrollPane spMainPane;
+    private Button finishButton;
 
-    public void initializeMenu(ObservableList<MenuPaneItem> list) {
-        lvMenuPane.setCellFactory(lv -> new MenuListCell());
-        lvMenuPane.setItems(list);
-        lvMenuPane.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    public void initializeMenu(ObservableList<MainMenuItem> mainMenuItems) {
 
-        // Change and resize the content
-        lvMenuPane.getSelectionModel().selectedItemProperty().addListener(cl -> {
-            spMainPane.setContent(lvMenuPane.getSelectionModel().getSelectedItem().getParentScene());
-            spMainPane.setVvalue(0);
-            ((Region) (spMainPane.getContent())).setPrefWidth(spMainPane.getWidth());
-            ((Region) (spMainPane.getContent())).setPrefHeight(spMainPane.getHeight());
+        menuListView.setCellFactory(lv -> new MenuListCell());
+        menuListView.setItems(mainMenuItems);
+        menuListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        // add all nodes to stackPane
+        for (MainMenuItem mainMenuItem : mainMenuItems) {
+            Node node = mainMenuItem.getNode();
+            node.setVisible(false);
+            stackPane.getChildren().add(node);
+        }
+
+        // react to selections in menu list
+        menuListView.getSelectionModel().selectedItemProperty().addListener(cl -> {
+            ObservableList<Node> children = stackPane.getChildren();
+            children.get(children.size() - 1).setVisible(false);
+            Node node = menuListView.getSelectionModel().getSelectedItem().getNode();
+            node.toFront();
+            node.setVisible(true);
         });
-        // Resize the content
-        spMainPane.widthProperty().addListener(cl -> ((Region) (spMainPane.getContent())).setPrefWidth(spMainPane.getWidth()));
-        spMainPane.heightProperty().addListener(cl -> ((Region) (spMainPane.getContent())).setPrefHeight(spMainPane.getHeight()));
 
         // Select first node as start screen
-        lvMenuPane.getSelectionModel().selectFirst();
-    }
-
-    private static class MenuListCell extends ListCell<MenuPaneItem> {
-
-        @Override
-        protected void updateItem(MenuPaneItem item, boolean empty) {
-            super.updateItem(item, empty);
-            if (!empty) {
-                setText(item.getDisplayText());
-                if (item.getImagePath() != null) {
-                    setGraphic(new ImageView(item.getImagePath()));
-                }
-            }
-        }
-    }
-
-    public void setView(int i) {
-        lvMenuPane.getSelectionModel().select(i);
+        menuListView.getSelectionModel().selectFirst();
     }
 
     /**
@@ -91,12 +79,29 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public Button getBtFinishButton() {
-        return btFinishButton;
+    public void setView(int i) {
+        menuListView.getSelectionModel().select(i);
     }
 
-    public Button getBtSaveButton() {
-        return btSaveButton;
+    public Button getFinishButton() {
+        return finishButton;
     }
 
+    public Button getSaveButton() {
+        return saveButton;
+    }
+
+    private static class MenuListCell extends ListCell<MainMenuItem> {
+
+        @Override
+        protected void updateItem(MainMenuItem item, boolean empty) {
+            super.updateItem(item, empty);
+            if (!empty) {
+                setText(item.getText());
+                if (item.getImagePath() != null) {
+                    setGraphic(new ImageView(item.getImagePath()));
+                }
+            }
+        }
+    }
 }

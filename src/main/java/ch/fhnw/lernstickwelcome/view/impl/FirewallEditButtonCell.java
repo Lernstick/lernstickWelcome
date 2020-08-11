@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 FHNW
+ * Copyright (C) 2020 Ronny Standtke <ronny.standtke@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,55 +17,81 @@
 package ch.fhnw.lernstickwelcome.view.impl;
 
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
-import ch.fhnw.lernstickwelcome.model.firewall.IpFilter;
+import ch.fhnw.lernstickwelcome.model.firewall.HostFilter;
+import ch.fhnw.lernstickwelcome.model.firewall.HostFilter.Protocol;
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 
 /**
+ * A button cell for editing firewall rules
  *
- * @author root
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class FirewallEditButtonCell extends ButtonCell<WebsiteFilter, WebsiteFilter> {
+public class FirewallEditButtonCell extends
+        ButtonCell<WebsiteFilter, WebsiteFilter> {
 
     /**
      * Creates a new button for a firewall tableview
      *
-     * @param type name of the style class
-     * @param fwc The firewall controller, where in case of an edit the values
-     * should be edited
+     * @param firewallController The firewall controller, where in case of an
+     * edit the values should be edited
      * @param table The table which contains this ButtonCell instance and the
      * other Elements to be edited
      */
-    public FirewallEditButtonCell(FirewallController fwc, TableView table) {
+    public FirewallEditButtonCell(
+            FirewallController firewallController, TableView table) {
+
         super("btn_edit", (c, e) -> {
-            if (table == fwc.getTvAllowedSites()) {
-                // Prepare view for edit
-                WebsiteFilter element = (WebsiteFilter) table.getItems().get(c.getIndex());
-                fwc.getCbAddEditPattern().setValue(element.searchPatternProperty().get());
-                fwc.getTfAddEditCriteria().setText(element.searchCriteriaProperty().get());
-                fwc.getBtAddEditSite().getStyleClass().remove("btn_add");
-                fwc.getBtAddEditSite().getStyleClass().add("btn_save");
-                fwc.setIndexSaveWebsiteFilter(c.getIndex());
-                fwc.getCbAddEditPattern().requestFocus();
-                // Scroll to edit fields
-                ScrollPane sp = (ScrollPane) fwc.getBtAddEditServer().getScene().lookup("#MainPane");
-                sp.setVvalue(0.0);
+
+            if (table == firewallController.getAllowedSitesTableView()) {
+                WebsiteFilter element
+                        = (WebsiteFilter) table.getItems().get(c.getIndex());
+
+                ComboBox<WebsiteFilter.SearchPattern> comboBox
+                        = firewallController.getAddEditPatternComboBox();
+                comboBox.setValue(element.searchPatternProperty().get());
+
+                firewallController.getAddEditCriteriaTextField().setText(
+                        element.searchCriteriaProperty().get());
+
+                Button addeditSiteButton
+                        = firewallController.getAddEditSiteButton();
+
+                addeditSiteButton.getStyleClass().remove("btn_add");
+                addeditSiteButton.getStyleClass().add("btn_save");
+
+                firewallController.setIndexSaveWebsiteFilter(c.getIndex());
+
+                comboBox.requestFocus();
+
             } else {
-                // Prepare view for edit
-                IpFilter element = (IpFilter) table.getItems().get(c.getIndex());
-                fwc.getCbAddEditProtocol().setValue(element.protocolProperty().get());
-                fwc.getTfAddEditIp().setText(element.ipAddressProperty().get());
-                fwc.getTfAddEditPort().setText(element.portProperty().get());
-                fwc.getTfAddEditDesc().setText(element.descriptionProperty().get());
-                fwc.getBtAddEditServer().getStyleClass().remove("btn_add");
-                fwc.getBtAddEditServer().getStyleClass().add("btn_save");
-                fwc.setIndexSaveIpFilter(c.getIndex());
-                fwc.getCbAddEditProtocol().requestFocus();
-                // Scroll to edit fields
-                ScrollPane sp = (ScrollPane) fwc.getBtAddEditServer().getScene().lookup("#MainPane");
-                sp.setVvalue(Double.MAX_VALUE);
+                HostFilter element
+                        = (HostFilter) table.getItems().get(c.getIndex());
+
+                ComboBox<Protocol> comboBox
+                        = firewallController.getAddEditProtocolComboBox();
+                comboBox.setValue(element.protocolProperty().get());
+
+                firewallController.getAddEditHostTextField().setText(
+                        element.hostProperty().get());
+
+                firewallController.getAddEditPortTextField().setText(
+                        element.portRangeProperty().get());
+
+                firewallController.getAddEditDescriptionTextField().setText(
+                        element.descriptionProperty().get());
+
+                Button addEditServerButton
+                        = firewallController.getAddEditServerButton();
+
+                addEditServerButton.getStyleClass().remove("btn_add");
+                addEditServerButton.getStyleClass().add("btn_save");
+
+                firewallController.setIndexSaveHostFilter(c.getIndex());
+
+                comboBox.requestFocus();
             }
         });
 

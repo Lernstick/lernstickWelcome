@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  */
 public class AptPackages extends ApplicationPackages {
 
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(AptPackages.class.getName());
 
     public AptPackages(List<String> packageNames) {
@@ -43,8 +43,9 @@ public class AptPackages extends ApplicationPackages {
         });
         StringBuilder builder = new StringBuilder();
         builder.append("#!/bin/sh\n"
-                + "export DEBIAN_FRONTEND=noninteractive\n");
-        builder.append("apt");
+                + "export DEBIAN_FRONTEND=noninteractive\n"
+                + "export LC_ALL=C\n");
+        builder.append("apt-get");
         builder.append(proxy.getAptProxy());
         builder.append("-y install ");
         getPackageNames().forEach(packageName -> {

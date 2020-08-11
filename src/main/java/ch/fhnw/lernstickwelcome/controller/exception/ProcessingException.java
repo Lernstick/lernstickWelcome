@@ -24,20 +24,30 @@ import java.util.Arrays;
  * @author sschw
  */
 public class ProcessingException extends Exception {
+
+    private final String titleKey;
     private Object[] details;
-    
-    public ProcessingException(String message) {
-        super(message);
+
+    public ProcessingException(String titleKey, String messageKey) {
+        this(titleKey, messageKey, (Object) null);
     }
 
-    public ProcessingException(String message, Object... details) {
-        super(message);
+    public ProcessingException(String titleKey, String messageKey,
+            Object... details) {
+
+        super(messageKey);
+        this.titleKey = titleKey;
         this.details = details;
+    }
+
+    public String getTitleKey() {
+        return titleKey;
     }
     
     public Object[] getMessageDetails() {
-        if(details != null)
+        if (details != null) {
             return Arrays.copyOf(details, details.length);
+        }
         return new Object[0];
     }
 }

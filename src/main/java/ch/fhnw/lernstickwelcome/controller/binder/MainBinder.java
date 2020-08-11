@@ -30,40 +30,40 @@ import javafx.stage.WindowEvent;
  */
 public class MainBinder {
 
-    private final WelcomeController controller;
-    private final MainController welcomeApplicationStart;
+    private final WelcomeController welcomeController;
+    private final MainController mainController;
 
     /**
      * Constructor of MainBinder class
      *
      * @param controller is needed to provide access to the backend properties
-     * @param welcomeApplicationStart FXML controller which proviedes the view
-     * properties
+     * @param mainController FXML controller which proviedes the view properties
      */
-    public MainBinder(WelcomeController controller, MainController welcomeApplicationStart) {
-        this.controller = controller;
-        this.welcomeApplicationStart = welcomeApplicationStart;
+    public MainBinder(WelcomeController controller,
+            MainController mainController) {
+
+        this.welcomeController = controller;
+        this.mainController = mainController;
     }
 
     /**
      * Method to initialize the handlers for this class.
      *
-     * @param progressDialog the progressDialog that should be shown when
-     * clicking on save.
+     * @param progressStage the stage that is shown when clicking the save
+     * button
      */
-    public void initHandlers(Stage progressDialog) {
-        welcomeApplicationStart.getBtSaveButton().setOnAction(evt -> {
-            controller.startProcessingTasks();
-            progressDialog.showAndWait();
+    public void initHandlers(Stage progressStage) {
+
+        mainController.getSaveButton().setOnAction(evt -> {
+            welcomeController.startProcessingTasks();
+            progressStage.showAndWait();
         });
-        welcomeApplicationStart.getBtFinishButton().setOnAction(evt -> {
-            Stage s =((Stage) ((Node) evt.getSource()).getScene().getWindow());
-            s.fireEvent(
-                new WindowEvent(
-                    s,
-                    WindowEvent.WINDOW_CLOSE_REQUEST
-                )
-            );
+
+        mainController.getFinishButton().setOnAction(evt -> {
+            Stage stage = 
+                    ((Stage) ((Node) evt.getSource()).getScene().getWindow());
+            stage.fireEvent(
+                    new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
         });
     }
 }

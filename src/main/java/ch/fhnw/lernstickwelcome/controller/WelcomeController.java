@@ -63,8 +63,8 @@ public class WelcomeController {
     private InstallPreparationTask prepareTask;
     private ApplicationGroupTask recommendedAppsTask;
     private ApplicationGroupTask utilityAppsTask;
-    private ApplicationGroupTask teachAppsTask;
-    private ApplicationGroupTask softwAppsTask;
+    private ApplicationGroupTask teachingAppsTask;
+    private ApplicationGroupTask miscAppsTask;
     private ApplicationGroupTask gamesAppsTask;
     private InstallPostProcessingTask postProcessingTask;
     // Exam Environment
@@ -91,20 +91,28 @@ public class WelcomeController {
                 Locale.getDefault().getLanguage().split("[_-]+")[0],
                 isExamEnvironment);
 
-        // Init Model
+        // init model
+        // load propertiesTask at first because other tasks depend on it
         propertiesTask = WelcomeModelFactory.getPropertiesTask();
+
         firewallTask = WelcomeModelFactory.getFirewallTask();
+
         backupTask = WelcomeModelFactory.getBackupTask(propertiesTask,
                 BUNDLE.getString("BackupTask.Backup_Directory"));
+
         systemConfigTask = WelcomeModelFactory.getSystemTask(
                 true, propertiesTask);
+
         partitionTask = WelcomeModelFactory.getPartitionTask(propertiesTask);
 
+        // init TaskProcessor
         List<Processable<String>> processingList = new ArrayList<>();
         processingList.add(firewallTask);
         processingList.add(backupTask);
         processingList.add(systemConfigTask);
         processingList.add(partitionTask);
+        // propertiesTask must be the last task
+        // (otherwise properties saving is broken)
         processingList.add(propertiesTask);
         taskProcessor = new TaskProcessor(processingList);
     }
@@ -128,47 +136,59 @@ public class WelcomeController {
                 Locale.getDefault().getLanguage().split("[_-]+")[0],
                 isExamEnvironment);
 
-        // Init Model
+        // init model
+        // load propertiesTask at first because other tasks depend on it
         propertiesTask = WelcomeModelFactory.getPropertiesTask();
+
         proxyTask = WelcomeModelFactory.getProxyTask();
 
         recommendedAppsTask = WelcomeModelFactory.getApplicationGroupTask(
                 application, "recommended", "RecommendedApplication.title",
                 proxyTask);
+
         utilityAppsTask = WelcomeModelFactory.getApplicationGroupTask(
-                application,  "utility", "UtiltyApplication.title", proxyTask);
-        teachAppsTask = WelcomeModelFactory.getApplicationGroupTask(application, 
-                "teaching", "TeachingApplication.title", proxyTask);
-        softwAppsTask = WelcomeModelFactory.getApplicationGroupTask(application, 
+                application, "utility", "UtiltyApplication.title", proxyTask);
+
+        teachingAppsTask = WelcomeModelFactory.getApplicationGroupTask(
+                application, "teaching", "TeachingApplication.title",
+                proxyTask);
+
+        miscAppsTask = WelcomeModelFactory.getApplicationGroupTask(application,
                 "misc", "MiscApplication.title", proxyTask);
-        gamesAppsTask = WelcomeModelFactory.getApplicationGroupTask(application, 
+
+        gamesAppsTask = WelcomeModelFactory.getApplicationGroupTask(application,
                 "game", "GameApplication.title", proxyTask);
 
+        // load prepareTask so late because it depends on proxy and apps tasks
         prepareTask = WelcomeModelFactory.getInstallPreparationTask(
                 proxyTask, recommendedAppsTask, utilityAppsTask,
-                teachAppsTask, softwAppsTask, gamesAppsTask);
+                teachingAppsTask, miscAppsTask, gamesAppsTask);
+        
         postProcessingTask = WelcomeModelFactory.getInstallPostprocessingTask(
                 proxyTask, recommendedAppsTask, utilityAppsTask,
-                teachAppsTask, softwAppsTask, gamesAppsTask);
+                teachingAppsTask, miscAppsTask, gamesAppsTask);
+
+        partitionTask = WelcomeModelFactory.getPartitionTask(propertiesTask);
 
         systemConfigTask = WelcomeModelFactory.getSystemTask(
                 false, propertiesTask);
-        partitionTask = WelcomeModelFactory.getPartitionTask(propertiesTask);
 
-        // Init Installer
+        // init task processor
         List<Processable<String>> processingList = new ArrayList<>();
         processingList.add(proxyTask);
         processingList.add(prepareTask);
         processingList.add(recommendedAppsTask);
         processingList.add(utilityAppsTask);
-        processingList.add(teachAppsTask);
-        processingList.add(softwAppsTask);
+        processingList.add(teachingAppsTask);
+        processingList.add(miscAppsTask);
         processingList.add(gamesAppsTask);
         processingList.add(postProcessingTask);
 
         processingList.add(partitionTask);
         processingList.add(systemConfigTask);
 
+        // propertiesTask must be the last task
+        // (otherwise properties saving is broken)
         processingList.add(propertiesTask);
 
         taskProcessor = new TaskProcessor(processingList);
@@ -185,6 +205,8 @@ public class WelcomeController {
 
     /**
      * Stops backend tasks when the application should be closed.
+     *
+     * @throws java.io.IOException if an I/O exception occurs
      */
     public void closeApplication() throws IOException {
         if (firewallTask != null) {
@@ -227,7 +249,7 @@ public class WelcomeController {
         return BUNDLE;
     }
 
-    public TaskProcessor getInstaller() {
+    public TaskProcessor getTaskProcessor() {
         return taskProcessor;
     }
 
@@ -247,12 +269,12 @@ public class WelcomeController {
         return utilityAppsTask;
     }
 
-    public ApplicationGroupTask getTeachAppsTask() {
-        return teachAppsTask;
+    public ApplicationGroupTask getTeachingAppsTask() {
+        return teachingAppsTask;
     }
 
-    public ApplicationGroupTask getSoftwAppsTask() {
-        return softwAppsTask;
+    public ApplicationGroupTask getMiscAppsTask() {
+        return miscAppsTask;
     }
 
     public ApplicationGroupTask getGamesAppsTask() {

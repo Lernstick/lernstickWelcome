@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController">
+<VBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="0.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController">
    <children>
-      <Label id="titleLabel" text="%Welcome_Title_Exam" textAlignment="CENTER" wrapText="true">
+      <Label id="titleLabel" text="%welcomeApplicationInformation.welcome" wrapText="true">
          <font>
             <Font size="24.0" />
          </font>
@@ -25,10 +25,10 @@
             <Image url="@../../../../../icon/lernstick_usb.png" />
          </image>
       </ImageView>
-      <TextFlow>
+      <TextFlow maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="0.0">
          <children>
-            <Text id="infoText1" text="%WelcomeText1_Exam" />
-            <Hyperlink fx:id="hyperlink" text="https://www.lernstick.ch" />
+            <Text id="infoText1" text="%welcomeApplicationInformation.welcomeText1" />
+            <Hyperlink fx:id="hyperlink" minWidth="0.0" text="https://www.lernstick.ch" />
             <Text id="infoText2" text="%welcomeApplicationInformation.welcomeText2" />
          </children>
       </TextFlow>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 FHNW
+ * Copyright (C) 2020 Ronny Standtke <ronny.standtke@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,28 +22,45 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 
 /**
+ * A button cell for deleting firewall rules
  *
- * @author root
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class FirewallDeleteButtonCell extends ButtonCell<WebsiteFilter, WebsiteFilter> {
+public class FirewallDeleteButtonCell
+        extends ButtonCell<WebsiteFilter, WebsiteFilter> {
 
-    public FirewallDeleteButtonCell(FirewallController fwc, TableView table) {
+    public FirewallDeleteButtonCell(
+            FirewallController firewallController, TableView table) {
+
         super("btn_delete", (c, e) -> {
 
-            // Exit edit mode if deleting entry
-            if (table == fwc.getTvAllowedSites() && fwc.getIndexSaveWebsiteFilter() == c.getIndex()) {
-                fwc.getCbAddEditPattern().setValue(null);
-                fwc.getTfAddEditCriteria().setText("");
-                fwc.getBtAddEditSite().getStyleClass().remove("btn_save");
-                fwc.getBtAddEditSite().getStyleClass().add("btn_add");
-            } else if (table == fwc.getTvAllowedServers() && fwc.getIndexSaveIpFilter() == c.getIndex()) {
-                fwc.getCbAddEditProtocol().setValue(null);
-                fwc.getTfAddEditIp().setText("");
-                fwc.getTfAddEditPort().setText("");
-                fwc.getTfAddEditDesc().setText("");
-                fwc.getBtAddEditServer().getStyleClass().remove("btn_save");
-                fwc.getBtAddEditServer().getStyleClass().add("btn_add");
+            // exit edit mode if deleting entry
+            if ((table == firewallController.getAllowedSitesTableView())
+                    && (firewallController.getIndexSaveWebsiteFilter() == c.getIndex())) {
+
+                firewallController.getAddEditPatternComboBox().setValue(null);
+                firewallController.getAddEditCriteriaTextField().setText("");
+
+                Button addEditSiteButton
+                        = firewallController.getAddEditSiteButton();
+                addEditSiteButton.getStyleClass().remove("btn_save");
+                addEditSiteButton.getStyleClass().add("btn_add");
+
+            } else if ((table == firewallController.getAllowedServersTableView())
+                    && (firewallController.getIndexSaveIpFilter() == c.getIndex())) {
+
+                firewallController.getAddEditProtocolComboBox().setValue(null);
+                firewallController.getAddEditHostTextField().setText("");
+                firewallController.getAddEditPortTextField().setText("");
+                firewallController.getAddEditDescriptionTextField().setText("");
+
+                Button addEditSiteButton
+                        = firewallController.getAddEditServerButton();
+
+                addEditSiteButton.getStyleClass().remove("btn_save");
+                addEditSiteButton.getStyleClass().add("btn_add");
             }
+
             table.getItems().remove(c.getIndex());
         });
     }

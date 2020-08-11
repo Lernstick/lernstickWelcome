@@ -16,8 +16,8 @@
  */
 package ch.fhnw.lernstickwelcome.controller.binder.exam;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeApplication;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallDependenciesWarningController;
 import javafx.concurrent.Task;
 import javafx.scene.Node;
@@ -40,11 +40,11 @@ public class FirewallDependenciesWarningBinder {
         this.firewallWarning = firewallWarning;
     }
 
-    public void initHandlers(Stage stage, ErrorController error, Stage errorStage) {
+    public void initHandlers(Stage stage) {
 
-        firewallWarning.getBtCancel().setOnAction(evt
-                -> ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close()
-        );
+        firewallWarning.getBtCancel().setOnAction(evt -> {
+            ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
+        });
 
         firewallWarning.getBtSave().setOnAction(evt -> {
 
@@ -54,14 +54,13 @@ public class FirewallDependenciesWarningBinder {
                 ((Node) evt.getSource()).getScene().getRoot().setDisable(false);
                 ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
                 stage.show();
-
             });
 
             firewallSaveTask.setOnFailed(e -> {
                 ((Node) evt.getSource()).getScene().getRoot().setDisable(false);
                 ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
-                error.initErrorMessage((Exception) firewallSaveTask.getException());
-                errorStage.show();
+                WelcomeApplication.showThrowable(
+                        firewallSaveTask.getException());
             });
 
             new Thread(firewallSaveTask).start();

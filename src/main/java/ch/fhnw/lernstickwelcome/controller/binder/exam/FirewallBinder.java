@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 FHNW
+ * Copyright (C) 2020 Ronny Standtke <ronny.standtke@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,31 @@
  */
 package ch.fhnw.lernstickwelcome.controller.binder.exam;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeApplication;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.controller.binder.HelpBinder;
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.FirewallController;
+import ch.fhnw.lernstickwelcome.model.firewall.FirewallTask;
+import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
  * Binder class to init binings and between view components and backend (model)
  * properties and add handlers
  *
- * @author Line Stettler
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class FirewallBinder {
 
-    private final WelcomeController controller;
-    private final FirewallController firewall;
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
+            "ch.fhnw.lernstickwelcome.Bundle");
+
+    private final WelcomeController welcomeController;
+    private final FirewallController firewallController;
 
     /**
      * Constructor of ExamBackupBinder class
@@ -41,9 +48,11 @@ public class FirewallBinder {
      * @param controller is needed to provide access to the backend properties
      * @param firewall FXML controller which prviedes the view properties
      */
-    public FirewallBinder(WelcomeController controller, FirewallController firewall) {
-        this.controller = controller;
-        this.firewall = firewall;
+    public FirewallBinder(WelcomeController controller,
+            FirewallController firewall) {
+
+        this.welcomeController = controller;
+        this.firewallController = firewall;
     }
 
     /**
@@ -51,13 +60,19 @@ public class FirewallBinder {
      * packend properties
      */
     public void initBindings() {
+
+        FirewallTask firewallTask = welcomeController.getFirewallTask();
+
         // Bind url_whitelist view data to model data
-        firewall.getTvAllowedSites().itemsProperty().bindBidirectional(controller.getFirewallTask().getWebsiteListProperty());
+        firewallController.getAllowedSitesTableView().itemsProperty().bindBidirectional(
+                firewallTask.getWebsiteListProperty());
 
         // Bind net_whitelist view data to model data
-        firewall.getTvAllowedServers().itemsProperty().bindBidirectional(controller.getFirewallTask().getIpListProperty());
+        firewallController.getAllowedServersTableView().itemsProperty().bindBidirectional(
+                firewallTask.getHostFilterListProperty());
 
-        firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewallTask().firewallRunningProperty().get());
+        firewallController.getAllowMonitoringToggleSwitch().selectedProperty().set(
+                firewallTask.firewallRunningProperty().get());
     }
 
     /**
@@ -66,40 +81,41 @@ public class FirewallBinder {
      * @param depWarningDialog the dialog if we want to open the dependency
      * validator dialog but have changes in the table.
      * @param depValidStage the dependency validator dialog.
-     * @param errorDialog the dialog that should be shown on error.
-     * @param error the controller which the error message can be provided.
      */
-    public void initHandlers(Stage depWarningDialog, Stage depValidStage, Stage errorDialog, ErrorController error) {
-        ResourceBundle rb = controller.getBundle();
-        firewall.getTsAllowMonitoring().selectedProperty().addListener(cl -> {
+    public void initHandlers(Stage depWarningDialog, Stage depValidStage) {
+
+        FirewallTask firewallTask = welcomeController.getFirewallTask();
+
+        ToggleSwitch allowMonitoringToggleSwitch
+                = firewallController.getAllowMonitoringToggleSwitch();
+
+        BooleanProperty firewallRunningProperty
+                = firewallTask.firewallRunningProperty();
+
+        Label monitoringLabel = firewallController.getMonitoringLabel();
+
+        allowMonitoringToggleSwitch.selectedProperty().addListener(cl -> {
             try {
                 if (firewallStateChanged()) {
-                    controller.getFirewallTask().toggleFirewallState();
+                    firewallTask.toggleFirewallState();
                 }
-                if (controller.getFirewallTask().firewallRunningProperty().get()) {
-                    firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
-                    firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
-                    firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
-                } else {
-                    firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
-                    firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_on");
-                    firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
-                }
+                updateMonitoringLabel(firewallRunningProperty, monitoringLabel);
             } catch (ProcessingException ex) {
-                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewallTask().firewallRunningProperty().get());
-                error.initErrorMessage(ex);
-                errorDialog.show();
+                allowMonitoringToggleSwitch.selectedProperty().set(
+                        firewallRunningProperty.get());
+                WelcomeApplication.showThrowable(ex);
             }
         });
 
-        controller.getFirewallTask().firewallRunningProperty().addListener(cl -> {
+        firewallRunningProperty.addListener(cl -> {
             if (firewallStateChanged()) {
-                firewall.getTsAllowMonitoring().selectedProperty().set(controller.getFirewallTask().firewallRunningProperty().get());
+                allowMonitoringToggleSwitch.selectedProperty().set(
+                        firewallRunningProperty.get());
             }
         });
 
-        firewall.getBtCheckForDep().setOnAction(evt -> {
-            if (controller.getFirewallTask().hasUnsavedUrls()) {
+        firewallController.getCheckForDependenciesButton().setOnAction(evt -> {
+            if (firewallTask.hasUnsavedUrls()) {
                 depWarningDialog.show();
             } else {
                 depValidStage.show();
@@ -107,25 +123,7 @@ public class FirewallBinder {
         });
 
         // Init default value because handler isn't fired the first time.
-        if (controller.getFirewallTask().firewallRunningProperty().get()) {
-            firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOn"));
-            firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_off");
-            firewall.getLbAllowMonitoring().getStyleClass().add("lbl_on");
-        } else {
-            firewall.getLbAllowMonitoring().setText(rb.getString("welcomeApplicationFirewall.monitoringInternetAccessOff"));
-            firewall.getLbAllowMonitoring().getStyleClass().remove("lbl_on");
-            firewall.getLbAllowMonitoring().getStyleClass().add("lbl_off");
-        }
-    }
-
-    /**
-     * Returns if the gui state of the firewall is different to the backend
-     * state
-     *
-     * @return
-     */
-    private boolean firewallStateChanged() {
-        return controller.getFirewallTask().firewallRunningProperty().get() != firewall.getTsAllowMonitoring().selectedProperty().get();
+        updateMonitoringLabel(firewallRunningProperty, monitoringLabel);
     }
 
     /**
@@ -135,9 +133,30 @@ public class FirewallBinder {
      * @param help links to online user guide
      */
     public void initHelp(Stage helpStage, HelpBinder help) {
-        firewall.getHelpButton().setOnAction(evt -> {
+        firewallController.getHelpButton().setOnAction(evt -> {
             help.setHelpEntryByChapter("1");
             helpStage.show();
         });
+    }
+
+    private boolean firewallStateChanged() {
+        return welcomeController.getFirewallTask().firewallRunningProperty().get()
+                != firewallController.getAllowMonitoringToggleSwitch().selectedProperty().get();
+    }
+
+    private void updateMonitoringLabel(
+            BooleanProperty firewallRunningProperty, Label monitoringLabel) {
+
+        if (firewallRunningProperty.get()) {
+            monitoringLabel.setText(BUNDLE.getString(
+                    "welcomeApplicationFirewall.monitoringInternetAccessOn"));
+            monitoringLabel.getStyleClass().remove("lbl_off");
+            monitoringLabel.getStyleClass().add("lbl_on");
+        } else {
+            monitoringLabel.setText(BUNDLE.getString(
+                    "welcomeApplicationFirewall.monitoringInternetAccessOff"));
+            monitoringLabel.getStyleClass().remove("lbl_on");
+            monitoringLabel.getStyleClass().add("lbl_off");
+        }
     }
 }

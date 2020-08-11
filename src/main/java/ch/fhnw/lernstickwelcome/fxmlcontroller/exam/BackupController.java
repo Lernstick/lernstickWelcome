@@ -40,7 +40,7 @@ import javafx.util.StringConverter;
  */
 public class BackupController implements Initializable {
 
-    private final static Integer[] BACKUP_FREQUENCIES
+    private static final Integer[] BACKUP_FREQUENCIES
             = new Integer[]{1, 2, 3, 4, 5, 10, 15, 30, 60};
 
     @FXML

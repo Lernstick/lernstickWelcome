@@ -77,9 +77,9 @@ import org.xml.sax.SAXException;
  */
 public class SystemConfigTask implements Processable<String> {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR
+    private static final ProcessExecutor PROCESS_EXECUTOR
             = WelcomeModelFactory.getProcessExecutor();
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(SystemConfigTask.class.getName());
 
     // Some functions are only required in the exam environment
@@ -143,6 +143,8 @@ public class SystemConfigTask implements Processable<String> {
     /**
      * If the bootConfigPartition was mounted to make configurations on it, this
      * function has to be called to umount it after use.
+     *
+     * @throws java.io.IOException if an I/O exception occurs
      */
     public void umountBootConfig() throws IOException {
         if ((bootConfigMountInfo != null)
@@ -421,11 +423,11 @@ public class SystemConfigTask implements Processable<String> {
             String systemName, String systemVersion) throws DBusException {
 
         // syslinux
-        for (File syslinuxConfigFile : getSyslinuxConfigFiles(directory)) {
+        getSyslinuxConfigFiles(directory).forEach(syslinuxConfigFile -> {
             PROCESS_EXECUTOR.executeProcess("sed", "-i", "-e",
                     "s|timeout .*|timeout " + (timeout * 10) + "|1",
                     syslinuxConfigFile.getPath());
-        }
+        });
 
         // xmlboot
         File xmlBootConfigFile = getXmlBootConfigFile(directory);
@@ -683,7 +685,8 @@ public class SystemConfigTask implements Processable<String> {
         String password1 = password.get();
         String password2 = passwordRepeat.get();
         if (!password1.equals(password2)) {
-            throw new ProcessingException("SystemconfigTask.Password_Mismatch");
+            throw new ProcessingException("Error_Title_Password_Change",
+                    "SystemconfigTask.Password_Mismatch");
         }
 
         // ok, passwords match, change password
@@ -696,7 +699,7 @@ public class SystemConfigTask implements Processable<String> {
             if (returnValue == 0) {
                 passwordEnabled();
             } else {
-                throw new ProcessingException(
+                throw new ProcessingException("Error_Title_Password_Change",
                         "SystemconfigTask.Password_Change_Error");
             }
         } catch (IOException ex) {

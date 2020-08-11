@@ -16,6 +16,7 @@
  */
 package ch.fhnw.lernstickwelcome.model.application;
 
+import ch.fhnw.util.ProcessExecutor;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ import java.util.logging.Logger;
  */
 public class FlatpakApplicationTask extends ApplicationTask {
 
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(FlatpakApplicationTask.class.getName());
 
     /**
@@ -53,7 +54,8 @@ public class FlatpakApplicationTask extends ApplicationTask {
         for (String packageName : installedNames) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
 
-            int returnValue = PROCESS_EXECUTOR.executeProcess(
+            ProcessExecutor processExecutor = new ProcessExecutor(true);
+            int returnValue = processExecutor.executeProcess(
                     true, true, "flatpak", "info", packageName);
             if (returnValue == 0) {
                 return true;

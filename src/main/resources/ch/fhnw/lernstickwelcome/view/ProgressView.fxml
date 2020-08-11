@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="400.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fhnw.lernstickwelcome.fxmlcontroller.ProgressController">
+   <children>
+      <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" progress="0.0" VBox.vgrow="ALWAYS" />
+      <Label fx:id="progressLabel" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" text="Progress in %" textAlignment="CENTER" />
+      <HBox alignment="TOP_CENTER" spacing="20.0">
+         <children>
+            <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" />
+            <VBox maxWidth="1.7976931348623157E308" spacing="20.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="titleLabel" maxWidth="1.7976931348623157E308" text="Title" textAlignment="CENTER" />
+                  <Label fx:id="messageLabel" maxWidth="1.7976931348623157E308" text="Message" textAlignment="CENTER" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

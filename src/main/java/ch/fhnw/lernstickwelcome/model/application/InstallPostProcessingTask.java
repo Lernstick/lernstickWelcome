@@ -24,13 +24,13 @@ import javafx.concurrent.Task;
 
 /**
  * After Installation of application with {@link ApplicationTask}, this Task is
- * called to fix dependencies using {@code apt -f -y install}.
+ * called to fix dependencies using {@code apt-get -f -y install}.
  *
  * @author sschw
  */
 public class InstallPostProcessingTask implements Processable<String> {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR
+    private static final ProcessExecutor PROCESS_EXECUTOR
             = WelcomeModelFactory.getProcessExecutor();
     private final ProxyTask proxy;
     private final ApplicationGroupTask[] groups;
@@ -59,6 +59,7 @@ public class InstallPostProcessingTask implements Processable<String> {
 
         @Override
         protected String call() throws Exception {
+            
             // Check if there are applications to install.
             int appsToInstall = 0;
             for (ApplicationGroupTask group : groups) {
@@ -74,7 +75,8 @@ public class InstallPostProcessingTask implements Processable<String> {
                 updateTitle("InstallPostprocessingTask.title");
                 updateMessage("InstallPostprocessingTask.message");
                 updateProgress(0, 1);
-                String script = "apt" + proxy.getAptProxy() + "-f -y install";
+                String script
+                        = "apt-get" + proxy.getAptProxy() + "-f -y install";
                 PROCESS_EXECUTOR.executeScript(script);
             }
             updateProgress(1, 1);

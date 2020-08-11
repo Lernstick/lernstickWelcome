@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -23,7 +24,7 @@
     <children>
         <HBox>
             <children>
-                <Label maxWidth="1.7976931348623157E308" text="%Additional_Settings" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%Additional_Settings" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>
@@ -31,123 +32,131 @@
                 <Button fx:id="helpButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" styleClass="btn_help" stylesheets="@../../../../../css/style.css" />
             </children>
         </HBox>
-        <TitledPane expanded="false" text="%BootLoader">
-            <content>
-                <GridPane hgap="10.0" vgap="20.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="NEVER" />
-                        <ColumnConstraints hgrow="ALWAYS" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints vgrow="NEVER" />
-                        <RowConstraints vgrow="NEVER" />
-                    </rowConstraints>
-                    <children>
-                        <RadioButton fx:id="oldBootLoaderRadioButton" mnemonicParsing="false" selected="true">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="bootLoader" />
-                            </toggleGroup>
-                        </RadioButton>
-                        <TextFlow fx:id="oldVersionTextFlow" GridPane.columnIndex="1" />
-                        <RadioButton fx:id="newBootLoaderRadioButton" mnemonicParsing="false" toggleGroup="$bootLoader" GridPane.rowIndex="1" />
-                        <TextFlow fx:id="newVersionTextFlow" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                    </children>
-                </GridPane>
-            </content>
-        </TitledPane>
-        <TitledPane expanded="false" text="%Boot_Menu">
-            <content>
-                <GridPane hgap="10.0" vgap="10.0">
-                    <columnConstraints>
-                        <ColumnConstraints />
-                        <ColumnConstraints hgrow="ALWAYS" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                    </rowConstraints>
-                    <children>
-                        <Label text="%welcomeApplicationSystem.systemname" />
-                        <TextField fx:id="systemNameTextField" maxHeight="30.0" GridPane.columnIndex="1" />
-                        <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
-                        <TextField fx:id="systemVersionTextField" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="timeoutComboBox" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                    </children>
-                </GridPane>
-            </content>
-        </TitledPane>
-        <TitledPane expanded="false" text="%User">
-            <content>
-                <VBox spacing="10.0">
-                    <children>
-                        <HBox spacing="10.0">
-                            <children>
-                                <Label maxHeight="1.7976931348623157E308" text="%welcomeApplicationSystem.userName" />
-                                <TextField fx:id="userNameTextField" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                            </children>
-                        </HBox>
-                    </children>
-                </VBox>
-            </content>
-        </TitledPane>
-        <TitledPane expanded="false" text="%Partitions">
-            <content>
-                <VBox spacing="10.0">
-                    <children>
-                        <TitledPane collapsible="false" text="%Exchange_Partition">
-                            <content>
-                                <HBox spacing="10.0">
-                                    <children>
-                                        <Label maxHeight="1.7976931348623157E308" text="%Name" />
-                                        <TextField fx:id="exchangePartitionLabelTextField" HBox.hgrow="ALWAYS" />
-                                    </children>
-                                </HBox>
-                            </content>
-                        </TitledPane>
-                        <DataPartitionController fx:id="dataPartitionController" />
-                    </children>
-                </VBox>
-            </content>
-        </TitledPane>
-        <TitledPane expanded="false" text="%Proxy_Settings">
-            <content>
-                <VBox>
-                    <children>
-                        <HBox>
-                            <children>
-                                <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%WelcomeApplicationProxy.use" HBox.hgrow="ALWAYS" />
-                                <ToggleSwitch fx:id="proxyToggleSwitch" />
-                            </children>
-                        </HBox>
-                        <GridPane hgap="10.0" vgap="10.0">
-                            <columnConstraints>
-                                <ColumnConstraints />
-                                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                            </rowConstraints>
-                            <children>
-                                <Label text="%WelcomeApplicationProxy.host" GridPane.rowIndex="1" />
-                                <Label text="%WelcomeApplicationProxy.port" GridPane.rowIndex="2" />
-                                <Label text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="3" />
-                                <Label text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="4" />
-                                <TextField fx:id="proxyHostTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <TextField fx:id="proxyPortTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <TextField fx:id="proxyUserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <PasswordField fx:id="proxyPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                            </children>
-                        </GridPane>
-                    </children>
-                </VBox>
-            </content>
-        </TitledPane>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <content>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <children>
+                    <TitledPane expanded="false" text="%BootLoader">
+                        <content>
+                            <GridPane hgap="10.0" vgap="20.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="NEVER" />
+                                    <ColumnConstraints hgrow="ALWAYS" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints vgrow="NEVER" />
+                                    <RowConstraints vgrow="NEVER" />
+                                </rowConstraints>
+                                <children>
+                                    <RadioButton fx:id="oldBootLoaderRadioButton" mnemonicParsing="false" selected="true">
+                                        <toggleGroup>
+                                            <ToggleGroup fx:id="bootLoader" />
+                                        </toggleGroup>
+                                    </RadioButton>
+                                    <TextFlow fx:id="oldVersionTextFlow" GridPane.columnIndex="1" />
+                                    <RadioButton fx:id="newBootLoaderRadioButton" mnemonicParsing="false" toggleGroup="$bootLoader" GridPane.rowIndex="1" />
+                                    <TextFlow fx:id="newVersionTextFlow" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                </children>
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+                    <TitledPane expanded="false" text="%Boot_Menu">
+                        <content>
+                            <GridPane hgap="10.0" vgap="10.0">
+                                <columnConstraints>
+                                    <ColumnConstraints />
+                                    <ColumnConstraints hgrow="ALWAYS" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                </rowConstraints>
+                                <children>
+                                    <Label text="%welcomeApplicationSystem.systemname" />
+                                    <TextField fx:id="systemNameTextField" maxHeight="30.0" GridPane.columnIndex="1" />
+                                    <Label text="%welcomeApplicationSystem.systemversion" GridPane.rowIndex="1" />
+                                    <TextField fx:id="systemVersionTextField" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="%welcomeApplicationSystem.visibleFor" GridPane.rowIndex="2" />
+                                    <ComboBox fx:id="timeoutComboBox" maxHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                </children>
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+                    <TitledPane expanded="false" text="%User">
+                        <content>
+                            <VBox spacing="10.0">
+                                <children>
+                                    <HBox spacing="10.0">
+                                        <children>
+                                            <Label maxHeight="1.7976931348623157E308" text="%welcomeApplicationSystem.userName" />
+                                            <TextField fx:id="userNameTextField" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+                        </content>
+                    </TitledPane>
+                    <TitledPane expanded="false" text="%Partitions">
+                        <content>
+                            <VBox spacing="10.0">
+                                <children>
+                                    <TitledPane collapsible="false" text="%Exchange_Partition">
+                                        <content>
+                                            <HBox spacing="10.0">
+                                                <children>
+                                                    <Label maxHeight="1.7976931348623157E308" text="%Name" />
+                                                    <TextField fx:id="exchangePartitionLabelTextField" HBox.hgrow="ALWAYS" />
+                                                </children>
+                                            </HBox>
+                                        </content>
+                                    </TitledPane>
+                                    <DataPartitionController fx:id="dataPartitionController" />
+                                </children>
+                            </VBox>
+                        </content>
+                    </TitledPane>
+                    <TitledPane expanded="false" text="%Proxy_Settings">
+                        <content>
+                            <VBox>
+                                <children>
+                                    <HBox>
+                                        <children>
+                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%WelcomeApplicationProxy.use" HBox.hgrow="ALWAYS" />
+                                            <ToggleSwitch fx:id="proxyToggleSwitch" />
+                                        </children>
+                                    </HBox>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints />
+                                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                        </rowConstraints>
+                                        <children>
+                                            <Label text="%WelcomeApplicationProxy.host" GridPane.rowIndex="1" />
+                                            <Label text="%WelcomeApplicationProxy.port" GridPane.rowIndex="2" />
+                                            <Label text="%WelcomeApplicationProxy.usr" GridPane.rowIndex="3" />
+                                            <Label text="%WelcomeApplicationProxy.pwd" GridPane.rowIndex="4" />
+                                            <TextField fx:id="proxyHostTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            <TextField fx:id="proxyPortTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                            <TextField fx:id="proxyUserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                            <PasswordField fx:id="proxyPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        </children>
+                                    </GridPane>
+                                </children>
+                            </VBox>
+                        </content>
+                    </TitledPane>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="30.0" top="20.0" />

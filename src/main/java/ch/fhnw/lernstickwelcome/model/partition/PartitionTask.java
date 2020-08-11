@@ -49,14 +49,16 @@ public class PartitionTask implements Processable<String> {
             = Logger.getLogger(PartitionTask.class.getName());
     private static final ProcessExecutor PROCESS_EXECUTOR
             = WelcomeModelFactory.getProcessExecutor();
-    private Partition exchangePartition;
-    private Properties properties;
 
+    private final Properties properties;
+
+    private final StringProperty exchangePartitionLabel;
+    private final BooleanProperty accessExchangePartition;
+    private final BooleanProperty showReadOnlyInfo;
+    private final BooleanProperty startWelcomeApplication;
+
+    private Partition exchangePartition;
     private String oldExchangePartitionLabel;
-    private StringProperty exchangePartitionLabel = new SimpleStringProperty();
-    private BooleanProperty accessExchangePartition = new SimpleBooleanProperty();
-    private BooleanProperty showReadOnlyInfo = new SimpleBooleanProperty();
-    private BooleanProperty startWelcomeApplication = new SimpleBooleanProperty();
 
     /**
      * Loads the partitions with
@@ -66,7 +68,13 @@ public class PartitionTask implements Processable<String> {
      * @param properties Property File of the Welcome Application
      */
     public PartitionTask(Properties properties) {
+
         this.properties = properties;
+
+        this.startWelcomeApplication = new SimpleBooleanProperty();
+        this.showReadOnlyInfo = new SimpleBooleanProperty();
+        this.accessExchangePartition = new SimpleBooleanProperty();
+        this.exchangePartitionLabel = new SimpleStringProperty();
 
         StorageDevice sd = WelcomeModelFactory.getSystemStorageDevice();
         if (sd != null) {
@@ -79,11 +87,12 @@ public class PartitionTask implements Processable<String> {
 
         accessExchangePartition.set("true".equals(properties.getProperty(
                 WelcomeConstants.EXCHANGE_ACCESS)));
+
         startWelcomeApplication.set("true".equals(properties.getProperty(
                 WelcomeConstants.SHOW_WELCOME)));
+
         showReadOnlyInfo.set("true".equals(properties.getProperty(
                 WelcomeConstants.SHOW_READ_ONLY_INFO, "true")));
-
     }
 
     /**
@@ -171,6 +180,7 @@ public class PartitionTask implements Processable<String> {
 
         @Override
         protected String call() throws Exception {
+
             updateProgress(0, 2);
             updateTitle("PartitionTask.title");
             updateMessage("PartitionTask.message");
@@ -178,25 +188,29 @@ public class PartitionTask implements Processable<String> {
             LOGGER.log(Level.INFO, "new exchange partition label: \"{0}\"",
                     exchangePartitionLabel.get());
 
-            // If exchange partition label has changed - modify it on call
+            // if exchange partition label has changed - modify it on call
             if (exchangePartitionLabel.get() != null
                     && !exchangePartitionLabel.get().isEmpty()
                     && !exchangePartitionLabel.get().equals(
                             oldExchangePartitionLabel)) {
+
                 updateExchangePartitionLabel();
             }
 
             updateProgress(1, 2);
 
-            // Edit the properties
+            // set the properties
             properties.setProperty(WelcomeConstants.SHOW_WELCOME,
                     startWelcomeApplication.get() ? "true" : "false");
+
             properties.setProperty(WelcomeConstants.SHOW_READ_ONLY_INFO,
                     showReadOnlyInfo.get() ? "true" : "false");
+
             properties.setProperty(WelcomeConstants.EXCHANGE_ACCESS,
                     accessExchangePartition.get() ? "true" : "false");
 
             updateProgress(2, 2);
+
             return null;
         }
     }

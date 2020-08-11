@@ -53,11 +53,11 @@ import javafx.concurrent.Task;
  */
 public class FirewallTask implements Processable<String> {
 
-    private final static ProcessExecutor PROCESS_EXECUTOR
+    private static final ProcessExecutor PROCESS_EXECUTOR
             = WelcomeModelFactory.getProcessExecutor();
-    private final static Logger LOGGER
+    private static final Logger LOGGER
             = Logger.getLogger(FirewallTask.class.getName());
-    private ListProperty<IpFilter> ipList
+    private ListProperty<HostFilter> hostFilterList
             = new SimpleListProperty<>(FXCollections.observableArrayList());
     private ListProperty<WebsiteFilter> websiteList
             = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -129,7 +129,7 @@ public class FirewallTask implements Processable<String> {
             String messageId = firewallRunning.get()
                     ? "FirewallTask.Stop_firewall_error"
                     : "FirewallTask.Start_firewall_error";
-            throw new ProcessingException(messageId);
+            throw new ProcessingException("Error_Title_Firewall", messageId);
         }
     }
 
@@ -185,11 +185,11 @@ public class FirewallTask implements Processable<String> {
                     // try parsing "protocol target port"
                     String[] tokens = line.split(" ");
                     if (tokens.length == 3) {
-                        IpFilter.Protocol protocol;
+                        HostFilter.Protocol protocol;
                         if (tokens[0].equalsIgnoreCase("TCP")) {
-                            protocol = IpFilter.Protocol.TCP;
+                            protocol = HostFilter.Protocol.TCP;
                         } else if (tokens[0].equalsIgnoreCase("UDP")) {
-                            protocol = IpFilter.Protocol.UDP;
+                            protocol = HostFilter.Protocol.UDP;
                         } else {
                             LOGGER.log(Level.WARNING,
                                     "could not parse protocol \"{0}\"",
@@ -198,7 +198,7 @@ public class FirewallTask implements Processable<String> {
                         }
                         String target = tokens[1];
                         String portRange = tokens[2];
-                        ipList.add(new IpFilter(
+                        hostFilterList.add(new HostFilter(
                                 protocol, target, portRange, lastComment));
                     } else {
                         LOGGER.log(Level.WARNING,
@@ -215,30 +215,31 @@ public class FirewallTask implements Processable<String> {
      * Saves the ip whitelist entries into the config file.
      */
     private void saveIpTables() {
-        try (BufferedWriter bw = new BufferedWriter(
-                new OutputStreamWriter(
-                        new FileOutputStream(
-                                WelcomeConstants.IP_TABLES_FILENAME
-                        ), Charset.defaultCharset()
-                )
-        )) {
-            for (IpFilter ip : ipList) {
-                StringBuilder sb = new StringBuilder();
+        try (BufferedWriter bufferedWriter = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(
+                        WelcomeConstants.IP_TABLES_FILENAME),
+                        Charset.defaultCharset()))) {
+
+            for (HostFilter hostFilter : hostFilterList) {
+                
+                StringBuilder stringBuilder = new StringBuilder();
+                
                 // comment
-                sb.append("# ");
-                sb.append(ip.getDescription());
-                sb.append('\n');
+                stringBuilder.append("# ");
+                stringBuilder.append(hostFilter.getDescription());
+                stringBuilder.append('\n');
                 // protocol
-                sb.append(ip.getProtocol().toString());
-                sb.append(' ');
+                stringBuilder.append(hostFilter.getProtocol().toString());
+                stringBuilder.append(' ');
                 // target
-                sb.append(ip.getIpAddress());
-                sb.append(' ');
+                stringBuilder.append(hostFilter.getHost());
+                stringBuilder.append(' ');
                 // port
-                sb.append(ip.getPortRange());
-                sb.append('\n');
+                stringBuilder.append(hostFilter.getPortRange());
+                stringBuilder.append('\n');
+                
                 // write line to file
-                bw.write(sb.toString());
+                bufferedWriter.write(stringBuilder.toString());
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -272,8 +273,8 @@ public class FirewallTask implements Processable<String> {
         return websiteList;
     }
 
-    public ListProperty<IpFilter> getIpListProperty() {
-        return ipList;
+    public ListProperty<HostFilter> getHostFilterListProperty() {
+        return hostFilterList;
     }
 
     public BooleanProperty firewallRunningProperty() {

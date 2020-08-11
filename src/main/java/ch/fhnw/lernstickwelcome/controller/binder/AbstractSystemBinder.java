@@ -55,6 +55,7 @@ public class AbstractSystemBinder implements SystemBinder {
      * Method to initialize the bidirectional bindings between the view and
      * backend properties
      */
+    @Override
     public void initBindings() {
 
         BooleanProperty newBootLoaderRadioButtonSelectedProperty
@@ -97,6 +98,7 @@ public class AbstractSystemBinder implements SystemBinder {
      * @param helpStage additional window showing help
      * @param helpBinder links to online user guide
      */
+    @Override
     public void initHelp(Stage helpStage, HelpBinder helpBinder) {
         systemController.getHelpButton().setOnAction(evt -> {
             helpBinder.setHelpEntryByChapter("3");

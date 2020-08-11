@@ -16,9 +16,9 @@
  */
 package ch.fhnw.lernstickwelcome.controller.binder.exam;
 
+import ch.fhnw.lernstickwelcome.controller.WelcomeApplication;
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
-import ch.fhnw.lernstickwelcome.fxmlcontroller.ErrorController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.exam.PasswordChangeController;
 import javafx.scene.Node;
 import javafx.stage.Stage;
@@ -49,10 +49,8 @@ public class PasswordChangeBinder {
     /**
      * Method to initialize the handlers for this class.
      *
-     * @param errorStage the dialog that should be shown on error.
-     * @param error the controller which the error message can be provided.
      */
-    public void initHandlers(Stage errorStage, ErrorController error) {
+    public void initHandlers() {
 
         password.getOkButton().setOnAction(evt -> {
 
@@ -66,8 +64,7 @@ public class PasswordChangeBinder {
                 controller.getPropertiesTask().newTask().run();
                 ((Stage) ((Node) evt.getSource()).getScene().getWindow()).close();
             } catch (ProcessingException ex) {
-                error.initErrorMessage(ex);
-                errorStage.showAndWait();
+                WelcomeApplication.showThrowable(ex);
             }
         });
 

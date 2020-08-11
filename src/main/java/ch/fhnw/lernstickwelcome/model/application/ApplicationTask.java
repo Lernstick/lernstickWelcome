@@ -18,7 +18,6 @@ package ch.fhnw.lernstickwelcome.model.application;
 
 import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.model.Processable;
-import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.util.ProcessExecutor;
 import java.util.List;
@@ -40,15 +39,12 @@ import javafx.concurrent.Task;
  */
 public abstract class ApplicationTask implements Processable<String> {
 
-    protected static final ProcessExecutor PROCESS_EXECUTOR
-            = WelcomeModelFactory.getProcessExecutor();
-
-    protected final List<String> installedNames;
-
     private static final Logger LOGGER
             = Logger.getLogger(ApplicationTask.class.getName());
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ch.fhnw.lernstickwelcome.Bundle");
+
+    protected final List<String> installedNames;
 
     private final String name;
     private final String description;
@@ -130,7 +126,7 @@ public abstract class ApplicationTask implements Processable<String> {
      * @return true if {@code dpkg -l installedNames}
      */
     protected abstract boolean initIsInstalled();
-    
+
     @Override
     public Task<String> newTask() {
         return new InternalTask();
@@ -145,25 +141,45 @@ public abstract class ApplicationTask implements Processable<String> {
 
         @Override
         protected String call() throws Exception {
+
             updateProgress(0, packages.getNumberOfPackages());
-            // XXX May nice if there would update the percentage while execute
-            int exitValue = PROCESS_EXECUTOR.executeScript(true, true,
+
+            ProcessExecutor processExecutor = new ProcessExecutor(true);
+            int exitValue = processExecutor.executeScript(true, true,
                     packages.getInstallCommand(proxy));
             // We check if it is installed (wget exit code is inconsistent)
             if (exitValue != 0 || !initIsInstalled()) {
-                String errorMessage
-                        = "apt or wget failed with the following output:\n"
-                        + PROCESS_EXECUTOR.getOutput();
-                LOGGER.severe(errorMessage);
-                String name = getName();
-                try {
-                    name = BUNDLE.getString(name);
-                } catch (MissingResourceException e) {
-                    // this is OK, only some applications are localized, like
-                    // "Additional multimedia formats" or "Additional fonts"
+
+                // check if we failed to get the dpkg frontend lock 
+                boolean failedFrontEndLock = false;
+                for (String error : processExecutor.getStdErrList()) {
+                    if (error.startsWith("E: Could not get lock")) {
+                        failedFrontEndLock = true;
+                    }
                 }
-                throw new ProcessingException(
-                        "ApplicationTask.installationFailed", name);
+
+                if (failedFrontEndLock) {
+                    throw new ProcessingException(
+                            "Error_Title_Application_Installation",
+                            "Error_Getting_Dpkg_Frontend_Lock");
+                    
+                } else {
+                    String errorMessage
+                            = "apt or wget failed with the following output:\n"
+                            + processExecutor.getOutput();
+                    LOGGER.severe(errorMessage);
+                    String name = getName();
+                    try {
+                        name = BUNDLE.getString(name);
+                    } catch (MissingResourceException e) {
+                        // this is OK, only some applications are localized,
+                        // like "Additional multimedia formats" or
+                        // "Additional fonts"
+                    }
+                    throw new ProcessingException(
+                            "Error_Title_Application_Installation",
+                            "ApplicationTask.installationFailed", name);
+                }
             }
             // exit code = 0 && installed = true
             Platform.runLater(() -> {

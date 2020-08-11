@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 FHNW
+ * Copyright (C) 2020 Ronny Standtke <ronny.standtke@gmx.net>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,31 +16,33 @@
  */
 package ch.fhnw.lernstickwelcome.view.impl;
 
-import javafx.scene.Parent;
+import javafx.scene.Node;
 
 /**
- *
- * @author sschw
+ * An item in the main menu of the welcome application
+ * 
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
-public class MenuPaneItem {
-    private Parent parentScene;
-    private String displayText;
+public class MainMenuItem {
+
+    private Node node;
+    private String text;
     private String imagePath;
 
-    public MenuPaneItem(Parent parentScene, String displayText, String imagePath) {
-        this.parentScene = parentScene;
-        this.displayText = displayText;
+    public MainMenuItem(String imagePath, String displayText, Node node) {
         if (imagePath != null) {
-            this.imagePath = MenuPaneItem.class.getResource(imagePath).toExternalForm();
+            this.imagePath = getClass().getResource(imagePath).toExternalForm();
         }
+        this.text = displayText;
+        this.node = node;
     }
 
-    public Parent getParentScene() {
-        return parentScene;
+    public Node getNode() {
+        return node;
     }
 
-    public String getDisplayText() {
-        return displayText;
+    public String getText() {
+        return text;
     }
 
     public String getImagePath() {
