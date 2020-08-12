@@ -1,3 +1,12 @@
+lernstickwelcome (202008121124) lernstick-10; urgency=medium
+
+  * [c84eee] fixed image view in progress dialog
+  * [5eb0df] use apt instead of apt-get
+  * [0ad3c1] massive code cleanup,
+             improved apt error handling and squid log watcher
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 12 Aug 2020 11:24:59 +0200
+
 lernstickwelcome (202008041431) lernstick-10; urgency=medium
 
   * [6b7d1b] temporarily disable power-savings
