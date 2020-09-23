@@ -1,3 +1,10 @@
+lernstickwelcome (202009231943) lernstick-10; urgency=medium
+
+  * [b80741] use better API for audio playback
+  * [ee0342] fixed error handling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 23 Sep 2020 19:43:02 +0200
+
 lernstickwelcome (202008121124) lernstick-10; urgency=medium
 
   * [c84eee] fixed image view in progress dialog
