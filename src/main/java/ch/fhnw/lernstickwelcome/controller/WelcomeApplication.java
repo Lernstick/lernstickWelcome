@@ -33,7 +33,6 @@ import ch.fhnw.lernstickwelcome.controller.exception.ProcessingException;
 import ch.fhnw.lernstickwelcome.util.FXMLGuiLoader;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import java.io.IOException;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
@@ -48,9 +47,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * The JavaFX Application.
@@ -338,15 +340,19 @@ public final class WelcomeApplication extends Application {
 
     public static void playNotifySound() {
         try {
-            URL url = WelcomeApplication.class.getResource(
-                    "/sound/KDE_Notify.wav");
-            Media sound = new Media(url.toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.play();
-        } catch (Exception ex) {
-            // There might be an exception
-            // http://stackoverflow.com/questions/24090356/javafx-mediaplayer-could-not-create-player-error-in-ubuntu-14-04
-            LOGGER.log(Level.WARNING, "Sound couldn't be played", ex);
+            Clip clip = AudioSystem.getClip();
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    clip.close();
+                }
+            });
+            clip.open(AudioSystem.getAudioInputStream(
+                    WelcomeApplication.class.getResource(
+                            "/sound/KDE_Notify.wav")));
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException
+                | LineUnavailableException | IllegalArgumentException ex) {
+            LOGGER.log(Level.INFO, "", ex);
         }
     }
 
