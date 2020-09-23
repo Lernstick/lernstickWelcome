@@ -793,7 +793,7 @@ public class SystemConfigTask implements Processable<String> {
             Files.write(strictPath, strictWelcomeRule.getBytes());
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
-            throw new ProcessingException(
+            throw new ProcessingException("Error",
                     "SystemconfigTask.cantWritePasswordPolicy", fileName);
         }
     }
@@ -827,7 +827,7 @@ public class SystemConfigTask implements Processable<String> {
                 Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "", ex);
-                throw new ProcessingException(
+                throw new ProcessingException("Error",
                         "SystemconfigTask.cantWritePasswordPolicy", pkla);
             }
         }

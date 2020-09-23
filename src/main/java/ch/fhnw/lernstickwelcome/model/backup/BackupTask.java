@@ -134,17 +134,20 @@ public class BackupTask implements Processable<String> {
             return true;
         }
 
-        if (destinationPath.get().isEmpty()) {
+        String destination = destinationPath.get();
+
+        if ((destination == null) || destination.isEmpty()) {
             throw new ProcessingException("Error_Title_Backup_Configuration",
                     "BackupTask.Error_No_Backup_Directory");
         }
 
-        File dirFile = new File(destinationPath.get());
+        File dirFile = new File(destination);
         if (dirFile.exists()) {
             if (!dirFile.isDirectory()) {
                 throw new ProcessingException(
+                        "Error_Title_Backup_Configuration",
                         "BackupTask.Error_Backup_Directory_No_Directory",
-                        destinationPath.get());
+                        destination);
             }
 
             String[] files = dirFile.list();
@@ -153,16 +156,16 @@ public class BackupTask implements Processable<String> {
                         "rdiff-backup", "-l", dirFile.getAbsolutePath());
                 if (returnValue != 0) {
                     throw new ProcessingException(
+                            "Error_Title_Backup_Configuration",
                             "BackupTask.Error_Backup_Directory_Invalid",
-                            destinationPath.get());
+                            destination);
                 }
             }
         }
 
         // determine device where the directory is located
         // (df takes care for symlinks etc.)
-        PROCESS_EXECUTOR.executeProcess(
-                true, true, "df", destinationPath.get());
+        PROCESS_EXECUTOR.executeProcess(true, true, "df", destination);
         List<String> stdOut = PROCESS_EXECUTOR.getStdOutList();
         String device = null;
         for (String line : stdOut) {
@@ -173,8 +176,7 @@ public class BackupTask implements Processable<String> {
         }
         if (device == null) {
             LOGGER.log(Level.WARNING,
-                    "could not determine device of directory {0}",
-                    destinationPath.get());
+                    "could not determine device of directory {0}", destination);
             return true;
         }
 
@@ -187,8 +189,8 @@ public class BackupTask implements Processable<String> {
             if (idType.equals("exfat")) {
                 // rdiff-backup does not work (yet) on exfat partitions!
                 throw new ProcessingException(
-                        "BackupTask.Error_Backup_on_exFAT",
-                        destinationPath.get());
+                        "Error_Title_Backup_Configuration",
+                        "BackupTask.Error_Backup_on_exFAT", destination);
             }
         } catch (DBusException ex) {
             LOGGER.log(Level.WARNING, "", ex);
