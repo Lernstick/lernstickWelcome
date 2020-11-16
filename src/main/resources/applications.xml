@@ -494,9 +494,7 @@
         <icon>digikam</icon>
         <help-path>digiKam_website</help-path>
         <packages>
-            <package type="apt">digikam</package>
-            <package type="apt">digikam-doc</package>
-            <package type="apt">lernstick-digikam</package>
+            <package type="flatpak">org.kde.digikam</package>
         </packages>
         <tags>
             <tag>misc</tag>
