@@ -1,3 +1,9 @@
+lernstickwelcome (202011160151) lernstick-10; urgency=medium
+
+  * [9456ab] use flatpak version of digikam
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 16 Nov 2020 01:51:14 +0100
+
 lernstickwelcome (202009231943) lernstick-10; urgency=medium
 
   * [b80741] use better API for audio playback
