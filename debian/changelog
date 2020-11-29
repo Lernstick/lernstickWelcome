@@ -1,3 +1,9 @@
+lernstickwelcome (202011291629) lernstick-10; urgency=medium
+
+  * [c36457] added support for Pinta
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 29 Nov 2020 16:29:52 +0100
+
 lernstickwelcome (202011160151) lernstick-10; urgency=medium
 
   * [9456ab] use flatpak version of digikam
