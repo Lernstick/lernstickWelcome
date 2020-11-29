@@ -489,6 +489,18 @@
         </tags>
     </application>
 
+    <application name="Pinta">
+        <description>Pinta_description</description>
+        <icon>pinta</icon>
+        <help-path>Pinta_website</help-path>
+        <packages>
+            <package type="flatpak">com.github.PintaProject.Pinta</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="digiKam">
         <description>digiKam_description</description>
         <icon>digikam</icon>
