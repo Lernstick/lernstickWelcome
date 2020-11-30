@@ -1,3 +1,10 @@
+lernstickwelcome (202011301850) lernstick-10; urgency=medium
+
+  * [3dcba8] switched from Visual Studio Code (proprietary with telemetry) to
+             VSCodium (completely free)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 30 Nov 2020 18:50:51 +0100
+
 lernstickwelcome (202011291629) lernstick-10; urgency=medium
 
   * [c36457] added support for Pinta
