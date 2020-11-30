@@ -825,12 +825,12 @@
         </tags>
     </application>
 
-    <application name="Visual Studio Code">
-        <description>VisualStudioCode.description</description>
-        <icon>vscode</icon>
-        <help-path>VisualStudioCode.website</help-path>
+    <application name="VSCodium">
+        <description>VSCodium.description</description>
+        <icon>vscodium</icon>
+        <help-path>VSCodium.website</help-path>
         <packages>
-            <package type="apt">code</package>
+            <package type="apt">codium</package>
         </packages>
         <tags>
             <tag>misc</tag>
