@@ -1241,7 +1241,7 @@
         </tags>
     </application>
 
-    <application name="lutris">
+    <application name="Lutris">
         <description>Lutris_description</description>
         <icon>lutris</icon>
         <help-path>Lutris_website</help-path>
