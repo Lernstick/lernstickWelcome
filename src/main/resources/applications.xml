@@ -1255,12 +1255,12 @@
         </tags>
     </application>
 
-    <application name="itch">
-        <description>Itch_description</description>
-        <icon>itch</icon>
-        <help-path>Itch_website</help-path>
+    <application name="lutris">
+        <description>Lutris_description</description>
+        <icon>lutris</icon>
+        <help-path>Lutris_website</help-path>
         <packages>
-            <package type="apt">itch</package>
+            <package type="apt">lutris</package>
         </packages>
         <tags>
             <tag>game</tag>
