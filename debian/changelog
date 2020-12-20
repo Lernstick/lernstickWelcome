@@ -1,3 +1,10 @@
+lernstickwelcome (202012201718) lernstick-10; urgency=medium
+
+  * [a58e56] replaced itch.io (debian package no longer supported) with lutris
+  * [2163ca] removed support for Flash player (deprecated upstream)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 20 Dec 2020 17:18:27 +0100
+
 lernstickwelcome (202011301850) lernstick-10; urgency=medium
 
   * [3dcba8] switched from Visual Studio Code (proprietary with telemetry) to
