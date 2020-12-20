@@ -1,3 +1,9 @@
+lernstickwelcome (202012202159) lernstick-10; urgency=medium
+
+  * [1e31e4] fixed Lutris spelling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 20 Dec 2020 21:59:43 +0100
+
 lernstickwelcome (202012201718) lernstick-10; urgency=medium
 
   * [a58e56] replaced itch.io (debian package no longer supported) with lutris
