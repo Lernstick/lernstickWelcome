@@ -94,7 +94,5 @@ public class WelcomeModelFactoryTest {
         ts.forEach(t -> System.out.println(t.getName()));
         assertTrue(ts.stream().anyMatch(t -> t.getName().equals(
                 "Adobe Reader")));
-        assertTrue(ts.stream().anyMatch(t -> t.getName().equals(
-                "Adobe Flash Player")));
     }
 }

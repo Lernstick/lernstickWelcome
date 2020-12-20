@@ -68,20 +68,6 @@
 
     <!-- nonfree (utility) apps -->
 
-    <application name="Adobe Flash Player">
-        <description>Welcome.flashPanel.description</description>
-        <icon>flash</icon>
-        <help-path>Adobe_Flash_Player_Website</help-path>
-        <packages>
-            <package type="apt">flashplugin-nonfree</package>
-            <package type="apt">libhal1-flash</package>
-            <package type="apt">pepperflashplugin-nonfree</package>
-        </packages>
-        <tags>
-            <tag>utility</tag>
-        </tags>
-    </application>
-
     <application name="Adobe Reader">
         <description>Adobe_Reader_Description</description>
         <icon>Adobe_Reader_8_icon</icon>
