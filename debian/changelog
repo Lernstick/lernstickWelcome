@@ -1,3 +1,9 @@
+lernstickwelcome (202012221317) lernstick-10; urgency=medium
+
+  * [314fb5] added support for Inkscape, added Krita translation
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Tue, 22 Dec 2020 13:17:24 +0100
+
 lernstickwelcome (202012202159) lernstick-10; urgency=medium
 
   * [1e31e4] fixed Lutris spelling
