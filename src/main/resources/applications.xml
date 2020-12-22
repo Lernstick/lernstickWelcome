@@ -494,8 +494,9 @@
         <packages>
             <package type="apt">inkscape</package>
             <package type="apt">inkscape-open-symbols</package>
-            <package type="apt">inkscape-tutorials</package>
             <package type="apt">inkscape-textext</package>
+            <package type="apt">inkscape-tutorials</package>
+            <package type="apt">sozi</package>
         </packages>
         <tags>
             <tag>misc</tag>
