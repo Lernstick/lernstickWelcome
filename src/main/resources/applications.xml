@@ -487,6 +487,21 @@
         </tags>
     </application>
 
+    <application name="Inkscape">
+        <description>Inkscape_description</description>
+        <icon>inkscape</icon>
+        <help-path>Inkscape_website</help-path>
+        <packages>
+            <package type="apt">inkscape</package>
+            <package type="apt">inkscape-open-symbols</package>
+            <package type="apt">inkscape-tutorials</package>
+            <package type="apt">inkscape-textext</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="digiKam">
         <description>digiKam_description</description>
         <icon>digikam</icon>
