@@ -1,3 +1,9 @@
+lernstickwelcome (202101271315) lernstick-10; urgency=medium
+
+  * [48ed25] added fonts-noto-color-emoji to libreoffice package list
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 27 Jan 2021 13:15:16 +0100
+
 lernstickwelcome (202012221325) lernstick-10; urgency=medium
 
   * [5da18b] added sozi to inkscape packages
