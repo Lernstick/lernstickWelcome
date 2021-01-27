@@ -409,6 +409,7 @@
             <package type="apt">lernstick-libreoffice-writer</package>
             <package type="apt">libreoffice-languagetool</package>
             <package type="apt">libreoffice-templatepack</package>
+            <package type="apt">fonts-noto-color-emoji</package>
         </packages>
         <tags>
             <tag>misc</tag>
