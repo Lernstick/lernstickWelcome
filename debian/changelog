@@ -1,3 +1,9 @@
+lernstickwelcome (202101291123) lernstick-10; urgency=medium
+
+  * [0124ee] install flatpak version of Krita
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 29 Jan 2021 11:23:01 +0100
+
 lernstickwelcome (202101271315) lernstick-10; urgency=medium
 
   * [48ed25] added fonts-noto-color-emoji to libreoffice package list
