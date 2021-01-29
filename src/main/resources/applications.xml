@@ -468,8 +468,7 @@
         <icon>krita</icon>
         <help-path>Krita_website</help-path>
         <packages>
-            <package type="apt">krita</package>
-            <package type="apt">krita-l10n</package>
+            <package type="flatpak">org.kde.krita</package>
         </packages>
         <tags>
             <tag>misc</tag>
