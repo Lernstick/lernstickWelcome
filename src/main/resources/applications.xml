@@ -839,6 +839,21 @@
         </tags>
     </application>
 
+    <application name="Android Studio">
+        <description>AndroidStudio.description</description>
+        <icon>AndroidStudio</icon>
+        <help-path>AndroidStudio.website</help-path>
+        <packages>
+            <package type="apt">qemu-system</package>
+            <package type="apt">libvirt-clients</package>
+            <package type="apt">libvirt-daemon-system</package>
+            <package type="flatpak">com.google.AndroidStudio</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="Wine">
         <description>Wine.description</description>
         <icon>wine</icon>
