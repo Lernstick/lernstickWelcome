@@ -1,3 +1,9 @@
+lernstickwelcome (202102121850) lernstick-10; urgency=medium
+
+  * [0f7407] added support for Android Studio
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 12 Feb 2021 18:50:45 +0100
+
 lernstickwelcome (202101291123) lernstick-10; urgency=medium
 
   * [0124ee] install flatpak version of Krita
