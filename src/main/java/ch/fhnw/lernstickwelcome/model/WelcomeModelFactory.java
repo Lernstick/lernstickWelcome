@@ -190,7 +190,7 @@ public class WelcomeModelFactory {
      */
     public static PartitionTask getPartitionTask(
             PropertiesTask propertiesTask) {
-        
+
         return new PartitionTask(propertiesTask.getProperties());
     }
 
@@ -300,8 +300,8 @@ public class WelcomeModelFactory {
      * @param applicationElement the DOM element of the application
      * @return ApplicationTask the task that installs the application
      */
-    private static ApplicationTask getApplicationTask(
-            Application application, Element applicationElement, int length) {
+    private static ApplicationTask getApplicationTask(Application fxApplication,
+            Element applicationElement, int length) {
 
         String applicationName = applicationElement.getAttribute("name");
         if (applicationTasks.containsKey(applicationName)) {
@@ -312,8 +312,8 @@ public class WelcomeModelFactory {
         String icon = applicationElement.
                 getElementsByTagName("icon").item(0).getTextContent();
 
-        if (application != null) {
-            application.notifyPreloader(
+        if (fxApplication != null) {
+            fxApplication.notifyPreloader(
                     new SplashScreenNotification(
                             applicationName, icon, length));
         }
@@ -323,10 +323,20 @@ public class WelcomeModelFactory {
 
         List<String> installedDpkgNames = new ArrayList<>();
         NodeList installedDpkgNamesNode
-                = applicationElement.getElementsByTagName("installed-dpkg-name");
+                = applicationElement.getElementsByTagName(
+                        "installed-dpkg-name");
         for (int i = 0; i < installedDpkgNamesNode.getLength(); i++) {
             installedDpkgNames.add(
                     installedDpkgNamesNode.item(i).getTextContent());
+        }
+
+        List<String> installedFlatpakNames = new ArrayList<>();
+        NodeList installedFlatpakNamesNode
+                = applicationElement.getElementsByTagName(
+                        "installed-flatpak-name");
+        for (int i = 0; i < installedFlatpakNamesNode.getLength(); i++) {
+            installedFlatpakNames.add(
+                    installedFlatpakNamesNode.item(i).getTextContent());
         }
 
         // We need to keep the order of installations as given in the
@@ -340,9 +350,9 @@ public class WelcomeModelFactory {
         List<ApplicationPackages> packages = new ArrayList<>();
         NodeList packageNodeList
                 = applicationElement.getElementsByTagName("package");
-        boolean isFlatPak = false;
-        for (int j = 0; j < packageNodeList.getLength(); j++) {
-            Element element = ((Element) packageNodeList.item(j));
+        boolean hasFlatPaks = false;
+        for (int i = 0; i < packageNodeList.getLength(); i++) {
+            Element element = ((Element) packageNodeList.item(i));
             String type = element.getAttribute("type");
             String packageName = element.getTextContent();
             switch (type) {
@@ -361,7 +371,7 @@ public class WelcomeModelFactory {
                 case "flatpak":
                     packages.add(new FlatpakPackages(
                             Arrays.asList(packageName)));
-                    isFlatPak = true;
+                    hasFlatPaks = true;
                     break;
 
                 default:
@@ -373,16 +383,16 @@ public class WelcomeModelFactory {
         CombinedPackages pkgs = new CombinedPackages(packages);
 
         ApplicationTask task = null;
-        if (isFlatPak) {
+        if (hasFlatPaks) {
             if (flatpakSupported) {
-                task = new FlatpakApplicationTask(applicationName,
-                        description, icon, helpPath, pkgs, installedDpkgNames);
+                task = new FlatpakApplicationTask(applicationName, description,
+                        icon, helpPath, pkgs, installedFlatpakNames);
             }
             // flatpak applications get ignored when on system without flatpak
             // support (e.g. the Lernstick Mini Version)
         } else {
-            task = new DpkgApplicationTask(applicationName,
-                    description, icon, helpPath, pkgs, installedDpkgNames);
+            task = new DpkgApplicationTask(applicationName, description,
+                    icon, helpPath, pkgs, installedDpkgNames);
         }
 
         if (task != null) {

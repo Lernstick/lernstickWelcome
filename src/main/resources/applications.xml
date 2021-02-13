@@ -6,7 +6,8 @@
         <icon>example</icon>
         <help-path>Welcome.examplePanel.website</help-path>
         <installed-names>
-            <installed-dpkg-name>packageInstalledUnderThisName</installed-dpkg-name>
+            <installed-dpkg-name>debInstalledUnderThisName</installed-dpkg-name>
+            <installed-flatpak-name>flatpakInstalledUnderThisName</installed-flatpak-name>
         </installed-names>
         <packages>
             <package type="apt">foo</package>
@@ -843,6 +844,9 @@
         <description>AndroidStudio.description</description>
         <icon>AndroidStudio</icon>
         <help-path>AndroidStudio.website</help-path>
+        <installed-names>
+            <installed-flatpak-name>com.google.AndroidStudio</installed-flatpak-name>
+        </installed-names>        
         <packages>
             <package type="apt">qemu-system</package>
             <package type="apt">libvirt-clients</package>

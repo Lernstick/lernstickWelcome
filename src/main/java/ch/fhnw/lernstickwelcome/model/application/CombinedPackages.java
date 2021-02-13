@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * If a package is installed by multiple apt and wget packages, use this
+ * If a package is installed by multiple apt, wget or flatpak packages, use this
  * composer class to combine the commands.
  *
  * @author sschw
