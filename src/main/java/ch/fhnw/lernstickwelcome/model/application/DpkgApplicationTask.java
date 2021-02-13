@@ -58,22 +58,21 @@ public class DpkgApplicationTask extends ApplicationTask {
         dpkgListCommand.add("-l");
         dpkgListCommand.addAll(installedNames);
 
-        ProcessExecutor processExecutor = new ProcessExecutor(true);
+        ProcessExecutor processExecutor = new ProcessExecutor(false);
         processExecutor.executeProcess(true, true,
                 dpkgListCommand.toArray(new String[dpkgListCommand.size()]));
+        LOGGER.log(Level.INFO, "stdout:\n{0}", processExecutor.getStdOut());
 
         List<String> stdOut = processExecutor.getStdOutList();
         for (String packageName : installedNames) {
             LOGGER.log(Level.INFO, "checking package {0}", packageName);
             Pattern pattern = Pattern.compile("^ii  " + packageName + ".*");
+            // all packages in installedNames need to be found
             boolean found = false;
             for (String line : stdOut) {
                 if (pattern.matcher(line).matches()) {
-                    LOGGER.info("match");
                     found = true;
                     break;
-                } else {
-                    LOGGER.info("no match");
                 }
             }
             if (!found) {
