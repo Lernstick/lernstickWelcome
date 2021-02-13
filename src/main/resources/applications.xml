@@ -26,10 +26,9 @@
         <icon>multimedia</icon>
         <help-path></help-path>
         <packages>
-            <package type="apt">libdvdcss2</package>
-            <package type="apt">libmp3lame0</package>
-            <package type="apt">lame</package>
-            <package type="apt">aacs-keydb-installer</package>
+            <package type="apt">
+                libdvdcss2 libmp3lame0 lame aacs-keydb-installer
+            </package>
         </packages>
         <tags>
             <tag>recommended</tag>
@@ -59,8 +58,9 @@
             <!--
             <package type="wget" fetchUrl="https://dl.google.com/dl/earth/client/current/{0}" saveDir="USER_HOME">google-earth-pro-stable_current_amd64.deb</package>
             -->
-            <package type="apt">google-earth-pro-stable</package>
-            <package type="apt">lernstick-google-earth-pro-stable</package>
+            <package type="apt">
+                google-earth-pro-stable lernstick-google-earth-pro-stable
+            </package>
         </packages>
         <tags>
             <tag>recommended</tag>
@@ -102,12 +102,11 @@
             otherwise acroread throws this error message at startup:
             Unable to locate theme engine in module_path: "pixmap"
             -->
-            <package type="apt">gtk2-engines-murrine:i386</package>
-            <package type="apt">gtk2-engines-pixbuf:i386</package>
-            <package type="apt">libatk1.0-0:i386</package>
-            <package type="apt">libatk-adaptor:i386</package>
-            <package type="apt">libgail-common:i386</package>
-            <package type="apt">libgtk2.0-0:i386</package>
+            <package type="apt">
+                gtk2-engines-murrine:i386 gtk2-engines-pixbuf:i386
+                libatk1.0-0:i386 libatk-adaptor:i386 libgail-common:i386
+                libgtk2.0-0:i386
+            </package>
             <package type="wget" fetchUrl="http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/{0}" saveDir="USER_HOME">AdbeRdr9.5.5-1_i386linux_enu.deb</package>
             <package type="apt">lernstick-adobereader-enu</package>
         </packages>
@@ -162,8 +161,7 @@
         <icon>gcompris</icon>
         <help-path>Welcome.gcomprisPanel.website</help-path>
         <packages>
-            <package type="apt">gcompris-qt</package>
-            <package type="apt">gcompris-qt-data</package>
+            <package type="apt">gcompris-qt gcompris-qt-data</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -187,8 +185,7 @@
         <icon>solfege</icon>
         <help-path>Solfege.website</help-path>
         <packages>
-            <package type="apt">solfege</package>
-            <package type="apt">solfege-doc</package>
+            <package type="apt">solfege solfege-doc</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -212,10 +209,10 @@
         <icon>geogebra</icon>
         <help-path>GeoGebra_website</help-path>
         <packages>
-            <package type="apt">lernstick-geogebra</package>
-            <package type="apt">lernstick-geogebra-classic</package>
-            <package type="apt">geogebra-classic</package>
-            <package type="apt">geogebra-gnome</package>
+            <package type="apt">
+                lernstick-geogebra lernstick-geogebra-classic
+                geogebra-classic geogebra-gnome
+            </package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -239,8 +236,7 @@
         <icon>etoys</icon>
         <help-path>Welcome.etoysPanel.website</help-path>
         <packages>
-            <package type="apt">lernstick-etoys</package>
-            <package type="apt">lernstick-squeak-vm</package>
+            <package type="apt">lernstick-etoys lernstick-squeak-vm</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -312,10 +308,9 @@
         <icon>kstars</icon>
         <help-path>Welcome.kstarsPanel.website</help-path>
         <packages>
-            <package type="apt">lernstick-kstars</package>
-            <package type="apt">kstars</package>
-            <package type="apt">kstars-data</package>
-            <package type="apt">kstars-data-extra-tycho2</package>
+            <package type="apt">
+                lernstick-kstars kstars kstars-data kstars-data-extra-tycho2
+            </package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -379,38 +374,21 @@
             <installed-dpkg-name>libreoffice</installed-dpkg-name>
         </installed-names>
         <packages>
-            <package type="apt">libreoffice apparmor-</package>
-            <package type="apt">libreoffice-sdbc-hsqldb</package>
-            <package type="apt">libreoffice-gnome</package>
-            <package type="apt">libreoffice-gtk3</package>
-            <package type="apt">libreoffice-kf5</package>
-            <package type="apt">libreoffice-plasma</package>
-            <package type="apt">libreoffice-style-elementary</package>
-            <package type="apt">libreoffice-style-sifr</package>
-            <package type="apt">libreoffice-help-de</package>
-            <package type="apt">libreoffice-help-en-us</package>
-            <package type="apt">libreoffice-help-es</package>
-            <package type="apt">libreoffice-help-fr</package>
-            <package type="apt">libreoffice-help-it</package>
-            <package type="apt">libreoffice-help-pt-br</package>
-            <package type="apt">libreoffice-help-ru</package>
-            <package type="apt">libreoffice-l10n-de</package>
-            <package type="apt">libreoffice-l10n-es</package>
-            <package type="apt">libreoffice-l10n-fa</package>
-            <package type="apt">libreoffice-l10n-fr</package>
-            <package type="apt">libreoffice-l10n-it</package>
-            <package type="apt">libreoffice-l10n-kmr</package>
-            <package type="apt">libreoffice-l10n-pt-br</package>
-            <package type="apt">libreoffice-l10n-ru</package>
-            <package type="apt">lernstick-libreoffice-base</package>
-            <package type="apt">lernstick-libreoffice-calc</package>
-            <package type="apt">lernstick-libreoffice-draw</package>
-            <package type="apt">lernstick-libreoffice-impress</package>
-            <package type="apt">lernstick-libreoffice-math</package>
-            <package type="apt">lernstick-libreoffice-writer</package>
-            <package type="apt">libreoffice-languagetool</package>
-            <package type="apt">libreoffice-templatepack</package>
-            <package type="apt">fonts-noto-color-emoji</package>
+            <package type="apt">
+                apparmor- libreoffice libreoffice-sdbc-hsqldb libreoffice-gnome
+                libreoffice-gtk3 libreoffice-kf5 libreoffice-plasma
+                libreoffice-style-elementary libreoffice-style-sifr
+                libreoffice-help-de libreoffice-help-en-us libreoffice-help-es
+                libreoffice-help-fr libreoffice-help-it libreoffice-help-pt-br
+                libreoffice-help-ru libreoffice-l10n-de libreoffice-l10n-es
+                libreoffice-l10n-fa libreoffice-l10n-fr libreoffice-l10n-it
+                libreoffice-l10n-kmr libreoffice-l10n-pt-br libreoffice-l10n-ru
+                lernstick-libreoffice-base lernstick-libreoffice-calc
+                lernstick-libreoffice-draw lernstick-libreoffice-impress
+                lernstick-libreoffice-math lernstick-libreoffice-writer
+                libreoffice-languagetool libreoffice-templatepack
+                fonts-noto-color-emoji
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -446,18 +424,11 @@
         <icon>gimp</icon>
         <help-path>GIMP_website</help-path>
         <packages>
-            <package type="apt">gimp</package>
-            <package type="apt">gimp-data</package>
-            <package type="apt">gimp-data-extras</package>
-            <package type="apt">gimp-gap</package>
-            <package type="apt">gimp-help-de</package>
-            <package type="apt">gimp-help-en</package>
-            <package type="apt">gimp-help-es</package>
-            <package type="apt">gimp-help-fr</package>
-            <package type="apt">gimp-help-it</package>
-            <package type="apt">gimp-help-ru</package>
-            <package type="apt">gimp-plugin-registry</package>
-            <package type="apt">gimp-texturize</package>
+            <package type="apt">
+                gimp gimp-data gimp-data-extras gimp-gap gimp-help-de
+                gimp-help-en gimp-help-es gimp-help-fr gimp-help-it gimp-help-ru
+                gimp-plugin-registry gimp-texturize
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -493,11 +464,10 @@
         <icon>inkscape</icon>
         <help-path>Inkscape_website</help-path>
         <packages>
-            <package type="apt">inkscape</package>
-            <package type="apt">inkscape-open-symbols</package>
-            <package type="apt">inkscape-textext</package>
-            <package type="apt">inkscape-tutorials</package>
-            <package type="apt">sozi</package>
+            <package type="apt">
+                inkscape inkscape-open-symbols inkscape-textext
+                inkscape-tutorials sozi
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -562,9 +532,9 @@
         <icon>vlc</icon>
         <help-path>VLC.website</help-path>
         <packages>
-            <package type="apt">vlc</package>
-            <package type="apt">fluid-soundfont-gm</package>
-            <package type="apt">vlc-plugin-fluidsynth</package>
+            <package type="apt">
+                vlc fluid-soundfont-gm vlc-plugin-fluidsynth
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -576,10 +546,9 @@
         <icon>rosegarden</icon>
         <help-path>Welcome.rosegardenPanel.website</help-path>
         <packages>
-            <package type="apt">rosegarden</package>
-            <package type="apt">fluid-soundfont-gm</package>
-            <package type="apt">fluid-soundfont-gs</package>
-            <package type="apt">fluidsynth-dssi</package>
+            <package type="apt">
+                rosegarden fluid-soundfont-gm fluid-soundfont-gs fluidsynth-dssi
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -591,9 +560,9 @@
         <icon>hydrogen</icon>
         <help-path>Welcome.hydrogenPanel.website</help-path>
         <packages>
-            <package type="apt">hydrogen</package>
-            <package type="apt">hydrogen-drumkits</package>
-            <package type="apt">hydrogen-drumkits-effects</package>
+            <package type="apt">
+                hydrogen hydrogen-drumkits hydrogen-drumkits-effects
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -605,26 +574,12 @@
         <icon>gespeaker</icon>
         <help-path>Welcome.gespeakerPanel.website</help-path>
         <packages>
-            <package type="apt">gespeaker</package>
-            <package type="apt">mbrola-br1</package>
-            <package type="apt">mbrola-br3</package>
-            <package type="apt">mbrola-br4</package>
-            <package type="apt">mbrola-de2</package>
-            <package type="apt">mbrola-de3</package>
-            <package type="apt">mbrola-de4</package>
-            <package type="apt">mbrola-de5</package>
-            <package type="apt">mbrola-de6</package>
-            <package type="apt">mbrola-de7</package>
-            <package type="apt">mbrola-en1</package>
-            <package type="apt">mbrola-es1</package>
-            <package type="apt">mbrola-es2</package>
-            <package type="apt">mbrola-fr1</package>
-            <package type="apt">mbrola-fr4</package>
-            <package type="apt">mbrola-it3</package>
-            <package type="apt">mbrola-it4</package>
-            <package type="apt">mbrola-us1</package>
-            <package type="apt">mbrola-us2</package>
-            <package type="apt">mbrola-us3</package>
+            <package type="apt">
+                gespeaker mbrola-br1 mbrola-br3 mbrola-br4 mbrola-de2 mbrola-de3
+                mbrola-de4 mbrola-de5 mbrola-de6 mbrola-de7 mbrola-en1
+                mbrola-es1 mbrola-es2 mbrola-fr1 mbrola-fr4 mbrola-it3
+                mbrola-it4 mbrola-us1 mbrola-us2 mbrola-us3
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -648,9 +603,9 @@
         <icon>sweethome3d</icon>
         <help-path>Welcome.sweethome3dPanel.website</help-path>
         <packages>
-            <package type="apt">sweethome3d</package>
-            <package type="apt">sweethome3d-furniture</package>
-            <package type="apt">sweethome3d-furniture-nonfree</package>
+            <package type="apt">
+                sweethome3d sweethome3d-furniture sweethome3d-furniture-nonfree
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -674,19 +629,12 @@
         <icon>lyx</icon>
         <help-path>Welcome.lyxPanel.website</help-path>
         <packages>
-            <package type="apt">lyx</package>
-            <package type="apt">fonts-lyx</package>
-            <package type="apt">lernstick-lyx</package>
-            <package type="apt">texlive-lang-all</package>
-            <package type="apt">texlive-latex-extra</package>
-            <package type="apt">texlive-fonts-recommended</package>
-            <package type="apt">texlive-fonts-extra</package>
-            <package type="apt">texlive-font-utils</package>
-            <package type="apt">texlive-generic-extra</package>
-            <package type="apt">texlive-generic-recommended</package>
-            <package type="apt">texlive-science</package>
-            <package type="apt">texlive-humanities</package>
-            <package type="apt">tipa</package>
+            <package type="apt">
+                lyx fonts-lyx lernstick-lyx texlive-lang-all texlive-latex-extra
+                texlive-fonts-recommended texlive-fonts-extra texlive-font-utils
+                texlive-generic-extra texlive-generic-recommended
+                texlive-science texlive-humanities tipa
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -698,11 +646,10 @@
         <icon>gummi</icon>
         <help-path>Welcome.gummiPanel.website</help-path>
         <packages>
-            <package type="apt">gummi</package>
-            <package type="apt">texlive-lang-all</package>
-            <package type="apt">texlive-fonts-extra</package>
-            <package type="apt">texlive-science</package>
-            <package type="apt">texlive-humanities</package>
+            <package type="apt">
+                gummi texlive-lang-all texlive-fonts-extra
+                texlive-science texlive-humanities
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -726,10 +673,9 @@
         <icon>scribus</icon>
         <help-path>Welcome.scribusPanel.website</help-path>
         <packages>
-            <package type="apt">scribus</package>
-            <package type="apt">scribus-template</package>
-            <package type="apt">scribus-doc</package>
-            <package type="apt">lernstick-scribus</package>
+            <package type="apt">
+                scribus scribus-template scribus-doc lernstick-scribus
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -757,8 +703,7 @@
         <icon>gnucash</icon>
         <help-path>Welcome.gnucashPanel.website</help-path>
         <packages>
-            <package type="apt">gnucash</package>
-            <package type="apt">gnucash-docs</package>
+            <package type="apt">gnucash gnucash-docs</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -770,15 +715,11 @@
         <icon>netbeans</icon>
         <help-path>Welcome.netbeansPanel.website</help-path>
         <packages>
-            <package type="apt">lernstick-netbeans</package>
-            <package type="apt">lernstick-visualvm</package>
-            <package type="apt">lernstick-scenebuilder</package>
-            <package type="apt">scenebuilder</package>
-            <package type="apt">openjdk-11-source</package>
-            <package type="apt">openjdk-11-doc</package>
-            <package type="apt">openjfx</package>
-            <package type="apt">openjfx-source</package>
-            <package type="apt">libopenjfx-java-doc</package>
+            <package type="apt">
+                lernstick-netbeans lernstick-visualvm lernstick-scenebuilder
+                scenebuilder openjdk-11-source openjdk-11-doc openjfx
+                openjfx-source libopenjfx-java-doc
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -802,9 +743,7 @@
         <icon>rstudio</icon>
         <help-path>Welcome.rstudioPanel.website</help-path>
         <packages>
-            <package type="apt">rstudio</package>
-            <package type="apt">r-base</package>
-            <package type="apt">lernstick-r-base-core</package>
+            <package type="apt">rstudio r-base lernstick-r-base-core</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -816,12 +755,9 @@
         <icon>lazarus</icon>
         <help-path>Welcome.lazarusPanel.website</help-path>
         <packages>
-            <package type="apt">lazarus</package>
-            <package type="apt">fpc-source</package>
-            <package type="apt">lcl</package>
-            <package type="apt">fp-units-gfx</package>
-            <package type="apt">fp-units-gtk2</package>
-            <package type="apt">fp-units-misc</package>
+            <package type="apt">
+                lazarus fpc-source lcl fp-units-gfx fp-units-gtk2 fp-units-misc
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -848,9 +784,9 @@
             <installed-flatpak-name>com.google.AndroidStudio</installed-flatpak-name>
         </installed-names>        
         <packages>
-            <package type="apt">qemu-system</package>
-            <package type="apt">libvirt-clients</package>
-            <package type="apt">libvirt-daemon-system</package>
+            <package type="apt">
+                qemu-system libvirt-clients libvirt-daemon-system
+            </package>
             <package type="flatpak">com.google.AndroidStudio</package>
         </packages>
         <tags>
@@ -863,12 +799,10 @@
         <icon>wine</icon>
         <help-path>Wine.website</help-path>
         <packages>
-            <package type="apt">lernstick-wine</package>
-            <package type="apt">wine-gecko</package>
-            <package type="apt">lernstick-playonlinux</package>
-            <package type="apt">playonlinux</package>
-            <package type="apt">winetricks</package>
-            <package type="apt">exe-thumbnailer</package>
+            <package type="apt">
+                lernstick-wine wine-gecko lernstick-playonlinux
+                playonlinux winetricks exe-thumbnailer
+            </package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -924,34 +858,24 @@
         <icon>minetest</icon>
         <help-path>Welcome.minetestGamePanel.website</help-path>
         <packages>
-            <package type="apt">lernstick-minetest-game-tutorial</package>
-            <!-- conflicts with minetest-mod-mesecons
-            <package type="apt">lernstick-minetest-mod-dreambuilder</package>
-            -->
-            <package type="apt">minetest-mod-basic-materials</package>
-            <package type="apt">minetest-mod-character-creator</package>
-            <package type="apt">minetest-mod-craftguide</package>
-            <package type="apt">minetest-mod-ethereal</package>
-            <package type="apt">minetest-mod-homedecor</package>
-            <package type="apt">minetest-mod-infinite-chest</package>
-            <package type="apt">minetest-mod-intllib</package>
-            <package type="apt">minetest-mod-lucky-block</package>
-            <package type="apt">minetest-mod-maidroid</package>
-            <package type="apt">minetest-mod-mesecons</package>
-            <package type="apt">minetest-mod-moreblocks</package>
-            <package type="apt">minetest-mod-moreores</package>
-            <package type="apt">minetest-mod-nether</package>
-            <package type="apt">minetest-mod-pipeworks</package>
-            <package type="apt">minetest-mod-player-3d-armor</package>
-            <package type="apt">minetest-mod-protector</package>
-            <package type="apt">minetest-mod-quartz</package>
-            <package type="apt">minetest-mod-skyblock</package>
-            <package type="apt">minetest-mod-throwing-arrows</package>
-            <package type="apt">minetest-mod-unifieddyes</package>
-            <package type="apt">minetest-mod-unified-inventory</package>
-            <package type="apt">minetest-mod-worldedit</package>
+            <package type="apt">
+                lernstick-minetest-game-tutorial minetest-mod-basic-materials
+                minetest-mod-character-creator minetest-mod-craftguide
+                minetest-mod-ethereal minetest-mod-homedecor
+                minetest-mod-infinite-chest minetest-mod-intllib
+                minetest-mod-lucky-block minetest-mod-maidroid
+                minetest-mod-mesecons minetest-mod-moreblocks
+                minetest-mod-moreores minetest-mod-nether minetest-mod-pipeworks
+                minetest-mod-player-3d-armor minetest-mod-protector
+                minetest-mod-quartz minetest-mod-skyblock
+                minetest-mod-throwing-arrows minetest-mod-unifieddyes
+                minetest-mod-unified-inventory minetest-mod-worldedit
+            </package>
             <!-- currently (2020-07-17) broken
             <package type="apt">minetest-mod-xdecor</package>
+            -->
+            <!-- conflicts with minetest-mod-mesecons
+            <package type="apt">lernstick-minetest-mod-dreambuilder</package>
             -->
         </packages>
         <tags>
@@ -964,8 +888,7 @@
         <icon>colobot</icon>
         <help-path>Welcome.colobotGamePanel.website</help-path>
         <packages>
-            <package type="apt">lernstick-colobot</package>
-            <package type="apt">colobot</package>
+            <package type="apt">lernstick-colobot colobot</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1001,8 +924,9 @@
         <icon>fillets</icon>
         <help-path>Welcome.filletsGamePanel.website</help-path>
         <packages>
-            <package type="apt">lernstick-fillets-ng</package>
-            <package type="apt">fillets-ng-data-cs</package>
+            <package type="apt">
+                lernstick-fillets-ng fillets-ng-data-cs
+            </package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1026,8 +950,7 @@
         <icon>enigma</icon>
         <help-path>Enigma_website</help-path>
         <packages>
-            <package type="apt">enigma</package>
-            <package type="apt">live-enigma</package>
+            <package type="apt">enigma live-enigma</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1171,7 +1094,9 @@
         <icon>shatteredpixeldungeon</icon>
         <help-path>ShatteredPixelDungeon.website</help-path>
         <packages>
-            <package type="flatpak">com.shatteredpixel.shatteredpixeldungeon</package>
+            <package type="flatpak">
+                com.shatteredpixel.shatteredpixeldungeon
+            </package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1231,8 +1156,7 @@
         <icon>hedgewars</icon>
         <help-path>Welcome.hedgewarsGamePanel.website</help-path>
         <packages>
-            <package type="apt">hedgewars</package>
-            <package type="apt">live-hedgewars</package>
+            <package type="apt">hedgewars live-hedgewars</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1256,8 +1180,7 @@
         <icon>ufoai</icon>
         <help-path>Welcome.ufoaiGamePanel.website</help-path>
         <packages>
-            <package type="apt">ufoai</package>
-            <package type="apt">ufoai-music</package>
+            <package type="apt">ufoai ufoai-music</package>
         </packages>
         <tags>
             <tag>game</tag>

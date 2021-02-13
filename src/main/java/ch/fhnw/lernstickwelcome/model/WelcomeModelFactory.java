@@ -354,23 +354,27 @@ public class WelcomeModelFactory {
         for (int i = 0; i < packageNodeList.getLength(); i++) {
             Element element = ((Element) packageNodeList.item(i));
             String type = element.getAttribute("type");
-            String packageName = element.getTextContent();
+            String packageNames = element.getTextContent();
+            // clean up content
+            packageNames = packageNames.trim();
+            packageNames = packageNames.replaceAll("\n", " ");
+            packageNames = packageNames.replaceAll(" +", " ");
             switch (type) {
                 case "apt":
                     packages.add(new AptPackages(
-                            Arrays.asList(packageName)));
+                            Arrays.asList(packageNames.split(" "))));
                     break;
 
                 case "wget":
                     String wgetFetchUrl = element.getAttribute("fetchUrl");
                     String wgetSaveDir = element.getAttribute("saveDir");
-                    packages.add(new WgetPackages(Arrays.asList(packageName),
+                    packages.add(new WgetPackages(Arrays.asList(packageNames),
                             wgetFetchUrl, wgetSaveDir));
                     break;
 
                 case "flatpak":
                     packages.add(new FlatpakPackages(
-                            Arrays.asList(packageName)));
+                            Arrays.asList(packageNames)));
                     hasFlatPaks = true;
                     break;
 
@@ -380,19 +384,20 @@ public class WelcomeModelFactory {
             }
         }
 
-        CombinedPackages pkgs = new CombinedPackages(packages);
+        CombinedPackages combinedPackages = new CombinedPackages(packages);
 
         ApplicationTask task = null;
         if (hasFlatPaks) {
             if (flatpakSupported) {
                 task = new FlatpakApplicationTask(applicationName, description,
-                        icon, helpPath, pkgs, installedFlatpakNames);
+                        icon, helpPath, combinedPackages,
+                        installedFlatpakNames);
             }
             // flatpak applications get ignored when on system without flatpak
             // support (e.g. the Lernstick Mini Version)
         } else {
             task = new DpkgApplicationTask(applicationName, description,
-                    icon, helpPath, pkgs, installedDpkgNames);
+                    icon, helpPath, combinedPackages, installedDpkgNames);
         }
 
         if (task != null) {
