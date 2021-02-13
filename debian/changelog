@@ -1,3 +1,12 @@
+lernstickwelcome (202102131641) lernstick-10; urgency=medium
+
+  * [0feb07] improved logging
+  * [9e8047] updated vscodium icon
+  * [f553b0] improved install script generation (common shebang and preparation)
+  * [9f0b53] made apt package installation simpler and faster
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 13 Feb 2021 16:41:59 +0100
+
 lernstickwelcome (202102131200) lernstick-10; urgency=medium
 
   * [3fa151] improved flatpak support
