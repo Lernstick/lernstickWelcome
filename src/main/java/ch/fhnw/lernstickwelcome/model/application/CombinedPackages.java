@@ -46,6 +46,13 @@ public class CombinedPackages extends ApplicationPackages {
     public String getInstallCommand(ProxyTask proxyTask) {
 
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("#!/bin/sh\n");
+        for (ApplicationPackages applicationPackage : applicationPackages) {
+            if (applicationPackage instanceof AptPackages) {
+                stringBuilder.append(AptPackages.getInstallPreparation());
+            }
+            break;
+        }
         applicationPackages.forEach(p -> {
             stringBuilder.append(p.getInstallCommand(proxyTask)).append('\n');
         });

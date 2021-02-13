@@ -42,7 +42,6 @@ public class FlatpakPackages extends ApplicationPackages {
         });
 
         StringBuilder builder = new StringBuilder();
-        builder.append("#!/bin/sh\n");
         builder.append(proxy.getFlatpakProxy());
         builder.append("flatpak install -y ");
         getPackageNames().forEach(packageName -> {

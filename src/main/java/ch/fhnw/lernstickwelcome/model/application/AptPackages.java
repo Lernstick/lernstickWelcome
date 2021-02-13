@@ -36,15 +36,17 @@ public class AptPackages extends ApplicationPackages {
         super(packageNames);
     }
 
+    public static String getInstallPreparation() {
+        return "export DEBIAN_FRONTEND=noninteractive\n"
+                + "export LC_ALL=C\n";
+    }
+
     @Override
     public String getInstallCommand(ProxyTask proxy) {
         getPackageNames().forEach(packageName -> {
             LOGGER.log(Level.INFO, "installing package \"{0}\"", packageName);
         });
         StringBuilder builder = new StringBuilder();
-        builder.append("#!/bin/sh\n"
-                + "export DEBIAN_FRONTEND=noninteractive\n"
-                + "export LC_ALL=C\n");
         builder.append("apt-get");
         builder.append(proxy.getAptProxy());
         builder.append("-y install ");
