@@ -1,3 +1,9 @@
+lernstickwelcome (202102171903) lernstick-10; urgency=medium
+
+  * [21ba69] install flatpak version of MuseScore
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 17 Feb 2021 19:03:04 +0100
+
 lernstickwelcome (202102131641) lernstick-10; urgency=medium
 
   * [0feb07] improved logging
