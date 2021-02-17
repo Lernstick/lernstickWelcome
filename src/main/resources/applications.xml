@@ -197,7 +197,7 @@
         <icon>musescore</icon>
         <help-path>MuseScore.website</help-path>
         <packages>
-            <package type="apt">lernstick-musescore3</package>
+            <package type="flatpak">org.musescore.MuseScore</package>
         </packages>
         <tags>
             <tag>teaching</tag>
