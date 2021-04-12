@@ -1,3 +1,9 @@
+lernstickwelcome (202104121642) lernstick-11; urgency=medium
+
+  * [75db8e] package updates for Debian 11
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 12 Apr 2021 16:42:45 +0200
+
 lernstickwelcome (202102171903) lernstick-10; urgency=medium
 
   * [21ba69] install flatpak version of MuseScore
