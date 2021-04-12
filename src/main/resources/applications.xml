@@ -168,6 +168,7 @@
         </tags>
     </application>
 
+    <!--
     <application name="Omnitux">
         <description>Welcome.omnituxPanel.description</description>
         <icon>omnitux</icon>
@@ -179,6 +180,7 @@
             <tag>teaching</tag>
         </tags>
     </application>
+    -->
 
     <application name="Solfege">
         <description>Solfege.description</description>
@@ -466,7 +468,7 @@
         <packages>
             <package type="apt">
                 inkscape inkscape-open-symbols inkscape-textext
-                inkscape-tutorials sozi
+                inkscape-tutorials
             </package>
         </packages>
         <tags>
@@ -569,6 +571,7 @@
         </tags>
     </application>
 
+    <!--
     <application name="Gespeaker">
         <description>Welcome.gespeakerPanel.description</description>
         <icon>gespeaker</icon>
@@ -585,6 +588,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+    -->
 
     <application name="QGIS">
         <description>QGIS.description</description>
@@ -632,8 +636,7 @@
             <package type="apt">
                 lyx fonts-lyx lernstick-lyx texlive-lang-all texlive-latex-extra
                 texlive-fonts-recommended texlive-fonts-extra texlive-font-utils
-                texlive-generic-extra texlive-generic-recommended
-                texlive-science texlive-humanities tipa
+                texlive-plain-generic texlive-science texlive-humanities tipa
             </package>
         </packages>
         <tags>
