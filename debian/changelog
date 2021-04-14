@@ -1,3 +1,11 @@
+lernstickwelcome (202104141651) lernstick-11; urgency=medium
+
+  * [d800be] disabled unknown-horizons until this bug gets fixed:
+             https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=933162
+  * [335ade] updated distribution in gradle build file
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 14 Apr 2021 16:51:07 +0200
+
 lernstickwelcome (202104121642) lernstick-11; urgency=medium
 
   * [75db8e] package updates for Debian 11
