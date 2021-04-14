@@ -996,6 +996,8 @@
         </tags>
     </application>
 
+    <!-- disabled until the following bug is fixed:
+    https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=933162
     <application name="Unknown Horizons">
         <description>Unknown_Horizons_description</description>
         <icon>unknown-horizons</icon>
@@ -1007,6 +1009,7 @@
             <tag>game</tag>
         </tags>
     </application>
+    -->
 
     <application name="Frogatto &amp; Friends">
         <description>Welcome.frogattoGamePanel.description</description>
