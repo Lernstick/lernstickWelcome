@@ -11,7 +11,7 @@ allprojects {
 }
 
 dependencies {
-    compile files(
+    implementation files(
 		'../lernstickTools/build/libs/lernstickTools.jar',
 		'/usr/share/java/dbus.jar',
 		'/usr/share/java/junit4.jar',
