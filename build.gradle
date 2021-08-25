@@ -51,7 +51,7 @@ task debianUpdateChangelog(type:Exec) {
         }
     }
 
-    commandLine 'gbp', 'dch', '--id-length=6', '--distribution=lernstick-11'
+    commandLine 'gbp', 'dch', '--ignore-branch', '--id-length=6', '--distribution=lernstick-11'
 }
 
 task debianPackage(type:Exec) {
