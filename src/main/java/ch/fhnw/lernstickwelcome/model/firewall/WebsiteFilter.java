@@ -16,6 +16,8 @@
  */
 package ch.fhnw.lernstickwelcome.model.firewall;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,6 +30,9 @@ import javafx.beans.property.StringProperty;
  * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class WebsiteFilter {
+
+    private static final Logger LOGGER =
+            Logger.getLogger(WebsiteFilter.class.getName());
 
     /**
      * The predefined SearchPatterns which should help the user to configure
@@ -54,7 +59,7 @@ public class WebsiteFilter {
         }
 
         public String getPattern(String searchCriteria) {
-            // Escape the search criteria if it isn't Custom
+            // escape the search criteria if it isn't Custom
             if (this != Custom) {
                 // Pattern.quote doesnt work
                 searchCriteria = searchCriteria.replaceAll(
@@ -103,9 +108,9 @@ public class WebsiteFilter {
      * @param line
      */
     public WebsiteFilter(String line) {
-        // Set correct searchPattern according to the found RegEx.
 
-        if (line.matches("[^\\\\][.*+?()\\[{\\\\|]")) {
+        // set correct searchPattern according to the found regex
+        if (line.matches(".*[^\\\\][.*+?()\\[{|].*")) {
             // unescaped RegEx (without ^ and $)
             searchPattern.set(SearchPattern.Custom);
 
@@ -152,6 +157,10 @@ public class WebsiteFilter {
      * {@link SearchPattern#getPattern(java.lang.String)}
      */
     public String getSearchPattern() {
-        return searchPattern.get().getPattern(searchCriteria.get());
+        String criteria = searchCriteria.get();
+        LOGGER.log(Level.INFO, "criteria: \"{0}\"", criteria);
+        String pattern = searchPattern.get().getPattern(criteria);
+        LOGGER.log(Level.INFO, "pattern: \"{0}\"", pattern);
+        return pattern;
     }
 }
