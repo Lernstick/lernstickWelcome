@@ -1,3 +1,12 @@
+lernstickwelcome (202108251351) lernstick-10; urgency=medium
+
+  * [cf3159] updated for gradle v7
+  * [e0bcc2] fixed typo
+  * [9c2ec5] fixed regex detection
+  * [6c8fd6] ignore branch in gbp
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 25 Aug 2021 13:50:44 +0200
+
 lernstickwelcome (202102171903) lernstick-10; urgency=medium
 
   * [21ba69] install flatpak version of MuseScore
