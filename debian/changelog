@@ -1,3 +1,12 @@
+lernstickwelcome (202108251412) lernstick-11; urgency=medium
+
+  * [5508ad] replaced deprecated "compile" with "implementation" in gradle build file
+  * [3edcb6] fixed typo
+  * [fbde08] fixed regex detection
+  * [2bc8da] ignore branch in gbp
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 25 Aug 2021 14:12:19 +0200
+
 lernstickwelcome (202104141651) lernstick-11; urgency=medium
 
   * [d800be] disabled unknown-horizons until this bug gets fixed:
