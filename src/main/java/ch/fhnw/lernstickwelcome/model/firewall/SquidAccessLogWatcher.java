@@ -101,7 +101,7 @@ public class SquidAccessLogWatcher implements Runnable {
     private void parseLine(String line) {
         // replace multiple spaces with one
         line = line.replaceAll(" +", " ");
-        // splitt line into parameters
+        // split line into parameters
         String[] params = line.split(" ");
         // check for 403 Forbidden
         if (params[3].matches("TCP_DENIED/403")) {
