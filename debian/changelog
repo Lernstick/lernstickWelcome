@@ -1,3 +1,9 @@
+lernstickwelcome (202110071212) lernstick-11; urgency=medium
+
+  * [b227bf] changed default path of squid url whitelist config file
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 07 Oct 2021 12:12:52 +0200
+
 lernstickwelcome (202108251412) lernstick-11; urgency=medium
 
   * [5508ad] replaced deprecated "compile" with "implementation" in gradle build file
