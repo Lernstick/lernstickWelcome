@@ -55,7 +55,7 @@ public final class WelcomeConstants {
     public static final String IP_TABLES_FILENAME
             = "/etc/lernstick-firewall/net_whitelist";
     public static final String URL_WHITELIST_FILENAME
-            = "/etc/lernstick-firewall/url_whitelist";
+            = "/etc/lernstick-firewall//proxy.d/default.conf";
     public static final String LOCAL_POLKIT_PATH
             = "/etc/polkit-1/localauthority/50-local.d";
     public static final String EXAM_POLKIT_PATH
