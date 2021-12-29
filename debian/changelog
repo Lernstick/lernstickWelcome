@@ -1,3 +1,9 @@
+lernstickwelcome (202112290129) lernstick-11; urgency=medium
+
+  * [b2827c] use new minetest-mod-3d-armor package
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 29 Dec 2021 01:29:36 +0100
+
 lernstickwelcome (202110071212) lernstick-11; urgency=medium
 
   * [b227bf] changed default path of squid url whitelist config file
