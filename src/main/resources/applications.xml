@@ -1138,7 +1138,7 @@
         <icon>wesnoth</icon>
         <help-path>Welcome.wesnothGamePanel.website</help-path>
         <packages>
-            <package type="apt">wesnoth-1.14</package>
+            <package type="apt">wesnoth-1.16</package>
         </packages>
         <tags>
             <tag>game</tag>
