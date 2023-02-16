@@ -1,3 +1,9 @@
+lernstickwelcome (202302161911) lernstick-11; urgency=medium
+
+  * [bb9562] install wesnoth version 1.16
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 16 Feb 2023 19:10:38 +0100
+
 lernstickwelcome (202112290129) lernstick-11; urgency=medium
 
   * [b2827c] use new minetest-mod-3d-armor package
