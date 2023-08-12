@@ -719,8 +719,8 @@
         <help-path>Welcome.netbeansPanel.website</help-path>
         <packages>
             <package type="apt">
-                lernstick-netbeans lernstick-visualvm lernstick-scenebuilder
-                scenebuilder openjdk-11-source openjdk-11-doc openjfx
+                apache-netbeans lernstick-visualvm lernstick-scenebuilder
+                scenebuilder openjdk-17-source openjdk-17-doc openjfx
                 openjfx-source libopenjfx-java-doc
             </package>
         </packages>
