@@ -1,3 +1,11 @@
+lernstickwelcome (202308121911) lernstick-12; urgency=medium
+
+  * [0927cb] added gradle.properties to .gitignore
+  * [b960a5] updated .gitignore
+  * [268d32] updates for Netbeans on Debian 12
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 12 Aug 2023 19:11:34 +0200
+
 lernstickwelcome (202308121555) lernstick-12; urgency=medium
 
   * [da2e6a] updates for Debian 12
