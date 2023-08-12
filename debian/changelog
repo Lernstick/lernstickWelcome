@@ -1,3 +1,10 @@
+lernstickwelcome (202308121555) lernstick-12; urgency=medium
+
+  * [da2e6a] updates for Debian 12
+  * [3f66d4] configure dch for Lernstick 12
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 12 Aug 2023 15:55:22 +0200
+
 lernstickwelcome (202302161911) lernstick-11; urgency=medium
 
   * [bb9562] install wesnoth version 1.16
