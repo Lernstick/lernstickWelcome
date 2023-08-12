@@ -729,6 +729,7 @@
         </tags>
     </application>
 
+    <!-- TODO: replace with JupyterLab, possibly with a pip+venv installation?
     <application name="Jupyter Notebook">
         <description>Jupyter_description</description>
         <icon>jupyter</icon>
@@ -740,6 +741,7 @@
             <tag>misc</tag>
         </tags>
     </application>
+    -->
 
     <application name="RStudio">
         <description>Welcome.rstudioPanel.description</description>
@@ -865,14 +867,14 @@
                 lernstick-minetest-game-tutorial minetest-mod-basic-materials
                 minetest-mod-character-creator minetest-mod-craftguide
                 minetest-mod-ethereal minetest-mod-homedecor
-                minetest-mod-infinite-chest minetest-mod-intllib
-                minetest-mod-lucky-block minetest-mod-maidroid
-                minetest-mod-mesecons minetest-mod-moreblocks
+                minetest-mod-infinite-chest minetest-mod-lucky-block
+                minetest-mod-maidroid minetest-mod-mesecons
+                minetest-mod-meshport minetest-mod-moreblocks
                 minetest-mod-moreores minetest-mod-nether minetest-mod-pipeworks
-                minetest-mod-3d-armor minetest-mod-protector
-                minetest-mod-quartz minetest-mod-skyblock
-                minetest-mod-throwing-arrows minetest-mod-unifieddyes
-                minetest-mod-unified-inventory minetest-mod-worldedit
+                minetest-mod-3d-armor minetest-mod-protector minetest-mod-quartz
+                minetest-mod-skyblock minetest-mod-throwing-arrows
+                minetest-mod-unifieddyes minetest-mod-unified-inventory
+                minetest-mod-worldedit
             </package>
             <!-- currently (2020-07-17) broken
             <package type="apt">minetest-mod-xdecor</package>
