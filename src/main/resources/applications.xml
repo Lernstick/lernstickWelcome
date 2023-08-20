@@ -677,7 +677,7 @@
         <help-path>Welcome.scribusPanel.website</help-path>
         <packages>
             <package type="apt">
-                scribus scribus-template scribus-doc lernstick-scribus
+                scribus scribus-template scribus-doc
             </package>
         </packages>
         <tags>
