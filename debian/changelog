@@ -1,3 +1,9 @@
+lernstickwelcome (202308201803) lernstick-12; urgency=medium
+
+  * [2417e8] don't install lernstick-scribus (no longer needed in Debian 12)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 20 Aug 2023 18:03:29 +0200
+
 lernstickwelcome (202308121911) lernstick-12; urgency=medium
 
   * [0927cb] added gradle.properties to .gitignore
