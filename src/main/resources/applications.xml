@@ -735,7 +735,7 @@
         <icon>jupyter</icon>
         <help-path>Jupyter_website</help-path>
         <packages>
-            <package type="pipx" name="jupyterlab">matplotlib</package>
+            <package type="pipx" name="jupyterlab">matplotlib pandas</package>
         </packages>
         <tags>
             <tag>misc</tag>
