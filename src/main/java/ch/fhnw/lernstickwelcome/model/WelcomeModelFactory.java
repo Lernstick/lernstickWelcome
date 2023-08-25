@@ -27,6 +27,8 @@ import ch.fhnw.lernstickwelcome.model.application.FlatpakApplicationTask;
 import ch.fhnw.lernstickwelcome.model.application.FlatpakPackages;
 import ch.fhnw.lernstickwelcome.model.application.InstallPostProcessingTask;
 import ch.fhnw.lernstickwelcome.model.application.InstallPreparationTask;
+import ch.fhnw.lernstickwelcome.model.application.PipxApplicationTask;
+import ch.fhnw.lernstickwelcome.model.application.PipxPackages;
 import ch.fhnw.lernstickwelcome.model.application.WgetPackages;
 import ch.fhnw.lernstickwelcome.model.application.proxy.ProxyTask;
 import ch.fhnw.lernstickwelcome.model.backup.BackupTask;
@@ -350,10 +352,10 @@ public class WelcomeModelFactory {
         List<ApplicationPackages> packages = new ArrayList<>();
         NodeList packageNodeList
                 = applicationElement.getElementsByTagName("package");
-        boolean hasFlatPaks = false;
+        String type = "";
         for (int i = 0; i < packageNodeList.getLength(); i++) {
             Element element = ((Element) packageNodeList.item(i));
-            String type = element.getAttribute("type");
+            type = element.getAttribute("type");
             String packageNames = element.getTextContent();
             // clean up content
             packageNames = packageNames.trim();
@@ -375,7 +377,11 @@ public class WelcomeModelFactory {
                 case "flatpak":
                     packages.add(new FlatpakPackages(
                             Arrays.asList(packageNames)));
-                    hasFlatPaks = true;
+                    break;
+
+                case "pipx":
+                    packages.add(new PipxPackages(element.getAttribute("name"),
+                            Arrays.asList(packageNames)));
                     break;
 
                 default:
@@ -387,17 +393,26 @@ public class WelcomeModelFactory {
         CombinedPackages combinedPackages = new CombinedPackages(packages);
 
         ApplicationTask task = null;
-        if (hasFlatPaks) {
-            if (flatpakSupported) {
-                task = new FlatpakApplicationTask(applicationName, description,
-                        icon, helpPath, combinedPackages,
+        switch (type) {
+            case "flatpak":
+                // flatpak applications get ignored when on system without
+                // flatpak support (e.g. the Lernstick Mini Version)
+                if (flatpakSupported) {
+                    task = new FlatpakApplicationTask(applicationName,
+                            description, icon, helpPath, combinedPackages,
+                            installedFlatpakNames);
+                }
+                break;
+
+            case "pipx":
+                task = new PipxApplicationTask(applicationName,
+                        description, icon, helpPath, combinedPackages,
                         installedFlatpakNames);
-            }
-            // flatpak applications get ignored when on system without flatpak
-            // support (e.g. the Lernstick Mini Version)
-        } else {
-            task = new DpkgApplicationTask(applicationName, description,
-                    icon, helpPath, combinedPackages, installedDpkgNames);
+                break;
+
+            default:
+                task = new DpkgApplicationTask(applicationName, description,
+                        icon, helpPath, combinedPackages, installedDpkgNames);
         }
 
         if (task != null) {

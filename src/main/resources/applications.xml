@@ -12,6 +12,7 @@
         <packages>
             <package type="apt">foo</package>
             <package type="wget" fetchUrl="http://example.com/bar/{0}" saveDir="baz">kux</package>
+            <package type="pipx" name="python_package">injected_package1 injected_package2</package>
         </packages>
         <tags>
             <tag>example1</tag>
@@ -729,19 +730,17 @@
         </tags>
     </application>
 
-    <!-- TODO: replace with JupyterLab, possibly with a pip+venv installation?
-    <application name="Jupyter Notebook">
+    <application name="JupyterLab">
         <description>Jupyter_description</description>
         <icon>jupyter</icon>
         <help-path>Jupyter_website</help-path>
         <packages>
-            <package type="apt">lernstick-jupyter-notebook</package>
+            <package type="pipx" name="jupyterlab">matplotlib</package>
         </packages>
         <tags>
             <tag>misc</tag>
         </tags>
     </application>
-    -->
 
     <application name="RStudio">
         <description>Welcome.rstudioPanel.description</description>
