@@ -8,7 +8,7 @@ Homepage: https://github.com/imedias/lernstickWelcome
 
 Package: lernstickwelcome
 Architecture: all
-Depends: auto-gdk-scale, java11-runtime, openjfx, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools
+Depends: auto-gdk-scale, java11-runtime, openjfx, libdbus-java, libmatthew-debug-java, libunixsocket-java, dosfstools, pipx
 Conflicts: lernstickwelcome-exam
 Description: a welcome application for the Lernstick personal learning environment
  This is the "Welcome" application for the Lernstick personal learning environment
