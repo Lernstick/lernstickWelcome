@@ -1,3 +1,10 @@
+lernstickwelcome (202308251537) lernstick-12; urgency=medium
+
+  * [605937] fixed Jupyter website address
+  * [4ec6d0] added support for package installations via pipx (e.g. jupyterlab)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 25 Aug 2023 15:37:51 +0200
+
 lernstickwelcome (202308201803) lernstick-12; urgency=medium
 
   * [2417e8] don't install lernstick-scribus (no longer needed in Debian 12)
