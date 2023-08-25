@@ -1,3 +1,10 @@
+lernstickwelcome (202308251553) lernstick-12; urgency=medium
+
+  * [c59ca1] added pipx to dependencies
+  * [e37312] inject pandas to jupyterlab
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 25 Aug 2023 15:53:36 +0200
+
 lernstickwelcome (202308251537) lernstick-12; urgency=medium
 
   * [605937] fixed Jupyter website address
