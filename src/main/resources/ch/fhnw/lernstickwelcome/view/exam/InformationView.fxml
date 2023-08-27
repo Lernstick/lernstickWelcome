@@ -22,7 +22,7 @@
       </Label>
       <ImageView id="lernstickImageView" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../icon/lernstick_usb.png" />
+            <Image url="@../../../../../icon/lernstick_exam.png" />
          </image>
       </ImageView>
       <TextFlow minWidth="0.0" prefWidth="0.0">
@@ -39,7 +39,7 @@
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label id="systemLabel" fx:id="operatingSystemLabel" text="Debian 9" GridPane.columnIndex="1">
+            <Label id="systemLabel" fx:id="operatingSystemLabel" text="Debian 12" GridPane.columnIndex="1">
                <font>
                   <Font size="11.0" />
                </font>

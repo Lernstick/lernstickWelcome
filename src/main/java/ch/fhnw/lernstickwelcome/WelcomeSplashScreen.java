@@ -110,7 +110,7 @@ public class WelcomeSplashScreen extends Preloader {
 
         // logo
         ImageView imageView = new ImageView(new Image(
-                getClass().getResourceAsStream("/icon/lernstick_usb.png")));
+                getClass().getResourceAsStream("/icon/lernstick_bfh.png")));
         vBox.getChildren().add(imageView);
 
         // "checking" label
