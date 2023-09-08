@@ -1,3 +1,10 @@
+lernstickwelcome (202309081546) lernstick-12; urgency=medium
+
+  * [e9e201] removed boot loader switching (no longer necessary)
+  * [e3ab03] shortened texts for storage media access
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 08 Sep 2023 15:46:56 +0200
+
 lernstickwelcome (202309081450) lernstick-12; urgency=medium
 
   [ Jörg Berkel ]
