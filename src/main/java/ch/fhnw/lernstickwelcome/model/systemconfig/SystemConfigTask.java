@@ -85,8 +85,6 @@ public class SystemConfigTask implements Processable<String> {
     // Some functions are only required in the exam environment
     private boolean isExamEnv;
 
-    private boolean newBootLoaderActive;
-    private BooleanProperty useNewBootLoader = new SimpleBooleanProperty();
     private boolean showPasswordDialog;
     private Partition bootConfigPartition;
     private Partition exchangePartition;
@@ -157,20 +155,6 @@ public class SystemConfigTask implements Processable<String> {
         }
     }
 
-    /**
-     * sets if the new boot loader is active
-     *
-     * @param newBootLoaderActive <tt>true</tt>, if the new boot loader is
-     * active, <tt>false</tt> otherwise
-     */
-    public void setNewBootLoaderActive(boolean newBootLoaderActive) {
-        this.newBootLoaderActive = newBootLoaderActive;
-    }
-
-    public BooleanProperty useNewBootLoaderProperty() {
-        return useNewBootLoader;
-    }
-
     public StringProperty systemNameProperty() {
         return systemname;
     }
@@ -206,38 +190,7 @@ public class SystemConfigTask implements Processable<String> {
     public boolean showPasswordDialog() {
         return showPasswordDialog;
     }
-
-    private void updateBootLoader() throws IOException, DBusException {
-        if (newBootLoaderActive && !useNewBootLoader.get()) {
-            LOGGER.info("switching to old boot loader");
-            switchBootLoader(false);
-            newBootLoaderActive = false;
-        } else if (!newBootLoaderActive && useNewBootLoader.get()) {
-            LOGGER.info("switching to new boot loader");
-            switchBootLoader(true);
-            newBootLoaderActive = true;
-        }
-    }
-
-    private void switchBootLoader(boolean useNewBootLoader)
-            throws DBusException, IOException {
-
-        Partition efiPartition = systemStorageDevice.getEfiPartition();
-        String efiMountPath = efiPartition.mount().getMountPath();
-
-        // replace shim
-        Path source = Path.of(efiMountPath, "EFI/boot/bootx64.efi"
-                + (useNewBootLoader ? ".new" : ".old"));
-        Path destination = Path.of(efiMountPath, "EFI/boot/bootx64.efi");
-        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
-
-        // replace grub
-        source = Path.of(efiMountPath, "EFI/boot/grubx64.efi"
-                + (useNewBootLoader ? ".new" : ".old"));
-        destination = Path.of(efiMountPath, "EFI/boot/grubx64.efi");
-        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
-    }
-
+    
     /**
      * Update the access to other filesystems by editing the PKLA File.
      * <br>
@@ -856,10 +809,6 @@ public class SystemConfigTask implements Processable<String> {
         protected String call() throws Exception {
             // Set labels and progress
             updateTitle("SystemconfigTask.title");
-
-            // update boot loader selection
-            updateProgress(0, 5);
-            updateBootLoader();
 
             // update boot menu
             updateProgress(1, 5);

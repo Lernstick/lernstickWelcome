@@ -18,7 +18,6 @@ package ch.fhnw.lernstickwelcome.controller.binder;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeController;
 import ch.fhnw.lernstickwelcome.fxmlcontroller.AbstractSystemController;
-import javafx.beans.property.BooleanProperty;
 import javafx.stage.Stage;
 
 /**
@@ -57,16 +56,6 @@ public class AbstractSystemBinder implements SystemBinder {
      */
     @Override
     public void initBindings() {
-
-        BooleanProperty newBootLoaderRadioButtonSelectedProperty
-                = systemController.getNewBootLoaderRadioButton().selectedProperty();
-        boolean newBootLoader = newBootLoaderRadioButtonSelectedProperty.get();
-        welcomeController.getSystemConfigTask().setNewBootLoaderActive(newBootLoader);
-        // make sure initial value is synced before bidirectional binding
-        welcomeController.getSystemConfigTask().useNewBootLoaderProperty().set(newBootLoader);
-        newBootLoaderRadioButtonSelectedProperty.bindBidirectional(
-                welcomeController.getSystemConfigTask().useNewBootLoaderProperty());
-
         systemController.getSystemNameTextField().textProperty().bindBidirectional(
                 welcomeController.getSystemConfigTask().systemNameProperty());
 
