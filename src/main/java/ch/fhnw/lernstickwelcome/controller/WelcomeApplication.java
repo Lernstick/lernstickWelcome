@@ -282,8 +282,13 @@ public final class WelcomeApplication extends Application {
                     controller.getBundle().getString("Welcome.title"));
             primaryStage.setScene(scene);
             primaryStage.show();
-            primaryStage.getIcons().add(new Image(
-                    getClass().getResourceAsStream("/icon/lernstick_usb.png")));
+            if (isExamEnvironment()) {
+                primaryStage.getIcons().add(new Image(
+                getClass().getResourceAsStream("/icon/lernstick_exam.png")));
+            } else {
+                primaryStage.getIcons().add(new Image(
+                getClass().getResourceAsStream("/icon/lernstick_edu.png")));
+            }
 
             // Set close warnings
             primaryStage.setOnCloseRequest(evt -> {
