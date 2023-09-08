@@ -1,3 +1,10 @@
+lernstickwelcome (202309081450) lernstick-12; urgency=medium
+
+  [ Jörg Berkel ]
+  * [2bbfcd] new Lernstick logos integrated (splash,exam,edu)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 08 Sep 2023 14:50:17 +0200
+
 lernstickwelcome (202308251553) lernstick-12; urgency=medium
 
   * [c59ca1] added pipx to dependencies
