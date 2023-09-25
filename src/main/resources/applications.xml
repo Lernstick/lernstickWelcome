@@ -410,6 +410,21 @@
         </tags>
     </application>
 
+    <application name="Nextcloud">
+        <description>Nextcloud_description</description>
+        <icon>nextcloud</icon>
+        <help-path>Nextcloud_website</help-path>
+        <packages>
+            <package type="apt">
+                caja-nextcloud dolphin-nextcloud nautilus-nextcloud
+                nemo-nextcloud nextcloud-desktop
+            </package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="TuxPaint">
         <description>Welcome.tuxPaintPanel.description</description>
         <icon>tuxpaint</icon>
