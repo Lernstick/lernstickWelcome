@@ -133,6 +133,7 @@
 
     <!-- teaching apps -->
 
+    <!--
     <application name="Linux Advanced Teaching-System">
         <description>Welcome.LinuxAdvancedPanel.description</description>
         <icon>LinuxAdvanced</icon>
@@ -144,6 +145,7 @@
             <tag>teaching</tag>
         </tags>
     </application>
+    -->
 
     <application name="LehrerOffice Desktop">
         <description>Welcome.lehrerofficePanel.description</description>
