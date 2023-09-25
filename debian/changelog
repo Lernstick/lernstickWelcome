@@ -1,3 +1,10 @@
+lernstickwelcome (202309251937) lernstick-12; urgency=medium
+
+  * [78f12d] added support for Nextcloud client packages
+  * [5553d1] removed Linux Advanced Teaching-System (deprecated)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 25 Sep 2023 19:37:57 +0200
+
 lernstickwelcome (202309081546) lernstick-12; urgency=medium
 
   * [e9e201] removed boot loader switching (no longer necessary)
