@@ -1,3 +1,9 @@
+lernstickwelcome (202310042116) lernstick-12; urgency=medium
+
+  * [7e239b] updated Adobe Reader dependencies
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 04 Oct 2023 21:16:06 +0200
+
 lernstickwelcome (202309251937) lernstick-12; urgency=medium
 
   * [78f12d] added support for Nextcloud client packages
