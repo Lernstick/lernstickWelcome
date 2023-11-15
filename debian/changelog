@@ -1,3 +1,9 @@
+lernstickwelcome (202311150917) lernstick-12; urgency=medium
+
+  * [07b98f] added polkitd-pkla to dependencies
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Wed, 15 Nov 2023 09:17:20 +0100
+
 lernstickwelcome (202310042116) lernstick-12; urgency=medium
 
   * [7e239b] updated Adobe Reader dependencies
