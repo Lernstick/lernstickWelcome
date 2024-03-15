@@ -58,8 +58,18 @@ public class WelcomeUtil {
      * see {@link #isImageWritable()} *
      */
     private static volatile Boolean isImageWritable;
+    
+    public static String ARCHITECTURE = detectArchitecture();
 
     private WelcomeUtil() {
+    }
+    
+    /**
+    * returns the current architecture
+    * @return the architecture the program is currently running on
+    */
+    private static String detectArchitecture() {
+        return System.getProperty("os.arch");
     }
 
     /**

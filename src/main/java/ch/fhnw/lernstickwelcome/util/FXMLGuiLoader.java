@@ -194,12 +194,15 @@ public final class FXMLGuiLoader {
             progressScene = progressPair.getKey();
             progressController = progressPair.getValue();
 
-            Pair<Scene, HelpController> helpPair = loadScene(
-                    "/ch/fhnw/lernstickwelcome/view/help.fxml",
-                    stylesheet, resourceBundle);
-            helpScene = helpPair.getKey();
-            helpController = helpPair.getValue();
-
+            // HACK: currently loading the help crashes openjfx on arm64
+            if (!WelcomeUtil.ARCHITECTURE.equals("aarch64")) {
+                Pair<Scene, HelpController> helpPair = loadScene(
+                        "/ch/fhnw/lernstickwelcome/view/help.fxml",
+                        stylesheet, resourceBundle);
+                helpScene = helpPair.getKey();
+                helpController = helpPair.getValue();                
+            }
+           
             // add menu buttons to welcome application main window and panes
             // according to exam/std version of the lernstick
             mainController.initializeMenu(menuPaneItems);
