@@ -1,3 +1,9 @@
+lernstickwelcome (202405200151) lernstick-12; urgency=medium
+
+  * [32be62] reverted wxmaxima to deb, fixed flatpak ref for wesnoth
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 20 May 2024 01:51:43 +0200
+
 lernstickwelcome (202405191705) lernstick-12; urgency=medium
 
   * [3bed93] use more packages from flathub
