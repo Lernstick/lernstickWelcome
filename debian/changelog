@@ -1,3 +1,9 @@
+lernstickwelcome (202405191705) lernstick-12; urgency=medium
+
+  * [3bed93] use more packages from flathub
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 19 May 2024 17:05:59 +0200
+
 lernstickwelcome (202311150917) lernstick-12; urgency=medium
 
   * [07b98f] added polkitd-pkla to dependencies
