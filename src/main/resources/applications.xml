@@ -132,11 +132,8 @@
         <description>Welcome.skypePanel.description</description>
         <icon>skype</icon>
         <help-path>Skype_Website</help-path>
-        <installed-names>
-            <installed-dpkg-name>skypeforlinux</installed-dpkg-name>
-        </installed-names>
         <packages>
-            <package type="wget" fetchUrl="https://repo.skype.com/latest/{0}" saveDir="USER_HOME">skypeforlinux-64.deb</package>
+            <package type="flatpak">com.skype.Client</package>
         </packages>
         <tags>
             <tag>utility</tag>
@@ -176,7 +173,7 @@
         <icon>gcompris</icon>
         <help-path>Welcome.gcomprisPanel.website</help-path>
         <packages>
-            <package type="apt">gcompris-qt gcompris-qt-data</package>
+            <package type="flatpak">org.kde.gcompris</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -241,7 +238,7 @@
         <icon>wxmaxima</icon>
         <help-path>Welcome.wxmaximaPanel.website</help-path>
         <packages>
-            <package type="apt">wxmaxima</package>
+            <package type="flatpak">io.github.wxmaxima_developers.wxMaxima</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -277,7 +274,7 @@
         <icon>processing</icon>
         <help-path>Welcome.processingPanel.website</help-path>
         <packages>
-            <package type="apt">processing</package>
+            <package type="flatpak">org.processing.processingide</package>
         </packages>
         <tags>
             <tag>teaching</tag>
@@ -364,7 +361,7 @@
         <icon>element</icon>
         <help-path>Element_website</help-path>
         <packages>
-            <package type="apt">element-desktop</package>
+            <package type="flatpak">im.riot.Riot</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -376,7 +373,7 @@
         <icon>signal</icon>
         <help-path>Signal_website</help-path>
         <packages>
-            <package type="apt">signal-desktop</package>
+            <package type="flatpak">org.signal.Signal</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -496,10 +493,7 @@
         <icon>inkscape</icon>
         <help-path>Inkscape_website</help-path>
         <packages>
-            <package type="apt">
-                inkscape inkscape-open-symbols inkscape-textext
-                inkscape-tutorials
-            </package>
+            <package type="flatpak">org.inkscape.Inkscape</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -592,9 +586,7 @@
         <icon>hydrogen</icon>
         <help-path>Welcome.hydrogenPanel.website</help-path>
         <packages>
-            <package type="apt">
-                hydrogen hydrogen-drumkits hydrogen-drumkits-effects
-            </package>
+            <package type="flatpak">org.hydrogenmusic.Hydrogen</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -706,9 +698,7 @@
         <icon>scribus</icon>
         <help-path>Welcome.scribusPanel.website</help-path>
         <packages>
-            <package type="apt">
-                scribus scribus-template scribus-doc
-            </package>
+            <package type="flatpak">net.scribus.Scribus</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -736,7 +726,7 @@
         <icon>gnucash</icon>
         <help-path>Welcome.gnucashPanel.website</help-path>
         <packages>
-            <package type="apt">gnucash gnucash-docs</package>
+            <package type="flatpak">org.gnucash.GnuCash</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -802,7 +792,7 @@
         <icon>vscodium</icon>
         <help-path>VSCodium.website</help-path>
         <packages>
-            <package type="apt">codium</package>
+            <package type="flatpak">com.vscodium.codium</package>
         </packages>
         <tags>
             <tag>misc</tag>
@@ -933,7 +923,7 @@
         <icon>widelands</icon>
         <help-path>Welcome.widelandsPanel.website</help-path>
         <packages>
-            <package type="apt">widelands</package>
+            <package type="flatpak">org.widelands.Widelands</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1019,7 +1009,7 @@
         <icon>freecol</icon>
         <help-path>Welcome.freecolGamePanel.website</help-path>
         <packages>
-            <package type="apt">freecol</package>
+            <package type="flatpak">org.freecol.FreeCol</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1156,7 +1146,7 @@
         <icon>openclonk</icon>
         <help-path>Welcome.openclonkPanel.website</help-path>
         <packages>
-            <package type="apt">openclonk</package>
+            <package type="flatpak">org.openclonk.OpenClonk</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1168,7 +1158,7 @@
         <icon>wesnoth</icon>
         <help-path>Welcome.wesnothGamePanel.website</help-path>
         <packages>
-            <package type="apt">wesnoth-1.16</package>
+            <package type="flatpak">org.wesnoth.Wesnoth</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1180,7 +1170,7 @@
         <icon>flare</icon>
         <help-path>Welcome.flareGamePanel.website</help-path>
         <packages>
-            <package type="apt">flare-game</package>
+            <package type="flatpak">org.flarerpg.Flare</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1204,7 +1194,7 @@
         <icon>megaglest</icon>
         <help-path>Welcome.megaglestGamePanel.website</help-path>
         <packages>
-            <package type="apt">megaglest</package>
+            <package type="flatpak">org.megaglest.MegaGlest</package>
         </packages>
         <tags>
             <tag>game</tag>
@@ -1240,7 +1230,7 @@
         <icon>lutris</icon>
         <help-path>Lutris_website</help-path>
         <packages>
-            <package type="apt">lutris</package>
+            <package type="flatpak">net.lutris.Lutris</package>
         </packages>
         <tags>
             <tag>game</tag>
