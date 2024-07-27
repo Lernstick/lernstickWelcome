@@ -1,3 +1,9 @@
+lernstickwelcome (202407271535) lernstick-12; urgency=medium
+
+  * [a236cd] replaced "Ri-li" with new fork "Li-Ri"
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 27 Jul 2024 15:35:03 +0200
+
 lernstickwelcome (202405200151) lernstick-12; urgency=medium
 
   * [32be62] reverted wxmaxima to deb, fixed flatpak ref for wesnoth
