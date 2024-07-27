@@ -939,12 +939,12 @@
         </tags>
     </application>
 
-    <application name="Ri-li">
-        <description>Welcome.riliGamePanel.description</description>
-        <icon>ri-li</icon>
-        <help-path>Welcome.riliGamePanel.website</help-path>
+    <application name="Li-Ri">
+        <description>Welcome.liriGamePanel.description</description>
+        <icon>li-ri</icon>
+        <help-path>Welcome.liriGamePanel.website</help-path>
         <packages>
-            <package type="apt">ri-li</package>
+            <package type="flatpak">io.github.petitlapin.Li-ri</package>
         </packages>
         <tags>
             <tag>game</tag>
