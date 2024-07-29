@@ -1,3 +1,9 @@
+lernstickwelcome (202407291913) lernstick-12; urgency=medium
+
+  * [d453d5] added lernstick-open-webui
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 29 Jul 2024 19:13:50 +0200
+
 lernstickwelcome (202407271535) lernstick-12; urgency=medium
 
   * [a236cd] replaced "Ri-li" with new fork "Li-Ri"
