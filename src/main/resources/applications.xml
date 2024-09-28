@@ -445,12 +445,12 @@
         </tags>
     </application>
 
-    <application name="Open WebUI">
-        <description>Open_WebUI_description</description>
-        <icon>open-webui</icon>
-        <help-path>Open_WebUI_website</help-path>
+    <application name="Ollama">
+        <description>Ollama_description</description>
+        <icon>ollama</icon>
+        <help-path>Ollama_website</help-path>
         <packages>
-            <package type="apt">lernstick-open-webui</package>
+            <package type="apt">lernstick-ollama</package>
         </packages>
         <tags>
             <tag>misc</tag>
