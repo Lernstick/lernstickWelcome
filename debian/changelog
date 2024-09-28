@@ -1,3 +1,10 @@
+lernstickwelcome (202409282008) lernstick-12; urgency=medium
+
+  * [86d1f6] only install lernstick-ollama instead of Open WebUI
+             (we replaced Open WebUI with the Page Assist Firefox Add-on)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 28 Sep 2024 20:08:48 +0200
+
 lernstickwelcome (202407291913) lernstick-12; urgency=medium
 
   * [d453d5] added lernstick-open-webui
