@@ -23,6 +23,7 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -317,8 +318,14 @@ public class FirewallTask implements Processable<String> {
             updateProgress(2, 3);
             updateMessage("FirewallTask.restartFirewall");
 
-            PROCESS_EXECUTOR.executeProcess(
+            if (new File("/lib/systemd/lernstick-firewall").exists()){
+                PROCESS_EXECUTOR.executeProcess(
                     "/lib/systemd/lernstick-firewall", "reload");
+            } else {
+                // lernstick-firewall >= 3.0 needs to be managed directly via systemd
+                PROCESS_EXECUTOR.executeProcess(
+                    "systemctl", "reload", "lernstick-firewall");
+            }
 
             updateProgress(3, 3);
             return null;
