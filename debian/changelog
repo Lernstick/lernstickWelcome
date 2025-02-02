@@ -1,3 +1,10 @@
+lernstickwelcome (202502022005) lernstick-12; urgency=medium
+
+  * [29a099] updated deprecated API call for creating a URL
+  * [e2fd70] install flatpaks always from stable flathub repo
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 02 Feb 2025 20:05:33 +0100
+
 lernstickwelcome (202411141317) lernstick-12; urgency=medium
 
   * rebuild with updated lernstickTools library to support new EFI partition
