@@ -43,7 +43,7 @@ public class FlatpakPackages extends ApplicationPackages {
 
         StringBuilder builder = new StringBuilder();
         builder.append(proxy.getFlatpakProxy());
-        builder.append("flatpak install -y ");
+        builder.append("flatpak install flathub -y ");
         getPackageNames().forEach(packageName -> {
             builder.append(packageName);
             builder.append(' ');
