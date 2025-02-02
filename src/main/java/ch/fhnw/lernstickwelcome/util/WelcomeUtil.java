@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -407,7 +409,7 @@ public class WelcomeUtil {
         // (this is a quick and dirty solution, if konqueror starts to be
         // usable, switch back to the code above)
         try {
-            final URL finalUrl = new URL(url);
+            final URL finalUrl = (new URI(url)).toURL();
             Thread browserThread = new Thread() {
                 @Override
                 public void run() {
@@ -416,7 +418,7 @@ public class WelcomeUtil {
                 }
             };
             browserThread.start();
-        } catch (MalformedURLException ex) {
+        } catch (MalformedURLException | URISyntaxException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
