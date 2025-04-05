@@ -23,13 +23,14 @@ import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.util.ProcessExecutor;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -222,9 +223,9 @@ public class FirewallTask implements Processable<String> {
                         Charset.defaultCharset()))) {
 
             for (HostFilter hostFilter : hostFilterList) {
-                
+
                 StringBuilder stringBuilder = new StringBuilder();
-                
+
                 // comment
                 stringBuilder.append("# ");
                 stringBuilder.append(hostFilter.getDescription());
@@ -238,7 +239,7 @@ public class FirewallTask implements Processable<String> {
                 // port
                 stringBuilder.append(hostFilter.getPortRange());
                 stringBuilder.append('\n');
-                
+
                 // write line to file
                 bufferedWriter.write(stringBuilder.toString());
             }
@@ -318,13 +319,14 @@ public class FirewallTask implements Processable<String> {
             updateProgress(2, 3);
             updateMessage("FirewallTask.restartFirewall");
 
-            if (new File("/lib/systemd/lernstick-firewall").exists()){
+            if (Files.exists(Paths.get("/lib/systemd/lernstick-firewall"))) {
                 PROCESS_EXECUTOR.executeProcess(
-                    "/lib/systemd/lernstick-firewall", "reload");
+                        "/lib/systemd/lernstick-firewall", "reload");
             } else {
-                // lernstick-firewall >= 3.0 needs to be managed directly via systemd
+                // lernstick-firewall >= 3.0 needs to be managed directly via
+                // systemd
                 PROCESS_EXECUTOR.executeProcess(
-                    "systemctl", "reload", "lernstick-firewall");
+                        "systemctl", "reload", "lernstick-firewall");
             }
 
             updateProgress(3, 3);
