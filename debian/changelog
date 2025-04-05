@@ -1,3 +1,13 @@
+lernstickwelcome (202504051628) lernstick-12; urgency=medium
+
+  [ Thore Sommer ]
+  * [15fdfb] make it work again with lernstick-firewall >= 3.0
+
+  [ Ronny Standtke ]
+  * [8139ca] use nio package for checking file existence
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 05 Apr 2025 16:28:05 +0200
+
 lernstickwelcome (202502131639) lernstick-12; urgency=medium
 
   [ Thore Sommer ]
