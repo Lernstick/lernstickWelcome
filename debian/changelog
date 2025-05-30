@@ -1,3 +1,9 @@
+lernstickwelcome (202505302308) lernstick-12; urgency=medium
+
+  * [8739f2] updated Adobe Reader website
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 30 May 2025 23:08:23 +0200
+
 lernstickwelcome (202505301723) lernstick-12; urgency=medium
 
   * [f8647e] removed Skype (service was retired on 5 May 2025)
