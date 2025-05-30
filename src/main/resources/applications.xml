@@ -128,18 +128,6 @@
         </tags>
     </application>
 
-    <application name="Skype">
-        <description>Welcome.skypePanel.description</description>
-        <icon>skype</icon>
-        <help-path>Skype_Website</help-path>
-        <packages>
-            <package type="flatpak">com.skype.Client</package>
-        </packages>
-        <tags>
-            <tag>utility</tag>
-        </tags>
-    </application>
-
     <!-- teaching apps -->
 
     <!--
