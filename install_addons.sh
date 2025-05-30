@@ -18,10 +18,3 @@ sudo dpkg -i googleearth_*
 sudo rm googleearth_*
 sudo rm GoogleEarthLinux.bin
 sed -i -e "s/googleearth-icon/32x32/1" /usr/share/applications/googleearth.desktop
-
-# install Skype
-sudo wget http://www.skype.com/go/getskype-linux-deb
-sudo dpkg -i skype-debian_*
-sudo rm skype-debian_*
-cp /usr/share/applications/skype.desktop /home/knoppix/Desktop/
-
