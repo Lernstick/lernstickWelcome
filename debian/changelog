@@ -1,3 +1,9 @@
+lernstickwelcome (202508222008) lernstick-13; urgency=medium
+
+  * [3333bf] updated Lernstick infos
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 22 Aug 2025 20:08:43 +0200
+
 lernstickwelcome (202508221959) lernstick-13; urgency=medium
 
   * [d7ed89] updated polkit rules handling for Debian 13
