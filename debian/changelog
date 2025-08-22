@@ -1,3 +1,10 @@
+lernstickwelcome (202508221959) lernstick-13; urgency=medium
+
+  * [d7ed89] updated polkit rules handling for Debian 13
+  * [238678] updated distribution number from 12 to 13
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Fri, 22 Aug 2025 19:59:54 +0200
+
 lernstickwelcome (202505302308) lernstick-12; urgency=medium
 
   * [8739f2] updated Adobe Reader website
