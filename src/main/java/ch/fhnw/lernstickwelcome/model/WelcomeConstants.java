@@ -16,13 +16,10 @@
  */
 package ch.fhnw.lernstickwelcome.model;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 /**
- * This class contains the Constants which are used in the Welcome Application.
+ * This class contains the constants which are used in the Welcome Application.
  * 
- * @author sschw
+ * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public final class WelcomeConstants {
 
@@ -34,9 +31,11 @@ public final class WelcomeConstants {
     public static final String SHOW_READ_ONLY_INFO = "ShowReadOnlyInfo";
     public static final String BACKUP = "Backup";
     public static final String BACKUP_SOURCE = "BackupSource";
-    public static final String BACKUP_DIRECTORY_ENABLED = "BackupDirectoryEnabled";
+    public static final String BACKUP_DIRECTORY_ENABLED = 
+            "BackupDirectoryEnabled";
     public static final String BACKUP_DIRECTORY = "BackupDirectory";
-    public static final String BACKUP_PARTITION_ENABLED = "BackupPartitionEnabled";
+    public static final String BACKUP_PARTITION_ENABLED = 
+            "BackupPartitionEnabled";
     public static final String BACKUP_PARTITION = "BackupPartition";
     public static final String BACKUP_SCREENSHOT = "BackupScreenshot";
     public static final String BACKUP_FREQUENCY = "BackupFrequency";
@@ -56,15 +55,16 @@ public final class WelcomeConstants {
             = "/etc/lernstick-firewall/net_whitelist";
     public static final String URL_WHITELIST_FILENAME
             = "/etc/lernstick-firewall//proxy.d/default.conf";
-    public static final String LOCAL_POLKIT_PATH
-            = "/etc/polkit-1/localauthority/50-local.d";
-    public static final String EXAM_POLKIT_PATH
-            = "/etc/polkit-1/localauthority/55-lernstick-exam.d";
-    public static final Path UDISKS_PKLA_PATH = Paths.get(
-    		"/etc/polkit-1/localauthority/50-local.d/10-udisks2.pkla");
+    public static final String POLKIT_RULES_PATH
+            = "/etc/polkit-1/rules.d";
+    public static final String MOUNT_POLKIT_FILE =
+            "lernstick-udisks2-mount";
+    public static final String MOUNT_SYSTEM_POLKIT_FILE =
+            "lernstick-udisks2-mount-system";
     public static final String EMPTY_PASSWORD_HINT_FILE = 
             "/home/user/.kde/share/config/empty_passwd_info";
-    public static final String SQUID_ACCESS_LOG_FILE_PATH = "/var/log/squid/access.log";
+    public static final String SQUID_ACCESS_LOG_FILE_PATH = 
+            "/var/log/squid/access.log";
     
     public static final String USER_HOME = System.getProperty("user.home");
     
@@ -72,5 +72,6 @@ public final class WelcomeConstants {
     public static final String HELP_FILE_PATH = RESOURCE_FILE_PATH + "/help";
     public static final String ICON_FILE_PATH = RESOURCE_FILE_PATH + "/icon";
     public static final String ICON_APPLICATION_FOLDER = "apps";
-    public static final String ICON_APPLICATION_FILE_PATH = ICON_FILE_PATH + "/" + ICON_APPLICATION_FOLDER;
+    public static final String ICON_APPLICATION_FILE_PATH = 
+            ICON_FILE_PATH + "/" + ICON_APPLICATION_FOLDER;
 }

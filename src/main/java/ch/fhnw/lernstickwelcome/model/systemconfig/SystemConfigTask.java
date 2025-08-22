@@ -30,12 +30,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
@@ -83,27 +81,27 @@ public class SystemConfigTask implements Processable<String> {
             = Logger.getLogger(SystemConfigTask.class.getName());
 
     // Some functions are only required in the exam environment
-    private boolean isExamEnv;
+    private final boolean isExamEnv;
 
     private boolean showPasswordDialog;
     private Partition bootConfigPartition;
     private Partition exchangePartition;
     private StorageDevice systemStorageDevice;
 
-    private IntegerProperty timeoutSeconds = new SimpleIntegerProperty();
-    private StringProperty systemname = new SimpleStringProperty();
-    private StringProperty systemversion = new SimpleStringProperty();
-    private StringProperty password = new SimpleStringProperty();
-    private StringProperty passwordRepeat = new SimpleStringProperty();
+    private final IntegerProperty timeoutSeconds = new SimpleIntegerProperty();
+    private final StringProperty systemname = new SimpleStringProperty();
+    private final StringProperty systemversion = new SimpleStringProperty();
+    private final StringProperty password = new SimpleStringProperty();
+    private final StringProperty passwordRepeat = new SimpleStringProperty();
 
     private String oldUsername;
-    private StringProperty username = new SimpleStringProperty();
-    private BooleanProperty allowAccessToInternalFilesystems
+    private final StringProperty username = new SimpleStringProperty();
+    private final BooleanProperty allowAccessToInternalFilesystems
             = new SimpleBooleanProperty();
-    private BooleanProperty allowAccessToExternalFilesystems
+    private final BooleanProperty allowAccessToExternalFilesystems
             = new SimpleBooleanProperty();
     private MountInfo bootConfigMountInfo;
-    private Properties properties;
+    private final Properties properties;
 
     /**
      * Creates a SystemconfigTask by loading the values from the properties or
@@ -190,9 +188,9 @@ public class SystemConfigTask implements Processable<String> {
     public boolean showPasswordDialog() {
         return showPasswordDialog;
     }
-    
+
     /**
-     * Update the access to other filesystems by editing the PKLA File.
+     * Update the access to other filesystems by editing the polkit rules.
      * <br>
      * Uses the {@link #allowAccessToOtherFilesystems} Property to check how the
      * option has to be adjusted.
@@ -200,22 +198,28 @@ public class SystemConfigTask implements Processable<String> {
     private void updateAllowFilesystemMount() throws ProcessingException {
 
         try {
+            String fileName = WelcomeConstants.MOUNT_SYSTEM_POLKIT_FILE;
             if (allowAccessToInternalFilesystems.get()) {
-                Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
-                        "10-udisks2-mount-system_strict.pkla"));
+                Files.delete(Paths.get(WelcomeConstants.POLKIT_RULES_PATH,
+                        fileName + ".rules"));
             } else {
-                hardenPKLAs("udisks2-mount-system");
+                String action
+                        = "org.freedesktop.udisks2.filesystem-mount-system";
+                addStrictPolkitRule(fileName, getActionEqualsStatement(action));
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
         }
 
         try {
+            String fileName = WelcomeConstants.MOUNT_POLKIT_FILE;
             if (allowAccessToExternalFilesystems.get()) {
-                Files.delete(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
-                        "10-udisks2-mount_strict.pkla"));
+                Files.delete(Paths.get(WelcomeConstants.POLKIT_RULES_PATH,
+                        fileName + ".rules"));
             } else {
-                hardenPKLAs("udisks2-mount");
+                String action
+                        = "org.freedesktop.udisks2.filesystem-mount";
+                addStrictPolkitRule(fileName, getActionEqualsStatement(action));
             }
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
@@ -703,99 +707,57 @@ public class SystemConfigTask implements Processable<String> {
                 showPasswordDialog ? "true" : "false");
 
         // add polkit rules to enforce authentication
-        // rules for our own applications
-        addStrictPKLA("10-welcome_strict.pkla", "enforce authentication before "
-                + "running the Lernstick Welcome application",
-                "ch.lernstick.welcome");
-        addStrictPKLA("10-dlcopy_strict.pkla", "enforce authentication before "
-                + "running the Lernstick storage media management application",
-                "ch.lernstick.dlcopy");
-        addStrictPKLA("10-wrapper-synaptic_strict.pkla", "enforce "
-                + "authentication before running the synaptic wrapper script",
-                "ch.lernstick.wrapper-synaptic");
-        addStrictPKLA("10-wrapper-gdebi-gtk_strict.pkla", "enforce "
-                + "authentication before running the gdebi-gtk wrapper script",
-                "ch.lernstick.wrapper-gdebi-gtk");
-
-        // harden our custom rules for third party applications
-        hardenPKLAs("jbackpack", "gnome-system-log", "packagekit");
+        addStrictPolkitRule("lernstick-dlcopy",
+                getActionEqualsStatement("ch.lernstick.dlcopy"));
+        addStrictPolkitRule("lernstick-welcome",
+                getActionEqualsStatement("ch.lernstick.welcome"));
+        addStrictPolkitRule("lernstick-wrapper-gdebi-gtk",
+                getActionEqualsStatement("ch.lernstick.wrapper-gdebi-gtk"));
+        addStrictPolkitRule("lernstick-wrapper-synaptic",
+                getActionEqualsStatement("ch.lernstick.wrapper-synaptic"));
+        // lenient action defined by package jbackpack-restore-admin
+        addStrictPolkitRule("lernstick-jbackpack",
+                getActionEqualsStatement("ch.fhnw.jbackpack"));
+        // lenient action defined by package lernstick-usertemplate-exam
+        addStrictPolkitRule("lernstick-packagekit",
+                getActionStartsWithStatement("org.freedesktop.packagekit."));
     }
 
     /**
-     * Adds an action with a description to the given pkla-file.<br>
-     * This new rule for the PolicyKit Local Authority results into a password
-     * request when trying to run this action.
+     * Adds a strict polkit rule. This new polkit rule results into a password
+     * request when trying to run the corresponding action.
      *
-     * @param fileName the pkla file in which the action should be saved
-     * @param description description of the action
-     * @param action the action that should be run
+     * @param fileName the file in which the action should be saved (the suffix
+     * ".rules" is added automatically)
+     * @param actionIfStatement the if-statement for the action
      */
-    private void addStrictPKLA(String fileName, String description,
-            String action) throws ProcessingException {
+    private void addStrictPolkitRule(String fileName, String actionIfStatement)
+            throws ProcessingException {
 
-        Path strictPoliciesDir = getStrictPoliciesDir();
-        Path strictPath = strictPoliciesDir.resolve(fileName);
-        String strictWelcomeRule
-                = "[" + description + "]\n"
-                + "Identity=unix-user:*\n"
-                + "Action=" + action + "\n"
-                + "ResultAny=auth_self_keep\n"
-                + "ResultInactive=auth_self_keep\n"
-                + "ResultActive=auth_self_keep\n";
+        Path polkitRulesPath = Paths.get(WelcomeConstants.POLKIT_RULES_PATH);
+        String fullFileName = fileName + ".rules";
+        Path filePath = polkitRulesPath.resolve(fullFileName);
+        String rule
+                = "polkit.addRule(function(action, subject) {\n"
+                + "    if (action.id" + actionIfStatement + ") {\n"
+                + "        return polkit.Result.AUTH_SELF_KEEP;\n"
+                + "    }\n"
+                + "})";
         try {
-            Files.write(strictPath, strictWelcomeRule.getBytes());
+            Files.write(filePath, rule.getBytes());
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "", ex);
             throw new ProcessingException("Error",
-                    "SystemconfigTask.cantWritePasswordPolicy", fileName);
+                    "SystemconfigTask.cantWritePasswordPolicy", fullFileName);
         }
     }
 
-    /**
-     * Hardens the rule in an pkla-files to restrict access to the action by the
-     * PolicyKit Local Authority.
-     *
-     * @param pklas The actions that should be restricted.
-     * @throws ProcessingException
-     */
-    private void hardenPKLAs(String... pklas) throws ProcessingException {
-        Pattern yesPattern = Pattern.compile("(.*)=yes");
-        Path strictPoliciesDir = getStrictPoliciesDir();
-        for (String pkla : pklas) {
-            try {
-                Path lenientPath = Paths.get(WelcomeConstants.LOCAL_POLKIT_PATH,
-                        "10-" + pkla + ".pkla");
-                List<String> lenientLines = Files.readAllLines(
-                        lenientPath, StandardCharsets.UTF_8);
-                List<String> strictLines = new ArrayList<>();
-                for (String lenientLine : lenientLines) {
-                    Matcher matcher = yesPattern.matcher(lenientLine);
-                    if (matcher.matches()) {
-                        lenientLine = matcher.group(1) + "=auth_self_keep";
-                    }
-                    strictLines.add(lenientLine);
-                }
-                Path strictPath = strictPoliciesDir.resolve(
-                        "10-" + pkla + "_strict.pkla");
-                Files.write(strictPath, strictLines, StandardCharsets.UTF_8);
-            } catch (IOException ex) {
-                LOGGER.log(Level.WARNING, "", ex);
-                throw new ProcessingException("Error",
-                        "SystemconfigTask.cantWritePasswordPolicy", pkla);
-            }
-        }
+    private String getActionEqualsStatement(String actionID) {
+        return " == \"" + actionID + "\"";
     }
 
-    private Path getStrictPoliciesDir() {
-        Path strictPoliciesDir = Paths.get(WelcomeConstants.EXAM_POLKIT_PATH);
-        if (!Files.isDirectory(strictPoliciesDir)) {
-            try {
-                Files.createDirectories(strictPoliciesDir);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-        return strictPoliciesDir;
+    private String getActionStartsWithStatement(String actionID) {
+        return ".indexOf(\"" + actionID + "\") == 0";
     }
 
     /**

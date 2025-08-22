@@ -60,16 +60,17 @@ public class WelcomeUtil {
      * see {@link #isImageWritable()} *
      */
     private static volatile Boolean isImageWritable;
-    
+
     public static String ARCHITECTURE = detectArchitecture();
 
     private WelcomeUtil() {
     }
-    
+
     /**
-    * returns the current architecture
-    * @return the architecture the program is currently running on
-    */
+     * returns the current architecture
+     *
+     * @return the architecture the program is currently running on
+     */
     private static String detectArchitecture() {
         return System.getProperty("os.arch");
     }
@@ -149,28 +150,24 @@ public class WelcomeUtil {
 
     /**
      * Checks if mounting internal filesystems is allowed.
-     * <br>
-     * Reads out the {@link WelcomeConstants#PKLA_PATH} File to check if a rule
-     * is defined.
      *
-     * @return
+     * @return <code>true</code>, if mounting internal filesystems is allowed,
+     * <code>false</code> otherwise.
      */
     public static boolean isInternalFileSystemMountAllowed() {
-        return !Files.exists(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
-                "10-udisks2-mount-system_strict.pkla"));
+        return !Files.exists(Paths.get(WelcomeConstants.POLKIT_RULES_PATH,
+                WelcomeConstants.MOUNT_SYSTEM_POLKIT_FILE + ".rules"));
     }
 
     /**
      * Checks if mounting external filesystems is allowed.
-     * <br>
-     * Reads out the {@link WelcomeConstants#PKLA_PATH} File to check if a rule
-     * is defined.
      *
-     * @return
+     * @return <code>true</code>, if mounting external filesystems is allowed,
+     * <code>false</code> otherwise.
      */
     public static boolean isExternalFileSystemMountAllowed() {
-        return !Files.exists(Paths.get(WelcomeConstants.EXAM_POLKIT_PATH,
-                "10-udisks2-mount_strict.pkla"));
+        return !Files.exists(Paths.get(WelcomeConstants.POLKIT_RULES_PATH,
+                WelcomeConstants.MOUNT_POLKIT_FILE + ".rules"));
     }
 
     /**
