@@ -885,30 +885,12 @@
 
     <!-- games -->
 
-    <application name="Minetest">
-        <description>Welcome.minetestGamePanel.description</description>
-        <icon>minetest</icon>
-        <help-path>Welcome.minetestGamePanel.website</help-path>
+    <application name="Luanti">
+        <description>Welcome.luantiGamePanel.description</description>
+        <icon>luanti</icon>
+        <help-path>Welcome.luantiGamePanel.website</help-path>
         <packages>
-            <package type="apt">
-                lernstick-minetest-game-tutorial minetest-mod-basic-materials
-                minetest-mod-character-creator minetest-mod-craftguide
-                minetest-mod-ethereal minetest-mod-homedecor
-                minetest-mod-infinite-chest minetest-mod-lucky-block
-                minetest-mod-maidroid minetest-mod-mesecons
-                minetest-mod-meshport minetest-mod-moreblocks
-                minetest-mod-moreores minetest-mod-nether minetest-mod-pipeworks
-                minetest-mod-3d-armor minetest-mod-protector minetest-mod-quartz
-                minetest-mod-skyblock minetest-mod-throwing-arrows
-                minetest-mod-unifieddyes minetest-mod-unified-inventory
-                minetest-mod-worldedit
-            </package>
-            <!-- currently (2020-07-17) broken
-            <package type="apt">minetest-mod-xdecor</package>
-            -->
-            <!-- conflicts with minetest-mod-mesecons
-            <package type="apt">lernstick-minetest-mod-dreambuilder</package>
-            -->
+            <package type="flatpak">org.luanti.luanti</package>
         </packages>
         <tags>
             <tag>game</tag>
