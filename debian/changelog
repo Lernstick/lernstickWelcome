@@ -1,3 +1,9 @@
+lernstickwelcome (202508231634) lernstick-13; urgency=medium
+
+  * [12eae6] updated list of GeoGebra packages
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 23 Aug 2025 16:34:31 +0200
+
 lernstickwelcome (202508231526) lernstick-13; urgency=medium
 
   * [536bba] replaced Minetest Debian files with Luanti flatpak
