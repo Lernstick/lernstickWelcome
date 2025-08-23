@@ -466,8 +466,8 @@
         <packages>
             <package type="apt">
                 gimp gimp-data gimp-data-extras gimp-help-de gimp-help-en
-                gimp-help-es gimp-help-fr gimp-help-it gimp-help-pt gimp-help-ru
-                gimp-texturize
+                gimp-help-es gimp-help-fr gimp-help-it gimp-help-pt-br
+                gimp-help-ru gimp-texturize
             </package>
         </packages>
         <tags>
