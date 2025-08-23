@@ -1,3 +1,9 @@
+lernstickwelcome (202508231526) lernstick-13; urgency=medium
+
+  * [536bba] replaced Minetest Debian files with Luanti flatpak
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 23 Aug 2025 15:26:54 +0200
+
 lernstickwelcome (202508222008) lernstick-13; urgency=medium
 
   * [3333bf] updated Lernstick infos
