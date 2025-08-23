@@ -1,3 +1,9 @@
+lernstickwelcome (202508231819) lernstick-13; urgency=medium
+
+  * [d44b15] updated GIMP packages
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 23 Aug 2025 18:19:12 +0200
+
 lernstickwelcome (202508231813) lernstick-13; urgency=medium
 
   * [a59145] more updates for Debian 13
