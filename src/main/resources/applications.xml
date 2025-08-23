@@ -239,6 +239,10 @@
         </tags>
     </application>
 
+    <!--
+    Etoys didn't make it into Debian 13 because squeak-vm FTBFS:
+    https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1066698
+    Maybe we can reactivate it in later distributions...
     <application name="Etoys">
         <description>Welcome.etoysPanel.description</description>
         <icon>etoys</icon>
@@ -250,6 +254,7 @@
             <tag>teaching</tag>
         </tags>
     </application>
+    -->
 
     <application name="TigerJython">
         <description>Welcome.tigerjythonPanel.description</description>
@@ -460,9 +465,9 @@
         <help-path>GIMP_website</help-path>
         <packages>
             <package type="apt">
-                gimp gimp-data gimp-data-extras gimp-gap gimp-help-de
-                gimp-help-en gimp-help-es gimp-help-fr gimp-help-it gimp-help-ru
-                gimp-plugin-registry gimp-texturize
+                gimp gimp-data gimp-data-extras gimp-help-de gimp-help-en
+                gimp-help-es gimp-help-fr gimp-help-it gimp-help-pt gimp-help-ru
+                gimp-texturize
             </package>
         </packages>
         <tags>
@@ -746,7 +751,7 @@
         <packages>
             <package type="apt">
                 apache-netbeans lernstick-visualvm lernstick-scenebuilder
-                scenebuilder openjdk-17-source openjdk-17-doc openjfx
+                scenebuilder openjdk-21-source openjdk-21-doc openjfx
                 openjfx-source libopenjfx-java-doc
             </package>
         </packages>
@@ -830,7 +835,7 @@
         <packages>
             <package type="apt">
                 lernstick-wine wine-gecko lernstick-playonlinux
-                playonlinux winetricks exe-thumbnailer
+                playonlinux winetricks icoextract-thumbnailer
             </package>
         </packages>
         <tags>
