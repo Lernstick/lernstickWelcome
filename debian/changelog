@@ -1,3 +1,9 @@
+lernstickwelcome (202508231813) lernstick-13; urgency=medium
+
+  * [a59145] more updates for Debian 13
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 23 Aug 2025 18:13:06 +0200
+
 lernstickwelcome (202508231634) lernstick-13; urgency=medium
 
   * [12eae6] updated list of GeoGebra packages
