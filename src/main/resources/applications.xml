@@ -211,10 +211,7 @@
         <icon>geogebra</icon>
         <help-path>GeoGebra_website</help-path>
         <packages>
-            <package type="apt">
-                lernstick-geogebra lernstick-geogebra-classic
-                geogebra-classic geogebra-gnome
-            </package>
+            <package type="apt">geogebra5 geogebra6</package>
         </packages>
         <tags>
             <tag>teaching</tag>
