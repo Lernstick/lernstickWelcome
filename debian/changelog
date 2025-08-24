@@ -1,3 +1,9 @@
+lernstickwelcome (202508242213) lernstick-13; urgency=medium
+
+  * [8b7df5] updated Adobe Reader dependencies
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 24 Aug 2025 22:13:08 +0200
+
 lernstickwelcome (202508241923) lernstick-13; urgency=medium
 
   * [898602] libcanberra-gtk-module:i386 is no longer installable
