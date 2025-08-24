@@ -1,3 +1,9 @@
+lernstickwelcome (202508241923) lernstick-13; urgency=medium
+
+  * [898602] libcanberra-gtk-module:i386 is no longer installable
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 24 Aug 2025 19:23:24 +0200
+
 lernstickwelcome (202508231819) lernstick-13; urgency=medium
 
   * [d44b15] updated GIMP packages
