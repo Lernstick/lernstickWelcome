@@ -87,7 +87,7 @@
             libgdk-pixbuf-xlib-2.0-0:i386
             hard dependency of adobereader-enu
 
-            libatk1.0-0:i386
+            libatk1.0-0t64:i386
             hard dependency of libgtk2.0-0:i386
 
             libgail-common:i386
@@ -112,7 +112,7 @@
             -->
             <package type="apt">
                 gnome-themes-extra:i386 gtk2-engines-murrine:i386
-                gtk2-engines-pixbuf:i386 libatk1.0-0:i386 libatk-adaptor:i386
+                gtk2-engines-pixbuf:i386 libatk1.0-0t64:i386 libatk-adaptor:i386
 		libgail-common:i386 libgdk-pixbuf-xlib-2.0-0:i386
 		libgtk2.0-0:i386
             </package>
