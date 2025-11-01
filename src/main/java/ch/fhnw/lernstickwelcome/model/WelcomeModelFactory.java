@@ -74,10 +74,10 @@ public class WelcomeModelFactory {
     private static final HashMap<String, ApplicationTask> applicationTasks
             = new HashMap<>();
 
-    private static final boolean flatpakSupported;
+    private static final boolean IS_FLATPAK_SUPPORTED;
 
     static {
-        flatpakSupported = PROCESS_EXECUTOR.executeProcess(
+        IS_FLATPAK_SUPPORTED = PROCESS_EXECUTOR.executeProcess(
                 "flatpak", "--version") == 0;
     }
 
@@ -394,23 +394,22 @@ public class WelcomeModelFactory {
 
         ApplicationTask task = null;
         switch (type) {
-            case "flatpak":
+            case "flatpak" -> {
                 // flatpak applications get ignored when on system without
                 // flatpak support (e.g. the Lernstick Mini Version)
-                if (flatpakSupported) {
+                if (IS_FLATPAK_SUPPORTED) {
                     task = new FlatpakApplicationTask(applicationName,
                             description, icon, helpPath, combinedPackages,
                             installedFlatpakNames);
                 }
-                break;
+            }
 
-            case "pipx":
+            case "pipx" ->
                 task = new PipxApplicationTask(applicationName,
                         description, icon, helpPath, combinedPackages,
                         installedFlatpakNames);
-                break;
 
-            default:
+            default ->
                 task = new DpkgApplicationTask(applicationName, description,
                         icon, helpPath, combinedPackages, installedDpkgNames);
         }

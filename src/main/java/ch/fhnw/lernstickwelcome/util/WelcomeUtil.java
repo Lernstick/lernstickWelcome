@@ -61,6 +61,9 @@ public class WelcomeUtil {
      */
     private static volatile Boolean isImageWritable;
 
+    /**
+     * The detected architecture of the currently running system
+     */
     public static String ARCHITECTURE = detectArchitecture();
 
     private WelcomeUtil() {
@@ -234,17 +237,17 @@ public class WelcomeUtil {
 
         String[] tokens = portRange.split(":");
         switch (tokens.length) {
-            case 1:
+            case 1 ->
                 // simple port
                 checkPortString(tokens[0], index);
-                return;
-            case 2:
+
+            case 2 -> {
                 // port range
                 checkPortString(tokens[0], index);
                 checkPortString(tokens[1], index);
-                return;
+            }
 
-            default:
+            default ->
                 // invalid syntax
                 throw new TableCellValidationException(
                         "WelcomeUtil.Error_PortRange", index, 2);

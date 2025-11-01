@@ -55,15 +55,18 @@ public class FirewallPatternValidatorController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        tvPatternDependencies_pattern.setCellValueFactory(p -> p.getValue().searchCriteriaProperty());
-        tvPatternDependencies_open.setCellFactory(c -> new FirewallOpenButtonCell(c.getTableView()));
-    }    
-    
+        tvPatternDependencies_pattern.setCellValueFactory(
+                p -> p.getValue().searchCriteriaProperty());
+        tvPatternDependencies_open.setCellFactory(
+                c -> new FirewallOpenButtonCell(c.getTableView()));
+    }
+
     public Button getBtOk() {
         return btOk;
     }
-    
-    public TableColumn<WebsiteFilter, WebsiteFilter> getTvPatternDependencies_add() {
+
+    public TableColumn<WebsiteFilter, WebsiteFilter>
+            getTvPatternDependencies_add() {
         return tvPatternDependencies_add;
     }
 }

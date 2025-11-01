@@ -23,9 +23,11 @@ import java.util.List;
  * Represents a single help file which can be loaded.
  * <br>
  * Help entries can be ordered by its index.
+ *
  * @author sschw
  */
 public class HelpEntry implements Comparable<HelpEntry> {
+
     private String title;
     private String path;
     private int index;
@@ -38,7 +40,7 @@ public class HelpEntry implements Comparable<HelpEntry> {
     public String getPath() {
         return path;
     }
-    
+
     public int getIndex() {
         return index;
     }
@@ -59,7 +61,7 @@ public class HelpEntry implements Comparable<HelpEntry> {
     public void setPath(String path) {
         this.path = path;
     }
-    
+
     public void setIndex(int index) {
         this.index = index;
     }
@@ -71,10 +73,10 @@ public class HelpEntry implements Comparable<HelpEntry> {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof HelpEntry) {
+        if (obj instanceof HelpEntry helpEntry) {
             // If the help entry has same path, the help entries are the same.
             // If path is null the help entries can't be compared.
-            return path != null && path.equals(((HelpEntry) obj).getPath());
+            return ((path != null) && path.equals(helpEntry.getPath()));
         }
         return false;
     }
@@ -83,5 +85,5 @@ public class HelpEntry implements Comparable<HelpEntry> {
     public int compareTo(HelpEntry o) {
         return index - o.index;
     }
-    
+
 }

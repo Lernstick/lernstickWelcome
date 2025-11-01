@@ -16,26 +16,16 @@
  */
 package ch.fhnw.lernstickwelcome.fxmlcontroller;
 
-import ch.fhnw.lernstickwelcome.model.WelcomeModelFactory;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
 import ch.fhnw.lernstickwelcome.view.impl.ToggleSwitch;
-import ch.fhnw.util.Partition;
-import ch.fhnw.util.StorageDevice;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.util.StringConverter;
 import org.freedesktop.dbus.exceptions.DBusException;
 
@@ -64,7 +54,7 @@ public class AbstractSystemController {
     @FXML
     protected TextField userNameTextField;
     @FXML
-    protected TextField exchangePartitionLabelTextField;    
+    protected TextField exchangePartitionLabelTextField;
     @FXML
     private DataPartitionController dataPartitionController;
 
@@ -105,29 +95,31 @@ public class AbstractSystemController {
         timeoutComboBox.setEditable(true);
         timeoutComboBox.getItems().addAll(timeoutValues);
 
-        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!isChangeUsernameAllowed(newValue)) {
-                userNameTextField.setText(oldValue);
-            }
-        });
+        userNameTextField.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (!isChangeUsernameAllowed(newValue)) {
+                        userNameTextField.setText(oldValue);
+                    }
+                });
 
-        exchangePartitionLabelTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) {
-                return;
-            }
-            // only allow ASCII input
-            if (!isASCII(newValue)) {
-                exchangePartitionLabelTextField.setText(oldValue);
-                return;
-            }
+        exchangePartitionLabelTextField.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue == null) {
+                        return;
+                    }
+                    // only allow ASCII input
+                    if (!isASCII(newValue)) {
+                        exchangePartitionLabelTextField.setText(oldValue);
+                        return;
+                    }
 
-            if (getSpecialLength(newValue) <= 11) {
-                exchangePartitionLabelTextField.setText(newValue);
-            } else {
-                exchangePartitionLabelTextField.setText(oldValue);
-                Toolkit.getDefaultToolkit().beep();
-            }
-        });
+                    if (getSpecialLength(newValue) <= 11) {
+                        exchangePartitionLabelTextField.setText(newValue);
+                    } else {
+                        exchangePartitionLabelTextField.setText(oldValue);
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                });
 
         if (!WelcomeUtil.isImageWritable()) {
             timeoutComboBox.setVisible(false);

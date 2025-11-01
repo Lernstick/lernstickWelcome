@@ -40,7 +40,7 @@ public class InfodialogController implements Initializable {
     private Button btOk;
     @FXML
     private Label lbInfotext;
-    
+
     private ResourceBundle rb;
 
     /**
@@ -49,12 +49,13 @@ public class InfodialogController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.rb = rb;
-    }    
-    
+    }
+
     public void initDialog(String textid, EventHandler<ActionEvent> okAction) {
         lbInfotext.setText(rb.getString(textid));
         btOk.setOnAction(okAction);
-        btCancel.setOnAction(e -> ((Stage) ((Node) e.getSource()).getScene().getWindow()).close());
+        btCancel.setOnAction(e -> {
+            ((Stage) ((Node) e.getSource()).getScene().getWindow()).close();
+        });
     }
-    
 }

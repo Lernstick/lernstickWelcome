@@ -49,9 +49,9 @@ public class PasswordDialog extends Alert {
     private final TextField oldPasswordTextField;
     private final PasswordField newPasswordField;
 
-    public PasswordDialog(String titleKey, 
+    public PasswordDialog(String titleKey,
             String oldPasswordKey, String newPasswordKey) {
-        
+
         super(AlertType.NONE);
 
         setTitle(BUNDLE.getString(titleKey));
@@ -76,7 +76,7 @@ public class PasswordDialog extends Alert {
         oldPasswordTextField = new TextField();
         oldPasswordTextField.textProperty().bindBidirectional(
                 oldPasswordField.textProperty());
-        
+
         ToggleButton showOldPasswordButton = new ToggleButton();
         showOldPasswordButton.setFocusTraversable(false);
         showOldPasswordButton.setGraphic(new ImageView(
@@ -110,7 +110,7 @@ public class PasswordDialog extends Alert {
         TextField newPasswordTextField = new TextField();
         newPasswordTextField.textProperty().bindBidirectional(
                 newPasswordField.textProperty());
-        
+
         ToggleButton showNewPasswordButton = new ToggleButton();
         showNewPasswordButton.setFocusTraversable(false);
         showNewPasswordButton.setGraphic(new ImageView(
@@ -174,11 +174,11 @@ public class PasswordDialog extends Alert {
             }
         });
     }
-    
+
     public String getOldPassword() {
         return oldPasswordField.getText();
     }
-    
+
     public String getNewPassword() {
         return newPasswordField.getText();
     }

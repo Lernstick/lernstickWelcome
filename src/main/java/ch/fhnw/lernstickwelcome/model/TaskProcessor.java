@@ -17,7 +17,6 @@
 package ch.fhnw.lernstickwelcome.model;
 
 import ch.fhnw.lernstickwelcome.controller.WelcomeApplication;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -36,8 +35,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -99,7 +96,8 @@ public class TaskProcessor {
         // Binding progress to tasks
         progress.bind(Bindings.createDoubleBinding(
                 () -> taskList.stream()
-                        .mapToDouble(t -> t.getProgress() > 0 ? t.getProgress() : 0)
+                        .mapToDouble(
+                                t -> t.getProgress() > 0 ? t.getProgress() : 0)
                         .sum() / tasks.size(),
                 taskList.stream()
                         .map(t -> t.progressProperty())
@@ -137,13 +135,13 @@ public class TaskProcessor {
                 }
 
                 WelcomeApplication.playNotifySound();
-                
+
                 Platform.runLater(() -> {
                     image.set(null);
                     title.set("TaskProcessor.finishedTitle");
                     message.set("TaskProcessor.finishedMessage");
                 });
-                
+
                 // show the finished message for a short while
                 try {
                     TimeUnit.SECONDS.sleep(3);

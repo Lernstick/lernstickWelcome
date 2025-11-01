@@ -29,7 +29,7 @@ import javafx.scene.layout.HBox;
  * A simple toggle switch.
  * <br>
  * Optimized for the use in a fxml file.
- * 
+ *
  * @author TheItachiUchiha & sschw
  */
 public class ToggleSwitch extends HBox {
@@ -40,7 +40,7 @@ public class ToggleSwitch extends HBox {
     private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
     private SimpleStringProperty textOn = new SimpleStringProperty();
     private SimpleStringProperty textOff = new SimpleStringProperty();
-    
+
     /**
      * Initializes a toggle switch.
      */
@@ -65,6 +65,7 @@ public class ToggleSwitch extends HBox {
 
     /**
      * Initializes a toggle switch.
+     *
      * @param textOn Text if the toggle switch is selected.
      * @param textOff Text if the toggle switch is deselected.
      */
@@ -79,7 +80,7 @@ public class ToggleSwitch extends HBox {
      */
     private void init() {
         label.textProperty().bind(textOff);
-            
+
         getChildren().addAll(button, label);
         button.setOnAction((e) -> {
             selected.set(!selected.get());
@@ -88,7 +89,7 @@ public class ToggleSwitch extends HBox {
             selected.set(!selected.get());
         });
         setStyle();
-            
+
         bindProperties();
     }
 
@@ -118,23 +119,26 @@ public class ToggleSwitch extends HBox {
 
     /**
      * The selected state of the toggle switch.
-     * @return 
+     *
+     * @return
      */
     public BooleanProperty selectedProperty() {
         return selected;
     }
-    
+
     /**
      * Sets the selected text.
-     * @param textOn 
+     *
+     * @param textOn
      */
     public void setTextOn(String textOn) {
         this.textOn.set(textOn);
     }
-    
+
     /**
      * Sets the deselected text.
-     * @param textOff 
+     *
+     * @param textOff
      */
     public void setTextOff(String textOff) {
         this.textOff.set(textOff);

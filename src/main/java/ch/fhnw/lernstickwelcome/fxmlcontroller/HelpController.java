@@ -44,16 +44,16 @@ public class HelpController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
+    }
+
     public TreeView<HelpEntry> getTvList() {
         return tvList;
     }
-    
+
     public WebView getWvView() {
         return wvView;
     }
-    
+
     public Button getBtOk() {
         return btOk;
     }

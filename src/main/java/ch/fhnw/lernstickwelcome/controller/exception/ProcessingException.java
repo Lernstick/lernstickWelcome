@@ -43,7 +43,7 @@ public class ProcessingException extends Exception {
     public String getTitleKey() {
         return titleKey;
     }
-    
+
     public Object[] getMessageDetails() {
         if (details != null) {
             return Arrays.copyOf(details, details.length);

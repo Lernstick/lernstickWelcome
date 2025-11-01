@@ -380,13 +380,14 @@ public class BackupTask implements Processable<String> {
                 if (!local.get()
                         || destinationPath.get() == null
                         || destinationPath.get().isEmpty()) {
-                    if (partition.get()
-                            && !partitionPath.get().isEmpty()) {
-                        updateJBackpackProperties(sourcePath.get(), "/mnt/backup/"
-                                + partitionPath.get() + "/lernstick_backup");
+                    if (partition.get() && !partitionPath.get().isEmpty()) {
+                        updateJBackpackProperties(sourcePath.get(),
+                                "/mnt/backup/" + partitionPath.get()
+                                + "/lernstick_backup");
                     }
                 } else {
-                    updateJBackpackProperties(sourcePath.get(), destinationPath.get());
+                    updateJBackpackProperties(
+                            sourcePath.get(), destinationPath.get());
                 }
                 backupConfigured = true;
             }

@@ -18,30 +18,32 @@ package ch.fhnw.lernstickwelcome.controller.exception;
 
 /**
  * Thrown if a validation fails inside a table.
- * 
+ *
  * @see ValidationException
  * @author sschw
  */
 public class TableCellValidationException extends ValidationException {
+
     int row;
     int col;
-    
+
     public TableCellValidationException(String message, int row, int col) {
         super(message);
         this.row = row;
         this.col = col;
     }
-    
-    public TableCellValidationException(String message, int row, int col, Object... details) {
+
+    public TableCellValidationException(
+            String message, int row, int col, Object... details) {
         super(message, details);
         this.row = row;
         this.col = col;
     }
-    
+
     public int getRow() {
         return row;
     }
-    
+
     public int getCol() {
         return col;
     }

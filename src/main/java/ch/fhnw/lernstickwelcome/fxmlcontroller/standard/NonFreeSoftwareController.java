@@ -34,7 +34,7 @@ public class NonFreeSoftwareController implements Initializable {
     private Button helpButton;
     @FXML
     private TabPane tabPane;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -42,13 +42,13 @@ public class NonFreeSoftwareController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //tabPane.getStyleClass().add("floating");
     }
-    
+
     public Button getHelpButton() {
         return helpButton;
     }
-    
+
     public TabPane getTabPane() {
         return tabPane;
     }
-    
+
 }

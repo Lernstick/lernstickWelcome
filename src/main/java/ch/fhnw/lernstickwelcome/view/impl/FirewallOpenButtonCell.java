@@ -18,19 +18,21 @@ package ch.fhnw.lernstickwelcome.view.impl;
 
 import ch.fhnw.lernstickwelcome.model.firewall.WebsiteFilter;
 import ch.fhnw.lernstickwelcome.util.WelcomeUtil;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 
 /**
  *
  * @author root
  */
-public class FirewallOpenButtonCell extends ButtonCell<WebsiteFilter, WebsiteFilter> {
+public class FirewallOpenButtonCell extends
+        ButtonCell<WebsiteFilter, WebsiteFilter> {
 
     public FirewallOpenButtonCell(TableView<WebsiteFilter> table) {
         super("btn_browse", (c, e) -> {
-            WebsiteFilter pattern = table.getItems().get(c.getTableRow().getIndex());
-            WelcomeUtil.openLinkInBrowser(pattern.searchCriteriaProperty().get());
+            WebsiteFilter pattern
+                    = table.getItems().get(c.getTableRow().getIndex());
+            WelcomeUtil.openLinkInBrowser(
+                    pattern.searchCriteriaProperty().get());
         });
     }
 }

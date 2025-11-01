@@ -64,9 +64,7 @@ public class WelcomeSplashScreen extends Preloader {
             stage.show();
         }
         
-        if (info instanceof SplashScreenNotification) {
-            SplashScreenNotification splashScreenNotification
-                    = (SplashScreenNotification) info;
+        if (info instanceof SplashScreenNotification splashScreenNotification) {
 
             // update app icon
             String path = ICON_APPLICATION_FILE_PATH + "/"

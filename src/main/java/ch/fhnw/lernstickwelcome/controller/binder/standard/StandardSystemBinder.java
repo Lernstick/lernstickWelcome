@@ -56,19 +56,19 @@ public class StandardSystemBinder extends AbstractSystemBinder {
 
         standardSystemController.getReadOnlyWarningToggleSwitch().selectedProperty().bindBidirectional(
                 welcomeController.getPartitionTask().showReadOnlyInfoProperty());
-        
+
         standardSystemController.getProxyToggleSwitch().selectedProperty().bindBidirectional(
                 welcomeController.getProxyTask().proxyActiveProperty());
-        
+
         standardSystemController.getProxyHostTextField().textProperty().bindBidirectional(
                 welcomeController.getProxyTask().hostnameProperty());
-        
+
         standardSystemController.getProxyPortTextField().textProperty().bindBidirectional(
                 welcomeController.getProxyTask().portProperty());
-        
+
         standardSystemController.getProxyPasswordField().textProperty().bindBidirectional(
                 welcomeController.getProxyTask().passwordProperty());
-        
+
         standardSystemController.getProxyUserTextField().textProperty().bindBidirectional(
                 welcomeController.getProxyTask().usernameProperty());
     }

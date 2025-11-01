@@ -121,7 +121,7 @@ public class ApplicationView extends GridPane {
     public BooleanProperty installedProperty() {
         return installed;
     }
-    
+
     public BooleanProperty installingProperty() {
         return toggleSwitch.selectedProperty();
     }

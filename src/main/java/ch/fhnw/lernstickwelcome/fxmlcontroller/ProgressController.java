@@ -41,14 +41,13 @@ public class ProgressController implements Initializable {
     private Label messageLabel;
     @FXML
     private ImageView imageView;
-    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }   
+    }
 
     public ProgressBar getProgressBar() {
         return progressBar;

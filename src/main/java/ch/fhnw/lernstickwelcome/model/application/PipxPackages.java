@@ -31,6 +31,9 @@ import java.util.List;
  */
 public class PipxPackages extends ApplicationPackages {
 
+    /**
+     * the default command for running pipx
+     */
     public static final String PIX_COMMAND
             = "PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx";
 
@@ -57,7 +60,7 @@ public class PipxPackages extends ApplicationPackages {
         // install package itself
         builder.append(PIX_COMMAND).append(" install ").append(name)
                 .append('\n');
-        
+
         // install all injected packages
         builder.append(PIX_COMMAND).append(" inject ").append(name);
         for (String injectedPackage : injectedPackages) {

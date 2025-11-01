@@ -41,9 +41,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -102,7 +100,7 @@ public final class FXMLGuiLoader {
 
         this.resourceBundle = resourceBundle;
 
-        // Create all instances with their controllers   
+        // Create all instances with their controllers
         try {
             ObservableList<MainMenuItem> menuPaneItems
                     = FXCollections.observableArrayList();
@@ -200,9 +198,9 @@ public final class FXMLGuiLoader {
                         "/ch/fhnw/lernstickwelcome/view/help.fxml",
                         stylesheet, resourceBundle);
                 helpScene = helpPair.getKey();
-                helpController = helpPair.getValue();                
+                helpController = helpPair.getValue();
             }
-           
+
             // add menu buttons to welcome application main window and panes
             // according to exam/std version of the lernstick
             mainController.initializeMenu(menuPaneItems);
@@ -342,7 +340,8 @@ public final class FXMLGuiLoader {
      *
      * @return
      */
-    public ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController getInformationExamController() {
+    public ch.fhnw.lernstickwelcome.fxmlcontroller.exam.InformationController
+            getInformationExamController() {
         return informationExamController;
     }
 
@@ -387,7 +386,8 @@ public final class FXMLGuiLoader {
      *
      * @return
      */
-    public FirewallPatternValidatorController getFirewallPatternValidatorController() {
+    public FirewallPatternValidatorController
+            getFirewallPatternValidatorController() {
         return firewallPatternValidatorController;
     }
 
@@ -396,7 +396,8 @@ public final class FXMLGuiLoader {
      *
      * @return
      */
-    public FirewallDependenciesWarningController getFirewallDependenciesWarningController() {
+    public FirewallDependenciesWarningController
+            getFirewallDependenciesWarningController() {
         return firewallDependenciesWarningController;
     }
 
@@ -405,7 +406,8 @@ public final class FXMLGuiLoader {
      *
      * @return
      */
-    public ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController getInformationStdController() {
+    public ch.fhnw.lernstickwelcome.fxmlcontroller.standard.InformationController
+            getInformationStdController() {
         return informationStdController;
     }
 

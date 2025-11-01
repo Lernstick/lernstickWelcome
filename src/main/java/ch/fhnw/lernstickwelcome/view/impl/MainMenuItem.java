@@ -20,7 +20,7 @@ import javafx.scene.Node;
 
 /**
  * An item in the main menu of the welcome application
- * 
+ *
  * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public class MainMenuItem {

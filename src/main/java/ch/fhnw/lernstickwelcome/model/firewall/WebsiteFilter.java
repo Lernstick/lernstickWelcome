@@ -31,8 +31,8 @@ import javafx.beans.property.StringProperty;
  */
 public class WebsiteFilter {
 
-    private static final Logger LOGGER =
-            Logger.getLogger(WebsiteFilter.class.getName());
+    private static final Logger LOGGER
+            = Logger.getLogger(WebsiteFilter.class.getName());
 
     /**
      * The predefined SearchPatterns which should help the user to configure

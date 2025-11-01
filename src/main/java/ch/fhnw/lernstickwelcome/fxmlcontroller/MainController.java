@@ -19,6 +19,7 @@ package ch.fhnw.lernstickwelcome.fxmlcontroller;
 import ch.fhnw.lernstickwelcome.view.impl.MainMenuItem;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,10 +61,14 @@ public class MainController implements Initializable {
         }
 
         // react to selections in menu list
-        menuListView.getSelectionModel().selectedItemProperty().addListener(cl -> {
+        ReadOnlyObjectProperty selectedItemProperty
+                = menuListView.getSelectionModel().selectedItemProperty();
+        selectedItemProperty.addListener(cl -> {
             ObservableList<Node> children = stackPane.getChildren();
             children.get(children.size() - 1).setVisible(false);
-            Node node = menuListView.getSelectionModel().getSelectedItem().getNode();
+            MainMenuItem selectedItem
+                    = menuListView.getSelectionModel().getSelectedItem();
+            Node node = selectedItem.getNode();
             node.toFront();
             node.setVisible(true);
         });

@@ -39,7 +39,7 @@ public class StandardSystemController
 
     private static final Logger LOGGER
             = Logger.getLogger(StandardSystemController.class.getName());
-    
+
     @FXML
     private ToggleSwitch proxyToggleSwitch;
     @FXML

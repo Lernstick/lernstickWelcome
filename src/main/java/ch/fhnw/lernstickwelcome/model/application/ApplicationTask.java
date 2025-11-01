@@ -150,7 +150,7 @@ public abstract class ApplicationTask implements Processable<String> {
             // We check if it is installed (wget exit code is inconsistent)
             if (exitValue != 0 || !initIsInstalled()) {
 
-                // check if we failed to get the dpkg frontend lock 
+                // check if we failed to get the dpkg frontend lock
                 boolean failedFrontEndLock = false;
                 for (String error : processExecutor.getStdErrList()) {
                     if (error.startsWith("E: Could not get lock")) {
@@ -162,7 +162,7 @@ public abstract class ApplicationTask implements Processable<String> {
                     throw new ProcessingException(
                             "Error_Title_Application_Installation",
                             "Error_Getting_Dpkg_Frontend_Lock");
-                    
+
                 } else {
                     String errorMessage
                             = "apt or wget failed with the following output:\n"

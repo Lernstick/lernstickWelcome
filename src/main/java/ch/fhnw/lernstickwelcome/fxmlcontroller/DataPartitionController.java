@@ -74,7 +74,7 @@ public class DataPartitionController
 
     public DataPartitionController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "/ch/fhnw/lernstickwelcome/view/DataPartitionView.fxml"), 
+                "/ch/fhnw/lernstickwelcome/view/DataPartitionView.fxml"),
                 BUNDLE);
         loader.setRoot(this);
         loader.setController(this);
@@ -156,7 +156,7 @@ public class DataPartitionController
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "", ex);
             }
-            Alert finalAlert = null;
+            Alert finalAlert;
             if (slotKilled) {
                 finalAlert = new Alert(AlertType.INFORMATION);
                 finalAlert.setHeaderText(BUNDLE.getString(
@@ -277,8 +277,10 @@ public class DataPartitionController
         if (!encryptionGridPane.getChildren().contains(
                 addSecondaryPasswordButton)) {
 
-            encryptionGridPane.getChildren().remove(changeSecondaryPasswordButton);
-            encryptionGridPane.getChildren().remove(deleteSecondaryPasswordButton);
+            encryptionGridPane.getChildren().remove(
+                    changeSecondaryPasswordButton);
+            encryptionGridPane.getChildren().remove(
+                    deleteSecondaryPasswordButton);
             encryptionGridPane.add(addSecondaryPasswordButton, 1, 1);
         }
     }

@@ -284,10 +284,10 @@ public final class WelcomeApplication extends Application {
             primaryStage.show();
             if (isExamEnvironment()) {
                 primaryStage.getIcons().add(new Image(
-                getClass().getResourceAsStream("/icon/lernstick_exam.png")));
+                        getClass().getResourceAsStream("/icon/lernstick_exam.png")));
             } else {
                 primaryStage.getIcons().add(new Image(
-                getClass().getResourceAsStream("/icon/lernstick_edu.png")));
+                        getClass().getResourceAsStream("/icon/lernstick_edu.png")));
             }
 
             // Set close warnings
@@ -363,13 +363,13 @@ public final class WelcomeApplication extends Application {
 
     public static void showThrowable(Throwable exception) {
         LOGGER.log(Level.SEVERE, "", exception);
-        if (exception instanceof ProcessingException) {
-            showProcessingException((ProcessingException) exception);
+        if (exception instanceof ProcessingException processingException) {
+            showProcessingException(processingException);
         } else {
             if (exception != null) {
                 Throwable cause = exception.getCause();
-                if (cause instanceof ProcessingException) {
-                    showProcessingException((ProcessingException) cause);
+                if (cause instanceof ProcessingException processingException) {
+                    showProcessingException(processingException);
                 } else {
                     showErrorMessage(null, exception.getMessage());
                 }

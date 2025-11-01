@@ -210,7 +210,7 @@ public class FirewallController implements Initializable {
                 new SearchPatternStringConverter(resourceBundle));
         addEditPatternComboBox.getItems().addAll(
                 WebsiteFilter.SearchPattern.values());
-        
+
         addEditProtocolComboBox.getItems().addAll(HostFilter.Protocol.values());
     }
 
@@ -296,16 +296,16 @@ public class FirewallController implements Initializable {
                         addEditCriteriaTextField.getText()));
             } // Edit
             else {
-                WebsiteFilter element = 
-                        (WebsiteFilter) allowedSitesTableView.getItems().get(
+                WebsiteFilter element
+                        = (WebsiteFilter) allowedSitesTableView.getItems().get(
                                 indexSaveWebsiteFilter);
-                
+
                 element.searchPatternProperty().set(
                         addEditPatternComboBox.getValue());
-                
+
                 element.searchCriteriaProperty().set(
                         addEditCriteriaTextField.getText());
-                
+
                 addEditSiteButton.getStyleClass().remove("btn_save");
                 addEditSiteButton.getStyleClass().add("btn_add");
             }
@@ -327,19 +327,19 @@ public class FirewallController implements Initializable {
                         addEditDescriptionTextField.getText()));
             } // Edit
             else {
-                HostFilter element = 
-                        (HostFilter) allowedServersTableView.getItems().get(
+                HostFilter element
+                        = (HostFilter) allowedServersTableView.getItems().get(
                                 indexSaveHostFilter);
-                
+
                 element.protocolProperty().set(
                         addEditProtocolComboBox.getValue());
-                
+
                 element.hostProperty().set(addEditHostTextField.getText());
                 element.portRangeProperty().set(addEditPortTextField.getText());
-                
+
                 element.descriptionProperty().set(
                         addEditDescriptionTextField.getText());
-                
+
                 addEditServerButton.getStyleClass().remove("btn_save");
                 addEditServerButton.getStyleClass().add("btn_add");
             }

@@ -107,23 +107,20 @@ public class PartitionTask implements Processable<String> {
         boolean umount = false;
         String idType = exchangePartition.getIdType();
         switch (idType) {
-            case "vfat":
+            case "vfat" ->
                 binary = "dosfslabel";
-                break;
-            case "exfat":
+            case "exfat" ->
                 binary = "exfatlabel";
-                break;
-            case "ntfs":
+            case "ntfs" -> {
                 binary = "ntfslabel";
                 // ntfslabel refuses to work on a mounted partition with the
                 // error message: "Cannot make changes to a mounted device".
                 // Therefore we have to try to umount the partition.
                 umount = true;
-                break;
-            default:
+            }
+            default ->
                 LOGGER.log(Level.WARNING,
                         "no labeling binary for type \"{0}\"!", idType);
-                break;
         }
         if (binary != null) {
             boolean tmpUmount = umount && exchangePartition.isMounted();

@@ -60,8 +60,8 @@ public class MainBinder {
         });
 
         mainController.getFinishButton().setOnAction(evt -> {
-            Stage stage = 
-                    ((Stage) ((Node) evt.getSource()).getScene().getWindow());
+            Stage stage
+                    = ((Stage) ((Node) evt.getSource()).getScene().getWindow());
             stage.fireEvent(
                     new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
         });

@@ -59,7 +59,7 @@ public class InstallPostProcessingTask implements Processable<String> {
 
         @Override
         protected String call() throws Exception {
-            
+
             // Check if there are applications to install.
             int appsToInstall = 0;
             for (ApplicationGroupTask group : groups) {

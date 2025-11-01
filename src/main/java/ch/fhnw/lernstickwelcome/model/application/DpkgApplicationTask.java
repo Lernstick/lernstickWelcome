@@ -60,7 +60,7 @@ public class DpkgApplicationTask extends ApplicationTask {
 
         ProcessExecutor processExecutor = new ProcessExecutor(false);
         processExecutor.executeProcess(true, true,
-                dpkgListCommand.toArray(new String[dpkgListCommand.size()]));
+                dpkgListCommand.toArray(String[]::new));
         LOGGER.log(Level.INFO, "stdout:\n{0}", processExecutor.getStdOut());
 
         List<String> stdOut = processExecutor.getStdOutList();

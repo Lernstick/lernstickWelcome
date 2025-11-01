@@ -55,8 +55,9 @@ public class HelpBinder {
      * packend properties
      */
     public void initBindings() {
-        if (WelcomeUtil.ARCHITECTURE.equals("aarch64"))
+        if (WelcomeUtil.ARCHITECTURE.equals("aarch64")) {
             return;
+        }
 
         TreeItem<HelpEntry> root = new TreeItem<>(null);
         root.getChildren().addAll(getTreeItemsFromList(
@@ -77,9 +78,10 @@ public class HelpBinder {
         if (entries.isEmpty()) {
             return new ArrayList<>();
         }
-        
-        if (WelcomeUtil.ARCHITECTURE.equals("aarch64"))
+
+        if (WelcomeUtil.ARCHITECTURE.equals("aarch64")) {
             return new ArrayList<>();
+        }
 
         List<TreeItem<HelpEntry>> list = entries.stream()
                 .map(he -> new TreeItem<>(he))
@@ -98,8 +100,9 @@ public class HelpBinder {
      * Method to initialize the handlers for this class.
      */
     public void initHandlers() {
-        if (WelcomeUtil.ARCHITECTURE.equals("aarch64"))
+        if (WelcomeUtil.ARCHITECTURE.equals("aarch64")) {
             return;
+        }
         Observable selectedItemProperty
                 = help.getTvList().getSelectionModel().selectedItemProperty();
         selectedItemProperty.addListener(evt -> {
@@ -128,8 +131,9 @@ public class HelpBinder {
      * @param chapter the chapter that should be shown.
      */
     public void setHelpEntryByChapter(String chapter) {
-        if (WelcomeUtil.ARCHITECTURE.equals("aarch64"))
+        if (WelcomeUtil.ARCHITECTURE.equals("aarch64")) {
             return;
+        }
         String[] chapters = chapter.split("\\.");
         TreeItem<HelpEntry> entry = help.getTvList().getRoot();
         for (String c : chapters) {

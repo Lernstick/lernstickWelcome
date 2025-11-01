@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 /**
  * An interface for system binders.
+ *
  * @author Ronny Standtke <ronny.standtke@gmx.net>
  */
 public interface SystemBinder {
@@ -31,6 +32,7 @@ public interface SystemBinder {
 
     /**
      * Inits the help system.
+     *
      * @param helpStage additional JavaFX stage (window) showing help
      * @param helpBinder links to online user guide
      */

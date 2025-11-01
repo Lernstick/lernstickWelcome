@@ -20,12 +20,13 @@ import java.util.Arrays;
 
 /**
  * Thrown if a field on a GUI has an invalid value.
- * 
+ *
  * @author sschw
  */
 public class ValidationException extends Exception {
+
     private Object[] details;
-    
+
     public ValidationException(String message) {
         super(message);
     }
@@ -34,10 +35,11 @@ public class ValidationException extends Exception {
         super(message);
         this.details = details;
     }
-    
+
     public Object[] getMessageDetails() {
-        if(details != null)
+        if (details != null) {
             return Arrays.copyOf(details, details.length);
+        }
         return new Object[0];
     }
 }

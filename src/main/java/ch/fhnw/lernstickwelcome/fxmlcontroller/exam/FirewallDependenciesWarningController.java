@@ -39,14 +39,14 @@ public class FirewallDependenciesWarningController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
+    }
+
     public Button getBtSave() {
         return btSave;
     }
-    
+
     public Button getBtCancel() {
         return btCancel;
     }
-    
+
 }

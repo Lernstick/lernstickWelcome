@@ -163,7 +163,7 @@ public class WelcomeController {
         prepareTask = WelcomeModelFactory.getInstallPreparationTask(
                 proxyTask, recommendedAppsTask, utilityAppsTask,
                 teachingAppsTask, miscAppsTask, gamesAppsTask);
-        
+
         postProcessingTask = WelcomeModelFactory.getInstallPostprocessingTask(
                 proxyTask, recommendedAppsTask, utilityAppsTask,
                 teachingAppsTask, miscAppsTask, gamesAppsTask);
