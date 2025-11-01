@@ -23,6 +23,7 @@ import ch.fhnw.lernstickwelcome.model.application.ApplicationTask;
 import ch.fhnw.lernstickwelcome.model.application.AptPackages;
 import ch.fhnw.lernstickwelcome.model.application.CombinedPackages;
 import ch.fhnw.lernstickwelcome.model.application.DpkgApplicationTask;
+import ch.fhnw.lernstickwelcome.model.application.DpkgReconfigurePackages;
 import ch.fhnw.lernstickwelcome.model.application.FlatpakApplicationTask;
 import ch.fhnw.lernstickwelcome.model.application.FlatpakPackages;
 import ch.fhnw.lernstickwelcome.model.application.InstallPostProcessingTask;
@@ -362,31 +363,34 @@ public class WelcomeModelFactory {
             packageNames = packageNames.replaceAll("\n", " ");
             packageNames = packageNames.replaceAll(" +", " ");
             switch (type) {
-                case "apt":
+                case "apt" ->
                     packages.add(new AptPackages(
                             Arrays.asList(packageNames.split(" "))));
-                    break;
 
-                case "wget":
+                case "dpkg-reconfigure" ->
+                    packages.add(new DpkgReconfigurePackages(
+                            Arrays.asList(packageNames.split(" "))));
+
+                case "wget" -> {
                     String wgetFetchUrl = element.getAttribute("fetchUrl");
                     String wgetSaveDir = element.getAttribute("saveDir");
                     packages.add(new WgetPackages(Arrays.asList(packageNames),
                             wgetFetchUrl, wgetSaveDir));
-                    break;
+                }
 
-                case "flatpak":
+                case "flatpak" ->
                     packages.add(new FlatpakPackages(
                             Arrays.asList(packageNames)));
-                    break;
 
-                case "pipx":
-                    packages.add(new PipxPackages(element.getAttribute("name"),
-                            Arrays.asList(packageNames)));
-                    break;
+                case "pipx" ->
+                    packages.add(
+                            new PipxPackages(
+                                    element.getAttribute("name"),
+                                    Arrays.asList(packageNames))
+                    );
 
-                default:
+                default ->
                     LOGGER.log(Level.WARNING, "Unsupported type \"{0}\"", type);
-                    break;
             }
         }
 

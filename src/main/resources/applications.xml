@@ -11,6 +11,7 @@
         </installed-names>
         <packages>
             <package type="apt">foo</package>
+            <package type="dpkg-reconfigure">foo</package>
             <package type="wget" fetchUrl="http://example.com/bar/{0}" saveDir="baz">kux</package>
             <package type="pipx" name="python_package">injected_package1 injected_package2</package>
         </packages>
@@ -30,6 +31,7 @@
             <package type="apt">
                 libdvdcss2 libmp3lame0 lame aacs-keydb-installer
             </package>
+            <package type="dpkg-reconfigure">libdvd-pkg</package>
         </packages>
         <tags>
             <tag>recommended</tag>
