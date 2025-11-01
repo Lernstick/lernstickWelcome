@@ -1,3 +1,10 @@
+lernstickwelcome (202511011648) lernstick-13; urgency=medium
+
+  * [1de2b0] code cleanup
+  * [956095] fixed support for libdvdcss2 (added dpkg-reconfigure step)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 01 Nov 2025 16:48:14 +0100
+
 lernstickwelcome (202508242213) lernstick-13; urgency=medium
 
   * [8b7df5] updated Adobe Reader dependencies
