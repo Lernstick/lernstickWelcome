@@ -445,6 +445,18 @@
         </tags>
     </application>
 
+    <application name="Open WebUI">
+        <description>Open_WebUI_description</description>
+        <icon>open-webui</icon>
+        <help-path>Open_WebUI_website</help-path>
+        <packages>
+            <package type="apt">lernstick-open-webui</package>
+        </packages>
+        <tags>
+            <tag>misc</tag>
+        </tags>
+    </application>
+
     <application name="TuxPaint">
         <description>Welcome.tuxPaintPanel.description</description>
         <icon>tuxpaint</icon>
