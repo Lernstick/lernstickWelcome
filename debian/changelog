@@ -1,3 +1,9 @@
+lernstickwelcome (202601241452) lernstick-13; urgency=medium
+
+  * [3e1daf] re-added lernstick-open-webui (new version based on uv)
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 24 Jan 2026 14:52:31 +0100
+
 lernstickwelcome (202511011648) lernstick-13; urgency=medium
 
   * [1de2b0] code cleanup
