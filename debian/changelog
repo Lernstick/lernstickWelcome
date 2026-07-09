@@ -1,3 +1,9 @@
+lernstickwelcome (202607091355) lernstick-13; urgency=medium
+
+  * [2cf817] install flatpak version of wxMaxima
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Thu, 09 Jul 2026 13:55:15 +0200
+
 lernstickwelcome (202601241452) lernstick-13; urgency=medium
 
   * [3e1daf] re-added lernstick-open-webui (new version based on uv)
