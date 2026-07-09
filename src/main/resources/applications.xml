@@ -221,16 +221,9 @@
         <icon>wxmaxima</icon>
         <help-path>Welcome.wxmaximaPanel.website</help-path>
         <packages>
-            <!--
-            The flatpak version of wxMaxima is still buggy. It throws messages
-            like:
-            Gtk-Message: 01:42:23.151: Failed to load module "xapp-gtk3-module"
-            Gtk-Message: 01:42:23.199: Failed to load module "canberra-gtk-module"
             <package type="flatpak">
                 io.github.wxmaxima_developers.wxMaxima
             </package>
-            -->
-            <package type="apt">wxmaxima</package>
         </packages>
         <tags>
             <tag>teaching</tag>
