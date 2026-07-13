@@ -1,3 +1,9 @@
+lernstickwelcome (202607131545) lernstick-13; urgency=medium
+
+  * [edcdcd] fixed murmure icon
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 13 Jul 2026 15:45:57 +0200
+
 lernstickwelcome (202607131536) lernstick-13; urgency=medium
 
   * [a4bdf4] added support for Murmure
