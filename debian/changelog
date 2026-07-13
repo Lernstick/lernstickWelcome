@@ -1,3 +1,9 @@
+lernstickwelcome (202607131536) lernstick-13; urgency=medium
+
+  * [a4bdf4] added support for Murmure
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Mon, 13 Jul 2026 15:36:32 +0200
+
 lernstickwelcome (202607091355) lernstick-13; urgency=medium
 
   * [2cf817] install flatpak version of wxMaxima
