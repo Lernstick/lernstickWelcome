@@ -440,7 +440,7 @@
 
     <application name="Murmure">
         <description>Murmure_description</description>
-        <icon>ollama</icon>
+        <icon>murmure</icon>
         <help-path>Murmure_website</help-path>
         <packages>
             <package type="apt">murmure</package>
