@@ -49,6 +49,10 @@ public class PasswordDialog extends Alert {
     private final TextField oldPasswordTextField;
     private final PasswordField newPasswordField;
 
+    public PasswordDialog(String titleKey, String passwordKey) {
+        this(titleKey, passwordKey, null);
+    }
+
     public PasswordDialog(String titleKey,
             String oldPasswordKey, String newPasswordKey) {
 
@@ -84,18 +88,26 @@ public class PasswordDialog extends Alert {
                         "/icon/password-show-on.png").toString()));
         showOldPasswordButton.setOnAction((t) -> {
             if (showOldPasswordButton.isSelected()) {
+                boolean hadFocus = oldPasswordField.isFocused();
                 grid.getChildren().remove(oldPasswordField);
                 oldPasswordField.setVisible(false);
                 oldPasswordTextField.setVisible(true);
                 grid.add(oldPasswordTextField, 1, 0);
+                if (hadFocus) {
+                    oldPasswordTextField.requestFocus();
+                }
                 showOldPasswordButton.setGraphic(new ImageView(
                         this.getClass().getResource(
                                 "/icon/password-show-off.png").toString()));
             } else {
+                boolean hadFocus = oldPasswordTextField.isFocused();
                 grid.getChildren().remove(oldPasswordTextField);
                 oldPasswordTextField.setVisible(false);
                 oldPasswordField.setVisible(true);
                 grid.add(oldPasswordField, 1, 0);
+                if (hadFocus) {
+                    oldPasswordField.requestFocus();
+                }
                 showOldPasswordButton.setGraphic(new ImageView(
                         this.getClass().getResource(
                                 "/icon/password-show-on.png").toString()));
@@ -103,64 +115,83 @@ public class PasswordDialog extends Alert {
         });
         grid.add(showOldPasswordButton, 2, 0);
 
-        grid.add(new Label(BUNDLE.getString(newPasswordKey)), 0, 1);
-        newPasswordField = new PasswordField();
-        newPasswordField.setMaxWidth(Double.MAX_VALUE);
-        grid.add(newPasswordField, 1, 1);
-        TextField newPasswordTextField = new TextField();
-        newPasswordTextField.textProperty().bindBidirectional(
-                newPasswordField.textProperty());
+        if (newPasswordKey == null) {
+            newPasswordField = null;
+            // Enable/Disable change button depending on whether the old
+            // password is entered.
+            Node changeButton = getDialogPane().lookupButton(changeButtonType);
+            changeButton.disableProperty().bind(Bindings.createBooleanBinding(
+                    () -> oldPasswordField.getText().isEmpty(),
+                    oldPasswordField.textProperty()));
 
-        ToggleButton showNewPasswordButton = new ToggleButton();
-        showNewPasswordButton.setFocusTraversable(false);
-        showNewPasswordButton.setGraphic(new ImageView(
-                this.getClass().getResource(
-                        "/icon/password-show-on.png").toString()));
-        showNewPasswordButton.setOnAction((t) -> {
-            if (showNewPasswordButton.isSelected()) {
-                grid.getChildren().remove(newPasswordField);
-                newPasswordField.setVisible(false);
-                newPasswordTextField.setVisible(true);
-                grid.add(newPasswordTextField, 1, 1);
-                newPasswordTextField.setFocusTraversable(true);
-                showNewPasswordButton.setGraphic(new ImageView(
-                        this.getClass().getResource(
-                                "/icon/password-show-off.png").toString()));
-            } else {
-                grid.getChildren().remove(newPasswordTextField);
-                newPasswordTextField.setVisible(false);
-                newPasswordField.setVisible(true);
-                grid.add(newPasswordField, 1, 1);
-                showNewPasswordButton.setGraphic(new ImageView(
-                        this.getClass().getResource(
-                                "/icon/password-show-on.png").toString()));
-            }
-        });
-        grid.add(showNewPasswordButton, 2, 1);
+        } else {
+            grid.add(new Label(BUNDLE.getString(newPasswordKey)), 0, 1);
+            newPasswordField = new PasswordField();
+            newPasswordField.setMaxWidth(Double.MAX_VALUE);
+            grid.add(newPasswordField, 1, 1);
+            TextField newPasswordTextField = new TextField();
+            newPasswordTextField.textProperty().bindBidirectional(
+                    newPasswordField.textProperty());
 
-        grid.getColumnConstraints().add(new ColumnConstraints());
-        ColumnConstraints columnConstraints = new ColumnConstraints();
-        columnConstraints.setHgrow(Priority.ALWAYS);
-        grid.getColumnConstraints().add(columnConstraints);
+            ToggleButton showNewPasswordButton = new ToggleButton();
+            showNewPasswordButton.setFocusTraversable(false);
+            showNewPasswordButton.setGraphic(new ImageView(
+                    this.getClass().getResource(
+                            "/icon/password-show-on.png").toString()));
+            showNewPasswordButton.setOnAction((t) -> {
+                if (showNewPasswordButton.isSelected()) {
+                    boolean hadFocus = newPasswordField.isFocused();
+                    grid.getChildren().remove(newPasswordField);
+                    newPasswordField.setVisible(false);
+                    newPasswordTextField.setVisible(true);
+                    grid.add(newPasswordTextField, 1, 1);
+                    newPasswordTextField.setFocusTraversable(true);
+                    if (hadFocus) {
+                        newPasswordTextField.requestFocus();
+                    }
+                    showNewPasswordButton.setGraphic(new ImageView(
+                            this.getClass().getResource(
+                                    "/icon/password-show-off.png").toString()));
+                } else {
+                    boolean hadFocus = newPasswordTextField.isFocused();
+                    grid.getChildren().remove(newPasswordTextField);
+                    newPasswordTextField.setVisible(false);
+                    newPasswordField.setVisible(true);
+                    grid.add(newPasswordField, 1, 1);
+                    if (hadFocus) {
+                        newPasswordField.requestFocus();
+                    }
+                    showNewPasswordButton.setGraphic(new ImageView(
+                            this.getClass().getResource(
+                                    "/icon/password-show-on.png").toString()));
+                }
+            });
+            grid.add(showNewPasswordButton, 2, 1);
 
-        EventHandler<ActionEvent> switchToNewPasswordHandler = (t) -> {
-            if (newPasswordField.isVisible()) {
-                newPasswordField.requestFocus();
-            } else {
-                newPasswordTextField.requestFocus();
-            }
-        };
-        oldPasswordField.setOnAction(switchToNewPasswordHandler);
-        oldPasswordTextField.setOnAction(switchToNewPasswordHandler);
+            grid.getColumnConstraints().add(new ColumnConstraints());
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setHgrow(Priority.ALWAYS);
+            grid.getColumnConstraints().add(columnConstraints);
 
-        // Enable/Disable login button depending on whether old and new
-        // passwords were entered.
-        Node changeButton = getDialogPane().lookupButton(changeButtonType);
-        changeButton.disableProperty().bind(Bindings.createBooleanBinding(
-                () -> oldPasswordField.getText().isEmpty()
-                || newPasswordField.getText().isEmpty(),
-                oldPasswordField.textProperty(),
-                newPasswordField.textProperty()));
+            EventHandler<ActionEvent> switchToNewPasswordHandler = (t) -> {
+                if (newPasswordField.isVisible()) {
+                    newPasswordField.requestFocus();
+                } else {
+                    newPasswordTextField.requestFocus();
+                }
+            };
+            oldPasswordField.setOnAction(switchToNewPasswordHandler);
+            oldPasswordTextField.setOnAction(switchToNewPasswordHandler);
+
+            // Enable/Disable change button depending on whether old and new
+            // passwords were entered.
+            Node changeButton = getDialogPane().lookupButton(changeButtonType);
+            changeButton.disableProperty().bind(Bindings.createBooleanBinding(
+                    () -> oldPasswordField.getText().isEmpty()
+                    || newPasswordField.getText().isEmpty(),
+                    oldPasswordField.textProperty(),
+                    newPasswordField.textProperty()));
+        }
 
         getDialogPane().setContent(grid);
     }
