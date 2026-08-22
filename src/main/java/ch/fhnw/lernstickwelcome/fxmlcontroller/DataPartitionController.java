@@ -65,9 +65,14 @@ public class DataPartitionController
     @FXML
     private GridPane encryptionGridPane;
     @FXML
+    private Button changePersonalPasswordButton;
+    @FXML
     private Button changeSecondaryPasswordButton;
     @FXML
+    private Button deletePersonalPasswordButton;
+    @FXML
     private Button deleteSecondaryPasswordButton;
+    private Button addPersonalPasswordButton;
     private Button addSecondaryPasswordButton;
 
     private Partition dataPartition;
@@ -93,6 +98,9 @@ public class DataPartitionController
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        addPersonalPasswordButton = new Button(BUNDLE.getString("Add"));
+        addPersonalPasswordButton.setOnAction(t -> addPersonalPassword());
+
         addSecondaryPasswordButton = new Button(BUNDLE.getString("Add"));
         addSecondaryPasswordButton.setOnAction(t -> addSecondaryPassword());
 
@@ -109,12 +117,13 @@ public class DataPartitionController
                         "data partition not found, can't detect encryption");
                 removeEncryptionControls();
             } else {
-                if (!dataPartition.isLuksEncrypted()) {
+                if (dataPartition.isLuksEncrypted()) {
+                    updatePersonalPasswordGUI();
+                    updateSecondaryPasswordGUI();
+                } else {
                     LOGGER.info(
                             "data partition not encrypted, removing controls");
                     removeEncryptionControls();
-                } else {
-                    updateSecondaryPasswordGUI();
                 }
             }
         }
@@ -134,6 +143,42 @@ public class DataPartitionController
                 "Change_Secondary_Password", "Old_Password", "New_Password");
         changePassword(dialog, 1, "Secondary_Password_Changed",
                 "Error_Changing_Secondary_Password");
+    }
+
+    @FXML
+    void deletePersonalPassword(ActionEvent event) {
+        PasswordDialog dialog = new PasswordDialog(
+                "Replace_Personal_Password_With_Default", "Personal_Password");
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        if (result.isPresent()
+                && result.get().getButtonData() == ButtonData.OK_DONE) {
+
+            String oldPassword = dialog.getOldPassword();
+
+            boolean passwordChanged = false;
+            try {
+                passwordChanged = dataPartition.changeLuksPassword(
+                        Partition.LuksSlots.PERSONAL.ordinal(),
+                        oldPassword, Partition.DEFAULT_LUKS_PASSWORD);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            }
+
+            Alert finalAlert;
+            if (passwordChanged) {
+                finalAlert = new Alert(AlertType.INFORMATION);
+                finalAlert.setHeaderText(BUNDLE.getString(
+                        "Personal_Password_Deleted"));
+                showDeactivatedPersonalPasswordButtons();
+            } else {
+                finalAlert = new Alert(AlertType.ERROR);
+                finalAlert.setHeaderText(BUNDLE.getString(
+                        "Error_Deleting_Personal_Password"));
+            }
+            finalAlert.showAndWait();
+        }
     }
 
     @FXML
@@ -218,10 +263,10 @@ public class DataPartitionController
         }
     }
 
-    private void addSecondaryPassword() {
+    private void addPersonalPassword() {
 
-        PasswordDialog dialog = new PasswordDialog("Add_Secondary_Password",
-                "Personal_Password", "Secondary_Password");
+        PasswordDialog dialog = new PasswordDialog(
+                "Add_Personal_Password", "Personal_Password");
 
         Optional<ButtonType> result = dialog.showAndWait();
 
@@ -229,17 +274,16 @@ public class DataPartitionController
                 && result.get().getButtonData() == ButtonData.OK_DONE) {
 
             String personalPassword = dialog.getOldPassword();
-            String secondaryPassword = dialog.getNewPassword();
 
             try {
-                if (dataPartition.addSecondaryLuksPassword(
-                        personalPassword, secondaryPassword)) {
+                if (dataPartition.changeLuksPassword(0,
+                        Partition.DEFAULT_LUKS_PASSWORD, personalPassword)) {
 
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setHeaderText(BUNDLE.getString(
-                            "Secondary_Password_Added"));
+                            "Personal_Password_Added"));
                     alert.showAndWait();
-                    showActivatedSecondaryPasswordButtons();
+                    showActivatedPersonalPasswordButtons();
 
                 } else {
                     Alert alert = new Alert(AlertType.ERROR);
@@ -253,6 +297,97 @@ public class DataPartitionController
         }
     }
 
+    private void addSecondaryPassword() {
+
+        boolean defaultLuksPasswordInUse = false;
+        try {
+            defaultLuksPasswordInUse = dataPartition.usesDefaultLuksPassword();
+        } catch (IOException | InterruptedException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+
+        if (defaultLuksPasswordInUse) {
+            PasswordDialog dialog = new PasswordDialog(
+                    "Add_Secondary_Password", "Secondary_Password");
+
+            Optional<ButtonType> result = dialog.showAndWait();
+
+            if (result.isPresent()
+                    && result.get().getButtonData() == ButtonData.OK_DONE) {
+
+                String secondaryPassword = dialog.getOldPassword();
+
+                try {
+                    if (dataPartition.addSecondaryLuksPassword(
+                            Partition.DEFAULT_LUKS_PASSWORD,
+                            secondaryPassword)) {
+
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setHeaderText(BUNDLE.getString(
+                                "Secondary_Password_Added"));
+                        alert.showAndWait();
+                        showActivatedSecondaryPasswordButtons();
+
+                    } else {
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setHeaderText(BUNDLE.getString(
+                                "Error_Adding_Secondary_Password"));
+                        alert.showAndWait();
+                    }
+                } catch (IOException ex) {
+                    LOGGER.log(Level.WARNING, "", ex);
+                }
+            }
+
+        } else {
+
+            PasswordDialog dialog = new PasswordDialog("Add_Secondary_Password",
+                    "Personal_Password", "Secondary_Password");
+
+            Optional<ButtonType> result = dialog.showAndWait();
+
+            if (result.isPresent()
+                    && result.get().getButtonData() == ButtonData.OK_DONE) {
+
+                String personalPassword = dialog.getOldPassword();
+                String secondaryPassword = dialog.getNewPassword();
+
+                try {
+                    if (dataPartition.addSecondaryLuksPassword(
+                            personalPassword, secondaryPassword)) {
+
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setHeaderText(BUNDLE.getString(
+                                "Secondary_Password_Added"));
+                        alert.showAndWait();
+                        showActivatedSecondaryPasswordButtons();
+
+                    } else {
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setHeaderText(BUNDLE.getString(
+                                "Error_Adding_Secondary_Password"));
+                        alert.showAndWait();
+                    }
+                } catch (IOException ex) {
+                    LOGGER.log(Level.WARNING, "", ex);
+                }
+            }
+        }
+    }
+
+    private void updatePersonalPasswordGUI() {
+        try {
+            if (dataPartition.usesDefaultLuksPassword()) {
+                LOGGER.info("data partition encrypted with default password");
+                showDeactivatedPersonalPasswordButtons();
+            } else {
+                LOGGER.info("data partition encrypted with custom password");
+            }
+        } catch (IOException | InterruptedException ex) {
+            LOGGER.log(Level.WARNING, "", ex);
+        }
+    }
+
     private void updateSecondaryPasswordGUI() {
         if (dataPartition.isSecondaryPasswordSet()) {
             LOGGER.info("secondary LUKS password is set");
@@ -263,6 +398,16 @@ public class DataPartitionController
         }
     }
 
+    private void showActivatedPersonalPasswordButtons() {
+        if (encryptionGridPane.getChildren().contains(
+                addPersonalPasswordButton)) {
+
+            encryptionGridPane.getChildren().remove(addPersonalPasswordButton);
+            encryptionGridPane.add(changePersonalPasswordButton, 1, 0);
+            encryptionGridPane.add(deletePersonalPasswordButton, 2, 0);
+        }
+    }
+
     private void showActivatedSecondaryPasswordButtons() {
         if (encryptionGridPane.getChildren().contains(
                 addSecondaryPasswordButton)) {
@@ -270,6 +415,18 @@ public class DataPartitionController
             encryptionGridPane.getChildren().remove(addSecondaryPasswordButton);
             encryptionGridPane.add(changeSecondaryPasswordButton, 1, 1);
             encryptionGridPane.add(deleteSecondaryPasswordButton, 2, 1);
+        }
+    }
+
+    private void showDeactivatedPersonalPasswordButtons() {
+        if (!encryptionGridPane.getChildren().contains(
+                addPersonalPasswordButton)) {
+
+            encryptionGridPane.getChildren().remove(
+                    changePersonalPasswordButton);
+            encryptionGridPane.getChildren().remove(
+                    deletePersonalPasswordButton);
+            encryptionGridPane.add(addPersonalPasswordButton, 1, 0);
         }
     }
 

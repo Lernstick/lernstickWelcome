@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root collapsible="false" text="%Data_Partition" type="TitledPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root collapsible="false" text="%Data_Partition" type="TitledPane" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
     <content>
         <VBox fx:id="dataPartitionVBox" spacing="10.0">
             <children>
@@ -41,10 +41,11 @@
                     </rowConstraints>
                     <children>
                         <Label text="%Personal_Password" />
-                        <Button mnemonicParsing="false" onAction="#changePersonalPassword" text="%Change" GridPane.columnIndex="1" />
+                        <Button fx:id="changePersonalPasswordButton" mnemonicParsing="false" onAction="#changePersonalPassword" text="%Change" GridPane.columnIndex="1" />
                         <Label text="%Secondary_Password" GridPane.rowIndex="1" />
                         <Button fx:id="changeSecondaryPasswordButton" mnemonicParsing="false" onAction="#changeSecondaryPassword" text="%Change" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Button fx:id="deleteSecondaryPasswordButton" mnemonicParsing="false" onAction="#deleteSecondaryPassword" text="%Delete" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button fx:id="deletePersonalPasswordButton" mnemonicParsing="false" onAction="#deletePersonalPassword" text="%Delete" GridPane.columnIndex="2" />
                     </children>
                 </GridPane>
             </children>
