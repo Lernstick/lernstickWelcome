@@ -1,3 +1,10 @@
+lernstickwelcome (202608222245) lernstick-13; urgency=medium
+
+  * [32e841] improved focus handling
+  * [d9700b] updated LUKS password handling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sat, 22 Aug 2026 22:45:29 +0200
+
 lernstickwelcome (202607131545) lernstick-13; urgency=medium
 
   * [edcdcd] fixed murmure icon
