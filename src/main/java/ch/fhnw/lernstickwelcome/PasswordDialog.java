@@ -84,18 +84,26 @@ public class PasswordDialog extends Alert {
                         "/icon/password-show-on.png").toString()));
         showOldPasswordButton.setOnAction((t) -> {
             if (showOldPasswordButton.isSelected()) {
+                boolean hadFocus = oldPasswordField.isFocused();
                 grid.getChildren().remove(oldPasswordField);
                 oldPasswordField.setVisible(false);
                 oldPasswordTextField.setVisible(true);
                 grid.add(oldPasswordTextField, 1, 0);
+                if (hadFocus) {
+                    oldPasswordTextField.requestFocus();
+                }
                 showOldPasswordButton.setGraphic(new ImageView(
                         this.getClass().getResource(
                                 "/icon/password-show-off.png").toString()));
             } else {
+                boolean hadFocus = oldPasswordTextField.isFocused();
                 grid.getChildren().remove(oldPasswordTextField);
                 oldPasswordTextField.setVisible(false);
                 oldPasswordField.setVisible(true);
                 grid.add(oldPasswordField, 1, 0);
+                if (hadFocus) {
+                    oldPasswordField.requestFocus();
+                }
                 showOldPasswordButton.setGraphic(new ImageView(
                         this.getClass().getResource(
                                 "/icon/password-show-on.png").toString()));
@@ -118,19 +126,27 @@ public class PasswordDialog extends Alert {
                         "/icon/password-show-on.png").toString()));
         showNewPasswordButton.setOnAction((t) -> {
             if (showNewPasswordButton.isSelected()) {
+                boolean hadFocus = newPasswordField.isFocused();
                 grid.getChildren().remove(newPasswordField);
                 newPasswordField.setVisible(false);
                 newPasswordTextField.setVisible(true);
                 grid.add(newPasswordTextField, 1, 1);
                 newPasswordTextField.setFocusTraversable(true);
+                if (hadFocus) {
+                    newPasswordTextField.requestFocus();
+                }
                 showNewPasswordButton.setGraphic(new ImageView(
                         this.getClass().getResource(
                                 "/icon/password-show-off.png").toString()));
             } else {
+                boolean hadFocus = newPasswordTextField.isFocused();
                 grid.getChildren().remove(newPasswordTextField);
                 newPasswordTextField.setVisible(false);
                 newPasswordField.setVisible(true);
                 grid.add(newPasswordField, 1, 1);
+                if (hadFocus) {
+                    newPasswordField.requestFocus();
+                }
                 showNewPasswordButton.setGraphic(new ImageView(
                         this.getClass().getResource(
                                 "/icon/password-show-on.png").toString()));
