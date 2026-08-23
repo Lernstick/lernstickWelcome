@@ -38,6 +38,7 @@
                     <rowConstraints>
                         <RowConstraints />
                         <RowConstraints />
+                        <RowConstraints />
                     </rowConstraints>
                     <children>
                         <Label text="%Personal_Password" />
@@ -45,7 +46,10 @@
                         <Label text="%Secondary_Password" GridPane.rowIndex="1" />
                         <Button fx:id="changeSecondaryPasswordButton" mnemonicParsing="false" onAction="#changeSecondaryPassword" text="%Change" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Button fx:id="deleteSecondaryPasswordButton" mnemonicParsing="false" onAction="#deleteSecondaryPassword" text="%Delete" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button fx:id="deletePersonalPasswordButton" mnemonicParsing="false" onAction="#deletePersonalPassword" text="%Delete" GridPane.columnIndex="2" />
+                        <Button fx:id="deletePersonalPasswordButton" mnemonicParsing="false" onAction="#deletePersonalPassword" text="%Delete" GridPane.columnIndex="2" />
+                        <Label text="%Duress_Password" GridPane.rowIndex="2" />
+                        <Button fx:id="changeDuressPasswordButton" mnemonicParsing="false" onAction="#changeDuressPassword" text="%Change" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button fx:id="deleteDuressPasswordButton" mnemonicParsing="false" onAction="#deleteDuressPassword" text="%Delete" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
             </children>
