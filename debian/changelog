@@ -1,3 +1,9 @@
+lernstickwelcome (202608231751) lernstick-13; urgency=medium
+
+  * [d8a4eb] added duress password handling
+
+ -- Ronny Standtke <ronny.standtke@gmx.net>  Sun, 23 Aug 2026 17:51:14 +0200
+
 lernstickwelcome (202608222245) lernstick-13; urgency=medium
 
   * [32e841] improved focus handling
